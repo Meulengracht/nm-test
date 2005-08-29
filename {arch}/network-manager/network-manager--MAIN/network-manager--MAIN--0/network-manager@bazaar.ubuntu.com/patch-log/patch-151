@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-151
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:50:15 BST 2005
+Standard-date: 2005-08-13 14:50:15 GMT
+Modified-files: po/ChangeLog po/sq.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-151
+Summary: 2004-09-15  Laurent Dhima  <laurenti@alblinux.net>
+CSCVSID: MAIN.152
+Keywords: cscvs:MAIN.152
+
+Author: laurenti
+Date: 2004-09-15 09:51:24 GMT
+2004-09-15  Laurent Dhima  <laurenti@alblinux.net>
+
+	* sq.po: Updated Albanian translation.

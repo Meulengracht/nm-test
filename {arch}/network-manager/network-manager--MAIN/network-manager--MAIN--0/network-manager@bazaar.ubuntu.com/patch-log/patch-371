@@ -1,0 +1,22 @@
+Revision: network-manager--MAIN--0--patch-371
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:01:33 BST 2005
+Standard-date: 2005-08-13 15:01:33 GMT
+Modified-files: ChangeLog configure.in
+    named/nm-named-manager.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-371
+Summary: 2005-01-18  Colin Walters  <walters@redhat.com>
+CSCVSID: MAIN.372
+Keywords: cscvs:MAIN.372
+
+Author: walters
+Date: 2005-01-18 16:09:22 GMT
+2005-01-18  Colin Walters  <walters@redhat.com>
+
+	* named/nm-named-manager.c (generate_named_conf): Many fixes
+	to config file generation.
+	(safer_kill): Remove, was too much trouble for little gain.
+	(nm_named_manager_start): Run named as NM_NAMED_USER.
+
+	* configure.in: Add option --with-named-user.

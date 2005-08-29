@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-771
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:26:16 BST 2005
+Standard-date: 2005-08-13 15:26:16 GMT
+Modified-files: ChangeLog src/nm-netlink-monitor.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-771
+Summary: 2005-08-12  Robert Love  <rml@novell.com>
+CSCVSID: MAIN.772
+Keywords: cscvs:MAIN.772
+
+Author: rml
+Date: 2005-08-12 19:06:09 GMT
+
+2005-08-12  Robert Love  <rml@novell.com>
+
+        * src/nm-netlink.monitor.c: don't translate "%s" (fix b.g.o #172391)

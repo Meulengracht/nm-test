@@ -1,0 +1,19 @@
+Revision: network-manager--MAIN--0--patch-72
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:47:13 BST 2005
+Standard-date: 2005-08-13 14:47:13 GMT
+Modified-files: ChangeLog src/NetworkManagerDevice.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-72
+Summary: 2004-08-25  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.73
+Keywords: cscvs:MAIN.73
+
+Author: dcbw
+Date: 2004-08-26 03:05:32 GMT
+2004-08-25  Dan Williams <dcbw@redhat.com>
+
+	* src/NetworkManagerDevice.c
+		- (nm_device_set_enc_key): always set device to "open" mode instead of
+			turning encryption off, because the Cisco driver doesn't associate
+			with WEP-enabled access points unless we are in "open"

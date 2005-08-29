@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-84
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:47:41 BST 2005
+Standard-date: 2005-08-13 14:47:41 GMT
+New-files: po/.arch-ids/en_CA.po.id po/en_CA.po
+Modified-files: ChangeLog configure.in po/ChangeLog
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-84
+Summary: * configure.in: Added en_CA to ALL_LINGUAS.
+CSCVSID: MAIN.85
+Keywords: cscvs:MAIN.85
+
+Author: adamw
+Date: 2004-08-27 19:04:25 GMT
+
+	* configure.in: Added en_CA to ALL_LINGUAS.
+	* po/en_CA.po: Added Canadian English translation.

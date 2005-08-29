@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-747
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:24:51 BST 2005
+Standard-date: 2005-08-13 15:24:51 GMT
+Modified-files: ChangeLog src/NetworkManager.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-747
+Summary: 2005-07-29  Ray Strode  <rstrode@redhat.com>
+CSCVSID: MAIN.748
+Keywords: cscvs:MAIN.748
+
+Author: halfline
+Date: 2005-07-30 01:01:06 GMT
+2005-07-29  Ray Strode  <rstrode@redhat.com>
+
+	* src/NetworkManager.c (nm_info_handler): don't use input as format
+	string (Spotted by Ian Jackson).

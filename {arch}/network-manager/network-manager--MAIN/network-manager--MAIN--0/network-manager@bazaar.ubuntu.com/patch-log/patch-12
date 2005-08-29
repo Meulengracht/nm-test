@@ -1,0 +1,18 @@
+Revision: network-manager--MAIN--0--patch-12
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:44:25 BST 2005
+Standard-date: 2005-08-13 14:44:25 GMT
+Modified-files: ChangeLog
+    dispatcher-daemon/NetworkManagerDispatcher.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-12
+Summary: 2004-07-19  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.13
+Keywords: cscvs:MAIN.13
+
+Author: dcbw
+Date: 2004-07-19 06:18:37 GMT
+2004-07-19  Dan Williams <dcbw@redhat.com>
+
+	* dispatcher-daemon/NetworkManagerDispatcher.c
+		- (nm_dbus_filter): Remove obsolete response to NeedKeyForNetwork signal

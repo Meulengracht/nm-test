@@ -1,0 +1,34 @@
+Revision: network-manager--MAIN--0--patch-161
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:50:45 BST 2005
+Standard-date: 2005-08-13 14:50:45 GMT
+New-files: initscript/Debian/.arch-ids/.cvsignore.id
+    initscript/Debian/.cvsignore
+    initscript/Slackware/.arch-ids/.cvsignore.id
+    initscript/Slackware/.cvsignore
+Modified-files: ChangeLog examples/python/NetworkManager.py
+    src/NetworkManager.c src/NetworkManagerDevice.c
+    test/.cvsignore
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-161
+Summary: 2004-09-22    <clarkbw@cvs.gnome.org>
+CSCVSID: MAIN.162
+Keywords: cscvs:MAIN.162
+
+Author: clarkbw
+Date: 2004-09-22 17:34:15 GMT
+2004-09-22    <clarkbw@cvs.gnome.org>
+
+	* initscript/Debian/.cvsignore:
+	* initscript/Slackware/.cvsignore:
+	Added new cvsignores for Makefile, Makefile.in
+
+	* test/.cvsignore:
+	Added nmtestdevices
+
+	* src/NetworkManagerDevice.c:
+	* src/NetworkManager.c:
+	Updated the wireless/wired HAL device strings from net.ethernet to
+	net.80203 or net.80211 depending on wired or wireless respectively
+	Should probably update the configure.in to ask for the correct HAL
+	version now.

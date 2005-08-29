@@ -1,0 +1,15 @@
+Revision: network-manager--MAIN--0--patch-115
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:48:41 BST 2005
+Standard-date: 2005-08-13 14:48:41 GMT
+New-files: po/.arch-ids/pt_BR.po.id po/pt_BR.po
+Modified-files: ChangeLog configure.in po/ChangeLog
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-115
+Summary: Added 'pt_BR' to ALL_LINGUAS and pt_BR translation.
+CSCVSID: MAIN.116
+Keywords: cscvs:MAIN.116
+
+Author: raphaelh
+Date: 2004-09-03 23:27:04 GMT
+Added 'pt_BR' to ALL_LINGUAS and pt_BR translation.

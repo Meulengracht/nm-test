@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-509
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:09:55 BST 2005
+Standard-date: 2005-08-13 15:09:55 GMT
+Modified-files: po/ChangeLog po/sk.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-509
+Summary: 2005-04-01  Marcel Telka  <marcel@telka.sk>
+CSCVSID: MAIN.510
+Keywords: cscvs:MAIN.510
+
+Author: marcel
+Date: 2005-04-01 06:04:19 GMT
+2005-04-01  Marcel Telka  <marcel@telka.sk>
+
+	* sk.po: Updated Slovak translation.

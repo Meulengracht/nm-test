@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-562
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:14:25 BST 2005
+Standard-date: 2005-08-13 15:14:25 GMT
+Modified-files: dispatcher-daemon/NetworkManagerDispatcher.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-562
+Summary: Fix an return value requirement attribute warning.
+CSCVSID: MAIN.563
+Keywords: cscvs:MAIN.563
+
+Author: pjones
+Date: 2005-05-03 21:04:00 GMT
+Fix an return value requirement attribute warning.

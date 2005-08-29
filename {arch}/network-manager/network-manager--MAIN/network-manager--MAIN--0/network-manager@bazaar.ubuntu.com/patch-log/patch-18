@@ -1,0 +1,20 @@
+Revision: network-manager--MAIN--0--patch-18
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:44:48 BST 2005
+Standard-date: 2005-08-13 14:44:48 GMT
+Modified-files: ChangeLog test/nmclienttest.c
+    test/nminfotest.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-18
+Summary: 2004-07-27  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.19
+Keywords: cscvs:MAIN.19
+
+Author: dcbw
+Date: 2004-07-27 16:24:48 GMT
+2004-07-27  Dan Williams <dcbw@redhat.com>
+
+	* test/nmclienttest.c
+	  test/nminfotest.c
+		- Add missing <dbus/dbus.h> headers
+		- Add GPL message at top

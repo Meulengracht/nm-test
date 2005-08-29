@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-106
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:48:29 BST 2005
+Standard-date: 2005-08-13 14:48:29 GMT
+Modified-files: ChangeLog
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-106
+Summary: Oops, save changelog entry and commit
+CSCVSID: MAIN.107
+Keywords: cscvs:MAIN.107
+
+Author: dcbw
+Date: 2004-08-31 16:09:45 GMT
+Oops, save changelog entry and commit

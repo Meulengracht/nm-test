@@ -1,0 +1,30 @@
+Revision: network-manager--MAIN--0--patch-267
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:56:12 BST 2005
+Standard-date: 2005-08-13 14:56:12 GMT
+Modified-files: ChangeLog src/NetworkManagerDevice.c
+    src/NetworkManagerUtils.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-267
+Summary: 2004-10-28 Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.268
+Keywords: cscvs:MAIN.268
+
+Author: dcbw
+Date: 2004-10-28 19:49:55 GMT
+2004-10-28 Dan Williams <dcbw@redhat.com>
+
+	* src/NetworkManagerUtils.c
+		- (nm_spawn_process): Fix a potential dereference of NULL
+
+	Patches from Peter Jones:
+
+	* src/NetworkManagerDevice.c
+		- (nm_device_test_wireless_extensions): Better check for
+			wireless devices
+
+	* src/NetworkManagerUtils.c
+		- (nm_spawn_process): Pass in valid stdout and stderr so
+			executed programs don't randomly SIGPIPE and fail
+		- (nm_get_wired_driver_support_level): quash hal warning
+			when checking for USB ethernet device

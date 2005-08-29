@@ -1,0 +1,120 @@
+Revision: network-manager--MAIN--0--patch-535
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:11:35 BST 2005
+Standard-date: 2005-08-13 15:11:35 GMT
+New-files: panel-applet/.arch-ids/nmwa-vpn-connection.c.id
+    panel-applet/.arch-ids/nmwa-vpn-connection.h.id
+    panel-applet/.arch-ids/nmwa-vpn-password-dialog.c.id
+    panel-applet/.arch-ids/nmwa-vpn-password-dialog.h.id
+    panel-applet/icons/.arch-ids/nm-vpn-lock.png.id
+    panel-applet/icons/nm-vpn-lock.png
+    panel-applet/nmwa-vpn-connection.c
+    panel-applet/nmwa-vpn-connection.h
+    panel-applet/nmwa-vpn-password-dialog.c
+    panel-applet/nmwa-vpn-password-dialog.h
+    src/.arch-ids/nm-ip4-config.c.id
+    src/.arch-ids/nm-ip4-config.h.id
+    src/backends/.arch-ids/Makefile.am.id
+    src/backends/Makefile.am
+    src/named-manager/.arch-ids/.cvsignore.id
+    src/named-manager/.arch-ids/=id
+    src/named-manager/.arch-ids/Makefile.am.id
+    src/named-manager/.arch-ids/named.conf.id
+    src/named-manager/.arch-ids/nm-named-manager.c.id
+    src/named-manager/.arch-ids/nm-named-manager.h.id
+    src/named-manager/.cvsignore
+    src/named-manager/Makefile.am
+    src/named-manager/named.conf
+    src/named-manager/nm-named-manager.c
+    src/named-manager/nm-named-manager.h
+    src/nm-ip4-config.c src/nm-ip4-config.h
+    src/vpn-manager/.arch-ids/.cvsignore.id
+    src/vpn-manager/.arch-ids/=id
+    src/vpn-manager/.arch-ids/Makefile.am.id
+    src/vpn-manager/.arch-ids/nm-dbus-vpn.c.id
+    src/vpn-manager/.arch-ids/nm-dbus-vpn.h.id
+    src/vpn-manager/.arch-ids/nm-vpn-connection.c.id
+    src/vpn-manager/.arch-ids/nm-vpn-connection.h.id
+    src/vpn-manager/.arch-ids/nm-vpn-manager.c.id
+    src/vpn-manager/.arch-ids/nm-vpn-manager.h.id
+    src/vpn-manager/.arch-ids/nm-vpn-service.c.id
+    src/vpn-manager/.arch-ids/nm-vpn-service.h.id
+    src/vpn-manager/.cvsignore src/vpn-manager/Makefile.am
+    src/vpn-manager/nm-dbus-vpn.c
+    src/vpn-manager/nm-dbus-vpn.h
+    src/vpn-manager/nm-vpn-connection.c
+    src/vpn-manager/nm-vpn-connection.h
+    src/vpn-manager/nm-vpn-manager.c
+    src/vpn-manager/nm-vpn-manager.h
+    src/vpn-manager/nm-vpn-service.c
+    src/vpn-manager/nm-vpn-service.h
+    vpn-daemons/.arch-ids/.cvsignore.id
+    vpn-daemons/.arch-ids/=id
+    vpn-daemons/.arch-ids/Makefile.am.id
+    vpn-daemons/.cvsignore vpn-daemons/Makefile.am
+    vpn-daemons/vpnc/.arch-ids/.cvsignore.id
+    vpn-daemons/vpnc/.arch-ids/=id
+    vpn-daemons/vpnc/.arch-ids/Makefile.am.id
+    vpn-daemons/vpnc/.arch-ids/nm-vpnc-service-vpnc-helper.c.id
+    vpn-daemons/vpnc/.arch-ids/nm-vpnc-service.c.id
+    vpn-daemons/vpnc/.arch-ids/nm-vpnc-service.conf.id
+    vpn-daemons/vpnc/.arch-ids/nm-vpnc-service.h.id
+    vpn-daemons/vpnc/.arch-ids/nm-vpnc-service.name.id
+    vpn-daemons/vpnc/.cvsignore
+    vpn-daemons/vpnc/Makefile.am
+    vpn-daemons/vpnc/nm-vpnc-service-vpnc-helper.c
+    vpn-daemons/vpnc/nm-vpnc-service.c
+    vpn-daemons/vpnc/nm-vpnc-service.conf
+    vpn-daemons/vpnc/nm-vpnc-service.h
+    vpn-daemons/vpnc/nm-vpnc-service.name
+New-directories: src/named-manager
+    src/named-manager/.arch-ids src/vpn-manager
+    src/vpn-manager/.arch-ids vpn-daemons
+    vpn-daemons/.arch-ids vpn-daemons/vpnc
+    vpn-daemons/vpnc/.arch-ids
+Removed-files: named/.arch-ids/.cvsignore.id
+    named/.arch-ids/=id named/.arch-ids/Makefile.am.id
+    named/.arch-ids/named.conf.id
+    named/.arch-ids/nm-named-manager.c.id
+    named/.arch-ids/nm-named-manager.h.id named/.cvsignore
+    named/Makefile.am named/named.conf
+    named/nm-named-manager.c named/nm-named-manager.h
+Removed-directories: named named/.arch-ids
+Modified-files: ChangeLog Makefile.am NetworkManager.h
+    configure.in info-daemon/NetworkManagerInfo.c
+    info-daemon/NetworkManagerInfo.h
+    info-daemon/NetworkManagerInfoDbus.c
+    info-daemon/NetworkManagerInfoDbus.h
+    panel-applet/Makefile.am
+    panel-applet/NMWirelessApplet.c
+    panel-applet/NMWirelessApplet.h
+    panel-applet/NMWirelessAppletDbus.c
+    panel-applet/NMWirelessAppletDbus.h
+    panel-applet/icons/Makefile.am src/Makefile.am
+    src/NetworkManager.c src/NetworkManagerDHCP.c
+    src/NetworkManagerDHCP.h src/NetworkManagerDbus.c
+    src/NetworkManagerDbus.h src/NetworkManagerDevice.c
+    src/NetworkManagerDevice.h
+    src/NetworkManagerDevicePrivate.h
+    src/NetworkManagerMain.h src/NetworkManagerPolicy.c
+    src/NetworkManagerSystem.c src/NetworkManagerSystem.h
+    src/backends/.cvsignore
+    src/backends/NetworkManagerRedHat.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-535
+Summary: 2005-04-15  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.536
+Keywords: cscvs:MAIN.536
+
+Author: dcbw
+Date: 2005-04-15 15:43:37 GMT
+2005-04-15  Dan Williams  <dcbw@redhat.com>
+
+	Initial VPN Support
+		- supports 'vpnc'
+		- reworks device IP configuration, backend files have changed and will need
+			to be updated for all distributions.  I will try to do what I can for
+			them, but I cannot test them.
+
+	- Move named directory to src/named-manager
+	- Make backends directory self-contained

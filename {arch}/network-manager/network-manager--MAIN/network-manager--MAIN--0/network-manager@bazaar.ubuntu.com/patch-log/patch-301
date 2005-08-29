@@ -1,0 +1,33 @@
+Revision: network-manager--MAIN--0--patch-301
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:57:47 BST 2005
+Standard-date: 2005-08-13 14:57:47 GMT
+Modified-files: ChangeLog src/Makefile.am
+    src/backends/NetworkManagerDebian.c
+    src/backends/NetworkManagerRedHat.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-301
+Summary: 2004-11-13  Colin Walters  <walters@redhat.com>
+CSCVSID: MAIN.302
+Keywords: cscvs:MAIN.302
+
+Author: walters
+Date: 2004-11-13 18:34:02 GMT
+2004-11-13  Colin Walters  <walters@redhat.com>
+
+	Patch from Tom Parker <palfrey@tevp.net>:
+
+	* src/Makefile.am (CPPFLAGS): Switch to AM_CPPFLAGS.
+
+	* src/backends/NetworkManagerRedHat.c: Switch to
+	including shvar.h instead of shvar.c.
+
+	* src/backends/NetworkManagerDebian.c: Don't include
+	interface_parser.c in source file.
+
+	(libnmbackend_la_SOURCES): Don't include shvar.[ch]
+	and interface_parser.[ch].
+	* src/Makefile.am (libnmbackend_la_SOURCES) <TARGET_REDHAT>:
+	Include shvar.c and shvar.h here.
+	(libnmbackend_la_SOURCES) <TARGET_DEBIAN>: Include
+	interface_parser.c and interface_parser.h here.

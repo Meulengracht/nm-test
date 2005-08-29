@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-341
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:00:02 BST 2005
+Standard-date: 2005-08-13 15:00:02 GMT
+Modified-files: po/ChangeLog po/de.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-341
+Summary: 2004-12-20  Hendrik Brandt  <heb@gnome-de.org>
+CSCVSID: MAIN.342
+Keywords: cscvs:MAIN.342
+
+Author: hebra
+Date: 2004-12-20 14:35:16 GMT
+2004-12-20  Hendrik Brandt  <heb@gnome-de.org>
+
+        * de.po: Updated German translation.

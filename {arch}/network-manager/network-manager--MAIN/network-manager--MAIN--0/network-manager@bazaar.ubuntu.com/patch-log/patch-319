@@ -1,0 +1,18 @@
+Revision: network-manager--MAIN--0--patch-319
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:58:45 BST 2005
+Standard-date: 2005-08-13 14:58:45 GMT
+Modified-files: ChangeLog test/nmclienttest.c
+    test/nmtestdevices.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-319
+Summary: 2004-12-01  Colin Walters  <walters@redhat.com>
+CSCVSID: MAIN.320
+Keywords: cscvs:MAIN.320
+
+Author: walters
+Date: 2004-12-01 20:45:25 GMT
+2004-12-01  Colin Walters  <walters@redhat.com>
+
+	* test/nmtestdevices.c, test/nmclienttest.c: Add missing
+	includes.

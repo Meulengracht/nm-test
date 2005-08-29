@@ -1,0 +1,31 @@
+Revision: network-manager--MAIN--0--patch-484
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:08:37 BST 2005
+Standard-date: 2005-08-13 15:08:37 GMT
+Modified-files: ChangeLog info-daemon/NetworkManagerInfo.c
+    info-daemon/NetworkManagerInfoDbus.c
+    src/nm-netlink-monitor.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-484
+Summary: 2005-03-15  Ray Strode  <rstrode@redhat.com>
+CSCVSID: MAIN.485
+Keywords: cscvs:MAIN.485
+
+Author: halfline
+Date: 2005-03-15 15:08:38 GMT
+2005-03-15  Ray Strode  <rstrode@redhat.com>
+
+	Fix a few -Wall -Werror warnings
+
+	* info-daemon/NetworkManagerInfo.c:
+	(main): remove unused loop variable.
+
+	* info-daemon/NetworkManagerInfoDbus.c:
+	(nmi_dbus_nm_is_running): comment out
+	unused static function
+
+	* src/nm-netlink-monitor.c:
+	(receive_pending_bytes):
+	initialize output variables to NULL/0,
+	on function failure (Problem pointed out
+	by Bryan Clark).

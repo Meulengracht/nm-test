@@ -1,0 +1,41 @@
+Revision: network-manager--MAIN--0--patch-74
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:47:20 BST 2005
+Standard-date: 2005-08-13 14:47:20 GMT
+New-files: initscript/Gentoo/.arch-ids/.cvsignore.id
+    initscript/Gentoo/.cvsignore
+    initscript/RedHat/.arch-ids/.cvsignore.id
+    initscript/RedHat/.cvsignore po/.arch-ids/.cvsignore.id
+    po/.arch-ids/=id po/.arch-ids/NetworkManager.pot.id
+    po/.arch-ids/POTFILES.in.id po/.cvsignore
+    po/NetworkManager.pot po/POTFILES.in
+New-directories: po po/.arch-ids
+Modified-files: ChangeLog Makefile.am autogen.sh configure.in
+    panel-applet/Makefile.am
+    panel-applet/NMWirelessApplet.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-74
+Summary: Thu Aug 26 15:12:36 2004  Jonathan Blandford  <jrb@redh...
+CSCVSID: MAIN.75
+Keywords: cscvs:MAIN.75
+
+Author: jrb
+Date: 2004-08-26 19:14:25 GMT
+Thu Aug 26 15:12:36 2004  Jonathan Blandford  <jrb@redhat.com>
+
+        * Makefile.am: add po as a supdir
+
+        * autogen.sh: use gnome-autogen.sh
+
+        * initscript/Gentoo/.cvsignore:
+        * initscript/RedHat/.cvsignore: Shut up cvs
+
+        * panel-applet/Makefile.am: Define GNOMELOCALEDIR for bonobo.
+
+        * panel-applet/NMWirelessApplet.c: (nmwa_populate_menu),
+        (nmwa_fill): Use gettext.
+
+        * configure.in: add gettext support
+        * po/.cvsignore:
+        * po/NetworkManager.pot:
+        * po/POTFILES.in:

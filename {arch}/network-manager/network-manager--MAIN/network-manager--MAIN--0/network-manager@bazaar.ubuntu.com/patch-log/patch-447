@@ -1,0 +1,21 @@
+Revision: network-manager--MAIN--0--patch-447
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:06:06 BST 2005
+Standard-date: 2005-08-13 15:06:06 GMT
+Modified-files: ChangeLog panel-applet/essid.glade
+    panel-applet/gtkcellrendererprogress.c
+    panel-applet/gtkcellrendererprogress.h
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-447
+Summary: 2005-02-16  William Jon McCann  <mccann@jhu.edu>
+CSCVSID: MAIN.448
+Keywords: cscvs:MAIN.448
+
+Author: dcbw
+Date: 2005-02-18 03:59:09 GMT
+2005-02-16  William Jon McCann  <mccann@jhu.edu>
+
+	* panel-applet/gtkcellrendererprogress.[ch]: Only compile these
+	files for GTK 2.4 or lower, since now public in GTK 2.6.
+
+	* panel-applet/essid.glade: Don't specify window size.

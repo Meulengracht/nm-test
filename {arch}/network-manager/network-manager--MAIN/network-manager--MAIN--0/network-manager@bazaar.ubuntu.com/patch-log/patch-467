@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-467
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:07:06 BST 2005
+Standard-date: 2005-08-13 15:07:06 GMT
+Modified-files: ChangeLog README
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-467
+Summary: 2005-02-25  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.468
+Keywords: cscvs:MAIN.468
+
+Author: dcbw
+Date: 2005-02-25 21:23:21 GMT
+2005-02-25  Dan Williams  <dcbw@redhat.com>
+
+	* README
+		- Line break the README

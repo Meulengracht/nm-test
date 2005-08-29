@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-204
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:52:37 BST 2005
+Standard-date: 2005-08-13 14:52:37 GMT
+Modified-files: ChangeLog TODO
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-204
+Summary: 2004-10-11 Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.205
+Keywords: cscvs:MAIN.205
+
+Author: dcbw
+Date: 2004-10-11 21:37:10 GMT
+2004-10-11 Dan Williams <dcbw@redhat.com>
+
+	* TODO
+		- Remove bit about more robust AP diffing since I just implemented it

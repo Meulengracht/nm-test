@@ -1,0 +1,19 @@
+Revision: network-manager--MAIN--0--patch-610
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:17:24 BST 2005
+Standard-date: 2005-08-13 15:17:24 GMT
+Modified-files: ChangeLog
+    vpn-daemons/vpnc/nm-vpnc-service.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-610
+Summary: 2005-05-27  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.611
+Keywords: cscvs:MAIN.611
+
+Author: dcbw
+Date: 2005-05-27 14:19:30 GMT
+2005-05-27  Dan Williams <dcbw@redhat.com>
+
+	* vpn-daemons/vpnc/nm-vpnc-service.c
+		- (vpnc_watch_cb): wait a bit before trying to read vpnc's pidfile.
+			Should fix the bug where the VPN connection terminates the first time.

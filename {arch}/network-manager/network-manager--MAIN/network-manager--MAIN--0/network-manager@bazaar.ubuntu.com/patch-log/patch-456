@@ -1,0 +1,23 @@
+Revision: network-manager--MAIN--0--patch-456
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:06:41 BST 2005
+Standard-date: 2005-08-13 15:06:41 GMT
+Modified-files: ChangeLog panel-applet/NMWirelessApplet.c
+    panel-applet/NMWirelessApplet.h
+    panel-applet/menu-info.c panel-applet/menu-info.h
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-456
+Summary: 2005-02-21  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.457
+Keywords: cscvs:MAIN.457
+
+Author: dcbw
+Date: 2005-02-22 00:29:15 GMT
+2005-02-21  Dan Williams  <dcbw@redhat.com>
+
+	* panel-applet/NMWirelessApplet.[ch]
+	  panel-applet/menu-info.[ch]
+		- Give the panel applet some major love: menu items are no longer
+			subclasses of GtkCheckMenuItem, they are actual GtkCheckMenuItems.
+			This allows the applet to actually reflect theme changes correctly,
+			since themeing of subclassed items in GTK _sucks_.

@@ -1,0 +1,19 @@
+Revision: network-manager--MAIN--0--patch-641
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:19:43 BST 2005
+Standard-date: 2005-08-13 15:19:43 GMT
+Modified-files: ChangeLog gnome/applet/menu-items.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-641
+Summary: 2005-06-16  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.642
+Keywords: cscvs:MAIN.642
+
+Author: dcbw
+Date: 2005-06-17 00:47:49 GMT
+2005-06-16  Dan Williams <dcbw@redhat.com>
+
+    Patch from Robert Love:
+    * gnome/applet/menu-items.c
+        - (network_menu_item_new): pass -1 as wireless network
+            menu items height size request rather than ascent / 2

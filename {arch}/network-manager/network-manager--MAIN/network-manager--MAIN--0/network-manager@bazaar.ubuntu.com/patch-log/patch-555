@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-555
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:13:44 BST 2005
+Standard-date: 2005-08-13 15:13:44 GMT
+Modified-files: gnome/applet/applet-dbus-vpn.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-555
+Summary: Fix query of active VPN connection
+CSCVSID: MAIN.556
+Keywords: cscvs:MAIN.556
+
+Author: dcbw
+Date: 2005-04-28 02:38:55 GMT
+Fix query of active VPN connection

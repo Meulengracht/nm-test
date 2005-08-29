@@ -1,0 +1,21 @@
+Revision: network-manager--MAIN--0--patch-382
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:02:32 BST 2005
+Standard-date: 2005-08-13 15:02:32 GMT
+Modified-files: ChangeLog panel-applet/gtkcellview.c
+    panel-applet/gtkcellview.h
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-382
+Summary: 2005-01-24  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.383
+Keywords: cscvs:MAIN.383
+
+Author: dcbw
+Date: 2005-01-24 17:44:05 GMT
+2005-01-24  Dan Williams  <dcbw@redhat.com>
+
+	* panel-applet/gtkcellview.[ch]
+		- Only compile these files for GTK 2.4 or lower, since
+			GtkCellView is now public in GTK 2.6.  Fixes crasher
+			when choosing "Other Wireless Networks" from the panel
+			applet menu

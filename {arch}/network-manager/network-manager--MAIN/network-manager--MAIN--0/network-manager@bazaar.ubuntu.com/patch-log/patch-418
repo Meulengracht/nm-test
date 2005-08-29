@@ -1,0 +1,30 @@
+Revision: network-manager--MAIN--0--patch-418
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:04:36 BST 2005
+Standard-date: 2005-08-13 15:04:36 GMT
+Modified-files: ChangeLog dhcpcd/udpipgen.c
+    src/NetworkManager.c src/NetworkManagerUtils.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-418
+Summary: 2005-02-10  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.419
+Keywords: cscvs:MAIN.419
+
+Author: dcbw
+Date: 2005-02-10 15:07:35 GMT
+2005-02-10  Dan Williams  <dcbw@redhat.com>
+
+	* src/NetworkManager.c
+		- (nm_create_device_and_add_to_list): change the add message slightly
+
+	* src/NetworkManagerUtils.c
+		- (nm_get_wireless_driver_support_level, nm_get_wired_driver_support_level):
+			Return driver name to calling function
+		- (nm_get_driver_support_level): print out the driver a device is using
+			during the support check
+
+	Patch from Dave Woodhouse:
+	* dhcpcd/udpipgen.c
+		- (in_cksum): copy last byte of odd-sized packets into a
+			'u_short' rather than a 'u_char', should fix wrong checksums
+			on big-endian platforms

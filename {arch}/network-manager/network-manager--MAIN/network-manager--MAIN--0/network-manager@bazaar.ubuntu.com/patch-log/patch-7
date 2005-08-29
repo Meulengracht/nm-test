@@ -1,0 +1,58 @@
+Revision: network-manager--MAIN--0--patch-7
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:43:57 BST 2005
+Standard-date: 2005-08-13 14:43:57 GMT
+Modified-files: ChangeLog
+    dispatcher-daemon/NetworkManagerDispatcher.c
+    src/NetworkManager.c src/NetworkManager.h
+    src/NetworkManagerDevice.c src/NetworkManagerDevice.h
+    src/NetworkManagerPolicy.c src/NetworkManagerPolicy.h
+    src/NetworkManagerUtils.c src/NetworkManagerUtils.h
+    src/NetworkManagerWireless.c
+    src/NetworkManagerWireless.h
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-7
+Summary: 2004-07-05  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.8
+Keywords: cscvs:MAIN.8
+
+Author: dcbw
+Date: 2004-07-06 01:34:09 GMT
+2004-07-05  Dan Williams <dcbw@redhat.com>
+
+	* dispatcher-daemon/NetworkManagerDispatcher.c
+		- A bit more descriptive state message
+		- Don't segfault when reading directory
+
+	* src/NetworkManager.h
+		- Remove NMData desired_ap member, its now
+			per-device rather than global
+
+	* src/NetworkManager.c
+		- Remove references to desired_ap
+		- Move the allowed AP list refresh stuff into a thread
+
+	* src/NetworkManagerDevice.c
+	  src/NetworkManagerDevice.h
+		- Each wireless device now has a "best ap"
+		- Make device activate/deactivate functions per-device
+		- Make wireless scanning per-device
+		- Add IPv4 address discover functions, stub IPv6 ones
+		- Move ethernet address validation functions to NetworkManagerUtils.c
+		- Add wireless access point accessor function
+		- Get/Set functions for "best ap"
+
+	* src/NetworkManagerPolicy.c
+		- Move activate/deactivate stuff into NetworkManagerDevice.c, per-device
+		- Deal with per-device "best ap" rather than data->desired_apa
+		- Implement allowed access point worker thread
+		- Add nm_policy_essid_is_allowed() function
+
+	* src/NetworkManagerUtils.c
+	  src/NetworkManagerUtils.h
+	  	- Add nm_ethernet_address_is_valid() function
+		- Add IPv4/IPv6 address get functions
+
+	* src/NetworkManagerWireless.c
+	  src/NetworkManagerWireless.h
+		- Move scanning stuff into NetworkManagerDevice.c, per-device

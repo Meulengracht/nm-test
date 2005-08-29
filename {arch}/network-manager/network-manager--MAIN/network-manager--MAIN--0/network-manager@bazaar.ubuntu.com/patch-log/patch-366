@@ -1,0 +1,20 @@
+Revision: network-manager--MAIN--0--patch-366
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:01:22 BST 2005
+Standard-date: 2005-08-13 15:01:22 GMT
+Modified-files: ChangeLog configure.in
+    named/nm-named-manager.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-366
+Summary: 2005-01-14  Colin Walters  <walters@redhat.com>
+CSCVSID: MAIN.367
+Keywords: cscvs:MAIN.367
+
+Author: walters
+Date: 2005-01-14 05:03:20 GMT
+2005-01-14  Colin Walters  <walters@redhat.com>
+
+	* configure.in: Make named support require passing --with-named.
+
+	* named/nm-named-manager.c: Support writing resolv.conf directly
+	without running named.

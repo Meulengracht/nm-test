@@ -1,0 +1,15 @@
+Revision: network-manager--MAIN--0--patch-87
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:47:51 BST 2005
+Standard-date: 2005-08-13 14:47:51 GMT
+New-files: examples/python/systray/.arch-ids/.cvsignore.id
+    examples/python/systray/.cvsignore
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-87
+Summary: adding cvsignore to examples/python/systray directory
+CSCVSID: MAIN.88
+Keywords: cscvs:MAIN.88
+
+Author: clarkbw
+Date: 2004-08-27 20:52:47 GMT
+adding cvsignore to examples/python/systray directory

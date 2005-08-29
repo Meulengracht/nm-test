@@ -1,0 +1,18 @@
+Revision: network-manager--MAIN--0--patch-132
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:49:27 BST 2005
+Standard-date: 2005-08-13 14:49:27 GMT
+New-files: po/.arch-ids/es.po.id po/es.po
+Modified-files: ChangeLog configure.in po/ChangeLog
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-132
+Summary: 2004-09-09  Francisco Javier F. Serrador  <serrador@cvs...
+CSCVSID: MAIN.133
+Keywords: cscvs:MAIN.133
+
+Author: serrador
+Date: 2004-09-09 18:34:11 GMT
+2004-09-09  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
+
+	* es.po: Added Spanish translation.
+	* configure.in: Added es language

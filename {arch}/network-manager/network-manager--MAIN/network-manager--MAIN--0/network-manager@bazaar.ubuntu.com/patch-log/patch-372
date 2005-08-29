@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-372
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:01:35 BST 2005
+Standard-date: 2005-08-13 15:01:35 GMT
+Modified-files: ChangeLog src/NetworkManagerDHCP.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-372
+Summary: 2005-01-18  Colin Walters  <walters@redhat.com>
+CSCVSID: MAIN.373
+Keywords: cscvs:MAIN.373
+
+Author: walters
+Date: 2005-01-18 16:28:56 GMT
+2005-01-18  Colin Walters  <walters@redhat.com>
+
+	* src/NetworkManagerDHCP.c (set_nameservers): Free and clear list
+	of older nameservers.

@@ -1,0 +1,30 @@
+Revision: network-manager--MAIN--0--patch-442
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:05:54 BST 2005
+Standard-date: 2005-08-13 15:05:54 GMT
+Modified-files: ChangeLog configure.in dhcpcd/client.c
+    dhcpcd/udpipgen.c src/nm-dbus-dhcp.c
+    test/nm-dhcp-opt-test.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-442
+Summary: 2005-02-14  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.443
+Keywords: cscvs:MAIN.443
+
+Author: dcbw
+Date: 2005-02-14 17:47:58 GMT
+2005-02-14  Dan Williams  <dcbw@redhat.com>
+
+	Patch from Peter Jones:
+	* dhcpcd/client.c
+		- Ensure we return RET_DHCP_CEASED everywhere we should
+	* dhcpcd/udpipgen.c
+		- Use faster TOS for IP packets
+		- Don't set ip_id since we're UDP
+
+	Patch from Tomislav Vujec:
+	* src/nm-dbus-dhcp.c
+	  test/nm-dhcp-opt-test.c
+		- Clean up warnings to enable cvs tree compilation.
+	* configure.in
+		- Set AM_MAINTAINER_MODE

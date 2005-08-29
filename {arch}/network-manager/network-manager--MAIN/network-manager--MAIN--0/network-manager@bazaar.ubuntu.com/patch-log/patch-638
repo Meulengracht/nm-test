@@ -1,0 +1,24 @@
+Revision: network-manager--MAIN--0--patch-638
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:19:32 BST 2005
+Standard-date: 2005-08-13 15:19:32 GMT
+New-files: gnome/vpn-properties/.arch-ids/.cvsignore.id
+    gnome/vpn-properties/.cvsignore
+    vpn-daemons/vpnc/auth-dialog/.arch-ids/.cvsignore.id
+    vpn-daemons/vpnc/auth-dialog/.cvsignore
+    vpn-daemons/vpnc/po/.arch-ids/.cvsignore.id
+    vpn-daemons/vpnc/po/.cvsignore
+    vpn-daemons/vpnc/properties/.arch-ids/.cvsignore.id
+    vpn-daemons/vpnc/properties/.cvsignore
+    vpn-daemons/vpnc/src/.arch-ids/.cvsignore.id
+    vpn-daemons/vpnc/src/.cvsignore
+Modified-files: vpn-daemons/vpnc/.cvsignore
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-638
+Summary: Update .cvsignore files
+CSCVSID: MAIN.639
+Keywords: cscvs:MAIN.639
+
+Author: rml
+Date: 2005-06-16 21:46:57 GMT
+Update .cvsignore files

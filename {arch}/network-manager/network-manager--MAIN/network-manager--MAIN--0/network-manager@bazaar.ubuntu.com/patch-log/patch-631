@@ -1,0 +1,27 @@
+Revision: network-manager--MAIN--0--patch-631
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:19:05 BST 2005
+Standard-date: 2005-08-13 15:19:05 GMT
+Modified-files: ChangeLog src/NetworkManagerDevice.c
+    src/backends/NetworkManagerDebian.c
+    src/backends/NetworkManagerSuSE.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-631
+Summary: 2005-06-15  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.632
+Keywords: cscvs:MAIN.632
+
+Author: dcbw
+Date: 2005-06-15 12:15:33 GMT
+2005-06-15  Dan Williams <dcbw@redhat.com>
+
+	* src/backends/NetworkManagerDebian.c
+		- Add nm_system_device_get_use_dhcp() to debian backend
+
+	Patch from Kay Sievers:
+	* src/backends/NetworkManagerSuSE.c
+		- Update debian backend for static IP nameservers
+
+	* src/NetworkManagerDevice.c
+		- Actually set the device to use static IP or DHCP rather
+			than always DHCP

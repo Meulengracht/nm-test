@@ -1,0 +1,18 @@
+Revision: network-manager--MAIN--0--patch-45
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:46:09 BST 2005
+Standard-date: 2005-08-13 14:46:09 GMT
+New-files: .arch-ids/CONTRIBUTING.id CONTRIBUTING
+Modified-files: ChangeLog
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-45
+Summary: 2004-08-13  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.46
+Keywords: cscvs:MAIN.46
+
+Author: dcbw
+Date: 2004-08-13 15:41:31 GMT
+2004-08-13  Dan Williams <dcbw@redhat.com>
+
+	* CONTRIBUTING
+		- Add

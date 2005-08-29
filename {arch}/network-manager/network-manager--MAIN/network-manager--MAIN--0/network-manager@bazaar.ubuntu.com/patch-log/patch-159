@@ -1,0 +1,22 @@
+Revision: network-manager--MAIN--0--patch-159
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:50:39 BST 2005
+Standard-date: 2005-08-13 14:50:39 GMT
+Modified-files: examples/python/NetworkManager.py
+    examples/python/systray/network_tray.py
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-159
+Summary: 2004-09-22    <clarkbw@cvs.gnome.org>
+CSCVSID: MAIN.160
+Keywords: cscvs:MAIN.160
+
+Author: clarkbw
+Date: 2004-09-22 13:19:44 GMT
+2004-09-22    <clarkbw@cvs.gnome.org>
+
+	* examples/python/NetworkManager.py:
+	s/Quality/Strength/
+
+	* examples/python/systray/network_tray.py:
+	Lots of little changes and fixes.  been rotting for a while so I
+	figured I'd finally sync them all with CVS

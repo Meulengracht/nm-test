@@ -1,0 +1,45 @@
+Revision: network-manager--MAIN--0--patch-52
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:46:23 BST 2005
+Standard-date: 2005-08-13 14:46:23 GMT
+New-files: panel-applet/.arch-ids/wired.png.id
+    panel-applet/wired.png
+Modified-files: ChangeLog
+    info-daemon/NetworkManagerInfoPassphraseDialog.c
+    panel-applet/Makefile.am
+    panel-applet/NMWirelessApplet.c
+    panel-applet/NMWirelessApplet.h
+    src/NetworkManagerDevice.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-52
+Summary: 2004-08-20  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.53
+Keywords: cscvs:MAIN.53
+
+Author: dcbw
+Date: 2004-08-20 18:18:37 GMT
+2004-08-20  Dan Williams <dcbw@redhat.com>
+
+	* info-daemon/NetworkManagerInfoPassphraseDialog.c
+		- (nmi_passphrase_dialog_ok_clicked): when updating the wep key
+			for a network, set the essid as well since it may not exist yet
+		- (nmi_passphrase_dialog_init): don't star out the passphrase field,
+			since WEP keys/passphrases are long and prone to entry-error
+
+	* panel-applet/Makefile.am
+	  panel-applet/wired.png
+		- Add (pulled from system-config-network temporarily)
+
+	* panel-applet/NMWirelessApplet.[ch]
+		- Show wired picture when a wired connection is used
+		- Rename wireless icon enums, adding WIRELESS
+
+	* src/NetworkManagerDevice.c
+		- (nm_device_activate_wireless): unset encryption before bringing
+			down the card and setting the essid
+		- (nm_device_activatin_worker): request a key from the user if the
+			AP we are connecting to is encrypted but we don't have a key
+			for it yet
+		- (nm_device_set_user_key_for_network): fix missing '== 0' for a
+			strcmp() that prevented a user-entered key from actually getting
+			used

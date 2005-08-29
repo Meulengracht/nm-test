@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-167
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:50:56 BST 2005
+Standard-date: 2005-08-13 14:50:56 GMT
+Modified-files: po/ChangeLog po/nl.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-167
+Summary: 2004-09-23  Vincent van Adrighem  <adrighem@gnome.org>
+CSCVSID: MAIN.168
+Keywords: cscvs:MAIN.168
+
+Author: adrighem
+Date: 2004-09-23 19:02:43 GMT
+2004-09-23  Vincent van Adrighem  <adrighem@gnome.org>
+
+	* nl.po: Translation updated by Daniel van Eeden.

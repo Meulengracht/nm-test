@@ -1,0 +1,23 @@
+Revision: network-manager--MAIN--0--patch-619
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:17:51 BST 2005
+Standard-date: 2005-08-13 15:17:51 GMT
+New-files: src/backends/.arch-ids/NetworkManagerSuSE.c.id
+    src/backends/NetworkManagerSuSE.c
+Modified-files: ChangeLog configure.in
+    src/backends/Makefile.am
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-619
+Summary: 2005-06-09  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.620
+Keywords: cscvs:MAIN.620
+
+Author: dcbw
+Date: 2005-06-10 03:43:14 GMT
+2005-06-09  Dan Williams <dcbw@redhat.com>
+
+	Patch from Kay Sievers and Robert Love:
+	* configure.in
+	  src/backends/Makefile.am
+	  src/backends/NetworkManagerSuSE.c
+		- Add SuSE support

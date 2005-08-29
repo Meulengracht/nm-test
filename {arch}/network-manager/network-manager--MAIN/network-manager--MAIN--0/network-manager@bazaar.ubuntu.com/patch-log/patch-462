@@ -1,0 +1,30 @@
+Revision: network-manager--MAIN--0--patch-462
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:06:57 BST 2005
+Standard-date: 2005-08-13 15:06:57 GMT
+Modified-files: ChangeLog
+    info-daemon/NetworkManagerInfoDbus.c test/nminfotest.c
+    test/nmtest.c test/nmtestdevices.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-462
+Summary: 2005-02-25  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.463
+Keywords: cscvs:MAIN.463
+
+Author: dcbw
+Date: 2005-02-25 20:48:57 GMT
+2005-02-25  Dan Williams  <dcbw@redhat.com>
+
+	* info-daemon/NetworkManagerInfoDbus.c
+		- (nmi_dbus_get_network_properties): whack usage of DbusMessageIter
+
+	* test/nminfotest.c
+		- Whack usage of DbusMessageIter
+		- Clean up DbusError and DbusMessage handling and freeing
+		- Remove unused unregister handler
+
+	* test/nmtest.c
+		- Whack usage of DbusMessageIter
+
+	* test/nmtestdevices.c
+		- Whack usage of DbusMessageIter

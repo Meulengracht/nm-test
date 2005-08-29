@@ -1,0 +1,53 @@
+Revision: network-manager--MAIN--0--patch-574
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:15:19 BST 2005
+Standard-date: 2005-08-13 15:15:19 GMT
+New-files: gnome/applet/icons/.arch-ids/nm-progress01.png.id
+    gnome/applet/icons/.arch-ids/nm-progress02.png.id
+    gnome/applet/icons/.arch-ids/nm-progress03.png.id
+    gnome/applet/icons/.arch-ids/nm-progress04.png.id
+    gnome/applet/icons/.arch-ids/nm-progress05.png.id
+    gnome/applet/icons/.arch-ids/nm-progress06.png.id
+    gnome/applet/icons/.arch-ids/nm-progress07.png.id
+    gnome/applet/icons/.arch-ids/nm-progress08.png.id
+    gnome/applet/icons/.arch-ids/nm-progress09.png.id
+    gnome/applet/icons/.arch-ids/nm-progress10.png.id
+    gnome/applet/icons/.arch-ids/nm-progress11.png.id
+    gnome/applet/icons/.arch-ids/nm-progress12.png.id
+    gnome/applet/icons/nm-progress01.png
+    gnome/applet/icons/nm-progress02.png
+    gnome/applet/icons/nm-progress03.png
+    gnome/applet/icons/nm-progress04.png
+    gnome/applet/icons/nm-progress05.png
+    gnome/applet/icons/nm-progress06.png
+    gnome/applet/icons/nm-progress07.png
+    gnome/applet/icons/nm-progress08.png
+    gnome/applet/icons/nm-progress09.png
+    gnome/applet/icons/nm-progress10.png
+    gnome/applet/icons/nm-progress11.png
+    gnome/applet/icons/nm-progress12.png
+Modified-files: ChangeLog NetworkManager.h
+    gnome/applet/applet-dbus-devices.c
+    gnome/applet/applet-dbus.c gnome/applet/applet.c
+    gnome/applet/applet.h gnome/applet/icons/Makefile.am
+    gnome/applet/menu-items.c gnome/applet/nm-device.c
+    gnome/applet/nm-device.h
+    gnome/applet/other-network-dialog.c
+    src/NetworkManagerDbus.c src/NetworkManagerDevice.c
+    src/NetworkManagerPolicy.c
+    src/dhcp-manager/nm-dhcp-manager.c
+    src/nm-activation-request.c src/nm-activation-request.h
+    src/nm-dbus-device.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-574
+Summary: 2005-05-05  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.575
+Keywords: cscvs:MAIN.575
+
+Author: dcbw
+Date: 2005-05-06 02:58:05 GMT
+2005-05-05  Dan Williams  <dcbw@redhat.com>
+
+	* Expose activation stages to NetworkManager clients, like the applet
+	* Add Diana's progress icons to the applet, cued off NM activation stage
+	* Use more descriptive tooltips, cued off NM activation stage

@@ -1,0 +1,34 @@
+Revision: network-manager--MAIN--0--patch-120
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:48:53 BST 2005
+Standard-date: 2005-08-13 14:48:53 GMT
+New-files: initscript/Slackware/.arch-ids/=id
+    initscript/Slackware/.arch-ids/Makefile.am.id
+    initscript/Slackware/.arch-ids/rc.networkmanager.id
+    initscript/Slackware/Makefile.am
+    initscript/Slackware/rc.networkmanager
+    src/backends/.arch-ids/NetworkManagerSlackware.c.id
+    src/backends/NetworkManagerSlackware.c
+New-directories: initscript/Slackware
+    initscript/Slackware/.arch-ids
+Modified-files: ChangeLog configure.in
+    initscript/Makefile.am src/Makefile.am
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-120
+Summary: 2004-09-07  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.121
+Keywords: cscvs:MAIN.121
+
+Author: dcbw
+Date: 2004-09-07 17:56:52 GMT
+2004-09-07  Dan Williams <dcbw@redhat.com>
+
+	Patch from: Narayan Newton <narayan_newton@yahoo.com>
+
+	* configure.in
+	  initscript/Makefile.am
+	  initscript/Slackware/Makfile.am
+	  initscript/Slackware/rc.networkmanager
+	  src/Makefile.am
+	  src/backends/NetworkManagerSlackware.c
+		- Add Slackware support

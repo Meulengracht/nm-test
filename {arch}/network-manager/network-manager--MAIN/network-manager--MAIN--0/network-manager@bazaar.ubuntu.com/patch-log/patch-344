@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-344
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:00:13 BST 2005
+Standard-date: 2005-08-13 15:00:13 GMT
+Modified-files: ChangeLog configure.in
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-344
+Summary: 2004-12-21  Colin Walters  <walters@redhat.com>
+CSCVSID: MAIN.345
+Keywords: cscvs:MAIN.345
+
+Author: walters
+Date: 2004-12-21 21:47:51 GMT
+2004-12-21  Colin Walters  <walters@redhat.com>
+
+	* configure.in: Correct named detection.

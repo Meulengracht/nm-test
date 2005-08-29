@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-292
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:57:25 BST 2005
+Standard-date: 2005-08-13 14:57:25 GMT
+Modified-files: po/ChangeLog po/POTFILES.in po/nb.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-292
+Summary: 2004-11-09  Kjartan Maraas  <kmaraas@gnome.org>
+CSCVSID: MAIN.293
+Keywords: cscvs:MAIN.293
+
+Author: kmaraas
+Date: 2004-11-08 23:01:32 GMT
+2004-11-09  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* POTFILES.in: Add panel-applet/NWManagerOtherNetworkDialog.c
+	* nb.po: Update

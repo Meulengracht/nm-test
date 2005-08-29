@@ -1,0 +1,20 @@
+Revision: network-manager--MAIN--0--patch-730
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:24:03 BST 2005
+Standard-date: 2005-08-13 15:24:03 GMT
+Modified-files: ChangeLog
+    gnome/applet/other-network-dialog.c
+    gnome/applet/passphrase-dialog.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-730
+Summary: 2005-07-18  Robert Love  <rml@novell.com>
+CSCVSID: MAIN.731
+Keywords: cscvs:MAIN.731
+
+Author: rml
+Date: 2005-07-18 18:46:01 GMT
+2005-07-18  Robert Love  <rml@novell.com>
+
+        Suggested by Aaron Bockover (abockover@novell.com)
+        * applet/other-network-dialog.c: "ASCII is an acronym" -- s/Ascii/ASCII
+        * applet/passphrase-dialog.c: ditto

@@ -1,0 +1,32 @@
+Revision: network-manager--MAIN--0--patch-97
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:48:08 BST 2005
+Standard-date: 2005-08-13 14:48:08 GMT
+Modified-files: ChangeLog src/NetworkManagerDevice.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-97
+Summary: 2004-08-29  Colin Walters  <walters@verbum.org>
+CSCVSID: MAIN.98
+Keywords: cscvs:MAIN.98
+
+Author: walters
+Date: 2004-08-29 05:46:59 GMT
+2004-08-29  Colin Walters  <walters@verbum.org>
+
+	* src/NetworkManagerDbus.c (nm_dbus_get_network_timestamp): Return
+	a GTimeVal instead of time_t.  This is easier to work with,
+	since time_t may be a long or double, we don't know.
+
+	* src/NetworkManagerDbus.h: Update prototype.
+
+	* src/NetworkManagerAP.c (struct NMAccessPoint): Store a GTimeVal
+	instead of time_t.
+	(nm_ap_get_timestamp): Update to return GTimeVal.
+	(nm_ap_set_timestamp): Update to take GTimeVal.
+
+	* src/NetworkManagerDevice.c (nm_device_update_best_ap): Update
+	to handle GTimeVal.
+
+	* src/NetworkManagerAPList.c (nm_ap_list_update_network): Handle
+	GTimeVal change.
+	(nm_ap_list_print_members): Fix warnings in printf format.

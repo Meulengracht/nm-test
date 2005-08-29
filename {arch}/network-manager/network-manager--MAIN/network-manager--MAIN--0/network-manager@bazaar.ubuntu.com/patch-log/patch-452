@@ -1,0 +1,20 @@
+Revision: network-manager--MAIN--0--patch-452
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:06:32 BST 2005
+Standard-date: 2005-08-13 15:06:32 GMT
+Modified-files: ChangeLog libnm_glib/libnm_glib.c
+    libnm_glib/libnm_glib.h test/libnm_glib_test.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-452
+Summary: 2005-02-18  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.453
+Keywords: cscvs:MAIN.453
+
+Author: dcbw
+Date: 2005-02-18 20:25:23 GMT
+2005-02-18  Dan Williams  <dcbw@redhat.com>
+
+	* libnm_glib/libnm_glib.[ch]
+	  test/libnm_glib_test.c
+		- Clean up libnm_glib API a bit, callback is now passed a libnm_glib_ctx
+			and its data, and doesn't have to free the callback data anymore

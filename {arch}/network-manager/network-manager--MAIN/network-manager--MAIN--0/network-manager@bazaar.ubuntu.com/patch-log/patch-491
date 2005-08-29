@@ -1,0 +1,35 @@
+Revision: network-manager--MAIN--0--patch-491
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:08:55 BST 2005
+Standard-date: 2005-08-13 15:08:55 GMT
+Modified-files: ChangeLog dhcpcd/dhcpcd.c dhcpcd/dhcpcd.h
+    src/NetworkManagerDHCP.c src/NetworkManagerDbus.c
+    src/nm-dbus-dhcp.c test/nm-dhcp-opt-test.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-491
+Summary: 2005-03-24  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.492
+Keywords: cscvs:MAIN.492
+
+Author: dcbw
+Date: 2005-03-24 18:25:34 GMT
+2005-03-24  Dan Williams <dcbw@redhat.com>
+
+	* dhcpcd/dhcpcd.[ch]
+	  src/NetworkManagerDHCP.c
+		- Switch names from "*_record_*" -> "*_element_*" to clarify things a bit
+			(ie, dhcp_option_record_len -> dhcp_option_element_len)
+
+	* src/NetworkManagerDbus.c
+		- spacing cleanups
+
+	* src/nm-dbus-dhcp.c
+		- Make the API suck less.  There is now only 1 type of each function,
+			ie only "getInteger" and no longer also "getIntegerv".  All types
+			are returned encapsulated in a DBUS_TYPE_ARRAY, even for options
+			that will never have more than 1 element.  This should simplify
+			things greatly.
+
+	* test/nm-dhcp-opt-test.c
+		- Make the tool not segfault
+		- adapt to new DHCP Options API

@@ -1,0 +1,18 @@
+Revision: network-manager--MAIN--0--patch-676
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:21:33 BST 2005
+Standard-date: 2005-08-13 15:21:33 GMT
+Modified-files: vpn-daemons/vpnc/ChangeLog
+    vpn-daemons/vpnc/src/nm-vpnc-service.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-676
+Summary: 2005-06-23  David Zeuthen  <davidz@redhat.com>
+CSCVSID: MAIN.677
+Keywords: cscvs:MAIN.677
+
+Author: davidz
+Date: 2005-06-23 20:03:46 GMT
+2005-06-23  David Zeuthen  <davidz@redhat.com>
+
+        * src/nm-vpnc-service.c (vpnc_watch_cb): Some users report even
+        greater success with sleep (2) rather than sleep (1)...

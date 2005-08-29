@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-137
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:49:42 BST 2005
+Standard-date: 2005-08-13 14:49:42 GMT
+Modified-files: po/ChangeLog po/cs.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-137
+Summary: 2004-09-10  Miloslav Trmac  <mitr@volny.cz>
+CSCVSID: MAIN.138
+Keywords: cscvs:MAIN.138
+
+Author: mitr
+Date: 2004-09-10 14:08:03 GMT
+2004-09-10  Miloslav Trmac  <mitr@volny.cz>
+
+	* cs.po: Updated Czech translation.

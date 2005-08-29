@@ -1,0 +1,15 @@
+Revision: network-manager--MAIN--0--patch-138
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:49:44 BST 2005
+Standard-date: 2005-08-13 14:49:44 GMT
+Modified-files: po/ChangeLog po/en_CA.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-138
+Summary: * en_CA.po: Updated Canadian English translation.
+CSCVSID: MAIN.139
+Keywords: cscvs:MAIN.139
+
+Author: adamw
+Date: 2004-09-10 21:47:46 GMT
+
+	* en_CA.po: Updated Canadian English translation.

@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-32
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:45:24 BST 2005
+Standard-date: 2005-08-13 14:45:24 GMT
+Modified-files: info-daemon/NetworkManagerInfoDbus.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-32
+Summary: Fix argument list
+CSCVSID: MAIN.33
+Keywords: cscvs:MAIN.33
+
+Author: dcbw
+Date: 2004-08-05 20:17:10 GMT
+Fix argument list

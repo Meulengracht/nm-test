@@ -1,0 +1,46 @@
+Revision: network-manager--MAIN--0--patch-42
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:46:00 BST 2005
+Standard-date: 2005-08-13 14:46:00 GMT
+Modified-files: ChangeLog panel-applet/NMWirelessApplet.c
+    panel-applet/NMWirelessApplet.h
+    panel-applet/NMWirelessAppletDbus.c
+    panel-applet/NMWirelessAppletDbus.h
+    src/NetworkManagerDbus.c src/NetworkManagerDevice.c
+    test/nmclienttest.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-42
+Summary: 2004-08-11  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.43
+Keywords: cscvs:MAIN.43
+
+Author: dcbw
+Date: 2004-08-11 19:31:41 GMT
+2004-08-11  Dan Williams <dcbw@redhat.com>
+
+	* panel-applet/NMWirelessApplet.[ch]
+		- Fix up copyright and credits to include Bastien and Eskil,
+			who created the gnome-applets wireless applet, from whose
+			skeleton this one was created
+		- Rework nmwa_update_state()/nmwa_draw() so that state and which
+			pixmap to draw is computed during nmwa_update_state()
+		- Applet now shows itself all the time due to panel packing issues
+			which caused the applet to previously never come back after hiding.
+			When a wired device is the active device, the applet shows "not connected"
+
+	* panel-applet/NMWirelessAppletDbus.[ch]
+		- Clean up error messages and show what function they are from
+		- nmwa_dbus_get_active_wireless_device()->nmwa_dbus_get_active_device()
+		- Add new device type getters, and a status getter
+
+	* src/NetworkManagerDbus.c
+		- (nm_dbus_devices_handle_request): Don't return an active network unless that
+			network is actually in the device's ap list
+		- (nm_dbus_nm_message_handler): Fix silly mistake returning status
+
+	* src/NetworkManagerDevice.c
+		- (nm_device_update_best_ap): If the best AP is NULL, clear out the ESSID of the
+			card
+
+	* test/nmclienttest.c
+		- Report status of NetworkManager too

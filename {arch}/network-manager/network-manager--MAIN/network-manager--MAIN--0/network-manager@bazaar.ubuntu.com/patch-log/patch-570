@@ -1,0 +1,41 @@
+Revision: network-manager--MAIN--0--patch-570
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:14:50 BST 2005
+Standard-date: 2005-08-13 15:14:50 GMT
+Modified-files: ChangeLog src/NetworkManager.c
+    src/NetworkManagerDevice.c
+    src/NetworkManagerDevicePrivate.h
+    src/NetworkManagerSystem.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-570
+Summary: 2005-05-05  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.571
+Keywords: cscvs:MAIN.571
+
+Author: dcbw
+Date: 2005-05-05 16:52:03 GMT
+2005-05-05  Dan Williams  <dcbw@redhat.com>
+
+	Suggestion from Bill Moss:
+	* src/NetworkManagerSystem.c
+		- (nm_system_device_set_up_down_with_iface): ignore ENODEV
+
+
+	* src/NetworkManager.c
+		- (nm_data_free): move destruction of the various managers after
+			release of device list, because deactivating and freeing a device
+			requires at least the named manager
+		- (nm_poll_and_update_wireless_link_state):
+		  (nm_device_link_activated):
+		  (nm_device_link_deactivated):
+			don't grab the device list lock when actually updating device
+			link status or strength, since nm_device_set_link_active()
+			needs to call nm_get_active_device(), which also locks the device list.
+
+	* src/NetworkManagerDevice.c
+		- (nm_device_set_link_active): if a device's link switches from off->on,
+			and it's wired, and the active device is wireless (or there is no
+			active device), activate the new device whose link just came on
+		- (link_to_specific_ap): try to smooth over intermittency in wireless links
+			my only calling the link to the current ap "failed" when more than 2
+			consecutive link checks have failed

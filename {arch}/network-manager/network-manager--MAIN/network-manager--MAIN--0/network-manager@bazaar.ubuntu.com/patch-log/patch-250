@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-250
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:55:06 BST 2005
+Standard-date: 2005-08-13 14:55:06 GMT
+Modified-files: ChangeLog configure.in
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-250
+Summary: Tue Oct 19 14:20:29 2004  Jonathan Blandford  <jrb@redh...
+CSCVSID: MAIN.251
+Keywords: cscvs:MAIN.251
+
+Author: jrb
+Date: 2004-10-19 18:20:44 GMT
+Tue Oct 19 14:20:29 2004  Jonathan Blandford  <jrb@redhat.com>
+
+        * configure.in: post release bump.

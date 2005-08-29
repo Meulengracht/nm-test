@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-68
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:47:08 BST 2005
+Standard-date: 2005-08-13 14:47:08 GMT
+Modified-files: panel-applet/NMWirelessApplet.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-68
+Summary: Take out the "active" text
+CSCVSID: MAIN.69
+Keywords: cscvs:MAIN.69
+
+Author: dcbw
+Date: 2004-08-26 01:57:10 GMT
+Take out the "active" text

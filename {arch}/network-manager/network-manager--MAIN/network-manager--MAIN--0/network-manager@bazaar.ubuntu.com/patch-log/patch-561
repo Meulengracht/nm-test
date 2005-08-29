@@ -1,0 +1,110 @@
+Revision: network-manager--MAIN--0--patch-561
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:14:23 BST 2005
+Standard-date: 2005-08-13 15:14:23 GMT
+New-files: src/.arch-ids/nm-activation-request.c.id
+    src/.arch-ids/nm-activation-request.h.id
+    src/dhcp-manager/.arch-ids/.cvsignore.id
+    src/dhcp-manager/.arch-ids/=id
+    src/dhcp-manager/.arch-ids/Makefile.am.id
+    src/dhcp-manager/.arch-ids/nm-dhcp-manager.c.id
+    src/dhcp-manager/.arch-ids/nm-dhcp-manager.h.id
+    src/dhcp-manager/.cvsignore
+    src/dhcp-manager/Makefile.am
+    src/dhcp-manager/nm-dhcp-manager.c
+    src/dhcp-manager/nm-dhcp-manager.h
+    src/nm-activation-request.c src/nm-activation-request.h
+New-directories: src/dhcp-manager
+    src/dhcp-manager/.arch-ids
+Removed-files: dhcpcd/.arch-ids/.cvsignore.id
+    dhcpcd/.arch-ids/=id dhcpcd/.arch-ids/AUTHORS.id
+    dhcpcd/.arch-ids/COPYING.id
+    dhcpcd/.arch-ids/ChangeLog.id
+    dhcpcd/.arch-ids/Makefile.am.id
+    dhcpcd/.arch-ids/NEWS.id dhcpcd/.arch-ids/README.id
+    dhcpcd/.arch-ids/arp.c.id dhcpcd/.arch-ids/arp.h.id
+    dhcpcd/.arch-ids/buildmsg.c.id
+    dhcpcd/.arch-ids/buildmsg.h.id
+    dhcpcd/.arch-ids/client.c.id
+    dhcpcd/.arch-ids/client.h.id
+    dhcpcd/.arch-ids/dhcp_test.c.id
+    dhcpcd/.arch-ids/dhcpcd.c.id
+    dhcpcd/.arch-ids/dhcpcd.h.id
+    dhcpcd/.arch-ids/dhcpconfig.c.id
+    dhcpcd/.arch-ids/udpipgen.c.id
+    dhcpcd/.arch-ids/udpipgen.h.id dhcpcd/.cvsignore
+    dhcpcd/AUTHORS dhcpcd/COPYING dhcpcd/ChangeLog
+    dhcpcd/Makefile.am dhcpcd/NEWS dhcpcd/README dhcpcd/arp.c
+    dhcpcd/arp.h dhcpcd/buildmsg.c dhcpcd/buildmsg.h
+    dhcpcd/client.c dhcpcd/client.h dhcpcd/dhcp_test.c
+    dhcpcd/dhcpcd.c dhcpcd/dhcpcd.h dhcpcd/dhcpconfig.c
+    dhcpcd/udpipgen.c dhcpcd/udpipgen.h
+    src/.arch-ids/NetworkManagerDHCP.c.id
+    src/.arch-ids/NetworkManagerDHCP.h.id
+    src/.arch-ids/nm-dbus-dhcp.c.id
+    src/.arch-ids/nm-dbus-dhcp.h.id
+    src/NetworkManagerDHCP.c src/NetworkManagerDHCP.h
+    src/nm-dbus-dhcp.c src/nm-dbus-dhcp.h
+Removed-directories: dhcpcd dhcpcd/.arch-ids
+Modified-files: ChangeLog Makefile.am configure.in
+    gnome/applet/applet-dbus-devices.c
+    gnome/applet/applet-dbus-devices.h
+    gnome/applet/applet-dbus-info.c
+    gnome/applet/applet-dbus.c gnome/applet/applet.c
+    gnome/applet/applet.h gnome/applet/nm-device.c
+    gnome/applet/nm-device.h
+    gnome/applet/passphrase-dialog.c
+    gnome/applet/passphrase-dialog.h src/Makefile.am
+    src/NetworkManager.c src/NetworkManagerAP.c
+    src/NetworkManagerAP.h src/NetworkManagerAPList.c
+    src/NetworkManagerDbus.c src/NetworkManagerDbus.h
+    src/NetworkManagerDbusUtils.h
+    src/NetworkManagerDevice.c src/NetworkManagerDevice.h
+    src/NetworkManagerDevicePrivate.h
+    src/NetworkManagerMain.h src/NetworkManagerPolicy.c
+    src/NetworkManagerPolicy.h src/NetworkManagerSystem.c
+    src/NetworkManagerUtils.c src/NetworkManagerUtils.h
+    src/autoip.c src/backends/NetworkManagerDebian.c
+    src/backends/NetworkManagerRedHat.c
+    src/nm-dbus-device.c src/nm-dbus-nm.c
+    src/nm-netlink-monitor.c
+    src/vpn-manager/nm-vpn-manager.c test/Makefile.am
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-561
+Summary: 2005-05-03  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.562
+Keywords: cscvs:MAIN.562
+
+Author: dcbw
+Date: 2005-05-03 20:41:33 GMT
+2005-05-03  Dan Williams  <dcbw@redhat.com>
+
+	* Kill dhcpcd.  We now use "dhcdbd", a dbus daemon that controls dhclient.
+	  This means that NetworkManager shouldn't have DHCP issues anymore.  It also
+	  means you need dhcdbd, which you can get here (get the latest one):
+
+		http://people.redhat.com/jvdias/dhcdbd/
+
+	  Technically NetworkManager can use any DHCP daemon that uses the same DBUS
+	  interface as dhcdbd.
+
+	* Rewrite device activation to facilitate the new DHCP infrastructure and
+	  future improvements.  Its now "activation request" based, ie there is a single
+	  activation request composed of the device, access point, and other info which
+	  follows the entire activation process.  There are 5 stages of the activation
+	  process which correspond to:
+
+		1) Device preparation
+		2) Device configuration (bring it up, set ESSID/Key/etc)
+		3) IP Config Start (fire off DHCP if we're using it)
+		4) IP Config Get (grab config from DHCP or static config files)
+		5) IP Config Commit (set device's IP address, DNS, etc)
+
+	  Note that there is no longer a "scanning" step, since the access point must
+	  be known _before_ activation starts.  If the access point drops out or does
+	  not exist for some reason, the entire activation process fails and must be
+	  restarted for a different access point or device.
+
+	Patch from Bill Moss:
+	* gnome/applet/applet.c
+		- Fix type of vpn_failure dialog -> vpn_banner dialog

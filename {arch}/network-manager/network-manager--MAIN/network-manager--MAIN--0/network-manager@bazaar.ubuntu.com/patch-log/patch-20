@@ -1,0 +1,33 @@
+Revision: network-manager--MAIN--0--patch-20
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:44:53 BST 2005
+Standard-date: 2005-08-13 14:44:53 GMT
+Removed-files: initscript/.arch-ids/Makefile.in.id
+    initscript/Makefile.in
+Modified-files: ChangeLog
+    info-daemon/NetworkManagerInfoDbus.c
+    initscript/Makefile.am src/NetworkManagerDbus.c
+    src/NetworkManagerDbus.h
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-20
+Summary: 2004-07-27  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.21
+Keywords: cscvs:MAIN.21
+
+Author: dcbw
+Date: 2004-07-27 18:48:14 GMT
+2004-07-27  Dan Williams <dcbw@redhat.com>
+
+	* initscript/Makefile.in
+		- Remove
+
+	* initscript/Makefile.am
+		- Add correct rules to install the init.d initscript
+
+	* info-daemon/NetworkManagerInfoDbus.c
+		- Remove debug fprintf
+
+	* src/NetworkManagerDbus.[ch]
+		- Remove debug fprintfs
+		- Add macros for NetworkManagerInfo object path/namespace
+		- Use said macros instead of constant strings

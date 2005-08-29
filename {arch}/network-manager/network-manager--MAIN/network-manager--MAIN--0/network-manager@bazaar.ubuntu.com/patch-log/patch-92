@@ -1,0 +1,19 @@
+Revision: network-manager--MAIN--0--patch-92
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:47:58 BST 2005
+Standard-date: 2005-08-13 14:47:58 GMT
+New-files: po/.arch-ids/nb.po.id po/.arch-ids/no.po.id
+    po/nb.po po/no.po
+Modified-files: po/ChangeLog
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-92
+Summary: 2004-08-28  Kjartan Maraas  <kmaraas@gnome.org>
+CSCVSID: MAIN.93
+Keywords: cscvs:MAIN.93
+
+Author: kmaraas
+Date: 2004-08-28 16:56:33 GMT
+2004-08-28  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* nb.po: Add Norwegian translation.
+	* no.po: Same.

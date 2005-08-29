@@ -1,0 +1,23 @@
+Revision: network-manager--MAIN--0--patch-279
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:56:47 BST 2005
+Standard-date: 2005-08-13 14:56:47 GMT
+Modified-files: ChangeLog
+    examples/python/systray/network_tray.py
+    panel-applet/NMWirelessApplet.c
+    panel-applet/menu-info.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-279
+Summary: 2004-11-02  Bryan Clark  <clarkbw@cvs.gnome.org>
+CSCVSID: MAIN.280
+Keywords: cscvs:MAIN.280
+
+Author: clarkbw
+Date: 2004-11-02 08:24:56 GMT
+2004-11-02  Bryan Clark  <clarkbw@cvs.gnome.org>
+
+        * panel-applet/menu-info.c: change from bold text to light
+        colored, may cause problems with some themes, i've tested a lot
+        and they seem fine.
+
+        * panel-applet/NMWirelessApplet.c: fix strength tooltip

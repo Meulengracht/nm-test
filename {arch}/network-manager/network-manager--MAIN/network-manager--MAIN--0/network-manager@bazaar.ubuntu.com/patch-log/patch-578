@@ -1,0 +1,19 @@
+Revision: network-manager--MAIN--0--patch-578
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:15:40 BST 2005
+Standard-date: 2005-08-13 15:15:40 GMT
+Modified-files: ChangeLog src/NetworkManagerWireless.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-578
+Summary: 2005-05-08  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.579
+Keywords: cscvs:MAIN.579
+
+Author: dcbw
+Date: 2005-05-08 16:23:58 GMT
+2005-05-08  Dan Williams  <dcbw@redhat.com>
+
+	* src/NetworkManagerWireless.c
+		- (nm_wireless_qual_to_percent): Fix #if -> #ifdef, print out the "updated"
+			value of WEXT quality structures, and add a debug message when we cannot
+			determine any quality % at all

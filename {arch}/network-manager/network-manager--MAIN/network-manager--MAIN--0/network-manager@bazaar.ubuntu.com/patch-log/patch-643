@@ -1,0 +1,39 @@
+Revision: network-manager--MAIN--0--patch-643
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:19:53 BST 2005
+Standard-date: 2005-08-13 15:19:53 GMT
+New-files: vpn-daemons/vpnc/.arch-ids/nm-vpnc.desktop.in.id
+    vpn-daemons/vpnc/nm-vpnc.desktop.in
+Modified-files: vpn-daemons/vpnc/ChangeLog
+    vpn-daemons/vpnc/Makefile.am
+    vpn-daemons/vpnc/configure.in
+    vpn-daemons/vpnc/po/ChangeLog
+    vpn-daemons/vpnc/po/POTFILES.in
+    vpn-daemons/vpnc/po/da.po
+    vpn-daemons/vpnc/properties/nm-vpnc.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-643
+Summary: 2005-06-17  David Zeuthen  <davidz@redhat.com>
+CSCVSID: MAIN.644
+Keywords: cscvs:MAIN.644
+
+Author: davidz
+Date: 2005-06-17 04:16:47 GMT
+2005-06-17  David Zeuthen  <davidz@redhat.com>
+
+        * properties/nm-vpnc.c: Add new NM_VPN_API_SUBJECT_TO_CHANGE so we
+        can include nm-vpn-ui-interface.h.
+        (import_from_file): New function
+        (import_button_clicked): Actually Implement this function
+        (impl_can_export): New function
+        (impl_import_file): New function
+        (export_to_file): New function
+        (impl_export): New function
+        (impl_get_object): Add function pointers for can_export, import_file
+        and export
+
+        * nm-vpnc.desktop.in: New file
+
+        * configure.in: Add AC_PROG_INTLTOOL
+
+        * Makefile.am: Add rules for building the .desktop file

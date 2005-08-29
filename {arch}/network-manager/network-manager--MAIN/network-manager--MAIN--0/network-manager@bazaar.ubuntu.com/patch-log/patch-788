@@ -1,0 +1,18 @@
+Revision: network-manager--MAIN--0--patch-788
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Wed Aug 17 16:28:01 BST 2005
+Standard-date: 2005-08-17 15:28:01 GMT
+Modified-files: ChangeLog gnome/applet/applet.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-788
+Summary: 2005-08-16  Robert Love  <rml@novell.com>
+CSCVSID: MAIN.789
+Keywords: cscvs:MAIN.789
+
+Author: rml
+Date: 2005-08-16 17:57:05 GMT
+
+2005-08-16  Robert Love  <rml@novell.com>
+
+        * gnome/applet/applet.c: use GTK_STOCK_INFO not PROPERTIES for the
+          "Connection Information" menu item.

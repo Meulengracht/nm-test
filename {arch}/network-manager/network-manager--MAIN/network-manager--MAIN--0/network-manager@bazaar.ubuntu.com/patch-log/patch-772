@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-772
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:26:18 BST 2005
+Standard-date: 2005-08-13 15:26:18 GMT
+Modified-files: ChangeLog gnome/applet/applet-dbus.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-772
+Summary: 2005-08-12  Robert Love  <rml@novell.com>
+CSCVSID: MAIN.773
+Keywords: cscvs:MAIN.773
+
+Author: rml
+Date: 2005-08-12 19:11:30 GMT
+2005-08-12  Robert Love  <rml@novell.com>
+
+        * gnome/applet/applet-dbus.c: remove newlines from translatable
+          strings--not needed here anyway. (fix b.g.o #309011)

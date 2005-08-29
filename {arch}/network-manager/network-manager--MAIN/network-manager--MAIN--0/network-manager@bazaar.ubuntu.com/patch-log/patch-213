@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-213
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:53:06 BST 2005
+Standard-date: 2005-08-13 14:53:06 GMT
+Modified-files: ChangeLog panel-applet/NMWirelessApplet.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-213
+Summary: Tue Oct 12 22:53:04 2004  Jonathan Blandford  <jrb@redh...
+CSCVSID: MAIN.214
+Keywords: cscvs:MAIN.214
+
+Author: jrb
+Date: 2004-10-13 02:53:27 GMT
+Tue Oct 12 22:53:04 2004  Jonathan Blandford  <jrb@redhat.com>
+
+        * panel-applet/NMWirelessApplet.c (nmwa_update_state): remove
+        g_print.

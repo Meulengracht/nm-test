@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-401
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:03:51 BST 2005
+Standard-date: 2005-08-13 15:03:51 GMT
+Modified-files: po/ChangeLog po/de.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-401
+Summary: 2005-02-03  Frank Arnold  <farnold@cvs.gnome.org>
+CSCVSID: MAIN.402
+Keywords: cscvs:MAIN.402
+
+Author: farnold
+Date: 2005-02-03 07:04:17 GMT
+2005-02-03  Frank Arnold  <farnold@cvs.gnome.org>
+
+	* de.po: Updated German translation.

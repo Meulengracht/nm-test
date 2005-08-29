@@ -1,0 +1,23 @@
+Revision: network-manager--MAIN--0--patch-169
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:51:01 BST 2005
+Standard-date: 2005-08-13 14:51:01 GMT
+Modified-files: ChangeLog
+    info-daemon/NetworkManagerInfo.conf
+    info-daemon/NetworkManagerInfoDbus.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-169
+Summary: 2004-09-28  Bryan Clark  <clarkbw@cvs.gnome.org>
+CSCVSID: MAIN.170
+Keywords: cscvs:MAIN.170
+
+Author: clarkbw
+Date: 2004-09-28 16:13:56 GMT
+2004-09-28  Bryan Clark  <clarkbw@cvs.gnome.org>
+
+        Changes from J5
+
+        * info-daemon/NetworkManagerInfo.conf: fixed own permissions
+
+        * info-daemon/NetworkManagerInfoDbus.c: added service name to
+        syslog output

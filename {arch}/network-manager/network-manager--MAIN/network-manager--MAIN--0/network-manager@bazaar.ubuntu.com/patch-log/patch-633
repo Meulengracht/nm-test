@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-633
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:19:11 BST 2005
+Standard-date: 2005-08-13 15:19:11 GMT
+Modified-files: src/backends/NetworkManagerDebian.c
+    src/backends/NetworkManagerRedHat.c
+    src/backends/NetworkManagerSuSE.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-633
+Summary: Fix compile warning/error
+CSCVSID: MAIN.634
+Keywords: cscvs:MAIN.634
+
+Author: dcbw
+Date: 2005-06-16 01:00:26 GMT
+Fix compile warning/error

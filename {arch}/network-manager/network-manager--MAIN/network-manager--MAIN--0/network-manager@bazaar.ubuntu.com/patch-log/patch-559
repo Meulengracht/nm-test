@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-559
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:13:56 BST 2005
+Standard-date: 2005-08-13 15:13:56 GMT
+Modified-files: po/ChangeLog po/nb.po po/no.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-559
+Summary: 2005-05-01  Kjartan Maraas  <kmaraas@gnome.org>
+CSCVSID: MAIN.560
+Keywords: cscvs:MAIN.560
+
+Author: kmaraas
+Date: 2005-05-01 15:35:47 GMT
+2005-05-01  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* nb.po: Update
+	* no.po: Update

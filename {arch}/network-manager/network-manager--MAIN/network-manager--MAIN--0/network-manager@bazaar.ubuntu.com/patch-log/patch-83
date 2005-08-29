@@ -1,0 +1,15 @@
+Revision: network-manager--MAIN--0--patch-83
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:47:39 BST 2005
+Standard-date: 2005-08-13 14:47:39 GMT
+New-files: po/.arch-ids/zh_CN.po.id po/zh_CN.po
+Modified-files: po/ChangeLog
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-83
+Summary: Added Simplified Chinese translation
+CSCVSID: MAIN.84
+Keywords: cscvs:MAIN.84
+
+Author: fwang
+Date: 2004-08-27 12:46:17 GMT
+Added Simplified Chinese translation

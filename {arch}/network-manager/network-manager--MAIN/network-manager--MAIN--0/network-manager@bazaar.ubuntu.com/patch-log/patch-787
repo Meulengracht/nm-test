@@ -1,0 +1,20 @@
+Revision: network-manager--MAIN--0--patch-787
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Wed Aug 17 16:27:58 BST 2005
+Standard-date: 2005-08-17 15:27:58 GMT
+Modified-files: ChangeLog configure.in
+    vpn-daemons/vpnc/Makefile.am
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-787
+Summary: 2005-08-16  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.788
+Keywords: cscvs:MAIN.788
+
+Author: dcbw
+Date: 2005-08-16 17:27:48 GMT
+2005-08-16  Dan Williams  <dcbw@redhat.com>
+
+	Patch from j@bootlab.org
+	* vpn-daemons/vpnc/Makefile.am: Fix for autoreconf
+
+	* configure.in: allow specifying the path to dhcdbd

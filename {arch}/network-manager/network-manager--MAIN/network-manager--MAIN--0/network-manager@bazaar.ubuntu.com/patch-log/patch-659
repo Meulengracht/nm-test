@@ -1,0 +1,24 @@
+Revision: network-manager--MAIN--0--patch-659
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:20:45 BST 2005
+Standard-date: 2005-08-13 15:20:45 GMT
+Modified-files: ChangeLog Makefile.am configure.in
+    po/POTFILES.in
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-659
+Summary: 2005-06-20  Robert Love  <rml@novell.com>
+CSCVSID: MAIN.660
+Keywords: cscvs:MAIN.660
+
+Author: rml
+Date: 2005-06-20 17:16:50 GMT
+2005-06-20  Robert Love  <rml@novell.com>
+
+	* Makefile.am: Add missing intltool-foo.in generated files to
+	  EXTRA_DIST so that 'distcheck' works.  Also add DISTCLEANFILES
+	  with the start of stuff to cleanup on 'distclea'.
+	* configure.in: add AC_PROG_INTLTOOL macro so that we do the intltool
+	  stuff right and 'distcheck' works.
+	* po/POTFILES.in: Remove examples/python/systray/eggtrayicon.c.  If
+	  we keep it, we need to add all of examples/* to EXTRA_DIST and do
+	  Makefile.am for each.  And systray/Makefile needs to be redone.

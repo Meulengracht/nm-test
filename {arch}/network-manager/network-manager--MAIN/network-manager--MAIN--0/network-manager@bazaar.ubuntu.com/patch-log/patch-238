@@ -1,0 +1,24 @@
+Revision: network-manager--MAIN--0--patch-238
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:54:32 BST 2005
+Standard-date: 2005-08-13 14:54:32 GMT
+Modified-files: ChangeLog src/NetworkManagerAPList.c
+    src/NetworkManagerDbus.c src/NetworkManagerDevice.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-238
+Summary: 2004-10-15 Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.239
+Keywords: cscvs:MAIN.239
+
+Author: dcbw
+Date: 2004-10-15 20:05:56 GMT
+2004-10-15 Dan Williams <dcbw@redhat.com>
+
+	* src/NetworkManagerAPList.c
+		- (nm_ap_list_update_network): Disown AP after the list takes ownership
+
+	* src/NetworkManagerDbus.c
+		- (nm_dbus_nm_set_active_device): Simplify the device setting logic
+
+	* src/NetworkManagerDevice.c
+		- Disown APs after the device's AP list takes ownership

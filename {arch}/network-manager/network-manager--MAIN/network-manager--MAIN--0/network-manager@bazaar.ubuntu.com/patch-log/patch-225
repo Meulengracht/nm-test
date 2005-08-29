@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-225
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:53:45 BST 2005
+Standard-date: 2005-08-13 14:53:45 GMT
+New-files: src/backends/.arch-ids/.cvsignore.id
+    src/backends/.cvsignore
+Modified-files: .cvsignore
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-225
+Summary: Additions to .cvsignore files
+CSCVSID: MAIN.226
+Keywords: cscvs:MAIN.226
+
+Author: dcbw
+Date: 2004-10-14 20:35:52 GMT
+Additions to .cvsignore files

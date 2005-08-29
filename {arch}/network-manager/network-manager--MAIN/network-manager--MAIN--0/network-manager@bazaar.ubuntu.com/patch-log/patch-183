@@ -1,0 +1,22 @@
+Revision: network-manager--MAIN--0--patch-183
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:51:45 BST 2005
+Standard-date: 2005-08-13 14:51:45 GMT
+New-files: panel-applet/.arch-ids/eggtrayicon.c.id
+    panel-applet/.arch-ids/eggtrayicon.h.id
+    panel-applet/.arch-ids/main.c.id
+    panel-applet/eggtrayicon.c panel-applet/eggtrayicon.h
+    panel-applet/main.c
+Modified-files: ChangeLog
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-183
+Summary: Mon Oct  4 12:55:41 2004  Jonathan Blandford  <jrb@redh...
+CSCVSID: MAIN.184
+Keywords: cscvs:MAIN.184
+
+Author: jrb
+Date: 2004-10-04 16:56:39 GMT
+Mon Oct  4 12:55:41 2004  Jonathan Blandford  <jrb@redhat.com>
+
+        * panel-applet/eggtrayicon.[ch]:
+        * panel-applet/main.c: Add missing file

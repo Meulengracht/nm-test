@@ -1,0 +1,23 @@
+Revision: network-manager--MAIN--0--patch-621
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:17:56 BST 2005
+Standard-date: 2005-08-13 15:17:56 GMT
+Modified-files: ChangeLog
+    src/backends/NetworkManagerRedHat.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-621
+Summary: 2005-06-10  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.622
+Keywords: cscvs:MAIN.622
+
+Author: dcbw
+Date: 2005-06-10 05:12:38 GMT
+2005-06-10  Dan Williams <dcbw@redhat.com>
+
+	* src/backends/NetworkManagerRedHat.c
+		- (get_current_profile_name): new function, grab current network profile name from
+			/etc/sysconfig/network
+		- (set_ip4_config_from_resolv_conf): new function, parse a resolv.conf and
+			update an IP4 Config structure's settings from it
+		- (nm_system_device_get_system_config): if we're using static IP on this device,
+			get DNS info from current network profile

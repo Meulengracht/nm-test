@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-654
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:20:32 BST 2005
+Standard-date: 2005-08-13 15:20:32 GMT
+Modified-files: ChangeLog src/NetworkManagerDevice.c
+    src/NetworkManagerDevice.h src/NetworkManagerSystem.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-654
+Summary: 2005-06-19  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.655
+Keywords: cscvs:MAIN.655
+
+Author: dcbw
+Date: 2005-06-19 19:07:46 GMT
+2005-06-19  Dan Williams <dcbw@redhat.com>
+
+    * WEXT_DEBUG->IOCTL_DEBUG, extend checking to all ioctl() calls

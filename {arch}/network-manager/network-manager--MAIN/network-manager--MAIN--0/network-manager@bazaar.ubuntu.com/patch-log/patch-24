@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-24
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:45:01 BST 2005
+Standard-date: 2005-08-13 14:45:01 GMT
+Removed-files: .arch-ids/configure.id configure
+Modified-files: configure.in info-daemon/Makefile.am
+    src/Makefile.am
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-24
+Summary: removed configure from rep
+CSCVSID: MAIN.25
+Keywords: cscvs:MAIN.25
+
+Author: clarkbw
+Date: 2004-07-28 18:04:23 GMT
+removed configure from rep

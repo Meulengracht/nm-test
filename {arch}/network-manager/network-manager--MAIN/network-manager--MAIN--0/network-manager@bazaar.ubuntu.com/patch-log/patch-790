@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-790
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Wed Aug 17 16:28:05 BST 2005
+Standard-date: 2005-08-17 15:28:05 GMT
+Modified-files: po/ChangeLog po/en_CA.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-790
+Summary: 2005-08-16  Adam Weinberger  <adamw@gnome.org>
+CSCVSID: MAIN.791
+Keywords: cscvs:MAIN.791
+
+Author: adamw
+Date: 2005-08-16 23:31:56 GMT
+
+2005-08-16  Adam Weinberger  <adamw@gnome.org>
+
+	* en_CA.po: Updated Canadian English translation.

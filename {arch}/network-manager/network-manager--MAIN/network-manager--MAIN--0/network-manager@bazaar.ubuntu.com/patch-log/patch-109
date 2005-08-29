@@ -1,0 +1,20 @@
+Revision: network-manager--MAIN--0--patch-109
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:48:33 BST 2005
+Standard-date: 2005-08-13 14:48:33 GMT
+New-files: .arch-ids/NetworkManager.pc.in.id
+    NetworkManager.pc.in
+Modified-files: .cvsignore ChangeLog Makefile.am configure.in
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-109
+Summary: 2004-09-01  Colin Walters  <walters@verbum.org>
+CSCVSID: MAIN.110
+Keywords: cscvs:MAIN.110
+
+Author: walters
+Date: 2004-09-02 02:29:34 GMT
+2004-09-01  Colin Walters  <walters@verbum.org>
+
+	* NetworkManager.pc.in: New file.
+
+	* Makefile.am, .cvsignore, configure.in: Add NetworkManager.pc.

@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-448
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:06:08 BST 2005
+Standard-date: 2005-08-13 15:06:08 GMT
+Modified-files: po/ChangeLog po/nb.po po/no.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-448
+Summary: 2005-02-18  Kjartan Maraas  <kmaraas@gnome.org>
+CSCVSID: MAIN.449
+Keywords: cscvs:MAIN.449
+
+Author: kmaraas
+Date: 2005-02-18 12:09:38 GMT
+2005-02-18  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* nb.po: Update
+	* no.po: Update

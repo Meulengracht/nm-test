@@ -1,0 +1,41 @@
+Revision: network-manager--MAIN--0--patch-391
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:03:15 BST 2005
+Standard-date: 2005-08-13 15:03:15 GMT
+Modified-files: ChangeLog
+    info-daemon/NetworkManagerInfoDbus.c
+    src/NetworkManagerAPList.c src/NetworkManagerDbus.c
+    src/NetworkManagerDbus.h src/NetworkManagerDevice.c
+    src/NetworkManagerPolicy.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-391
+Summary: 2005-01-27  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.392
+Keywords: cscvs:MAIN.392
+
+Author: dcbw
+Date: 2005-01-27 20:14:11 GMT
+2005-01-27  Dan Williams  <dcbw@redhat.com>
+
+	* info-daemon/NetworkManagerInfoDbus.c
+		- (nmi_dbus_add_network_address): if the network doesn't yet exist in
+			GConf, make a minimal entry for it (essid & timestamp)
+
+	* src/NetworkManagerAPList.c
+		- (nm_ap_list_populate_from_nmi): Don't try to grab network data if
+			NetworkManagerInfo isn't running
+
+	* src/NetworkManagerDbus.[ch]
+		- (nm_dbus_nmi_is_running): new function
+
+	* src/NetworkManagerDevice.c
+		- (nm_device_wireless_force_use): Don't set the created AP's MAC
+			address to garbage.
+
+	* src/NetworkManagerPolicy.c
+		- (nm_policy_activation_finish): On successful activation, make sure
+			the "best" AP has a MAC address, and don't tell NMI to add the
+			current AP's MAC address to GConf if the AP is an Ad-hoc AP.
+		- (nm_policy_allowed_ap_list_update): Update a wireless card's "best"
+			access point after refreshing our allowed list if it doesn't already
+			have a "best" access point.

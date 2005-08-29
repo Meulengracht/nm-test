@@ -1,0 +1,18 @@
+Revision: network-manager--MAIN--0--patch-345
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:00:15 BST 2005
+Standard-date: 2005-08-13 15:00:15 GMT
+Modified-files: ChangeLog
+    panel-applet/NMWirelessAppletDbus.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-345
+Summary: 2004-12-21  Colin Walters  <walters@verbum.org>
+CSCVSID: MAIN.346
+Keywords: cscvs:MAIN.346
+
+Author: walters
+Date: 2004-12-22 00:21:42 GMT
+2004-12-21  Colin Walters  <walters@verbum.org>
+
+	* panel-applet/NMWirelessAppletDbus.c (nmwa_dbus_update_devices): Correctly
+	test for NETWORK_MODE_ADHOC; spotted by: Greg <gonufer@gmail.com>.

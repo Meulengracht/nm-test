@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-437
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:05:40 BST 2005
+Standard-date: 2005-08-13 15:05:40 GMT
+Modified-files: ChangeLog dhcpcd/client.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-437
+Summary: 2005-02-13  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.438
+Keywords: cscvs:MAIN.438
+
+Author: dcbw
+Date: 2005-02-13 22:37:46 GMT
+2005-02-13  Dan Williams  <dcbw@redhat.com>
+
+	* dhcpcd/client.c
+		- Debug output cleanups of DHCP option printing and parsing.

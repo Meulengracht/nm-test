@@ -1,0 +1,7 @@
+Makefile
+Makefile.in
+nminfotest
+nmtest
+nmtestdevices
+libnm_glib_test
+nm-dhcp-opt-test

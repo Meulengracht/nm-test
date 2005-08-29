@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-2
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:43:43 BST 2005
+Standard-date: 2005-08-13 14:43:43 GMT
+Removed-files: .arch-ids/inode.c.id inode.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-2
+Summary: inode.c should also not be here, not part of NetworkManager
+CSCVSID: MAIN.3
+Keywords: cscvs:MAIN.3
+
+Author: dcbw
+Date: 2004-06-24 14:20:54 GMT
+inode.c should also not be here, not part of NetworkManager

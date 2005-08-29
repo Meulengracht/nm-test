@@ -1,0 +1,15 @@
+Revision: network-manager--MAIN--0--patch-453
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:06:34 BST 2005
+Standard-date: 2005-08-13 15:06:34 GMT
+Modified-files: po/ChangeLog po/en_CA.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-453
+Summary: * en_CA.po: Updated Canadian English translation.
+CSCVSID: MAIN.454
+Keywords: cscvs:MAIN.454
+
+Author: adamw
+Date: 2005-02-19 09:02:11 GMT
+
+	* en_CA.po: Updated Canadian English translation.

@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-573
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:14:59 BST 2005
+Standard-date: 2005-08-13 15:14:59 GMT
+Modified-files: ChangeLog src/nm-netlink-monitor.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-573
+Summary: 2005-05-05  Ray Strode  <rstrode@redhat.com>
+CSCVSID: MAIN.574
+Keywords: cscvs:MAIN.574
+
+Author: halfline
+Date: 2005-05-05 23:30:58 GMT
+2005-05-05  Ray Strode  <rstrode@redhat.com>
+
+	* src/nm-netlink-monitor.c:
+		- Use clear_event_source instead of g_nullify_pointer() again.

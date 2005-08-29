@@ -1,0 +1,15 @@
+Revision: network-manager--MAIN--0--patch-128
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:49:20 BST 2005
+Standard-date: 2005-08-13 14:49:20 GMT
+New-files: po/.arch-ids/wa.po.id po/wa.po
+Modified-files: ChangeLog configure.in po/ChangeLog
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-128
+Summary: Added Walloon file
+CSCVSID: MAIN.129
+Keywords: cscvs:MAIN.129
+
+Author: pablo
+Date: 2004-09-09 08:41:01 GMT
+Added Walloon file

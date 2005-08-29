@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-799
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Fri Aug 19 16:27:44 BST 2005
+Standard-date: 2005-08-19 15:27:44 GMT
+Modified-files: ChangeLog gnome/applet/applet.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-799
+Summary: 2005-08-17  Christopher Aillon  <caillon@redhat.com>
+CSCVSID: MAIN.800
+Keywords: cscvs:MAIN.800
+
+Author: caillon
+Date: 2005-08-17 16:25:36 GMT
+2005-08-17  Christopher Aillon  <caillon@redhat.com>
+
+        * gnome/applet/applet.c: More translatable string cleanup

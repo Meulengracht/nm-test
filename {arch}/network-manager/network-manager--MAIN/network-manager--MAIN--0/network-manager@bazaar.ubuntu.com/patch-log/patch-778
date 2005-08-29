@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-778
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Tue Aug 16 16:28:04 BST 2005
+Standard-date: 2005-08-16 15:28:04 GMT
+Modified-files: po/ChangeLog po/de.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-778
+Summary: 2005-08-15  Hendrik Brandt  <heb@gnome-de.org>
+CSCVSID: MAIN.779
+Keywords: cscvs:MAIN.779
+
+Author: hebra
+Date: 2005-08-15 17:02:45 GMT
+2005-08-15  Hendrik Brandt  <heb@gnome-de.org>
+
+        * de.po: Updated German translation.

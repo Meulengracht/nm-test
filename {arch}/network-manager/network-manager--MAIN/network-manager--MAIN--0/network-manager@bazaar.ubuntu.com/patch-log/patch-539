@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-539
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:11:50 BST 2005
+Standard-date: 2005-08-13 15:11:50 GMT
+Modified-files: panel-applet/NMWirelessApplet.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-539
+Summary: #300822 - Fix spelling & grammar mistake in VPN login f...
+CSCVSID: MAIN.540
+Keywords: cscvs:MAIN.540
+
+Author: dcbw
+Date: 2005-04-16 03:49:20 GMT
+#300822 - Fix spelling & grammar mistake in VPN login failure dialog

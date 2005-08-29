@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-667
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:21:12 BST 2005
+Standard-date: 2005-08-13 15:21:12 GMT
+Modified-files: ChangeLog initscript/SUSE/networkmanager
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-667
+Summary: 2005-06-21  Robert Love <rml@novell.com>
+CSCVSID: MAIN.668
+Keywords: cscvs:MAIN.668
+
+Author: rml
+Date: 2005-06-21 20:34:22 GMT
+2005-06-21  Robert Love <rml@novell.com>
+
+	* initscript/SUSE/networkmanager: update

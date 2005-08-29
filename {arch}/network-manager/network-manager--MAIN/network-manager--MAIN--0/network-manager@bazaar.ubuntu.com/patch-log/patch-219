@@ -1,0 +1,15 @@
+Revision: network-manager--MAIN--0--patch-219
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:53:33 BST 2005
+Standard-date: 2005-08-13 14:53:33 GMT
+New-files: panel-applet/.arch-ids/essid.glade.id
+    panel-applet/essid.glade
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-219
+Summary: forgot this file
+CSCVSID: MAIN.220
+Keywords: cscvs:MAIN.220
+
+Author: jrb
+Date: 2004-10-14 02:54:38 GMT
+forgot this file

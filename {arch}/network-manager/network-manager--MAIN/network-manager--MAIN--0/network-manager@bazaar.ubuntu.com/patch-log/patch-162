@@ -1,0 +1,21 @@
+Revision: network-manager--MAIN--0--patch-162
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:50:47 BST 2005
+Standard-date: 2005-08-13 14:50:47 GMT
+Modified-files: ChangeLog panel-applet/NMWirelessApplet.c
+    panel-applet/menu-info.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-162
+Summary: Wed Sep 22 13:51:45 2004  Jonathan Blandford  <jrb@redh...
+CSCVSID: MAIN.163
+Keywords: cscvs:MAIN.163
+
+Author: jrb
+Date: 2004-09-22 17:54:37 GMT
+Wed Sep 22 13:51:45 2004  Jonathan Blandford  <jrb@redhat.com>
+
+        * panel-applet/menu-info.c (nm_menu_network_draw_indicator): Flip
+        the logic to make this right.
+
+        * panel-applet/NMWirelessApplet.c (sort_networks_function): sort
+        devices so that wired networks are always first.

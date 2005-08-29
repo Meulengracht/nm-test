@@ -1,0 +1,22 @@
+Revision: network-manager--MAIN--0--patch-63
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:46:59 BST 2005
+Standard-date: 2005-08-13 14:46:59 GMT
+Modified-files: info-daemon/NetworkManagerInfo.c
+    info-daemon/NetworkManagerInfo.h
+    info-daemon/NetworkManagerInfoDbus.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-63
+Summary: 2004-08-25  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.64
+Keywords: cscvs:MAIN.64
+
+Author: dcbw
+Date: 2004-08-25 22:43:16 GMT
+2004-08-25  Dan Williams <dcbw@redhat.com>
+
+	* info-daemon/NetworkManagerInfo.[ch]
+		- Remove "get_next_priority" function
+
+	* info-daemon/NetworkManagerInfoDbus.[ch]
+		- Convert "priority" functions to "timestamp"

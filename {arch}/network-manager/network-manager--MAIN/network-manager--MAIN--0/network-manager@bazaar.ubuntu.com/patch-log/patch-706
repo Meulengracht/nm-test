@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-706
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:22:53 BST 2005
+Standard-date: 2005-08-13 15:22:53 GMT
+Modified-files: ChangeLog src/nm-dbus-nm.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-706
+Summary: 2005-06-30  Robert Love  <rml@novell.com>
+CSCVSID: MAIN.707
+Keywords: cscvs:MAIN.707
+
+Author: rml
+Date: 2005-06-30 18:50:45 GMT
+2005-06-30  Robert Love  <rml@novell.com>
+
+        * src/nm-dbus-nm.c: Patch by Bill Moss <bmoss@clemson.edu> to
+          explicitly up all interfaces on wake from sleep.

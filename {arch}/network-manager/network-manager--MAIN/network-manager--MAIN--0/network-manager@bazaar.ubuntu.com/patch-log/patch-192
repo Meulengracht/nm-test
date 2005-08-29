@@ -1,0 +1,18 @@
+Revision: network-manager--MAIN--0--patch-192
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:52:07 BST 2005
+Standard-date: 2005-08-13 14:52:07 GMT
+Modified-files: ChangeLog src/NetworkManagerDevice.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-192
+Summary: 2004-10-08 Dan Williams <dcbw@redaht.com>
+CSCVSID: MAIN.193
+Keywords: cscvs:MAIN.193
+
+Author: dcbw
+Date: 2004-10-08 16:07:27 GMT
+2004-10-08 Dan Williams <dcbw@redaht.com>
+
+	* src/NetworkManagerDevice.c
+		- Be a bit more robust about link checking, ie make sure that
+			the WEP key we were given actually has some data in it

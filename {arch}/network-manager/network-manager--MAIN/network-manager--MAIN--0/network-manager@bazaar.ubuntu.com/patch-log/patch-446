@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-446
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:06:02 BST 2005
+Standard-date: 2005-08-13 15:06:02 GMT
+Modified-files: po/ChangeLog po/nl.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-446
+Summary: 2005-02-17  Vincent van Adrighem  <adrighem@gnome.org>
+CSCVSID: MAIN.447
+Keywords: cscvs:MAIN.447
+
+Author: adrighem
+Date: 2005-02-17 22:21:00 GMT
+2005-02-17  Vincent van Adrighem  <adrighem@gnome.org>
+
+	* nl.po: Translation updated by Tino Meinen.

@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-116
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:48:43 BST 2005
+Standard-date: 2005-08-13 14:48:43 GMT
+New-files: po/.arch-ids/sq.po.id po/sq.po
+Modified-files: po/ChangeLog
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-116
+Summary: 2004-09-04  Laurent Dhima  <laurenti@alblinux.net>
+CSCVSID: MAIN.117
+Keywords: cscvs:MAIN.117
+
+Author: laurenti
+Date: 2004-09-04 09:52:08 GMT
+2004-09-04  Laurent Dhima  <laurenti@alblinux.net>
+
+	* sq.po: Added Albanian translation.

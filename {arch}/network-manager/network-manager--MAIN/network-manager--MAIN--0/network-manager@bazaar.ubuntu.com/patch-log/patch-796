@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-796
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Fri Aug 19 16:27:37 BST 2005
+Standard-date: 2005-08-19 15:27:37 GMT
+Modified-files: test/nminfotest.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-796
+Summary: Unbreak the test tool somewhat.
+CSCVSID: MAIN.797
+Keywords: cscvs:MAIN.797
+
+Author: dcbw
+Date: 2005-08-18 18:52:19 GMT
+Unbreak the test tool somewhat.

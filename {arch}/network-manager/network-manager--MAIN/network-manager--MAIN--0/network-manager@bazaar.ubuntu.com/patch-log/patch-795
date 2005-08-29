@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-795
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Fri Aug 19 16:27:35 BST 2005
+Standard-date: 2005-08-19 15:27:35 GMT
+Modified-files: src/vpn-manager/nm-dbus-vpn.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-795
+Summary: Remove unused variables
+CSCVSID: MAIN.796
+Keywords: cscvs:MAIN.796
+
+Author: dcbw
+Date: 2005-08-17 16:11:49 GMT
+Remove unused variables

@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-734
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:24:12 BST 2005
+Standard-date: 2005-08-13 15:24:12 GMT
+Modified-files: po/ChangeLog po/zh_TW.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-734
+Summary: 2005-07-21  Chao-Hsiung Liao  <j_h_liau@yahoo.com.tw>
+CSCVSID: MAIN.735
+Keywords: cscvs:MAIN.735
+
+Author: chliao
+Date: 2005-07-21 14:12:41 GMT
+
+2005-07-21  Chao-Hsiung Liao  <j_h_liau@yahoo.com.tw>
+
+	* zh_TW.po: Updated Traditional Chinese translation.

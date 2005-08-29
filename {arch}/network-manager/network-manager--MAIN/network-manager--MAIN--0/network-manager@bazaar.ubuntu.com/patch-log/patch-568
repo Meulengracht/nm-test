@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-568
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:14:41 BST 2005
+Standard-date: 2005-08-13 15:14:41 GMT
+Modified-files: gnome/applet/Makefile.am
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-568
+Summary: Fix nm-applet.conf Makefile rule for distcheck
+CSCVSID: MAIN.569
+Keywords: cscvs:MAIN.569
+
+Author: dcbw
+Date: 2005-05-04 18:52:17 GMT
+Fix nm-applet.conf Makefile rule for distcheck

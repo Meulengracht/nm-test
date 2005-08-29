@@ -1,0 +1,19 @@
+Revision: network-manager--MAIN--0--patch-648
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:20:12 BST 2005
+Standard-date: 2005-08-13 15:20:12 GMT
+Modified-files: vpn-daemons/vpnc/ChangeLog
+    vpn-daemons/vpnc/Makefile.am
+    vpn-daemons/vpnc/configure.in
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-648
+Summary: 2005-06-17  David Zeuthen  <davidz@redhat.com>
+CSCVSID: MAIN.649
+Keywords: cscvs:MAIN.649
+
+Author: davidz
+Date: 2005-06-17 15:56:34 GMT
+2005-06-17  David Zeuthen  <davidz@redhat.com>
+
+        * configure.in, Makefile.am: Various fixes such that 'make distcheck'
+        actually succeeds

@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-417
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:04:32 BST 2005
+Standard-date: 2005-08-13 15:04:32 GMT
+Modified-files: src/NetworkManagerDbus.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-417
+Summary: Remove another unneeded syslog()
+CSCVSID: MAIN.418
+Keywords: cscvs:MAIN.418
+
+Author: dcbw
+Date: 2005-02-10 05:29:03 GMT
+Remove another unneeded syslog()

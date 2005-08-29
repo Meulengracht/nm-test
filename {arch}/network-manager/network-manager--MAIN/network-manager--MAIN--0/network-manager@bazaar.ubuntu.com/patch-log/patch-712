@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-712
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:23:08 BST 2005
+Standard-date: 2005-08-13 15:23:08 GMT
+Modified-files: po/ChangeLog po/nl.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-712
+Summary: 2005-07-02  Vincent van Adrighem  <adrighem@gnome.org>
+CSCVSID: MAIN.713
+Keywords: cscvs:MAIN.713
+
+Author: adrighem
+Date: 2005-07-02 15:48:47 GMT
+2005-07-02  Vincent van Adrighem  <adrighem@gnome.org>
+
+	* nl.po: Translation updated by Tino Meinen.

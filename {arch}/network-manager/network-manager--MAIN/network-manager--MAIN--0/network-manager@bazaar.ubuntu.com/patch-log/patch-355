@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-355
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:00:51 BST 2005
+Standard-date: 2005-08-13 15:00:51 GMT
+Modified-files: po/ChangeLog po/nl.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-355
+Summary: 2005-01-10  Vincent van Adrighem  <adrighem@gnome.org>
+CSCVSID: MAIN.356
+Keywords: cscvs:MAIN.356
+
+Author: adrighem
+Date: 2005-01-10 00:54:39 GMT
+2005-01-10  Vincent van Adrighem  <adrighem@gnome.org>
+
+	* nl.po: Translation updated by Tino Meinen.

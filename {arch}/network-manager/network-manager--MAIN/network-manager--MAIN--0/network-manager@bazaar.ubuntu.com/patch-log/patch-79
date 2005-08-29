@@ -1,0 +1,21 @@
+Revision: network-manager--MAIN--0--patch-79
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:47:33 BST 2005
+Standard-date: 2005-08-13 14:47:33 GMT
+New-files: po/.arch-ids/ChangeLog.id po/ChangeLog
+Modified-files: .cvsignore ChangeLog initscript/Makefile.am
+    po/NetworkManager.pot
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-79
+Summary: Thu Aug 26 17:23:16 2004  Jonathan Blandford  <jrb@redh...
+CSCVSID: MAIN.80
+Keywords: cscvs:MAIN.80
+
+Author: jrb
+Date: 2004-08-26 21:24:41 GMT
+Thu Aug 26 17:23:16 2004  Jonathan Blandford  <jrb@redhat.com>
+
+        * initscripts/Makefile.am
+        * configure.in: Make pass distcheck
+
+        * po/ChangeLog: added

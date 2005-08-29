@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-432
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:05:23 BST 2005
+Standard-date: 2005-08-13 15:05:23 GMT
+Modified-files: ChangeLog dhcpcd/buildmsg.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-432
+Summary: 2005-02-12  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.433
+Keywords: cscvs:MAIN.433
+
+Author: dcbw
+Date: 2005-02-12 21:27:38 GMT
+2005-02-12  Dan Williams  <dcbw@redhat.com>
+
+	* dhcpcd/buildmsg.c
+		- Pad DHCP packets until they are at least 300 bytes in size.

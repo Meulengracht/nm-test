@@ -1,0 +1,364 @@
+Revision: network-manager--MAIN--0--patch-550
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:13:30 BST 2005
+Standard-date: 2005-08-13 15:13:30 GMT
+New-files: gnome/.arch-ids/=id
+    gnome/.arch-ids/Makefile.am.id gnome/Makefile.am
+    gnome/applet/.arch-ids/=id
+    gnome/applet/.arch-ids/Makefile.am.id
+    gnome/applet/.arch-ids/applet-dbus-devices.c.id
+    gnome/applet/.arch-ids/applet-dbus-devices.h.id
+    gnome/applet/.arch-ids/applet-dbus-info.c.id
+    gnome/applet/.arch-ids/applet-dbus-info.h.id
+    gnome/applet/.arch-ids/applet-dbus-vpn.c.id
+    gnome/applet/.arch-ids/applet-dbus-vpn.h.id
+    gnome/applet/.arch-ids/applet-dbus.c.id
+    gnome/applet/.arch-ids/applet-dbus.h.id
+    gnome/applet/.arch-ids/applet.c.id
+    gnome/applet/.arch-ids/applet.h.id
+    gnome/applet/.arch-ids/eggtrayicon.c.id
+    gnome/applet/.arch-ids/eggtrayicon.h.id
+    gnome/applet/.arch-ids/gtkcellrendererprogress.c.id
+    gnome/applet/.arch-ids/gtkcellrendererprogress.h.id
+    gnome/applet/.arch-ids/gtkcellview.c.id
+    gnome/applet/.arch-ids/gtkcellview.h.id
+    gnome/applet/.arch-ids/keyring.png.id
+    gnome/applet/.arch-ids/main.c.id
+    gnome/applet/.arch-ids/menu-items.c.id
+    gnome/applet/.arch-ids/menu-items.h.id
+    gnome/applet/.arch-ids/nm-applet.conf.id
+    gnome/applet/.arch-ids/nm-device.c.id
+    gnome/applet/.arch-ids/nm-device.h.id
+    gnome/applet/.arch-ids/other-network-dialog.c.id
+    gnome/applet/.arch-ids/other-network-dialog.h.id
+    gnome/applet/.arch-ids/passphrase-dialog.c.id
+    gnome/applet/.arch-ids/passphrase-dialog.h.id
+    gnome/applet/.arch-ids/vpn-connection.c.id
+    gnome/applet/.arch-ids/vpn-connection.h.id
+    gnome/applet/.arch-ids/vpn-password-dialog.c.id
+    gnome/applet/.arch-ids/vpn-password-dialog.h.id
+    gnome/applet/.arch-ids/wireless-applet.glade.id
+    gnome/applet/.arch-ids/wireless-network.c.id
+    gnome/applet/.arch-ids/wireless-network.h.id
+    gnome/applet/Makefile.am
+    gnome/applet/applet-dbus-devices.c
+    gnome/applet/applet-dbus-devices.h
+    gnome/applet/applet-dbus-info.c
+    gnome/applet/applet-dbus-info.h
+    gnome/applet/applet-dbus-vpn.c
+    gnome/applet/applet-dbus-vpn.h
+    gnome/applet/applet-dbus.c gnome/applet/applet-dbus.h
+    gnome/applet/applet.c gnome/applet/applet.h
+    gnome/applet/eggtrayicon.c gnome/applet/eggtrayicon.h
+    gnome/applet/gtkcellrendererprogress.c
+    gnome/applet/gtkcellrendererprogress.h
+    gnome/applet/gtkcellview.c gnome/applet/gtkcellview.h
+    gnome/applet/icons/.arch-ids/=id
+    gnome/applet/icons/.arch-ids/Makefile.am.id
+    gnome/applet/icons/.arch-ids/nm-adhoc.png.id
+    gnome/applet/icons/.arch-ids/nm-connecting01.png.id
+    gnome/applet/icons/.arch-ids/nm-connecting02.png.id
+    gnome/applet/icons/.arch-ids/nm-connecting03.png.id
+    gnome/applet/icons/.arch-ids/nm-connecting04.png.id
+    gnome/applet/icons/.arch-ids/nm-connecting05.png.id
+    gnome/applet/icons/.arch-ids/nm-connecting06.png.id
+    gnome/applet/icons/.arch-ids/nm-connecting07.png.id
+    gnome/applet/icons/.arch-ids/nm-connecting08.png.id
+    gnome/applet/icons/.arch-ids/nm-connecting09.png.id
+    gnome/applet/icons/.arch-ids/nm-connecting10.png.id
+    gnome/applet/icons/.arch-ids/nm-connecting11.png.id
+    gnome/applet/icons/.arch-ids/nm-detect01.png.id
+    gnome/applet/icons/.arch-ids/nm-detect02.png.id
+    gnome/applet/icons/.arch-ids/nm-detect03.png.id
+    gnome/applet/icons/.arch-ids/nm-detect04.png.id
+    gnome/applet/icons/.arch-ids/nm-detect05.png.id
+    gnome/applet/icons/.arch-ids/nm-detect06.png.id
+    gnome/applet/icons/.arch-ids/nm-detect07.png.id
+    gnome/applet/icons/.arch-ids/nm-detect08.png.id
+    gnome/applet/icons/.arch-ids/nm-detect09.png.id
+    gnome/applet/icons/.arch-ids/nm-detect10.png.id
+    gnome/applet/icons/.arch-ids/nm-detect11.png.id
+    gnome/applet/icons/.arch-ids/nm-detect12.png.id
+    gnome/applet/icons/.arch-ids/nm-detect13.png.id
+    gnome/applet/icons/.arch-ids/nm-detect14.png.id
+    gnome/applet/icons/.arch-ids/nm-detect15.png.id
+    gnome/applet/icons/.arch-ids/nm-detect16.png.id
+    gnome/applet/icons/.arch-ids/nm-device-wired.png.id
+    gnome/applet/icons/.arch-ids/nm-device-wireless.png.id
+    gnome/applet/icons/.arch-ids/nm-no-connection.png.id
+    gnome/applet/icons/.arch-ids/nm-signal-00.png.id
+    gnome/applet/icons/.arch-ids/nm-signal-100.png.id
+    gnome/applet/icons/.arch-ids/nm-signal-25.png.id
+    gnome/applet/icons/.arch-ids/nm-signal-50.png.id
+    gnome/applet/icons/.arch-ids/nm-signal-75.png.id
+    gnome/applet/icons/.arch-ids/nm-vpn-lock.png.id
+    gnome/applet/icons/Makefile.am
+    gnome/applet/icons/nm-adhoc.png
+    gnome/applet/icons/nm-connecting01.png
+    gnome/applet/icons/nm-connecting02.png
+    gnome/applet/icons/nm-connecting03.png
+    gnome/applet/icons/nm-connecting04.png
+    gnome/applet/icons/nm-connecting05.png
+    gnome/applet/icons/nm-connecting06.png
+    gnome/applet/icons/nm-connecting07.png
+    gnome/applet/icons/nm-connecting08.png
+    gnome/applet/icons/nm-connecting09.png
+    gnome/applet/icons/nm-connecting10.png
+    gnome/applet/icons/nm-connecting11.png
+    gnome/applet/icons/nm-detect01.png
+    gnome/applet/icons/nm-detect02.png
+    gnome/applet/icons/nm-detect03.png
+    gnome/applet/icons/nm-detect04.png
+    gnome/applet/icons/nm-detect05.png
+    gnome/applet/icons/nm-detect06.png
+    gnome/applet/icons/nm-detect07.png
+    gnome/applet/icons/nm-detect08.png
+    gnome/applet/icons/nm-detect09.png
+    gnome/applet/icons/nm-detect10.png
+    gnome/applet/icons/nm-detect11.png
+    gnome/applet/icons/nm-detect12.png
+    gnome/applet/icons/nm-detect13.png
+    gnome/applet/icons/nm-detect14.png
+    gnome/applet/icons/nm-detect15.png
+    gnome/applet/icons/nm-detect16.png
+    gnome/applet/icons/nm-device-wired.png
+    gnome/applet/icons/nm-device-wireless.png
+    gnome/applet/icons/nm-no-connection.png
+    gnome/applet/icons/nm-signal-00.png
+    gnome/applet/icons/nm-signal-100.png
+    gnome/applet/icons/nm-signal-25.png
+    gnome/applet/icons/nm-signal-50.png
+    gnome/applet/icons/nm-signal-75.png
+    gnome/applet/icons/nm-vpn-lock.png
+    gnome/applet/keyring.png gnome/applet/main.c
+    gnome/applet/menu-items.c gnome/applet/menu-items.h
+    gnome/applet/nm-applet.conf gnome/applet/nm-device.c
+    gnome/applet/nm-device.h
+    gnome/applet/other-network-dialog.c
+    gnome/applet/other-network-dialog.h
+    gnome/applet/passphrase-dialog.c
+    gnome/applet/passphrase-dialog.h
+    gnome/applet/vpn-connection.c
+    gnome/applet/vpn-connection.h
+    gnome/applet/vpn-password-dialog.c
+    gnome/applet/vpn-password-dialog.h
+    gnome/applet/wireless-applet.glade
+    gnome/applet/wireless-network.c
+    gnome/applet/wireless-network.h
+    gnome/libnm_glib/.arch-ids/.cvsignore.id
+    gnome/libnm_glib/.arch-ids/=id
+    gnome/libnm_glib/.arch-ids/Makefile.am.id
+    gnome/libnm_glib/.arch-ids/libnm_glib.c.id
+    gnome/libnm_glib/.arch-ids/libnm_glib.h.id
+    gnome/libnm_glib/.arch-ids/libnm_glib.pc.in.id
+    gnome/libnm_glib/.cvsignore
+    gnome/libnm_glib/Makefile.am
+    gnome/libnm_glib/libnm_glib.c
+    gnome/libnm_glib/libnm_glib.h
+    gnome/libnm_glib/libnm_glib.pc.in
+New-directories: gnome gnome/.arch-ids gnome/applet
+    gnome/applet/.arch-ids gnome/applet/icons
+    gnome/applet/icons/.arch-ids gnome/libnm_glib
+    gnome/libnm_glib/.arch-ids
+Removed-files: info-daemon/.arch-ids/.cvsignore.id
+    info-daemon/.arch-ids/=id
+    info-daemon/.arch-ids/Makefile.am.id
+    info-daemon/.arch-ids/NetworkManagerInfo.c.id
+    info-daemon/.arch-ids/NetworkManagerInfo.conf.id
+    info-daemon/.arch-ids/NetworkManagerInfo.h.id
+    info-daemon/.arch-ids/NetworkManagerInfoDbus.c.id
+    info-daemon/.arch-ids/NetworkManagerInfoDbus.h.id
+    info-daemon/.arch-ids/NetworkManagerInfoNetworksDialog.c.id
+    info-daemon/.arch-ids/NetworkManagerInfoNetworksDialog.h.id
+    info-daemon/.arch-ids/NetworkManagerInfoPassphraseDialog.c.id
+    info-daemon/.arch-ids/NetworkManagerInfoPassphraseDialog.h.id
+    info-daemon/.arch-ids/NetworkManagerInfoVPN.c.id
+    info-daemon/.arch-ids/NetworkManagerInfoVPN.h.id
+    info-daemon/.arch-ids/keyring.png.id
+    info-daemon/.arch-ids/networks.glade.id
+    info-daemon/.arch-ids/passphrase.glade.id
+    info-daemon/.cvsignore info-daemon/Makefile.am
+    info-daemon/NetworkManagerInfo.c
+    info-daemon/NetworkManagerInfo.conf
+    info-daemon/NetworkManagerInfo.h
+    info-daemon/NetworkManagerInfoDbus.c
+    info-daemon/NetworkManagerInfoDbus.h
+    info-daemon/NetworkManagerInfoNetworksDialog.c
+    info-daemon/NetworkManagerInfoNetworksDialog.h
+    info-daemon/NetworkManagerInfoPassphraseDialog.c
+    info-daemon/NetworkManagerInfoPassphraseDialog.h
+    info-daemon/NetworkManagerInfoVPN.c
+    info-daemon/NetworkManagerInfoVPN.h
+    info-daemon/keyring.png info-daemon/networks.glade
+    info-daemon/passphrase.glade
+    libnm_glib/.arch-ids/.cvsignore.id
+    libnm_glib/.arch-ids/=id
+    libnm_glib/.arch-ids/Makefile.am.id
+    libnm_glib/.arch-ids/libnm_glib.c.id
+    libnm_glib/.arch-ids/libnm_glib.h.id
+    libnm_glib/.arch-ids/libnm_glib.pc.in.id
+    libnm_glib/.cvsignore libnm_glib/Makefile.am
+    libnm_glib/libnm_glib.c libnm_glib/libnm_glib.h
+    libnm_glib/libnm_glib.pc.in
+    panel-applet/.arch-ids/.cvsignore.id
+    panel-applet/.arch-ids/=id
+    panel-applet/.arch-ids/Makefile.am.id
+    panel-applet/.arch-ids/NMWirelessApplet.c.id
+    panel-applet/.arch-ids/NMWirelessApplet.h.id
+    panel-applet/.arch-ids/NMWirelessApplet.server.in.id
+    panel-applet/.arch-ids/NMWirelessApplet.xml.id
+    panel-applet/.arch-ids/NMWirelessAppletDbus.c.id
+    panel-applet/.arch-ids/NMWirelessAppletDbus.h.id
+    panel-applet/.arch-ids/NMWirelessAppletOtherNetworkDialog.c.id
+    panel-applet/.arch-ids/NMWirelessAppletOtherNetworkDialog.h.id
+    panel-applet/.arch-ids/eggtrayicon.c.id
+    panel-applet/.arch-ids/eggtrayicon.h.id
+    panel-applet/.arch-ids/essid.glade.id
+    panel-applet/.arch-ids/gtkcellrendererprogress.c.id
+    panel-applet/.arch-ids/gtkcellrendererprogress.h.id
+    panel-applet/.arch-ids/gtkcellview.c.id
+    panel-applet/.arch-ids/gtkcellview.h.id
+    panel-applet/.arch-ids/main.c.id
+    panel-applet/.arch-ids/menu-info.c.id
+    panel-applet/.arch-ids/menu-info.h.id
+    panel-applet/.arch-ids/nmwa-vpn-connection.c.id
+    panel-applet/.arch-ids/nmwa-vpn-connection.h.id
+    panel-applet/.arch-ids/nmwa-vpn-password-dialog.c.id
+    panel-applet/.arch-ids/nmwa-vpn-password-dialog.h.id
+    panel-applet/.arch-ids/wireless-applet.glade.id
+    panel-applet/.cvsignore panel-applet/Makefile.am
+    panel-applet/NMWirelessApplet.c
+    panel-applet/NMWirelessApplet.h
+    panel-applet/NMWirelessApplet.server.in
+    panel-applet/NMWirelessApplet.xml
+    panel-applet/NMWirelessAppletDbus.c
+    panel-applet/NMWirelessAppletDbus.h
+    panel-applet/NMWirelessAppletOtherNetworkDialog.c
+    panel-applet/NMWirelessAppletOtherNetworkDialog.h
+    panel-applet/eggtrayicon.c panel-applet/eggtrayicon.h
+    panel-applet/essid.glade
+    panel-applet/gtkcellrendererprogress.c
+    panel-applet/gtkcellrendererprogress.h
+    panel-applet/gtkcellview.c panel-applet/gtkcellview.h
+    panel-applet/icons/.arch-ids/.cvsignore.id
+    panel-applet/icons/.arch-ids/=id
+    panel-applet/icons/.arch-ids/Makefile.am.id
+    panel-applet/icons/.arch-ids/nm-adhoc.png.id
+    panel-applet/icons/.arch-ids/nm-connecting01.png.id
+    panel-applet/icons/.arch-ids/nm-connecting02.png.id
+    panel-applet/icons/.arch-ids/nm-connecting03.png.id
+    panel-applet/icons/.arch-ids/nm-connecting04.png.id
+    panel-applet/icons/.arch-ids/nm-connecting05.png.id
+    panel-applet/icons/.arch-ids/nm-connecting06.png.id
+    panel-applet/icons/.arch-ids/nm-connecting07.png.id
+    panel-applet/icons/.arch-ids/nm-connecting08.png.id
+    panel-applet/icons/.arch-ids/nm-connecting09.png.id
+    panel-applet/icons/.arch-ids/nm-connecting10.png.id
+    panel-applet/icons/.arch-ids/nm-connecting11.png.id
+    panel-applet/icons/.arch-ids/nm-detect01.png.id
+    panel-applet/icons/.arch-ids/nm-detect02.png.id
+    panel-applet/icons/.arch-ids/nm-detect03.png.id
+    panel-applet/icons/.arch-ids/nm-detect04.png.id
+    panel-applet/icons/.arch-ids/nm-detect05.png.id
+    panel-applet/icons/.arch-ids/nm-detect06.png.id
+    panel-applet/icons/.arch-ids/nm-detect07.png.id
+    panel-applet/icons/.arch-ids/nm-detect08.png.id
+    panel-applet/icons/.arch-ids/nm-detect09.png.id
+    panel-applet/icons/.arch-ids/nm-detect10.png.id
+    panel-applet/icons/.arch-ids/nm-detect11.png.id
+    panel-applet/icons/.arch-ids/nm-detect12.png.id
+    panel-applet/icons/.arch-ids/nm-detect13.png.id
+    panel-applet/icons/.arch-ids/nm-detect14.png.id
+    panel-applet/icons/.arch-ids/nm-detect15.png.id
+    panel-applet/icons/.arch-ids/nm-detect16.png.id
+    panel-applet/icons/.arch-ids/nm-device-wired.png.id
+    panel-applet/icons/.arch-ids/nm-device-wireless.png.id
+    panel-applet/icons/.arch-ids/nm-no-connection.png.id
+    panel-applet/icons/.arch-ids/nm-signal-00.png.id
+    panel-applet/icons/.arch-ids/nm-signal-100.png.id
+    panel-applet/icons/.arch-ids/nm-signal-25.png.id
+    panel-applet/icons/.arch-ids/nm-signal-50.png.id
+    panel-applet/icons/.arch-ids/nm-signal-75.png.id
+    panel-applet/icons/.arch-ids/nm-vpn-lock.png.id
+    panel-applet/icons/.cvsignore
+    panel-applet/icons/Makefile.am
+    panel-applet/icons/nm-adhoc.png
+    panel-applet/icons/nm-connecting01.png
+    panel-applet/icons/nm-connecting02.png
+    panel-applet/icons/nm-connecting03.png
+    panel-applet/icons/nm-connecting04.png
+    panel-applet/icons/nm-connecting05.png
+    panel-applet/icons/nm-connecting06.png
+    panel-applet/icons/nm-connecting07.png
+    panel-applet/icons/nm-connecting08.png
+    panel-applet/icons/nm-connecting09.png
+    panel-applet/icons/nm-connecting10.png
+    panel-applet/icons/nm-connecting11.png
+    panel-applet/icons/nm-detect01.png
+    panel-applet/icons/nm-detect02.png
+    panel-applet/icons/nm-detect03.png
+    panel-applet/icons/nm-detect04.png
+    panel-applet/icons/nm-detect05.png
+    panel-applet/icons/nm-detect06.png
+    panel-applet/icons/nm-detect07.png
+    panel-applet/icons/nm-detect08.png
+    panel-applet/icons/nm-detect09.png
+    panel-applet/icons/nm-detect10.png
+    panel-applet/icons/nm-detect11.png
+    panel-applet/icons/nm-detect12.png
+    panel-applet/icons/nm-detect13.png
+    panel-applet/icons/nm-detect14.png
+    panel-applet/icons/nm-detect15.png
+    panel-applet/icons/nm-detect16.png
+    panel-applet/icons/nm-device-wired.png
+    panel-applet/icons/nm-device-wireless.png
+    panel-applet/icons/nm-no-connection.png
+    panel-applet/icons/nm-signal-00.png
+    panel-applet/icons/nm-signal-100.png
+    panel-applet/icons/nm-signal-25.png
+    panel-applet/icons/nm-signal-50.png
+    panel-applet/icons/nm-signal-75.png
+    panel-applet/icons/nm-vpn-lock.png panel-applet/main.c
+    panel-applet/menu-info.c panel-applet/menu-info.h
+    panel-applet/nmwa-vpn-connection.c
+    panel-applet/nmwa-vpn-connection.h
+    panel-applet/nmwa-vpn-password-dialog.c
+    panel-applet/nmwa-vpn-password-dialog.h
+    panel-applet/wireless-applet.glade
+Removed-directories: info-daemon info-daemon/.arch-ids
+    libnm_glib libnm_glib/.arch-ids panel-applet
+    panel-applet/.arch-ids panel-applet/icons
+    panel-applet/icons/.arch-ids
+Modified-files: ChangeLog Makefile.am NetworkManager.h
+    configure.in src/Makefile.am src/NetworkManager.c
+    src/NetworkManagerAPList.c src/NetworkManagerAPList.h
+    src/NetworkManagerDbus.c src/NetworkManagerDbus.h
+    src/NetworkManagerDevice.c src/NetworkManagerDevice.h
+    src/NetworkManagerMain.h src/NetworkManagerPolicy.c
+    src/NetworkManagerPolicy.h src/nm-dbus-device.c
+    src/nm-dbus-net.c src/nm-dbus-nm.c
+    src/vpn-manager/nm-dbus-vpn.c
+    src/vpn-manager/nm-dbus-vpn.h
+    src/vpn-manager/nm-vpn-manager.c
+    src/vpn-manager/nm-vpn-manager.h
+    src/vpn-manager/nm-vpn-service.c
+    src/vpn-manager/nm-vpn-service.h test/Makefile.am
+    test/libnm_glib_test.c test/nmtest.c
+    vpn-daemons/vpnc/nm-vpnc-service.name
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-550
+Summary: 2005-04-27  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.551
+Keywords: cscvs:MAIN.551
+
+Author: dcbw
+Date: 2005-04-27 18:05:01 GMT
+2005-04-27  Dan Williams  <dcbw@redhat.com>
+
+        * Merge the applet and the info-daemon, and move the converged
+                applet under gnome/applet
+        * Move libnm_glib to gnome/libnm_glib
+        * Convert most dbus calls between the applet, info-daemon, and NM
+                into async calls
+        * Fix a few things valgrind noticed
+        * Make NM broadcast state more reliably

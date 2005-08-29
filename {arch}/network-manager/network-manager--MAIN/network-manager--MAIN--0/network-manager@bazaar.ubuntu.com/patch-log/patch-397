@@ -1,0 +1,18 @@
+Revision: network-manager--MAIN--0--patch-397
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:03:35 BST 2005
+Standard-date: 2005-08-13 15:03:35 GMT
+Modified-files: ChangeLog panel-applet/NMWirelessApplet.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-397
+Summary: 2005-02-02  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.398
+Keywords: cscvs:MAIN.398
+
+Author: dcbw
+Date: 2005-02-02 21:22:40 GMT
+2005-02-02  Dan Williams  <dcbw@redhat.com>
+
+	* panel-applet/NMWirelessApplet.c
+		- Display name of wireless network we are connecting to or connected to
+			in the tooltip of the applet

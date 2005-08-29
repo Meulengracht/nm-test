@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-454
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:06:36 BST 2005
+Standard-date: 2005-08-13 15:06:36 GMT
+Modified-files: po/ChangeLog po/de.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-454
+Summary: 2005-02-20  Hendrik Brandt  <heb@gnome-de.org>
+CSCVSID: MAIN.455
+Keywords: cscvs:MAIN.455
+
+Author: hebra
+Date: 2005-02-20 12:26:00 GMT
+2005-02-20  Hendrik Brandt  <heb@gnome-de.org>
+
+        * po/de.po: Updated German translation.

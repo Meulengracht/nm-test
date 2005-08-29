@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-770
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:26:13 BST 2005
+Standard-date: 2005-08-13 15:26:13 GMT
+Modified-files: po/ChangeLog po/POTFILES.skip po/sv.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-770
+Summary: Move sv translations pertaining to the vpn-daemons to t...
+CSCVSID: MAIN.771
+Keywords: cscvs:MAIN.771
+
+Author: rml
+Date: 2005-08-12 18:28:44 GMT
+
+Move sv translations pertaining to the vpn-daemons to their po/, where they
+belong.

@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-639
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:19:34 BST 2005
+Standard-date: 2005-08-13 15:19:34 GMT
+Modified-files: ChangeLog po/POTFILES.in
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-639
+Summary: 2005-06-16  Robert Love  <rml@novell.com>
+CSCVSID: MAIN.640
+Keywords: cscvs:MAIN.640
+
+Author: rml
+Date: 2005-06-16 21:48:51 GMT
+2005-06-16  Robert Love  <rml@novell.com>
+
+        * po/POTFILES.in
+                - remove gtkcell* files

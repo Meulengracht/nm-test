@@ -1,0 +1,20 @@
+Revision: network-manager--MAIN--0--patch-580
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:15:46 BST 2005
+Standard-date: 2005-08-13 15:15:46 GMT
+Modified-files: ChangeLog
+    gnome/applet/applet-dbus-devices.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-580
+Summary: 2005-05-10  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.581
+Keywords: cscvs:MAIN.581
+
+Author: dcbw
+Date: 2005-05-10 14:38:57 GMT
+2005-05-10  Dan Williams  <dcbw@redhat.com>
+
+    * gnome/applet/applet-dbus-device.c
+        - (nmwa_dbus_set_device): remove check for valid key and key type, which
+            prevented just entering ESSID and leaving key and key type up to
+            NetworkManager (which should have them already cached)

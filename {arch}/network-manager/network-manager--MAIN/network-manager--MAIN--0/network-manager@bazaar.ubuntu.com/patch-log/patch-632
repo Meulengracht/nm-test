@@ -1,0 +1,22 @@
+Revision: network-manager--MAIN--0--patch-632
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:19:08 BST 2005
+Standard-date: 2005-08-13 15:19:08 GMT
+Modified-files: ChangeLog
+    src/backends/NetworkManagerDebian.c
+    src/backends/NetworkManagerRedHat.c
+    src/backends/NetworkManagerSuSE.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-632
+Summary: 2005-06-15  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.633
+Keywords: cscvs:MAIN.633
+
+Author: dcbw
+Date: 2005-06-15 19:35:36 GMT
+2005-06-15  Dan Williams <dcbw@redhat.com>
+
+	* src/backends/NetworkManagerSuSE.c
+	  src/backends/NetworkManagerRedHat.c
+	  src/backends/NetworkManagerDebian.c
+		- (set_ip4_config_from_resolv_conf): Fix typo I made, '==' -> '='

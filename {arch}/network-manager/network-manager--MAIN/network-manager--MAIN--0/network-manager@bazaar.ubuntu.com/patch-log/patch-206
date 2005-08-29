@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-206
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:52:44 BST 2005
+Standard-date: 2005-08-13 14:52:44 GMT
+Modified-files: ChangeLog src/NetworkManagerDevice.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-206
+Summary: 2004-10-12 Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.207
+Keywords: cscvs:MAIN.207
+
+Author: dcbw
+Date: 2004-10-12 11:39:08 GMT
+2004-10-12 Dan Williams <dcbw@redhat.com>
+
+	* src/NetworkManagerDevice.c
+		- Force wireless cards into Infrastructure mode before we use them

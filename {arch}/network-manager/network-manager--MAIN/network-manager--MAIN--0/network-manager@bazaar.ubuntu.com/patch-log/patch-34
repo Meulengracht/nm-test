@@ -1,0 +1,73 @@
+Revision: network-manager--MAIN--0--patch-34
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:45:38 BST 2005
+Standard-date: 2005-08-13 14:45:38 GMT
+New-files: panel-applet/.arch-ids/=id
+    panel-applet/.arch-ids/Makefile.am.id
+    panel-applet/.arch-ids/NMWirelessApplet.c.id
+    panel-applet/.arch-ids/NMWirelessApplet.h.id
+    panel-applet/.arch-ids/NMWirelessApplet.server.in.id
+    panel-applet/.arch-ids/NMWirelessApplet.xml.id
+    panel-applet/.arch-ids/NMWirelessAppletDbus.c.id
+    panel-applet/.arch-ids/NMWirelessAppletDbus.h.id
+    panel-applet/.arch-ids/broken-0.png.id
+    panel-applet/.arch-ids/connect-0.png.id
+    panel-applet/.arch-ids/connect-1.png.id
+    panel-applet/.arch-ids/connect-2.png.id
+    panel-applet/.arch-ids/connect-3.png.id
+    panel-applet/.arch-ids/no-link-0.png.id
+    panel-applet/.arch-ids/signal-1-40.png.id
+    panel-applet/.arch-ids/signal-41-60.png.id
+    panel-applet/.arch-ids/signal-61-80.png.id
+    panel-applet/.arch-ids/signal-81-100.png.id
+    panel-applet/.arch-ids/wireless-applet.png.id
+    panel-applet/Makefile.am
+    panel-applet/NMWirelessApplet.c
+    panel-applet/NMWirelessApplet.h
+    panel-applet/NMWirelessApplet.server.in
+    panel-applet/NMWirelessApplet.xml
+    panel-applet/NMWirelessAppletDbus.c
+    panel-applet/NMWirelessAppletDbus.h
+    panel-applet/broken-0.png panel-applet/connect-0.png
+    panel-applet/connect-1.png panel-applet/connect-2.png
+    panel-applet/connect-3.png panel-applet/no-link-0.png
+    panel-applet/signal-1-40.png
+    panel-applet/signal-41-60.png
+    panel-applet/signal-61-80.png
+    panel-applet/signal-81-100.png
+    panel-applet/wireless-applet.png
+New-directories: panel-applet panel-applet/.arch-ids
+Modified-files: ChangeLog Makefile.am configure.in
+    src/NetworkManager.c src/NetworkManager.h
+    src/NetworkManagerAPList.c src/NetworkManagerDbus.c
+    src/NetworkManagerDbus.h src/NetworkManagerDevice.c
+    src/NetworkManagerPolicy.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-34
+Summary: 2004-08-06  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.35
+Keywords: cscvs:MAIN.35
+
+Author: dcbw
+Date: 2004-08-06 18:19:06 GMT
+2004-08-06  Dan Williams <dcbw@redhat.com>
+
+	* panel-applet/*
+		- Add panel applet
+
+	* src/NetworkManagerPolicy.c
+	  src/NetworkManager.c
+		- Get access point lists from NetworkManagerInfo on-demand,
+			and look for ServiceCreate/ServiceDeleted signals to see when
+			we should query NMI for lists
+	* src/NetworkManagerAPList.c
+		- Make sure to init the list's mutex
+		- Convert traversals of the list over to the list iter functions
+
+	* src/NetworkManagerDbus.[ch]
+		- Use more aptly-named path/service/interface constants
+		- Treat both active and pending devices the same for "getActiveDevice"
+		- Add a "status" method returning "connected", "connecting", or "disconnected"
+
+	* src/NetworkManagerDevice.c
+		- Honor "ignored" network list when picking best ap to use

@@ -1,0 +1,23 @@
+Revision: network-manager--MAIN--0--patch-346
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:00:18 BST 2005
+Standard-date: 2005-08-13 15:00:18 GMT
+Modified-files: ChangeLog src/NetworkManagerDevice.c
+    src/backends/NetworkManagerDebian.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-346
+Summary: 2004-12-22  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.347
+Keywords: cscvs:MAIN.347
+
+Author: dcbw
+Date: 2004-12-22 18:42:37 GMT
+2004-12-22  Dan Williams <dcbw@redhat.com>
+
+        * src/NetworkManagerDevice.c
+                - Silently fail when setting bitrate doesn't work
+
+
+        Patch from j@bootlab.org:
+        * src/backends/NetworkManagerDebian
+                - Update backend to match functionality in RedHat backend

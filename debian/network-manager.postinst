@@ -1,0 +1,19 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+  configure)
+    if [ -x /etc/dbus-1/event.d/zz99NetworkManager ]; then
+      mv /etc/dbus-1/event.d/zz99NetworkManager /etc/dbus-1/event.d/zz99NetworkManager.disabled
+    fi
+
+    if [ -x /etc/init.d/dbus ]; then
+      invoke-rc.d dbus restart || true
+    fi
+    if [ -x /usr/bin/gtk-update-icon-cache ]; then
+      /usr/bin/gtk-update-icon-cache -f /usr/share/icons/hicolor/
+    fi
+    ;;
+esac
+
+#DEBHELPER#

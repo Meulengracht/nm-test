@@ -1,0 +1,19 @@
+Revision: network-manager--MAIN--0--patch-489
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:08:48 BST 2005
+Standard-date: 2005-08-13 15:08:48 GMT
+Modified-files: src/NetworkManager.c
+    src/NetworkManagerPolicy.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-489
+Summary: 2005-03-22  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.490
+Keywords: cscvs:MAIN.490
+
+Author: dcbw
+Date: 2005-03-22 21:25:36 GMT
+2005-03-22  Dan Williams <dcbw@redhat.com>
+
+	* src/NetworkManager.c
+		- (nm_wired_link_activated): actually ignore netlink events from
+			wireless devices.

@@ -1,0 +1,31 @@
+Revision: network-manager--MAIN--0--patch-653
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:20:28 BST 2005
+Standard-date: 2005-08-13 15:20:28 GMT
+Modified-files: ChangeLog src/nm-netlink-monitor.c
+    src/nm-netlink-monitor.h
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-653
+Summary: 2005-06-18  Ray Strode <rstrode@redhat.com>
+CSCVSID: MAIN.654
+Keywords: cscvs:MAIN.654
+
+Author: halfline
+Date: 2005-06-19 04:09:20 GMT
+2005-06-18  Ray Strode <rstrode@redhat.com>
+
+	* src/nm-netlink-monitor.c
+	(nm_netlink_monitor_event_handler): check for the presence
+	of either error condition not both.
+
+	(nm_netlink_monitor_error_handler): emit error signal if
+	error occurs.
+
+	(nm_netlink_monitor_event_handler),
+	(nm_netlink_monitor_error_handler),
+	(nm_netlink_monitor_disconnect_handler): if an
+	assertion fails disconnect the event handler to prevent
+	infinite loops.
+
+	* src/nm-netlink-monitor.h: add new error condition
+	NM_NETLINK_MONITOR_ERROR_WAITING_FOR_SOCKET_DATA

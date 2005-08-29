@@ -1,0 +1,31 @@
+Revision: network-manager--MAIN--0--patch-15
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:44:37 BST 2005
+Standard-date: 2005-08-13 14:44:37 GMT
+Modified-files: ChangeLog src/NetworkManager.c
+    src/NetworkManager.h src/NetworkManagerDbus.c
+    src/NetworkManagerDbus.h src/NetworkManagerDevice.c
+    src/NetworkManagerDevice.h src/NetworkManagerPolicy.c
+    src/NetworkManagerWireless.c
+    src/NetworkManagerWireless.h
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-15
+Summary: 2004-07-24  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.16
+Keywords: cscvs:MAIN.16
+
+Author: dcbw
+Date: 2004-07-25 02:40:19 GMT
+2004-07-24  Dan Williams <dcbw@redhat.com>
+
+	* src/NetworkManager.[ch]
+	  src/NetworkManagerDbus.[ch]
+	  src/NetworkManagerDevice.[ch]
+	  src/NetworkManagerPolicy.c
+	  src/NetworkManagerWireless.[ch]
+		- Add many more g_return_if_fail()/g_return_val_if_fail() checks
+		- Pass the NMData application data structure through all calls
+			that need it so we can get rid of nm_get_global_data()
+		- Change deallocation of the allowed_ap_list GSList in preparation
+			for not completely clearing it every time we get an update,
+			but instead getting incremental updates via GConf/dbus

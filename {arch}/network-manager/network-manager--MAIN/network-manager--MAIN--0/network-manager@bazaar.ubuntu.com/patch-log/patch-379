@@ -1,0 +1,46 @@
+Revision: network-manager--MAIN--0--patch-379
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:02:22 BST 2005
+Standard-date: 2005-08-13 15:02:22 GMT
+Modified-files: ChangeLog NetworkManager.h
+    info-daemon/NetworkManagerInfoDbus.c
+    src/NetworkManager.c src/NetworkManagerAP.c
+    src/NetworkManagerAP.h src/NetworkManagerAPList.c
+    src/NetworkManagerDHCP.c src/NetworkManagerDbus.c
+    src/NetworkManagerDbus.h src/NetworkManagerDevice.c
+    src/NetworkManagerDevice.h
+    src/NetworkManagerDevicePrivate.h
+    src/NetworkManagerMain.h src/NetworkManagerPolicy.c
+    src/NetworkManagerPolicy.h
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-379
+Summary: 2005-01-21  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.380
+Keywords: cscvs:MAIN.380
+
+Author: dcbw
+Date: 2005-01-21 19:32:07 GMT
+2005-01-21  Dan Williams  <dcbw@redhat.com>
+
+	* Cache last-known-good wireless authentication method in
+		NetworkManagerInfo, and use that method first during
+		wireless device activation.  Should speed up devices that
+		need Shared Key authentication method since Open System is
+		now the default.
+
+	* Remove the hack to not do full activation on wired connections
+		that are active when we launch, it causes too many problems
+		with name resolution and was a hack in the first place.
+
+	* Re-work wireless device activation again somewhat to have a
+		clearer chain of events and to use last-known-good
+		authentication method of the access point.  Also provide
+		better status throughout activation to ensure the applet
+		can tell the user exactly what's going on.
+
+	* Remove the "find wireless network" code and now simply attempt
+		to activate with that access point.  This reduces the delay
+		between selecting "Other wireless Network" and actually
+		connecting to that network.
+
+	* Correctly stop the device's worker thread when its removed.

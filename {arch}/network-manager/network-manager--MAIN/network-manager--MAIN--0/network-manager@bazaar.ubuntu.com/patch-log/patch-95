@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-95
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:48:04 BST 2005
+Standard-date: 2005-08-13 14:48:04 GMT
+Modified-files: ChangeLog panel-applet/NMWirelessApplet.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-95
+Summary: 2004-08-29  Colin Walters  <walters@verbum.org>
+CSCVSID: MAIN.96
+Keywords: cscvs:MAIN.96
+
+Author: walters
+Date: 2004-08-29 05:36:34 GMT
+2004-08-29  Colin Walters  <walters@verbum.org>
+
+	* panel-applet/NMWirelessApplet.c: Include config.h.

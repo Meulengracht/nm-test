@@ -1,0 +1,27 @@
+Revision: network-manager--MAIN--0--patch-291
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:57:23 BST 2005
+Standard-date: 2005-08-13 14:57:23 GMT
+Modified-files: ChangeLog src/NetworkManagerDevice.c
+    src/NetworkManagerWireless.c
+    src/NetworkManagerWireless.h
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-291
+Summary: 2004-11-08 Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.292
+Keywords: cscvs:MAIN.292
+
+Author: dcbw
+Date: 2004-11-08 19:00:04 GMT
+2004-11-08 Dan Williams <dcbw@redhat.com>
+
+	* src/NetworkManagerDevice.c
+		- Some random fprintf->syslog conversions
+		- (nm_device_wireless_network_exists): double-check for network
+		- (nm_device_find_and_use_essid): Copy over encryption key no matter what
+
+	* src/NetworkManagerWireless.[ch]
+		- (nm_wireless_[128|64]bit_ascii_to_hex): make "ascii" argument unsigned again
+			so that the binary->ascii conversion works (if unsigned, the bitshift
+			will fill with zeros, which is what's required).  Also mask bitshift
+			result with 0xF for futher assurance.

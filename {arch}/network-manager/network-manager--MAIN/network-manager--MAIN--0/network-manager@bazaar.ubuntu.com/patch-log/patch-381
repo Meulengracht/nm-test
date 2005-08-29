@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-381
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:02:28 BST 2005
+Standard-date: 2005-08-13 15:02:28 GMT
+Modified-files: ChangeLog src/NetworkManager.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-381
+Summary: 2005-01-21  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.382
+Keywords: cscvs:MAIN.382
+
+Author: dcbw
+Date: 2005-01-22 04:26:48 GMT
+2005-01-21  Dan Williams  <dcbw@redhat.com>
+
+	* src/NetworkManager.c
+		- Daemonize earlier so that glib doesn't get confused (?)

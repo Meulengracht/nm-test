@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-364
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:01:16 BST 2005
+Standard-date: 2005-08-13 15:01:16 GMT
+Modified-files: dhcpcd/Makefile.am
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-364
+Summary: Don't install DHCP test program
+CSCVSID: MAIN.365
+Keywords: cscvs:MAIN.365
+
+Author: dcbw
+Date: 2005-01-12 21:49:49 GMT
+Don't install DHCP test program

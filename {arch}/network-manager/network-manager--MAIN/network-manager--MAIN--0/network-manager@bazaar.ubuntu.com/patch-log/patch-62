@@ -1,0 +1,53 @@
+Revision: network-manager--MAIN--0--patch-62
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:46:57 BST 2005
+Standard-date: 2005-08-13 14:46:57 GMT
+Modified-files: src/NetworkManagerAP.c
+    src/NetworkManagerAP.h src/NetworkManagerAPList.c
+    src/NetworkManagerDbus.c src/NetworkManagerDbus.h
+    src/NetworkManagerDevice.c src/NetworkManagerDevice.h
+    src/NetworkManagerUtils.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-62
+Summary: 2004-08-24  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.63
+Keywords: cscvs:MAIN.63
+
+Author: dcbw
+Date: 2004-08-25 22:41:12 GMT
+2004-08-24  Dan Williams <dcbw@redhat.com>
+
+	* src/NetworkManagerAP.[ch]
+		- Add a "enc_method_good" member and accessors to an Access Point
+			to signal when we've found the correct encryption method
+			for an access point
+		- Add a "timestamp" member and accessors, remove "priority" member
+			and accessors (use timestamps instead)
+		- Rename "wep_key"->"enc_key"
+		- (nm_ap_get_enc_key_hashed): new, return the correct mangled key
+			for a specified encryption method using the access points
+			source encryption key/passphrase
+
+	* src/NetworkManagerAPList.c
+		- When updating a network with dbus, grab timestamp now instead of
+			priority
+
+	* src/NetworkManagerDBus.[ch]
+		- Add signal for "DeviceActivating"
+		- Switch priority->timestamp
+
+	* src/NetworkManagerDevice.c
+		- Change references of "wep_key" -> "enc_key" or "key"
+		- Signal DeviceActivating when starting activation
+		- When activating a wireless device, if the access point we are connecting
+			to is encrypted, and we have a source key, try to generate a mangled
+			key and use that (ie, generate real WEP key from a passphrase)
+		- Rework device activation to fallback to other encryption methods if
+			a previous one didn't work (ie, try mangling a key as a 104-bit passphrase
+			first, then if that doesn't work fall back to direct hex key).
+		- (nm_device_update_best_ap): fix a deadlock, and use timestamps instead of
+			priority.  We now prefer the latest access point used, rather than using
+			a priority scheme
+		- (nm_device_do_normal_scan): make the encryption method "unknown" on access
+			points we've just discovered, and merge in correct info from the global
+			access point lists

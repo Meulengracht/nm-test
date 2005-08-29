@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-677
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:21:36 BST 2005
+Standard-date: 2005-08-13 15:21:36 GMT
+Modified-files: ChangeLog src/NetworkManagerDevice.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-677
+Summary: 2005-06-23  Robert Love  <rml@novell.com>
+CSCVSID: MAIN.678
+Keywords: cscvs:MAIN.678
+
+Author: rml
+Date: 2005-06-23 20:10:41 GMT
+2005-06-23  Robert Love  <rml@novell.com>
+
+        * src/NetworkManagerDevice.c: division in assignment was flipped.

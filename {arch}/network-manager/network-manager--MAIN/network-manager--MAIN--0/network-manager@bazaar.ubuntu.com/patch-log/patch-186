@@ -1,0 +1,18 @@
+Revision: network-manager--MAIN--0--patch-186
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:51:51 BST 2005
+Standard-date: 2005-08-13 14:51:51 GMT
+Modified-files: ChangeLog
+    info-daemon/NetworkManagerInfo.conf
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-186
+Summary: 2004-10-07 Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.187
+Keywords: cscvs:MAIN.187
+
+Author: dcbw
+Date: 2004-10-07 19:19:28 GMT
+2004-10-07 Dan Williams <dcbw@redhat.com>
+
+	* info-daemon/NetworkManagerInfo.conf
+		- Allow root user to run NMI too

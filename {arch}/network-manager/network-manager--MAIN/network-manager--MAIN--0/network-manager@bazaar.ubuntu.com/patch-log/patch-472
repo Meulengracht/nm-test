@@ -1,0 +1,20 @@
+Revision: network-manager--MAIN--0--patch-472
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:07:22 BST 2005
+Standard-date: 2005-08-13 15:07:22 GMT
+Modified-files: ChangeLog
+    panel-applet/NMWirelessAppletDbus.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-472
+Summary: 2005-02-27  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.473
+Keywords: cscvs:MAIN.473
+
+Author: dcbw
+Date: 2005-02-28 00:51:57 GMT
+2005-02-27  Dan Williams  <dcbw@redhat.com>
+
+	Patch from Bill Moss:
+	* panel-applet/NMWirelessAppletDbus.c
+		- Make sure strength for current access point is up-to-date when we
+			update the gui data model

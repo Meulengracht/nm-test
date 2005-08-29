@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-78
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:47:30 BST 2005
+Standard-date: 2005-08-13 14:47:30 GMT
+Modified-files: ChangeLog configure.in
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-78
+Summary: Prepare for 0.2 release
+CSCVSID: MAIN.79
+Keywords: cscvs:MAIN.79
+
+Author: dcbw
+Date: 2004-08-26 21:15:48 GMT
+Prepare for 0.2 release

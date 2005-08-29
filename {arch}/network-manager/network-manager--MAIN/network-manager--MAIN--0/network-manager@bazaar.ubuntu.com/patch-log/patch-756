@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-756
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:25:30 BST 2005
+Standard-date: 2005-08-13 15:25:30 GMT
+Modified-files: po/ChangeLog po/cs.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-756
+Summary: Update Czech translation
+CSCVSID: MAIN.757
+Keywords: cscvs:MAIN.757
+
+Author: mitr
+Date: 2005-08-06 13:15:01 GMT
+Update Czech translation

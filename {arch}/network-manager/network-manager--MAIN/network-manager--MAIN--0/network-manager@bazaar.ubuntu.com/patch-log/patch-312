@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-312
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:58:32 BST 2005
+Standard-date: 2005-08-13 14:58:32 GMT
+Modified-files: ChangeLog src/Makefile.am
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-312
+Summary: 2004-11-22  Colin Walters  <walters@verbum.org>
+CSCVSID: MAIN.313
+Keywords: cscvs:MAIN.313
+
+Author: walters
+Date: 2004-11-22 19:28:16 GMT
+2004-11-22  Colin Walters  <walters@verbum.org>
+
+	* src/Makefile.am (NetworkManager_SOURCES): Add
+	NetworkManagerDevicePrivate.h.

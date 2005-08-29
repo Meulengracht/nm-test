@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-363
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:01:15 BST 2005
+Standard-date: 2005-08-13 15:01:15 GMT
+Modified-files: test/.cvsignore
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-363
+Summary: Add libnm_glib_test to cvsignore
+CSCVSID: MAIN.364
+Keywords: cscvs:MAIN.364
+
+Author: dcbw
+Date: 2005-01-12 18:46:25 GMT
+Add libnm_glib_test to cvsignore

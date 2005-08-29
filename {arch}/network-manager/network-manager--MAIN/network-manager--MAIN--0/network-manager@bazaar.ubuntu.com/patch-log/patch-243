@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-243
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:54:43 BST 2005
+Standard-date: 2005-08-13 14:54:43 GMT
+Modified-files: po/ChangeLog po/pt_BR.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-243
+Summary: Updated pt_BR translation
+CSCVSID: MAIN.244
+Keywords: cscvs:MAIN.244
+
+Author: raphaelh
+Date: 2004-10-17 10:55:20 GMT
+Updated pt_BR translation

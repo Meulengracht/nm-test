@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-685
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:21:58 BST 2005
+Standard-date: 2005-08-13 15:21:58 GMT
+Modified-files: po/ChangeLog po/POTFILES.in
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-685
+Summary: 2005-06-25  Christian Rose  <menthos@menthos.com>
+CSCVSID: MAIN.686
+Keywords: cscvs:MAIN.686
+
+Author: menthos
+Date: 2005-06-25 14:25:50 GMT
+2005-06-25  Christian Rose  <menthos@menthos.com>
+
+	* POTFILES.in: Added missing file entries.

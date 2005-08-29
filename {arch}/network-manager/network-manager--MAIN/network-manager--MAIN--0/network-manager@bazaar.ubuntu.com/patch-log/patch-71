@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-71
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:47:12 BST 2005
+Standard-date: 2005-08-13 14:47:12 GMT
+Modified-files: ChangeLog
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-71
+Summary: fix up entry
+CSCVSID: MAIN.72
+Keywords: cscvs:MAIN.72
+
+Author: dcbw
+Date: 2004-08-26 02:28:17 GMT
+fix up entry

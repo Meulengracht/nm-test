@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-780
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Wed Aug 17 16:27:40 BST 2005
+Standard-date: 2005-08-17 15:27:40 GMT
+Modified-files: src/NetworkManagerDevice.h
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-780
+Summary: Remove no longer used prototypes
+CSCVSID: MAIN.781
+Keywords: cscvs:MAIN.781
+
+Author: dcbw
+Date: 2005-08-17 03:57:53 GMT
+Remove no longer used prototypes

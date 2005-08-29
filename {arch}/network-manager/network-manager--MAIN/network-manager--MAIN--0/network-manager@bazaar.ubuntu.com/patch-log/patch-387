@@ -1,0 +1,21 @@
+Revision: network-manager--MAIN--0--patch-387
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:02:54 BST 2005
+Standard-date: 2005-08-13 15:02:54 GMT
+Modified-files: ChangeLog src/NetworkManagerDevice.c
+    src/NetworkManagerDevicePrivate.h
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-387
+Summary: 2005-01-24  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.388
+Keywords: cscvs:MAIN.388
+
+Author: dcbw
+Date: 2005-01-24 21:53:39 GMT
+2005-01-24  Dan Williams  <dcbw@redhat.com>
+
+	* src/NetworkManagerDevice.c
+	  src/NetworkManagerDevicePrivate.h
+		- Block nm_device_new() until our device's worker thread has had a
+			chance to start up.  Fixes a race between main thread and worker
+			thread starting that caused activation requests to get lost.

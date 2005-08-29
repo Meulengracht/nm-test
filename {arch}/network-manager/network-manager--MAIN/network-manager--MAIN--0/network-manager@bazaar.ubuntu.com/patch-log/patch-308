@@ -1,0 +1,22 @@
+Revision: network-manager--MAIN--0--patch-308
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:58:16 BST 2005
+Standard-date: 2005-08-13 14:58:16 GMT
+Modified-files: ChangeLog src/NetworkManagerDevice.c
+    src/NetworkManagerDevice.h src/NetworkManagerPolicy.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-308
+Summary: 2004-11-16  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.309
+Keywords: cscvs:MAIN.309
+
+Author: dcbw
+Date: 2004-11-16 16:34:14 GMT
+2004-11-16  Dan Williams <dcbw@redhat.com>
+
+	* src/NetworkManagerDevice.[ch]
+		- (nm_device_clear_activation_fail): new function
+
+	* src/NetworkManagerPolicy.c
+		- (nm_state_modification_monitor): clear the activation_failed flag on devices
+			when we've dealt with the failure so the user doesn't get failure-dialog-spammed

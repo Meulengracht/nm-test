@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-122
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:48:56 BST 2005
+Standard-date: 2005-08-13 14:48:56 GMT
+Modified-files: po/ChangeLog
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-122
+Summary: 2004-09-07  David Lodge <dave@cirt.net>
+CSCVSID: MAIN.123
+Keywords: cscvs:MAIN.123
+
+Author: dlodge
+Date: 2004-09-07 20:16:50 GMT
+2004-09-07  David Lodge <dave@cirt.net>
+
+        * en_GB.po: Added British translation.

@@ -1,0 +1,19 @@
+Revision: network-manager--MAIN--0--patch-729
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:24:00 BST 2005
+Standard-date: 2005-08-13 15:24:00 GMT
+Modified-files: ChangeLog
+    vpn-daemons/vpnc/src/nm-vpnc-service.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-729
+Summary: 2005-07-13  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.730
+Keywords: cscvs:MAIN.730
+
+Author: dcbw
+Date: 2005-07-13 17:12:32 GMT
+2005-07-13  Dan Williams  <dcbw@redhat.com>
+
+	Patch from Ray Strode <halfline@gmail.com>
+	* vpn-daemons/vpnc/nm-vpnc-service.c
+		- Don't let vpnc daemonize, fixes some races with PID file reading

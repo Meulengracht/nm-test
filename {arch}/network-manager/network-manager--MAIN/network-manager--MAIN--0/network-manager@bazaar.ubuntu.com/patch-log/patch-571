@@ -1,0 +1,18 @@
+Revision: network-manager--MAIN--0--patch-571
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:14:53 BST 2005
+Standard-date: 2005-08-13 15:14:53 GMT
+Modified-files: ChangeLog gnome/libnm_glib/libnm_glib.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-571
+Summary: 2005-05-05  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.572
+Keywords: cscvs:MAIN.572
+
+Author: dcbw
+Date: 2005-05-05 20:11:31 GMT
+2005-05-05  Dan Williams  <dcbw@redhat.com>
+
+	Patch from Bill Moss:
+	* gnome/libnm_glib/libnm_glib.c
+		- Fix for dbus-0.33

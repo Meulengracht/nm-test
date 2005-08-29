@@ -1,0 +1,65 @@
+Revision: network-manager--MAIN--0--patch-495
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:09:12 BST 2005
+Standard-date: 2005-08-13 15:09:12 GMT
+New-files: panel-applet/icons/.arch-ids/nm-no-connection.png.id
+    panel-applet/icons/nm-no-connection.png
+    utils/.arch-ids/.cvsignore.id utils/.cvsignore
+Modified-files: ChangeLog named/nm-named-manager.c
+    panel-applet/NMWirelessApplet.c
+    panel-applet/NMWirelessApplet.h
+    panel-applet/icons/Makefile.am src/NetworkManager.c
+    src/NetworkManagerDHCP.c src/NetworkManagerDbus.c
+    src/NetworkManagerDevice.c src/NetworkManagerMain.h
+    src/NetworkManagerPolicy.c src/NetworkManagerSystem.c
+    src/NetworkManagerUtils.c src/NetworkManagerUtils.h
+    src/backends/NetworkManagerRedHat.c src/nm-dbus-nm.c
+    utils/nm-utils.h
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-495
+Summary: 2005-03-25  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.496
+Keywords: cscvs:MAIN.496
+
+Author: dcbw
+Date: 2005-03-26 03:42:03 GMT
+2005-03-25  Dan Williams <dcbw@redhat.com>
+
+	* panel-applet/NMWirelessApplet.c
+		- (nmwa_about_cb): Add some more contributors
+		- (nmwa_update_state): show the applet when there's no connection
+		- Enable the "Stop/Resume all wireless devices" option in the
+			context menu
+		- New "no connection" icon
+
+	* src/NetworkManager.c
+		- (nm_poll_and_update_wireless_link_state): don't do anything if
+			wireless is disabled or we're asleep
+
+	* src/NetworkManagerDHCP.c
+		- Remove trailing "\n" on debug messages
+
+	* src/NetworkManagerDbus.c
+		- (nm_dbus_network_status_from_data): new state "asleep"
+
+	* src/NetworkManagerDevice.c
+		- Merge most of Peter Jones' "completion" patch that greatly reduces
+			latency and wait times for most operations
+		- (nm_device_wireless_scan): Don't scan when asleep
+
+	* src/NetworkManagerPolicy.c
+		- (nm_policy_get_best_device): return no device when asleep
+		- (nm_policy_allowed_ap_list_update): From Bill Moss: merge properties
+			for all wireless devices on update, not just active device
+
+	* src/NetworkManagerUtils.c
+		- Merge Peter Jones' "completion" patch
+
+	* src/nm-dbus-nm.c
+		- (nm_dbus_nm_set_wireless_enabled): bring down wireless devices when
+			we're told to disable them
+		- (nm_dbus_nm_sleep, nm_dbus_nm_wake): new functions for sleep/wake
+
+	* utils/nm-utils.h
+		- New variants of the warn/info/error/debug print functions that can take
+			variables rather than static strings

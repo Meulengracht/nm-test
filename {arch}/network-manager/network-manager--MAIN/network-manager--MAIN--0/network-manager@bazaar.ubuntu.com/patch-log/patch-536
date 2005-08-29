@@ -1,0 +1,18 @@
+Revision: network-manager--MAIN--0--patch-536
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:11:40 BST 2005
+Standard-date: 2005-08-13 15:11:40 GMT
+Modified-files: ChangeLog src/Makefile.am
+    src/backends/Makefile.am src/vpn-manager/Makefile.am
+    vpn-daemons/vpnc/Makefile.am
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-536
+Summary: 2005-04-15  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.537
+Keywords: cscvs:MAIN.537
+
+Author: dcbw
+Date: 2005-04-15 16:37:25 GMT
+2005-04-15  Dan Williams  <dcbw@redhat.com>
+
+	- Fixes to pass 'make distcheck'

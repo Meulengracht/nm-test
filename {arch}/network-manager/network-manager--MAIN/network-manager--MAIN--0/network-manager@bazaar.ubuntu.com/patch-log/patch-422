@@ -1,0 +1,18 @@
+Revision: network-manager--MAIN--0--patch-422
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:04:49 BST 2005
+Standard-date: 2005-08-13 15:04:49 GMT
+Modified-files: po/ChangeLog po/POTFILES.in
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-422
+Summary: 2005-02-10  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.423
+Keywords: cscvs:MAIN.423
+
+Author: dcbw
+Date: 2005-02-10 21:15:48 GMT
+2005-02-10  Dan Williams  <dcbw@redhat.com>
+
+	* POTFILES.in
+		- Revert the Encoding change since it doesn't seem to work
+			on FC4 or FC3 at the moment.

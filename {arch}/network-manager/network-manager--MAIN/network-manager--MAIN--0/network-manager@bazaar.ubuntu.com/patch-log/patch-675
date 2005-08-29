@@ -1,0 +1,21 @@
+Revision: network-manager--MAIN--0--patch-675
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:21:31 BST 2005
+Standard-date: 2005-08-13 15:21:31 GMT
+Modified-files: ChangeLog
+    gnome/applet/vpn-password-dialog.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-675
+Summary: 2005-06-23  David Zeuthen  <david@fubar.dk>
+CSCVSID: MAIN.676
+Keywords: cscvs:MAIN.676
+
+Author: davidz
+Date: 2005-06-23 19:47:37 GMT
+2005-06-23  David Zeuthen  <david@fubar.dk>
+
+        * gnome/applet/vpn-password-dialog.c (child_stdout_data_cb): Send a
+        signal to the child to indicate that we got what we wanted when we
+        see two new-lines right after each other.
+        (nmwa_vpn_request_password): Pass a structure with several members
+        instead of just the passwords

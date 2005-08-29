@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-271
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:56:25 BST 2005
+Standard-date: 2005-08-13 14:56:25 GMT
+Modified-files: src/Makefile.am
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-271
+Summary: Allow distcheck to succeed
+CSCVSID: MAIN.272
+Keywords: cscvs:MAIN.272
+
+Author: dcbw
+Date: 2004-10-29 20:06:18 GMT
+Allow distcheck to succeed

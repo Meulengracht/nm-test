@@ -1,0 +1,71 @@
+Revision: network-manager--MAIN--0--patch-376
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:02:09 BST 2005
+Standard-date: 2005-08-13 15:02:09 GMT
+New-files: panel-applet/icons/.arch-ids/nm-connecting04.png.id
+    panel-applet/icons/.arch-ids/nm-connecting05.png.id
+    panel-applet/icons/.arch-ids/nm-connecting06.png.id
+    panel-applet/icons/.arch-ids/nm-connecting07.png.id
+    panel-applet/icons/.arch-ids/nm-connecting08.png.id
+    panel-applet/icons/.arch-ids/nm-connecting09.png.id
+    panel-applet/icons/.arch-ids/nm-connecting10.png.id
+    panel-applet/icons/.arch-ids/nm-connecting11.png.id
+    panel-applet/icons/.arch-ids/nm-detect08.png.id
+    panel-applet/icons/.arch-ids/nm-detect09.png.id
+    panel-applet/icons/.arch-ids/nm-detect10.png.id
+    panel-applet/icons/.arch-ids/nm-detect11.png.id
+    panel-applet/icons/.arch-ids/nm-detect12.png.id
+    panel-applet/icons/.arch-ids/nm-detect13.png.id
+    panel-applet/icons/.arch-ids/nm-detect14.png.id
+    panel-applet/icons/.arch-ids/nm-detect15.png.id
+    panel-applet/icons/.arch-ids/nm-detect16.png.id
+    panel-applet/icons/nm-connecting04.png
+    panel-applet/icons/nm-connecting05.png
+    panel-applet/icons/nm-connecting06.png
+    panel-applet/icons/nm-connecting07.png
+    panel-applet/icons/nm-connecting08.png
+    panel-applet/icons/nm-connecting09.png
+    panel-applet/icons/nm-connecting10.png
+    panel-applet/icons/nm-connecting11.png
+    panel-applet/icons/nm-detect08.png
+    panel-applet/icons/nm-detect09.png
+    panel-applet/icons/nm-detect10.png
+    panel-applet/icons/nm-detect11.png
+    panel-applet/icons/nm-detect12.png
+    panel-applet/icons/nm-detect13.png
+    panel-applet/icons/nm-detect14.png
+    panel-applet/icons/nm-detect15.png
+    panel-applet/icons/nm-detect16.png
+Removed-files: panel-applet/icons/.arch-ids/nm-connecting00.png.id
+    panel-applet/icons/.arch-ids/nm-detect00.png.id
+    panel-applet/icons/nm-connecting00.png
+    panel-applet/icons/nm-detect00.png
+Modified-files: ChangeLog panel-applet/NMWirelessApplet.c
+    panel-applet/NMWirelessApplet.h
+    panel-applet/NMWirelessAppletDbus.c
+    panel-applet/NMWirelessAppletOtherNetworkDialog.c
+    panel-applet/icons/Makefile.am
+    panel-applet/icons/nm-connecting01.png
+    panel-applet/icons/nm-connecting02.png
+    panel-applet/icons/nm-connecting03.png
+    panel-applet/icons/nm-detect01.png
+    panel-applet/icons/nm-detect02.png
+    panel-applet/icons/nm-detect03.png
+    panel-applet/icons/nm-detect04.png
+    panel-applet/icons/nm-detect05.png
+    panel-applet/icons/nm-detect06.png
+    panel-applet/icons/nm-detect07.png
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-376
+Summary: 2005-01-21  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.377
+Keywords: cscvs:MAIN.377
+
+Author: dcbw
+Date: 2005-01-21 17:54:29 GMT
+2005-01-21  Dan Williams  <dcbw@redhat.com>
+
+	* Add new icons, more frames of animation
+	* Remove some hacks to get the panel applet to display correct
+		status, an NM update will soon follow that will fix the
+		real issue.

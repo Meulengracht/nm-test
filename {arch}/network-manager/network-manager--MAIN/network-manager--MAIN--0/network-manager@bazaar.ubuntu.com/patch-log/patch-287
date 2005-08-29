@@ -1,0 +1,19 @@
+Revision: network-manager--MAIN--0--patch-287
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:57:11 BST 2005
+Standard-date: 2005-08-13 14:57:11 GMT
+Modified-files: ChangeLog src/NetworkManagerUtils.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-287
+Summary: 2004-11-05 Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.288
+Keywords: cscvs:MAIN.288
+
+Author: dcbw
+Date: 2004-11-06 02:44:06 GMT
+2004-11-05 Dan Williams <dcbw@redhat.com>
+
+	* src/NetworkManagerUtils.c
+		- Blacklist wireless cards rather than whitelisting them.
+		- Grab driver name from HAL rather than trying to find it
+			ourselves.

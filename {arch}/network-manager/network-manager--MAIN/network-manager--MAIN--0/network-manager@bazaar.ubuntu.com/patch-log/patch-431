@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-431
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:05:21 BST 2005
+Standard-date: 2005-08-13 15:05:21 GMT
+Modified-files: configure.in
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-431
+Summary: Added Greek translation
+CSCVSID: MAIN.432
+Keywords: cscvs:MAIN.432
+
+Author: frolix68
+Date: 2005-02-12 13:08:37 GMT
+Added Greek translation

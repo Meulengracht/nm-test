@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-347
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:00:20 BST 2005
+Standard-date: 2005-08-13 15:00:20 GMT
+Modified-files: ChangeLog src/NetworkManagerDevice.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-347
+Summary: Patch from j@bootlab.org
+CSCVSID: MAIN.348
+Keywords: cscvs:MAIN.348
+
+Author: dcbw
+Date: 2004-12-22 18:45:11 GMT
+Patch from j@bootlab.org
+        * src/NetworkManagerDevice.c
+                - Take down then bring up wired devices after connection so
+                they send out ipv6 router advertisements

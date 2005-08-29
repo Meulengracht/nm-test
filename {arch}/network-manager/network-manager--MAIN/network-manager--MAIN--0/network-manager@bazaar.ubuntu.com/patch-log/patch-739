@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-739
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:24:26 BST 2005
+Standard-date: 2005-08-13 15:24:26 GMT
+Modified-files: po/ChangeLog po/cs.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-739
+Summary: Update Czech translation
+CSCVSID: MAIN.740
+Keywords: cscvs:MAIN.740
+
+Author: mitr
+Date: 2005-07-23 16:53:22 GMT
+Update Czech translation

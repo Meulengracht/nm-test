@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-586
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:15:59 BST 2005
+Standard-date: 2005-08-13 15:15:59 GMT
+Modified-files: po/ChangeLog po/ne.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-586
+Summary: updated nepali translation
+CSCVSID: MAIN.587
+Keywords: cscvs:MAIN.587
+
+Author: pachimho
+Date: 2005-05-14 08:55:24 GMT
+updated nepali translation

@@ -1,0 +1,20 @@
+Revision: network-manager--MAIN--0--patch-439
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:05:45 BST 2005
+Standard-date: 2005-08-13 15:05:45 GMT
+Modified-files: ChangeLog src/NetworkManagerDHCP.c
+    src/NetworkManagerMain.h
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-439
+Summary: 2005-02-14  Colin Walters  <walters@verbum.org>
+CSCVSID: MAIN.440
+Keywords: cscvs:MAIN.440
+
+Author: walters
+Date: 2005-02-14 14:00:15 GMT
+2005-02-14  Colin Walters  <walters@verbum.org>
+
+	* src/NetworkManagerMain.h (NMData): Handle multiple domain searches.
+
+	* src/NetworkManagerDHCP.c (set_domain_searches): Handle space-separated
+	list of domains to search.

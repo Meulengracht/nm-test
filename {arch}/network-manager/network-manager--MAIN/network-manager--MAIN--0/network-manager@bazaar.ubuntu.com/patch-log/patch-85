@@ -1,0 +1,25 @@
+Revision: network-manager--MAIN--0--patch-85
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:47:44 BST 2005
+Standard-date: 2005-08-13 14:47:44 GMT
+Modified-files: ChangeLog panel-applet/NMWirelessApplet.c
+    panel-applet/NMWirelessApplet.h
+    panel-applet/NMWirelessAppletDbus.c
+    panel-applet/NMWirelessAppletDbus.h
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-85
+Summary: Fri Aug 28 2004 Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.86
+Keywords: cscvs:MAIN.86
+
+Author: dcbw
+Date: 2004-08-27 19:42:47 GMT
+Fri Aug 28 2004 Dan Williams <dcbw@redhat.com>
+
+	* panel-applet/NMWirelessApplet.c
+		- Make current device bold
+		- Show more user-friendly device name if we got one from hal
+
+	* panel-applet/NMWirelessAppletDbus.c
+		- Grab "info.product" key from hal for network devices
+		- Cache the current active device

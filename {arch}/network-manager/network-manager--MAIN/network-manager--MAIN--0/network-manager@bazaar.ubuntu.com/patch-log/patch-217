@@ -1,0 +1,67 @@
+Revision: network-manager--MAIN--0--patch-217
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:53:30 BST 2005
+Standard-date: 2005-08-13 14:53:30 GMT
+Removed-files: panel-applet/.arch-ids/broken-0.png.id
+    panel-applet/.arch-ids/connect-0.png.id
+    panel-applet/.arch-ids/connect-1.png.id
+    panel-applet/.arch-ids/connect-2.png.id
+    panel-applet/.arch-ids/connect-3.png.id
+    panel-applet/.arch-ids/keyring.png.id
+    panel-applet/.arch-ids/no-link-0.png.id
+    panel-applet/.arch-ids/no-networkmanager.png.id
+    panel-applet/.arch-ids/signal-1-40.png.id
+    panel-applet/.arch-ids/signal-41-60.png.id
+    panel-applet/.arch-ids/signal-61-80.png.id
+    panel-applet/.arch-ids/signal-81-100.png.id
+    panel-applet/.arch-ids/wired.png.id
+    panel-applet/.arch-ids/wireless-applet.png.id
+    panel-applet/.arch-ids/wireless.png.id
+    panel-applet/broken-0.png panel-applet/connect-0.png
+    panel-applet/connect-1.png panel-applet/connect-2.png
+    panel-applet/connect-3.png panel-applet/keyring.png
+    panel-applet/no-link-0.png
+    panel-applet/no-networkmanager.png
+    panel-applet/signal-1-40.png
+    panel-applet/signal-41-60.png
+    panel-applet/signal-61-80.png
+    panel-applet/signal-81-100.png panel-applet/wired.png
+    panel-applet/wireless-applet.png
+    panel-applet/wireless.png
+Modified-files: ChangeLog panel-applet/Makefile.am
+    panel-applet/NMWirelessApplet.c
+    panel-applet/NMWirelessAppletDbus.c
+    panel-applet/icons/Makefile.am
+    panel-applet/icons/nm-connecting00.png
+    panel-applet/icons/nm-connecting01.png
+    panel-applet/icons/nm-connecting02.png
+    panel-applet/icons/nm-connecting03.png
+    panel-applet/icons/nm-detect00.png
+    panel-applet/icons/nm-detect01.png
+    panel-applet/icons/nm-detect02.png
+    panel-applet/icons/nm-detect03.png
+    panel-applet/icons/nm-detect04.png
+    panel-applet/icons/nm-detect05.png
+    panel-applet/icons/nm-detect06.png
+    panel-applet/icons/nm-detect07.png
+    panel-applet/icons/nm-signal-00.png
+    panel-applet/icons/nm-signal-100.png
+    panel-applet/icons/nm-signal-25.png
+    panel-applet/icons/nm-signal-50.png
+    panel-applet/icons/nm-signal-75.png
+    panel-applet/menu-info.c po/POTFILES.in
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-217
+Summary: Wed Oct 13 19:31:53 2004  Jonathan Blandford  <jrb@redh...
+CSCVSID: MAIN.218
+Keywords: cscvs:MAIN.218
+
+Author: jrb
+Date: 2004-10-13 23:37:01 GMT
+Wed Oct 13 19:31:53 2004  Jonathan Blandford  <jrb@redhat.com>
+
+        * panel-applet/NMWirelessApplet.c: Add an essid dialog.  It
+        doesn't work yet, but it looks okay.
+
+        * panel-applet/icons/*png: Resize to 22x22 and install in the
+        right place.

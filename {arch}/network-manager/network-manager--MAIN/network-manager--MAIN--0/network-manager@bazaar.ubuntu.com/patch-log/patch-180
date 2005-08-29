@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-180
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:51:38 BST 2005
+Standard-date: 2005-08-13 14:51:38 GMT
+Modified-files: ChangeLog configure.in
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-180
+Summary: 2004-10-03  Marcel Telka  <marcel@telka.sk>
+CSCVSID: MAIN.181
+Keywords: cscvs:MAIN.181
+
+Author: marcel
+Date: 2004-10-03 12:16:46 GMT
+2004-10-03  Marcel Telka  <marcel@telka.sk>
+
+	* configure.in (ALL_LINGUAS): Added sk.

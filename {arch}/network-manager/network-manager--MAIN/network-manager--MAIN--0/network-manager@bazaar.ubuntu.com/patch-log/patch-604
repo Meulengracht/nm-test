@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-604
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:17:06 BST 2005
+Standard-date: 2005-08-13 15:17:06 GMT
+Modified-files: po/ChangeLog po/en_CA.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-604
+Summary: 2005-05-19  Adam Weinberger  <adamw@gnome.org>
+CSCVSID: MAIN.605
+Keywords: cscvs:MAIN.605
+
+Author: adamw
+Date: 2005-05-19 17:45:24 GMT
+2005-05-19  Adam Weinberger  <adamw@gnome.org>
+
+	* en_CA.po: Updated Canadian English translation.

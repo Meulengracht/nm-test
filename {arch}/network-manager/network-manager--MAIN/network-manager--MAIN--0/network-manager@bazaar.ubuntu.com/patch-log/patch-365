@@ -1,0 +1,21 @@
+Revision: network-manager--MAIN--0--patch-365
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:01:19 BST 2005
+Standard-date: 2005-08-13 15:01:19 GMT
+Modified-files: ChangeLog named/nm-named-manager.c
+    src/NetworkManagerDevice.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-365
+Summary: 2005-01-13  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.366
+Keywords: cscvs:MAIN.366
+
+Author: dcbw
+Date: 2005-01-13 19:04:26 GMT
+2005-01-13  Dan Williams <dcbw@redhat.com>
+
+	* named/nm-named-manager.c
+		- Use syslog(LOG_WARNING) rather than g_warning() (gnome.org #163961)
+
+	* src/NetworkManagerDevice.c
+		- Rework wireless link detection code to be more reliable

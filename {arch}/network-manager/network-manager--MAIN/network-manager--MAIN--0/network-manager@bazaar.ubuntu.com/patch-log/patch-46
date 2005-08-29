@@ -1,0 +1,19 @@
+Revision: network-manager--MAIN--0--patch-46
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:46:11 BST 2005
+Standard-date: 2005-08-13 14:46:11 GMT
+Modified-files: ChangeLog configure.in
+    panel-applet/Makefile.am
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-46
+Summary: 2004-08-13  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.47
+Keywords: cscvs:MAIN.47
+
+Author: dcbw
+Date: 2004-08-13 15:59:47 GMT
+2004-08-13  Dan Williams <dcbw@redhat.com>
+
+	* configure.in
+	  panel-applet/Makefile.am
+		- Fixes to allow distcheck to pass

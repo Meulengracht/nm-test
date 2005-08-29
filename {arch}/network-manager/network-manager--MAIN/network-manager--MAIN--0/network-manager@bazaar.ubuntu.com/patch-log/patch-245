@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-245
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:54:47 BST 2005
+Standard-date: 2005-08-13 14:54:47 GMT
+Modified-files: po/ChangeLog po/en_GB.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-245
+Summary: 2004-10-17  David Lodge <dave@cirt.net>
+CSCVSID: MAIN.246
+Keywords: cscvs:MAIN.246
+
+Author: dlodge
+Date: 2004-10-17 13:56:13 GMT
+2004-10-17  David Lodge <dave@cirt.net>
+
+        * en_GB.po: Updated British English translation.

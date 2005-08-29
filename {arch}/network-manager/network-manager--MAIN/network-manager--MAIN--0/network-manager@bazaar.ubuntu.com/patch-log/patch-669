@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-669
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:21:16 BST 2005
+Standard-date: 2005-08-13 15:21:16 GMT
+Modified-files: po/ChangeLog po/de.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-669
+Summary: 2005-06-21  Hendrik Brandt  <heb@gnome-de.org>
+CSCVSID: MAIN.670
+Keywords: cscvs:MAIN.670
+
+Author: hebra
+Date: 2005-06-21 21:17:14 GMT
+2005-06-21  Hendrik Brandt  <heb@gnome-de.org>
+
+        * de.po: Updated German translation.

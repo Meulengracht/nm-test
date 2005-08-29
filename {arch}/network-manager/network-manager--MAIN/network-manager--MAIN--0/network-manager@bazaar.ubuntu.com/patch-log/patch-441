@@ -1,0 +1,19 @@
+Revision: network-manager--MAIN--0--patch-441
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:05:49 BST 2005
+Standard-date: 2005-08-13 15:05:49 GMT
+New-files: po/.arch-ids/hr.po.id po/hr.po
+Modified-files: ChangeLog po/ChangeLog
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-441
+Summary: 2005-02-14  Tomislav Vujec  <tvujec@redhat.com>
+CSCVSID: MAIN.442
+Keywords: cscvs:MAIN.442
+
+Author: dcbw
+Date: 2005-02-14 17:44:38 GMT
+2005-02-14  Tomislav Vujec  <tvujec@redhat.com>
+
+	* configure.in
+	  po/hr.po
+		- Add the Croatian locale.

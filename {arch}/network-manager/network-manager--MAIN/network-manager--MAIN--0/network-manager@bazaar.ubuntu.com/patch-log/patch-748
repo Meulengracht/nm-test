@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-748
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:24:53 BST 2005
+Standard-date: 2005-08-13 15:24:53 GMT
+Modified-files: po/ChangeLog po/es.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-748
+Summary: 2005-07-30  Francisco Javier F. Serrador  <serrador@cvs...
+CSCVSID: MAIN.749
+Keywords: cscvs:MAIN.749
+
+Author: serrador
+Date: 2005-07-30 10:11:50 GMT
+2005-07-30  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
+
+	* es.po: Updated Spanish translation.

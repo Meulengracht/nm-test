@@ -1,0 +1,23 @@
+Revision: network-manager--MAIN--0--patch-331
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:59:23 BST 2005
+Standard-date: 2005-08-13 14:59:23 GMT
+New-files: dhcpcd/.arch-ids/udpipgen.c.id
+    dhcpcd/.arch-ids/udpipgen.h.id dhcpcd/udpipgen.c
+    dhcpcd/udpipgen.h
+Modified-files: ChangeLog dhcpcd/Makefile.am dhcpcd/arp.c
+    dhcpcd/buildmsg.c dhcpcd/buildmsg.h dhcpcd/client.c
+    dhcpcd/client.h dhcpcd/dhcpcd.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-331
+Summary: 2004-12-15  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.332
+Keywords: cscvs:MAIN.332
+
+Author: dcbw
+Date: 2004-12-15 17:58:59 GMT
+2004-12-15  Dan Williams  <dcbw@redhat.com>
+
+	* Rework the DHCP code again to revert to sending full ethernet frames
+		rather then relying on the kernel to do the right thing with our
+		packets.

@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-666
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:21:09 BST 2005
+Standard-date: 2005-08-13 15:21:09 GMT
+Modified-files: src/Makefile.am
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-666
+Summary: src/Makefile.am: add autoip.h
+CSCVSID: MAIN.667
+Keywords: cscvs:MAIN.667
+
+Author: rml
+Date: 2005-06-21 20:06:47 GMT
+src/Makefile.am: add autoip.h

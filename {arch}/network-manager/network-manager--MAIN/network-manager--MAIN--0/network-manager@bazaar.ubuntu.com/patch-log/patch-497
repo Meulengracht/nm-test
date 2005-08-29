@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-497
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:09:16 BST 2005
+Standard-date: 2005-08-13 15:09:16 GMT
+Modified-files: ChangeLog src/NetworkManagerDevice.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-497
+Summary: 2005-03-26  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.498
+Keywords: cscvs:MAIN.498
+
+Author: dcbw
+Date: 2005-03-27 01:04:47 GMT
+2005-03-26  Dan Williams <dcbw@redhat.com>
+
+	* src/NetworkManagerDevice.c
+		- (nm_device_wireless_scan): Remove duplicated scanning code

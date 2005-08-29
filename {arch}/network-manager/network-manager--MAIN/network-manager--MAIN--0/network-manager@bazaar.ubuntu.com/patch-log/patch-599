@@ -1,0 +1,22 @@
+Revision: network-manager--MAIN--0--patch-599
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:16:47 BST 2005
+Standard-date: 2005-08-13 15:16:47 GMT
+New-files: po/.arch-ids/sr.po.id po/.arch-ids/sr@Latn.po.id
+    po/sr.po po/sr@Latn.po
+Modified-files: ChangeLog configure.in po/ChangeLog
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-599
+Summary: 2005-05-15  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.600
+Keywords: cscvs:MAIN.600
+
+Author: dcbw
+Date: 2005-05-16 01:53:40 GMT
+2005-05-15  Dan Williams  <dcbw@redhat.com>
+
+	From Filip Miletic:
+	* po/sr.po
+	  po/sr@Latn.po
+	  configure.in
+		- Serbian translation added

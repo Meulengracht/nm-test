@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-328
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:59:13 BST 2005
+Standard-date: 2005-08-13 14:59:13 GMT
+Modified-files: configure.in
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-328
+Summary: Added Simplified Chinese translation
+CSCVSID: MAIN.329
+Keywords: cscvs:MAIN.329
+
+Author: fwang
+Date: 2004-12-06 04:48:12 GMT
+Added Simplified Chinese translation

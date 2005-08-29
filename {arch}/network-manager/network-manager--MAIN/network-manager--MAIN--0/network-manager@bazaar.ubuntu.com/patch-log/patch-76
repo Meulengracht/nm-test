@@ -1,0 +1,15 @@
+Revision: network-manager--MAIN--0--patch-76
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:47:26 BST 2005
+Standard-date: 2005-08-13 14:47:26 GMT
+New-files: panel-applet/.arch-ids/wireless.png.id
+    panel-applet/wireless.png
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-76
+Summary: Add
+CSCVSID: MAIN.77
+Keywords: cscvs:MAIN.77
+
+Author: dcbw
+Date: 2004-08-26 20:07:26 GMT
+Add

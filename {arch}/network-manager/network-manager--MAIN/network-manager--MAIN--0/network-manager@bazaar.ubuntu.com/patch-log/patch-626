@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-626
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:18:46 BST 2005
+Standard-date: 2005-08-13 15:18:46 GMT
+Modified-files: po/ChangeLog po/cs.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-626
+Summary: 2005-06-12  Miloslav Trmac  <mitr@volny.cz>
+CSCVSID: MAIN.627
+Keywords: cscvs:MAIN.627
+
+Author: mitr
+Date: 2005-06-12 16:18:33 GMT
+2005-06-12  Miloslav Trmac  <mitr@volny.cz>
+
+	* cs.po: Updated Czech translation.

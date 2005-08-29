@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-727
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:23:49 BST 2005
+Standard-date: 2005-08-13 15:23:49 GMT
+Modified-files: po/ChangeLog po/cs.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-727
+Summary: Update Czech translation
+CSCVSID: MAIN.728
+Keywords: cscvs:MAIN.728
+
+Author: mitr
+Date: 2005-07-10 17:42:04 GMT
+Update Czech translation

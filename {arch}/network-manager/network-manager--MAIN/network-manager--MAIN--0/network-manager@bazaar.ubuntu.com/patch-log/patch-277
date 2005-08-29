@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-277
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:56:39 BST 2005
+Standard-date: 2005-08-13 14:56:39 GMT
+Modified-files: .cvsignore ChangeLog
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-277
+Summary: 2004-11-01  Colin Walters  <walters@verbum.org>
+CSCVSID: MAIN.278
+Keywords: cscvs:MAIN.278
+
+Author: walters
+Date: 2004-11-02 04:49:29 GMT
+2004-11-01  Colin Walters  <walters@verbum.org>
+
+	* .cvsignore: Update.

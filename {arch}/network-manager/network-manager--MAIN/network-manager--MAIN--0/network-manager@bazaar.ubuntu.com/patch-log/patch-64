@@ -1,0 +1,24 @@
+Revision: network-manager--MAIN--0--patch-64
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:47:03 BST 2005
+Standard-date: 2005-08-13 14:47:03 GMT
+New-files: panel-applet/.arch-ids/wireless-applet.glade.id
+    panel-applet/wireless-applet.glade
+Modified-files: ChangeLog panel-applet/Makefile.am
+    panel-applet/NMWirelessApplet.c
+    panel-applet/NMWirelessApplet.h
+    panel-applet/NMWirelessAppletDbus.c
+    panel-applet/NMWirelessAppletDbus.h
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-64
+Summary: 2004-08-25  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.65
+Keywords: cscvs:MAIN.65
+
+Author: dcbw
+Date: 2004-08-26 00:33:08 GMT
+2004-08-25  Dan Williams <dcbw@redhat.com>
+
+	* panel-applet/*
+		- Rework the panel applet to do all DBUS communication in a separate
+			thread

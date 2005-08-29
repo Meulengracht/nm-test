@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-317
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:58:41 BST 2005
+Standard-date: 2005-08-13 14:58:41 GMT
+Modified-files: ChangeLog panel-applet/NMWirelessApplet.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-317
+Summary: 2004-12-01  Colin Walters  <walters@redhat.com>
+CSCVSID: MAIN.318
+Keywords: cscvs:MAIN.318
+
+Author: walters
+Date: 2004-12-01 20:41:52 GMT
+2004-12-01  Colin Walters  <walters@redhat.com>
+
+	* panel-applet/NMWirelessApplet.c: Add missing include.

@@ -1,0 +1,22 @@
+Revision: network-manager--MAIN--0--patch-457
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:06:44 BST 2005
+Standard-date: 2005-08-13 15:06:44 GMT
+Modified-files: ChangeLog src/NetworkManagerDHCP.c
+    src/NetworkManagerDHCP.h src/NetworkManagerDevice.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-457
+Summary: 2005-02-21  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.458
+Keywords: cscvs:MAIN.458
+
+Author: dcbw
+Date: 2005-02-22 00:30:46 GMT
+2005-02-21  Dan Williams  <dcbw@redhat.com>
+
+	* src/NetworkManagerDHCP.[ch]
+		- (nm_device_dhcp_remove_timeouts): new function
+
+	* src/NetworkManagerDevice.c
+		- Use nm_device_dhcp_remove_timeouts() everywhere that we need to
+			remove the DHCP timeouts.

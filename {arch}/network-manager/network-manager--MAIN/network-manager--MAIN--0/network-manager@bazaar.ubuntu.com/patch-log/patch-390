@@ -1,0 +1,23 @@
+Revision: network-manager--MAIN--0--patch-390
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:03:09 BST 2005
+Standard-date: 2005-08-13 15:03:09 GMT
+Modified-files: ChangeLog libnm_glib/libnm_glib.c
+    panel-applet/NMWirelessAppletDbus.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-390
+Summary: 2005-01-25  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.391
+Keywords: cscvs:MAIN.391
+
+Author: dcbw
+Date: 2005-01-26 02:17:02 GMT
+2005-01-25  Dan Williams  <dcbw@redhat.com>
+
+	* panel-applet/NMWirelessAppletDbus.c
+		- (nmwa_dbus_filter): Fix dbus 0.23 ServiceOwnerChanged checks
+			so we check for NM_DBUS_SERVICE rather than not for it
+
+	* libnm_glib/libnm_glib.c
+		- (libnm_glib_dbus_filter): Fix for dbus 0.23, trapping
+			ServiceOwnerChanged signal

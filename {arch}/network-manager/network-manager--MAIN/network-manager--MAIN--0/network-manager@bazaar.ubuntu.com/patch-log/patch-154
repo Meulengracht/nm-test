@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-154
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:50:25 BST 2005
+Standard-date: 2005-08-13 14:50:25 GMT
+Modified-files: po/ChangeLog po/POTFILES.in
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-154
+Summary: Mon Sep 20 11:22:16 2004  Jonathan Blandford  <jrb@redh...
+CSCVSID: MAIN.155
+Keywords: cscvs:MAIN.155
+
+Author: jrb
+Date: 2004-09-20 15:23:05 GMT
+Mon Sep 20 11:22:16 2004  Jonathan Blandford  <jrb@redhat.com>
+
+        * POTFILES.in: add panel-applet/menu-info.c

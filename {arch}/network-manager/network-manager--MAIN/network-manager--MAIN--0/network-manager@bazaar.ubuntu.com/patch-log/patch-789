@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-789
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Wed Aug 17 16:28:03 BST 2005
+Standard-date: 2005-08-17 15:28:03 GMT
+Modified-files: ChangeLog gnome/applet/applet.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-789
+Summary: 2005-08-16  Robert Love  <rml@novell.com>
+CSCVSID: MAIN.790
+Keywords: cscvs:MAIN.790
+
+Author: rml
+Date: 2005-08-16 20:09:58 GMT
+2005-08-16  Robert Love  <rml@novell.com>
+
+        * gnome/applet/applet.c: Better "Dial Up" menu item.

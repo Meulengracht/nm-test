@@ -1,0 +1,40 @@
+Revision: network-manager--MAIN--0--patch-156
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:50:33 BST 2005
+Standard-date: 2005-08-13 14:50:33 GMT
+New-files: panel-applet/icons/.arch-ids/.cvsignore.id
+    panel-applet/icons/.arch-ids/=id
+    panel-applet/icons/.arch-ids/Makefile.am.id
+    panel-applet/icons/.arch-ids/nm-device-wired.png.id
+    panel-applet/icons/.arch-ids/nm-device-wireless.png.id
+    panel-applet/icons/.cvsignore
+    panel-applet/icons/Makefile.am
+    panel-applet/icons/nm-device-wired.png
+    panel-applet/icons/nm-device-wireless.png
+New-directories: panel-applet/icons
+    panel-applet/icons/.arch-ids
+Modified-files: ChangeLog configure.in
+    panel-applet/Makefile.am
+    panel-applet/NMWirelessApplet.c
+    panel-applet/menu-info.c panel-applet/menu-info.h
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-156
+Summary: Tue Sep 21 18:05:34 2004  Jonathan Blandford  <jrb@redh...
+CSCVSID: MAIN.157
+Keywords: cscvs:MAIN.157
+
+Author: jrb
+Date: 2004-09-21 22:10:37 GMT
+Tue Sep 21 18:05:34 2004  Jonathan Blandford  <jrb@redhat.com>
+
+        * configure.in: Add graphics
+
+        * panel-applet/Makefile.am: Add graphics
+
+        * panel-applet/icons/*: Add graphics
+
+        * panel-applet/NMWirelessApplet.c: Use new menu times to display
+        the icons fully lined up.
+
+        * panel-applet/menu-info.c:
+        * panel-applet/menu-info.h: Add another menu type.

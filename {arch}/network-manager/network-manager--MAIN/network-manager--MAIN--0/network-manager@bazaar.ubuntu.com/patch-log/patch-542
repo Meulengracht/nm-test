@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-542
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:11:56 BST 2005
+Standard-date: 2005-08-13 15:11:56 GMT
+Modified-files: po/ChangeLog po/nl.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-542
+Summary: 2005-04-19  Vincent van Adrighem  <adrighem@gnome.org>
+CSCVSID: MAIN.543
+Keywords: cscvs:MAIN.543
+
+Author: adrighem
+Date: 2005-04-18 23:25:13 GMT
+2005-04-19  Vincent van Adrighem  <adrighem@gnome.org>
+
+	* nl.po: Translation updated by Tino Meinen.

@@ -1,0 +1,18 @@
+Revision: network-manager--MAIN--0--patch-764
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:25:57 BST 2005
+Standard-date: 2005-08-13 15:25:57 GMT
+Modified-files: .cvsignore
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-764
+Summary: Add
+CSCVSID: MAIN.765
+Keywords: cscvs:MAIN.765
+
+Author: rml
+Date: 2005-08-10 18:08:29 GMT
+Add
+	intltool-extract.in
+	intltool-merge.in
+	intltool-update.in
+to .cvsignore

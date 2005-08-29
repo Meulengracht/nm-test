@@ -1,0 +1,16 @@
+Revision: network-manager--MAIN--0--patch-3
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:43:44 BST 2005
+Standard-date: 2005-08-13 14:43:44 GMT
+Modified-files: ChangeLog
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-3
+Summary: 2004-06-24  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.4
+Keywords: cscvs:MAIN.4
+
+Author: dcbw
+Date: 2004-06-24 14:28:05 GMT
+2004-06-24  Dan Williams <dcbw@redhat.com>
+
+	* Initial import

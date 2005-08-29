@@ -1,0 +1,15 @@
+Revision: network-manager--MAIN--0--patch-603
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:17:03 BST 2005
+Standard-date: 2005-08-13 15:17:03 GMT
+Modified-files: dispatcher-daemon/Makefile.am
+    gnome/applet/Makefile.am src/backends/Makefile.am
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-603
+Summary: Don't override user-specified CFLAGS
+CSCVSID: MAIN.604
+Keywords: cscvs:MAIN.604
+
+Author: dcbw
+Date: 2005-05-16 18:27:17 GMT
+Don't override user-specified CFLAGS

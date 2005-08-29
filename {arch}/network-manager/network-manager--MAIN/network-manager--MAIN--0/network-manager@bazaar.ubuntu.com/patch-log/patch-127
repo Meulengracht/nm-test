@@ -1,0 +1,24 @@
+Revision: network-manager--MAIN--0--patch-127
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:49:17 BST 2005
+Standard-date: 2005-08-13 14:49:17 GMT
+Modified-files: ChangeLog examples/python/NetworkManager.py
+    examples/python/systray/network_tray.py
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-127
+Summary: 2004-09-08  Bryan Clark  <clarkbw@cvs.gnome.org>
+CSCVSID: MAIN.128
+Keywords: cscvs:MAIN.128
+
+Author: clarkbw
+Date: 2004-09-08 21:25:55 GMT
+2004-09-08  Bryan Clark  <clarkbw@cvs.gnome.org>
+
+        * examples/python/NetworkManager.py:
+        added CONNECTED, CONNECTING, and DISCONNECTED states
+        added methods to return number of devices of a single type
+
+        * examples/python/systray/network_tray.py:
+        did some tweaks to get the menu looking near what it is supposed
+        to look like.  Also did a Airo card hack to make it show the
+        correct AP quality

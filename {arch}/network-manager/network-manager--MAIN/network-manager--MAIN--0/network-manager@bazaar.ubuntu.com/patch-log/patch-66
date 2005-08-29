@@ -1,0 +1,20 @@
+Revision: network-manager--MAIN--0--patch-66
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:47:06 BST 2005
+Standard-date: 2005-08-13 14:47:06 GMT
+Modified-files: ChangeLog
+    panel-applet/NMWirelessAppletDbus.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-66
+Summary: 2004-08-25  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.67
+Keywords: cscvs:MAIN.67
+
+Author: dcbw
+Date: 2004-08-26 01:25:08 GMT
+2004-08-25  Dan Williams <dcbw@redhat.com>
+
+	* panel-applet/NMWirelessAppletDbus.c
+		- (nmwa_dbus_get_bool, nmwa_dbus_get_network_encrypted): correct method name
+			for getting encryption, and don't stop on "val" once we've gotten it
+			from NetworkManager.  Short form:  encryption should now show up.

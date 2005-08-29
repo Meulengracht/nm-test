@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-309
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:58:17 BST 2005
+Standard-date: 2005-08-13 14:58:17 GMT
+New-files: dhcpcd/.arch-ids/.cvsignore.id dhcpcd/.cvsignore
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-309
+Summary: update cvsignore file
+CSCVSID: MAIN.310
+Keywords: cscvs:MAIN.310
+
+Author: dcbw
+Date: 2004-11-16 22:01:18 GMT
+update cvsignore file

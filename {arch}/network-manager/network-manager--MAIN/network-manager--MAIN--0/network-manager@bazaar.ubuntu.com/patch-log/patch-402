@@ -1,0 +1,15 @@
+Revision: network-manager--MAIN--0--patch-402
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:03:53 BST 2005
+Standard-date: 2005-08-13 15:03:53 GMT
+Modified-files: po/ChangeLog po/en_CA.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-402
+Summary: * en_CA.po: Updated Canadian English translation.
+CSCVSID: MAIN.403
+Keywords: cscvs:MAIN.403
+
+Author: adamw
+Date: 2005-02-03 19:25:52 GMT
+
+	* en_CA.po: Updated Canadian English translation.

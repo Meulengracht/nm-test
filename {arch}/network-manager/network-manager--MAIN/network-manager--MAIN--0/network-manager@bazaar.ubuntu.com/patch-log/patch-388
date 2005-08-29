@@ -1,0 +1,24 @@
+Revision: network-manager--MAIN--0--patch-388
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:02:59 BST 2005
+Standard-date: 2005-08-13 15:02:59 GMT
+Modified-files: ChangeLog panel-applet/gtkcellview.c
+    panel-applet/gtkcellview.h panel-applet/menu-info.c
+    test/Makefile.am
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-388
+Summary: 2005-01-24  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.389
+Keywords: cscvs:MAIN.389
+
+Author: dcbw
+Date: 2005-01-25 01:45:54 GMT
+2005-01-24  Dan Williams  <dcbw@redhat.com>
+
+        * panel-applet/gtkcellview.[ch]
+          panel-applet/menu-info.c
+                - Fix GTK version checks to be <= rather than <
+
+        * test/Makefile.am
+                - Include the libtool archive of libnm_glib rather than
+                        trying to pull in the .so

@@ -1,0 +1,15 @@
+Revision: network-manager--MAIN--0--patch-285
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:57:06 BST 2005
+Standard-date: 2005-08-13 14:57:06 GMT
+Modified-files: po/ChangeLog po/en_CA.po
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-285
+Summary: * en_CA.po: Updated Canadian English translation.
+CSCVSID: MAIN.286
+Keywords: cscvs:MAIN.286
+
+Author: adamw
+Date: 2004-11-04 21:23:54 GMT
+
+	* en_CA.po: Updated Canadian English translation.

@@ -1,0 +1,53 @@
+Revision: network-manager--MAIN--0--patch-481
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:08:03 BST 2005
+Standard-date: 2005-08-13 15:08:03 GMT
+New-files: utils/.arch-ids/=id
+    utils/.arch-ids/Makefile.am.id
+    utils/.arch-ids/nm-utils.c.id
+    utils/.arch-ids/nm-utils.h.id utils/Makefile.am
+    utils/nm-utils.c utils/nm-utils.h
+New-directories: utils utils/.arch-ids
+Modified-files: ChangeLog Makefile.am configure.in
+    dispatcher-daemon/Makefile.am
+    dispatcher-daemon/NetworkManagerDispatcher.c
+    info-daemon/Makefile.am
+    info-daemon/NetworkManagerInfoDbus.c
+    libnm_glib/Makefile.am panel-applet/Makefile.am
+    panel-applet/NMWirelessAppletDbus.c src/Makefile.am
+    src/NetworkManagerDbusUtils.c
+    src/NetworkManagerDbusUtils.h src/nm-dbus-device.c
+    src/nm-dbus-nm.c test/Makefile.am test/nmtest.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-481
+Summary: 2005-03-09  Ray Strode  <rstrode@redhat.com>
+CSCVSID: MAIN.482
+Keywords: cscvs:MAIN.482
+
+Author: halfline
+Date: 2005-03-09 16:39:12 GMT
+2005-03-09  Ray Strode  <rstrode@redhat.com>
+
+	Second (unfinished, unworking) cut at porting to
+	dbus 0.30 api.
+
+	* dispatcher-daemon/NetworkManagerDispatcher.c
+	* info-daemon/NetworkManagerInfoDbus.c:
+	* panel-applet/NMWirelessAppletDbus.c:
+	* src/NetworkManagerDbusUtils.c:
+	* src/NetworkManagerDbusUtils.h:
+	* src/nm-dbus-device.c:
+	* src/nm-dbus-nm.c:
+	* test/nmtest.c: support dbus "object path" type
+
+	* configure.in:
+	* Makefile.am:
+	* info-daemon/Makefile.am:
+	* libnm_glib/Makefile.am:
+	* panel-applet/Makefile.am:
+	* dispatcher-daemon/Makefile.am
+	* src/Makefile.am:
+	* test/Makefile.am:
+	* utils/Makefile.am:
+	* utils/nm-utils.c:
+	* utils/nm-utils.h: new utils static lib

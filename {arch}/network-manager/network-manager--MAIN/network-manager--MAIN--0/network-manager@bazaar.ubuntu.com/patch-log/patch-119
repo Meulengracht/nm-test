@@ -1,0 +1,14 @@
+Revision: network-manager--MAIN--0--patch-119
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:48:48 BST 2005
+Standard-date: 2005-08-13 14:48:48 GMT
+Modified-files: initscript/Makefile.am
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-119
+Summary: Add Debian directory
+CSCVSID: MAIN.120
+Keywords: cscvs:MAIN.120
+
+Author: dcbw
+Date: 2004-09-07 17:45:24 GMT
+Add Debian directory

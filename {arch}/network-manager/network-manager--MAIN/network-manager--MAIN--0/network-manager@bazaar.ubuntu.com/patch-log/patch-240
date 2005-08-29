@@ -1,0 +1,20 @@
+Revision: network-manager--MAIN--0--patch-240
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:54:36 BST 2005
+Standard-date: 2005-08-13 14:54:36 GMT
+Modified-files: ChangeLog panel-applet/NMWirelessApplet.c
+    panel-applet/NMWirelessApplet.h
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-240
+Summary: 2004-10-15 Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.241
+Keywords: cscvs:MAIN.241
+
+Author: dcbw
+Date: 2004-10-15 20:54:59 GMT
+2004-10-15 Dan Williams <dcbw@redhat.com>
+
+	* panel-applet/NMWirelessApplet.[ch]
+		- Fix up corner cases in applet state, making it
+			look more responsive.  Change state to "connecting" when
+			the user is forcing a device too.

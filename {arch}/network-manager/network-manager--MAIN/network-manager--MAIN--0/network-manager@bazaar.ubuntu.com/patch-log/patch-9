@@ -1,0 +1,24 @@
+Revision: network-manager--MAIN--0--patch-9
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 15:44:04 BST 2005
+Standard-date: 2005-08-13 14:44:04 GMT
+Modified-files: ChangeLog dispatcher-daemon/Makefile.am
+    dispatcher-daemon/Makefile.in
+    dispatcher-daemon/NetworkManagerDispatcher.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-9
+Summary: 2004-07-15  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.10
+Keywords: cscvs:MAIN.10
+
+Author: dcbw
+Date: 2004-07-15 14:49:04 GMT
+2004-07-15  Dan Williams <dcbw@redhat.com>
+
+	* dispatcher-daemon/Makefile.am
+		- Turn on warnings
+
+	* dispatcher-daemon/NetworkManagerDispatcher.c
+		- Remove unused variables due to warnings
+		- Fix some comments
+		- Print message on receipt of NeedKeyForNetwork signal (testing only)

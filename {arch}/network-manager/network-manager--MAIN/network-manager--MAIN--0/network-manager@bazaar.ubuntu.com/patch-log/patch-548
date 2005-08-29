@@ -1,0 +1,19 @@
+Revision: network-manager--MAIN--0--patch-548
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:12:11 BST 2005
+Standard-date: 2005-08-13 15:12:11 GMT
+New-files: po/.arch-ids/ne.po.id po/ne.po
+Modified-files: ChangeLog configure.in po/ChangeLog
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-548
+Summary: 2005-04-22  Pawan Chitrakar  <pawan@nplinux.org>
+CSCVSID: MAIN.549
+Keywords: cscvs:MAIN.549
+
+Author: pachimho
+Date: 2005-04-22 01:51:42 GMT
+2005-04-22  Pawan Chitrakar  <pawan@nplinux.org>
+
+	* ne.po: Added nepali translation
+
+	* configure.in: Added ne in ALL_LINGUAS

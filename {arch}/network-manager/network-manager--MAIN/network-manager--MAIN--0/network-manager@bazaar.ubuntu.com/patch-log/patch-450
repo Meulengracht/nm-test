@@ -1,0 +1,20 @@
+Revision: network-manager--MAIN--0--patch-450
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:06:28 BST 2005
+Standard-date: 2005-08-13 15:06:28 GMT
+Modified-files: ChangeLog panel-applet/NMWirelessApplet.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-450
+Summary: 2005-02-18  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.451
+Keywords: cscvs:MAIN.451
+
+Author: dcbw
+Date: 2005-02-18 18:34:13 GMT
+2005-02-18  Dan Williams  <dcbw@redhat.com>
+
+	* panel-applet/NMWirelessApplet.c
+		- Revert 2005-02-18 William Jon McCann fix for standard
+			copyright string until it passes 'make distcheck'.
+			With standard copyright string, xgettext complains
+			about "Non-ASCII string at ...".

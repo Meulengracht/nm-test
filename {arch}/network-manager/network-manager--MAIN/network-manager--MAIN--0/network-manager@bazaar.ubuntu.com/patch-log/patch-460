@@ -1,0 +1,18 @@
+Revision: network-manager--MAIN--0--patch-460
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:06:52 BST 2005
+Standard-date: 2005-08-13 15:06:52 GMT
+Modified-files: ChangeLog named/nm-named-manager.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-460
+Summary: 2005-02-25  Dan Williams  <dcbw@redhat.com>
+CSCVSID: MAIN.461
+Keywords: cscvs:MAIN.461
+
+Author: dcbw
+Date: 2005-02-25 20:43:14 GMT
+2005-02-25  Dan Williams  <dcbw@redhat.com>
+
+	* named/nm-named-manager.c
+		- Ensure that pid and watch variables for child named process get cleared out
+			when the child goes away.

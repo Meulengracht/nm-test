@@ -1,0 +1,36 @@
+Revision: network-manager--MAIN--0--patch-354
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:00:48 BST 2005
+Standard-date: 2005-08-13 15:00:48 GMT
+Modified-files: ChangeLog dhcpcd/client.c
+    info-daemon/NetworkManagerInfoDbus.c
+    src/NetworkManager.c src/NetworkManagerAPList.c
+    src/NetworkManagerDbus.c src/NetworkManagerDbus.h
+    src/NetworkManagerDevice.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-354
+Summary: 2005-01-09  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.355
+Keywords: cscvs:MAIN.355
+
+Author: dcbw
+Date: 2005-01-09 23:15:35 GMT
+2005-01-09  Dan Williams <dcbw@redhat.com>
+
+	* dhcpcd/client.c
+		- Use correct timeout value
+
+	* info-daemon/NetworkManagerInfoDbus.c
+	  src/NetworkManagerDbus.c
+		- Consolidate communication between NM and NMI by doing only 1 dbus
+			method call to get Wireless Network info from NMI instead of 6
+
+	* src/NetworkManager.c
+		- Make sure to cancel activation when we receive a SIGTERM, otherwise
+			when we didn't have an AP to use, we'd wait for one forever without
+			quitting
+
+	* src/NetworkManagerDevice.c
+		- nm_device_activation_cancel(): Fix a race between dhcp and quitting
+			activation, dhcp might not have started yet but we don't quit activation
+			before starting it, so the quit signal gets lost

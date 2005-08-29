@@ -1,0 +1,17 @@
+Revision: network-manager--MAIN--0--patch-691
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:22:11 BST 2005
+Standard-date: 2005-08-13 15:22:11 GMT
+Modified-files: ChangeLog src/NetworkManagerDevice.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-691
+Summary: 2005-06-26  Robert Love  <rml@novell.com>
+CSCVSID: MAIN.692
+Keywords: cscvs:MAIN.692
+
+Author: rml
+Date: 2005-06-26 17:18:34 GMT
+2005-06-26  Robert Love  <rml@novell.com>
+
+        * src/NetworkManagerDevice.c: be specific about which device in
+          nm_info() message.

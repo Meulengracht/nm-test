@@ -1,0 +1,36 @@
+Revision: network-manager--MAIN--0--patch-629
+Archive: network-manager@bazaar.ubuntu.com
+Creator: Arch Librarian <arch@canonical.com>
+Date: Sat Aug 13 16:18:56 BST 2005
+Standard-date: 2005-08-13 15:18:56 GMT
+New-files: initscript/SUSE/.arch-ids/=id
+    initscript/SUSE/.arch-ids/Makefile.am.id
+    initscript/SUSE/.arch-ids/networkmanager.id
+    initscript/SUSE/Makefile.am
+    initscript/SUSE/networkmanager
+New-directories: initscript/SUSE initscript/SUSE/.arch-ids
+Modified-files: ChangeLog configure.in
+    gnome/applet/wireless-applet.glade
+    initscript/Makefile.am src/NetworkManagerDevice.c
+    src/nm-netlink-monitor.c
+New-patches: network-manager@bazaar.ubuntu.com/network-manager--MAIN--0--patch-629
+Summary: 2005-06-15  Dan Williams <dcbw@redhat.com>
+CSCVSID: MAIN.630
+Keywords: cscvs:MAIN.630
+
+Author: dcbw
+Date: 2005-06-15 11:59:41 GMT
+2005-06-15  Dan Williams <dcbw@redhat.com>
+
+	Patches from Robert Love:
+	* gnome/applet/wireless-applet.glade
+		- Tighten up wording
+
+	* src/NetworkManagerDevice.c
+		- Remove misplaced ';'
+
+	* configure.in
+	  initscript/Makefile.am
+	  initscript/SUSE/Makefile.am
+	  initscript/SUSE/networkmanager
+		- Add SUSE initscript
