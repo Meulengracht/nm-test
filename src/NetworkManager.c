@@ -44,6 +44,7 @@
 #include "NetworkManagerAPList.h"
 #include "NetworkManagerSystem.h"
 #include "nm-named-manager.h"
+#include "nm-vpn-act-request.h"
 #include "nm-dbus-vpn.h"
 #include "nm-netlink-monitor.h"
 #include "nm-dhcp-manager.h"
@@ -152,45 +153,25 @@ NMDevice * nm_create_device_and_add_to_list (NMData *data, const char *udi, cons
 
 
 /*
- * nm_remove_device_from_list
+ * nm_remove_device
  *
- * Searches for a device entry in the NLM device list by udi,
- * and if found, removes that element from the list and frees
- * its data.
+ * Removes a particular device from the device list.  Requires that
+ * the device list is locked, if needed.
  */
-void nm_remove_device_from_list (NMData *data, const char *udi)
+void nm_remove_device (NMData *data, NMDevice *dev)
 {
 	g_return_if_fail (data != NULL);
-	g_return_if_fail (udi != NULL);
+	g_return_if_fail (dev != NULL);
 
-	/* Attempt to acquire mutex for device list deletion.  If acquire fails,
-	 * just ignore the device deletion entirely.
-	 */
-	if (nm_try_acquire_mutex (data->dev_list_mutex, __FUNCTION__))
-	{
-		GSList	*elt;
-		for (elt = data->dev_list; elt; elt = g_slist_next (elt))
-		{
-			NMDevice	*dev = (NMDevice *)(elt->data);
+	nm_device_set_removed (dev, TRUE);
+	nm_device_deactivate (dev);
+	nm_device_worker_thread_stop (dev);
+	nm_dbus_schedule_device_status_change_signal (data, dev, NULL, DEVICE_REMOVED);
 
-			if (dev && (nm_null_safe_strcmp (nm_device_get_udi (dev), udi) == 0))
-			{
-				nm_device_set_removed (dev, TRUE);
-				nm_device_deactivate (dev);
-				nm_device_worker_thread_stop (dev);
-				nm_dbus_schedule_device_status_change_signal (data, dev, NULL, DEVICE_REMOVED);
+	nm_device_unref (dev);
 
-				nm_device_unref (dev);
-
-				/* Remove the device entry from the device list and free its data */
-				data->dev_list = g_slist_remove_link (data->dev_list, elt);
-				g_slist_free (elt);
-				nm_policy_schedule_device_change_check (data);
-				break;
-			}
-		}
-		nm_unlock_mutex (data->dev_list_mutex, __FUNCTION__);
-	} else nm_warning ("could not acquire device list mutex." );
+	/* Remove the device entry from the device list and free its data */
+	data->dev_list = g_slist_remove (data->dev_list, dev);
 }
 
 
@@ -267,12 +248,22 @@ static void nm_hal_device_added (LibHalContext *ctx, const char *udi)
 static void nm_hal_device_removed (LibHalContext *ctx, const char *udi)
 {
 	NMData	*data = (NMData *)libhal_ctx_get_user_data (ctx);
+	NMDevice	*dev;
 
 	g_return_if_fail (data != NULL);
 
 	nm_debug ("Device removed (hal udi is '%s').", udi );
 
-	nm_remove_device_from_list (data, udi);
+	if (!nm_try_acquire_mutex (data->dev_list_mutex, __FUNCTION__))
+		return;
+
+	if ((dev = nm_get_device_by_udi (data, udi)))
+	{
+		nm_remove_device (data, dev);
+		nm_policy_schedule_device_change_check (data);
+	}
+
+	nm_unlock_mutex (data->dev_list_mutex, __FUNCTION__);
 }
 
 
@@ -307,7 +298,7 @@ static void nm_hal_device_new_capability (LibHalContext *ctx, const char *udi, c
  * Add all devices that hal knows about right now (ie not hotplug devices)
  *
  */
-static void nm_add_initial_devices (NMData *data)
+void nm_add_initial_devices (NMData *data)
 {
 	char **	net_devices;
 	int		num_net_devices;
@@ -370,6 +361,7 @@ void nm_schedule_state_change_signal_broadcast (NMData *data)
 	g_return_if_fail (data != NULL);
 
 	source = g_idle_source_new ();
+	g_source_set_priority (source, G_PRIORITY_HIGH);
 	g_source_set_callback (source, nm_state_change_signal_broadcast, data, NULL);
 	id = g_source_attach (source, data->main_context);
 	g_source_unref (source);
@@ -413,8 +405,6 @@ static NMData *nm_data_new (gboolean enable_test_devices)
 	sigaction (SIGINT, &action, NULL);
 	sigaction (SIGTERM, &action, NULL);
 
-	data->named_manager = nm_named_manager_new (data->main_context);
-
 	/* Initialize the device list mutex to protect additions/deletions to it. */
 	data->dev_list_mutex = g_mutex_new ();
 	data->dialup_list_mutex = g_mutex_new ();
@@ -438,8 +428,6 @@ static NMData *nm_data_new (gboolean enable_test_devices)
 	}
 
 	data->enable_test_devices = enable_test_devices;
-
-	data->scanning_method = NM_SCAN_METHOD_ALWAYS;
 	data->wireless_enabled = TRUE;
 
 	nm_policy_schedule_device_change_check (data);
@@ -466,11 +454,13 @@ static void device_stop_and_free (NMDevice *dev, gpointer user_data)
  */
 static void nm_data_free (NMData *data)
 {
+	NMVPNActRequest *req;
+
 	g_return_if_fail (data != NULL);
 
 	/* Kill any active VPN connection */
-	if (nm_vpn_manager_get_active_vpn_connection (data->vpn_manager))
-		nm_vpn_manager_deactivate_vpn_connection (data->vpn_manager);
+	if ((req = nm_vpn_manager_get_vpn_act_request (data->vpn_manager)))
+		nm_vpn_manager_deactivate_vpn_connection (data->vpn_manager, nm_vpn_act_request_get_parent_dev (req));
 
 	/* Stop and destroy all devices */
 	nm_lock_mutex (data->dev_list_mutex, __FUNCTION__);
@@ -512,7 +502,6 @@ static void sigterm_handler (int signum)
 static gboolean sigterm_pipe_handler (GIOChannel *src, GIOCondition condition, gpointer user_data)
 {
 	NMData *		data = user_data;
-	NMDevice *	act_dev = NULL;
 
 	nm_info ("Caught terminiation signal");
 	g_main_loop_quit (data->main_loop);
@@ -618,8 +607,6 @@ static void nm_device_link_activated (NmNetlinkMonitor *monitor, const gchar *in
 	{
 		if (nm_device_is_wired (dev) && !nm_device_has_active_link (dev))
 		{
-			NMDevice *act_dev =  NULL;
-
 			nm_device_set_link_active (dev, TRUE);
 			nm_policy_schedule_device_change_check (data);
 		}
@@ -830,15 +817,11 @@ void nm_hal_deinit (NMData *data)
  */
 int main( int argc, char *argv[] )
 {
-	guint		link_source_id;
-	GSource *		link_source;
 	gboolean		become_daemon = TRUE;
 	gboolean		enable_test_devices = FALSE;
-	GError *		error = NULL;
-	DBusError		dbus_error;
 	char *		owner;
 	
-	if ((int)getuid() != 0)
+	if (getuid () != 0)
 	{
 		g_printerr ("You must be root to run NetworkManager!\n");
 		return (EXIT_FAILURE);
@@ -904,14 +887,6 @@ int main( int argc, char *argv[] )
 
 	nm_system_init();
 
-	/* Load all network device kernel modules.
-	 * NOTE: this hack is temporary until device modules get loaded
-	 * on startup by something else.  The problem is that unless
-	 * the module is loaded, HAL doesn't know its a network device,
-	 * and therefore can't tell us about it.
-	 */
-	nm_system_load_device_modules ();
-
 	/* Initialize our instance data */
 	nm_data = nm_data_new (enable_test_devices);
 	if (!nm_data)
@@ -935,13 +910,13 @@ int main( int argc, char *argv[] )
 	/* Need to happen after DBUS is initialized */
 	nm_data->vpn_manager = nm_vpn_manager_new (nm_data);
 	nm_data->dhcp_manager = nm_dhcp_manager_new (nm_data);
+	nm_data->named_manager = nm_named_manager_new (nm_data->dbus_connection);
 
 	/* If NMI is running, grab allowed wireless network lists from it ASAP */
 	if (nm_dbus_is_info_daemon_running (nm_data->dbus_connection))
 	{
 		nm_policy_schedule_allowed_ap_list_update (nm_data);
 		nm_dbus_vpn_schedule_vpn_connections_update (nm_data);
-		nm_dbus_update_wireless_scan_method (nm_data->dbus_connection, nm_data);
 	}
 
 	/* Right before we init hal, we have to make sure our mainloop
@@ -969,13 +944,6 @@ int main( int argc, char *argv[] )
 
 	/* Get modems, ISDN, and so on's configuration from the system */
 	nm_data->dialup_list = nm_system_get_dialup_config ();
-
-	if (!nm_named_manager_start (nm_data->named_manager, &error))
-	{
-		nm_error ("couldn't initialize nameserver: %s",
-			  error->message);
-		exit (EXIT_FAILURE);
-	}
 
 	nm_schedule_state_change_signal_broadcast (nm_data);
 

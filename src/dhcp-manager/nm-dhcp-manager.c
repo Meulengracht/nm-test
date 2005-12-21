@@ -24,6 +24,7 @@
 #include "nm-dhcp-manager.h"
 #include "NetworkManagerDevice.h"
 #include "NetworkManagerPolicy.h"
+#include "NetworkManagerUtils.h"
 #include "nm-activation-request.h"
 #include "nm-utils.h"
 #include <sys/socket.h>
@@ -189,7 +190,7 @@ guint8 nm_dhcp_manager_get_state_for_device (NMDHCPManager *manager, NMDevice *d
  * Called after timeout of a DHCP transaction to notify device of the failure.
  *
  */
-gboolean nm_dhcp_manager_handle_timeout (NMActRequest *req)
+static gboolean nm_dhcp_manager_handle_timeout (NMActRequest *req)
 {
 	NMData *		data;
 	NMDevice *	dev;
@@ -320,6 +321,13 @@ void nm_dhcp_manager_cancel_transaction (NMDHCPManager *manager, NMActRequest *r
 		{
 			dbus_connection_send (manager->data->dbus_connection, message, NULL);
 			dbus_message_unref (message);
+
+			/* Give dhcdbd/dhclient some time to send out a RELEASE if they like */
+			/* FIXME: we should really monitor the interface's DHCP state by waiting
+			 * for dhcdbd to tell us the device is "down" rather than sleeping here.
+			 */
+			if (!manager->data->asleep)
+				sleep (1);
 		}
 		g_free (path);
 
@@ -433,6 +441,16 @@ static gboolean get_ip4_string (NMDHCPManager *manager, NMDevice *dev, const cha
 }
 
 
+static gboolean nm_completion_dhcp_bound_test(int tries,
+		nm_completion_args args)
+{
+	NMActRequest *req = args[0];
+
+	if (state_is_bound (nm_act_request_get_dhcp_state (req)))
+		return TRUE;
+	return FALSE;
+}
+
 /*
  * nm_dhcp_manager_get_ip4_config
  *
@@ -453,6 +471,7 @@ NMIP4Config * nm_dhcp_manager_get_ip4_config (NMDHCPManager *manager, NMActReque
 	guint32		num_ip4_nameservers = 0;
 	char *		domain_names = NULL;
 	struct in_addr	temp_addr;
+        nm_completion_args args;
 
 	g_return_val_if_fail (manager != NULL, NULL);
 	g_return_val_if_fail (req != NULL, NULL);
@@ -463,6 +482,9 @@ NMIP4Config * nm_dhcp_manager_get_ip4_config (NMDHCPManager *manager, NMActReque
 	dev = nm_act_request_get_dev (req);
 	g_assert (dev);
 
+	args[0] = req;
+	nm_wait_for_completion (30, G_USEC_PER_SEC / 10,
+			nm_completion_dhcp_bound_test, NULL, args);
 	if (!state_is_bound (nm_act_request_get_dhcp_state (req)))
 	{
 		nm_warning ("Tried to get IP4 Config for a device when dhcdbd wasn't in a BOUND state!");

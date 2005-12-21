@@ -32,23 +32,6 @@
 #endif
 
 #include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <ctype.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <math.h>
-#include <dirent.h>
-#include <time.h>
-#include <sys/ioctl.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <sys/un.h>
-#include <net/if.h>
-
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libgnomeui/libgnomeui.h>
@@ -77,6 +60,12 @@
 	#define GTK_STOCK_MEDIA_PAUSE		GTK_STOCK_STOP
 	#define GTK_STOCK_MEDIA_PLAY		GTK_STOCK_REFRESH
 	#define GTK_STOCK_ABOUT			GTK_STOCK_DIALOG_INFO
+	#define GTK_STOCK_INFO			GTK_STOCK_DIALOG_INFO
+#endif
+
+/* Compat for GTK 2.6 */
+#if (GTK_MAJOR_VERSION <= 2 && GTK_MINOR_VERSION == 6)
+	#define GTK_STOCK_INFO			GTK_STOCK_DIALOG_INFO
 #endif
 
 static GObject *	nmwa_constructor (GType type, guint n_props, GObjectConstructParam *construct_props);
@@ -189,27 +178,21 @@ static void nmwa_show_socket_err (GtkWidget *info_dialog, const char *err)
 	char *msg;
 	
 	msg = g_strdup_printf ("<span weight=\"bold\" size=\"larger\">%s</span>\n\n%s",
-					   _("Error displaying connection information: "), err);
-	error_dialog = gtk_message_dialog_new_with_markup (GTK_WINDOW (info_dialog),
-											 0, GTK_MESSAGE_ERROR,
-											 GTK_BUTTONS_OK, msg);
-	gtk_dialog_run (GTK_DIALOG (error_dialog));
-	gtk_widget_destroy (error_dialog);
+	                       _("Error displaying connection information: "), err);
+	error_dialog = gtk_message_dialog_new_with_markup (GTK_WINDOW (info_dialog), 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, msg);
 	g_free (msg);
+	gtk_window_present (GTK_WINDOW (error_dialog));
+	g_signal_connect_swapped (error_dialog, "response", G_CALLBACK (gtk_widget_destroy), error_dialog);
 }
 
 static gboolean nmwa_update_info (NMWirelessApplet *applet)
 {
 	GtkWidget *info_dialog;
-	char *addr = NULL, *mask = NULL, *broadcast = NULL;
-	char *dest = NULL, *mac = NULL, *iface_and_type = NULL;
+	char *addr = NULL, *broadcast = NULL, *primary_dns = NULL, *secondary_dns = NULL;
+	char *mac = NULL, *iface_and_type = NULL, *route = NULL, *mask = NULL;
 	GtkWidget *label;
-	struct ifreq ifr;
-	int fd, flags;
-	gboolean ret_val = TRUE;
-	const char *iface;
+	const char *iface = NULL;
 	NetworkDevice *dev;
-	gboolean ret = TRUE;
 
 	info_dialog = glade_xml_get_widget (applet->info_dialog_xml, "info_dialog");
 	if (!info_dialog)
@@ -219,9 +202,10 @@ static gboolean nmwa_update_info (NMWirelessApplet *applet)
 		g_free (err);
 		return FALSE;
 	}
+	
+	if ((dev = nmwa_get_first_active_device (applet->device_list)))
+		iface = network_device_get_iface (dev);
 
-	dev = nmwa_get_first_active_device (applet->gui_device_list);
-	iface = network_device_get_iface (dev);
 	if (!dev || !iface)
 	{
 		char *err = g_strdup (_("No active connections!"));
@@ -230,82 +214,24 @@ static gboolean nmwa_update_info (NMWirelessApplet *applet)
 		return FALSE;
 	}
 
-	fd = socket (AF_INET, SOCK_DGRAM, 0);
-	if (fd < 0)
-	{
-		char *err = g_strdup (_("Could not open socket!"));
-		nmwa_show_socket_err (info_dialog, err);
-		g_free (err);
-		return FALSE;
-	}
+	mac = (char*) network_device_get_address (dev);
+	broadcast = (char*) network_device_get_broadcast (dev);
+	addr = (char*) network_device_get_ip4_address (dev);
+	mask = (char*) network_device_get_netmask (dev);
+	route = (char*) network_device_get_route (dev);
+	primary_dns = (char*) network_device_get_primary_dns (dev);
+	secondary_dns = (char*) network_device_get_secondary_dns (dev);
 
-	ifr.ifr_addr.sa_family = AF_INET;
-
-	g_strlcpy (ifr.ifr_name, iface, sizeof (ifr.ifr_name));
-	if (ioctl (fd, SIOCGIFADDR, &ifr) == 0)
-		addr = g_strdup (inet_ntoa (((struct sockaddr_in *) &ifr.ifr_addr)->sin_addr));
-
-	g_strlcpy (ifr.ifr_name, iface, sizeof (ifr.ifr_name));
-	if (ioctl (fd, SIOCGIFFLAGS, &ifr) < 0)
-	{
-		char *err = g_strdup (_("Failed to get information about the interface!"));
-		nmwa_show_socket_err (info_dialog, err);
-		g_free (err);
-		ret = FALSE;
-		goto out;
-	}
-	flags = ifr.ifr_flags;
-
-	g_strlcpy (ifr.ifr_name, iface, sizeof (ifr.ifr_name));
-	if (flags & IFF_BROADCAST && ioctl (fd, SIOCGIFBRDADDR, &ifr) == 0)
-		broadcast = g_strdup (inet_ntoa (((struct sockaddr_in *) &ifr.ifr_broadaddr)->sin_addr));
-
-	g_strlcpy (ifr.ifr_name, iface, sizeof (ifr.ifr_name));
-	if (ioctl (fd, SIOCGIFNETMASK, &ifr) == 0)
-		mask = g_strdup (inet_ntoa (((struct sockaddr_in *) &ifr.ifr_addr)->sin_addr));
-
-	g_strlcpy (ifr.ifr_name, iface, sizeof (ifr.ifr_name));
-	if (flags & IFF_POINTOPOINT && ioctl (fd, SIOCGIFDSTADDR, &ifr) == 0)
-		dest = g_strdup (inet_ntoa (((struct sockaddr_in *) &ifr.ifr_dstaddr)->sin_addr));
-
-	g_strlcpy (ifr.ifr_name, iface, sizeof (ifr.ifr_name));
-	if (ioctl (fd, SIOCGIFHWADDR, &ifr) == 0)
-		mac = g_strdup_printf ("%2.2X:%2.2X:%2.2X:%2.2X:%2.2X:%2.2X",
-		       (unsigned char) ifr.ifr_hwaddr.sa_data[0],
-		       (unsigned char) ifr.ifr_hwaddr.sa_data[1],
-		       (unsigned char) ifr.ifr_hwaddr.sa_data[2],
-		       (unsigned char) ifr.ifr_hwaddr.sa_data[3],
-		       (unsigned char) ifr.ifr_hwaddr.sa_data[4],
-		       (unsigned char) ifr.ifr_hwaddr.sa_data[5]);
-
-	label = get_label (info_dialog, applet->info_dialog_xml, "label-interface");
-	gtk_label_set_text (GTK_LABEL (label), iface);
 	if (network_device_is_wired (dev))
 		iface_and_type = g_strdup_printf (_("Wired Ethernet (%s)"), iface);
 	else
 		iface_and_type = g_strdup_printf (_("Wireless Ethernet (%s)"), iface);	
+
+	label = get_label (info_dialog, applet->info_dialog_xml, "label-interface");
 	gtk_label_set_text (GTK_LABEL (label), iface_and_type);
 
 	label = get_label (info_dialog, applet->info_dialog_xml, "label-ip-address");
 	gtk_label_set_text (GTK_LABEL (label), addr);
-
-	label = get_label (info_dialog, applet->info_dialog_xml, "label-destination-address");
-	if (flags & IFF_POINTOPOINT)
-	{
-		gtk_label_set_text (GTK_LABEL (label), dest);
-		gtk_widget_show (label);
-	}
-	else
-		gtk_widget_hide (label);
-
-	label = get_label (info_dialog, applet->info_dialog_xml, "label-destination-address-label");
-	if (flags & IFF_POINTOPOINT)
-	{
-		gtk_label_set_text (GTK_LABEL (label), dest);
-		gtk_widget_show (label);
-	}
-	else
-		gtk_widget_hide (label);
 
 	label = get_label (info_dialog, applet->info_dialog_xml, "label-broadcast-address");
 	gtk_label_set_text (GTK_LABEL (label), broadcast);
@@ -313,19 +239,21 @@ static gboolean nmwa_update_info (NMWirelessApplet *applet)
 	label = get_label (info_dialog, applet->info_dialog_xml, "label-subnet-mask");
 	gtk_label_set_text (GTK_LABEL (label), mask);
 
+	label = get_label (info_dialog, applet->info_dialog_xml, "label-default-route");
+	gtk_label_set_text (GTK_LABEL (label), route);
+
+	label = get_label (info_dialog, applet->info_dialog_xml, "label-primary-dns");
+	gtk_label_set_text (GTK_LABEL (label), primary_dns);
+
+	label = get_label (info_dialog, applet->info_dialog_xml, "label-secondary-dns");
+	gtk_label_set_text (GTK_LABEL (label), secondary_dns);
+
 	label = get_label (info_dialog, applet->info_dialog_xml, "label-hardware-address");
 	gtk_label_set_text (GTK_LABEL (label), mac);
 
-out:
-	close (fd);
-	g_free (addr);
-	g_free (broadcast);
-	g_free (mask);
-	g_free (dest);
 	g_free (iface_and_type);
-	g_free (mac);
 
-	return ret;
+	return TRUE;
 }
 
 static void nmwa_show_info_cb (GtkMenuItem *mi, NMWirelessApplet *applet)
@@ -337,20 +265,16 @@ static void nmwa_show_info_cb (GtkMenuItem *mi, NMWirelessApplet *applet)
 	if (nmwa_update_info (applet))
 	{
 		gtk_window_present (GTK_WINDOW (info_dialog));
-		gtk_dialog_run (GTK_DIALOG (info_dialog));
-		gtk_widget_hide (GTK_WIDGET (info_dialog));
+		g_signal_connect_swapped (info_dialog, "response", G_CALLBACK (gtk_widget_hide), info_dialog);
 	}
 }
 
 static void nmwa_about_cb (NMWirelessApplet *applet)
 {
-	GdkPixbuf	*pixbuf;
-	char		*file;
-	GtkWidget	*about_dialog;
-
 	static const gchar *authors[] =
 	{
 		"The Red Hat Desktop Team, including:\n",
+		"Christopher Aillon <caillon@redhat.com>",
 		"Jonathan Blandford <jrb@redhat.com>",
 		"John Palmieri <johnp@redhat.com>",
 		"Ray Strode <rstrode@redhat.com>",
@@ -366,25 +290,35 @@ static void nmwa_about_cb (NMWirelessApplet *applet)
 		NULL
 	};
 
+	static const gchar *artists[] =
+	{
+		"Diana Fong <dfong@redhat.com>",
+		NULL
+	};
+
 	static const gchar *documenters[] =
 	{
 		NULL
 	};
 
 #if !GTK_CHECK_VERSION(2,6,0)
+	GdkPixbuf	*pixbuf;
+	char		*file;
+	GtkWidget	*about_dialog;
+
 	/* GTK 2.4 and earlier, have to use libgnome for about dialog */
 	file = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP, "gnome-networktool.png", FALSE, NULL);
 	pixbuf = gdk_pixbuf_new_from_file (file, NULL);
 	g_free (file);
 
 	about_dialog = gnome_about_new (_("NetworkManager Applet"),
-							  VERSION,
-							  _("Copyright (C) 2004-2005 Red Hat, Inc."),
-							  _("Notification area applet for managing your network devices and connections."),
-							  authors,
-							  documenters,
-							  NULL,
-							  pixbuf);
+	                                VERSION,
+	                                _("Copyright (C) 2004-2005 Red Hat, Inc."),
+	                                _("Notification area applet for managing your network devices and connections."),
+	                                authors,
+	                                documenters,
+	                                NULL,
+	                                pixbuf);
 	g_object_unref (pixbuf);
 
 	gtk_window_set_screen (GTK_WINDOW (about_dialog), gtk_widget_get_screen (GTK_WIDGET (applet)));
@@ -395,15 +329,16 @@ static void nmwa_about_cb (NMWirelessApplet *applet)
 
 	/* GTK 2.6 and later code */
 	gtk_show_about_dialog (NULL,
-					   "name", _("NetworkManager Applet"),
-					   "version", VERSION,
-					   "copyright", _("Copyright (C) 2004-2005 Red Hat, Inc."),
-					   "comments",	_("Notification area applet for managing your network devices and connections."),
-					   "authors", authors,
-					   "documenters", documenters,
-					   "translator-credits",	NULL,
-					   "logo-icon-name", GTK_STOCK_NETWORK,
-					   NULL);
+	                       "name", _("NetworkManager Applet"),
+	                       "version", VERSION,
+	                       "copyright", _("Copyright (C) 2004-2005 Red Hat, Inc."),
+	                       "comments", _("Notification area applet for managing your network devices and connections."),
+	                       "authors", authors,
+	                       "artists", artists,
+	                       "documenters", documenters,
+	                       "translator-credits", _("translator-credits"),
+	                       "logo-icon-name", GTK_STOCK_NETWORK,
+	                       NULL);
 #endif
 }
 
@@ -522,7 +457,7 @@ void nmwa_schedule_vpn_failure_dialog (NMWirelessApplet *applet, const char *mem
 	error_data = g_strdup_printf (_("The VPN service said: \"%s\""), error_msg);
 
 	cb_data->msg = g_strdup_printf ("<span weight=\"bold\" size=\"larger\">%s</span>\n\n"
-					"%s\n\n%s", error_head, error_desc, error_data);
+	                                "%s\n\n%s", error_head, error_desc, error_data);
 
 	g_free (error_head);
 	g_free (error_desc);
@@ -589,8 +524,8 @@ void nmwa_schedule_vpn_login_banner_dialog (NMWirelessApplet *applet, const char
 	g_return_if_fail (banner != NULL);
 
 	msg2 = g_strdup_printf (_("VPN connection '%s' said:"), vpn_name);
-	msg = g_strdup_printf (_("<span weight=\"bold\" size=\"larger\">%s</span>\n\n"
-						"%s\n\n\"%s\""),  _("VPN Login Message"), msg2, banner);
+	msg = g_strdup_printf ("<span weight=\"bold\" size=\"larger\">%s</span>\n\n%s\n\n\"%s\"",
+	                       _("VPN Login Message"), msg2, banner);
 	g_free (msg2);
 
 	g_idle_add ((GSourceFunc) nmwa_show_vpn_login_banner_dialog, msg);
@@ -790,7 +725,6 @@ gboolean nmwa_driver_notify (gpointer user_data)
 	char *				label_text = NULL;
 	char *				temp = NULL;
 	GtkButton *			button;
-	NMDriverSupportLevel	support_level;
 	guint32				timestamp;
 
 	g_return_val_if_fail (cb_data != NULL, FALSE);
@@ -819,24 +753,20 @@ gboolean nmwa_driver_notify (gpointer user_data)
 
 	label = GTK_LABEL (glade_xml_get_widget (cb_data->xml, "driver_sucks_label"));
 
-	switch (network_device_get_driver_support_level (dev))
+	if (network_device_is_wireless (dev) && !(network_device_get_capabilities (dev) & NM_DEVICE_CAP_WIRELESS_SCAN))
 	{
-		case NM_DRIVER_NO_WIRELESS_SCAN:
-			temp = g_strdup_printf (_("The network device \"%s (%s)\" does not support wireless scanning."),
-							network_device_get_desc (dev), network_device_get_iface (dev));
-			label_text = g_strdup_printf (gtk_label_get_label (label), temp);
-			g_free (temp);
-		break;
+		temp = g_strdup_printf (_("The network device \"%s (%s)\" does not support wireless scanning."),
+		                        network_device_get_desc (dev), network_device_get_iface (dev));
+		label_text = g_strdup_printf (gtk_label_get_label (label), temp);
+		g_free (temp);
+	}
 
-		case NM_DRIVER_NO_CARRIER_DETECT:
-			temp = g_strdup_printf (_("The network device \"%s (%s)\" does not support link detection."),
-							network_device_get_desc (dev), network_device_get_iface (dev));
-			label_text = g_strdup_printf (gtk_label_get_label (label), temp);
-			g_free (temp);
-			break;
-
-		default:
-			break;
+	if (network_device_is_wired (dev) && !(network_device_get_capabilities (dev) & NM_DEVICE_CAP_CARRIER_DETECT))
+	{
+		temp = g_strdup_printf (_("The network device \"%s (%s)\" does not support link detection."),
+		                        network_device_get_desc (dev), network_device_get_iface (dev));
+		label_text = g_strdup_printf (gtk_label_get_label (label), temp);
+		g_free (temp);
 	}
 
 	if (label_text)
@@ -857,80 +787,105 @@ out:
 }
 
 
-static void nmwa_set_icon (NMWirelessApplet *applet, GdkPixbuf *new_icon)
+/*
+ * nmwa_get_first_active_vpn_connection
+ *
+ * Return the first active VPN connection, if any.
+ *
+ */
+VPNConnection *nmwa_get_first_active_vpn_connection (NMWirelessApplet *applet)
 {
-	GdkPixbuf	*composite;
+	VPNConnection *	vpn;
+	NMVPNActStage		vpn_state;
+	GSList *			elt;
 
-	g_return_if_fail (applet != NULL);
-	g_return_if_fail (new_icon != NULL);
-
-	composite = gdk_pixbuf_copy (new_icon);
-
-	if (applet->gui_active_vpn)
+	for (elt = applet->vpn_connections; elt; elt = g_slist_next (elt))
 	{
-		int dest_x = gdk_pixbuf_get_width (new_icon) - gdk_pixbuf_get_width (applet->vpn_lock_icon);
-		int dest_y = gdk_pixbuf_get_height (new_icon) - gdk_pixbuf_get_height (applet->vpn_lock_icon) - 2;
-
-		gdk_pixbuf_composite (applet->vpn_lock_icon, composite, dest_x, dest_y, gdk_pixbuf_get_width (applet->vpn_lock_icon),
-							gdk_pixbuf_get_height (applet->vpn_lock_icon), dest_x, dest_y, 1.0, 1.0, GDK_INTERP_NEAREST, 255);
+		vpn = (VPNConnection*) elt->data;
+		vpn_state = nmwa_vpn_connection_get_state (vpn);
+		if (vpn_state == NM_VPN_ACT_STAGE_ACTIVATED)
+			return vpn;
 	}
 
+	return NULL;
+}
+
+static VPNConnection *nmwa_get_first_activating_vpn_connection (NMWirelessApplet *applet)
+{
+	VPNConnection *	vpn;
+	GSList *			elt;
+
+	for (elt = applet->vpn_connections; elt; elt = g_slist_next (elt))
+	{
+		vpn = (VPNConnection*) elt->data;
+		if (nmwa_vpn_connection_is_activating (vpn))
+			return vpn;
+	}
+
+	return NULL;
+}
+
+static void nmwa_set_icon (NMWirelessApplet *applet, GdkPixbuf *link_icon, GdkPixbuf *vpn_icon)
+{
+	GdkPixbuf	*composite;
+	VPNConnection	*vpn;
+
+	g_return_if_fail (applet != NULL);
+	g_return_if_fail (link_icon != NULL);
+
+	composite = gdk_pixbuf_copy (link_icon);
+
+	vpn = nmwa_get_first_active_vpn_connection (applet);
+	if (!vpn)
+		vpn = nmwa_get_first_activating_vpn_connection (applet);
+
+	if (vpn)
+	{
+		if (!vpn_icon)
+			goto out;
+
+		gdk_pixbuf_composite (vpn_icon, composite, 0, 0, gdk_pixbuf_get_width (vpn_icon),
+							gdk_pixbuf_get_height (vpn_icon), 0, 0, 1.0, 1.0, GDK_INTERP_NEAREST, 255);
+	}
+
+out:
 	gtk_image_set_from_pixbuf (GTK_IMAGE (applet->pixmap), composite);
+
 	g_object_unref (composite);
 }
 
 
-static void nmwa_set_progress (NMWirelessApplet *applet, GdkPixbuf *progress_icon)
+static GdkPixbuf *nmwa_get_connected_icon (NMWirelessApplet *applet, NetworkDevice *dev)
 {
-	g_return_if_fail (applet != NULL);
+	int strength = 0;
+	GdkPixbuf *pixbuf = NULL;
 
-	gtk_image_set_from_pixbuf (GTK_IMAGE (applet->progress_bar), progress_icon);
-	if (!progress_icon)
-		gtk_widget_hide (applet->progress_bar);
+	g_return_val_if_fail (applet != NULL, NULL);
+	g_return_val_if_fail (dev != NULL, NULL);
+
+	if (network_device_is_wireless (dev))
+	{
+		if (applet->is_adhoc)
+			pixbuf = applet->adhoc_icon;
+		else
+		{
+			strength = CLAMP ((int)network_device_get_strength (dev), 0, 100);
+			if (strength > 80)
+				pixbuf = applet->wireless_100_icon;
+			else if (strength > 55)
+				pixbuf = applet->wireless_75_icon;
+			else if (strength > 30)
+				pixbuf = applet->wireless_50_icon;
+			else if (strength > 5)
+				pixbuf = applet->wireless_25_icon;
+			else
+				pixbuf = applet->wireless_00_icon;
+		}
+	}
 	else
-		gtk_widget_show (applet->progress_bar);
-}
+		pixbuf = applet->wired_icon;
 
-/*
- * animation_timeout
- *
- * Jump to the next frame of the applets icon if the icon
- * is supposed to be animated.
- *
- */
-static gboolean animation_timeout (NMWirelessApplet *applet)
-{
-	NetworkDevice *act_dev = nmwa_get_first_active_device (applet->dbus_device_list);
-
-	if (!applet->nm_running)
-	{
-		applet->animation_step = 0;
-		return TRUE;
-	}
-
-	switch (applet->gui_nm_state)
-	{
-		case NM_STATE_CONNECTING:
-			if (act_dev && network_device_is_wireless (act_dev))
-			{
-				if (applet->animation_step >= NUM_WIRELESS_CONNECTING_FRAMES)
-					applet->animation_step = 0;
-				nmwa_set_icon (applet, applet->wireless_connecting_icons[applet->animation_step]);
-			}
-			else if (act_dev)
-			{
-				if (applet->animation_step >= NUM_WIRED_CONNECTING_FRAMES)
-					applet->animation_step = 0;
-				nmwa_set_icon (applet, applet->wired_connecting_icons[applet->animation_step]);
-			}
-			applet->animation_step ++;
-			break;
-
-		default:
-			break;
-	}
-
-	return TRUE;
+	return pixbuf;
 }
 
 
@@ -938,6 +893,8 @@ static GdkPixbuf * nmwa_act_stage_to_pixbuf (NMWirelessApplet *applet, NetworkDe
 {
 	const char *essid;
 	const char *iface;
+	gint connecting_stage = -1;
+	GdkPixbuf *pixbuf = NULL;
 
 	g_return_val_if_fail (applet != NULL, NULL);
 	g_return_val_if_fail (dev != NULL, NULL);
@@ -953,7 +910,8 @@ static GdkPixbuf * nmwa_act_stage_to_pixbuf (NMWirelessApplet *applet, NetworkDe
 				*tip = g_strdup_printf (_("Preparing device %s for the wired network..."), iface);
 			else if (network_device_is_wireless (dev))
 				*tip = g_strdup_printf (_("Preparing device %s for the wireless network '%s'..."), iface, essid);
-			return applet->progress_icons[1];
+			connecting_stage = 0;
+			break;
 		}
 
 		case NM_ACT_STAGE_DEVICE_CONFIG:
@@ -962,14 +920,16 @@ static GdkPixbuf * nmwa_act_stage_to_pixbuf (NMWirelessApplet *applet, NetworkDe
 				*tip = g_strdup_printf (_("Configuring device %s for the wired network..."), iface);
 			else if (network_device_is_wireless (dev))
 				*tip = g_strdup_printf (_("Attempting to join the wireless network '%s'..."), essid);
-			return applet->progress_icons[3];
+			connecting_stage = 0;
+			break;
 		}
 
 		case NM_ACT_STAGE_NEED_USER_KEY:
 		{
 			if (network_device_is_wireless (dev))
 				*tip = g_strdup_printf (_("Waiting for Network Key for the wireless network '%s'..."), essid);
-			return applet->progress_icons[4];
+			connecting_stage = 0;
+			break;
 		}
 
 		case NM_ACT_STAGE_IP_CONFIG_START:
@@ -978,7 +938,8 @@ static GdkPixbuf * nmwa_act_stage_to_pixbuf (NMWirelessApplet *applet, NetworkDe
 				*tip = g_strdup_printf (_("Requesting a network address from the wired network..."));
 			else if (network_device_is_wireless (dev))
 				*tip = g_strdup_printf (_("Requesting a network address from the wireless network '%s'..."), essid);
-			return applet->progress_icons[5];
+			connecting_stage = 1;
+			break;
 		}
 
 		case NM_ACT_STAGE_IP_CONFIG_GET:
@@ -987,7 +948,8 @@ static GdkPixbuf * nmwa_act_stage_to_pixbuf (NMWirelessApplet *applet, NetworkDe
 				*tip = g_strdup_printf (_("Requesting a network address from the wired network..."));
 			else if (network_device_is_wireless (dev))
 				*tip = g_strdup_printf (_("Requesting a network address from the wireless network '%s'..."), essid);
-			return applet->progress_icons[8];
+			connecting_stage = 2;
+			break;
 		}
 
 		case NM_ACT_STAGE_IP_CONFIG_COMMIT:
@@ -996,7 +958,8 @@ static GdkPixbuf * nmwa_act_stage_to_pixbuf (NMWirelessApplet *applet, NetworkDe
 				*tip = g_strdup_printf (_("Finishing connection to the wired network..."));
 			else if (network_device_is_wireless (dev))
 				*tip = g_strdup_printf (_("Finishing connection to the wireless network '%s'..."), essid);
-			return applet->progress_icons[10];
+			connecting_stage = 2;
+			break;
 		}
 
 		default:
@@ -1006,7 +969,79 @@ static GdkPixbuf * nmwa_act_stage_to_pixbuf (NMWirelessApplet *applet, NetworkDe
 		case NM_ACT_STAGE_UNKNOWN:
 			break;
 	}
-	return NULL;
+
+	if (connecting_stage >= 0 && connecting_stage < NUM_CONNECTING_STAGES)
+	{
+		if (applet->animation_step >= NUM_CONNECTING_FRAMES)
+			applet->animation_step = 0;
+
+		pixbuf = applet->network_connecting_icons[connecting_stage][applet->animation_step];
+	}
+
+	return pixbuf;
+}
+
+static void nmwa_update_state (NMWirelessApplet *applet);
+
+/*
+ * animation_timeout
+ *
+ * Jump to the next frame of the applets icon if the icon
+ * is supposed to be animated.
+ *
+ */
+static gboolean animation_timeout (NMWirelessApplet *applet)
+{
+	NetworkDevice *act_dev;
+	GdkPixbuf *pixbuf;
+
+	g_return_val_if_fail (applet != NULL, FALSE);
+
+	if (!applet->nm_running)
+	{
+		applet->animation_step = 0;
+		return TRUE;
+	}
+
+	act_dev = nmwa_get_first_active_device (applet->device_list);
+	if (!act_dev)
+	{
+		applet->animation_step = 0;
+		return TRUE;
+	}
+
+	if (applet->nm_state == NM_STATE_CONNECTING)
+	{
+		if (act_dev)
+		{
+			char *tip = NULL;
+			pixbuf = nmwa_act_stage_to_pixbuf (applet, act_dev, NULL, &tip);
+			g_free (tip);
+
+			if (pixbuf)
+				nmwa_set_icon (applet, pixbuf, NULL);
+		}
+		applet->animation_step ++;
+	}
+	else if (nmwa_get_first_activating_vpn_connection (applet) != NULL)
+	{
+		pixbuf = nmwa_get_connected_icon (applet, act_dev);
+
+		if (applet->animation_step >= NUM_VPN_CONNECTING_FRAMES)
+			applet->animation_step = 0;
+
+		nmwa_set_icon (applet, pixbuf, applet->vpn_connecting_icons[applet->animation_step]);
+		applet->animation_step ++;
+	}
+	else
+	{
+		applet->animation_step = 0;
+		applet->animation_id = 0;
+		nmwa_update_state (applet);
+		return FALSE;
+	}
+
+	return TRUE;
 }
 
 
@@ -1021,17 +1056,15 @@ static void nmwa_update_state (NMWirelessApplet *applet)
 {
 	gboolean			show_applet = TRUE;
 	gboolean			need_animation = FALSE;
-	gboolean			active_vpn = FALSE;
 	GdkPixbuf *		pixbuf = NULL;
-	GdkPixbuf *		progress = NULL;
 	gint				strength = -1;
 	char *			tip = NULL;
+	char *			vpntip = NULL;
 	WirelessNetwork *	active_network = NULL;
 	NetworkDevice *	act_dev = NULL;
+	VPNConnection		*vpn;
 
-	g_mutex_lock (applet->data_mutex);
-
-	act_dev = nmwa_get_first_active_device (applet->gui_device_list);
+	act_dev = nmwa_get_first_active_device (applet->device_list);
 	if (act_dev && network_device_is_wireless (act_dev))
 	{
 		active_network = network_device_get_active_wireless_network (act_dev);
@@ -1046,10 +1079,11 @@ static void nmwa_update_state (NMWirelessApplet *applet)
 	}
 
 	if (!act_dev)
-		applet->gui_nm_state = NM_STATE_DISCONNECTED;
+		applet->nm_state = NM_STATE_DISCONNECTED;
 
-	switch (applet->gui_nm_state)
+	switch (applet->nm_state)
 	{
+		case NM_STATE_ASLEEP:
 		case NM_STATE_DISCONNECTED:
 			pixbuf = applet->no_connection_icon;
 			tip = g_strdup (_("No network connection"));
@@ -1057,74 +1091,74 @@ static void nmwa_update_state (NMWirelessApplet *applet)
 
 		case NM_STATE_CONNECTED:
 			if (network_device_is_wired (act_dev))
-			{
-				pixbuf = applet->wired_icon;
 				tip = g_strdup (_("Wired network connection"));
-			}
 			else if (network_device_is_wireless (act_dev))
 			{
 				if (applet->is_adhoc)
-				{
-					pixbuf = applet->adhoc_icon;
 					tip = g_strdup (_("Connected to an Ad-Hoc wireless network"));
-				}
 				else
-				{
-					if (strength > 75)
-						pixbuf = applet->wireless_100_icon;
-					else if (strength > 50)
-						pixbuf = applet->wireless_75_icon;
-					else if (strength > 25)
-						pixbuf = applet->wireless_50_icon;
-					else if (strength > 0)
-						pixbuf = applet->wireless_25_icon;
-					else
-						pixbuf = applet->wireless_00_icon;
 					tip = g_strdup_printf (_("Wireless network connection to '%s' (%d%%)"),
-							active_network ? wireless_network_get_essid (active_network) : "(unknown)", strength);
-				}
+					                       active_network ? wireless_network_get_essid (active_network) : "(unknown)", strength);
 			}
+
+			pixbuf = nmwa_get_connected_icon (applet, act_dev);
+
 			break;
 
 		case NM_STATE_CONNECTING:
-			progress = nmwa_act_stage_to_pixbuf (applet, act_dev, active_network, &tip);
-			need_animation = TRUE;
+			{
+				pixbuf = nmwa_act_stage_to_pixbuf (applet, act_dev, active_network, &tip);
+				need_animation = TRUE;
+			}
 			break;
 
 		default:
 			break;
 	}
 
-done:
-	g_mutex_unlock (applet->data_mutex);
+	vpn = nmwa_get_first_active_vpn_connection (applet);
+	if (vpn != NULL)
+	{
+		vpntip = g_strdup_printf (_("VPN connection to '%s'"), nmwa_vpn_connection_get_name (vpn));
+	}
+	else
+	{
+		vpn = nmwa_get_first_activating_vpn_connection (applet);
+		if (vpn != NULL)
+		{
+			need_animation = TRUE;
+			vpntip = g_strdup_printf (_("VPN connecting to '%s'"), nmwa_vpn_connection_get_name (vpn));
+		}
+	}
 
-	if (!applet->tooltips)
-		applet->tooltips = gtk_tooltips_new ();
-
-	if (applet->gui_active_vpn != NULL) {
+	if (vpntip)
+	{
 		char *newtip;
-		char *vpntip;
-
-		vpntip = g_strdup_printf (_("VPN connection to '%s'"), nmwa_vpn_connection_get_name (applet->gui_active_vpn));
 		newtip = g_strconcat (tip, "\n", vpntip, NULL);
 		g_free (vpntip);
 		g_free (tip);
 		tip = newtip;
 	}
 
+done:
+	if (!applet->tooltips)
+		applet->tooltips = gtk_tooltips_new ();
+
 	gtk_tooltips_set_tip (applet->tooltips, applet->event_box, tip, NULL);
 	g_free (tip);
 
-	nmwa_set_progress (applet, progress);	
-
+	applet->animation_step = 0;
 	if (applet->animation_id)
+	{
 		g_source_remove (applet->animation_id);
+		applet->animation_id = 0;
+	}
 	if (need_animation)
 		applet->animation_id = g_timeout_add (100, (GSourceFunc) animation_timeout, applet);
 	else
 	{
 		if (pixbuf)
-			nmwa_set_icon (applet, pixbuf);
+			nmwa_set_icon (applet, pixbuf, applet->vpn_lock_icon);
 		else
 			show_applet = FALSE;
 	}
@@ -1145,7 +1179,8 @@ done:
  */
 static int nmwa_redraw_timeout (NMWirelessApplet *applet)
 {
-	nmwa_update_state (applet);
+	if (!applet->animation_id)
+		nmwa_update_state (applet);
 
   	return (TRUE);
 }
@@ -1174,8 +1209,8 @@ static gboolean show_warning_dialog (char *mesg)
 	timestamp = gdk_x11_get_server_time (dialog->window);
 	gdk_x11_window_set_user_time (dialog->window, timestamp);
 
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
+	gtk_window_present (GTK_WINDOW (dialog));
+	g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
 	g_free (mesg);
 
 	return FALSE;
@@ -1248,10 +1283,8 @@ static void nmwa_menu_item_activate (GtkMenuItem *item, gpointer user_data)
 	if (!(tag = g_object_get_data (G_OBJECT (item), "device")))
 		return;
 
-	g_mutex_lock (applet->data_mutex);
-	if ((dev = nmwa_get_device_for_nm_path (applet->gui_device_list, tag)))
+	if ((dev = nmwa_get_device_for_nm_path (applet->device_list, tag)))
 		network_device_ref (dev);
-	g_mutex_unlock (applet->data_mutex);
 
 	if (!dev)
 		return;
@@ -1261,6 +1294,8 @@ static void nmwa_menu_item_activate (GtkMenuItem *item, gpointer user_data)
 
 	nmwa_dbus_set_device (applet->connection, dev, net ? wireless_network_get_essid (net) : NULL, -1, NULL);
 	network_device_unref (dev);
+
+	nmi_dbus_signal_user_interface_activated (applet->connection);
 }
 
 
@@ -1283,8 +1318,9 @@ static void nmwa_menu_vpn_item_activate (GtkMenuItem *item, gpointer user_data)
 		VPNConnection	*vpn = (VPNConnection *)tag;
 		const char	*name = nmwa_vpn_connection_get_name (vpn);
 		GSList         *passwords;
+		VPNConnection	*active_vpn = nmwa_get_first_active_vpn_connection (applet);
 
-		if (vpn != applet->gui_active_vpn)
+		if (vpn != active_vpn)
 		{
 			char *gconf_key;
 			char *escaped_name;
@@ -1311,6 +1347,8 @@ static void nmwa_menu_vpn_item_activate (GtkMenuItem *item, gpointer user_data)
 			}
 		}
 	}
+
+	nmi_dbus_signal_user_interface_activated (applet->connection);
 }
 
 
@@ -1333,6 +1371,8 @@ static void nmwa_menu_dialup_item_activate (GtkMenuItem *item, gpointer user_dat
 		return;
 
 	nmwa_dbus_dialup_activate_connection (applet, dialup);
+
+	nmi_dbus_signal_user_interface_activated (applet->connection);
 }
 
 
@@ -1351,6 +1391,8 @@ static void nmwa_menu_configure_vpn_item_activate (GtkMenuItem *item, gpointer u
 	g_return_if_fail (applet != NULL);
 
 	g_spawn_async (NULL, (gchar **) argv, NULL, 0, NULL, NULL, NULL, NULL);
+
+	nmi_dbus_signal_user_interface_activated (applet->connection);
 }
 
 /*
@@ -1367,51 +1409,8 @@ static void nmwa_menu_disconnect_vpn_item_activate (GtkMenuItem *item, gpointer 
 	g_return_if_fail (applet != NULL);
 
 	nmwa_dbus_vpn_deactivate_connection (applet->connection);
-}
 
-
-static void scanning_menu_update (GtkWidget *menu_item, GtkCheckMenuItem *active_item)
-{
-	g_return_if_fail (active_item != NULL);
-
-	g_object_set_data (G_OBJECT (menu_item), "block-activate", GINT_TO_POINTER(1));
-	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), (GTK_CHECK_MENU_ITEM (menu_item) == active_item) ? TRUE : FALSE);
-	g_object_set_data (G_OBJECT (menu_item), "block-activate", GINT_TO_POINTER(0));
-}
-
-
-/*
- * nmwa_menu_scanning_item_activate
- *
- * Handle a request to change scanning behavior
- *
- */
-static void nmwa_menu_scanning_item_activate (GtkMenuItem *item, gpointer user_data)
-{
-	NMWirelessApplet *	applet = (NMWirelessApplet *)user_data;
-	char *			tag;
-
-	g_return_if_fail (item != NULL);
-	g_return_if_fail (applet != NULL);
-
-	if ((tag = g_object_get_data (G_OBJECT (item), "block-activate")))
-		if (GPOINTER_TO_INT(tag) == 1)
-			return;
-
-	if ((tag = g_object_get_data (G_OBJECT (item), "scan_method")))
-	{
-		NMWirelessScanMethod	method = GPOINTER_TO_UINT (tag);
-
-		if ((method == NM_SCAN_METHOD_ALWAYS) || (method == NM_SCAN_METHOD_NEVER)
-			|| (method == NM_SCAN_METHOD_WHEN_UNASSOCIATED))
-			gconf_client_set_int (applet->gconf_client, GCONF_PATH_WIRELESS "/scan_method", method, NULL);
-	}
-
-	/* Check only this menu item */
-	if (!applet->scanning_menu)
-		return;
-
-	gtk_container_foreach (GTK_CONTAINER (applet->scanning_menu), (GtkCallback) scanning_menu_update, (gpointer) item);
+	nmi_dbus_signal_user_interface_activated (applet->connection);
 }
 
 
@@ -1457,8 +1456,6 @@ static void nmwa_menu_add_text_item (GtkWidget *menu, char *text)
  */
 static void nmwa_menu_add_device_item (GtkWidget *menu, NetworkDevice *device, gint n_devices, NMWirelessApplet *applet)
 {
-	GtkWidget *		menu_item;
-
 	g_return_if_fail (menu != NULL);
 	g_return_if_fail (device != NULL);
 	g_return_if_fail (applet != NULL);
@@ -1489,7 +1486,7 @@ static void nmwa_menu_add_device_item (GtkWidget *menu, NetworkDevice *device, g
 			NMWirelessMenuItem *item = wireless_menu_item_new ();
 			GtkMenuItem *gtk_item = wireless_menu_item_get_item (item);
 
-		     wireless_menu_item_update (item, device, n_devices);
+			wireless_menu_item_update (item, device, n_devices);
 
 			g_object_set_data (G_OBJECT (gtk_item), "device", g_strdup (network_device_get_nm_path (device)));
 			g_object_set_data (G_OBJECT (gtk_item), "nm-item-data", item);
@@ -1514,16 +1511,16 @@ static void custom_essid_item_selected (GtkWidget *menu_item, NMWirelessApplet *
 
 static void nmwa_menu_add_custom_essid_item (GtkWidget *menu, NMWirelessApplet *applet)
 {
-  GtkWidget *menu_item;
-  GtkWidget *label;
+	GtkWidget *menu_item;
+	GtkWidget *label;
 
-  menu_item = gtk_menu_item_new ();
-  label = gtk_label_new_with_mnemonic (_("_Connect to Other Wireless Network..."));
-  gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-  gtk_container_add (GTK_CONTAINER (menu_item), label);
-  gtk_widget_show_all (menu_item);
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-  g_signal_connect (menu_item, "activate", G_CALLBACK (custom_essid_item_selected), applet);
+	menu_item = gtk_menu_item_new ();
+	label = gtk_label_new_with_mnemonic (_("_Connect to Other Wireless Network..."));
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_container_add (GTK_CONTAINER (menu_item), label);
+	gtk_widget_show_all (menu_item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+	g_signal_connect (menu_item, "activate", G_CALLBACK (custom_essid_item_selected), applet);
 }
 
 
@@ -1535,16 +1532,16 @@ static void new_network_item_selected (GtkWidget *menu_item, NMWirelessApplet *a
 
 static void nmwa_menu_add_create_network_item (GtkWidget *menu, NMWirelessApplet *applet)
 {
-  GtkWidget *menu_item;
-  GtkWidget *label;
+	GtkWidget *menu_item;
+	GtkWidget *label;
 
-  menu_item = gtk_menu_item_new ();
-  label = gtk_label_new_with_mnemonic (_("Create _New Wireless Network..."));
-  gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-  gtk_container_add (GTK_CONTAINER (menu_item), label);
-  gtk_widget_show_all (menu_item);
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-  g_signal_connect (menu_item, "activate", G_CALLBACK (new_network_item_selected), applet);
+	menu_item = gtk_menu_item_new ();
+	label = gtk_label_new_with_mnemonic (_("Create _New Wireless Network..."));
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_container_add (GTK_CONTAINER (menu_item), label);
+	gtk_widget_show_all (menu_item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+	g_signal_connect (menu_item, "activate", G_CALLBACK (new_network_item_selected), applet);
 }
 
 
@@ -1612,7 +1609,6 @@ static void nmwa_has_encrypted_networks_helper (NetworkDevice *dev, WirelessNetw
  */
 static void nmwa_menu_device_add_networks (GtkWidget *menu, NetworkDevice *dev, NMWirelessApplet *applet)
 {
-	GSList *			list;
 	gboolean			has_encrypted = FALSE;
 	AddNetworksCB *	add_networks_cb = NULL;
 
@@ -1648,6 +1644,7 @@ static void nmwa_menu_add_vpn_menu (GtkWidget *menu, NMWirelessApplet *applet)
 	GtkMenu		*vpn_menu;
 	GtkMenuItem	*other_item;
 	GSList		*elt;
+	VPNConnection	*active_vpn;
 
 	g_return_if_fail (menu != NULL);
 	g_return_if_fail (applet != NULL);
@@ -1655,17 +1652,22 @@ static void nmwa_menu_add_vpn_menu (GtkWidget *menu, NMWirelessApplet *applet)
 	item = GTK_MENU_ITEM (gtk_menu_item_new_with_mnemonic (_("_VPN Connections")));
 
 	vpn_menu = GTK_MENU (gtk_menu_new ());
-	for (elt = applet->gui_vpn_connections; elt; elt = g_slist_next (elt))
+	active_vpn = nmwa_get_first_active_vpn_connection (applet);
+
+	for (elt = applet->vpn_connections; elt; elt = g_slist_next (elt))
 	{
 		GtkCheckMenuItem	*vpn_item;
 		VPNConnection		*vpn = elt->data;
 		const char		*vpn_name = nmwa_vpn_connection_get_name (vpn);
 
 		vpn_item = GTK_CHECK_MENU_ITEM (gtk_check_menu_item_new_with_label (vpn_name));
+		/* temporarily do this until we support multiple VPN connections */
+		gtk_check_menu_item_set_draw_as_radio (vpn_item, TRUE);
+
 		nmwa_vpn_connection_ref (vpn);
 		g_object_set_data (G_OBJECT (vpn_item), "vpn", vpn);
 
-		if (applet->gui_active_vpn && (strcmp (vpn_name, nmwa_vpn_connection_get_name (applet->gui_active_vpn)) == 0))
+		if (active_vpn && active_vpn == vpn)
 			gtk_check_menu_item_set_active (vpn_item, TRUE);
 
 		g_signal_connect (G_OBJECT (vpn_item), "activate", G_CALLBACK (nmwa_menu_vpn_item_activate), applet);
@@ -1673,7 +1675,7 @@ static void nmwa_menu_add_vpn_menu (GtkWidget *menu, NMWirelessApplet *applet)
 	}
 
 	/* Draw a seperator, but only if we have VPN connections above it */
-	if (applet->gui_vpn_connections)
+	if (applet->vpn_connections)
 	{
 		other_item = GTK_MENU_ITEM (gtk_separator_menu_item_new ());
 		gtk_menu_shell_append (GTK_MENU_SHELL (vpn_menu), GTK_WIDGET (other_item));
@@ -1685,7 +1687,7 @@ static void nmwa_menu_add_vpn_menu (GtkWidget *menu, NMWirelessApplet *applet)
 
 	other_item = GTK_MENU_ITEM (gtk_menu_item_new_with_mnemonic (_("_Disconnect VPN...")));
 	g_signal_connect (G_OBJECT (other_item), "activate", G_CALLBACK (nmwa_menu_disconnect_vpn_item_activate), applet);
-	if (!applet->gui_active_vpn)
+	if (!active_vpn)
 		gtk_widget_set_sensitive (GTK_WIDGET (other_item), FALSE);
 	gtk_menu_shell_append (GTK_MENU_SHELL (vpn_menu), GTK_WIDGET (other_item));
 
@@ -1700,7 +1702,6 @@ static void nmwa_menu_add_dialup_menu (GtkWidget *menu, NMWirelessApplet *applet
 {
 	GtkMenuItem *item;
 	GtkMenu *dialup_menu;
-	GtkMenuItem *other_item;
 	GSList *elt;
 
 	g_return_if_fail (menu != NULL);
@@ -1741,7 +1742,6 @@ static gboolean is_vpn_available (void)
 
 	result = FALSE;
 	if ((dir = g_dir_open (VPN_NAME_FILES_DIR, 0, NULL)) != NULL) {
-		const char *f;
 		if (g_dir_read_name (dir) != NULL)
 			result = TRUE;
 		g_dir_close (dir);
@@ -1764,19 +1764,21 @@ static void nmwa_menu_add_devices (GtkWidget *menu, NMWirelessApplet *applet)
 	g_return_if_fail (menu != NULL);
 	g_return_if_fail (applet != NULL);
 
-	g_mutex_lock (applet->data_mutex);
-	if (! applet->gui_device_list)
+	if (! applet->device_list)
 	{
 		nmwa_menu_add_text_item (menu, _("No network devices have been found"));
-		g_mutex_unlock (applet->data_mutex);
 		return;
 	}
 
-	for (element = applet->gui_device_list; element; element = element->next)
+	for (element = applet->device_list; element; element = element->next)
 	{
 		NetworkDevice *dev = (NetworkDevice *)(element->data);
 
 		g_assert (dev);
+
+		/* Ignore unsupported devices */
+		if (!(network_device_get_capabilities (dev) & NM_DEVICE_CAP_NM_SUPPORTED))
+			continue;
 
 		switch (network_device_get_type (dev))
 		{
@@ -1792,13 +1794,17 @@ static void nmwa_menu_add_devices (GtkWidget *menu, NMWirelessApplet *applet)
 	}
 
 	/* Add all devices in our device list to the menu */
-	for (element = applet->gui_device_list; element; element = element->next)
+	for (element = applet->device_list; element; element = element->next)
 	{
 		NetworkDevice *dev = (NetworkDevice *)(element->data);
 
 		if (dev)
 		{
 			gint n_devices = 0;
+
+			/* Ignore unsupported devices */
+			if (!(network_device_get_capabilities (dev) & NM_DEVICE_CAP_NM_SUPPORTED))
+				continue;
 
 			switch (network_device_get_type (dev))
 			{
@@ -1841,8 +1847,6 @@ static void nmwa_menu_add_devices (GtkWidget *menu, NMWirelessApplet *applet)
 		nmwa_menu_add_custom_essid_item (menu, applet);
 		nmwa_menu_add_create_network_item (menu, applet);
 	}
-
-	g_mutex_unlock (applet->data_mutex);
 }
 
 
@@ -1959,6 +1963,8 @@ static void nmwa_dropdown_menu_show_cb (GtkWidget *menu, NMWirelessApplet *apple
 		nmwa_dropdown_menu_populate (applet->dropdown_menu, applet);
 		gtk_widget_show_all (applet->dropdown_menu);
 	}
+
+	nmi_dbus_signal_user_interface_activated (applet->connection);
 }
 
 /*
@@ -1989,31 +1995,40 @@ static GtkWidget *nmwa_dropdown_menu_create (GtkMenuItem *parent, NMWirelessAppl
  */
 static void nmwa_context_menu_update (NMWirelessApplet *applet)
 {
-	GtkWidget *image;	
+	GSList *element;
+	gboolean have_wireless = FALSE;
+	NetworkDevice *dev;
+	const char *iface = NULL;
 
 	g_return_if_fail (applet != NULL);
 	g_return_if_fail (applet->stop_wireless_item != NULL);
+	g_return_if_fail (applet->info_menu_item != NULL);
 
-	g_mutex_lock (applet->data_mutex);
+	if ((dev = nmwa_get_first_active_device (applet->device_list)))
+		iface = network_device_get_iface (dev);
 
-	gtk_widget_destroy (applet->stop_wireless_item);
-
-	if (applet->wireless_enabled)
-	{
-		applet->stop_wireless_item = gtk_image_menu_item_new_with_mnemonic (_("_Stop All Wireless Devices"));
-		image = gtk_image_new_from_stock (GTK_STOCK_STOP, GTK_ICON_SIZE_MENU);
-	}
+	if (!dev || !iface)
+		gtk_widget_set_sensitive (applet->info_menu_item, FALSE);
 	else
-	{
-		applet->stop_wireless_item = gtk_image_menu_item_new_with_mnemonic (_("_Start All Wireless Devices"));
-		image = gtk_image_new_from_stock (GTK_STOCK_MEDIA_PLAY, GTK_ICON_SIZE_MENU);
-	}
-	g_signal_connect (G_OBJECT (applet->stop_wireless_item), "activate", G_CALLBACK (nmwa_set_wireless_enabled_cb), applet);
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (applet->stop_wireless_item), image);
-	gtk_menu_shell_insert (GTK_MENU_SHELL (applet->context_menu), applet->stop_wireless_item, 1);
-	gtk_widget_show_all (applet->stop_wireless_item);
+		gtk_widget_set_sensitive (applet->info_menu_item, TRUE);
 
-	g_mutex_unlock (applet->data_mutex);
+	for (element = applet->device_list; element; element = element->next)
+	{
+		dev = (NetworkDevice *)(element->data);
+
+		g_assert (dev);
+
+		if (network_device_get_type (dev) == DEVICE_TYPE_WIRELESS_ETHERNET)
+		{
+			have_wireless = TRUE;
+			break;
+		}
+	}
+
+	if (have_wireless)
+		gtk_widget_show_all (applet->stop_wireless_item);
+	else
+		gtk_widget_hide (applet->stop_wireless_item);
 }
 
 
@@ -2028,59 +2043,28 @@ static GtkWidget *nmwa_context_menu_create (NMWirelessApplet *applet)
 	GtkWidget	*menu;
 	GtkWidget	*menu_item;
 	GtkWidget *image;
-	GtkWidget *scanning_subitem;
 
 	g_return_val_if_fail (applet != NULL, NULL);
 
 	menu = gtk_menu_new ();
 
-	/* Construct the wireless scanning submenu */
-	applet->scan_method = nmwa_gconf_get_wireless_scan_method (applet);
-	applet->scanning_item = gtk_menu_item_new_with_mnemonic (_("_Wireless Network Discovery"));
-	applet->scanning_menu = gtk_menu_new ();
-
-	scanning_subitem = GTK_WIDGET (gtk_check_menu_item_new_with_label (_("Always Search")));
-	gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (scanning_subitem), TRUE);	
-	g_object_set_data (G_OBJECT (scanning_subitem), "scan_method", GUINT_TO_POINTER (NM_SCAN_METHOD_ALWAYS));
-	if (applet->scan_method == NM_SCAN_METHOD_ALWAYS)
-		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (scanning_subitem), TRUE);
-	g_signal_connect (G_OBJECT (scanning_subitem), "activate", G_CALLBACK (nmwa_menu_scanning_item_activate), applet);
-	gtk_menu_shell_append (GTK_MENU_SHELL (applet->scanning_menu), GTK_WIDGET (scanning_subitem));
-
-	scanning_subitem = GTK_WIDGET (gtk_check_menu_item_new_with_label (_("Search Only When Disconnected")));
-	gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (scanning_subitem), TRUE);	
-	g_object_set_data (G_OBJECT (scanning_subitem), "scan_method", GINT_TO_POINTER (NM_SCAN_METHOD_WHEN_UNASSOCIATED));
-	if (applet->scan_method == NM_SCAN_METHOD_WHEN_UNASSOCIATED)
-		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (scanning_subitem), TRUE);
-	g_signal_connect (G_OBJECT (scanning_subitem), "activate", G_CALLBACK (nmwa_menu_scanning_item_activate), applet);
-	gtk_menu_shell_append (GTK_MENU_SHELL (applet->scanning_menu), GTK_WIDGET (scanning_subitem));
-
-	scanning_subitem = GTK_WIDGET (gtk_check_menu_item_new_with_label (_("Never Search")));
-	gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (scanning_subitem), TRUE);	
-	g_object_set_data (G_OBJECT (scanning_subitem), "scan_method", GINT_TO_POINTER (NM_SCAN_METHOD_NEVER));
-	if (applet->scan_method == NM_SCAN_METHOD_NEVER)
-		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (scanning_subitem), TRUE);
-	g_signal_connect (G_OBJECT (scanning_subitem), "activate", G_CALLBACK (nmwa_menu_scanning_item_activate), applet);
-	gtk_menu_shell_append (GTK_MENU_SHELL (applet->scanning_menu), GTK_WIDGET (scanning_subitem));
-
-	gtk_menu_item_set_submenu (GTK_MENU_ITEM (applet->scanning_item), applet->scanning_menu);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), applet->scanning_item);
-
-	/* Stop All Wireless Devices item */
-	applet->stop_wireless_item = gtk_image_menu_item_new_with_label (_("Stop All Wireless Devices"));
+	/* Wireless Enabled item */
+	applet->stop_wireless_item = gtk_check_menu_item_new_with_mnemonic (_("_Wireless Enabled"));
+	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (applet->stop_wireless_item), TRUE);
 	g_signal_connect (G_OBJECT (applet->stop_wireless_item), "activate", G_CALLBACK (nmwa_set_wireless_enabled_cb), applet);
-	image = gtk_image_new_from_stock (GTK_STOCK_STOP, GTK_ICON_SIZE_MENU);
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (applet->stop_wireless_item), image);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), applet->stop_wireless_item);
 
-	menu_item = gtk_image_menu_item_new_with_mnemonic (_("Connection _Information"));
-	g_signal_connect (G_OBJECT (menu_item), "activate", G_CALLBACK (nmwa_show_info_cb), applet);
+	/* Connection Information item */
+	applet->info_menu_item = gtk_image_menu_item_new_with_mnemonic (_("Connection _Information"));
+	g_signal_connect (G_OBJECT (applet->info_menu_item), "activate", G_CALLBACK (nmwa_show_info_cb), applet);
 	image = gtk_image_new_from_stock (GTK_STOCK_INFO, GTK_ICON_SIZE_MENU);
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu_item), image);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (applet->info_menu_item), image);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), applet->info_menu_item);
 
+	/* Separator */
 	nmwa_menu_add_separator_item (menu);
 
+	/* Help item */
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Help"));
 /*	g_signal_connect (G_OBJECT (menu_item), "activate", G_CALLBACK (nmwa_help_cb), applet); */
 	image = gtk_image_new_from_stock (GTK_STOCK_HELP, GTK_ICON_SIZE_MENU);
@@ -2088,6 +2072,7 @@ static GtkWidget *nmwa_context_menu_create (NMWirelessApplet *applet)
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
 	gtk_widget_set_sensitive (GTK_WIDGET (menu_item), FALSE);
 
+	/* About item */
 	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_About"));
 	g_signal_connect (G_OBJECT (menu_item), "activate", G_CALLBACK (nmwa_about_cb), applet);
 	image = gtk_image_new_from_stock (GTK_STOCK_ABOUT, GTK_ICON_SIZE_MENU);
@@ -2156,7 +2141,6 @@ static gboolean nmwa_toplevel_menu_button_press_cb (GtkWidget *widget, GdkEventB
 static void nmwa_setup_widgets (NMWirelessApplet *applet)
 {
 	GtkWidget      *menu_bar;
-	GtkWidget		*event_box;
 
 	/* Event box for tooltips */
 	applet->event_box = gtk_event_box_new ();
@@ -2172,13 +2156,11 @@ static void nmwa_setup_widgets (NMWirelessApplet *applet)
 	applet->dropdown_menu = nmwa_dropdown_menu_create (GTK_MENU_ITEM (applet->top_menu_item), applet);
 
 	applet->pixmap = gtk_image_new ();
-	applet->progress_bar = gtk_image_new ();
 
 	applet->icon_box = gtk_hbox_new (FALSE, 3);
 	gtk_container_set_border_width (GTK_CONTAINER (applet->icon_box), 0);
 
 	/* Set up the widget structure and show the applet */
-	gtk_container_add (GTK_CONTAINER (applet->icon_box), applet->progress_bar);
 	gtk_container_add (GTK_CONTAINER (applet->icon_box), applet->pixmap);
 	gtk_container_add (GTK_CONTAINER (applet->top_menu_item), applet->icon_box);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu_bar), applet->top_menu_item);
@@ -2188,38 +2170,6 @@ static void nmwa_setup_widgets (NMWirelessApplet *applet)
 
 	applet->context_menu = nmwa_context_menu_create (applet);
 	applet->encryption_size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
-}
-
-
-/*
- * nmwa_gconf_get_wireless_scan_method
- *
- * Grab the wireless scan method from GConf
- *
- */
-NMWirelessScanMethod nmwa_gconf_get_wireless_scan_method (NMWirelessApplet *applet)
-{
-	NMWirelessScanMethod	method = NM_SCAN_METHOD_ALWAYS;
-	GConfEntry *			entry;
-
-	g_return_val_if_fail (applet, NM_SCAN_METHOD_ALWAYS);
-	g_return_val_if_fail (applet->gconf_client, NM_SCAN_METHOD_ALWAYS);
-
-	if ((entry = gconf_client_get_entry (applet->gconf_client, GCONF_PATH_WIRELESS "/scan_method", NULL, TRUE, NULL)))
-	{
-		GConfValue *	value = gconf_entry_get_value (entry);
-
-		if (value && (value->type == GCONF_VALUE_INT))
-		{
-			NMWirelessScanMethod	temp_method = gconf_value_get_int (value);
-
-			if ((method == NM_SCAN_METHOD_ALWAYS) || (method == NM_SCAN_METHOD_NEVER)
-				|| (method == NM_SCAN_METHOD_WHEN_UNASSOCIATED))
-				method = temp_method;
-		}
-	}
-
-	return method;
 }
 
 
@@ -2242,19 +2192,6 @@ static void nmwa_gconf_info_notify_callback (GConfClient *client, guint connecti
 	{
 		int	net_path_len = strlen (GCONF_PATH_WIRELESS_NETWORKS) + 1;
 
-		if (strcmp (GCONF_PATH_WIRELESS "/scan_method", key) == 0)
-		{
-			GConfValue *	value = gconf_entry_get_value (entry);
-
-			if (value && (value->type == GCONF_VALUE_INT))
-			{
-				NMWirelessScanMethod	method = gconf_value_get_int (value);
-
-				if ((method == NM_SCAN_METHOD_ALWAYS) || (method == NM_SCAN_METHOD_NEVER)
-					|| (method == NM_SCAN_METHOD_WHEN_UNASSOCIATED))
-					nmi_dbus_signal_update_scan_method (applet->connection);
-			}
-		}
 		if (strncmp (GCONF_PATH_WIRELESS_NETWORKS"/", key, net_path_len) == 0)
 		{
 			char 	*network = g_strdup ((key + net_path_len));
@@ -2357,14 +2294,10 @@ static void nmwa_destroy (NMWirelessApplet *applet, gpointer user_data)
 		applet->redraw_timeout_id = 0;
 	}
 
-	g_main_loop_quit (applet->thread_loop);
-	g_thread_join (applet->dbus_thread);
-
 	if (applet->gconf_client)
 		g_object_unref (G_OBJECT (applet->gconf_client));
 
-	nmwa_free_gui_data_model (applet);
-	nmwa_free_dbus_data_model (applet);
+	nmwa_free_data_model (applet);
 
 	g_free (applet->glade_file);
 
@@ -2384,28 +2317,14 @@ static void nmwa_destroy (NMWirelessApplet *applet, gpointer user_data)
  */
 static GtkWidget * nmwa_get_instance (NMWirelessApplet *applet)
 {
-	GError *	error = NULL;
-
 	gtk_widget_hide (GTK_WIDGET (applet));
 
 	applet->nm_running = FALSE;
-	applet->dev_pending_call_list = NULL;
-	applet->dbus_device_list = NULL;
-	applet->dbus_active_vpn_name = NULL;
-	applet->dbus_vpn_connections = NULL;
-	applet->dbus_nm_state = NM_STATE_DISCONNECTED;
-	applet->vpn_pending_call_list = NULL;
-	applet->gui_device_list = NULL;
-	applet->gui_active_vpn = NULL;
-	applet->gui_vpn_connections = NULL;
+	applet->device_list = NULL;
+	applet->vpn_connections = NULL;
 	applet->dialup_list = NULL;
-	applet->gui_nm_state = NM_STATE_DISCONNECTED;
+	applet->nm_state = NM_STATE_DISCONNECTED;
 	applet->tooltips = NULL;
-	applet->thread_context = NULL;
-	applet->thread_loop = NULL;
-	applet->thread_done = FALSE;
-	applet->scanning_menu = NULL;
-	applet->scanning_item = NULL;
 
 	applet->glade_file = g_build_filename (GLADEDIR, "wireless-applet.glade", NULL);
 	if (!applet->glade_file || !g_file_test (applet->glade_file, G_FILE_TEST_IS_REGULAR))
@@ -2431,18 +2350,7 @@ static GtkWidget * nmwa_get_instance (NMWirelessApplet *applet)
 	applet->gconf_vpn_notify_id = gconf_client_notify_add (applet->gconf_client, GCONF_PATH_VPN_CONNECTIONS,
 						nmwa_gconf_vpn_connections_notify_callback, applet, NULL, NULL);
 
-	/* Start our dbus thread */
-	if (!(applet->data_mutex = g_mutex_new ()))
-	{
-		g_object_unref (G_OBJECT (applet->gconf_client));
-		return NULL;
-	}
-	if (!(applet->dbus_thread = g_thread_create (nmwa_dbus_worker, applet, TRUE, &error)))
-	{
-		g_mutex_free (applet->data_mutex);
-		g_object_unref (G_OBJECT (applet->gconf_client));
-		return NULL;
-	}
+	nmwa_dbus_init_helper (applet);
 
 	/* Load pixmaps and create applet widgets */
 	nmwa_setup_widgets (applet);
@@ -2481,7 +2389,7 @@ static void setup_stock (void)
 
 static void nmwa_icons_free (NMWirelessApplet *applet)
 {
-	gint i;
+	gint i,j;
 
 	g_object_unref (applet->no_connection_icon);
 	g_object_unref (applet->wired_icon);
@@ -2494,11 +2402,12 @@ static void nmwa_icons_free (NMWirelessApplet *applet)
 	g_object_unref (applet->wireless_75_icon);
 	g_object_unref (applet->wireless_100_icon);
 
-	for (i = 0; i < NUM_WIRED_CONNECTING_FRAMES; i++)
-		g_object_unref (applet->wired_connecting_icons[i]);
+	for (i = 0; i < NUM_CONNECTING_STAGES; i++)
+		for (j = 0; j < NUM_CONNECTING_FRAMES; j++)
+			g_object_unref (applet->network_connecting_icons[i][j]);
 
-	for (i = 0; i < NUM_WIRELESS_CONNECTING_FRAMES; i++)
-		g_object_unref (applet->wireless_connecting_icons[i]);
+	for (i = 0; i < NUM_VPN_CONNECTING_FRAMES; i++)
+		g_object_unref (applet->vpn_connecting_icons[i]);
 }
 
 #define ICON_LOAD(x, y)	\
@@ -2517,7 +2426,7 @@ static gboolean
 nmwa_icons_load_from_disk (NMWirelessApplet *applet, GtkIconTheme *icon_theme)
 {
 	char *	name;
-	int		i;
+	int		i, j;
 	gboolean	success = FALSE;
 
 	/* Assume icons are square */
@@ -2534,24 +2443,20 @@ nmwa_icons_load_from_disk (NMWirelessApplet *applet, GtkIconTheme *icon_theme)
 	ICON_LOAD(applet->wireless_75_icon, "nm-signal-75");
 	ICON_LOAD(applet->wireless_100_icon, "nm-signal-100");
 
-	for (i = 0; i < NUM_PROGRESS_FRAMES; i++)
+	for (i = 0; i < NUM_CONNECTING_STAGES; i++)
 	{
-		name = g_strdup_printf ("nm-progress%02d", i+1);
-		ICON_LOAD(applet->progress_icons[i], name);
-		g_free (name);
+		for (j = 0; j < NUM_CONNECTING_FRAMES; j++)
+		{
+			name = g_strdup_printf ("nm-stage%02d-connecting%02d", i+1, j+1);
+			ICON_LOAD(applet->network_connecting_icons[i][j], name);
+			g_free (name);
+		}
 	}
 
-	for (i = 0; i < NUM_WIRED_CONNECTING_FRAMES; i++)
+	for (i = 0; i < NUM_VPN_CONNECTING_FRAMES; i++)
 	{
-		name = g_strdup_printf ("nm-connecting%02d", i+1);
-		ICON_LOAD(applet->wired_connecting_icons[i], name);
-		g_free (name);
-	}
-
-	for (i = 0; i < NUM_WIRELESS_CONNECTING_FRAMES; i++)
-	{
-		name = g_strdup_printf ("nm-connecting%02d", i+1);
-		ICON_LOAD(applet->wireless_connecting_icons[i], name);
+		name = g_strdup_printf ("nm-vpn-connecting%02d", i+1);
+		ICON_LOAD(applet->vpn_connecting_icons[i], name);
 		g_free (name);
 	}
 
@@ -2562,6 +2467,7 @@ out:
 	{
 		char *msg = g_strdup(_("The NetworkManager applet could not find some required resources.  It cannot continue.\n"));
 		show_warning_dialog (msg);
+		nmwa_icons_free (applet);
 	}
 
 	return success;

@@ -42,16 +42,9 @@ static inline gboolean message_is_error (DBusMessage *msg)
 	return (dbus_message_get_type (msg) == DBUS_MESSAGE_TYPE_ERROR);
 }
 
-int			nmwa_dbus_call_method_string			(DBusConnection *con, const char *path, const char *interface, const char *method, gboolean is_obj_path, char **string);
-int			nmwa_dbus_call_method_uint32			(DBusConnection *con, const char *path, const char *interface, const char *method, guint32 *num);
-int			nmwa_dbus_call_method_int32			(DBusConnection *con, const char *path, const char *interface, const char *method, gint32 *num);
-int			nmwa_dbus_call_method_boolean			(DBusConnection *con, const char *path, const char *interface, const char *method, gboolean *num);
-int			nmwa_dbus_call_method_string_array		(DBusConnection *con, const char *path, const char *interface, const char *method,
-												gboolean is_obj_path, char ***array, guint32 *array_len);
-
 DBusMessage *	nmwa_dbus_create_error_message		(DBusMessage *message, const char *exception_namespace, const char *exception, const char *format, ...);
 
-gpointer		nmwa_dbus_worker					(gpointer user_data);
+void			nmwa_dbus_init_helper				(NMWirelessApplet *applet);
 
 void			nmwa_dbus_enable_scanning			(NMWirelessApplet *applet, gboolean enabled);
 

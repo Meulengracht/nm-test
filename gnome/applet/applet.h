@@ -52,6 +52,7 @@ enum NMWAEncryptionKeyTypes
 	KEY_TYPE_HEX_KEY = 2
 };
 
+static GType nmwa_get_type (void); /* prototype for G_DEFINE_TYPE */
 
 #define NM_TYPE_WIRELESS_APPLET			(nmwa_get_type())
 #define NM_WIRELESS_APPLET(object)			(G_TYPE_CHECK_INSTANCE_CAST((object), NM_TYPE_WIRELESS_APPLET, NMWirelessApplet))
@@ -80,49 +81,29 @@ typedef struct
 	char	*			glade_file;
 	guint			redraw_timeout_id;
 
-	/* dbus thread stuff */
-	GThread *			dbus_thread;
-	GMainContext *		thread_context;
-	GMainLoop *		thread_loop;
-	gboolean			thread_done;
-
 	/* Data model elements */
-	GMutex *			data_mutex;
 	gboolean			is_adhoc;
-	NMWirelessScanMethod	scan_method;
 	gboolean			wireless_enabled;
 	gboolean			nm_running;
 
-	GSList *			gui_device_list;
-	NMState			gui_nm_state;
-
-	GSList *			dev_pending_call_list;
-	GSList *			dbus_device_list;
-	NMState			dbus_nm_state;
-
+	NMState			nm_state;
+	GSList *			device_list;
 	GSList *			dialup_list;
-
-	GSList *			gui_vpn_connections;
-	VPNConnection *	gui_active_vpn;
-
-	GSList *			vpn_pending_call_list;
-	char *			dbus_active_vpn_name;
-	GSList *			dbus_vpn_connections;
+	GSList *			vpn_connections;
 
 	GdkPixbuf *		no_connection_icon;
 	GdkPixbuf *		wired_icon;
 	GdkPixbuf *		adhoc_icon;
-#define NUM_PROGRESS_FRAMES 11
-	GdkPixbuf *		progress_icons[NUM_PROGRESS_FRAMES];
-#define NUM_WIRED_CONNECTING_FRAMES 11
-	GdkPixbuf *		wired_connecting_icons[NUM_WIRED_CONNECTING_FRAMES];
 	GdkPixbuf *		wireless_00_icon;
 	GdkPixbuf *		wireless_25_icon;
 	GdkPixbuf *		wireless_50_icon;
 	GdkPixbuf *		wireless_75_icon;
 	GdkPixbuf *		wireless_100_icon;
-#define NUM_WIRELESS_CONNECTING_FRAMES 11
-	GdkPixbuf *		wireless_connecting_icons[NUM_WIRELESS_CONNECTING_FRAMES];
+#define NUM_CONNECTING_STAGES 3
+#define NUM_CONNECTING_FRAMES 11
+	GdkPixbuf *		network_connecting_icons[NUM_CONNECTING_STAGES][NUM_CONNECTING_FRAMES];
+#define NUM_VPN_CONNECTING_FRAMES 14
+	GdkPixbuf *		vpn_connecting_icons[NUM_VPN_CONNECTING_FRAMES];
 	GdkPixbuf *		vpn_lock_icon;
 
 	/* Animation stuff */
@@ -132,7 +113,6 @@ typedef struct
 	/* Direct UI elements */
 	GtkWidget *		icon_box;
 	GtkWidget *		pixmap;
-	GtkWidget *		progress_bar;
 	GtkWidget *		top_menu_item;
 	GtkWidget *		dropdown_menu;
 	GtkWidget *		vpn_menu;
@@ -141,9 +121,8 @@ typedef struct
 	GtkTooltips *		tooltips;
 
 	GtkWidget *		context_menu;
-	GtkWidget *		scanning_item;
-	GtkWidget *		scanning_menu;
 	GtkWidget *		stop_wireless_item;
+	GtkWidget *		info_menu_item;
 
 	GtkWidget *		passphrase_dialog;
 	GladeXML *		info_dialog_xml;
@@ -164,8 +143,7 @@ void				nmwa_schedule_vpn_failure_dialog		(NMWirelessApplet *applet, const char 
 void				nmwa_schedule_vpn_login_banner_dialog	(NMWirelessApplet *applet, const char *vpn_name, const char *banner);
 
 NetworkDevice *	nmwa_get_first_active_device			(GSList *dev_list);
-
-NMWirelessScanMethod	nmwa_gconf_get_wireless_scan_method	(NMWirelessApplet *applet);
+VPNConnection *	nmwa_get_first_active_vpn_connection	(NMWirelessApplet *applet);
 
 int				nm_null_safe_strcmp					(const char *s1, const char *s2);
 

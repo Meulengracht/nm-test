@@ -47,7 +47,6 @@
 static gboolean nm_policy_activation_finish (NMActRequest *req)
 {
 	NMDevice			*dev = NULL;
-	NMAccessPoint		*ap = NULL;
 	NMData			*data = NULL;
 
 	g_return_val_if_fail (req != NULL, FALSE);
@@ -85,7 +84,6 @@ static gboolean nm_policy_activation_finish (NMActRequest *req)
 	nm_dbus_schedule_device_status_change_signal (data, dev, NULL, DEVICE_NOW_ACTIVE);
 	nm_schedule_state_change_signal_broadcast (data);
 
-out:
 	return FALSE;
 }
 
@@ -167,7 +165,6 @@ static gboolean nm_policy_activation_failed (NMActRequest *req)
 	nm_schedule_state_change_signal_broadcast (data);
 	nm_policy_schedule_device_change_check (data);
 
-out:
 	return FALSE;
 }
 
@@ -225,22 +222,24 @@ static NMDevice * nm_policy_auto_get_best_device (NMData *data, NMAccessPoint **
 
 	for (elt = data->dev_list; elt != NULL; elt = g_slist_next (elt))
 	{
-		guint	 dev_type;
-		gboolean	 link_active;
-		guint	 prio = 0;
-		NMDevice	*dev = (NMDevice *)(elt->data);
-
-		/* Skip devices that can't do carrier detect or can't do wireless scanning */
-		if (nm_device_get_driver_support_level (dev) != NM_DRIVER_FULLY_SUPPORTED)
-			continue;
+		guint		dev_type;
+		gboolean		link_active;
+		guint		prio = 0;
+		NMDevice *	dev = (NMDevice *)(elt->data);
+		guint32		caps;
 
 		dev_type = nm_device_get_type (dev);
 		link_active = nm_device_has_active_link (dev);
+		caps = nm_device_get_capabilities (dev);
+
+		/* Don't use devices that SUCK */
+		if (!(caps & NM_DEVICE_CAP_NM_SUPPORTED))
+			continue;
 
 		if (nm_device_is_wired (dev))
 		{
 			/* We never automatically choose devices that don't support carrier detect */
-			if (!nm_device_get_supports_carrier_detect (dev))
+			if (!(caps & NM_DEVICE_CAP_CARRIER_DETECT))
 				continue;
 
 			if (link_active)
@@ -257,20 +256,18 @@ static NMDevice * nm_policy_auto_get_best_device (NMData *data, NMAccessPoint **
 		}
 		else if (nm_device_is_wireless (dev) && data->wireless_enabled)
 		{
-			if (link_active)
-				prio += 1;
+			/* Don't automatically choose a device that doesn't support wireless scanning */
+			if (!(caps & NM_DEVICE_CAP_WIRELESS_SCAN))
+				continue;
 
-			if (nm_device_get_supports_wireless_scan (dev))
-				prio += 2;
-			else
+			/* Bump by 1 so that _something_ gets chosen every time */
+			prio += 1;
+
+			if (link_active)
 				prio += 1;
 
 			if (nm_device_get_act_request (dev) && link_active)
 				prio += 3;
-
-			/* Stick with an already active non-scanning device if the user chose one */
-			if (!nm_device_get_supports_wireless_scan (dev) && nm_device_get_act_request (dev))
-				prio += 2;
 
 			if (prio > best_wireless_prio)
 			{
@@ -329,6 +326,8 @@ static gboolean nm_policy_device_change_check (NMData *data)
 
 	if (old_dev)
 	{
+		guint32 caps = nm_device_get_capabilities (old_dev);
+
 		/* Don't interrupt a currently activating device. */
 		if (nm_device_is_activating (old_dev))
 		{
@@ -339,7 +338,8 @@ static gboolean nm_policy_device_change_check (NMData *data)
 		/* Don't interrupt semi-supported devices either.  If the user chose one, they must
 		 * explicitly choose to move to another device, we're not going to move for them.
 		 */
-		if (nm_device_get_driver_support_level (old_dev) != NM_DRIVER_FULLY_SUPPORTED)
+		if ((nm_device_is_wired (old_dev) && !(caps & NM_DEVICE_CAP_CARRIER_DETECT))
+			|| (nm_device_is_wireless (old_dev) && !(caps & NM_DEVICE_CAP_WIRELESS_SCAN)))
 		{
 			nm_info ("Old device '%s' was semi-supported and user chosen, won't change unless told to.",
 				nm_device_get_iface (old_dev));
@@ -413,10 +413,12 @@ static gboolean nm_policy_device_change_check (NMData *data)
 				/* Schedule new activation if the currently associated access point is not the "best" one
 				 * or we've lost the link to the old access point.
 				 */
-				if ((strcmp (old_essid, new_essid) != 0) || !nm_device_has_active_link (old_dev))
+				gboolean es = (strcmp (old_essid, new_essid) != 0);
+				gboolean link = nm_device_has_active_link (old_dev);
+				if (es || !link)
 				{
-					nm_info ("SWITCH: found better connection '%s/%s' than current connection '%s/%s'.", nm_device_get_iface (new_dev),
-								new_essid, nm_device_get_iface (old_dev), old_essid);
+					nm_info ("SWITCH: found better connection '%s/%s' than current connection '%s/%s'.  essid=%d, link=%d", nm_device_get_iface (new_dev),
+								new_essid, nm_device_get_iface (old_dev), old_essid, es, link);
 					do_switch = TRUE;
 				}
 			}
@@ -549,7 +551,6 @@ static gboolean allowed_list_update_pending = FALSE;
 static gboolean nm_policy_allowed_ap_list_update (gpointer user_data)
 {
 	NMData	*data = (NMData *)user_data;
-	GSList	*elt;
 
 	allowed_list_update_pending = FALSE;
 
@@ -620,8 +621,6 @@ static gboolean nm_policy_device_list_update_from_allowed_list (NMData *data)
 		NMDevice	*dev = (NMDevice *)(elt->data);
 		if (nm_device_is_wireless (dev))
 		{
-			NMAccessPoint	*best_ap;
-
 			if (nm_device_get_supports_wireless_scan (dev))
 			{
 				/* Once we have the list, copy in any relevant information from our Allowed list and fill

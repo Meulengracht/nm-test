@@ -2,14 +2,12 @@ Source: network-manager
 Section: net
 Priority: optional
 Maintainer: Jan Gerber <j@bootlab.org>
-Build-Depends: debhelper (>= 4.0.0), autoconf, automake1.9, gnome-common, intltool, libgnome-keyring-dev, libdbus-glib-1-dev, libiw-dev, libhal-dev, dpatch (>= 1.11), libgnomeui-dev, libpanel-applet2-dev, libglade2-dev, libgconf2-dev
-Build-Conflicts: autoconf2.13, automake1.4
+Build-Depends: debhelper (>= 4.0.0), gnome-common, intltool, libgnome-keyring-dev, libdbus-glib-1-dev (>= 0.60), libiw-dev(>= 27+28pre9), libhal-dev, dpatch (>= 1.11), libgnomeui-dev, libpanel-applet2-dev, libglade2-dev, libgconf2-dev
 Standards-Version: 3.6.2
 
 Package: network-manager
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, iproute, iputils-arping, dhcdbd, bind9, lsb-base (>= 2.0-6)
-#Conflicts: arping, ifplugd, pump
+Depends: ${shlibs:Depends}, ${misc:Depends}, iproute, iputils-arping, dhcdbd (>= 1.10-0ubuntu2), lsb-base (>= 2.0-6)
 Description: network management framework daemon
  NetworkManager attempts to keep an active network connection available at all
  times.  It is intended only for the desktop use-case, and is not intended for
@@ -20,6 +18,13 @@ Description: network management framework daemon
  .
  This package provides the userspace daemons and a notification applet to
  control the system.
+
+Package: network-manager-dev
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, pkg-config
+Description: network management framework daemon development
+ this package provides header files that are needed to 
+ compile VPN Plugins for NetworManager.
 
 Package: libnm-glib-0
 Architecture: any
@@ -37,7 +42,7 @@ Description: network management framework daemon (GLib shared library)
 
 Package: libnm-glib-0-dev
 Architecture: any
-Depends: libglib2.0-dev, libnm-glib-0, libdbus-glib-1-dev
+Depends: libglib2.0-dev, libnm-glib-0, libdbus-glib-1-dev (>= 0.60)
 Description: network management framework daemon (GLib interface)
  NetworkManager attempts to keep an active network connection available at all
  times.  It is intended only for the desktop use-case, and is not intended for

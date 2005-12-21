@@ -32,11 +32,14 @@
 
 #include <string.h>
 #include <stdlib.h>
-#include <unistd.h>
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <glade/glade.h>
+
+#if !GLIB_CHECK_VERSION(2,8,0)
+#include <unistd.h>
+#endif
 
 #include "NetworkManager.h"
 #include "applet.h"
@@ -100,12 +103,17 @@ static GtkTreeModel *create_wireless_adapter_model (NMWirelessApplet *applet)
 	GSList		*element;
 
 	retval = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
-	/* We should have already locked applet->data_mutex */
-	for (element = applet->gui_device_list; element; element = element->next)
+
+	for (element = applet->device_list; element; element = element->next)
 	{
 		NetworkDevice *dev = (NetworkDevice *)(element->data);
 
 		g_assert (dev);
+
+		/* Ignore unsupported devices */
+		if (!(network_device_get_capabilities (dev) & NM_DEVICE_CAP_NM_SUPPORTED))
+			continue;
+
 		if (network_device_is_wireless (dev))
 		{
 			GtkTreeIter iter;
@@ -140,13 +148,13 @@ static void nmwa_other_network_dialog_key_type_combo_changed (GtkWidget *key_typ
 	switch ((combo_choice = gtk_combo_box_get_active (GTK_COMBO_BOX (key_type_combo))))
 	{
 		case KEY_TYPE_128_BIT_PASSPHRASE:
-			gtk_label_set_label (entry_label, _("Passphrase:"));
+			gtk_label_set_text_with_mnemonic (entry_label, _("_Passphrase:"));
 			break;
 		case KEY_TYPE_ASCII_KEY:
-			gtk_label_set_label (entry_label, _("ASCII Key:"));
+			gtk_label_set_text_with_mnemonic (entry_label, _("_ASCII Key:"));
 			break;
 		case KEY_TYPE_HEX_KEY:
-			gtk_label_set_label (entry_label, _("Hex Key:"));
+			gtk_label_set_text_with_mnemonic (entry_label, _("_Hex Key:"));
 			break;
 		default:
 			break;
@@ -213,6 +221,12 @@ static GtkDialog *nmwa_other_network_dialog_init (GladeXML *xml, NMWirelessApple
 	essid_entry = glade_xml_get_widget (xml, "essid_entry");
 	button = glade_xml_get_widget (xml, "ok_button");
 	gtk_widget_grab_default (GTK_WIDGET (button));
+#if GTK_CHECK_VERSION(2,6,0)
+	{
+		GtkWidget *connect_image = gtk_image_new_from_stock (GTK_STOCK_CONNECT, GTK_ICON_SIZE_BUTTON);
+		gtk_button_set_image (GTK_BUTTON (button), connect_image);
+	}
+#endif
 
 	gtk_widget_grab_focus (essid_entry);
 	gtk_widget_set_sensitive (button, FALSE);
@@ -220,37 +234,54 @@ static GtkDialog *nmwa_other_network_dialog_init (GladeXML *xml, NMWirelessApple
 
 	if (create_network)
 	{
+		gchar *default_essid_text;
+
+#if GLIB_CHECK_VERSION(2,8,0)
+		const char *hostname = g_get_host_name ();
+#else
 		char hostname[HOST_NAME_MAX] = "hostname";
 
 		gethostname (hostname, HOST_NAME_MAX);
 		hostname[HOST_NAME_MAX-1] = '\n';	/* unspecified whether a truncated hostname is terminated */
+#endif
 
 		gtk_entry_set_text (GTK_ENTRY (essid_entry), hostname);
 		gtk_editable_set_position (GTK_EDITABLE (essid_entry), -1);
 
-		label = g_strdup_printf ("<span size=\"larger\" weight=\"bold\">%s</span>\n\n%s\n\n%s %s%s",
-			_("Create new wireless network"),
-			_("Enter the ESSID and security settings of the wireless network you wish to create."),
-			_("By default, the ESSID is set to your computer's name,"),
-			hostname,
-			_(", with no encryption enabled."));
+		default_essid_text = g_strdup_printf (_("By default, the ESSID is set to your computer's name, %s, with no encryption enabled"),
+		                                      hostname);
+
+		label = g_strdup_printf ("<span size=\"larger\" weight=\"bold\">%s</span>\n\n%s\n\n%s",
+		                         _("Create new wireless network"),
+		                         _("Enter the ESSID and security settings of the wireless network you wish to create."),
+		                         default_essid_text);
+		g_free (default_essid_text);
+
+		gtk_window_set_title (GTK_WINDOW(dialog), _("Create New Wireless Network"));
 	}
 	else
 	{
 		label = g_strdup_printf ("<span size=\"larger\" weight=\"bold\">%s</span>\n\n%s",
-			_("Custom wireless network"),
-			_("Enter the ESSID of the wireless network to which you wish to connect."));
+		                         _("Custom wireless network"),
+		                         _("Enter the ESSID of the wireless network to which you wish to connect."));
+
+		gtk_window_set_title (GTK_WINDOW(dialog), _("Connect to Other Wireless Network"));
 	}
+
 	gtk_label_set_markup (GTK_LABEL (glade_xml_get_widget (xml, "essid_label")), label);
 	g_free (label);
 
 	/* Do we have multiple Network cards? */
-	g_mutex_lock (applet->data_mutex);
-	for (element = applet->gui_device_list; element; element = element->next)
+	for (element = applet->device_list; element; element = element->next)
 	{
 		NetworkDevice *dev = (NetworkDevice *)(element->data);
 
 		g_assert (dev);
+
+		/* Ignore unsupported devices */
+		if (!(network_device_get_capabilities (dev) & NM_DEVICE_CAP_NM_SUPPORTED))
+			continue;
+
 		if (network_device_is_wireless (dev))
 		{
 			if (!*def_dev)
@@ -264,7 +295,6 @@ static GtkDialog *nmwa_other_network_dialog_init (GladeXML *xml, NMWirelessApple
 
 	if (n_wireless_interfaces < 1)
  	{
-		g_mutex_unlock (applet->data_mutex);
 		/* Run away!!! */
 		return (NULL);
 	}
@@ -285,7 +315,6 @@ static GtkDialog *nmwa_other_network_dialog_init (GladeXML *xml, NMWirelessApple
 		/* Select the first one randomly */
 		gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 0);
 	}
-	g_mutex_unlock (applet->data_mutex);
 
 	/* Uncheck the "use encryption" checkbox and disable relevant encryption widgets */
 	enc_check_button = GTK_CHECK_BUTTON (glade_xml_get_widget (xml, "use_encryption_checkbox"));
@@ -305,29 +334,22 @@ static GtkDialog *nmwa_other_network_dialog_init (GladeXML *xml, NMWirelessApple
 	return (dialog);
 }
 
-
-void nmwa_other_network_dialog_run (NMWirelessApplet *applet, gboolean create_network)
+typedef struct OtherNetworkDialogCBData
 {
-	gchar		*glade_file;
-	GtkDialog		*dialog;
-	gint			 response;
-	NetworkDevice	*def_dev = NULL;
-	GladeXML		*xml;
+	NMWirelessApplet 	*applet;
+	NetworkDevice		*dev;
+	GladeXML 		*xml;
+	gboolean		create;
+} OtherNetworkDialogCBData;
 
-	g_return_if_fail (applet != NULL);
-	g_return_if_fail (applet->glade_file != NULL);
 
-	if (!(xml = glade_xml_new (applet->glade_file, "custom_essid_dialog", NULL)))
-	{
-		nmwa_schedule_warning_dialog (applet, _("The NetworkManager Applet could not find some required resources (the glade file was not found)."));
-		return;
-	}
-
-	if (!(dialog = nmwa_other_network_dialog_init (xml, applet, &def_dev, create_network)))
-		return;
-
-	/* Run the dialog */
-	response = gtk_dialog_run (dialog);
+static void nmwa_other_network_dialog_response_cb (GtkDialog *dialog, gint response, gpointer data)
+{
+	OtherNetworkDialogCBData *cb_data = (OtherNetworkDialogCBData*) data;
+	GladeXML 	*xml = cb_data->xml;
+	NetworkDevice	*def_dev = cb_data->dev;
+	NMWirelessApplet	*applet = cb_data->applet;
+	gboolean	create_network = cb_data->create;
 
 	if (response == GTK_RESPONSE_OK)
 	{
@@ -389,4 +411,35 @@ void nmwa_other_network_dialog_run (NMWirelessApplet *applet, gboolean create_ne
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 	g_object_unref (xml);
+	g_free (data);
+}
+
+void nmwa_other_network_dialog_run (NMWirelessApplet *applet, gboolean create_network)
+{
+	GtkDialog		*dialog;
+	NetworkDevice		*def_dev = NULL;
+	GladeXML		*xml;
+	OtherNetworkDialogCBData	*cb_data;
+
+	g_return_if_fail (applet != NULL);
+	g_return_if_fail (applet->glade_file != NULL);
+
+	if (!(xml = glade_xml_new (applet->glade_file, "custom_essid_dialog", NULL)))
+	{
+		nmwa_schedule_warning_dialog (applet, _("The NetworkManager Applet could not find some required resources (the glade file was not found)."));
+		return;
+	}
+
+	if (!(dialog = nmwa_other_network_dialog_init (xml, applet, &def_dev, create_network)))
+		return;
+
+	cb_data = g_malloc0 (sizeof (OtherNetworkDialogCBData));
+	network_device_ref (def_dev);
+	cb_data->dev = def_dev;
+	cb_data->applet = applet;
+	cb_data->xml = xml;
+	cb_data->create = create_network;
+
+	gtk_window_present (GTK_WINDOW (dialog));
+	g_signal_connect (dialog, "response", G_CALLBACK (nmwa_other_network_dialog_response_cb), (gpointer) cb_data);
 }

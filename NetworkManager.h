@@ -115,20 +115,18 @@ typedef enum NMEncKeyType
 	NM_ENC_TYPE_HEX_KEY,
 	NM_ENC_TYPE_ASCII_KEY,
 	NM_ENC_TYPE_128_BIT_PASSPHRASE
-	/* FIXME: WPA and 802.1x support */
+	/* FIXME: 802.1x support */
 } NMEncKeyType;
 
 
 /*
- * Driver support levels
+ * Device capability bits
+ *
  */
-typedef enum NMDriverSupportLevel
-{
-	NM_DRIVER_UNSUPPORTED = 0,
-	NM_DRIVER_NO_CARRIER_DETECT,
-	NM_DRIVER_NO_WIRELESS_SCAN,
-	NM_DRIVER_FULLY_SUPPORTED
-} NMDriverSupportLevel;
+#define NM_DEVICE_CAP_NONE			0x0000
+#define NM_DEVICE_CAP_NM_SUPPORTED		0x0001
+#define NM_DEVICE_CAP_CARRIER_DETECT	0x0002
+#define NM_DEVICE_CAP_WIRELESS_SCAN	0x0004
 
 
 /*
@@ -173,7 +171,8 @@ typedef enum NMDeviceAuthMethod
 	NM_DEVICE_AUTH_METHOD_UNKNOWN = 0,
 	NM_DEVICE_AUTH_METHOD_NONE,
 	NM_DEVICE_AUTH_METHOD_OPEN_SYSTEM,
-	NM_DEVICE_AUTH_METHOD_SHARED_KEY
+	NM_DEVICE_AUTH_METHOD_SHARED_KEY,
+	NM_DEVICE_AUTH_METHOD_WPA_PSK
 } NMDeviceAuthMethod;
 
 
@@ -193,6 +192,22 @@ typedef enum NMVPNState
 
 
 /*
+ * VPN connection activation stages
+ */
+typedef enum NMVPNActStage
+{
+	NM_VPN_ACT_STAGE_UNKNOWN = 0,
+	NM_VPN_ACT_STAGE_DISCONNECTED,
+	NM_VPN_ACT_STAGE_PREPARE,
+	NM_VPN_ACT_STAGE_CONNECT,
+	NM_VPN_ACT_STAGE_IP_CONFIG_GET,
+	NM_VPN_ACT_STAGE_ACTIVATED,
+	NM_VPN_ACT_STAGE_FAILED,
+	NM_VPN_ACT_STAGE_CANCELED
+} NMVPNActStage;
+
+
+/*
  * Device activation stages
  */
 typedef enum NMActStage
@@ -208,18 +223,5 @@ typedef enum NMActStage
 	NM_ACT_STAGE_FAILED,
 	NM_ACT_STAGE_CANCELLED
 } NMActStage;
-
-
-/*
- * Wireless scanning methods
- *
- */
-typedef enum NMWirelessScanMethod
-{
-	NM_SCAN_METHOD_UNKNOWN = 0,
-	NM_SCAN_METHOD_ALWAYS,
-	NM_SCAN_METHOD_WHEN_UNASSOCIATED,
-	NM_SCAN_METHOD_NEVER
-} NMWirelessScanMethod;
 
 #endif

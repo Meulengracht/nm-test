@@ -1,5 +1,5 @@
 /***************************************************************************
- * CVSID: $Id: nm-vpn-properties.c,v 1.4 2005/08/15 19:34:20 caillon Exp $
+ * CVSID: $Id: nm-vpn-properties.c,v 1.8 2005/10/19 16:08:49 rml Exp $
  *
  * nm-vpn-properties.c : GNOME UI dialogs for manipulating VPN connections
  *
@@ -91,35 +91,32 @@ enum {
 static void
 update_edit_del_sensitivity (void)
 {
-	GtkTreeIter iter;
 	GtkTreeSelection *selection;
-	gboolean is_editable;	
-	char *service_name;
-	NetworkManagerVpnUI *vpn_ui;
+	gboolean is_editable, is_exportable;
+	GtkTreeIter iter;
 
-	if ((selection = gtk_tree_view_get_selection (vpn_conn_view)) == NULL)
-		goto out;
+	selection = gtk_tree_view_get_selection (vpn_conn_view);
+	if (!selection || !gtk_tree_selection_get_selected (selection, NULL, &iter))
+		is_editable = is_exportable = FALSE;
+	else {
+		NetworkManagerVpnUI *vpn_ui;
+		const char *service_name;
 
-	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
-		goto out;
+		gtk_tree_model_get (GTK_TREE_MODEL (vpn_conn_list), &iter, VPNCONN_USER_CAN_EDIT_COLUMN, &is_editable, -1);
+		gtk_tree_model_get (GTK_TREE_MODEL (vpn_conn_list), &iter, VPNCONN_SVC_NAME_COLUMN, &service_name, -1);
 
-	gtk_tree_model_get (GTK_TREE_MODEL (vpn_conn_list), &iter, VPNCONN_USER_CAN_EDIT_COLUMN, &is_editable, -1);
-	gtk_tree_model_get (GTK_TREE_MODEL (vpn_conn_list), &iter, VPNCONN_SVC_NAME_COLUMN, &service_name, -1);
+		vpn_ui = find_vpn_ui_by_service_name (service_name);
+		is_exportable = vpn_ui->can_export (vpn_ui);
+	}
 
 	gtk_widget_set_sensitive (vpn_edit, is_editable);
 	gtk_widget_set_sensitive (vpn_delete, is_editable);
-
-	vpn_ui = find_vpn_ui_by_service_name (service_name);
-	gtk_widget_set_sensitive (vpn_export, vpn_ui->can_export (vpn_ui));
-
-out:
-	;
+	gtk_widget_set_sensitive (vpn_export, is_editable && is_exportable);
 }
 
 static gboolean
 add_vpn_connection (const char *conn_name, const char *service_name, GSList *conn_data, GSList *routes)
 {
-	int i;
 	char *gconf_key;
 	GtkTreeIter iter;
 	char conn_gconf_path[PATH_MAX];
@@ -232,7 +229,6 @@ static gboolean vpn_druid_vpn_type_page_next (GnomeDruidPage *druidpage,
 					      gpointer user_data)
 {
 	GtkWidget *w;
-	GtkWidget *vbox;
 	NetworkManagerVpnUI *vpn_ui;
 
 	/*printf ("vpn_type_next!\n");*/
@@ -296,7 +292,6 @@ static gboolean vpn_druid_vpn_details_page_next (GnomeDruidPage *druidpage,
 		is_valid = vpn_ui->is_valid (vpn_ui);
 	}
 
-out:
 	return !is_valid;
 }
 
@@ -325,7 +320,6 @@ static gboolean vpn_druid_vpn_confirm_page_finish (GnomeDruidPage *druidpage,
 						   GtkWidget *widget,
 						   gpointer user_data)
 {
-	static int vpncon = 0;
 	GSList *conn_data;
 	GSList *conn_routes;
 	char *conn_name;
@@ -341,7 +335,7 @@ static gboolean vpn_druid_vpn_confirm_page_finish (GnomeDruidPage *druidpage,
 	add_vpn_connection (conn_name, vpn_ui->get_service_name (vpn_ui), conn_data, conn_routes);
 
 	gtk_widget_hide_all (GTK_WIDGET (druid_window));
-out:
+
 	return FALSE;
 }
 
@@ -733,7 +727,7 @@ delete_cb (GtkButton *button, gpointer user_data)
 					 GTK_MESSAGE_WARNING,
 					 GTK_BUTTONS_CANCEL,
 					 _("Delete VPN connection \"%s\"?"), conn_name);
-	gtk_dialog_add_buttons (GTK_DIALOG (dialog), "_Delete", GTK_RESPONSE_OK, NULL);
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog), GTK_STOCK_DELETE, GTK_RESPONSE_OK, NULL);
 	gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
 						  _("All information about the VPN connection \"%s\" will be lost and you may need your system administrator to provide information to create a new connection."), conn_name);
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -786,9 +780,7 @@ export_cb (GtkButton *button, gpointer user_data)
 	GSList *conn_vpn_data;
 	GSList *conn_routes;
 	const char *conn_name;
-	char key[PATH_MAX];
 	char *conn_gconf_path;
-	GtkTreeIter iter;
 
 	/*printf ("edit\n");*/
 
@@ -815,7 +807,6 @@ static void get_all_vpn_connections (void)
 		const char *conn_name;
 		const char *conn_service_name;
 		GSList *conn_vpn_data;
-		GSList *i;
 		gboolean conn_user_can_edit = TRUE;
 
 		conn_gconf_path = (const char *) (vpn_conn->data);
@@ -865,9 +856,6 @@ static void get_all_vpn_connections (void)
 error:
 		g_free (vpn_conn->data);
 	}
-
-out:
-	;
 }
 
 static void 
@@ -897,7 +885,7 @@ load_properties_module (GSList **vpn_types, const char *path)
 	}
 
 	if (!g_module_symbol (module, "nm_vpn_properties_factory", 
-			      (gpointer *) &nm_vpn_properties_factory)) {
+			      (gpointer) &nm_vpn_properties_factory)) {
 		
 		g_warning ("Cannot locate function 'nm_vpn_properties_factory' in '%s': %s", 
 			   path, g_module_error ());
@@ -925,12 +913,9 @@ init_app (void)
 {
 	GtkWidget *w;
 	gchar *glade_file;
-	char *file;
-	GtkTreeIter iter;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 	GSList *i;
-	NetworkManagerVpnUI *vpn_ui_interface;
 	GtkHBox *vpn_type_hbox1;
 	GDir *dir;
 
@@ -1081,7 +1066,6 @@ init_app (void)
 	/* reuse the widget */
 	gtk_signal_connect (GTK_OBJECT (edit_dialog), "delete-event", 
 			    GTK_SIGNAL_FUNC (gtk_widget_hide_on_delete), NULL);
-
 
 	/* update "Edit" and "Delete" for current selection */
 	update_edit_del_sensitivity ();

@@ -1,10 +1,786 @@
+2005-10-19  Robert Love  <rml@novell.com>
+
+	* gnome/vpn-properties/nm-vpn-properties.c: Correctly set the
+	  sensitivity of the buttons.  Specificaly, do the right thing if
+	  there are no entries.
+
+2005-10-19  Christopher Aillon  <caillon@redhat.com>
+
+	* configure.in: Update check for adequate wireless-tools
+	with an AC_TRY_COMPILE for the new symbols we use.
+
+2005-10-19  Dan Williams  <dcbw@redhat.com>
+
+	* src/NetworkManagerDevice.c
+		- (process_scan_results): don't drop the last (or only)
+			access point we see
+
+2005-10-19  Christopher Aillon  <caillon@redhat.com>
+
+	* src/backends/NetworkManagerSlackware.c:
+	Patch from Nico <lordllucifer@gmail.com>
+		- Update the Slackware backend.
+
+2005-10-18  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/other-network-dialog.c: Use g_get_host_name ()
+	if we've got GLib 2.8.0
+
+2005-10-18  Robert Love  <rml@novell.com>
+
+	* src/NetworkManagerDevice.c: invoke the long-in-the-tooth named
+	  function nm_schedule_state_change_signal_broadcast() when we
+	  deactivate a device, too.
+
+2005-10-18  Robert Love  <rml@novell.com>
+
+	* gnome/applet/applet.c: nmwa_context_menu_update(): 'iface' could
+	  be used uninitialized.
+
+2005-10-18  Christopher Aillon  <caillon@redhat.com>
+
+	* test/libnm_glib_test.c: Test unregistering, too.
+
+2005-10-17  Christopher Aillon  <caillon@redhat.com>
+
+	* configure.in: Bump to 0.5.0
+
+2005-10-17  Dan Williams  <dcbw@redhat.com>
+
+	* NetworkManager.h
+		- Remove WPA-related constants so they aren't part of the
+			upcoming release.
+
+2005-10-17  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/applet.c:
+	* gnome/applet/applet.h:
+	Desensitize the 'Connection Information' menu item when there is
+	no active connection.
+
+2005-10-17  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/libnm_glib/libnm_glib.c:
+	Make libnm_glib_unregister_callback () actually unregister the callback
+
+2005-10-17  Robert Love  <rml@novell.com>
+
+	* src/NetworkManagerDevice.c: Actually wait 20s, as we intend, not
+	  two seconds -- tries is updated every 1/10 of a second, not every
+	  second..
+
+2005-10-17  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/applet-dbus-info.c:
+	Let D-BUS know that we haven't handled a message when we haven't.
+
+2005-10-17  Robert Love  <rml@novell.com>
+
+	* src/nm-ip4-config.c: use GPOINTER_TO_UINT and not a straight cast
+	  in order to remain 64-bit clean.
+
+2005-10-17  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/applet-dbus-info.c:
+	Find network encryption keys asynchronously
+
+2005-10-17  Robert Love  <rml@novell.com>
+
+	* src/backends/NetworkManagerDebian.c,
+	  src/backends/NetworkManagerRedHat,
+	  src/backends/NetworkManagerSuSE.c: allow '#' as a valid resolv.conf
+	  comment delimiter.
+
+2005-10-17  Robert Love  <rml@novell.com>
+
+	* src/backends/NetworkManagerSuSE.c: use SYSCONFDIR not open-coded
+	  "/etc"
+
+2005-10-17  Christopher Aillon  <caillon@redhat.com>
+
+	* src/NetworkManagerDevice.c: (process_scan_results)
+	Fix logic that checks to see whether we have an ESSID.
+
+2005-10-15  Dan Williams  <dcbw@redhat.com>
+
+	Move scanning code into NetworkManager rather than use iwlib's
+	iw_scan() function, so that we can figure out AP capabilities.
+
+	* NetworkManager.h
+		- Add AP capability bits
+
+	* src/NetworkManagerAP.[ch]
+		- Add capability field to NMAccessPoint structure
+		- Add WPA & RSN Information Element fields and accessor
+			functions to NMAccessPoint
+
+	* src/NetworkManagerDevice.c
+		- Remove usage of iw_scan
+		- Add scanning code to NetworkManager rather than use
+			iw_scan() from iwlib
+
+	* src/NetworkManagerUtils.[ch]
+		- (nm_dispose_scan_results): remove, unused
+
+2005-10-14  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/libnm_glib/libnm_glib.c:
+	* gnome/libnm_glib/libnm_glib.h:
+	Use guint instead of gint for callback IDs.
+
+2005-10-12  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/applet.c:
+	Fix icon animation smoothness issues.  nmwa_redraw_timeout gets called
+	every 1000ms.  It will unconditionally call nmwa_update_state which
+	kills the existing animation timeout and registers a new one with a
+	callback to draw a new frame every 100ms.  There are 11 connecting
+	icon frames, so the last 2 frames kept getting dropped.  Only reset
+	the animation timeout if we aren't animating.
+
+2005-10-11  Dan Williams  <dcbw@redhat.com>
+
+	* gnome/applet/applet-dbus-devices.c
+		- (nmwa_dbus_update_device_info_from_hal), (hal_net_physdev_cb):
+			We want to grab the product & vendor from net.physical_dev
+			rather than info.parent.
+
+2005-10-11  Dan Williams  <dcbw@redhat.com>
+
+	* src/NetworkManagerDevice.c
+		- Use the driver's WE version for scanning rather than
+			the WE version NM was compiled with.  Fixes random
+			crashes in iw_scan () in iwlib.
+
+2005-10-10  Dan Williams  <dcbw@redhat.com>
+
+	* Remove nm_system_load_device_modules() from backend files
+		and from NetworkManager.c
+
+2005-10-10  Dan Williams  <dcbw@redhat.com>
+
+	* src/NetworkManagerPolicy.c
+		- Fix some bugs introduced by the capabilities patch
+
+2005-10-10  Dan Williams  <dcbw@redhat.com>
+
+	* gnome/applet/applet-dbus-info.c
+		- (nmi_dbus_get_network_key): hide the menu when putting up
+			the keyring dialog.  (not sure if the code is right...)
+
+2005-10-09  Dan Williams  <dcbw@redhat.com>
+
+	Patch from Bill Moss <bmoss@clemson.edu>
+	* src/NetworkManagerDevice.c
+		- (nm_device_set_user_key_for_network): don't try to set auth
+			mode on the AP from the allowed list if it's NULL
+
+2005-10-09  Dan Williams  <dcbw@redhat.com>
+
+	* Replace the "driver support level" stuff with capabilities.  The
+		capability field is a bitfield that is more flexible than the
+		old driver support level thing.  It's mostly so we can easily
+		figure out what supports WPA and what doesn't, but should be
+		quite useful later.
+
+2005-10-09  Dan Williams  <dcbw@redhat.com>
+
+	* test/nmtest.c
+		- Removed
+
+	* test/nm-tool.c
+	  test/Makefile.am
+		- Added new "nm-tool" tool that gives quite a bit more
+			information
+
+2005-10-07  Robert Love  <rml@novell.com>
+
+	* gnome/applet/applet-dbus-info.c, gnome/applet/applet.c,
+	  gnome/applet/applet.h, gnome/vpn-properties/nm-vpn-properties.c,
+	  src/dhcp-manager/nm-dhcp-manager.c, test/libnm_glib_test.c,
+	  test/nmtest.c test/nmtestdevices.c: mark functions 'static' as
+	  appropriate
+
+2005-10-07  Robert Love  <rml@novell.com>
+
+	* configure.in: Change our compile flags for the betterment of mankind.
+	  Add "-Wstrict-prototypes" because we comply anyhow and missing a
+	  prototype is very bad on 64-bit platforms as types default to int but
+	  sizeof(int) != sizeof(long) and add "-Wmissing-prototypes" &
+	  "-Wmissing-declarations" to warn if we define an exported function
+	  but fail to put it in a header.
+
+2005-10-07  Robert Love  <rml@novell.com>
+
+	* src/NetworkManagerWireless.c: remove stale, unused function, who goes
+	  by the name nm_update_device_wireless_timeouts() and once tried,
+	  without success, to steal my pet turtle.
+
+2005-10-07  Robert Love  <rml@novell.com>
+
+	* Cleanup prototypes: put some functions in header files and mark
+	  others as 'static' -- feel free to invert
+	* src/vpn-manager/nm-dbus-vpn.c: remove prototype of
+	  nm_vpn_manager_vpn_connection_list_copy()
+	* src/vpn-manager/nm-vpn-act-request.c: remove prototype of
+	  nm_vpn_service_get_dbus_connection()
+	* src/vpn-manager/nm-vpn-manager.h: add prototypes for
+	  nm_vpn_manager_vpn_connection_list_copy()
+	* src/vpn-manager/nm-vpn-service.c: make
+	  nm_vpn_service_act_request_failed() and
+	  nm_vpn_service_stage2_daemon_wait() static
+	* src/vpn-manager/nm-vpn-service.h: add prototype for
+	  nm_vpn_service_get_dbus_connection()
+
+2005-10-06  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/applet.c:
+	* gnome/applet/applet.h:
+	* gnome/applet/icons/Makefile.am:
+	Convey information about the current connection stage in the
+	icons themselves instead of creating a separate progress bar.
+
+2005-10-04  Robert Love  <rml@novell.com>
+
+	* src/nm-dbus-device.c: Use iw_ether_ntop(), not ether_ntoa_r(), to
+	  convert an ether_addr structure's MAC into a string, because the
+	  latter will drop leading zero's and uses lower-case, e.g. 7:3b:4
+	  versus 07:3B:04, while the former will not.
+
+2005-10-04  Robert Love  <rml@novell.com>
+
+	* gnome/applet/applet-dbus-devices.c, gnome/applet/applet.c,
+	  gnome/applet/nm-device.c, gnome/applet/nm-device.h,
+	  gnome/applet/wireless-applet.glade, src/nm-dbus-device.c: Display
+	  default route in the 'Connection Information' dialog, send primary
+	  and secondary name servers in in "getProperties" DBUS method, add
+	  network_device_{get,set}_{primary,secondary}_dns(),  The primary and
+	  secondary domain name servers are crucial pieces of information
+	  that a user might need in debugging a network problem.
+
+2005-10-04  Robert Love  <rml@novell.com>
+
+	* gnome/applet/applet-dbus-devices.c, gnome/applet/applet.c,
+	  gnome/applet/nm-device.c, gnome/applet/nm-device.h,
+	  gnome/applet/wireless-applet.glade, src/nm-dbus-device.c: Display
+	  default route in the 'Connection Information' dialog, send default
+	  route in "getProperties" DBUS method, add network_device_set_route(),
+	  and network_device_get_route().  The Gateway is a crucial piece of
+	  connection-related information that a user might need in debugging a
+	  network problem.
+
+2005-10-03  Robert Love  <rml@novell.com>
+
+	* src/backends/NetworkManagerSuSE.c: Fix Glib error, GError must be
+	  NULL.
+
+2005-10-02  Dan Williams  <dcbw@redhat.com>
+
+	* Shorten time taken to sleep by fastpathing bits of device deactivation
+		necessary for sleep.
+
+	* Fix issue where deactivating a device might deactivate the active
+		VPN connection, even if the VPN was not using the device.
+
+2005-10-02  Dan Williams  <dcbw@redhat.com>
+
+	* gnome/applet/applet.c
+		- Adjust signal strength -> icon mapping values slightly
+			(so that 51% signal doesn't show a 75% icon) by adding
+			5% to the values. ex: > 5% now shows 25% icon, > 30%
+			shows 50% icon, etc.
+
+2005-09-29  Robert Love  <rml@novell.com>
+
+	* src/NetworkManager.c: removed unused variable.
+
+2005-09-28  Dan Williams  <dcbw@redhat.com>
+
+	Support for named + DBus, using Red Hat DBus patches for named.  You
+	can find those patches here, with "dbus" in the patch's filename:
+
+		http://cvs.fedora.redhat.com/viewcvs/devel/bind/
+
+	Don't forget the named dbus service file either.
+
+	Instead of writing a config file and spawing a named process, NM will
+	use an already-running dbus-enabled named if it finds one.  NM will
+	update named's forwarder configuration on the fly using dbus.
+
+	If there is no dbus-enabled named running, NM will automatically fall
+	back to writing the most-recent DNS server information to /etc/resolv.conf
+	and calling nm_system_update_dns() to kick the system's resolver.
+
+	Accordingly, all named-related configure-time options have been removed.
+
+2005-09-26  Robert Love  <rml@novell.com>
+
+	* src/backends/NetworkManagerSuSE.c, (nm_system_get_dialup_config): Add
+	  ISDN support!
+	* src/backends/NetworkManagerSuSE.c, (verify_and_return_provider): Fix
+	  bug in error path if "ASKPASSWORD" is "no".
+
+2005-09-26  Robert Love  <rml@novell.com>
+
+	* src/named-manager/nm-named-manager.c: only '#' is officially a valid
+	  comment in /etc/resolv.conf -- ';' is not.
+
+2005-09-19  Dan Williams  <dcbw@redhat.com>
+
+	* src/backends/NetworkManagerRedHat.c:
+	* src/backends/NetworkManagerDebian.c:
+	* src/backends/NetworkManagerSlackware.c:
+	* src/backends/NetworkManagerGentoo.c:
+	* src/backends/NetworkManagerSUSE.c:
+	Fix invocations of "/sbin/ip address" to use short form instead
+
+2005-09-19  Christopher Aillon  <caillon@redhat.com>
+
+	* src/nm-dbus-device.c: Don't assert when getting
+	addresses of a not yet connected interface.
+
+	* gnome/applet/applet.c: Free icons if loading fails.
+	Use translator-credits so translators can make themselves known.
+
+2005-09-15  Christopher Aillon  <caillon@redhat.com>
+
+	* src/NetworkManagerAP.c:
+	* src/NetworkManagerAP.h:
+	* src/NetworkManagerDevice.c:
+	Set a blacklist for certain common manufacturer default ESSIDs:
+	APs with these ESSIDs are extremely likely to be completely
+	different networks: connecting to one should not make NM
+	auto-connect to every other AP with the same default ESSID.
+
+2005-09-12  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/wireless-applet.glade:
+	The passphrase entry should also activate the default
+
+	* src/gnome-keyring-md5.c: Updated code from gnome-keyring
+
+	* gnome/applet/applet-dbus-devices.c:
+	* gnome/applet/applet.c:
+	* gnome/applet/nm-device.c:
+	* gnome/applet/nm-device.h:
+	* src/NetworkManagerUtils.c:
+	* src/NetworkManagerUtils.h:
+	* src/nm-dbus-device.c:
+	I've got a fever, and the only cure for it is less ioctl.
+	Make NM push IP data rather than make the applet open a socket
+	to the device.
+
+2005-09-10  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/applet.c:
+	* gnome/applet/applet-dbus-devices.c:
+	* gnome/applet/applet-dbus-info.c:
+	* gnome/applet/passphrase-dialog.c:
+	* gnome/libnm_glib/libnm_glib.c:
+	* gnome/vpn-properties/nm-vpn-properties.c:
+	* src/autoip.c:
+	* src/backends/NetworkManagerRedHat.c:
+	* src/named-manager/nm-named-manager.c:
+	* src/NetworkManagerAPList.c:
+	* src/NetworkManager.c:
+	* src/NetworkManagerDbus.c:
+	* src/NetworkManagerDevice.c:
+	* src/NetworkManagerPolicy.c:
+	* src/NetworkManagerSystem.c:
+	* src/nm-dbus-device.c:
+	* src/nm-dbus-nm.c:
+	* src/vpn-manager/nm-vpn-manager.c:
+	* src/vpn-manager/nm-vpn-service.c:
+	* test/libnm_glib_test.c:
+	* test/nminfotest.c:
+	* test/nmtestdevices.c:
+	Fix a bunch of 'unused variable' compiler warnings
+
+	* NetworkManager.h:
+	* gnome/applet/applet-dbus-info.c:
+	* gnome/applet/applet-dbus-info.h:
+	* gnome/applet/applet.c:
+	* gnome/applet/applet.h:
+	* src/NetworkManager.c:
+	* src/NetworkManagerDbus.c:
+	* src/NetworkManagerDbus.h:
+	* src/NetworkManagerDevice.c:
+	* src/NetworkManagerDevice.h:
+	* src/NetworkManagerMain.h:
+	* src/NetworkManagerWireless.c:
+	* src/NetworkManagerWireless.h:
+	* src/nm-dbus-nm.c:
+	Make NetworkManager be smart about how frequently to scan
+	based on its current state.  Remove the UI for choosing when
+	to scan.  Scanning still may disabled completely by the user
+	via the "Wireless Enabled" menu item.
+
+2005-09-09  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/applet.c:
+	Also overlay the vpn connecting icons onto the wired icon,
+	when appropriate.
+
+	* gnome/vpn-properties/nm-vpn-properties.glade:
+	Clean up a few strings to use better grammar and proper casing.
+
+2005-09-08  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/vpn-connection.c:
+	* gnome/applet/vpn-connection.h:
+	Add nmwa_vpn_connection_is_activating ()
+
+	* gnome/applet/applet.c:
+	* gnome/applet/applet.h:
+	* gnome/applet/icons/nm-vpn-connecting*.png:
+	Add new VPN connecting icons from Diana Fong <dfong@redhat.com>, letting
+	the user know something's happening between clicking the VPN item and it
+	actually being connected.
+
+2005-09-07  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/applet-dbus-info.c: need to free attributes in the
+	failure case as well.
+
+2005-09-07  Rodrigo Moya <rodrigo@novell.com>
+
+	* gnome/panel/eggtrayicon.[ch]:
+	* examples/python/systray/eggtrayicon.[ch]: updated code from libegg.
+
+2005-09-07  Dan Williams  <dcbw@redhat.com>
+
+	Patch from Bill Moss <bmoss@clemson.edu>
+	* src/applet-dbus.c
+		- (nmwa_dbus_filter): strip whitespace from beginning
+			and end of VPN login banner
+
+2005-09-07  Dan Williams  <dcbw@redhat.com>
+
+	* The great VPN Manager rewrite of 2005
+
+2005-09-07  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/menu-items.c:
+	* gnome/applet/nm-device.c:
+	* gnome/applet/wireless-network.c:
+	* gnome/libnm_glib/libnm_glib.c:
+	* src/NetworkManagerDbusUtils.c:
+	* vpn-daemons/vpnc/src/nm-vpnc-service.c:
+	g_malloc0 doesn't return NULL
+
+2005-09-06  Dan Williams  <dcbw@redhat.com>
+
+	Patch from Tomislav Vujec <tvujec@redhat.com>
+	* src/NetworkManagerDevice.c
+		- (nm_get_device_by_udi): don't return a device when we
+			actually didn't find what we were looking for
+
+2005-09-06  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/applet-dbus-devices.c:
+	* gnome/applet/applet-dbus-devices.h:
+	* gnome/applet/applet-dbus.c:
+	* src/NetworkManagerDbus.c:
+	* src/NetworkManagerDbus.h:
+	* src/NetworkManagerDevice.c:
+	* src/nm-dbus-device.c:
+	Make NM push updates about active device strength when it changes,
+	rather than having the applet poll every 2s.
+
+2005-09-05  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/applet-dbus-devices.c: Remove duplicate call to
+	network_device_set_strength
+
+2005-09-04  Dan Williams  <dcbw@redhat.com>
+
+	Patch from Bill Nottingham <notting@redhat.com>
+	* src/NetworkManagerDevice.c
+		- (nm_device_activation_cancel): reset the quit_activation flag
+
+2005-09-04  Dan Williams  <dcbw@redhat.com>
+
+	* src/nm-activation-request.c
+		- (nm_act_request_unref): actually free the structure,
+			which we didn't seem to be doing before
+
+2005-09-04  Dan Williams  <dcbw@redhat.com>
+
+	Patch from John Palmieri <johnp@redhat.com>
+	* gnome/applet/applet-dbus-devices.c
+		- Fix up unreffing of DBusMessage objects
+
+2005-09-04  Dan Williams  <dcbw@redhat.com>
+
+	Patch from John Palmieri <johnp@redhat.com>
+	* gnome/applet/nm-device.c
+		- (nm_device_unref): clear network_device's memory _before_ freeing it
+
+2005-09-02  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/applet.c: Use a check menu item for Wireless Enabled
+
+2005-09-02  Bill Nottingham  <notting@redhat.com>
+
+	* src/backends/NetworkManagerRedHat.c: use nm_warning, not nm_error
+
+2005-09-01  Dan Williams  <dcbw@redhat.com>
+
+	* src/NetworkManager.c
+		- (nm_remove_device_from_list): rename to nm_remove_device
+		- (nm_hal_device_removed): call nm_remove_device()
+
+	* src/NetworkManagerDevice.c
+		- Change the NMWirelessScanCB member 'reschedule' which
+			wasn't used to 'force' to indicate that we need to
+			force a scan when adding a device
+
+	* src/nm-dbus-nm.c
+		- (nm_dbus_nm_sleep): Deactivate all devices and remove them
+			from the device list
+		- (nm_dbus_nm_wake): Re-add all devices to the device list
+
+2005-09-01  Robert Love  <rml@novell.com>
+
+	* gnome/applet/applet.c: nmwa_update_info: iface is used uninitialized
+	  and the check "!iface" in the error case is probably never true.
+
+2005-09-01  Dan Williams  <dcbw@redhat.com>
+
+	Patch from Bill Nottingham <notting@redhat.com>
+	* src/backends/NetworkManagerRedHat.c
+		- Add initial dialup support to Red Hat/Fedora backend
+
+2005-09-01  Dan Williams  <dcbw@redhat.com>
+
+	* gnome/applet/applet-dbus-devices.c
+		- Sort both wireless networks and devices again, which got
+			broken when removing threading
+
+2005-09-01  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/applet.c:
+	Only show the "Stop/Start All Wireless Devices" menuitem
+	if we actually have wireless devices.
+
+	* gnome/applet/applet-dbus-info.c:
+	* gnome/applet/applet.c:
+	* gnome/applet/other-network-dialog.c:
+	* gnome/applet/vpn-password-dialog.c:
+	Drop the gtk_dialog_run () calls in favor of connecting to
+	"response" signals, needed now that the applet is not threaded.
+
+2005-08-31  Dan Williams  <dcbw@redhat.com>
+
+	Patch from Bill Moss <bmoss@clemson.edu>
+	* src/NetworkManagerDevice.c
+		- (nm_device_wireless_scan): fix scan timeout values
+
+2005-08-30  Dan Williams  <dcbw@redhat.com>
+
+	* gnome/applet/wireless-applet.glade
+		- HIG-ify the Other Wireless Networks dialog a bit more
+		- Fix some potential segfaults in the info dialog
+
+2005-08-30  Dan Williams  <dcbw@redhat.com>
+
+	* gnome/applet/applet-dbus-devices.c
+		- Remove nmwa_dbus_get_hal_device_string_property(); unused
+
+2005-08-30  Dan Williams  <dcbw@redhat.com>
+
+	* gnome/applet/applet-dbus.[ch]
+		- Remove all the nmwa_dbus_call_method_xxxx functions since
+			they weren't being used anyway
+
+2005-08-30  Bastien Nocera  <hadess@hadess.net>
+
+	* test/nmtestdevices.c: (print_usage), (main):
+	Check the number of arguments, and fix a typo
+
+2005-08-29  Dan Williams  <dcbw@redhat.com>
+
+	Patch from Dumitru Ciobarcianu <Dumitru.Ciobarcianu@iNES.RO>
+	* gnome/applet/applet.c
+		- Define GTK_STOCK_INFO for GTK 2.6 and lower
+
+2005-08-29  Dan Williams  <dcbw@redhat.com>
+
+	* gnome/applet/*
+		- Don't use threads any more.  Anything that blocks
+			(like gtk_dialog_run()) will  have to get fixed up which
+			should happen quickly.  We really only had threads to make
+			the animation smooth, and when everything got converted over
+			to DBus Pending Calls, the need for threads kind of went away
+
+2005-08-29  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/applet.c: Draw VPN connections as radio items
+	since we don't yet support multiple VPNs.
+	* gnome/applet/other-network-dialog.c: Use stock icon for Connect
+	* gnome/vpn-properties/nm-vpn-properties.c: Use stock icon for Delete
+
+2005-08-29  Dan Williams  <dcbw@redhat.com>
+
+	Patch from j@bootlab.org
+	- Make --without-named work
+	- Make --with-dhcdbd work correctly
+
+2005-08-27  Josep Puigdemont i Casamajó  <josep.puigdemont@gmail.com>
+
+	* configure.in: Added "ca" to ALL_LINGUAS.
+
+2005-08-26  Christopher Aillon  <caillon@redhat.com>
+
+	* Fix up VPN state handling between the applet and NetworkManager,
+		so that the applet doesn't show a VPN as connected when one
+		really is not
+			- The applet no longer has a pointer to the active VPN's
+				name, but tracks each VPNs state individually
+			- NM no longer has a "getActiveVPNConnection" method
+			- NM no longer broadcasts the "VPNConnectionChange" signal
+			- NM now broadcasts a "VPNConnectionStateChange" signal
+				whenever the state of a VPN changes
+
+2005-08-26  Dan Williams <dcbw@redhat.com>
+
+	* gnome/applet/applet-dbus-devices.c
+	  gnome/applet/applet-dbus-vpn.c
+		- Remove calls to dbus_pending_call_ref() because we already
+			"own" the pending call
+		- Remove calls to dbus_pending_call_get_completed() because
+			when we are in the callback, the pending call is completed
+			by definition
+
+2005-08-22  Dan Williams <dcbw@redhat.com>
+
+	Patch by Bill Moss <bmoss@clemson.edu>
+	* src/dhcp-manager/nm-dhcp-manager.c
+		- (nm_dhcp_manager_cancel_transaction): Give dhcdbd/dhclient
+			some time to send out a RELEASE if they like
+
+2005-08-22  Dan Williams <dcbw@redhat.com>
+
+	Noticed by Bill Moss <bmoss@clemson.edu>
+	* src/NetworkManagerDbus.c
+		- (nm_dbus_get_user_key_for_network_cb): deactivate the device
+			instead of just cancelling its activation
+
+	* src/NetworkManagerDevice.c
+		- (nm_device_deactivate): some small cleanups
+		- (nm_device_set_user_key_for_network): deactivate the device
+			instead of just cancelling its activation
+
+2005-08-22  Dan Williams <dcbw@redhat.com>
+
+	Noticed by Bill Moss <bmoss@clemson.edu>
+	* src/NetworkManagerDevice.c
+		- (nm_device_wireless_scan): fix scan timeout, we were
+			waiting way too long for scans to complete
+
+2005-08-22  Dan Williams <dcbw@redhat.com>
+
+	Patch from j@bootlab.org:
+	* src/backends/NetworkManagerDebian.c
+		- Make the Debian backend work for static IP again
+
+2005-08-20  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/other-network-dialog.c:
+	The "Create New Network" and "Connect to Other Network"
+	dialogs share alot of code, but shouldn't share a window
+	title.  Give them different ones.
+
+	* gnome/applet/wireless-applet.glade:
+	* vpn-daemons/vpnc/auth-dialog/gnome-two-password-dialog.c:
+	Some more minor UI tweaks.
+
+2005-08-19  Christopher Aillon  <caillon@redhat.com>
+
+	* gnome/applet/other-network-dialog.c:
+	* gnome/applet/wireless-applet.glade:
+	Also need mnemonic widgets, and underline enabled.
+
+2005-08-19  Dan Williams <dcbw@redhat.com>
+
+	* vpn-daemons/vpnc/nm-vpnc-service.c
+		- (vpnc_watch_cb): remove no-longer-relevant comment
+		- (write_config_option): new function, helper to write
+			config options to vpnc's stdin
+		- (nm_vpnc_config_write): use the new helper, make the
+			code shorter
+
+2005-08-19  Christopher Aillon <caillon@redhat.com>
+
+	* gnome/applet/passphrase-dialog.c:
+	* gnome/applet/wireless-applet.glade:
+	Make the passphrase dialog response based, and treat
+	responses other than OK (such as Esc, [X]) as a cancel.
+
+2005-08-18  Christopher Aillon <caillon@redhat.com>
+
+	* initscript/Gentoo/NetworkManager:
+	* initscript/RedHat/NetworkManager:
+	* initscript/RedHat/NetworkManagerDispatcher:
+	* initscript/SUSE/networkmanager:
+	CVS remove these in place of .in replacements
+
+	* configure.in:
+	* initscript/Gentoo/NetworkManager.in:
+	* initscript/RedHat/NetworkManager.in:
+	* initscript/RedHat/NetworkManagerDispatcher.in:
+	* initscript/SUSE/networkmanager.in:
+	These scripts now are generated so they work still when
+	NM is built using a bindir other than /usr/bin
+
+2005-08-18  Dan Williams <dcbw@redhat.com>
+
+	* gnome/applet/main.c
+		- Revert previous change for --no-session since
+			--sm-disable does the same thing
+
+2005-08-18  Dan Williams <dcbw@redhat.com>
+
+	* gnome/applet/applet-dbus-info.c
+		- (nmi_dbus_create_error_message): new function
+		- (nmi_dbus_get_key_for_network): correctly use dbus error creation
+			functions.  Also don't check for both device _and_ network before
+			asking for a user's key, because we may not have gotten all our
+			networks back from NM quite yet (due to the dbus pending calls
+			coming in later).  Fixes a hang in NM/nm-applet.
+
+	* src/NetworkManagerDbus.c
+		- (nm_dbus_get_user_key_for_network_cb): handle error conditions in a
+			slightly more sane manner, even though we are still broken for
+			certain other error conditions.
+		- (nm_dbus_get_user_key_for_network): need to pass the network's essid
+			to the info-daemon too
+
+	* src/NetworkManagerDevice.c
+		- Fix some debug messages to be info messages instead
+
+2005-08-18  Dan Williams <dcbw@redhat.com>
+
+	* gnome/applet/main.c
+		- Add new "--no-session" parameter that disables applet
+			session management, ie for testing
+
+2005-08-18  Christopher Aillon <caillon@redhat.com>
+
+	* gnome/applet/other-network-dialog.c:
+	* gnome/applet/wireless-applet.glade: More mnemonics
+
+2005-08-17  Robert Love  <rml@novell.com>
+
+	* initscript/SUSE/networkmanager: update
+
 2005-08-17  Dan Williams  <dcbw@redhat.com>
 
-	* Tag 0_4_1_RELEASE
+	* Tag NM_0_4_1_RELEASE
 
 2005-08-17  Christopher Aillon  <caillon@redhat.com>
 
-        * gnome/applet/applet.c: More translatable string cleanup
+	* gnome/applet/applet.c: More translatable string cleanup
 
 
 2005-08-17  Dan Williams  <dcbw@redhat.com>

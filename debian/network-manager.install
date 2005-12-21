@@ -8,6 +8,3 @@ debian/tmp/usr/share/NetworkManagerNotification/*
 debian/tmp/usr/share/nm-applet/*
 debian/tmp/usr/share/icons/hicolor
 debian/tmp/usr/share/gnome-vpn-properties
-debian/tmp/usr/lib/pkgconfig/NetworkManager.pc
-debian/tmp/usr/include/NetworkManager/NetworkManager.h
-debian/tmp/usr/include/NetworkManager/nm-vpn-ui-interface.h

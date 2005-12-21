@@ -64,13 +64,12 @@ void			nm_dbus_schedule_device_status_change_signal	(NMData *data, NMDevice *dev
 
 void			nm_dbus_signal_state_change			(DBusConnection *connection, NMData *data);
 
-void			nm_dbus_signal_wireless_network_change	(DBusConnection *connection, NMDevice *dev, NMAccessPoint *ap, NMNetworkStatus status, gint8 strength);
+void			nm_dbus_signal_wireless_network_change	(DBusConnection *connection, NMDevice *dev, NMAccessPoint *ap, NMNetworkStatus status, gint strength);
+void			nm_dbus_signal_device_strength_change	(DBusConnection *connection, NMDevice *dev, gint strength);
 
 void			nm_dbus_get_user_key_for_network		(DBusConnection *connection, NMActRequest *req, const gboolean new_key);
 
 void			nm_dbus_cancel_get_user_key_for_network	(DBusConnection *connection, NMActRequest *req);
-
-void			nm_dbus_update_wireless_scan_method	(DBusConnection *connection, NMData *data);
 
 NMAccessPoint *nm_dbus_get_network_object			(DBusConnection *connection, NMNetworkType type, const char *network);
 

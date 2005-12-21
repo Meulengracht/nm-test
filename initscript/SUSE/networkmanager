@@ -2,13 +2,17 @@
 
 ### BEGIN INIT INFO
 # Provides:       networkmanager
-# Required-Start: $network dbus hal
+# Required-Start: $network dbus haldaemon
 # Default-Start:  3 5
 # Default-Stop:
 # Description: NetworkManager, a network and wireless connection manager
 ### END INIT INFO
 
-NETWORKMANAGER_BIN=/usr/bin/NetworkManager
+prefix=/usr
+exec_prefix=/usr
+bindir=${exec_prefix}/bin
+
+NETWORKMANAGER_BIN=${bindir}/NetworkManager
 test -x $NETWORKMANAGER_BIN || exit 5
 
 . /etc/rc.status

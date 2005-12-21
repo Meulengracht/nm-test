@@ -26,6 +26,7 @@
 #include "NetworkManagerSystem.h"
 #include "NetworkManagerUtils.h"
 #include "NetworkManagerDevice.h"
+#include "NetworkManagerDialup.h"
 #include "nm-utils.h"
 #include "shvar.h"
 
@@ -179,7 +180,7 @@ void nm_system_device_flush_addresses_with_iface (const char *iface)
 	g_return_if_fail (iface != NULL);
 
 	/* Remove all IP addresses for a device */
-	buf = g_strdup_printf ("/sbin/ip address flush dev %s", iface);
+	buf = g_strdup_printf ("/sbin/ip addr flush dev %s", iface);
 	nm_spawn_process (buf);
 	g_free (buf);
 }
@@ -282,19 +283,6 @@ void nm_system_update_dns (void)
 
 
 /*
- * nm_system_load_device_modules
- *
- * Load any network adapter kernel modules that we need to, since Fedora doesn't
- * autoload them at this time.
- *
- */
-void nm_system_load_device_modules (void)
-{
-	nm_spawn_process ("/usr/bin/NMLoadModules");
-}
-
-
-/*
  * nm_system_restart_mdns_responder
  *
  * Restart the multicast DNS responder so that it knows about new
@@ -328,7 +316,6 @@ void nm_system_restart_mdns_responder (void)
 void nm_system_device_add_ip6_link_address (NMDevice *dev)
 {
 	char *buf;
-	char	*addr;
 	struct ether_addr hw_addr;
 	unsigned char eui[8];
 
@@ -341,7 +328,7 @@ void nm_system_device_add_ip6_link_address (NMDevice *dev)
 	eui[0] ^= 2;
 
 	/* Add the default link-local IPv6 address to a device */
-	buf = g_strdup_printf ("/sbin/ip -6 address add fe80::%x%02x:%x%02x:%x%02x:%x%02x/64 dev %s",
+	buf = g_strdup_printf ("/sbin/ip -6 addr add fe80::%x%02x:%x%02x:%x%02x:%x%02x/64 dev %s",
 						eui[0], eui[1], eui[2], eui[3], eui[4], eui[5],
 						eui[6], eui[7], nm_device_get_iface (dev));
 	nm_spawn_process (buf);
@@ -406,7 +393,7 @@ static void set_ip4_config_from_resolv_conf (const char *filename, NMIP4Config *
 		char *line = split_contents[i];
 
 		/* Ignore comments */
-		if (!line || (line[0] == ';'))
+		if (!line || (line[0] == ';') || (line[0] == '#'))
 			continue;
 
 		line = g_strstrip (line);
@@ -661,14 +648,175 @@ NMIP4Config *nm_system_device_new_ip4_system_config (NMDevice *dev)
 
 void nm_system_deactivate_all_dialup (GSList *list)
 {
+	GSList *l;
+	
+	for (l = list; l; l = g_slist_next(l))
+	{
+		NMDialUpConfig *config = (NMDialUpConfig *) l->data;
+		char *cmd;
+		
+		cmd = g_strdup_printf ("/sbin/ifdown %s", (char *)config->data);
+		nm_spawn_process (cmd);
+		g_free(cmd);
+	}
 }
 
 gboolean nm_system_activate_dialup (GSList *list, const char *dialup)
 {
-	return FALSE;
+	GSList *l;
+	gboolean ret = FALSE;
+	
+	for (l = list; l; l = g_slist_next (l))
+	{
+		NMDialUpConfig *config = (NMDialUpConfig *) l->data;
+		if (strcmp (dialup, config->name) == 0)
+		{
+			char *cmd;
+			int status;
+			
+			nm_info ("Activating dialup device %s (%s) ...", dialup, (char *) config->data);
+			cmd = g_strdup_printf ("/sbin/ifup %s", (char *) config->data);
+			status = nm_spawn_process (cmd);
+			g_free (cmd);
+			if (status == 0) {
+				ret = TRUE;
+			} else {
+				/* FIXME: Decode errors into something sensible */
+				nm_warning ("Couldn't activate dialup device %s (%s) - %d", dialup, (char *) config->data, status);
+				ret = FALSE;
+			}
+			break;
+		}
+	}
+	return ret;
+}
+
+
+static gboolean is_valid_cfg(const char *cfg)
+{
+	char *exts[] = { ".rpmsave", ".rpmorig", ".rpmnew", "~", ".bak", NULL };
+	int x;
+	
+	if (!g_str_has_prefix (cfg, "ifcfg-"))
+		return FALSE;
+	for (x = 0 ; exts[x] ; x++) {
+		if (g_str_has_suffix(cfg,exts[x]))
+			return FALSE;
+	}
+	return TRUE;
+}
+
+static char *get_config_name(const char *cfg)
+{
+	char *ret = NULL;
+	shvarFile *cfg_file;
+	char *path, *tmp;
+	gboolean is_dialup = FALSE;
+	
+	path = g_strdup_printf ("/etc/sysconfig/network-scripts/%s", cfg);
+	cfg_file = svNewFile (path);
+	g_free (path);
+	if (!cfg_file)
+		return NULL;
+	
+	
+	/* Check for a dialup TYPE */
+	tmp = svGetValue (cfg_file, "TYPE");
+	if (tmp)
+	{
+		if ((strcmp (tmp, "Modem") == 0) ||
+		    (strcmp (tmp, "ISDN") == 0))
+			is_dialup = TRUE;
+		free(tmp);
+	}
+	
+	/* Check for a dialup BOOTPROTO */
+	tmp = svGetValue (cfg_file, "BOOTPROTO");
+	if (tmp)
+	{
+		if ((strcmp (tmp, "dialup") == 0))
+			is_dialup = TRUE;
+		free(tmp);
+	}
+
+	/* Check for a dialup device name */
+	if (g_str_has_prefix(cfg+6, "ppp") || g_str_has_prefix(cfg+6, "ippp"))
+		is_dialup = TRUE;
+	
+	if (!is_dialup)
+		goto out_close;
+	
+	/* PROVIDER isn't actually used, but s-c-network writes it. */
+	tmp = svGetValue (cfg_file, "PROVIDER");
+	if (tmp)
+	{
+		ret = tmp;
+		goto out_close;
+	}
+	
+	/* NAME isn't used either... */
+	tmp = svGetValue (cfg_file, "NAME");
+	if (tmp)
+	{
+		ret = tmp;
+		goto out_close;
+	}
+	
+	tmp = svGetValue (cfg_file, "WVDIALSECT");
+	if (tmp)
+	{
+		ret = tmp;
+		goto out_close;
+	}
+	
+	/* Fallback - use the config*/
+	ret = strdup(cfg + 6);
+	
+out_close:
+	svCloseFile (cfg_file);
+	return ret;
+	
 }
 
 GSList * nm_system_get_dialup_config (void)
 {
-	return NULL;
+	GSList *list = NULL;
+	GDir *dir;
+	GError *err;
+	const char *entry;
+	
+	dir = g_dir_open ("/etc/sysconfig/network-scripts", 0, &err);
+	if (!dir)
+	{
+		nm_warning ("Could not open directory /etc/sysconfig/network-scripts: %s", err->message);
+		return NULL;
+	}
+	
+	while ((entry = g_dir_read_name(dir)))
+	{
+		NMDialUpConfig *config;
+		char *buf;
+		
+		if (!is_valid_cfg(entry))
+			continue;
+		
+		buf = get_config_name(entry);
+		
+		if (!buf)
+			continue;
+		
+		config = g_malloc (sizeof (NMDialUpConfig));
+		config->name = g_strdup_printf ("%s via Modem", buf);
+		config->data = g_strdup (entry + 6);
+		list = g_slist_append (list, config);
+		
+		nm_info ("Found dial up configuration for %s: %s", config->name, (char *) config->data);
+		
+		free (buf);
+			
+	}
+	
+	g_dir_close (dir);
+	
+	return list;
 }

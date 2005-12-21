@@ -60,8 +60,26 @@ guint				network_device_get_num_wireless_networks	(NetworkDevice *dev);
 const char *			network_device_get_address				(NetworkDevice *dev);
 void					network_device_set_address				(NetworkDevice *dev, const char *addr);
 
-NMDriverSupportLevel	network_device_get_driver_support_level		(NetworkDevice *dev);
-void					network_device_set_driver_support_level		(NetworkDevice *dev, NMDriverSupportLevel level);
+const char *			network_device_get_broadcast				(NetworkDevice *dev);
+void					network_device_set_broadcast				(NetworkDevice *dev, const char *addr);
+
+const char *			network_device_get_netmask				(NetworkDevice *dev);
+void					network_device_set_netmask				(NetworkDevice *dev, const char *addr);
+
+const char *			network_device_get_ip4_address			(NetworkDevice *dev);
+void					network_device_set_ip4_address			(NetworkDevice *dev, const char *addr);
+
+const char *			network_device_get_route					(NetworkDevice *dev);
+void					network_device_set_route					(NetworkDevice *dev, const char *route);
+
+const char *			network_device_get_primary_dns			(NetworkDevice *dev);
+void					network_device_set_primary_dns			(NetworkDevice *dev, const char *dns);
+
+const char *			network_device_get_secondary_dns			(NetworkDevice *dev);
+void					network_device_set_secondary_dns			(NetworkDevice *dev, const char *dns);
+
+guint32				network_device_get_capabilities			(NetworkDevice *dev);
+void					network_device_set_capabilities			(NetworkDevice *dev, guint32 caps);
 
 const char *			network_device_get_iface					(NetworkDevice *dev);
 
