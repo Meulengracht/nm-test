@@ -186,7 +186,7 @@ void nm_system_device_flush_addresses_with_iface (const char *iface)
 	g_return_if_fail (iface != NULL);
 
 	/* Remove all IP addresses for a device */
-	buf = g_strdup_printf ("/sbin/ip address flush dev %s", iface);
+	buf = g_strdup_printf ("/sbin/ip addr flush dev %s", iface);
 	nm_spawn_process (buf);
 	g_free (buf);
 }
@@ -264,25 +264,14 @@ void nm_system_kill_all_dhcp_daemons (void)
 void nm_system_update_dns (void)
 {
 #ifdef NM_NO_NAMED
-	if (nm_spawn_process ("/etc/init.d/nscd status") != 0)
-		nm_spawn_process ("/etc/init.d/nscd restart");
+	if (nm_spawn_process (SYSCONFDIR"/init.d/nscd status") != 0)
+		nm_spawn_process (SYSCONFDIR"/init.d/nscd restart");
 
 	nm_info ("Clearing nscd hosts cache.");
 	nm_spawn_process ("/usr/sbin/nscd -i hosts");
 #else
 	nm_spawn_process ("/usr/bin/killall -q nscd");
 #endif
-}
-
-
-/*
- * nm_system_load_device_modules
- *
- * Load any network adapter kernel modules that we need.
- *
- */
-void nm_system_load_device_modules (void)
-{
 }
 
 
@@ -335,7 +324,7 @@ void nm_system_device_add_ip6_link_address (NMDevice *dev)
 	eui[0] ^= 2;
 
 	/* Add the default link-local IPv6 address to a device */
-	buf = g_strdup_printf ("/sbin/ip -6 address add fe80::%x%02x:%x%02x:%x%02x:%x%02x/64 dev %s",
+	buf = g_strdup_printf ("/sbin/ip -6 addr add fe80::%x%02x:%x%02x:%x%02x:%x%02x/64 dev %s",
 						eui[0], eui[1], eui[2], eui[3], eui[4], eui[5],
 						eui[6], eui[7], nm_device_get_iface (dev));
 	nm_spawn_process (buf);
@@ -369,14 +358,14 @@ static void set_ip4_config_from_resolv_conf (const char *filename, NMIP4Config *
 
 	if (!(split_contents = g_strsplit (contents, "\n", 0)))
 		goto out;
-	
+
 	len = g_strv_length (split_contents);
 	for (i = 0; i < len; i++)
 	{
 		char *line = split_contents[i];
 
 		/* Ignore comments */
-		if (!line || (line[0] == ';'))
+		if (!line || (line[0] == ';') || (line[0] == '#'))
 			continue;
 
 		line = g_strstrip (line);
@@ -411,7 +400,7 @@ static void set_ip4_config_from_resolv_conf (const char *filename, NMIP4Config *
 		}
 		else if ((strncmp (line, "nameserver", 10) == 0) && (strlen (line) > 10))
 		{
-			guint32	addr = (guint32) (inet_addr (line + 11));
+			guint32 addr = (guint32) (inet_addr (line + 11));
 
 			if (addr != (guint32) -1)
 				nm_ip4_config_add_nameserver (ip4_config, addr);
@@ -429,6 +418,8 @@ out:
  * nm_system_device_get_system_config
  *
  * Read in the config file for a device.
+ *
+ * SuSE stores this information in /etc/sysconfig/network/ifcfg-*-<MAC address>
  *
  */
 void *nm_system_device_get_system_config (NMDevice *dev)
@@ -449,8 +440,6 @@ void *nm_system_device_get_system_config (NMDevice *dev)
 	char *ip_str;
 
 	g_return_val_if_fail (dev != NULL, NULL);
-
-	/* SuSE stores this information usually in /etc/sysconfig/network/ifcfg-*-<MAC address> */
 
 	sys_data = g_malloc0 (sizeof (SuSESystemConfigData));
 	sys_data->use_dhcp = TRUE;
@@ -549,7 +538,7 @@ found:
 		}
 
 		buf = NULL;
-		if ((f = fopen ("/etc/sysconfig/network/routes", "r")))
+		if ((f = fopen (SYSCONFDIR"/sysconfig/network/routes", "r")))
 		{
 			while (fgets (buffer, 512, f) && !feof (f))
 			{
@@ -727,7 +716,7 @@ static char * verify_and_return_provider (const char *provider)
 	char *name, *buf = NULL;
 	int ret;
 
-	name = g_strdup_printf ("/etc/sysconfig/network/providers/%s", provider);
+	name = g_strdup_printf (SYSCONFDIR"/sysconfig/network/providers/%s", provider);
 
 	file = svNewFile (name);
 	if (!file)
@@ -738,8 +727,10 @@ static char * verify_and_return_provider (const char *provider)
 		goto out_close;
 	ret = strcmp (buf, "no");
 	free (buf);
-	if (ret)
+	if (ret) {
+		buf = NULL;
 		goto out_close;
+	}
 
 	buf = svGetValue (file, "PROVIDER");
 
@@ -763,9 +754,7 @@ GSList * nm_system_get_dialup_config (void)
 {
 	GSList *list = NULL;
 	const char *dentry;
-	unsigned int i = 0;
-	size_t len;
-	GError *err;
+	GError *err = NULL;
 	GDir *dir;
 
 	dir = g_dir_open (SYSCONFDIR "/sysconfig/network", 0, &err);
@@ -780,13 +769,18 @@ GSList * nm_system_get_dialup_config (void)
 		NMDialUpConfig *config;
 		shvarFile *modem_file;
 		char *name, *buf, *provider_name;
+		int modem;
 
-		/* we only want modems */
-		if (!g_str_has_prefix (dentry, "ifcfg-modem"))
+		/* we only want modems and isdn */
+		if (g_str_has_prefix (dentry, "ifcfg-modem"))
+			modem = 1;
+		else if (g_str_has_prefix (dentry, "ifcfg-ippp"))
+			modem = 0;
+		else
 			continue;
 
 		/* open the configuration file */
-		name = g_strdup_printf ("/etc/sysconfig/network/%s", dentry);
+		name = g_strdup_printf (SYSCONFDIR"/sysconfig/network/%s", dentry);
 		modem_file = svNewFile (name);
 		if (!modem_file)
 			 goto out_gfree;
@@ -800,8 +794,11 @@ GSList * nm_system_get_dialup_config (void)
 			 goto out_free;
 
 		config = g_malloc (sizeof (NMDialUpConfig));
-		config->name = g_strdup_printf ("%s via Modem", provider_name);
-		config->data = g_strdup (dentry + 6);	/* skip the "ifcfg-" prefix */
+		if (modem)
+			config->name = g_strdup_printf ("%s via Modem", provider_name);
+		else
+			config->name = g_strdup_printf ("%s via ISDN", provider_name);
+		config->data = g_strdup (dentry + 6); /* skip the "ifcfg-" prefix */
 
 		list = g_slist_append (list, config);
 

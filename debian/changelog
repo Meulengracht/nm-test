@@ -1,3 +1,69 @@
+network-manager (0.5.1-0ubuntu5) dapper; urgency=low
+
+  * debian/control:
+    - Version dep on dhcdbd to (>= 1.10-0ubuntu2).
+
+ -- Christian Bjälevik <nafallo@ubuntu.com>  Wed, 21 Dec 2005 19:08:53 +0100
+
+network-manager (0.5.1-0ubuntu4) dapper; urgency=low
+
+  * debian/control:
+    - Version all accurances of libdbus-glib-1-dev to (>= 0.60).
+    - Removed not needed Build-Dep on libxdcmp-dev, this is a dep
+      of libx11-dev now.
+  * debian/patches/01-STOLEN_FROM_HEAD-dbus-60:
+    - Add a patch from CVS HEAD to fix FTBFS.
+      No patchsystem, only applied it.
+
+ -- Christian Bjälevik <nafallo@ubuntu.com>  Wed, 21 Dec 2005 14:22:34 +0100
+
+network-manager (0.5.1-0ubuntu3) dapper; urgency=low
+
+  * debian/control:
+    - Changed versioned dep on wireless-tools to >= 28pre9
+      (what upstream says in their .news).
+    - Removed commented out Conflicts-line.
+    - Do not depend on bind9 being installed.
+    - Added libxdmcp-dev as a Build-Dep.
+  * debian/*.dbus-event:
+    - Use "$NAME" instead of the incredible long "$DESC: ".
+  * debian/network-manager.postinst:
+    - Do not run gtk-update-icon-cache on configure cause
+      seb128 says it's a bad idea and explained why :-).
+  * debian/README:
+    - Fix typo (cann -> can).
+  * debian/rules:
+    - Removed named-support (we don't want bind9 for this)
+    - Added --with-distro=debian.
+
+ -- Christian Bjälevik <nafallo@ubuntu.com>  Thu, 15 Dec 2005 02:04:12 +0100
+
+network-manager (0.5.1-0ubuntu2) dapper; urgency=low
+
+  * remove .arch-ids traces
+
+ -- Jan Gerber <j@bootlab.org>  Sun, 13 Nov 2005 21:19:18 -0500
+
+network-manager (0.5.1-0ubuntu1) dapper; urgency=low
+
+  * New upstream version
+
+ -- Jan Gerber <j@bootlab.org>  Fri, 21 Oct 2005 08:33:25 -0400
+
+network-manager (0.5.0-0ubuntu1) breezy; urgency=low
+
+  * New upstream version
+  * split headers into network-manager-dev
+
+ -- Jan Gerber <j@bootlab.org>  Tue, 18 Oct 2005 17:43:56 +0200
+
+network-manager (0.4.1+cvs20050817-0ubuntu5) breezy; urgency=low
+
+  * fix postinst so its possible to install network-manager 
+    in pbuilder
+
+ -- Jan Gerber <j@bootlab.org>  Tue, 11 Oct 2005 19:23:47 +0200
+
 network-manager (0.4.1+cvs20050817-0ubuntu4) breezy; urgency=low
 
   * update postinst to restart dbus on install

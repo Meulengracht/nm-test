@@ -39,9 +39,6 @@
 #include "nm-utils.h"
 
 
-static char *nmi_dbus_get_network_key (NMWirelessApplet *applet, WirelessNetwork *net);
-
-
 /*
  * nmi_network_type_valid
  *
@@ -55,6 +52,109 @@ static inline gboolean nmi_network_type_valid (NMNetworkType type)
 
 
 /*
+ * nmi_dbus_create_error_message
+ *
+ * Make a DBus error message
+ *
+ */
+static DBusMessage *nmi_dbus_create_error_message (DBusMessage *message,
+								const char *exception_namespace,
+								const char *exception,
+								const char *format,
+								...)
+{
+	char *		exception_text;
+	DBusMessage *	reply_message;
+	va_list		args;
+	char			error_text[512];
+
+	va_start (args, format);
+	vsnprintf (error_text, 512, format, args);
+	va_end (args);
+
+	exception_text = g_strdup_printf ("%s.%s", exception_namespace, exception);
+	reply_message = dbus_message_new_error (message, exception_text, error_text);
+	g_free (exception_text);
+
+	return (reply_message);
+}
+
+
+typedef struct NMGetNetworkKeyCBData
+{
+	NMWirelessApplet *applet;
+	DBusMessage *message;
+	NetworkDevice *dev;
+	char *net_path;
+	char *essid;
+} NMGetNetworkKeyCBData;
+
+static void free_network_key_cb_data (NMGetNetworkKeyCBData *cb_data)
+{
+	if (cb_data)
+	{
+		dbus_message_unref (cb_data->message);
+		network_device_unref (cb_data->dev);
+		g_free (cb_data->net_path);
+		g_free (cb_data->essid);
+		memset (cb_data, 0, sizeof (NMGetNetworkKeyCBData));
+		g_free (cb_data);
+	}
+}
+
+
+static void nmi_dbus_get_network_key_callback (GnomeKeyringResult result,
+                                               GList             *found_list,
+                                               gpointer           data)
+{
+	NMGetNetworkKeyCBData *cb_data = (NMGetNetworkKeyCBData*) data;
+	NMWirelessApplet *applet = cb_data->applet;
+	DBusMessage *message = cb_data->message;
+	NetworkDevice *dev = cb_data->dev;
+	char *net_path = cb_data->net_path;
+	char *essid = cb_data->essid;
+
+	if (result == GNOME_KEYRING_RESULT_OK)
+	{
+		gchar *key;
+		gchar *gconf_key;
+		gchar *escaped_network;
+		GConfValue *value;
+		NMEncKeyType key_type = -1;
+		GnomeKeyringFound *found;
+
+		found = found_list->data;
+		key = g_strdup (found->secret);
+
+		/* Grab key type from GConf since we need it for return message */
+		escaped_network = gconf_escape_key (essid, strlen (essid));
+		gconf_key = g_strdup_printf ("%s/%s/key_type", GCONF_PATH_WIRELESS_NETWORKS, escaped_network);
+		g_free (escaped_network);
+
+		value = gconf_client_get (applet->gconf_client, gconf_key, NULL);
+		g_free (gconf_key);
+
+		if (value)
+		{
+			key_type = gconf_value_get_int (value);
+			gconf_value_free (value);
+		}
+
+		nmi_dbus_return_user_key (applet->connection, message, key, key_type);
+		g_free (key);
+	}
+	else
+	{
+		WirelessNetwork *net;
+		if ((net = network_device_get_wireless_network_by_nm_path (dev, net_path)))
+			nmi_passphrase_dialog_schedule_show (dev, net, message, applet);
+	}
+
+	free_network_key_cb_data (cb_data);
+}
+
+
+/*
  * nmi_dbus_get_key_for_network
  *
  * Throw up the user key dialog
@@ -62,66 +162,84 @@ static inline gboolean nmi_network_type_valid (NMNetworkType type)
  */
 static DBusMessage * nmi_dbus_get_key_for_network (NMWirelessApplet *applet, DBusMessage *message)
 {
-	char *		dev_path = NULL;
-	char *		net_path = NULL;
-	int			attempt = 0;
-	gboolean		new_key = FALSE;
-	gboolean		success = FALSE;
+	char *	dev_path = NULL;
+	char *	net_path = NULL;
+	char *	essid = NULL;
+	int		attempt = 0;
+	gboolean	new_key = FALSE;
+	gboolean	success = FALSE;
 
 	if (dbus_message_get_args (message, NULL,
-							DBUS_TYPE_OBJECT_PATH, &dev_path,
-							DBUS_TYPE_OBJECT_PATH, &net_path,
-							DBUS_TYPE_INT32, &attempt,
-							DBUS_TYPE_BOOLEAN, &new_key,
-							DBUS_TYPE_INVALID))
+	                           DBUS_TYPE_OBJECT_PATH, &dev_path,
+	                           DBUS_TYPE_OBJECT_PATH, &net_path,
+	                           DBUS_TYPE_STRING, &essid,
+	                           DBUS_TYPE_INT32, &attempt,
+	                           DBUS_TYPE_BOOLEAN, &new_key,
+	                           DBUS_TYPE_INVALID))
 	{
 		NetworkDevice *dev = NULL;
-		WirelessNetwork *net = NULL;
 
-		g_mutex_lock (applet->data_mutex);
-		if ((dev = nmwa_get_device_for_nm_path (applet->gui_device_list, dev_path))
-			&& (net = network_device_get_wireless_network_by_nm_path (dev, net_path)))
+		if ((dev = nmwa_get_device_for_nm_path (applet->device_list, dev_path)))
 		{
-			/* Try to get the key from the keyring.  If we fail, ask for a new key. */
+			WirelessNetwork *net = NULL;
+
+			/* It's not a new key, so try to get the key from the keyring. */
 			if (!new_key)
 			{
-				char *key;
+				GnomeKeyringResult ret;
+				GList *found_list = NULL;
+				char *key = NULL;
+				NMGetNetworkKeyCBData *cb_data;
 
-				if ((key = nmi_dbus_get_network_key (applet, net)))
-				{
-					char *		gconf_key;
-					char *		escaped_network;
-					const char *	essid = wireless_network_get_essid (net);
-					GConfValue *	value;
-					NMEncKeyType	key_type = -1;
+				cb_data = g_malloc0 (sizeof (NMGetNetworkKeyCBData));
+				cb_data->applet = applet;
+				cb_data->essid = g_strdup (essid);
+				cb_data->message = message;
+				dbus_message_ref (message);
+				cb_data->dev = dev;
+				network_device_ref (dev);
+				cb_data->net_path = g_strdup (net_path);
 
-					/* Grab key type from GConf since we need it for return message */
-					escaped_network = gconf_escape_key (essid, strlen (essid));
-					gconf_key = g_strdup_printf ("%s/%s/key_type", GCONF_PATH_WIRELESS_NETWORKS, escaped_network);
-					g_free (escaped_network);
-					if ((value = gconf_client_get (applet->gconf_client, gconf_key, NULL)))
-					{
-						key_type = gconf_value_get_int (value);
-						gconf_value_free (value);
-					}
-					g_free (gconf_key);
+				/* If the menu happens to be showing when we pop up the
+				 * keyring dialog, we get an X server deadlock.  So deactivate
+				 * the menu here.
+				 */
+				if (applet->dropdown_menu && GTK_WIDGET_VISIBLE (GTK_WIDGET (applet->dropdown_menu)))
+					gtk_menu_shell_deactivate (GTK_MENU_SHELL (applet->dropdown_menu));
 
-					nmi_dbus_return_user_key (applet->connection, message, key, key_type);
-					g_free (key);
-					success = TRUE;
-				}
-				else
-					new_key = TRUE;
+				/* Get the essid key, if any, from the keyring */
+				gnome_keyring_find_itemsv (GNOME_KEYRING_ITEM_GENERIC_SECRET,
+				                           (GnomeKeyringOperationGetListCallback) nmi_dbus_get_network_key_callback,
+				                           cb_data,
+				                           NULL,
+				                           "essid",
+				                           GNOME_KEYRING_ATTRIBUTE_TYPE_STRING,
+				                           essid,
+				                           NULL);
 			}
+			else
+			{
+				/* We only ask the user for a new key when we know about the network from NM,
+				 * since throwing up a dialog with a random essid from somewhere is a security issue.
+				 */
+				if (new_key && (net = network_device_get_wireless_network_by_nm_path (dev, net_path)))
+				{
+					success = nmi_passphrase_dialog_schedule_show (dev, net, message, applet);
+					if (!success)
+					{
+						DBusMessage *error_message;
+						char *error_message_str;
 
-			if (new_key)
-				success = nmi_passphrase_dialog_schedule_show (dev, net, message, applet);
+						error_message_str = g_strdup_printf ("Could not get user key for network '%s'.", essid);
+						error_message = nmi_dbus_create_error_message (message, NMI_DBUS_INTERFACE, "GetKeyError", error_message_str);
+						g_free (error_message_str);
+
+						return error_message;
+					}
+				}
+			}
 		}
-		g_mutex_unlock (applet->data_mutex);
 	}
-
-	if (!success)
-		return dbus_message_new_error (message, "GetKeyError", "Could not get user key for network.");
 
 	return NULL;
 }
@@ -135,10 +253,8 @@ static DBusMessage * nmi_dbus_get_key_for_network (NMWirelessApplet *applet, DBu
  */
 void nmi_dbus_return_user_key (DBusConnection *connection, DBusMessage *message, const char *passphrase, const NMEncKeyType key_type)
 {
-	DBusMessage *	reply;
-	const char *	dev_path;
-	const char *	net_path;
-	const int		tmp_key_type = (int)key_type;
+	DBusMessage *reply;
+	const int tmp_key_type = (int)key_type;
 
 	g_return_if_fail (connection != NULL);
 	g_return_if_fail (passphrase != NULL);
@@ -152,55 +268,6 @@ void nmi_dbus_return_user_key (DBusConnection *connection, DBusMessage *message,
 	dbus_message_append_args (reply, DBUS_TYPE_STRING, &passphrase, DBUS_TYPE_INT32, &tmp_key_type, DBUS_TYPE_INVALID);
 	dbus_connection_send (connection, reply, NULL);
 	dbus_message_unref (reply);
-}
-
-
-/*
- * nmi_dbus_signal_update_scan_method
- *
- * Signal NetworkManager that it needs to update its wireless scanning method
- *
- */
-void nmi_dbus_signal_update_scan_method (DBusConnection *connection)
-{
-	DBusMessage		*message;
-
-	g_return_if_fail (connection != NULL);
-
-	message = dbus_message_new_signal (NMI_DBUS_PATH, NMI_DBUS_INTERFACE, "WirelessScanMethodUpdate");
-	if (!message)
-	{
-		nm_warning ("nmi_dbus_signal_update_scan_method(): Not enough memory for new dbus message!");
-		return;
-	}
-
-	if (!dbus_connection_send (connection, message, NULL))
-		nm_warning ("nmi_dbus_signal_update_scan_method(): Could not raise the 'WirelessScanMethodUpdate' signal!");
-
-	dbus_message_unref (message);
-}
-
-
-/*
- * nmi_dbus_get_wireless_scan_method
- *
- * Tell NetworkManager what wireless scanning method it should use
- *
- */
-static DBusMessage *nmi_dbus_get_wireless_scan_method (NMWirelessApplet *applet, DBusMessage *message)
-{
-	DBusMessage *			reply = NULL;
-	NMWirelessScanMethod	method = NM_SCAN_METHOD_ALWAYS;
-	GConfEntry *			entry;
-
-	g_return_val_if_fail (applet != NULL, NULL);
-	g_return_val_if_fail (message != NULL, NULL);
-
-	method = nmwa_gconf_get_wireless_scan_method (applet);
-	reply = dbus_message_new_method_return (message);
-	dbus_message_append_args (reply, DBUS_TYPE_UINT32, &method, DBUS_TYPE_INVALID);
-
-	return (reply);
 }
 
 
@@ -315,43 +382,6 @@ static DBusMessage *nmi_dbus_get_networks (NMWirelessApplet *applet, DBusMessage
 	}
 
 	return (reply_message);
-}
-
-
-/*
- * nmi_dbus_get_network_key
- *
- * Grab the network's key from the keyring.
- *
- */
-static char *nmi_dbus_get_network_key (NMWirelessApplet *applet, WirelessNetwork *net)
-{
-	GnomeKeyringResult	ret;
-	GList *			found_list = NULL;
-	char *			key = NULL;
-	const char *		essid;
-
-	g_return_val_if_fail (applet != NULL, NULL);
-	g_return_val_if_fail (net != NULL, NULL);
-
-	essid = wireless_network_get_essid (net);
-	g_return_val_if_fail (essid != NULL, NULL);
-
-	/* Get the essid key, if any, from the keyring */
-	ret = gnome_keyring_find_itemsv_sync (GNOME_KEYRING_ITEM_GENERIC_SECRET,
-								   &found_list,
-								   "essid",
-								   GNOME_KEYRING_ATTRIBUTE_TYPE_STRING,
-								   essid,
-								   NULL);
-	if (ret == GNOME_KEYRING_RESULT_OK)
-	{
-		GnomeKeyringFound *found = found_list->data;
-		key = g_strdup (found->secret);
-		gnome_keyring_found_list_free (found_list);
-	}
-
-	return key;
 }
 
 
@@ -687,7 +717,7 @@ static DBusMessage *nmi_dbus_get_vpn_connection_properties (NMWirelessApplet *ap
 	}
 	else
 	{
-		DBusMessageIter 		iter, array_iter;
+		DBusMessageIter 		iter;
 
 		reply = dbus_message_new_method_return (message);
 		dbus_message_iter_init_append (reply, &iter);
@@ -907,8 +937,8 @@ static void nmi_save_network_info (NMWirelessApplet *applet, const char *essid, 
 										   &item_id);
 			if (ret != GNOME_KEYRING_RESULT_OK)
 				g_warning ("Error saving passphrase in keyring.  Ret=%d", ret);
-			else
-				gnome_keyring_attribute_list_free (attributes);
+
+			gnome_keyring_attribute_list_free (attributes);
 		}
 
 		gconf_entry_unref (gconf_entry);
@@ -951,16 +981,12 @@ static void nmi_save_network_info (NMWirelessApplet *applet, const char *essid, 
  */
 static void nmi_dbus_update_network_info (NMWirelessApplet *applet, DBusMessage *message)
 {
-	DBusMessage *		reply_message = NULL;
 	char *			network = NULL;
 	NMDeviceAuthMethod	auth_method = NM_DEVICE_AUTH_METHOD_UNKNOWN;
 	char *			enc_key_source = NULL;
 	int				enc_key_type = -1;
-	char *			key;
 	gboolean			user_requested;
-	GConfValue *		value;
 	DBusError			error;
-	char *			escaped_network;
 	dbus_bool_t		args_good;
 
 	g_return_if_fail (applet != NULL);
@@ -1084,12 +1110,13 @@ static DBusMessage *nmi_dbus_add_network_address (NMWirelessApplet *applet, DBus
  */
 DBusHandlerResult nmi_dbus_info_message_handler (DBusConnection *connection, DBusMessage *message, void *user_data)
 {
-	const char *		method;
-	const char *		path;
-	NMWirelessApplet *	applet = (NMWirelessApplet *)user_data;
-	DBusMessage *		reply = NULL;
+	const char *method;
+	const char *path;
+	NMWirelessApplet *applet = (NMWirelessApplet *)user_data;
+	DBusMessage *reply = NULL;
+	gboolean handled = TRUE;
 
-	g_return_val_if_fail (applet != NULL, DBUS_HANDLER_RESULT_HANDLED);
+	g_return_val_if_fail (applet != NULL, DBUS_HANDLER_RESULT_NOT_YET_HANDLED);
 
 	method = dbus_message_get_member (message);
 	path = dbus_message_get_path (message);
@@ -1109,21 +1136,19 @@ DBusHandlerResult nmi_dbus_info_message_handler (DBusConnection *connection, DBu
 		dbus_error_init (&error);
 		if (dbus_message_get_args (message, &error, DBUS_TYPE_STRING, &network, DBUS_TYPE_INVALID))
 		{
-			GtkDialog	*dialog;
+			GtkWidget	*dialog;
 			char		*text;
 
 			dbus_error_free (&error);
 			text = g_strdup_printf (_("The requested wireless network '%s' does not appear to be in range.  "
 								 "A different wireless network will be used if any are available."), network);
 
-			dialog = GTK_DIALOG (gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, text, NULL));
-			gtk_dialog_run (dialog);
-			gtk_widget_destroy (GTK_WIDGET (dialog));
+			dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, text, NULL);
+			gtk_window_present (GTK_WINDOW (dialog));
+			g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
 		}
 	}
 #endif
-	else if (strcmp ("getWirelessScanMethod", method) == 0)
-		reply = nmi_dbus_get_wireless_scan_method (applet, message);
 	else if (strcmp ("getNetworks", method) == 0)
 		reply = nmi_dbus_get_networks (applet, message);
 	else if (strcmp ("getNetworkProperties", method) == 0)
@@ -1140,6 +1165,8 @@ DBusHandlerResult nmi_dbus_info_message_handler (DBusConnection *connection, DBu
 		reply = nmi_dbus_get_vpn_connection_vpn_data (applet, message);
 	else if (strcmp ("getVPNConnectionRoutes", method) == 0)
 		reply = nmi_dbus_get_vpn_connection_routes (applet, message);
+	else
+		handled = FALSE;
 
 	if (reply)
 	{
@@ -1147,6 +1174,24 @@ DBusHandlerResult nmi_dbus_info_message_handler (DBusConnection *connection, DBu
 		dbus_message_unref (reply);
 	}
 
-	return (DBUS_HANDLER_RESULT_HANDLED);
+	return (handled ? DBUS_HANDLER_RESULT_HANDLED : DBUS_HANDLER_RESULT_NOT_YET_HANDLED);
 }
 
+void nmi_dbus_signal_user_interface_activated (DBusConnection *connection)
+{
+	DBusMessage		*message;
+
+	g_return_if_fail (connection != NULL);
+
+	message = dbus_message_new_signal (NMI_DBUS_PATH, NMI_DBUS_INTERFACE, "UserInterfaceActivated");
+	if (!message)
+	{
+		nm_warning ("nmi_dbus_signal_user_interface_activated(): Not enough memory for new dbus message!");
+		return;
+	}
+
+	if (!dbus_connection_send (connection, message, NULL))
+		nm_warning ("nmi_dbus_signal_user_interface_activated(): Could not raise the 'UserInterfaceActivated' signal!");
+
+	dbus_message_unref (message);
+}

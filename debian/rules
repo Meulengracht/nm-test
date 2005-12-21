@@ -29,13 +29,10 @@ ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 	INSTALL_PROGRAM += -s
 endif
 
-configure: autogen.sh
-	./autogen.sh --noconfigure || true 
-
-config.status: configure
+config.status: 
 	dh_testdir
 	# Add here commands to configure the package.
-	CFLAGS="$(CFLAGS)" ./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info --with-dbus-sys=/etc/dbus-1/system.d --sysconfdir=/etc --libexecdir=/usr/bin --localstatedir=/var/run --with-named=/usr/sbin/named --with-named-user=bind --with-named-dir=/var/lib/NetworkManager --with-dhcdbd=/sbin/dhcdbd
+	CFLAGS="$(CFLAGS)" ./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info --with-dbus-sys=/etc/dbus-1/system.d --sysconfdir=/etc --libexecdir=/usr/bin --localstatedir=/var/run --without-named --with-dhcdbd=/sbin/dhcdbd --with-distro=debian
 
 
 #Architecture 
@@ -80,7 +77,7 @@ install-arch:
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
 
 	install -m 755 debian/network-manager.dbus-event debian/network-manager/etc/dbus-1/event.d/25NetworkManager
-	install -m 755 debian/network-manager-dispatcher.dbus-event debian/network-manager/etc/dbus-1/event.d/26NetworkManagerDispatcher
+	install -m 755 debian/network-manager-dispatcher.dbus-event debian/network-manager/etc/dbus-1/event.d/25NetworkManagerDispatcher
 	mkdir -p -m 755 debian/network-manager/etc/NetworkManager/dispatcher.d
 	install -m 644 debian/nm-applet.conf debian/network-manager/etc/dbus-1/system.d/nm-applet.conf
 	install -m 644 debian/network-manager.dbus-conf debian/network-manager/etc/dbus-1/system.d/NetworkManager.conf

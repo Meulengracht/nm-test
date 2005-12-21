@@ -32,19 +32,25 @@
  */
 struct NetworkDevice
 {
-	int					refcount;
-	char *				iface;
-	char *				desc;
-	char *				nm_path;
-	NMDeviceType			type;
-	gboolean				active;
-	gboolean				link;
-	NMDriverSupportLevel	driver_support_level;
-	char *				addr;
-	char *				udi;
-	gint					strength;
-	GSList *				networks;
-	NMActStage			act_stage;
+	int			refcount;
+	char *		iface;
+	char *		desc;
+	char *		nm_path;
+	NMDeviceType	type;
+	gboolean		active;
+	gboolean		link;
+	guint32		caps;
+	char *		addr;
+	char *		ip4addr;
+	char *		broadcast;
+	char *		netmask;
+	char *		udi;
+	char *		route;
+	char *		primary_dns;
+	char *		secondary_dns;
+	gint			strength;
+	GSList *		networks;
+	NMActStage	act_stage;
 };
 
 
@@ -56,15 +62,12 @@ struct NetworkDevice
  */
 NetworkDevice *network_device_new (const char *iface, NMDeviceType type, const char *nm_path)
 {
-	NetworkDevice *dev = NULL;
+	NetworkDevice *dev = g_malloc0 (sizeof (NetworkDevice));
 
-	if ((dev = g_malloc0 (sizeof (NetworkDevice))))
-	{
-		dev->refcount = 1;
-		dev->iface = g_strdup (iface);
-		dev->type = type;
-		dev->nm_path = g_strdup (nm_path);
-	}
+	dev->refcount = 1;
+	dev->iface = g_strdup (iface);
+	dev->type = type;
+	dev->nm_path = g_strdup (nm_path);
 
 	return dev;
 }
@@ -80,35 +83,37 @@ NetworkDevice *network_device_new (const char *iface, NMDeviceType type, const c
  */
 NetworkDevice *network_device_copy (NetworkDevice *src)
 {
-	NetworkDevice *dev = NULL;
+	NetworkDevice	*dev;
+	GSList		*elt;
 
 	g_return_val_if_fail (src != NULL, NULL);
 
-	if ((dev = g_malloc0 (sizeof (NetworkDevice))))
+	dev = g_malloc0 (sizeof (NetworkDevice));
+
+	network_device_ref (dev);
+	dev->nm_path = g_strdup (src->nm_path);
+	dev->type = src->type;
+	dev->link = src->link;
+	dev->addr = g_strdup (src->addr);
+	dev->ip4addr = g_strdup (src->ip4addr);
+	dev->broadcast = g_strdup (src->broadcast);
+	dev->netmask = g_strdup (src->netmask);
+	dev->caps = src->caps;
+	dev->iface = g_strdup (src->iface);
+	dev->desc = g_strdup (src->desc);
+	dev->route = g_strdup (src->route);
+	dev->udi = g_strdup (src->udi);
+	dev->active = src->active;
+	dev->act_stage = src->act_stage;
+	dev->strength = src->strength;
+
+	for (elt = src->networks; elt; elt = g_slist_next (elt))
 	{
-		GSList	*elt;
-
-		network_device_ref (dev);
-		dev->nm_path = g_strdup (src->nm_path);
-		dev->type = src->type;
-		dev->link = src->link;
-		dev->addr = g_strdup (src->addr);
-		dev->driver_support_level = src->driver_support_level;
-		dev->iface = g_strdup (src->iface);
-		dev->desc = g_strdup (src->desc);
-		dev->udi = g_strdup (src->udi);
-		dev->active = src->active;
-		dev->act_stage = src->act_stage;
-		dev->strength = src->strength;
-
-		for (elt = src->networks; elt; elt = g_slist_next (elt))
+		WirelessNetwork *net = (WirelessNetwork *)elt->data;
+		if (net)
 		{
-			WirelessNetwork *net = (WirelessNetwork *)elt->data;
-			if (net)
-			{
-				WirelessNetwork *copy = wireless_network_copy (net);
-				dev->networks = g_slist_append (dev->networks, copy);
-			}
+			WirelessNetwork *copy = wireless_network_copy (net);
+			dev->networks = g_slist_append (dev->networks, copy);
 		}
 	}
 
@@ -147,11 +152,15 @@ void network_device_unref (NetworkDevice *dev)
 			network_device_clear_wireless_networks (dev);
 		g_free (dev->nm_path);
 		g_free (dev->iface);
+		g_free (dev->route);
 		g_free (dev->udi);
 		g_free (dev->desc);
 		g_free (dev->addr);
-		g_free (dev);
+		g_free (dev->broadcast);
+		g_free (dev->netmask);
+		g_free (dev->ip4addr);
 		memset (dev, 0, sizeof (NetworkDevice));
+		g_free (dev);
 	}
 }
 
@@ -405,29 +414,139 @@ void network_device_set_address (NetworkDevice *dev, const char *addr)
 	g_return_if_fail (dev != NULL);
 
 	if (dev->addr)
-	{
 		g_free (dev->addr);
-		dev->addr = NULL;
-	}
-	if (addr)
-		dev->addr = g_strdup (addr);
+	dev->addr = addr ? g_strdup (addr) : NULL;
 }
 
 /*
- * Accessors for driver support level
+ * Accessors for broadcast address
  */
-NMDriverSupportLevel network_device_get_driver_support_level (NetworkDevice *dev)
+const char *network_device_get_broadcast (NetworkDevice *dev)
 {
-	g_return_val_if_fail (dev != NULL, NM_DRIVER_UNSUPPORTED);
+	g_return_val_if_fail (dev != NULL, NULL);
 
-	return (dev->driver_support_level);
+	return (dev->broadcast);
 }
 
-void network_device_set_driver_support_level (NetworkDevice *dev, NMDriverSupportLevel level)
+void network_device_set_broadcast (NetworkDevice *dev, const char *addr)
 {
 	g_return_if_fail (dev != NULL);
 
-	dev->driver_support_level = level;
+	if (dev->broadcast)
+		g_free (dev->broadcast);
+	dev->broadcast = addr ? g_strdup (addr) : NULL;
+}
+
+/*
+ * Accessors for subnet address
+ */
+const char *network_device_get_netmask (NetworkDevice *dev)
+{
+	g_return_val_if_fail (dev != NULL, NULL);
+
+	return (dev->netmask);
+}
+
+void network_device_set_netmask (NetworkDevice *dev, const char *addr)
+{
+	g_return_if_fail (dev != NULL);
+
+	if (dev->netmask)
+		g_free (dev->netmask);
+	dev->netmask = addr ? g_strdup (addr) : NULL;
+}
+
+/*
+ * Accessors for ip4 address
+ */
+const char *network_device_get_ip4_address (NetworkDevice *dev)
+{
+	g_return_val_if_fail (dev != NULL, NULL);
+
+	return (dev->ip4addr);
+}
+
+void network_device_set_ip4_address (NetworkDevice *dev, const char *addr)
+{
+	g_return_if_fail (dev != NULL);
+
+	if (dev->ip4addr)
+		g_free (dev->ip4addr);
+	dev->ip4addr = addr ? g_strdup (addr) : NULL;
+}
+
+/*
+ * Accessors for default route
+ */
+const char *network_device_get_route (NetworkDevice *dev)
+{
+	g_return_val_if_fail (dev != NULL, NULL);
+
+	return (dev->route);
+}
+
+void network_device_set_route (NetworkDevice *dev, const char *route)
+{
+	g_return_if_fail (dev != NULL);
+
+	if (dev->route)
+		g_free (dev->route);
+	dev->route = route ? g_strdup (route) : NULL;
+}
+
+/*
+ * Accessors for primary DNS
+ */
+const char *network_device_get_primary_dns (NetworkDevice *dev)
+{
+	g_return_val_if_fail (dev != NULL, NULL);
+
+	return (dev->primary_dns);
+}
+
+void network_device_set_primary_dns (NetworkDevice *dev, const char *dns)
+{
+	g_return_if_fail (dev != NULL);
+
+	if (dev->primary_dns)
+		g_free (dev->primary_dns);
+	dev->primary_dns = dns ? g_strdup (dns) : NULL;
+}
+
+/*
+ * Accessors for secondary DNS
+ */
+const char *network_device_get_secondary_dns (NetworkDevice *dev)
+{
+	g_return_val_if_fail (dev != NULL, NULL);
+
+	return (dev->secondary_dns);
+}
+
+void network_device_set_secondary_dns (NetworkDevice *dev, const char *dns)
+{
+	g_return_if_fail (dev != NULL);
+
+	if (dev->secondary_dns)
+		g_free (dev->secondary_dns);
+	dev->secondary_dns = dns ? g_strdup (dns) : NULL;
+}
+
+/*
+ * Accessors for device capabilities
+ */
+guint32 network_device_get_capabilities (NetworkDevice *dev)
+{
+	g_return_val_if_fail (dev != NULL, NM_DEVICE_CAP_NONE);
+
+	return dev->caps;
+}
+
+void network_device_set_capabilities (NetworkDevice *dev, guint32 caps)
+{
+	g_return_if_fail (dev != NULL);
+
+	dev->caps = caps;
 }
 
 /*

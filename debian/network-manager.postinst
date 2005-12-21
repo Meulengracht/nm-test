@@ -7,11 +7,11 @@ case "$1" in
       mv /etc/dbus-1/event.d/zz99NetworkManager /etc/dbus-1/event.d/zz99NetworkManager.disabled
     fi
 
-    if [ -x /etc/init.d/dbus ]; then
-      invoke-rc.d dbus restart || true
-    fi
-    if [ -x /usr/bin/gtk-update-icon-cache ]; then
-      /usr/bin/gtk-update-icon-cache -f /usr/share/icons/hicolor/
+    if [ -x /usr/bin/dbus-send ]; then
+		/usr/bin/dbus-send --system --type=method_call \
+        	--dest=org.freedesktop.DBus / org.freedesktop.DBus.ReloadConfig
+		/etc/dbus-1/event.d/25NetworkManager restart
+		/etc/dbus-1/event.d/25NetworkManagerDispatcher restart
     fi
     ;;
 esac

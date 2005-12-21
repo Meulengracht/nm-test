@@ -63,37 +63,23 @@ static DBusMessage *nm_dbus_nm_get_devices (DBusConnection *connection, DBusMess
 		return NULL;
 
 	dbus_message_iter_init_append (reply, &iter);
-	/* Iterate over device list and grab index of "active device" */
 	if (nm_try_acquire_mutex (data->data->dev_list_mutex, __FUNCTION__))
 	{
 		GSList	*elt;
-		gboolean	 appended = FALSE;
 
 		dbus_message_iter_open_container (&iter, DBUS_TYPE_ARRAY, DBUS_TYPE_OBJECT_PATH_AS_STRING, &iter_array);
-
 		for (elt = data->data->dev_list; elt; elt = g_slist_next (elt))
 		{
 			NMDevice	*dev = (NMDevice *)(elt->data);
 
-			if (dev && (nm_device_get_driver_support_level (dev) != NM_DRIVER_UNSUPPORTED))
+			if (dev)
 			{
 				char *op = nm_dbus_get_object_path_for_device (dev);
 
 				dbus_message_iter_append_basic (&iter_array, DBUS_TYPE_OBJECT_PATH, &op);
 				g_free (op);
-				appended = TRUE;
 			}
 		}
-
-		/* If by some chance there is a device list, but it has no devices in it
-		 * (something which should never happen), die.
-		 */
-		if (!appended)
-		{
-			nm_warning ("Device list existed, but no devices were in it.");
-			g_assert_not_reached ();
-		}
-
 		dbus_message_iter_close_container (&iter, &iter_array);
 		nm_unlock_mutex (data->data->dev_list_mutex, __FUNCTION__);
 	}
@@ -203,7 +189,6 @@ static DBusMessage *nm_dbus_nm_set_active_device (DBusConnection *connection, DB
 	char *			essid = NULL;
 	char *			key = NULL;
 	int				key_type = -1;
-	NMActRequest *		req = NULL;
 	NMAccessPoint *	ap = NULL;
 
 	g_return_val_if_fail (connection != NULL, NULL);
@@ -230,7 +215,7 @@ static DBusMessage *nm_dbus_nm_set_active_device (DBusConnection *connection, DB
 	dev_path = nm_dbus_unescape_object_path (dev_path);
 	dev = nm_dbus_get_device_from_object_path (data->data, dev_path);
 	g_free (dev_path);
-	if (!dev || (nm_device_get_driver_support_level (dev) == NM_DRIVER_UNSUPPORTED))
+	if (!dev || !(nm_device_get_capabilities (dev) & NM_DEVICE_CAP_NM_SUPPORTED))
 	{
 		reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, "DeviceNotFound",
 						"The requested network device does not exist.");
@@ -294,7 +279,7 @@ static DBusMessage *nm_dbus_nm_create_wireless_network (DBusConnection *connecti
 	dev_path = nm_dbus_unescape_object_path (dev_path);
 	dev = nm_dbus_get_device_from_object_path (data->data, dev_path);
 	g_free (dev_path);
-	if (!dev || (nm_device_get_driver_support_level (dev) == NM_DRIVER_UNSUPPORTED))
+	if (!dev || !(nm_device_get_capabilities (dev) & NM_DEVICE_CAP_NM_SUPPORTED))
 	{
 		reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, "DeviceNotFound",
 						"The requested network device does not exist.");
@@ -386,7 +371,7 @@ static DBusMessage *nm_dbus_nm_remove_test_device (DBusConnection *connection, D
 		if ((dev = nm_dbus_get_device_from_object_path (data->data, dev_path)))
 		{
 			if (nm_device_is_test_device (dev))
-				nm_remove_device_from_list (data->data, nm_device_get_udi (dev));
+				nm_remove_device (data->data, dev);
 			else
 				reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, "NotTestDevice",
 							"Only test devices can be removed via dbus calls.");
@@ -409,19 +394,6 @@ static DBusMessage *nm_dbus_nm_remove_test_device (DBusConnection *connection, D
 		dbus_error_free (&err);
 
 	return (reply);
-}
-
-
-static DBusMessage *nm_dbus_nm_get_wireless_scan_method (DBusConnection *connection, DBusMessage *message, NMDbusCBData *data)
-{
-	DBusMessage	*reply = NULL;
-
-	g_return_val_if_fail (data && data->data && connection && message, NULL);
-
-	if ((reply = dbus_message_new_method_return (message)))
-		dbus_message_append_args (reply, DBUS_TYPE_UINT32, &data->data->scanning_method, DBUS_TYPE_INVALID);
-	
-	return reply;
 }
 
 static DBusMessage *nm_dbus_nm_set_wireless_enabled (DBusConnection *connection, DBusMessage *message, NMDbusCBData *data)
@@ -476,7 +448,6 @@ static DBusMessage *nm_dbus_nm_get_wireless_enabled (DBusConnection *connection,
 
 static DBusMessage *nm_dbus_nm_sleep (DBusConnection *connection, DBusMessage *message, NMDbusCBData *data)
 {
-	GSList	*elt;
 	NMData	*app_data;
 
 	g_return_val_if_fail (data && data->data && connection && message, NULL);
@@ -484,27 +455,29 @@ static DBusMessage *nm_dbus_nm_sleep (DBusConnection *connection, DBusMessage *m
 	app_data = data->data;
 	if (app_data->asleep == FALSE)
 	{
+		GSList *elt;
+
 		nm_info ("Going to sleep.");
 
 		app_data->asleep = TRUE;
+		/* Not using nm_schedule_state_change_signal_broadcast() here
+		 * because we want the signal to go out ASAP.
+		 */
+		nm_dbus_signal_state_change (connection, app_data);
 
-		/* Physically down all devices */
+		/* Remove all devices from the device list */
 		nm_lock_mutex (app_data->dev_list_mutex, __FUNCTION__);
 		for (elt = app_data->dev_list; elt; elt = g_slist_next (elt))
 		{
-			NMDevice	*dev = (NMDevice *)(elt->data);
-
-			nm_device_deactivate (dev);
-			nm_device_bring_down (dev);
+			NMDevice *dev = (NMDevice *)(elt->data);
+			nm_device_set_removed (dev, TRUE);
+			nm_device_deactivate_quickly (dev);
 		}
 		nm_unlock_mutex (app_data->dev_list_mutex, __FUNCTION__);
 
 		nm_lock_mutex (app_data->dialup_list_mutex, __FUNCTION__);
 		nm_system_deactivate_all_dialup (app_data->dialup_list);
 		nm_unlock_mutex (app_data->dialup_list_mutex, __FUNCTION__);
-
-		nm_schedule_state_change_signal_broadcast (app_data);
-		nm_policy_schedule_device_change_check (data->data);
 	}
 
 	return NULL;
@@ -512,7 +485,6 @@ static DBusMessage *nm_dbus_nm_sleep (DBusConnection *connection, DBusMessage *m
 
 static DBusMessage *nm_dbus_nm_wake (DBusConnection *connection, DBusMessage *message, NMDbusCBData *data)
 {
-	GSList	*elt;
 	NMData	*app_data;
 
 	g_return_val_if_fail (data && data->data && connection && message, NULL);
@@ -523,15 +495,13 @@ static DBusMessage *nm_dbus_nm_wake (DBusConnection *connection, DBusMessage *me
 		nm_info  ("Waking up from sleep.");
 		app_data->asleep = FALSE;
 
-		/* Physically up all devices */
+		/* Remove all devices from the device list */
 		nm_lock_mutex (app_data->dev_list_mutex, __FUNCTION__);
-		for (elt = app_data->dev_list; elt; elt = g_slist_next (elt))
-		{
-			NMDevice *dev = (NMDevice *)(elt->data);
-
-			nm_device_bring_up (dev);
-		}
+		while (g_slist_length (app_data->dev_list))
+			nm_remove_device (app_data, (NMDevice *)(app_data->dev_list->data));
 		nm_unlock_mutex (app_data->dev_list_mutex, __FUNCTION__);
+
+		nm_add_initial_devices (app_data);
 
 		nm_schedule_state_change_signal_broadcast (app_data);
 		nm_policy_schedule_device_change_check (data->data);
@@ -570,7 +540,6 @@ NMDbusMethodList *nm_dbus_nm_methods_setup (void)
 	nm_dbus_method_list_add_method (list, "activateDialup",		nm_dbus_nm_activate_dialup);
 	nm_dbus_method_list_add_method (list, "setActiveDevice",		nm_dbus_nm_set_active_device);
 	nm_dbus_method_list_add_method (list, "createWirelessNetwork",	nm_dbus_nm_create_wireless_network);
-	nm_dbus_method_list_add_method (list, "getWirelessScanMethod",	nm_dbus_nm_get_wireless_scan_method);
 	nm_dbus_method_list_add_method (list, "setWirelessEnabled",		nm_dbus_nm_set_wireless_enabled);
 	nm_dbus_method_list_add_method (list, "getWirelessEnabled",		nm_dbus_nm_get_wireless_enabled);
 	nm_dbus_method_list_add_method (list, "sleep",				nm_dbus_nm_sleep);

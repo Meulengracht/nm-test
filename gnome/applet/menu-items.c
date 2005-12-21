@@ -53,8 +53,6 @@ NMWiredMenuItem *wired_menu_item_new (void)
 {
 	NMWiredMenuItem	*item = g_malloc0 (sizeof (NMWiredMenuItem));
 
-	g_return_val_if_fail (item != NULL, NULL);
-
 	item->check_item = GTK_CHECK_MENU_ITEM (gtk_check_menu_item_new ());
 	item->label = GTK_LABEL (gtk_label_new (NULL));
 	gtk_misc_set_alignment (GTK_MISC (item->label), 0.0, 0.5);
@@ -96,7 +94,7 @@ void wired_menu_item_update (NMWiredMenuItem *item, NetworkDevice *dev, const gi
 	/* Only dim the item if the device supports carrier detection AND
 	 * we know it doesn't have a link.
 	 */
-	if (network_device_get_driver_support_level (dev) != NM_DRIVER_NO_CARRIER_DETECT)
+	if (network_device_get_capabilities (dev) & NM_DEVICE_CAP_CARRIER_DETECT)
 		gtk_widget_set_sensitive (GTK_WIDGET (item->check_item), network_device_get_link (dev));
 }
 
@@ -123,8 +121,6 @@ static gboolean label_expose (GtkWidget *widget)
 NMWirelessMenuItem *wireless_menu_item_new (void)
 {
 	NMWirelessMenuItem	*item = g_malloc0 (sizeof (NMWirelessMenuItem));
-
-	g_return_val_if_fail (item != NULL, NULL);
 
 	item->menu_item = GTK_MENU_ITEM (gtk_menu_item_new ());
 
@@ -193,8 +189,6 @@ NMNetworkMenuItem *network_menu_item_new (GtkSizeGroup *encryption_size_group)
 	PangoContext *context;
 	PangoLanguage *lang;
 	int ascent;	
-
-	g_return_val_if_fail (item != NULL, NULL);
 
 	item->check_item = GTK_CHECK_MENU_ITEM (gtk_check_menu_item_new ());
 	gtk_check_menu_item_set_draw_as_radio (item->check_item, TRUE);

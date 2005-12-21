@@ -44,14 +44,14 @@ struct libnm_glib_ctx
 
 	GSList *			callbacks;
 	GMutex *			callbacks_lock;
-	gint				callback_id_last;
+	guint				callback_id_last;
 
 	libnm_glib_state	nm_state;
 };
 
 typedef struct libnm_glib_callback
 {
-	gint					id;
+	guint					id;
 	GMainContext *			gmain_ctx;
 	libnm_glib_ctx *		libnm_glib_ctx;
 	libnm_glib_callback_func	func;
@@ -134,6 +134,17 @@ static void libnm_glib_schedule_single_callback (libnm_glib_ctx *ctx, libnm_glib
 	g_source_unref (source);
 }
 
+static void libnm_glib_unschedule_single_callback (libnm_glib_ctx *ctx, libnm_glib_callback *callback)
+{
+	GSource *source;
+
+	g_return_if_fail (ctx != NULL);
+	g_return_if_fail (callback != NULL);
+
+	source = g_main_context_find_source_by_user_data (callback->gmain_ctx, callback);
+	if (source)
+		g_source_destroy (source);
+}
 
 static void libnm_glib_call_callbacks (libnm_glib_ctx *ctx)
 {
@@ -411,9 +422,6 @@ static libnm_glib_ctx *libnm_glib_ctx_new (void)
 {
 	libnm_glib_ctx *ctx = g_malloc0 (sizeof (libnm_glib_ctx));
 
-	if (!ctx)
-		return NULL;
-
 	if (!(ctx->g_main_ctx = g_main_context_new ()))
 		goto error;
 	if (!(ctx->g_main_loop = g_main_loop_new (ctx->g_main_ctx, FALSE)))
@@ -421,7 +429,6 @@ static libnm_glib_ctx *libnm_glib_ctx_new (void)
 	if (!(ctx->callbacks_lock = g_mutex_new ()))
 		goto error;
 
-success:
 	return ctx;
 
 error:
@@ -462,7 +469,6 @@ libnm_glib_ctx *libnm_glib_init (void)
 	while (!ctx->thread_inited)
 		g_usleep (G_USEC_PER_SEC / 2);
 
-success:
 	return ctx;
 
 error:
@@ -492,18 +498,16 @@ libnm_glib_state libnm_glib_get_network_state (const libnm_glib_ctx *ctx)
 }
 
 
-gint libnm_glib_register_callback	(libnm_glib_ctx *ctx, libnm_glib_callback_func func, gpointer user_data, GMainContext *g_main_ctx)
+guint libnm_glib_register_callback	(libnm_glib_ctx *ctx, libnm_glib_callback_func func, gpointer user_data, GMainContext *g_main_ctx)
 {
 	libnm_glib_callback		*callback = NULL;
 
-	g_return_val_if_fail (ctx != NULL, -1);
-	g_return_val_if_fail (func != NULL, -1);
-	
-	callback = g_malloc0 (sizeof (libnm_glib_callback));
-	if (!callback)
-		return -1;
+	g_return_val_if_fail (ctx != NULL, 0);
+	g_return_val_if_fail (func != NULL, 0);
 
-	callback->id = ctx->callback_id_last++;
+	callback = g_malloc0 (sizeof (libnm_glib_callback));
+
+	callback->id = ++ (ctx->callback_id_last);
 	callback->func = func;
 	callback->gmain_ctx = g_main_ctx;
 	callback->libnm_glib_ctx = ctx;
@@ -518,12 +522,12 @@ gint libnm_glib_register_callback	(libnm_glib_ctx *ctx, libnm_glib_callback_func
 }
 
 
-void libnm_glib_unregister_callback (libnm_glib_ctx *ctx, gint id)
+void libnm_glib_unregister_callback (libnm_glib_ctx *ctx, guint id)
 {
 	GSList *elem;
 
 	g_return_if_fail (ctx != NULL);
-	g_return_if_fail (id < 0);
+	g_return_if_fail (id > 0);
 
 	g_mutex_lock (ctx->callbacks_lock);
 	elem = ctx->callbacks;
@@ -532,6 +536,7 @@ void libnm_glib_unregister_callback (libnm_glib_ctx *ctx, gint id)
 		libnm_glib_callback *callback = (libnm_glib_callback *)(elem->data);
 		if (callback && (callback->id == id))
 		{
+			libnm_glib_unschedule_single_callback (ctx, callback);
 			ctx->callbacks = g_slist_remove_link (ctx->callbacks, elem);
 			break;
 		}

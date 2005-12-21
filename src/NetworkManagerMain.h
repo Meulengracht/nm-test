@@ -46,6 +46,7 @@ typedef enum NMIntState
 
 typedef struct NMDbusMethodList NMDbusMethodList;
 typedef struct NMActRequest NMActRequest;
+typedef struct NMVPNActRequest NMVPNActRequest;
 typedef struct NMVPNManager NMVPNManager;
 typedef struct NMDHCPManager NMDHCPManager;
 
@@ -80,7 +81,6 @@ typedef struct NMData
 	GSList *				dev_list;
 	GMutex *				dev_list_mutex;
 
-	NMWirelessScanMethod	scanning_method;
 	gboolean				wireless_enabled;
 	gboolean				asleep;
 
@@ -97,7 +97,9 @@ struct NMDevice *	nm_get_active_device					(NMData *data);
 struct NMDevice *	nm_create_device_and_add_to_list			(NMData *data, const char *udi, const char *iface,
 														gboolean test_device, NMDeviceType test_device_type);
 
-void				nm_remove_device_from_list				(NMData *data, const char *udi);
+void				nm_add_initial_devices					(NMData *data);
+
+void				nm_remove_device						(NMData *data, struct NMDevice *dev);
 
 void				nm_schedule_state_change_signal_broadcast	(NMData *data);
 

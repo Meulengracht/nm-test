@@ -36,6 +36,7 @@
 #include "NetworkManagerAP.h"
 #include "NetworkManagerAPList.h"
 #include "NetworkManagerPolicy.h"
+#include "NetworkManagerWireless.h"
 #include "nm-dbus-nm.h"
 #include "nm-dbus-device.h"
 #include "nm-dbus-net.h"
@@ -349,7 +350,7 @@ void nm_dbus_signal_state_change (DBusConnection *connection, NMData *data)
  * Notifies the bus that a new wireless network has come into range
  *
  */
-void nm_dbus_signal_wireless_network_change (DBusConnection *connection, NMDevice *dev, NMAccessPoint *ap, NMNetworkStatus status, gint8 strength)
+void nm_dbus_signal_wireless_network_change (DBusConnection *connection, NMDevice *dev, NMAccessPoint *ap, NMNetworkStatus status, gint strength)
 {
 	DBusMessage *	message;
 	char *		dev_path = NULL;
@@ -408,6 +409,33 @@ out:
 }
 
 
+void nm_dbus_signal_device_strength_change (DBusConnection *connection, NMDevice *dev, gint strength)
+{
+	DBusMessage *	message;
+	char *		dev_path = NULL;
+
+	g_return_if_fail (connection != NULL);
+	g_return_if_fail (dev != NULL);
+
+	if (!(dev_path = nm_dbus_get_object_path_for_device (dev)))
+		goto out;
+
+	if (!(message = dbus_message_new_signal (NM_DBUS_PATH, NM_DBUS_INTERFACE, "DeviceStrengthChanged")))
+	{
+		nm_warning ("nm_dbus_signal_device_strength_change(): Not enough memory for new dbus message!");
+		goto out;
+	}
+
+	dbus_message_append_args (message, DBUS_TYPE_OBJECT_PATH, &dev_path, DBUS_TYPE_INT32, &strength, DBUS_TYPE_INVALID);
+	if (!dbus_connection_send (connection, message, NULL))
+		nm_warning ("nm_dbus_signal_device_strength_change(): Could not raise the DeviceStrengthChanged signal!");
+
+	dbus_message_unref (message);
+
+out:
+	g_free (dev_path);
+}
+
 /*
  * nm_dbus_get_user_key_for_network_cb
  *
@@ -448,16 +476,21 @@ static void nm_dbus_get_user_key_for_network_cb (DBusPendingCall *pcall, NMActRe
 
 	if (dbus_message_get_type (reply) == DBUS_MESSAGE_TYPE_ERROR)
 	{
-		/* FIXME: stop activation for this device if the dialog couldn't show */
-		dbus_message_unref (reply);
-		goto out;
+		/* FIXME: since we're not marking the device as invalid, its a fair bet
+		 * that NM will just try to reactivate the device again, and may fail
+		 * to get the user key in exactly the same way, which ends up right back
+		 * here...  ad nauseum.  Figure out how to deal with a failure here.
+		 */
+		nm_device_deactivate (dev);
+		nm_policy_schedule_device_change_check (data);
 	}
-
-	if (dbus_message_get_args (reply, NULL, DBUS_TYPE_STRING, &passphrase, DBUS_TYPE_INT32, &key_type, DBUS_TYPE_INVALID))
-		nm_device_set_user_key_for_network (req, passphrase, key_type);
+	else
+	{
+		if (dbus_message_get_args (reply, NULL, DBUS_TYPE_STRING, &passphrase, DBUS_TYPE_INT32, &key_type, DBUS_TYPE_INVALID))
+			nm_device_set_user_key_for_network (req, passphrase, key_type);
+		nm_act_request_set_user_key_pending_call (req, NULL);
+	}
 	dbus_message_unref (reply);
-
-	nm_act_request_set_user_key_pending_call (req, NULL);
 
 out:
 	nm_act_request_unref (req);
@@ -481,6 +514,7 @@ void nm_dbus_get_user_key_for_network (DBusConnection *connection, NMActRequest 
 	gint32			attempt = 1;
 	char *			dev_path;
 	char *			net_path;
+	char *			essid;
 
 	g_return_if_fail (connection != NULL);
 	g_return_if_fail (req != NULL);
@@ -494,7 +528,8 @@ void nm_dbus_get_user_key_for_network (DBusConnection *connection, NMActRequest 
 	ap = nm_act_request_get_ap (req);
 	g_assert (ap);
 
-	nm_info ("Activation (%s) New wireless user key requested for network '%s'.", nm_device_get_iface (dev), nm_ap_get_essid (ap));
+	essid = nm_ap_get_essid (ap);
+	nm_info ("Activation (%s) New wireless user key requested for network '%s'.", nm_device_get_iface (dev), essid);
 
 	if (!(message = dbus_message_new_method_call (NMI_DBUS_SERVICE, NMI_DBUS_PATH, NMI_DBUS_INTERFACE, "getKeyForNetwork")))
 	{
@@ -508,6 +543,7 @@ void nm_dbus_get_user_key_for_network (DBusConnection *connection, NMActRequest 
 	{
 		dbus_message_append_args (message, DBUS_TYPE_OBJECT_PATH, &dev_path,
 									DBUS_TYPE_OBJECT_PATH, &net_path,
+									DBUS_TYPE_STRING, &essid,
 									DBUS_TYPE_INT32, &attempt,
 									DBUS_TYPE_BOOLEAN, &new_key,
 									DBUS_TYPE_INVALID);
@@ -523,6 +559,11 @@ void nm_dbus_get_user_key_for_network (DBusConnection *connection, NMActRequest 
 	} else nm_warning ("nm_dbus_get_user_key_for_network(): bad object path data");
 	g_free (net_path);
 	g_free (dev_path);
+
+	/* FIXME: figure out how to deal with a failure here, otherwise
+	 * we just hang in the activation process and nothing happens
+	 * until the user cancels stuff.
+	 */
 
 	dbus_message_unref (message);
 }
@@ -553,74 +594,6 @@ void nm_dbus_cancel_get_user_key_for_network (DBusConnection *connection, NMActR
 
 	if (!dbus_connection_send (connection, message, NULL))
 		nm_warning ("nm_dbus_cancel_get_user_key_for_network(): could not send dbus message");
-
-	dbus_message_unref (message);
-}
-
-
-/*
- * nm_dbus_update_wireless_scan_method_cb
- *
- * Callback from nm_dbus_update_wireless_scan_method
- *
- */
-static void nm_dbus_update_wireless_scan_method_cb (DBusPendingCall *pcall, NMData *data)
-{
-	DBusMessage *			reply;
-	NMWirelessScanMethod	method = NM_SCAN_METHOD_UNKNOWN;
-
-	g_return_if_fail (pcall != NULL);
-	g_return_if_fail (data != NULL);
-
-	if (!dbus_pending_call_get_completed (pcall))
-		goto out;
-
-	if (!(reply = dbus_pending_call_steal_reply (pcall)))
-		goto out;
-
-	if (dbus_message_get_type (reply) == DBUS_MESSAGE_TYPE_ERROR)
-	{
-		dbus_message_unref (reply);
-		goto out;
-	}
-
-	if (dbus_message_get_args (reply, NULL, DBUS_TYPE_UINT32, &method, DBUS_TYPE_INVALID))
-	{
-		if ((method == NM_SCAN_METHOD_ALWAYS) || (method == NM_SCAN_METHOD_NEVER)
-				|| (method == NM_SCAN_METHOD_WHEN_UNASSOCIATED))
-			data->scanning_method = method;
-	}
-	dbus_message_unref (reply);
-
-out:
-	dbus_pending_call_unref (pcall);
-}
-
-
-/*
- * nm_dbus_update_wireless_scan_method
- *
- * Get the wireless scan method from NetworkManagerInfo
- *
- */
-void nm_dbus_update_wireless_scan_method (DBusConnection *connection, NMData *data)
-{
-	DBusMessage *		message = NULL;
-	DBusPendingCall *	pcall = NULL;
-
-	g_return_if_fail (connection != NULL);
-	g_return_if_fail (data != NULL);
-
-	if (!(message = dbus_message_new_method_call (NMI_DBUS_SERVICE, NMI_DBUS_PATH, NMI_DBUS_INTERFACE, "getWirelessScanMethod")))
-	{
-		nm_warning ("nm_dbus_update_wireless_scan_method(): Couldn't allocate the dbus message");
-		return;
-	}
-
-	if (dbus_connection_send_with_reply (connection, message, &pcall, INT_MAX) && pcall)
-		dbus_pending_call_set_notify (pcall, (DBusPendingCallNotifyFunction) nm_dbus_update_wireless_scan_method_cb, data, NULL);
-	else
-		nm_warning ("nm_dbus_update_wireless_scan_method(): could not send dbus message");
 
 	dbus_message_unref (message);
 }
@@ -772,7 +745,6 @@ static void nm_dbus_get_network_data_cb (DBusPendingCall *pcall, void *user_data
 	DBusError				error;
 	const char *			essid = NULL;
 	gint					timestamp_secs = -1;
-	const char *			key = NULL;
 	NMEncKeyType			key_type = -1;
 	gboolean				trusted = FALSE;
 	NMDeviceAuthMethod		auth_method = NM_DEVICE_AUTH_METHOD_UNKNOWN;
@@ -1057,8 +1029,11 @@ static DBusHandlerResult nm_dbus_signal_filter (DBusConnection *connection, DBus
 				handled = TRUE;
 			}
 		}
-		else if (dbus_message_is_signal (message, NMI_DBUS_INTERFACE, "WirelessScanMethodUpdate"))
-			nm_dbus_update_wireless_scan_method (data->dbus_connection, data);
+		else if (dbus_message_is_signal (message, NMI_DBUS_INTERFACE, "UserInterfaceActivated"))
+		{
+			nm_wireless_set_scan_interval (data, NULL, NM_WIRELESS_SCAN_INTERVAL_ACTIVE);
+			handled = TRUE;
+		}
 	}
 	else if (dbus_message_is_signal (message, DBUS_INTERFACE_DBUS, "Disconnected"))
 	{
@@ -1086,7 +1061,6 @@ static DBusHandlerResult nm_dbus_signal_filter (DBusConnection *connection, DBus
 					dbus_bus_add_match (connection, match, NULL);
 					nm_policy_schedule_allowed_ap_list_update (data);
 					nm_dbus_vpn_schedule_vpn_connections_update (data);
-					nm_dbus_update_wireless_scan_method (data->dbus_connection, data);
 					g_free (match);
 					handled = TRUE;
 				}
@@ -1105,27 +1079,17 @@ static DBusHandlerResult nm_dbus_signal_filter (DBusConnection *connection, DBus
 					nm_hal_deinit (data);
 			}
 			else if (nm_dhcp_manager_process_name_owner_changed (data->dhcp_manager, service, old_owner, new_owner) == TRUE)
-			{
-				/* Processed by the DHCP manager */
 				handled = TRUE;
-			}
 			else if (nm_vpn_manager_process_name_owner_changed (data->vpn_manager, service, old_owner, new_owner) == TRUE)
-			{
-				/* Processed by the VPN manager */
 				handled = TRUE;
-			}
+			else if (nm_named_manager_process_name_owner_changed (data->named_manager, service, old_owner, new_owner) == TRUE)
+				handled = TRUE;
 		}
 	}
 	else if (nm_dhcp_manager_process_signal (data->dhcp_manager, message) == TRUE)
-	{
-		/* Processed by the DHCP manager */
 		handled = TRUE;
-	}
 	else if (nm_vpn_manager_process_signal (data->vpn_manager, message) == TRUE)
-	{
-		/* Processed by the VPN manager */
 		handled = TRUE;
-	}
 
 	if (dbus_error_is_set (&error))
 		dbus_error_free (&error);

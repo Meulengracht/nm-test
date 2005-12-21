@@ -5,7 +5,7 @@
 #				connections to the best available connection.
 #				This file should be placed in /etc/init.d.
 #
-# Authors:	<j@bootlab.org>
+# Authors:	Jan Gerber <j@bootlab.org>
 #			Mark Roach <mrroach@okmaybe.com>
 #			Thom May <thom@debian.org>
 #
@@ -17,8 +17,9 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DESC="Network connection manager dispatcher daemon"
 NAME="NetworkManagerDispatcher"
 DAEMON=/usr/sbin/$NAME
-PIDFILE=/var/run/$NAME.pid
-SCRIPTNAME=/etc/dbus-1/event.d/$NAME
+PIDDIR=/var/run/NetworkManager
+PIDFILE=$PIDDIR/$NAME.pid
+SCRIPTNAME=/etc/dbus-1/event.d/25$NAME
 USER=root
 
 # Gracefully exit if the package has been removed.
@@ -33,17 +34,24 @@ test -f /etc/default/NetworkManagerDispatcher && . /etc/default/NetworkManagerDi
 #	Function that starts the daemon/service.
 #
 d_start() {
-        log_begin_msg "Starting $DESC: "
+        log_begin_msg "Starting $NAME"
+	if [ ! -d $PIDDIR ]; then
+		mkdir -p $PIDDIR
+		chown $USER:$USER $PIDDIR
+	fi
+
 	start-stop-daemon --start --quiet --pidfile $PIDFILE \
 		--user $USER --exec $DAEMON -- $DAEMON_OPTS
-        log_end_msg $?
+    RETVAL=$?
+	log_end_msg $RETVAL
+    [ $RETVAL -eq 0 ] && echo `/bin/pidof $NAME` > $PIDFILE
 }
 
 #
 #	Function that stops the daemon/service.
 #
 d_stop() {
-        log_begin_msg "Stopping $DESC: "
+        log_begin_msg "Stopping $NAME"
 	start-stop-daemon --stop --quiet --pidfile $PIDFILE \
 		 --oknodo --user $USER --exec $DAEMON
         log_end_msg $?

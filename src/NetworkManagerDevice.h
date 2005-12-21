@@ -34,6 +34,12 @@
 
 typedef struct NMDevice	NMDevice;
 
+typedef enum NMWirelessScanInterval
+{
+	NM_WIRELESS_SCAN_INTERVAL_INIT = 0,
+	NM_WIRELESS_SCAN_INTERVAL_ACTIVE,
+	NM_WIRELESS_SCAN_INTERVAL_INACTIVE
+} NMWirelessScanInterval;
 
 NMDevice *	nm_device_new					(const char *iface, const char *udi, gboolean test_device,
 											NMDeviceType test_dev_type, NMData *app_data);
@@ -49,8 +55,10 @@ void			nm_device_set_udi					(NMDevice *dev, const char *udi);
 
 const char *	nm_device_get_iface					(NMDevice *dev);
 
+const char *	nm_device_get_driver				(NMDevice *dev);
+
 NMDeviceType	nm_device_get_type					(NMDevice *dev);
-NMDriverSupportLevel	nm_device_get_driver_support_level	(NMDevice *dev);
+guint32		nm_device_get_capabilities			(NMDevice *dev);
 
 gboolean		nm_device_is_wireless				(NMDevice *dev);
 gboolean		nm_device_is_wired					(NMDevice *dev);
@@ -90,6 +98,8 @@ void			nm_device_update_signal_strength		(NMDevice *dev);
 
 NMAccessPoint *nm_device_get_best_ap				(NMDevice *dev);
 
+void			nm_device_set_wireless_scan_interval		(NMDevice *dev, NMWirelessScanInterval interval);
+
 /* There is no function to get the WEP key since that's a slight security risk */
 void			nm_device_set_enc_key				(NMDevice *dev, const char *key, NMDeviceAuthMethod auth_method);
 
@@ -100,6 +110,7 @@ void			nm_device_activate_schedule_stage4_ip_config_timeout	(NMActRequest *req);
 void			nm_device_activation_cancel						(NMDevice *dev);
 gboolean		nm_device_activation_should_cancel					(NMDevice *dev);
 gboolean		nm_device_is_activating							(NMDevice *dev);
+gboolean		nm_device_deactivate_quickly						(NMDevice *dev);
 gboolean		nm_device_deactivate							(NMDevice *dev);
 
 NMAccessPoint *nm_device_wireless_get_activation_ap	(NMDevice *dev, const char *essid, const char *key, NMEncKeyType key_type);

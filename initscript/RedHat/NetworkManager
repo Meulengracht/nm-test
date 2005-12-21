@@ -10,8 +10,14 @@
 # pidfile: /var/run/NetworkManager.pid
 #
 
+prefix=/usr
+exec_prefix=/usr
+bindir=${exec_prefix}/bin
+
+NETWORKMANAGER_BIN=${bindir}/NetworkManager
+
 # Sanity checks.
-[ -x /usr/bin/NetworkManager ] || exit 1
+[ -x $NETWORKMANAGER_BIN ] || exit 1
 
 # We need /sbin/ip
 [ -x /sbin/ip ] || exit 1
