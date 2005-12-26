@@ -1,3 +1,9 @@
+network-manager (0.5.1-0ubuntu6) dapper; urgency=low
+
+  * Really don't depend on bind9 being installed
+
+ -- Matthew Garrett <mjg59@srcf.ucam.org>  Mon, 26 Dec 2005 00:40:29 +0000
+
 network-manager (0.5.1-0ubuntu5) dapper; urgency=low
 
   * debian/control:

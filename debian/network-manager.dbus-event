@@ -50,7 +50,6 @@ d_start() {
 	modprobe capability >/dev/null 2>&1 || true
 
 	test -d /var/lib/NetworkManager || mkdir -p /var/lib/NetworkManager
-	chown -R bind:bind /var/lib/NetworkManager
 	chmod 755 /var/lib/NetworkManager
 
 	start-stop-daemon --start --quiet --pidfile $PIDFILE \
