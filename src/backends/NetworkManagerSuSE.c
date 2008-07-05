@@ -20,18 +20,39 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
  * (C) Copyright 2004 Red Hat, Inc.
- * (C) Copyright 2005 SuSE GmbH
+ * (C) Copyright 2005-2006 SuSE GmbH
  */
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <stdio.h>
 #include <sys/types.h>
 #include <signal.h>
 #include <sys/stat.h>
 #include <arpa/inet.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <string.h>
 
 #include "NetworkManagerSystem.h"
 #include "NetworkManagerUtils.h"
-#include "NetworkManagerDevice.h"
+#include "NetworkManagerMain.h"
+#include "nm-device.h"
+#include "nm-ap-security.h"
+#include "nm-ap-security-private.h"
+#include "nm-ap-security-wep.h"
+#include "nm-ap-security-wpa-psk.h"
+#include "NetworkManagerAPList.h"
+#include "NetworkManagerPolicy.h"
+#include "cipher.h"
+#include "cipher-wep-ascii.h"
+#include "cipher-wep-hex.h"
+#include "cipher-wep-passphrase.h"
+#include "cipher-wpa-psk-passphrase.h"
+#include "nm-device-802-3-ethernet.h"
+#include "nm-device-802-11-wireless.h"
 #include "NetworkManagerDialup.h"
 #include "nm-utils.h"
 #include "shvar.h"
@@ -80,7 +101,7 @@ void nm_system_device_flush_routes_with_iface (const char *iface)
 	g_return_if_fail (iface != NULL);
 
 	/* Remove routing table entries */
-	buf = g_strdup_printf ("/sbin/ip route flush dev %s", iface);
+	buf = g_strdup_printf (IP_BINARY_PATH " route flush dev %s", iface);
 	nm_spawn_process (buf);
 	g_free (buf);
 }
@@ -117,7 +138,7 @@ void nm_system_device_add_default_route_via_device_with_iface (const char *iface
 	g_return_if_fail (iface != NULL);
 
 	/* Add default gateway */
-	buf = g_strdup_printf ("/sbin/ip route add default dev %s", iface);
+	buf = g_strdup_printf (IP_BINARY_PATH " route add default dev %s", iface);
 	nm_spawn_process (buf);
 	g_free (buf);
 }
@@ -136,7 +157,7 @@ void nm_system_device_add_route_via_device_with_iface (const char *iface, const 
 	g_return_if_fail (iface != NULL);
 
 	/* Add default gateway */
-	buf = g_strdup_printf ("/sbin/ip route add %s dev %s", route, iface);
+	buf = g_strdup_printf (IP_BINARY_PATH " route add %s dev %s", route, iface);
 	nm_spawn_process (buf);
 	g_free (buf);
 }
@@ -186,7 +207,7 @@ void nm_system_device_flush_addresses_with_iface (const char *iface)
 	g_return_if_fail (iface != NULL);
 
 	/* Remove all IP addresses for a device */
-	buf = g_strdup_printf ("/sbin/ip addr flush dev %s", iface);
+	buf = g_strdup_printf (IP_BINARY_PATH " addr flush dev %s", iface);
 	nm_spawn_process (buf);
 	g_free (buf);
 }
@@ -200,8 +221,8 @@ void nm_system_device_flush_addresses_with_iface (const char *iface)
  */
 void nm_system_enable_loopback (void)
 {
-	nm_spawn_process ("/sbin/ip link set dev lo up");
-	nm_spawn_process ("/sbin/ip addr add 127.0.0.1/8 brd 127.255.255.255 dev lo scope host label loopback");
+	nm_system_device_set_up_down_with_iface ("lo", TRUE);
+	nm_spawn_process (IP_BINARY_PATH " addr add 127.0.0.1/8 brd 127.255.255.255 dev lo scope host label loopback");
 }
 
 
@@ -214,8 +235,7 @@ void nm_system_enable_loopback (void)
  */
 void nm_system_flush_loopback_routes (void)
 {
-	/* Remove routing table entries for lo */
-	nm_spawn_process ("/sbin/ip route flush dev lo");
+	nm_system_device_flush_routes_with_iface ("lo");
 }
 
 
@@ -227,7 +247,7 @@ void nm_system_flush_loopback_routes (void)
  */
 void nm_system_delete_default_route (void)
 {
-	nm_spawn_process ("/sbin/ip route del default");
+	nm_spawn_process (IP_BINARY_PATH " route del default");
 }
 
 
@@ -239,7 +259,7 @@ void nm_system_delete_default_route (void)
  */
 void nm_system_flush_arp_cache (void)
 {
-	nm_spawn_process ("/sbin/ip neigh flush all");
+	nm_spawn_process (IP_BINARY_PATH " neigh flush all");
 }
 
 
@@ -263,15 +283,8 @@ void nm_system_kill_all_dhcp_daemons (void)
  */
 void nm_system_update_dns (void)
 {
-#ifdef NM_NO_NAMED
-	if (nm_spawn_process (SYSCONFDIR"/init.d/nscd status") != 0)
-		nm_spawn_process (SYSCONFDIR"/init.d/nscd restart");
-
 	nm_info ("Clearing nscd hosts cache.");
 	nm_spawn_process ("/usr/sbin/nscd -i hosts");
-#else
-	nm_spawn_process ("/usr/bin/killall -q nscd");
-#endif
 }
 
 
@@ -316,7 +329,6 @@ void nm_system_device_add_ip6_link_address (NMDevice *dev)
 	unsigned char eui[8];
 
 	nm_device_get_hw_address (dev, &hw_addr);
-
 	memcpy (eui, &(hw_addr.ether_addr_octet), sizeof (hw_addr.ether_addr_octet));
 	memmove (eui+5, eui+3, 3);
 	eui[3] = 0xff;
@@ -324,7 +336,7 @@ void nm_system_device_add_ip6_link_address (NMDevice *dev)
 	eui[0] ^= 2;
 
 	/* Add the default link-local IPv6 address to a device */
-	buf = g_strdup_printf ("/sbin/ip -6 addr add fe80::%x%02x:%x%02x:%x%02x:%x%02x/64 dev %s",
+	buf = g_strdup_printf (IP_BINARY_PATH " -6 addr add fe80::%x%02x:%x%02x:%x%02x:%x%02x/64 dev %s",
 						eui[0], eui[1], eui[2], eui[3], eui[4], eui[5],
 						eui[6], eui[7], nm_device_get_iface (dev));
 	nm_spawn_process (buf);
@@ -332,11 +344,13 @@ void nm_system_device_add_ip6_link_address (NMDevice *dev)
 }
 
 
-typedef struct SuSESystemConfigData
+typedef struct SuSEDeviceConfigData
 {
 	NMIP4Config *	config;
 	gboolean		use_dhcp;
-} SuSESystemConfigData;
+	gboolean		system_disabled;
+	guint32		mtu;
+} SuSEDeviceConfigData;
 
 /*
  * set_ip4_config_from_resolv_conf
@@ -414,6 +428,38 @@ out:
 }
 
 
+static gboolean
+parse_netmask (const char *buf, guint32 *netmask)
+{
+	gboolean success = FALSE;
+
+	if (strstr (buf, ".")) {
+		struct in_addr addr;
+
+		if (inet_aton (buf, &addr)) {
+			*netmask = addr.s_addr;
+			success = TRUE;
+		}
+	} else {
+		int maskval;
+
+		maskval = atoi (buf);
+		if (maskval >= 0 && maskval <= 32) {
+			guint32 mask = 0;
+
+			while (maskval > 0) {
+				mask = (mask >> 1) + 0x80000000;
+				maskval--;
+			}
+
+			*netmask = htonl (mask);
+			success = TRUE;
+		}
+	}
+
+	return success;
+}
+
 /*
  * nm_system_device_get_system_config
  *
@@ -422,34 +468,32 @@ out:
  * SuSE stores this information in /etc/sysconfig/network/ifcfg-*-<MAC address>
  *
  */
-void *nm_system_device_get_system_config (NMDevice *dev)
+void *nm_system_device_get_system_config (NMDevice *dev, NMData *app_data)
 {
 	char *cfg_file_path = NULL;
 	char mac[18];
 	struct stat statbuf;
 	shvarFile *file;
 	char *buf = NULL;
-	SuSESystemConfigData *sys_data = NULL;
-	struct ether_addr addr;
+	SuSEDeviceConfigData *sys_data = NULL;
+	struct ether_addr hw_addr;
 	FILE *f = NULL;
 	char buffer[512];
 	gboolean error = FALSE;
-	unsigned int i;
-	int len;
+	int i, len;
 	struct in_addr temp_addr;
 	char *ip_str;
 
 	g_return_val_if_fail (dev != NULL, NULL);
 
-	sys_data = g_malloc0 (sizeof (SuSESystemConfigData));
+	sys_data = g_malloc0 (sizeof (SuSEDeviceConfigData));
 	sys_data->use_dhcp = TRUE;
 
-	memset (&addr, 0, sizeof(addr));
-	nm_device_get_hw_address (dev, &addr);
+	nm_device_get_hw_address (dev, &hw_addr);
 	sprintf (mac, "%02x:%02x:%02x:%02x:%02x:%02x",
-			addr.ether_addr_octet[0], addr.ether_addr_octet[1],
-			addr.ether_addr_octet[2], addr.ether_addr_octet[3],
-			addr.ether_addr_octet[4], addr.ether_addr_octet[5]);
+			hw_addr.ether_addr_octet[0], hw_addr.ether_addr_octet[1],
+			hw_addr.ether_addr_octet[2], hw_addr.ether_addr_octet[3],
+			hw_addr.ether_addr_octet[4], hw_addr.ether_addr_octet[5]);
 	cfg_file_path = g_strdup_printf (SYSCONFDIR"/sysconfig/network/ifcfg-eth-id-%s", mac);
 	if (!cfg_file_path)
 		return sys_data;
@@ -474,7 +518,7 @@ void *nm_system_device_get_system_config (NMDevice *dev)
 	return sys_data;
 
 found:
-	nm_debug ("found config %s for if %s", cfg_file_path, nm_device_get_iface (dev));
+	nm_debug ("found config '%s' for interface '%s'", cfg_file_path, nm_device_get_iface (dev));
 	if (!(file = svNewFile (cfg_file_path)))
 	{
 		g_free (cfg_file_path);
@@ -490,26 +534,216 @@ found:
 		free (buf);
 	}
 
-	sys_data->config = nm_ip4_config_new ();
-
-	if (!(sys_data->use_dhcp))
+	if ((buf = svGetValue (file, "NM_CONTROLLED")))
 	{
-		if ((buf = svGetValue (file, "IPADDR")))
+		nm_debug ("NM_CONTROLLED=%s", buf);
+		if (!strcasecmp (buf, "no"))
 		{
-			nm_ip4_config_set_address (sys_data->config, inet_addr (buf));
-			free (buf);
+			nm_info ("System configuration disables device %s", nm_device_get_iface (dev));
+			sys_data->system_disabled = TRUE;
+		}
+		free (buf);
+	}
+
+	if ((buf = svGetValue (file, "MTU")))
+	{
+		guint32 mtu;
+
+		errno = 0;
+		mtu = strtoul (buf, NULL, 10);
+		if (!errno && mtu > 500 && mtu < INT_MAX)
+			sys_data->mtu = mtu;
+		free (buf);
+	}
+
+	if ((buf = svGetValue (file, "WIRELESS_ESSID")) && strlen (buf) > 1)
+	{
+		NMAccessPoint *	ap;
+		NMAccessPoint *	list_ap;
+		char *			key;
+		char *			mode;
+
+		ap = nm_ap_new ();
+		nm_ap_set_essid (ap, buf);
+		nm_ap_set_timestamp (ap, time (NULL), 0);
+		nm_ap_set_trusted (ap, TRUE);
+
+		if ((mode = svGetValue (file, "WIRELESS_AUTH_MODE")) && !strcmp (mode, "psk"))
+		{
+			if ((key = svGetValue (file, "WIRELESS_WPA_PSK")))
+			{
+				IEEE_802_11_Cipher *	cipher;
+				NMAPSecurityWPA_PSK *	security;
+				char *				hash;
+
+				cipher = cipher_wpa_psk_passphrase_new ();
+				nm_ap_set_capabilities (ap, NM_802_11_CAP_PROTO_WPA);
+				security = nm_ap_security_wpa_psk_new_from_ap (ap, NM_AUTH_TYPE_WPA_PSK_AUTO);
+				hash = ieee_802_11_cipher_hash (cipher, buf, key);
+				if (hash)
+				{
+					nm_ap_security_set_key (NM_AP_SECURITY (security), hash, strlen (hash));
+					nm_ap_set_security (ap, NM_AP_SECURITY (security));
+				}
+
+				ieee_802_11_cipher_unref (cipher);
+				g_object_unref (G_OBJECT (security));
+			}
+		}
+		else if ((key = svGetValue (file, "WIRELESS_KEY_0")) && strlen (key) > 3)
+		{
+			IEEE_802_11_Cipher *	cipher;
+			NMAPSecurityWEP *		security;
+			char *				key_type;
+			char *				hash;
+			char *				real_key;
+
+			key_type = svGetValue (file, "WIRELESS_KEY_LENGTH");
+			if (key_type && strcmp (key_type, "128") != 0)
+			{
+				if (key[0] == 'h' && key[1] == ':')
+				{
+					cipher = cipher_wep64_passphrase_new ();
+					real_key = key + 2;
+				}
+				else if (key[0] == 's' && key[1] == ':')
+				{
+					cipher = cipher_wep64_ascii_new ();
+					real_key = key + 2;
+				}
+				else
+				{
+					cipher = cipher_wep64_hex_new ();
+					real_key = key;
+				}
+				security = nm_ap_security_wep_new_from_ap (ap, IW_AUTH_CIPHER_WEP40);
+			}
+			else
+			{
+				if (key[0] == 'h' && key[1] == ':')
+				{
+					cipher = cipher_wep128_passphrase_new ();
+					real_key = key + 2;
+				}
+				else if (key[0] == 's' && key[1] == ':')
+				{
+					cipher = cipher_wep128_ascii_new ();
+					real_key = key + 2;
+				}
+				else
+				{
+					char **keyv;
+
+					cipher = cipher_wep128_hex_new ();
+
+					keyv = g_strsplit (key, "-", 0);
+					real_key = g_strjoinv (NULL, keyv);
+					g_strfreev (keyv);
+				}
+				security = nm_ap_security_wep_new_from_ap (ap, IW_AUTH_CIPHER_WEP104);
+			}
+			hash = ieee_802_11_cipher_hash (cipher, buf, real_key);
+			if (hash)
+			{
+				nm_ap_security_set_key (NM_AP_SECURITY (security), hash, strlen (hash));
+				nm_ap_set_security (ap, NM_AP_SECURITY (security));
+			}
+
+			ieee_802_11_cipher_unref (cipher);
+			g_object_unref (G_OBJECT (security));
+
+			free (key_type);
 		}
 		else
 		{
-			nm_warning ("Network configuration for device '%s' was invalid (non-DHCP configuration, "
-						"but no IP address specified.  Will use DHCP instead.", nm_device_get_iface (dev));
+			NMAPSecurity *	security;
+
+			security = nm_ap_security_new (IW_AUTH_CIPHER_NONE);
+			nm_ap_set_security (ap, security);
+			g_object_unref (G_OBJECT (security));
+		}
+
+		if ((list_ap = nm_ap_list_get_ap_by_essid (app_data->allowed_ap_list, buf)))
+		{
+			nm_ap_set_essid (list_ap, nm_ap_get_essid (ap));
+			nm_ap_set_timestamp_via_timestamp (list_ap, nm_ap_get_timestamp (ap));
+			nm_ap_set_trusted (list_ap, nm_ap_get_trusted (ap));
+			nm_ap_set_security (list_ap, nm_ap_get_security (ap));
+		}
+		else
+		{
+			/* New AP, just add it to the list */
+			nm_ap_list_append_ap (app_data->allowed_ap_list, ap);
+		}
+		nm_ap_unref (ap);
+
+		nm_debug ("Adding '%s' to the list of trusted networks", buf);
+
+		/* Ensure all devices get new information copied into their device lists */
+		nm_policy_schedule_device_ap_lists_update_from_allowed (app_data);
+
+		free (key);
+		free (mode);
+		free (buf);
+	}
+	else if (buf)
+		g_free (buf);
+
+	sys_data->config = nm_ip4_config_new ();
+
+	if (!sys_data->use_dhcp || sys_data->system_disabled)
+	{
+		buf = svGetValue (file, "IPADDR");
+		if (buf)
+		{
+			char **pieces;
+			char *ip_str = NULL;
+			char *netmask_str = NULL;
+
+			pieces = g_strsplit (buf, "/", 0);
+			if (g_strv_length (pieces) == 1) {
+				ip_str = buf;
+			} else if (g_strv_length (pieces) == 2) {
+				ip_str = pieces[0];
+				netmask_str = pieces[1];
+			} else
+				error = TRUE;
+
+			if (!error && ip_str) {
+				struct in_addr ip;
+
+				if (inet_aton (ip_str, &ip))
+					nm_ip4_config_set_address (sys_data->config, ip.s_addr);
+				else
+					error = TRUE;
+			}
+
+			if (!error && netmask_str) {
+				guint32 netmask;
+
+				if (parse_netmask (netmask_str, &netmask))
+					nm_ip4_config_set_netmask (sys_data->config, netmask);
+				else
+					error = TRUE;
+			}
+
+			g_strfreev (pieces);
+			free (buf);
+		}
+		else
 			error = TRUE;
+
+		if (error)
+		{
+			nm_warning ("Network configuration for device '%s' was invalid: Non-DHCP configuration, "
+					  "but no IP address specified.  Will use DHCP instead.", nm_device_get_iface (dev));
 			goto out;
 		}
 
 		if ((buf = svGetValue (file, "NETMASK")))
 		{
-			nm_ip4_config_set_netmask (sys_data->config, inet_addr (buf));
+			if (nm_ip4_config_get_netmask (sys_data->config) == 0)
+				nm_ip4_config_set_netmask (sys_data->config, inet_addr (buf));
 			free (buf);
 		}
 		else
@@ -537,6 +771,8 @@ found:
 			nm_ip4_config_set_broadcast (sys_data->config, broadcast);
 		}
 
+		nm_ip4_config_set_mtu (sys_data->config, sys_data->mtu);
+
 		buf = NULL;
 		if ((f = fopen (SYSCONFDIR"/sysconfig/network/routes", "r")))
 		{
@@ -554,12 +790,8 @@ found:
 			fclose (f);
 		}
 		if (!buf)
-		{
-			nm_warning ("Network configuration for device '%s' was invalid (non-DHCP configuration, "
-						"but no gateway specified.  Will use DHCP instead.", nm_device_get_iface (dev));
-			error = TRUE;
-			goto out;
-		}
+			nm_info ("Network configuration for device '%s' does not specify a gateway but is "
+				 "statically configured (non-DHCP).", nm_device_get_iface (dev));
 
 		set_ip4_config_from_resolv_conf (SYSCONFDIR"/resolv.conf", sys_data->config);
 	}
@@ -594,6 +826,9 @@ out:
 	nm_debug ("mask=%s", ip_str);
 	g_free (ip_str);
 
+	if (sys_data->mtu)
+		nm_debug ("mtu=%u", sys_data->mtu);
+
 	len = nm_ip4_config_get_num_nameservers (sys_data->config);
 	for (i = 0; i < len; i++)
 	{
@@ -618,7 +853,7 @@ out:
  */
 void nm_system_device_free_system_config (NMDevice *dev, void *system_config_data)
 {
-	SuSESystemConfigData *sys_data = (SuSESystemConfigData *)system_config_data;
+	SuSEDeviceConfigData *sys_data = (SuSEDeviceConfigData *)system_config_data;
 
 	g_return_if_fail (dev != NULL);
 
@@ -627,6 +862,8 @@ void nm_system_device_free_system_config (NMDevice *dev, void *system_config_dat
 
 	if (sys_data->config)
 		nm_ip4_config_unref (sys_data->config);
+
+	g_free (sys_data);
 }
 
 
@@ -639,20 +876,39 @@ void nm_system_device_free_system_config (NMDevice *dev, void *system_config_dat
  */
 gboolean nm_system_device_get_use_dhcp (NMDevice *dev)
 {
-	SuSESystemConfigData *sys_data;
+	SuSEDeviceConfigData *sys_data;
 
-	g_return_val_if_fail (dev != NULL, TRUE);
+	g_return_val_if_fail (dev != NULL, FALSE);
 
 	if ((sys_data = nm_device_get_system_config_data (dev)))
 		return sys_data->use_dhcp;
 
-	return TRUE;
+	return FALSE;
+}
+
+
+/*
+ * nm_system_device_get_disabled
+ *
+ * Return whether the distribution has flagged this device as disabled.
+ *
+ */
+gboolean nm_system_device_get_disabled (NMDevice *dev)
+{
+	SuSEDeviceConfigData *sys_data;
+
+	g_return_val_if_fail (dev != NULL, FALSE);
+
+	if ((sys_data = nm_device_get_system_config_data (dev)))
+		return sys_data->system_disabled;
+
+	return FALSE;
 }
 
 
 NMIP4Config *nm_system_device_new_ip4_system_config (NMDevice *dev)
 {
-	SuSESystemConfigData *sys_data;
+	SuSEDeviceConfigData *sys_data;
 	NMIP4Config *new_config = NULL;
 
 	g_return_val_if_fail (dev != NULL, NULL);
@@ -673,10 +929,51 @@ void nm_system_deactivate_all_dialup (GSList *list)
 		NMDialUpConfig *config = (NMDialUpConfig *) elt->data;
 		char *cmd;
 
+		if (config->type == NM_DIALUP_TYPE_ISDN)
+		{
+			cmd = g_strdup_printf ("/sbin/isdnctrl hangup %s", (char *) config->data);
+			nm_spawn_process (cmd);
+			g_free (cmd);
+		}
+
 		cmd = g_strdup_printf ("/sbin/ifdown %s", (char *) config->data);
 		nm_spawn_process (cmd);
 		g_free (cmd);
 	}
+}
+
+
+gboolean nm_system_deactivate_dialup (GSList *list, const char *dialup)
+{
+	GSList *elt;
+	gboolean ret = FALSE;
+
+	for (elt = list; elt; elt = g_slist_next (elt))
+	{
+		NMDialUpConfig *config = (NMDialUpConfig *) elt->data;
+		if (strcmp (dialup, config->name) == 0)
+		{
+			char *cmd;
+
+			nm_info ("Deactivating dialup device %s (%s) ...", dialup, (char *) config->data);
+
+			cmd = g_strdup_printf ("/sbin/ifdown %s", (char *) config->data);
+			nm_spawn_process (cmd);
+			g_free (cmd);
+
+			if (config->type == NM_DIALUP_TYPE_ISDN)
+			{
+				cmd = g_strdup_printf ("/sbin/isdnctrl hangup %s", (char *) config->data);
+				nm_spawn_process (cmd);
+				g_free (cmd);
+			}
+
+			ret = TRUE;
+			break;
+		}
+	}
+
+	return ret;
 }
 
 
@@ -693,9 +990,18 @@ gboolean nm_system_activate_dialup (GSList *list, const char *dialup)
 			char *cmd;
 
 			nm_info ("Activating dialup device %s (%s) ...", dialup, (char *) config->data);
+
 			cmd = g_strdup_printf ("/sbin/ifup %s", (char *) config->data);
 			nm_spawn_process (cmd);
 			g_free (cmd);
+
+			if (config->type == NM_DIALUP_TYPE_ISDN)
+			{
+				cmd = g_strdup_printf ("/sbin/isdnctrl dial %s", (char *) config->data);
+				nm_spawn_process (cmd);
+				g_free (cmd);
+			}
+
 			ret = TRUE;
 			break;
 		}
@@ -727,7 +1033,8 @@ static char * verify_and_return_provider (const char *provider)
 		goto out_close;
 	ret = strcmp (buf, "no");
 	free (buf);
-	if (ret) {
+	if (ret)
+	{
 		buf = NULL;
 		goto out_close;
 	}
@@ -769,13 +1076,15 @@ GSList * nm_system_get_dialup_config (void)
 		NMDialUpConfig *config;
 		shvarFile *modem_file;
 		char *name, *buf, *provider_name;
-		int modem;
+		int type;
 
 		/* we only want modems and isdn */
 		if (g_str_has_prefix (dentry, "ifcfg-modem"))
-			modem = 1;
+			type = NM_DIALUP_TYPE_MODEM;
 		else if (g_str_has_prefix (dentry, "ifcfg-ippp"))
-			modem = 0;
+			type = NM_DIALUP_TYPE_ISDN;
+		else if (g_str_has_prefix (dentry, "ifcfg-dsl"))
+			type = NM_DIALUP_TYPE_DSL;
 		else
 			continue;
 
@@ -794,11 +1103,22 @@ GSList * nm_system_get_dialup_config (void)
 			 goto out_free;
 
 		config = g_malloc (sizeof (NMDialUpConfig));
-		if (modem)
-			config->name = g_strdup_printf ("%s via Modem", provider_name);
-		else
-			config->name = g_strdup_printf ("%s via ISDN", provider_name);
 		config->data = g_strdup (dentry + 6); /* skip the "ifcfg-" prefix */
+		if (type == NM_DIALUP_TYPE_MODEM)
+		{
+			config->name = g_strdup_printf ("%s via modem (%s)", provider_name, (char *) config->data);
+			config->type = NM_DIALUP_TYPE_MODEM;
+		}
+		else if (type == NM_DIALUP_TYPE_ISDN)
+		{
+			config->name = g_strdup_printf ("%s via ISDN (%s)", provider_name, (char *) config->data);
+			config->type = NM_DIALUP_TYPE_ISDN;
+		}
+		else if (type == NM_DIALUP_TYPE_DSL)
+		{
+			config->name = g_strdup_printf ("%s via DSL (%s)", provider_name, (char *) config->data);
+			config->type = NM_DIALUP_TYPE_DSL;
+		}
 
 		list = g_slist_append (list, config);
 
@@ -816,4 +1136,202 @@ out_gfree:
 	g_dir_close (dir);
 
 	return list;
+}
+
+
+/*
+ * nm_system_activate_nis
+ *
+ * set up the nis domain and write a yp.conf
+ *
+ */
+void nm_system_activate_nis (NMIP4Config *config)
+{
+	shvarFile *file;
+	const char *nis_domain;
+	char *name, *buf;
+	struct in_addr	temp_addr;
+	int i;
+	FILE *ypconf = NULL;
+
+	g_return_if_fail (config != NULL);
+
+	nis_domain = nm_ip4_config_get_nis_domain(config);
+
+	name = g_strdup_printf (SYSCONFDIR"/sysconfig/network/dhcp");
+	file = svNewFile (name);
+	if (!file)
+		goto out_gfree;
+
+	buf = svGetValue (file, "DHCLIENT_SET_DOMAINNAME");
+	if (!buf)
+		goto out_close;
+
+	if ((!strcmp (buf, "yes")) && nis_domain && (setdomainname (nis_domain, strlen (nis_domain)) < 0))
+			nm_warning ("Could not set nis domain name.");
+	free (buf);
+
+	buf = svGetValue (file, "DHCLIENT_MODIFY_NIS_CONF");
+	if (!buf)
+		goto out_close;
+
+	if (!strcmp (buf, "yes")) {
+		int num_nis_servers;
+
+		num_nis_servers = nm_ip4_config_get_num_nis_servers(config);
+		if (num_nis_servers > 0)
+		{
+			struct stat sb;
+
+			/* write out yp.conf and restart the daemon */
+
+			ypconf = fopen ("/etc/yp.conf", "w");
+
+			if (ypconf)
+			{
+				fprintf (ypconf, "# generated by NetworkManager, do not edit!\n\n");
+				for (i = 0; i < num_nis_servers; i++) {
+					temp_addr.s_addr = nm_ip4_config_get_nis_server (config, i);
+					fprintf (ypconf, "domain %s server %s\n", nis_domain, inet_ntoa (temp_addr));
+				}
+				fprintf (ypconf, "\n");
+				fclose (ypconf);
+			} else
+				nm_warning ("Could not commit NIS changes to /etc/yp.conf.");
+
+			if (stat ("/usr/sbin/rcautofs", &sb) != -1)
+			{
+				nm_info ("Restarting autofs.");
+				nm_spawn_process ("/usr/sbin/rcautofs reload");
+			}
+		}
+	}
+	free (buf);
+
+out_close:
+	svCloseFile (file);
+out_gfree:
+	g_free (name);
+}
+
+
+/*
+ * nm_system_shutdown_nis
+ *
+ * shutdown ypbind
+ *
+ */
+void nm_system_shutdown_nis (void)
+{
+}
+
+
+/*
+ * nm_system_set_hostname
+ *
+ * set the hostname
+ *
+ */
+void nm_system_set_hostname (NMIP4Config *config)
+{
+	char *filename, *h_name = NULL, *buf;
+	shvarFile *file;
+
+	g_return_if_fail (config != NULL);
+
+	filename = g_strdup_printf (SYSCONFDIR"/sysconfig/network/dhcp");
+	file = svNewFile (filename);
+	if (!file)
+		goto out_gfree;
+
+	buf = svGetValue (file, "DHCLIENT_SET_HOSTNAME");
+	if (!buf)
+		goto out_close;
+
+	if (!strcmp (buf, "yes")) 
+	{
+		const char *hostname;
+
+		hostname = nm_ip4_config_get_hostname (config);
+		if (!hostname)
+		{
+			struct in_addr temp_addr;
+			struct hostent *host;
+
+			/* try to get hostname via dns */
+			temp_addr.s_addr = nm_ip4_config_get_address (config);
+			host = gethostbyaddr ((char *) &temp_addr, sizeof (temp_addr), AF_INET);
+			if (host)
+			{
+				h_name = g_strdup (host->h_name);
+				hostname = strtok (h_name, ".");
+			}
+			else
+				nm_warning ("nm_system_set_hostname(): gethostbyaddr failed, h_errno = %d", h_errno);
+		}
+
+		if (hostname)
+		{
+			nm_info ("Setting hostname to '%s'", hostname);
+			if (sethostname (hostname, strlen (hostname)) < 0)
+				nm_warning ("Could not set hostname.");
+		}
+	}
+
+	g_free (h_name);
+	free (buf);
+out_close:
+	svCloseFile (file);
+out_gfree:
+	g_free (filename);
+}
+
+/*
+ * nm_system_should_modify_resolv_conf
+ *
+ * Can NM update resolv.conf, or is it locked down?
+ */
+gboolean nm_system_should_modify_resolv_conf (void)
+{
+	char *name, *buf;
+	shvarFile *file;
+	gboolean ret = TRUE;
+
+	name = g_strdup_printf (SYSCONFDIR"/sysconfig/network/dhcp");
+	file = svNewFile (name);
+	if (!file)
+		goto out_gfree;
+
+	buf = svGetValue (file, "DHCLIENT_MODIFY_RESOLV_CONF");
+	if (!buf)
+		goto out_close;
+
+	if (strcmp (buf, "no") == 0)
+		ret = FALSE;
+
+	free (buf);
+out_close:
+	svCloseFile (file);
+out_gfree:
+	g_free (name);
+
+	return ret;
+}
+
+
+/*
+ * nm_system_get_mtu
+ *
+ * Return a user-provided or system-mandated MTU for this device or zero if
+ * no such MTU is provided.
+ */
+guint32 nm_system_get_mtu (NMDevice *dev)
+{
+	SuSEDeviceConfigData *	sys_data;
+
+	sys_data = nm_device_get_system_config_data (dev);
+	if (!sys_data)
+		return 0;
+
+	return sys_data->mtu;
 }

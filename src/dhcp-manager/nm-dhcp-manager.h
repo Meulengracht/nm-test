@@ -22,7 +22,32 @@
 #define NM_DHCP_MANAGER_H
 
 #include "NetworkManagerMain.h"
-#include "NetworkManagerDevice.h"
+#include "nm-device.h"
+
+/*
+ * FIXME: These should go in a header shared by NetworkManager and dhcdbd,
+ * but right now NetworkManager and dhcdbd do not share any header.  The
+ * following is copied (and cleaned up) from dhcdbd.h.
+ */
+enum dhcdbd_state
+{
+	DHCDBD_NBI=0,		/* no broadcast interfaces found */
+	DHCDBD_PREINIT,	/* configuration started */
+	DHCDBD_BOUND,		/* lease obtained */
+	DHCDBD_RENEW,		/* lease renewed */
+	DHCDBD_REBOOT,		/* have valid lease, but now obtained a different one */
+	DHCDBD_REBIND,		/* new, different lease */
+	DHCDBD_STOP,		/* remove old lease */
+	DHCDBD_MEDIUM,		/* media selection begun */
+	DHCDBD_TIMEOUT,	/* timed out contacting DHCP server */
+	DHCDBD_FAIL,		/* all attempts to contact server timed out, sleeping */
+	DHCDBD_EXPIRE,		/* lease has expired, renewing */
+	DHCDBD_RELEASE,	/* releasing lease */
+	DHCDBD_START,		/* sent when dhclient started OK */
+	DHCDBD_ABEND,		/* dhclient exited abnormally */
+	DHCDBD_END,		/* dhclient exited normally */
+	DHCDBD_END_OPTIONS,	/* last option in subscription sent */
+};
 
 char *			get_dhcp_match_string					(const char *owner);
 
@@ -37,6 +62,6 @@ NMIP4Config *		nm_dhcp_manager_get_ip4_config			(NMDHCPManager *manager, NMActRe
 gboolean			nm_dhcp_manager_process_signal			(NMDHCPManager *manager, DBusMessage *message);
 gboolean			nm_dhcp_manager_process_name_owner_changed	(NMDHCPManager *manager, const char *changed_service_name, const char *old_owner, const char *new_owner);
 
-guint8			nm_dhcp_manager_get_state_for_device		(NMDHCPManager *manager, NMDevice *dev);
+guint32			nm_dhcp_manager_get_state_for_device		(NMDHCPManager *manager, NMDevice *dev);
 
 #endif

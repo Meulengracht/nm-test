@@ -32,7 +32,7 @@
 
 #include "NetworkManager.h"
 #include "NetworkManagerMain.h"
-#include "NetworkManagerDevice.h"
+#include "nm-device.h"
 
 typedef enum SockType
 {
@@ -57,6 +57,7 @@ void			nm_print_open_socks				(void);
 int			nm_null_safe_strcmp				(const char *s1, const char *s2);
 
 gboolean		nm_ethernet_address_is_valid		(const struct ether_addr *test_addr);
+gboolean		nm_ethernet_addresses_are_equal	(const struct ether_addr *a, const struct ether_addr *b);
 
 int			nm_spawn_process				(const char *args);
 
@@ -100,6 +101,21 @@ gboolean nm_completion_boolean_function2_test(int tries,
 		nm_completion_args args);
 #define nm_completion_boolean_function_test nm_completion_boolean_function1_test
 
-gchar* nm_utils_inet_ip4_address_as_string (guint32 ip);
+gchar*			nm_utils_inet_ip4_address_as_string (guint32 ip);
+
+struct nl_addr *	nm_utils_ip4_addr_to_nl_addr (guint32 ip4_addr);
+
+int				nm_utils_ip4_netmask_to_prefix (guint32 ip4_netmask);
+
+char *			nm_utils_supplicant_request (struct wpa_ctrl *ctrl,
+										const char *format,
+										...);
+
+gboolean			nm_utils_supplicant_request_with_check (struct wpa_ctrl *ctrl,
+										const char *expected,
+										const char *func,
+										const char *alt_cmd_for_err_msg,
+										const char *format,
+										...);
 
 #endif

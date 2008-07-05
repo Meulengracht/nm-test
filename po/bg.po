@@ -1,0 +1,240 @@
+# Bulgarian translation of NetworkManager po-file
+# Copyright (C) 2005, 2007 Free Software Foundation, Inc.
+# This file is distributed under the same license as the NetworkManager package.
+# Alexander Shopov <ash@contact.bg>, 2005, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: NetworkManager\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-03-07 07:56+0200\n"
+"PO-Revision-Date: 2007-03-07 07:56+0200\n"
+"Last-Translator: Alexander Shopov <ash@contact.bg>\n"
+"Language-Team: Bulgarian <dict@fsa-bg.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:405
+msgid "Cannot add VPN connection"
+msgstr "Не може да се добави връзка към ВЧМ"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:407
+msgid ""
+"No suitable VPN software was found on your system. Contact your system "
+"administrator."
+msgstr ""
+"Не е открит подходящ софтуер за ВЧМ. Свържете се със системния администратор."
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:457
+msgid "Cannot import VPN connection"
+msgstr "Връзката към ВЧМ не може да се внесе"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:459
+#, c-format
+msgid ""
+"Cannot find suitable software for VPN connection type '%s' to import the "
+"file '%s'. Contact your system administrator."
+msgstr ""
+"Файлът „%2$s“ не може да се внесе, защото не може да се открие подходящ "
+"софтуер за връзка към ВЧМ от вида „%1$s“. Свържете се със системния "
+"администратор."
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:596
+#, c-format
+msgid "Error retrieving VPN connection '%s'"
+msgstr "Грешка при получаване на информация за връзката към ВЧМ „%s“"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:599
+#, c-format
+msgid ""
+"Could not find the UI files for VPN connection type '%s'. Contact your "
+"system administrator."
+msgstr ""
+"Файловете с описание на графичния интерфейс за връзки към ВЧМ от вида „%s“ "
+"не могат да бъдат открити. Свържете се със системния администратор."
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:746
+#, c-format
+msgid "Delete VPN connection \"%s\"?"
+msgstr "Да се изтрие ли връзката към ВЧМ „%s“?"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:749
+#, c-format
+msgid ""
+"All information about the VPN connection \"%s\" will be lost and you may "
+"need your system administrator to provide information to create a new "
+"connection."
+msgstr ""
+"Цялата информация за връзката към ВЧМ „%s“ ще бъде изтрита и може да се "
+"наложи да я искате наново от системния администратор, ако искате да я "
+"създадете наново."
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:963
+msgid "Unable to load"
+msgstr "Неуспех при зареждане"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:965
+msgid "Cannot find some needed resources (the glade file)!"
+msgstr "Някои ресурси не бяха открити (файлът на glade)!"
+
+#. Edit dialog
+#: ../gnome/vpn-properties/nm-vpn-properties.c:1084
+msgid "Edit VPN Connection"
+msgstr "Редактиране на връзка към ВЧМ"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:1
+msgid "Add a new VPN connection"
+msgstr "Добавяне на нова връзка към ВЧМ"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:2
+msgid "Choose which type of VPN connection you wish to create."
+msgstr "Изберете вида на ВЧМ, към която искате да създадете връзка."
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:3
+msgid "Connect to:"
+msgstr "Свързване към:"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:4
+msgid "Create VPN Connection"
+msgstr "Създаване на връзка към ВЧМ"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:5
+msgid "Create VPN Connection - 1 of 2"
+msgstr "Създаване на връзка към ВЧМ - 1 от 2"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:6
+msgid "Create VPN Connection - 2 of 2"
+msgstr "Създаване на връзка към ВЧМ - 2 от 2"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:7
+msgid "Delete the selected VPN connection"
+msgstr "Изтриване на избраната връзка към ВЧМ"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:8
+msgid "E_xport"
+msgstr "_Изнасяне"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:9
+msgid "Edit the selected VPN connection"
+msgstr "Редактиране на избраната връзка към ВЧМ"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:10
+msgid "Export the VPN settings to a file"
+msgstr "Изнасяне на настройките за ВЧМ във файл"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:11
+msgid "Export the selected VPN connection to a file"
+msgstr "Изнасяне на избраната връзка към ВЧМ във файл"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:12
+msgid "Finish Creating VPN Connection"
+msgstr "Завършване на създаването на връзка към ВЧМ"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:13
+msgid "Manage Virtual Private Network Connections"
+msgstr "Управление на връзките към ВЧМ"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:14
+msgid ""
+"This assistant will guide you through the creation of a connection to a "
+"Virtual Private Network (VPN).\n"
+"\n"
+"It will require some information, such as IP addresses and secrets.  Please "
+"see your system administrator to obtain this information."
+msgstr ""
+"Този помощник ще ви преведе през стъпките за създаване на връзка към "
+"виртуална частна мрежа (ВЧМ).\n"
+"\n"
+"За това ще се нуждаете от информация като IP адреси и тайни, която можете да "
+"получите от системния си администратор."
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:17
+msgid "VPN Connections"
+msgstr "Връзки към ВЧМ"
+
+#: ../src/nm-ap-security-wep.c:52
+msgid "40-bit WEP"
+msgstr "40-битов WEP"
+
+#: ../src/nm-ap-security-wep.c:54
+msgid "104-bit WEP"
+msgstr "104-битов WEP"
+
+#: ../src/nm-ap-security-wpa-psk.c:50
+msgid "WPA TKIP"
+msgstr "WPA TKIP"
+
+#: ../src/nm-ap-security-wpa-psk.c:52
+msgid "WPA CCMP"
+msgstr "WPA CCMP"
+
+#: ../src/nm-ap-security-wpa-psk.c:54
+msgid "WPA Automatic"
+msgstr "Автоматичен WPA"
+
+#: ../src/nm-ap-security-wpa-psk.c:59
+msgid "WPA2 TKIP"
+msgstr "WPA2 TKIP"
+
+#: ../src/nm-ap-security-wpa-psk.c:61
+msgid "WPA2 CCMP"
+msgstr "WPA2 CCMP"
+
+#: ../src/nm-ap-security-wpa-psk.c:63
+msgid "WPA2 Automatic"
+msgstr "Автоматичен WPA2"
+
+#: ../src/nm-ap-security.c:338
+msgid "none"
+msgstr "липсва"
+
+#: ../src/nm-netlink-monitor.c:170
+#, c-format
+msgid ""
+"unable to create netlink socket for monitoring wired ethernet devices - %s"
+msgstr ""
+"неуспешно създаване на мрежово гнездо за наблюдение на устройства за кабелен "
+"Етернет - %s"
+
+#: ../src/nm-netlink-monitor.c:188
+#, c-format
+msgid ""
+"unable to bind to netlink socket for monitoring wired ethernet devices - %s"
+msgstr ""
+"неуспешно свързване към мрежовото гнездо за наблюдение на устройства за "
+"кабелен Етернет - %s"
+
+#: ../src/nm-netlink-monitor.c:426
+msgid "operation took too long"
+msgstr "операцията продължи прекалено дълго"
+
+#: ../src/nm-netlink-monitor.c:523
+msgid "received data from wrong type of sender"
+msgstr "получени са данни от неправилен вид изпращач"
+
+#: ../src/nm-netlink-monitor.c:536
+msgid "received data from unexpected sender"
+msgstr "получени са данни от неочакван изпращач"
+
+#: ../src/nm-netlink-monitor.c:665
+msgid "too much data was sent over socket and some of it was lost"
+msgstr ""
+"през гнездото са получени прекалено много данни и някои от тях са загубени"
+
+#: ../src/nm-netlink-monitor.c:775
+msgid "error occurred while waiting for data on socket"
+msgstr "грешка при изчакване за данни през гнездо"
+
+#: ../src/nm-ap-security-wpa-eap.c:96 ../src/nm-ap-security-wpa-eap.c:120
+msgid "WPA2 Enterprise"
+msgstr "WPA2 Enterprise"
+
+#: ../src/nm-ap-security-wpa-eap.c:98 ../src/nm-ap-security-wpa-eap.c:125
+msgid "WPA Enterprise"
+msgstr "WPA Enterprise"
+
+#: ../src/nm-ap-security-leap.c:66 ../src/nm-ap-security-leap.c:82
+msgid "LEAP"
+msgstr "LEAP"

@@ -36,6 +36,13 @@
 #include "NetworkManager.h"
 #include "NetworkManagerUtils.h"
 #include "nm-utils.h"
+#include "nm-device.h"
+#include "nm-device-802-11-wireless.h"
+#include "nm-device-802-3-ethernet.h"
+#include "wpa_ctrl.h"
+
+#include <netlink/addr.h>
+#include <netinet/in.h>
 
 
 struct NMSock
@@ -214,7 +221,7 @@ NMSock *nm_dev_sock_open (NMDevice *dev, SockType type, const char *func_name, c
 	sock->desc = desc ? g_strdup (desc) : NULL;
 	sock->dev = dev;
 	if (sock->dev)
-		nm_device_ref (sock->dev);
+		g_object_ref (G_OBJECT (sock->dev));
 
 	/* Add the sock to our global sock list for tracking */
 	g_static_mutex_lock (&sock_list_mutex);
@@ -241,7 +248,7 @@ void nm_dev_sock_close (NMSock *sock)
 	g_free (sock->func);
 	g_free (sock->desc);
 	if (sock->dev)
-		nm_device_unref (sock->dev);
+		g_object_unref (G_OBJECT (sock->dev));
 
 	memset (sock, 0, sizeof (NMSock));
 
@@ -326,7 +333,7 @@ int nm_null_safe_strcmp (const char *s1, const char *s2)
 /*
  * nm_ethernet_address_is_valid
  *
- * Compares an ethernet address against known invalid addresses.
+ * Compares an Ethernet address against known invalid addresses.
  *
  */
 gboolean nm_ethernet_address_is_valid (const struct ether_addr *test_addr)
@@ -348,6 +355,19 @@ gboolean nm_ethernet_address_is_valid (const struct ether_addr *test_addr)
 		valid = TRUE;
 
 	return (valid);
+}
+
+
+/*
+ * nm_ethernet_addresses_are_equal
+ *
+ * Compare two Ethernet addresses and return TRUE if equal and FALSE if not.
+ */
+gboolean nm_ethernet_addresses_are_equal (const struct ether_addr *a, const struct ether_addr *b)
+{
+	if (memcmp (a, b, sizeof (struct ether_addr)))
+		return FALSE;
+	return TRUE;
 }
 
 
@@ -411,7 +431,7 @@ void nm_print_device_capabilities (NMDevice *dev)
 		return;
 	}
 
-	if (nm_device_is_wired (dev))
+	if (nm_device_is_802_3_ethernet (dev))
 	{
 		if (!(caps & NM_DEVICE_CAP_CARRIER_DETECT))
 		{
@@ -421,7 +441,7 @@ void nm_print_device_capabilities (NMDevice *dev)
 			full_support = FALSE;
 		}
 	}
-	else if (nm_device_is_wireless (dev))
+	else if (nm_device_is_802_11_wireless (dev))
 	{
 		if (!(caps & NM_DEVICE_CAP_WIRELESS_SCAN))
 		{
@@ -618,7 +638,7 @@ gboolean nm_completion_boolean_function1_test(int tries,
 	if (message)
 		if ((log_interval == 0 && tries == 0)
 			   || (log_interval != 0 && tries % log_interval == 0))
-			syslog(log_level, message);
+			syslog(log_level, "%s", message);
 
 	if (!(*condition)(arg0))
 		return TRUE;
@@ -642,7 +662,7 @@ gboolean nm_completion_boolean_function2_test(int tries,
 	if (message)
 		if ((log_interval == 0 && tries == 0)
 			   || (log_interval != 0 && tries % log_interval == 0))
-			syslog(log_level, message);
+			syslog(log_level, "%s", message);
 
 	if (!(*condition)(arg0, arg1))
 		return TRUE;
@@ -659,5 +679,164 @@ gchar *nm_utils_inet_ip4_address_as_string (guint32 ip)
 	ip_string = inet_ntoa (tmp_addr);
 
 	return g_strdup (ip_string);
+}
+
+
+struct nl_addr * nm_utils_ip4_addr_to_nl_addr (guint32 ip4_addr)
+{
+	struct nl_addr * nla = NULL;
+
+	if (!(nla = nl_addr_alloc (sizeof (in_addr_t))))
+		return NULL;
+	nl_addr_set_family (nla, AF_INET);
+	nl_addr_set_binary_addr (nla, &ip4_addr, sizeof (guint32));
+
+	return nla;
+}
+
+/*
+ * nm_utils_ip4_netmask_to_prefix
+ *
+ * Figure out the network prefix from a netmask.  Netmask
+ * MUST be in network byte order.
+ *
+ */
+int nm_utils_ip4_netmask_to_prefix (guint32 ip4_netmask)
+{
+	int i = 1;
+
+	g_return_val_if_fail (ip4_netmask != 0, 0);
+
+	/* Just count how many bit shifts we need */
+	ip4_netmask = ntohl (ip4_netmask);
+	while (!(ip4_netmask & 0x1) && ++i)
+		ip4_netmask = ip4_netmask >> 1;
+	return (32 - (i-1));
+}
+
+
+#define SUPPLICANT_DEBUG
+#define RESPONSE_SIZE	2048
+
+
+static char *
+kill_newline (char *s, size_t *l)
+{
+	g_return_val_if_fail (l != NULL, s);
+
+	while ((--(*l) > 0) && (s[*l] != '\n'))
+		;
+	if (s[*l] == '\n')
+		s[*l] = '\0';
+	return s;
+}
+
+
+char *
+nm_utils_supplicant_request (struct wpa_ctrl *ctrl,
+                             const char *format,
+                             ...)
+{
+	va_list	args;
+	size_t	len;
+	char *	response = NULL;
+	char *	command;
+
+	g_return_val_if_fail (ctrl != NULL, NULL);
+	g_return_val_if_fail (format != NULL, NULL);
+
+	va_start (args, format);
+	if (!(command = g_strdup_vprintf (format, args)))
+		return NULL;
+	va_end (args);
+
+	response = g_malloc (RESPONSE_SIZE);
+	len = RESPONSE_SIZE;
+#ifdef SUPPLICANT_DEBUG
+	nm_info ("SUP: sending command '%s'", command);
+#endif
+	wpa_ctrl_request (ctrl, command, strlen (command), response, &len, NULL);
+	g_free (command);
+	response[len] = '\0';
+#ifdef SUPPLICANT_DEBUG
+	{
+		response = kill_newline (response, &len);
+		nm_info ("SUP: response was '%s'", response);
+	}
+#endif
+	return response;
+}
+
+
+gboolean
+nm_utils_supplicant_request_with_check (struct wpa_ctrl *ctrl,
+                                        const char *expected,
+                                        const char *func,
+								const char *err_msg_cmd,
+                                        const char *format,
+                                        ...)
+{
+	va_list	args;
+	gboolean	success = FALSE;
+	size_t	len;
+	char *	response = NULL;
+	char *	command;
+	char *	temp;
+
+	g_return_val_if_fail (ctrl != NULL, FALSE);
+	g_return_val_if_fail (expected != NULL, FALSE);
+	g_return_val_if_fail (format != NULL, FALSE);
+
+	va_start (args, format);
+	if (!(command = g_strdup_vprintf (format, args)))
+		goto out;
+
+	response = g_malloc (RESPONSE_SIZE);
+	len = RESPONSE_SIZE;
+#ifdef SUPPLICANT_DEBUG
+	/* Hack: don't print anything out for SCAN commands since they
+	 * happen so often.
+	 */
+	if (strcmp (command, "SCAN") != 0)
+		nm_info ("SUP: sending command '%s'", err_msg_cmd ? err_msg_cmd : command);
+#endif
+	wpa_ctrl_request (ctrl, command, strlen (command), response, &len, NULL);
+	response[len] = '\0';
+#ifdef SUPPLICANT_DEBUG
+	/* Hack: don't print anything out for SCAN commands since they
+	 * happen so often.
+	 */
+	if (strcmp (command, "SCAN") != 0) {
+		response = kill_newline (response, &len);
+		nm_info ("SUP: response was '%s'", response);
+	}
+#endif
+
+	if (response)
+	{
+		if (strncmp (response, expected, strlen (expected)) == 0)
+			success = TRUE;
+		else
+		{
+			response = kill_newline (response, &len);
+			temp = g_strdup_printf ("%s: supplicant error for '%s'.  Response: '%s'",
+						func, err_msg_cmd ? err_msg_cmd : command, response);
+			nm_warning_str (temp);
+			g_free (temp);
+		}
+		g_free (response);
+	}
+	else
+	{
+		temp = g_strdup_printf ("%s: supplicant error for '%s'.  No response.",
+					func, err_msg_cmd ? err_msg_cmd : command);
+		nm_warning_str (temp);
+		g_free (temp);
+	}
+	g_free (command);
+
+out:
+	va_end (args);
+	return success;
 }
 

@@ -23,13 +23,19 @@
  * (C) Copyright 2004 Red Hat, Inc.
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <signal.h>
 #include <arpa/inet.h>
 #include "NetworkManagerSystem.h"
 #include "NetworkManagerUtils.h"
-#include "NetworkManagerDevice.h"
+#include "nm-device.h"
+#include "nm-device-802-3-ethernet.h"
+#include "nm-device-802-11-wireless.h"
 #include "NetworkManagerDialup.h"
 #include "interface_parser.h"
 #include "nm-utils.h"
@@ -77,7 +83,7 @@ void nm_system_device_add_default_route_via_device_with_iface (const char *iface
 	g_return_if_fail (iface != NULL);
 
 	/* Add default gateway */
-	buf = g_strdup_printf ("/sbin/ip route add default dev %s", iface);
+	buf = g_strdup_printf (IP_BINARY_PATH " route add default dev %s", iface);
 	nm_spawn_process (buf);
 	g_free (buf);
 }
@@ -95,7 +101,7 @@ void nm_system_device_add_route_via_device_with_iface (const char *iface, const 
 	g_return_if_fail (iface != NULL);
 
 	/* Add default gateway */
-	buf = g_strdup_printf ("/sbin/ip route add %s dev %s", route, iface);
+	buf = g_strdup_printf (IP_BINARY_PATH " route add %s dev %s", route, iface);
 	nm_spawn_process (buf);
 	g_free (buf);
 }
@@ -109,8 +115,6 @@ void nm_system_device_add_route_via_device_with_iface (const char *iface, const 
  */
 void nm_system_device_flush_routes (NMDevice *dev)
 {
-	char	*buf;
-
 	g_return_if_fail (dev != NULL);
 
 	/* Not really applicable for test devices */
@@ -133,7 +137,7 @@ void nm_system_device_flush_routes_with_iface (const char *iface)
 	g_return_if_fail (iface != NULL);
 
 	/* Remove routing table entries */
-	buf = g_strdup_printf ("/sbin/ip route flush dev %s", iface);
+	buf = g_strdup_printf (IP_BINARY_PATH " route flush dev %s", iface);
 	nm_spawn_process (buf);
 	g_free (buf);
 }
@@ -169,121 +173,10 @@ void nm_system_device_flush_addresses_with_iface (const char *iface)
 	g_return_if_fail (iface != NULL);
 
 	/* Remove all IP addresses for a device */
-	buf = g_strdup_printf ("/sbin/ip addr flush dev %s", iface);
+	buf = g_strdup_printf (IP_BINARY_PATH " addr flush dev %s", iface);
 	nm_spawn_process (buf);
 	g_free (buf);
 }
-
-/*
- * nm_system_device_setup_static_ip4_config
- *
- * Set up the device with a particular IPv4 address/netmask/gateway.
- *
- * Returns:	TRUE	on success
- *			FALSE on error
- *
- */
-#if 0
-gboolean nm_system_device_setup_static_ip4_config (NMDevice *dev)
-{
-#define IPBITS (sizeof (guint32) * 8)
-        struct in_addr  temp_addr;
-        struct in_addr  temp_addr2;
-        char            *s_tmp;
-        char            *s_tmp2;
-        int             i;
-        guint32         addr;
-        guint32         netmask;
-        guint32         prefix = IPBITS;    /* initialize with # bits in ipv4 address */
-        guint32         broadcast;
-        char            *buf;
-        int             err;
-        const char            *iface;
-
-        g_return_val_if_fail (dev != NULL, FALSE);
-        g_return_val_if_fail (!nm_device_config_get_use_dhcp (dev), FALSE);
-
-        addr = nm_device_config_get_ip4_address (dev);
-        netmask = nm_device_config_get_ip4_netmask (dev);
-        iface = nm_device_get_iface (dev);
-        broadcast = nm_device_config_get_ip4_broadcast (dev);
-
-        /* get the prefix from the netmask */
-        for (i = 0; i < IPBITS; i++)
-        {
-                if (!(ntohl (netmask) & ((2 << i) - 1)))
-                       prefix--;
-        }
-
-        /* Calculate the broadcast address if the user didn't specify one */
-        if (!broadcast)
-                broadcast = ((addr & (int)netmask) | ~(int)netmask);
-
-        /* 
-         * Try and work out if someone else has our IP
-         * using RFC 2131 Duplicate Address Detection
-         */
-        temp_addr.s_addr = addr;
-        buf = g_strdup_printf ("%s -q -D -c 1 -I %s %s",ARPING, 
-                               iface, inet_ntoa (temp_addr));
-        if ((err = nm_spawn_process (buf)))
-        {
-            nm_warning ("Error: Duplicate address '%s' detected for " 
-                             "device '%s' \n", iface, inet_ntoa (temp_addr));
-            goto error;
-        }
-        g_free (buf);
-
-        /* set our IP address */
-        temp_addr.s_addr = addr;
-        temp_addr2.s_addr = broadcast;
-        s_tmp = g_strdup (inet_ntoa (temp_addr));
-        s_tmp2 = g_strdup (inet_ntoa (temp_addr2));
-        buf = g_strdup_printf ("/sbin/ip addr add %s/%d brd %s dev %s label %s",
-                               s_tmp, prefix, s_tmp2, iface, iface);
-        g_free (s_tmp);
-        g_free (s_tmp2);
-        if ((err = nm_spawn_process (buf)))
-        {
-            nm_warning ("Error: could not set network configuration for "
-                             "device '%s' using command:\n      '%s'",
-                             iface, buf);
-            goto error;
-        }
-        g_free (buf);
-
-        /* Alert other computers of our new address */
-        temp_addr.s_addr = addr;
-        buf = g_strdup_printf ("%s -q -A -c 1 -I %s %s", ARPING,iface,
-                               inet_ntoa (temp_addr));
-        nm_spawn_process (buf);
-        g_free (buf);
-        g_usleep (G_USEC_PER_SEC * 2);
-        buf = g_strdup_printf ("%s -q -U -c 1 -I %s %s", ARPING, iface,
-                                inet_ntoa (temp_addr));
-        nm_spawn_process (buf);
-        g_free (buf);
-
-        /* set the default route to be this device's gateway */
-        temp_addr.s_addr = nm_device_config_get_ip4_gateway (dev);
-        buf = g_strdup_printf ("/sbin/ip route replace default via %s dev %s",
-                               inet_ntoa (temp_addr), iface);
-        if ((err = nm_spawn_process (buf)))
-        {
-                nm_warning ("Error: could not set default route using "
-                                 "command:\n    '%s'", buf);
-                goto error;
-        }
-        g_free (buf);
-        return (TRUE);
-        
-error:
-        g_free (buf);
-        nm_system_device_flush_addresses (dev);
-        nm_system_device_flush_routes (dev);
-        return (FALSE);
-}
-#endif
 
 /*
  * nm_system_enable_loopback
@@ -306,7 +199,7 @@ void nm_system_enable_loopback (void)
  */
 void nm_system_flush_loopback_routes (void)
 {
-	nm_spawn_process ("/sbin/ip route flush dev lo");
+	nm_system_device_flush_routes_with_iface ("lo");
 }
 
 
@@ -318,7 +211,7 @@ void nm_system_flush_loopback_routes (void)
  */
 void nm_system_delete_default_route (void)
 {
-	nm_spawn_process ("/sbin/ip route del default");
+	nm_spawn_process (IP_BINARY_PATH " route del default");
 }
 
 
@@ -330,7 +223,7 @@ void nm_system_delete_default_route (void)
  */
 void nm_system_flush_arp_cache (void)
 {
-	nm_spawn_process ("/sbin/ip neigh flush all");
+	nm_spawn_process (IP_BINARY_PATH " neigh flush all");
 }
 
 
@@ -382,12 +275,10 @@ void nm_system_restart_mdns_responder (void)
 void nm_system_device_add_ip6_link_address (NMDevice *dev)
 {
   char *buf;
-  char *addr;
   struct ether_addr hw_addr;
   unsigned char eui[8];
 
-  nm_device_get_hw_address(dev, &hw_addr);
-
+  nm_device_get_hw_address (dev, &hw_addr);
   memcpy (eui, &(hw_addr.ether_addr_octet), sizeof (hw_addr.ether_addr_octet));
   memmove(eui+5, eui+3, 3);
   eui[3] = 0xff;
@@ -395,7 +286,7 @@ void nm_system_device_add_ip6_link_address (NMDevice *dev)
   eui[0] ^= 2;
 
   /* Add the default link-local IPv6 address to a device */
-  buf = g_strdup_printf ("/sbin/ip -6 addr add fe80::%x%02x:%x%02x:%x%02x:%x%02x/64 dev %s",
+  buf = g_strdup_printf (IP_BINARY_PATH " -6 addr add fe80::%x%02x:%x%02x:%x%02x:%x%02x/64 dev %s",
 			 eui[0], eui[1], eui[2], eui[3],
 			 eui[4], eui[5],
 			 eui[6], eui[7], nm_device_get_iface (dev));
@@ -493,7 +384,7 @@ out:
  * info before setting stuff too.
  *
  */
-void* nm_system_device_get_system_config (NMDevice *dev)
+void* nm_system_device_get_system_config (NMDevice *dev, NMData *app_data)
 {
 	DebSystemConfigData *	sys_data = NULL;
 	if_block *curr_device;
@@ -620,6 +511,19 @@ gboolean nm_system_device_get_use_dhcp (NMDevice *dev)
 }
 
 
+/*
+ * nm_system_device_get_disabled
+ *
+ * Return whether the distro-specific system config tells us to use
+ * dhcp for this device.
+ *
+ */
+gboolean nm_system_device_get_disabled (NMDevice *dev)
+{
+	return FALSE;
+}
+
+
 NMIP4Config *nm_system_device_new_ip4_system_config (NMDevice *dev)
 {
 	DebSystemConfigData	*sys_data;
@@ -646,6 +550,30 @@ void nm_system_deactivate_all_dialup (GSList *list)
 		nm_spawn_process (cmd);
 		g_free (cmd);
 	}
+}
+
+gboolean nm_system_deactivate_dialup (GSList *list, const char *dialup)
+{
+	GSList *elt;
+	gboolean ret = FALSE;
+
+	for (elt = list; elt; elt = g_slist_next (elt))
+	{
+		NMDialUpConfig *config = (NMDialUpConfig *) elt->data;
+		if (strcmp (dialup, config->name) == 0)
+		{
+			char *cmd;
+
+			nm_info ("Deactivating dialup device %s (%s) ...", dialup, (char *) config->data);
+			cmd = g_strdup_printf ("/sbin/ifdown %s", (char *) config->data);
+			nm_spawn_process (cmd);
+			g_free (cmd);
+			ret = TRUE;
+			break;
+		}
+	}
+
+	return ret;
 }
 
 gboolean nm_system_activate_dialup (GSList *list, const char *dialup)
@@ -675,11 +603,7 @@ gboolean nm_system_activate_dialup (GSList *list, const char *dialup)
 GSList * nm_system_get_dialup_config (void)
 {
 	const char *buf;
-	if_block *curr_device;
-	gboolean       error = FALSE;
-	GError *err;
 	unsigned int i = 0;
-	size_t len;
 	GSList *list = NULL;
 	if_block *curr;
 	ifparser_init();
@@ -716,4 +640,56 @@ GSList * nm_system_get_dialup_config (void)
 	}
 
 	return list;
+}
+
+/*
+ * nm_system_activate_nis
+ *
+ * set up the nis domain and write a yp.conf
+ *
+ */
+void nm_system_activate_nis (NMIP4Config *config)
+{
+}
+
+/*
+ * nm_system_shutdown_nis
+ *
+ * shutdown ypbind
+ *
+ */
+void nm_system_shutdown_nis (void)
+{
+}
+
+/*
+ * nm_system_set_hostname
+ *
+ * set the hostname
+ *
+ */
+void nm_system_set_hostname (NMIP4Config *config)
+{
+}
+
+/*
+ * nm_system_should_modify_resolv_conf
+ *
+ * Can NM update resolv.conf, or is it locked down?
+ */
+gboolean nm_system_should_modify_resolv_conf (void)
+{
+	return TRUE;
+}
+
+
+/*
+ * nm_system_get_mtu
+ *
+ * Return a user-provided or system-mandated MTU for this device or zero if
+ * no such MTU is provided.
+ */
+guint32 nm_system_get_mtu (NMDevice *dev)
+{
+	return 0;
 }

@@ -7,14 +7,14 @@
 #              changes the network state.
 #
 # processname: NetworkManagerDispatcher
-# pidfile: /var/run/NetworkManagerDispatcher.pid
+# pidfile: /var/run/NetworkManager/NetworkManagerDispatcher.pid
 #
 
 prefix=@prefix@
 exec_prefix=@prefix@
-bindir=@bindir@
+sbindir=@sbindir@
 
-NETWORKMANAGERDISPATCHER_BIN=${bindir}/NetworkManagerDispatcher
+NETWORKMANAGERDISPATCHER_BIN=${sbindir}/NetworkManagerDispatcher
 
 # Sanity checks.
 [ -x $NETWORKMANAGERDISPATCHER_BIN ] || exit 1
@@ -25,23 +25,22 @@ NETWORKMANAGERDISPATCHER_BIN=${bindir}/NetworkManagerDispatcher
 # so we can rearrange this easily
 processname=NetworkManagerDispatcher
 servicename=NetworkManagerDispatcher
-pidfile=/var/run/NetworkManagerDispatcher.pid
+pidfile=/var/run/NetworkManager/NetworkManagerDispatcher.pid
 
 RETVAL=0
 
 start()
 {
 	echo -n $"Starting NetworkManagerDispatcher daemon: "
-	daemon --check $servicename $processname
+	daemon --check $servicename $processname --pid-file=$pidfile
 	RETVAL=$?
 	echo
-	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/$servicename && echo `/sbin/pidof $processname` > $pidfile
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/$servicename
 }
 
 stop()
 {
 	echo -n $"Stopping NetworkManagerDispatcher daemon: "
-
 	killproc $servicename -TERM
 	RETVAL=$?
 	echo
@@ -60,7 +59,7 @@ case "$1" in
 		stop
 		;;
 	status)
-		status $processname
+		status -p $pidfile $processname
 		RETVAL=$?
 		;;
 	restart)

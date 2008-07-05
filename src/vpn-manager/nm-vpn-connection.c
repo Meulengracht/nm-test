@@ -96,7 +96,7 @@ void nm_vpn_connection_unref (NMVPNConnection *connection)
 		g_free (connection->service_name);
 
 		if (connection->parent_dev)
-			nm_device_unref (connection->parent_dev);
+			g_object_unref (G_OBJECT (connection->parent_dev));
 		if (connection->ip4_config)
 			nm_ip4_config_unref (connection->ip4_config);
 		g_free (connection->vpn_iface);
@@ -124,11 +124,12 @@ gboolean nm_vpn_connection_set_config (NMVPNConnection *connection, const char *
 	char **	routes;
 
 	g_return_val_if_fail (connection != NULL, FALSE);
-	g_return_val_if_fail (vpn_iface != NULL, FALSE);
 	g_return_val_if_fail (dev != NULL, FALSE);
 	g_return_val_if_fail (ip4_config != NULL, FALSE);
 
-	nm_vpn_connection_set_vpn_iface (connection, vpn_iface);
+	/* IPsec VPNs will not have tunnel device */
+	if (vpn_iface != NULL && strlen (vpn_iface))
+		nm_vpn_connection_set_vpn_iface (connection, vpn_iface);
 	nm_vpn_connection_set_parent_device (connection, dev);
 	nm_vpn_connection_set_ip4_config (connection, ip4_config);
 
@@ -148,7 +149,7 @@ void nm_vpn_connection_deactivate (NMVPNConnection *connection)
 
 	if (connection->vpn_iface)
 	{
-		nm_system_device_set_up_down_with_iface (NULL, connection->vpn_iface, FALSE);
+		nm_system_device_set_up_down_with_iface (connection->vpn_iface, FALSE);
 		nm_system_device_flush_routes_with_iface (connection->vpn_iface);
 		nm_system_device_flush_addresses_with_iface (connection->vpn_iface);
 	}
@@ -228,13 +229,13 @@ static void nm_vpn_connection_set_parent_device (NMVPNConnection *con, NMDevice 
 
 	if (con->parent_dev)
 	{
-		nm_device_unref (con->parent_dev);
+		g_object_unref (G_OBJECT (con->parent_dev));
 		con->parent_dev = NULL;
 	}
 
 	if (parent_dev)
 	{
-		nm_device_ref (parent_dev);
+		g_object_ref (G_OBJECT (parent_dev));
 		con->parent_dev = parent_dev;
 	}
 }

@@ -30,21 +30,23 @@
 
 #include "NetworkManager.h"
 #include "NetworkManagerUtils.h"
-#include "NetworkManagerDevice.h"
+#include "nm-device.h"
 #include "NetworkManagerDbus.h"
 #include "NetworkManagerDbusUtils.h"
 #include "NetworkManagerAP.h"
 #include "NetworkManagerAPList.h"
 #include "NetworkManagerPolicy.h"
-#include "NetworkManagerWireless.h"
 #include "nm-dbus-nm.h"
 #include "nm-dbus-device.h"
 #include "nm-dbus-net.h"
 #include "nm-dbus-vpn.h"
+#include "nm-dbus-nmi.h"
 #include "nm-utils.h"
 #include "nm-dhcp-manager.h"
 
 static char *get_nmi_match_string (const char *owner);
+
+static gpointer nm_dbus_reinit (gpointer user_data);
 
 /*
  * nm_dbus_create_error_message
@@ -80,15 +82,18 @@ DBusMessage *nm_dbus_create_error_message (DBusMessage *message, const char *exc
  */
 char * nm_dbus_get_object_path_for_device (NMDevice *dev)
 {
-	char *object_path, *escaped_object_path;
+	char *object_path, *escaped_dev;
 
 	g_return_val_if_fail (dev != NULL, NULL);
 
-	object_path = g_strdup_printf ("%s/%s", NM_DBUS_PATH_DEVICES, nm_device_get_iface (dev));
-	escaped_object_path = nm_dbus_escape_object_path (object_path);
-	g_free (object_path);
+	escaped_dev = nm_dbus_escape_object_path_item (nm_device_get_iface (dev));
+	if (!escaped_dev)
+		return NULL;
 
-	return escaped_object_path;
+	object_path = g_strdup_printf ("%s/%s", NM_DBUS_PATH_DEVICES, escaped_dev);
+	g_free (escaped_dev);
+
+	return object_path;
 }
 
 
@@ -100,7 +105,7 @@ char * nm_dbus_get_object_path_for_device (NMDevice *dev)
  */
 char * nm_dbus_get_object_path_for_network (NMDevice *dev, NMAccessPoint *ap)
 {
-	char *object_path, *escaped_object_path;
+	char *object_path = NULL, *escaped_ssid = NULL, *escaped_dev = NULL;
 
 	g_return_val_if_fail (dev != NULL, NULL);
 	g_return_val_if_fail (ap != NULL, NULL);
@@ -108,61 +113,67 @@ char * nm_dbus_get_object_path_for_network (NMDevice *dev, NMAccessPoint *ap)
 	if (!nm_ap_get_essid (ap))
 		return NULL;
 
-	object_path = g_strdup_printf ("%s/%s/Networks/%s", NM_DBUS_PATH_DEVICES, nm_device_get_iface (dev), nm_ap_get_essid (ap));
-	escaped_object_path = nm_dbus_escape_object_path (object_path);
-	g_free (object_path);
+	escaped_ssid = nm_dbus_escape_object_path_item (nm_ap_get_essid (ap));
+	escaped_dev = nm_dbus_escape_object_path_item (nm_device_get_iface (dev));
+	if (escaped_dev && escaped_ssid)
+		object_path = g_strdup_printf ("%s/%s/Networks/%s", NM_DBUS_PATH_DEVICES, escaped_dev, escaped_ssid);
 
-	return escaped_object_path;
+	g_free (escaped_ssid);
+	g_free (escaped_dev);
+
+	return object_path;
 }
 
 
 /*
- * nm_dbus_get_device_from_object_path
+ * nm_dbus_get_device_from_escaped_object_path
  *
- * Returns the device associated with a dbus object path
+ * Returns the device associated with an _escaped_ dbus object path
  *
  */
-NMDevice *nm_dbus_get_device_from_object_path (NMData *data, const char *path)
+NMDevice *nm_dbus_get_device_from_escaped_object_path (NMData *data, const char *path)
 {
-	NMDevice	*dev = NULL;
+	NMDevice *dev = NULL;
+	GSList *	elt;
 
 	g_return_val_if_fail (path != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
 
-	/* FIXME
-	 * This function could be much more efficient, for example we could
-	 * actually _parse_ the object path, but that's a lot more code and
-	 * stupid stuff.  The approach below is slower, less efficient, but
-	 * less code and less error-prone.
-	 */
+	if (!nm_try_acquire_mutex (data->dev_list_mutex, __FUNCTION__))
+		return NULL;
 
-	/* Iterate over device list */
-	if (nm_try_acquire_mutex (data->dev_list_mutex, __FUNCTION__))
+	/* Iterate over the device list looking for the device with the matching object path. */
+	for (elt = data->dev_list; elt; elt = g_slist_next (elt))
 	{
-		GSList	*elt;
-		char		 compare_path[100];
-		char    *escaped_compare_path;
+		char *compare_path;
+		char *escaped_dev;
+		int len;
 
-		for (elt = data->dev_list; elt; elt = g_slist_next (elt))
+		if (!(dev = (NMDevice *)(elt->data)))
+			continue;
+
+		escaped_dev = nm_dbus_escape_object_path_item (nm_device_get_iface (dev));
+		if (!escaped_dev)
+			continue;
+
+		compare_path = g_strdup_printf ("%s/%s", NM_DBUS_PATH_DEVICES, escaped_dev);
+		g_free (escaped_dev);
+
+		len = strlen (compare_path);
+
+		/* Compare against our constructed path, but ignore any trailing elements */
+		if (    (strncmp (path, compare_path, len) == 0)
+			&& ((path[len] == '\0' || path[len] == '/')))
 		{
-			if ((dev = (NMDevice *)(elt->data)))
-			{
-				snprintf (compare_path, 100, "%s/%s", NM_DBUS_PATH_DEVICES, nm_device_get_iface (dev));
-				escaped_compare_path = nm_dbus_escape_object_path (compare_path);
-				/* Compare against our constructed path, but ignore any trailing elements */
-				if (strncmp (path, compare_path, strlen (escaped_compare_path)) == 0)
-				{
-					g_free (escaped_compare_path);
-					break;
-				}
-				g_free (escaped_compare_path);
-				dev = NULL;
-			}
+			g_free (compare_path);
+			break;
 		}
-		nm_unlock_mutex (data->dev_list_mutex, __FUNCTION__);
+		g_free (compare_path);
+		dev = NULL;
 	}
+	nm_unlock_mutex (data->dev_list_mutex, __FUNCTION__);
 
-	return (dev);
+	return dev;
 }
 
 
@@ -174,7 +185,7 @@ typedef struct NMStatusChangeData
 {
 	NMData *			data;
 	NMDevice *		dev;
-	NMAccessPoint *	ap;
+	char *essid;
 	DeviceStatus	 	status;
 } NMStatusChangeData;
 
@@ -207,9 +218,9 @@ static DeviceStatusSignals dev_status_signals[] =
 static gboolean nm_dbus_signal_device_status_change (gpointer user_data)
 {
 	NMStatusChangeData *cb_data = (NMStatusChangeData *)user_data;
-	DBusMessage *		message;
-	char *			dev_path;
-	const char *		signal = NULL;
+	DBusMessage *		message = NULL;
+	char *			dev_path = NULL;
+	const char *		sig;
 	int				i = 0;
 
 	g_return_val_if_fail (cb_data->data, FALSE);
@@ -219,45 +230,44 @@ static gboolean nm_dbus_signal_device_status_change (gpointer user_data)
 	while ((dev_status_signals[i].status != DEVICE_STATUS_INVALID) && (dev_status_signals[i].status != cb_data->status))
 		i++;
 
-	if (!(signal = dev_status_signals[i].signal))
-		return FALSE;
+	if (!(sig = dev_status_signals[i].signal))
+		goto out;
 
 	if (!(dev_path = nm_dbus_get_object_path_for_device (cb_data->dev)))
-		return FALSE;
+		goto out;
 
-	if (!(message = dbus_message_new_signal (NM_DBUS_PATH, NM_DBUS_INTERFACE, signal)))
+	if (!(message = dbus_message_new_signal (NM_DBUS_PATH, NM_DBUS_INTERFACE, sig)))
 	{
 		nm_warning ("nm_dbus_signal_device_status_change(): Not enough memory for new dbus message!");
-		g_free (dev_path);
-		return FALSE;
+		goto out;
 	}
 
 	/* If the device was wireless, attach the name of the wireless network that failed to activate */
-	if (cb_data->ap)
+	if (cb_data->essid)
 	{
-		const char *essid = nm_ap_get_essid (cb_data->ap);
-		if (essid)
-			dbus_message_append_args (message, DBUS_TYPE_OBJECT_PATH, &dev_path, DBUS_TYPE_STRING, &essid, DBUS_TYPE_INVALID);
-		nm_ap_unref (cb_data->ap);
+		dbus_message_append_args (message, DBUS_TYPE_OBJECT_PATH, &dev_path, DBUS_TYPE_STRING, &cb_data->essid, DBUS_TYPE_INVALID);
 	}
 	else
 		dbus_message_append_args (message, DBUS_TYPE_OBJECT_PATH, &dev_path, DBUS_TYPE_INVALID);
 
-	g_free (dev_path);
-
 	if (!dbus_connection_send (cb_data->data->dbus_connection, message, NULL))
 		nm_warning ("nm_dbus_signal_device_status_change(): Could not raise the signal!");
 
-	dbus_message_unref (message);
+ out:
+	if (message)
+		dbus_message_unref (message);
 
-	nm_device_unref (cb_data->dev);
+	g_free (cb_data->essid);
+
+	g_free (dev_path);
+	g_object_unref (G_OBJECT (cb_data->dev));
 	g_free (cb_data);
 
 	return FALSE;
 }
 
 
-void nm_dbus_schedule_device_status_change_signal (NMData *data, NMDevice *dev, NMAccessPoint *ap, DeviceStatus status)
+void nm_dbus_schedule_device_status_change_signal (NMData *data, NMDevice *dev, const char *essid, DeviceStatus status)
 {
 	NMStatusChangeData	*cb_data = NULL;
 	GSource			*source;
@@ -266,14 +276,12 @@ void nm_dbus_schedule_device_status_change_signal (NMData *data, NMDevice *dev, 
 	g_return_if_fail (dev != NULL);
 
 	cb_data = g_malloc0 (sizeof (NMStatusChangeData));
-	nm_device_ref (dev);
+	g_object_ref (G_OBJECT (dev));
 	cb_data->data = data;
 	cb_data->dev = dev;
-	if (ap)
-	{
-		nm_ap_ref (ap);
-		cb_data->ap = ap;
-	}
+	if (essid)
+		cb_data->essid = g_strdup (essid);
+
 	cb_data->status = status;
 
 	source = g_idle_source_new ();
@@ -285,11 +293,9 @@ void nm_dbus_schedule_device_status_change_signal (NMData *data, NMDevice *dev, 
 
 
 /*
- * nm_dbus_network_status_from_data
+ * nm_get_app_state_from_data
  *
- * Return a network status string based on our network data
- *
- * Caller MUST free returned value
+ * Return the state of the network connection
  *
  */
 NMState nm_get_app_state_from_data (NMData *data)
@@ -302,17 +308,13 @@ NMState nm_get_app_state_from_data (NMData *data)
 		return NM_STATE_ASLEEP;
 
 	act_dev = nm_get_active_device (data);
-	if (!act_dev)
+	if (!act_dev && !data->modem_active)
 		return NM_STATE_DISCONNECTED;
 
 	if (nm_device_is_activating (act_dev))
 		return NM_STATE_CONNECTING;
 	else
 		return NM_STATE_CONNECTED;
-
-	g_assert_not_reached ();
-
-	return NM_STATE_UNKNOWN;
 }
 
 
@@ -344,51 +346,52 @@ void nm_dbus_signal_state_change (DBusConnection *connection, NMData *data)
 	dbus_message_unref (message);
 }
 
+
 /*
  * nm_dbus_signal_wireless_network_change
  *
  * Notifies the bus that a new wireless network has come into range
  *
  */
-void nm_dbus_signal_wireless_network_change (DBusConnection *connection, NMDevice *dev, NMAccessPoint *ap, NMNetworkStatus status, gint strength)
+void nm_dbus_signal_wireless_network_change (DBusConnection *connection, NMDevice80211Wireless *dev, NMAccessPoint *ap, NMNetworkStatus status, gint strength)
 {
 	DBusMessage *	message;
 	char *		dev_path = NULL;
 	char *		net_path = NULL;
-	const char *	signal = NULL;
+	const char *	sig = NULL;
 
 	g_return_if_fail (connection != NULL);
 	g_return_if_fail (dev != NULL);
 	g_return_if_fail (ap != NULL);
 
-	if (!(dev_path = nm_dbus_get_object_path_for_device (dev)))
+	if (!(dev_path = nm_dbus_get_object_path_for_device (NM_DEVICE (dev))))
 		goto out;
 
-	if (!(net_path = nm_dbus_get_object_path_for_network (dev, ap)))
+	if (!(net_path = nm_dbus_get_object_path_for_network (NM_DEVICE (dev), ap)))
 		goto out;
 
 	switch (status)
 	{
 		case NETWORK_STATUS_DISAPPEARED:
-			signal = "WirelessNetworkDisappeared";
+			sig = "WirelessNetworkDisappeared";
 			break;
 		case NETWORK_STATUS_APPEARED:
-			signal = "WirelessNetworkAppeared";
+			sig = "WirelessNetworkAppeared";
 			break;
 		case NETWORK_STATUS_STRENGTH_CHANGED:
-			signal = "WirelessNetworkStrengthChanged";
+			sig = "WirelessNetworkStrengthChanged";
 			break;
 		default:
 			break;
 	}
 
-	if (!signal)
+	if (!sig)
 	{
 		nm_warning ("nm_dbus_signal_wireless_network_change(): tried to broadcast unknown signal.");
 		goto out;
 	}
 
-	if (!(message = dbus_message_new_signal (NM_DBUS_PATH, NM_DBUS_INTERFACE, signal)))
+	if (!(message = dbus_message_new_signal (NM_DBUS_PATH, NM_DBUS_INTERFACE, sig)))
 	{
 		nm_warning ("nm_dbus_signal_wireless_network_change(): Not enough memory for new dbus message!");
 		goto out;
@@ -409,7 +412,7 @@ out:
 }
 
 
-void nm_dbus_signal_device_strength_change (DBusConnection *connection, NMDevice *dev, gint strength)
+void nm_dbus_signal_device_strength_change (DBusConnection *connection, NMDevice80211Wireless *dev, gint strength)
 {
 	DBusMessage *	message;
 	char *		dev_path = NULL;
@@ -417,7 +420,7 @@ void nm_dbus_signal_device_strength_change (DBusConnection *connection, NMDevice
 	g_return_if_fail (connection != NULL);
 	g_return_if_fail (dev != NULL);
 
-	if (!(dev_path = nm_dbus_get_object_path_for_device (dev)))
+	if (!(dev_path = nm_dbus_get_object_path_for_device (NM_DEVICE (dev))))
 		goto out;
 
 	if (!(message = dbus_message_new_signal (NM_DBUS_PATH, NM_DBUS_INTERFACE, "DeviceStrengthChanged")))
@@ -436,544 +439,29 @@ out:
 	g_free (dev_path);
 }
 
-/*
- * nm_dbus_get_user_key_for_network_cb
- *
- * Callback from nm_dbus_get_user_key_for_network when NetworkManagerInfo returns
- * the new user key.
- *
- */
-static void nm_dbus_get_user_key_for_network_cb (DBusPendingCall *pcall, NMActRequest *req)
-{
-	DBusMessage *		reply;
-	NMData *			data;
-	NMDevice *		dev;
-	NMAccessPoint *	ap;
-	char *			passphrase = NULL;
-	NMEncKeyType		key_type = -1;
 
-	g_return_if_fail (pcall != NULL);
-	g_return_if_fail (req != NULL);
-
-	data = nm_act_request_get_data (req);
-	g_assert (data);
-
-	dev = nm_act_request_get_dev (req);
-	g_assert (dev);
-
-	ap = nm_act_request_get_ap (req);
-	g_assert (ap);
-
-	dbus_pending_call_ref (pcall);
-
-	nm_info ("Activation (%s) New wireless user key for network '%s' received.", nm_device_get_iface (dev), nm_ap_get_essid (ap));
-
-	if (!dbus_pending_call_get_completed (pcall))
-		goto out;
-
-	if (!(reply = dbus_pending_call_steal_reply (pcall)))
-		goto out;
-
-	if (dbus_message_get_type (reply) == DBUS_MESSAGE_TYPE_ERROR)
-	{
-		/* FIXME: since we're not marking the device as invalid, its a fair bet
-		 * that NM will just try to reactivate the device again, and may fail
-		 * to get the user key in exactly the same way, which ends up right back
-		 * here...  ad nauseum.  Figure out how to deal with a failure here.
-		 */
-		nm_device_deactivate (dev);
-		nm_policy_schedule_device_change_check (data);
-	}
-	else
-	{
-		if (dbus_message_get_args (reply, NULL, DBUS_TYPE_STRING, &passphrase, DBUS_TYPE_INT32, &key_type, DBUS_TYPE_INVALID))
-			nm_device_set_user_key_for_network (req, passphrase, key_type);
-		nm_act_request_set_user_key_pending_call (req, NULL);
-	}
-	dbus_message_unref (reply);
-
-out:
-	nm_act_request_unref (req);
-	dbus_pending_call_unref (pcall);
-}
-
-
-/*
- * nm_dbus_get_user_key_for_network
- *
- * Asks the info-daemon for a user-entered WEP key.
- *
- */
-void nm_dbus_get_user_key_for_network (DBusConnection *connection, NMActRequest *req, const gboolean new_key)
-{
-	DBusMessage *		message;
-	DBusPendingCall *	pcall;
-	NMData *			data;
-	NMDevice *		dev;
-	NMAccessPoint *	ap;
-	gint32			attempt = 1;
-	char *			dev_path;
-	char *			net_path;
-	char *			essid;
-
-	g_return_if_fail (connection != NULL);
-	g_return_if_fail (req != NULL);
-
-	data = nm_act_request_get_data (req);
-	g_assert (data);
-
-	dev = nm_act_request_get_dev (req);
-	g_assert (dev);
-
-	ap = nm_act_request_get_ap (req);
-	g_assert (ap);
-
-	essid = nm_ap_get_essid (ap);
-	nm_info ("Activation (%s) New wireless user key requested for network '%s'.", nm_device_get_iface (dev), essid);
-
-	if (!(message = dbus_message_new_method_call (NMI_DBUS_SERVICE, NMI_DBUS_PATH, NMI_DBUS_INTERFACE, "getKeyForNetwork")))
-	{
-		nm_warning ("nm_dbus_get_user_key_for_network(): Couldn't allocate the dbus message");
-		return;
-	}
-
-	dev_path = nm_dbus_get_object_path_for_device (dev);
-	net_path = nm_dbus_get_object_path_for_network (dev, ap);
-	if (dev_path && strlen (dev_path) && net_path && strlen (net_path))
-	{
-		dbus_message_append_args (message, DBUS_TYPE_OBJECT_PATH, &dev_path,
-									DBUS_TYPE_OBJECT_PATH, &net_path,
-									DBUS_TYPE_STRING, &essid,
-									DBUS_TYPE_INT32, &attempt,
-									DBUS_TYPE_BOOLEAN, &new_key,
-									DBUS_TYPE_INVALID);
-		if (dbus_connection_send_with_reply (connection, message, &pcall, INT_MAX) && pcall)
-		{
-			nm_act_request_ref (req);
-			nm_act_request_set_stage (req, NM_ACT_STAGE_NEED_USER_KEY);
-			nm_act_request_set_user_key_pending_call (req, pcall);
-			dbus_pending_call_set_notify (pcall, (DBusPendingCallNotifyFunction) nm_dbus_get_user_key_for_network_cb, req, NULL);
-		}
-		else
-			nm_warning ("nm_dbus_get_user_key_for_network(): could not send dbus message");
-	} else nm_warning ("nm_dbus_get_user_key_for_network(): bad object path data");
-	g_free (net_path);
-	g_free (dev_path);
-
-	/* FIXME: figure out how to deal with a failure here, otherwise
-	 * we just hang in the activation process and nothing happens
-	 * until the user cancels stuff.
-	 */
-
-	dbus_message_unref (message);
-}
-
-
-/*
- * nm_dbus_cancel_get_user_key_for_network
- *
- * Sends a user-key cancellation message to NetworkManagerInfo
- *
- */
-void nm_dbus_cancel_get_user_key_for_network (DBusConnection *connection, NMActRequest *req)
-{
-	DBusMessage *		message;
-	DBusPendingCall *	pcall;
-
-	g_return_if_fail (connection != NULL);
-	g_return_if_fail (req != NULL);
-
-	if ((pcall = nm_act_request_get_user_key_pending_call (req)))
-		dbus_pending_call_cancel (pcall);
-
-	if (!(message = dbus_message_new_method_call (NMI_DBUS_SERVICE, NMI_DBUS_PATH, NMI_DBUS_INTERFACE, "cancelGetKeyForNetwork")))
-	{
-		nm_warning ("nm_dbus_cancel_get_user_key_for_network(): Couldn't allocate the dbus message");
-		return;
-	}
-
-	if (!dbus_connection_send (connection, message, NULL))
-		nm_warning ("nm_dbus_cancel_get_user_key_for_network(): could not send dbus message");
-
-	dbus_message_unref (message);
-}
-
-
-/*
- * nm_dbus_update_network_info
- *
- * Tell NetworkManagerInfo the updated info of the AP
- *
- */
-gboolean nm_dbus_update_network_info (DBusConnection *connection, NMAccessPoint *ap, const gboolean user_requested)
+void nm_dbus_signal_wireless_enabled (NMData * data)
 {
 	DBusMessage *	message;
-	gboolean		success = FALSE;
-	dbus_int32_t	auth_method;
-	const char *	essid;
-	const char *	enc_key_source;
-	dbus_int32_t	enc_key_type;
 
-	g_return_val_if_fail (connection != NULL, FALSE);
-	g_return_val_if_fail (ap != NULL, FALSE);
-
-	auth_method = nm_ap_get_auth_method (ap);
-	if (auth_method == NM_DEVICE_AUTH_METHOD_UNKNOWN)
-		return FALSE;
-
-	essid = nm_ap_get_essid (ap);
-	if (!(enc_key_source = nm_ap_get_enc_key_source (ap)))
-		enc_key_source = "";
-	enc_key_type = nm_ap_get_enc_type (ap);
-
-	if (!(message = dbus_message_new_method_call (NMI_DBUS_SERVICE, NMI_DBUS_PATH, NMI_DBUS_INTERFACE, "updateNetworkInfo")))
-	{
-		nm_warning ("nm_dbus_update_network_info(): Couldn't allocate the dbus message");
-		return FALSE;
-	}
-
-	dbus_message_append_args (message, DBUS_TYPE_STRING, &essid,
-								DBUS_TYPE_STRING, &enc_key_source,
-								DBUS_TYPE_INT32, &enc_key_type,
-								DBUS_TYPE_INT32, &auth_method,
-								DBUS_TYPE_BOOLEAN, &user_requested,
-								DBUS_TYPE_INVALID);
-	if (!dbus_connection_send (connection, message, NULL))
-		nm_warning ("nm_dbus_update_network_info(): failed to send dbus message.");
-	else
-		success = TRUE;
-
-	dbus_message_unref (message);
-	return success;
-}
-
-
-/*
- * nm_dbus_add_network_address
- *
- * Tell NetworkManagerInfo the MAC address of an AP
- *
- * Returns:	FALSE on error
- *			TRUE on success
- *
- */
-gboolean nm_dbus_add_network_address (DBusConnection *connection, NMNetworkType type, const char *network, struct ether_addr *addr)
-{
-	DBusMessage *	message;
-	gboolean		success = FALSE;
-	gchar *		char_addr;
-	dbus_int32_t	type_as_int32 = (dbus_int32_t) type;
-
-	g_return_val_if_fail (connection != NULL, FALSE);
-	g_return_val_if_fail (network != NULL, FALSE);
-	g_return_val_if_fail (type != NETWORK_TYPE_UNKNOWN, FALSE);
-	g_return_val_if_fail (addr != NULL, FALSE);
-
-	if (!(message = dbus_message_new_method_call (NMI_DBUS_SERVICE, NMI_DBUS_PATH, NMI_DBUS_INTERFACE, "addNetworkAddress")))
-	{
-		nm_warning ("nm_dbus_add_network_ap_mac_address(): Couldn't allocate the dbus message");
-		return (FALSE);
-	}
-
-	char_addr = g_new0 (gchar, 20);
-	ether_ntoa_r (addr, char_addr);
-	dbus_message_append_args (message, DBUS_TYPE_STRING, &network,
-				  DBUS_TYPE_INT32, &type_as_int32,
-				  DBUS_TYPE_STRING, &char_addr,
-				  DBUS_TYPE_INVALID);
-	g_free (char_addr);					
-
-	if (!dbus_connection_send (connection, message, NULL))
-		nm_warning ("nm_dbus_add_network_ap_mac_address(): failed to send dbus message.");
-	else
-		success = TRUE;
-
-	dbus_message_unref (message);
-	return (success);
-}
-
-
-typedef struct GetOneNetworkCBData
-{
-	NMData *			data;
-	char *			network;
-	NMAccessPointList *	list;
-} GetOneNetworkCBData;
-
-
-static void free_get_one_network_cb_data (GetOneNetworkCBData *data)
-{
-	if (data)
-	{
-		nm_ap_list_unref (data->list);
-		g_free (data->network);
-		data->list = NULL;
-		data->network = NULL;
-		data->data = NULL;
-		g_free (data);
-	}
-}
-
-typedef struct GetNetworksCBData
-{
-	NMData *			data;
-	NMAccessPointList *	list;
-} GetNetworksCBData;
-
-
-static void free_get_networks_cb_data (GetNetworksCBData *data)
-{
-	if (data)
-	{
-		nm_ap_list_unref (data->list);
-		data->data = NULL;
-		data->list = NULL;
-		g_free (data);
-	}
-}
-
-/*
- * nm_dbus_get_network_data_cb
- *
- * Add a new NMAccessPoint to the allowed list with the correct properties
- *
- */
-static void nm_dbus_get_network_data_cb (DBusPendingCall *pcall, void *user_data)
-{
-	GetOneNetworkCBData *	cb_data = (GetOneNetworkCBData *)user_data;
-	DBusMessage *			reply;
-	DBusError				error;
-	const char *			essid = NULL;
-	gint					timestamp_secs = -1;
-	NMEncKeyType			key_type = -1;
-	gboolean				trusted = FALSE;
-	NMDeviceAuthMethod		auth_method = NM_DEVICE_AUTH_METHOD_UNKNOWN;
-	char **				addresses;
-	int					num_addresses;
-
-	g_return_if_fail (pcall != NULL);
-	g_return_if_fail (cb_data != NULL);
-	g_return_if_fail (cb_data->data != NULL);
-	g_return_if_fail (cb_data->network != NULL);
-	g_return_if_fail (cb_data->list != NULL);
-
-	dbus_pending_call_ref (pcall);
-
-	if (!dbus_pending_call_get_completed (pcall))
-		goto out;
-
-	if (!(reply = dbus_pending_call_steal_reply (pcall)))
-		goto out;
-
-	if (dbus_message_is_error (reply, "BadNetworkData"))
-	{
-		dbus_message_unref (reply);
-		nm_ap_list_remove_ap_by_essid (cb_data->list, cb_data->network);
-		goto out;
-	}
-
-	dbus_error_init (&error);
-	if (dbus_message_get_args (reply, &error, DBUS_TYPE_STRING, &essid,
-									  DBUS_TYPE_INT32, &timestamp_secs,
-									  DBUS_TYPE_INT32, &key_type,
-									  DBUS_TYPE_INT32, &auth_method,
-									  DBUS_TYPE_BOOLEAN, &trusted,
-									  DBUS_TYPE_ARRAY, DBUS_TYPE_STRING, &addresses, &num_addresses,
-									  DBUS_TYPE_INVALID))
-	{
-		if (timestamp_secs > 0)
-		{
-			NMAccessPoint *	ap;
-			NMAccessPoint *	list_ap;
-			GTimeVal *		timestamp = g_new0 (GTimeVal, 1);
-			GSList *			addr_list = NULL;
-			int				i;
-
-			ap = nm_ap_new ();
-			nm_ap_set_essid (ap, essid);
-
-			timestamp->tv_sec = timestamp_secs;
-			timestamp->tv_usec = 0;
-			nm_ap_set_timestamp (ap, timestamp);
-			g_free (timestamp);
-
-			nm_ap_set_trusted (ap, trusted);
-			nm_ap_set_auth_method (ap, auth_method);
-
-			/* We get the actual key when we try to connect, use NULL for now. */
-			nm_ap_set_enc_key_source (ap, NULL, key_type);
-
-			for (i = 0; i < num_addresses; i++)
-				if (strlen (addresses[i]) >= 11)
-					addr_list = g_slist_append (addr_list, g_strdup (addresses[i]));
-			nm_ap_set_user_addresses (ap, addr_list);
-
-			if ((list_ap = nm_ap_list_get_ap_by_essid (cb_data->list, essid)))
-			{
-				nm_ap_set_essid (list_ap, nm_ap_get_essid (ap));
-				nm_ap_set_timestamp (list_ap, nm_ap_get_timestamp (ap));
-				nm_ap_set_trusted (list_ap, nm_ap_get_trusted (ap));
-				nm_ap_set_enc_key_source (list_ap, nm_ap_get_enc_key_source (ap), nm_ap_get_enc_type (ap));
-				nm_ap_set_auth_method (list_ap, nm_ap_get_auth_method (ap));
-				nm_ap_set_user_addresses (list_ap, nm_ap_get_user_addresses (ap));
-			}
-			else
-			{
-				/* New AP, just add it to the list */
-				nm_ap_list_append_ap (cb_data->list, ap);
-			}
-			nm_ap_unref (ap);
-
-			/* Ensure all devices get new information copied into their device lists */
-			nm_policy_schedule_device_ap_lists_update_from_allowed (cb_data->data);
-		}
-		dbus_free_string_array (addresses);
-	}
-	dbus_message_unref (reply);
-
-out:
-	dbus_pending_call_unref (pcall);
-}
-
-
-/*
- * nm_dbus_get_networks_cb
- *
- * Async callback from nm_dbus_get_networks
- *
- */
-static void nm_dbus_get_networks_cb (DBusPendingCall *pcall, void *user_data)
-{
-	DBusMessage *		reply;
-	DBusMessageIter	iter, array_iter;
-	GetNetworksCBData *	cb_data =  (GetNetworksCBData *)user_data;
-
-	g_return_if_fail (pcall);
-	g_return_if_fail (cb_data != NULL);
-	g_return_if_fail (cb_data->list != NULL);
-	g_return_if_fail (cb_data->data != NULL);
-
-	dbus_pending_call_ref (pcall);
-
-	if (!dbus_pending_call_get_completed (pcall))
-		goto out;
-
-	if (!(reply = dbus_pending_call_steal_reply (pcall)))
-		goto out;
-
-	if (message_is_error (reply))
-		goto out;
-
-	dbus_message_iter_init (reply, &iter);
-	dbus_message_iter_recurse (&iter, &array_iter);
-	while (dbus_message_iter_get_arg_type (&array_iter) == DBUS_TYPE_STRING)
-	{
-		const char *		value;
-		DBusMessage *		message;
-
-		dbus_message_iter_get_basic (&array_iter, &value);
-
-		/* Get properties on each network */
-		if ((message = dbus_message_new_method_call (NMI_DBUS_SERVICE, NMI_DBUS_PATH, NMI_DBUS_INTERFACE, "getNetworkProperties")))
-		{
-			dbus_int32_t			type_as_int32 = (dbus_int32_t) nm_ap_list_get_type (cb_data->list);
-			DBusPendingCall *		net_pcall = NULL;
-
-			dbus_message_append_args (message, DBUS_TYPE_STRING, &value, DBUS_TYPE_INT32, &type_as_int32, DBUS_TYPE_INVALID);
-			dbus_connection_send_with_reply (cb_data->data->dbus_connection, message, &net_pcall, -1);
-			dbus_message_unref (message);
-			if (net_pcall)
-			{
-				GetOneNetworkCBData *	net_cb_data = g_malloc0 (sizeof (GetOneNetworkCBData));
-
-				net_cb_data->data = cb_data->data;
-				net_cb_data->network = g_strdup (value);
-				nm_ap_list_ref (cb_data->list);
-				net_cb_data->list = cb_data->list;
-
-				dbus_pending_call_set_notify (net_pcall, nm_dbus_get_network_data_cb, net_cb_data, (DBusFreeFunction) free_get_one_network_cb_data);
-			}
-		}
-
-		dbus_message_iter_next(&array_iter);
-	}
-	dbus_message_unref (reply);
-
-out:
-	dbus_pending_call_unref (pcall);
-}
-
-
-/*
- * nm_dbus_update_allowed_networks
- *
- * Update all allowed networks from NetworkManagerInfo
- *
- */
-void nm_dbus_update_allowed_networks (DBusConnection *connection, NMAccessPointList *list, NMData *data)
-{
-	DBusMessage *		message;
-	dbus_int32_t		type_as_int32 = (dbus_int32_t) nm_ap_list_get_type (list);
-	DBusPendingCall *	pcall = NULL;
-
-	g_return_if_fail (connection != NULL);
-	g_return_if_fail (list != NULL);
 	g_return_if_fail (data != NULL);
+	g_return_if_fail (data->dbus_connection != NULL);
 
-	if (!(message = dbus_message_new_method_call (NMI_DBUS_SERVICE, NMI_DBUS_PATH, NMI_DBUS_INTERFACE, "getNetworks")))
-		return;
-
-	dbus_message_append_args (message, DBUS_TYPE_INT32, &type_as_int32, DBUS_TYPE_INVALID);
-	dbus_connection_send_with_reply (connection, message, &pcall, -1);
-	dbus_message_unref (message);
-	if (pcall)
+	if (!(message = dbus_message_new_signal (NM_DBUS_PATH, NM_DBUS_INTERFACE, "WirelessEnabled")))
 	{
-		GetNetworksCBData *	cb_data = g_malloc0 (sizeof (GetNetworksCBData));
-
-		cb_data->data = data;
-		nm_ap_list_ref (list);
-		cb_data->list = list;
-		dbus_pending_call_set_notify (pcall, nm_dbus_get_networks_cb, cb_data, (DBusFreeFunction) free_get_networks_cb_data);
-	}
-}
-
-
-/*
- * nm_dbus_update_one_allowed_network
- *
- * Update all networks of a specific type from NetworkManagerInfo
- *
- */
-static void nm_dbus_update_one_allowed_network (DBusConnection *connection, const char *network, NMData *data)
-{
-	DBusMessage *			message;
-	dbus_int32_t			type_as_int32 = NETWORK_TYPE_ALLOWED;
-	DBusPendingCall *		pcall = NULL;
-	GetOneNetworkCBData *	cb_data = NULL;
-
-	g_return_if_fail (connection != NULL);
-	g_return_if_fail (data != NULL);
-
-	if (!(message = dbus_message_new_method_call (NMI_DBUS_SERVICE, NMI_DBUS_PATH, NMI_DBUS_INTERFACE, "getNetworkProperties")))
-	{
-		nm_warning ("nm_dbus_update_one_allowed_network(): Couldn't allocate the dbus message");
+		nm_warning ("%s(): Not enough memory for new dbus message!", __func__);
 		return;
 	}
 
-	cb_data = g_malloc0 (sizeof (GetOneNetworkCBData));
-	cb_data->data = data;
-	cb_data->network = g_strdup (network);
-	cb_data->list = data->allowed_ap_list;
+	dbus_message_append_args (message,
+	                          DBUS_TYPE_BOOLEAN, &data->wireless_enabled,
+	                          DBUS_TYPE_BOOLEAN, &data->hw_rf_enabled,
+	                          DBUS_TYPE_INVALID);
+	if (!dbus_connection_send (data->dbus_connection, message, NULL))
+		nm_warning ("%s(): Could not emit the WirelessEnabled signal!", __func__);
 
-	dbus_message_append_args (message, DBUS_TYPE_STRING, &network, DBUS_TYPE_INT32, &type_as_int32, DBUS_TYPE_INVALID);
-	dbus_connection_send_with_reply (connection, message, &pcall, -1);
 	dbus_message_unref (message);
-	if (!pcall)
-		nm_warning ("nm_dbus_update_one_allowed_network(): pending call was NULL");
-	else
-		dbus_pending_call_set_notify (pcall, nm_dbus_get_network_data_cb, cb_data, (DBusFreeFunction) free_get_one_network_cb_data);
 }
-
 
 /*
  * nm_dbus_signal_filter
@@ -1031,14 +519,17 @@ static DBusHandlerResult nm_dbus_signal_filter (DBusConnection *connection, DBus
 		}
 		else if (dbus_message_is_signal (message, NMI_DBUS_INTERFACE, "UserInterfaceActivated"))
 		{
-			nm_wireless_set_scan_interval (data, NULL, NM_WIRELESS_SCAN_INTERVAL_ACTIVE);
+			nm_device_802_11_wireless_ui_activated (data, NM_WIRELESS_SCAN_INTERVAL_ACTIVE);
 			handled = TRUE;
 		}
 	}
-	else if (dbus_message_is_signal (message, DBUS_INTERFACE_DBUS, "Disconnected"))
+	else if (dbus_message_is_signal (message, DBUS_INTERFACE_LOCAL, "Disconnected"))
 	{
-		/* FIXME: try to recover from disconnection */
+		nm_hal_deinit (data);
+		dbus_connection_unref (data->dbus_connection);
 		data->dbus_connection = NULL;
+		nm_dhcp_manager_dispose (data->dhcp_manager);
+		g_thread_create ((GThreadFunc) nm_dbus_reinit, (gpointer) data, FALSE, NULL);
 		handled = TRUE;
 	}
 	else if (dbus_message_is_signal (message, DBUS_INTERFACE_DBUS, "NameOwnerChanged"))
@@ -1074,9 +565,15 @@ static DBusHandlerResult nm_dbus_signal_filter (DBusConnection *connection, DBus
 			else if (strcmp (service, "org.freedesktop.Hal") == 0)
 			{
 				if (!old_owner_good && new_owner_good) /* Hal just appeared */
+				{
 					nm_hal_init (data);
+					handled = TRUE;
+				}
 				else if (old_owner_good && !new_owner_good)	/* Hal went away */
+				{
 					nm_hal_deinit (data);
+					handled = TRUE;
+				}
 			}
 			else if (nm_dhcp_manager_process_name_owner_changed (data->dhcp_manager, service, old_owner, new_owner) == TRUE)
 				handled = TRUE;
@@ -1149,25 +646,28 @@ static DBusHandlerResult nm_dbus_devices_message_handler (DBusConnection *connec
 
 	path = dbus_message_get_path (message);
 
-	if (!(dev = nm_dbus_get_device_from_object_path (data, path)))
+	if (!(dev = nm_dbus_get_device_from_escaped_object_path (data, path)))
 		reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, "DeviceNotFound", "The requested network device does not exist.");
 	else
 	{
-		char			*object_path, *escaped_object_path;
+		char			*object_path, *escaped_dev;
 		NMDbusCBData	 cb_data;
 
 		cb_data.data = data;
 		cb_data.dev = dev;
 
 		/* Test whether or not the _networks_ of a device were queried instead of the device itself */
-		object_path = g_strdup_printf ("%s/%s/Networks/", NM_DBUS_PATH_DEVICES, nm_device_get_iface (dev));
-		escaped_object_path = nm_dbus_escape_object_path (object_path);
-		g_free (object_path);
-		if (strncmp (path, escaped_object_path, strlen (escaped_object_path)) == 0)
-			handled = nm_dbus_method_dispatch (data->net_methods, connection, message, &cb_data, &reply);
-		else
-			handled = nm_dbus_method_dispatch (data->device_methods, connection, message, &cb_data, &reply);
-		g_free (escaped_object_path);
+		escaped_dev = nm_dbus_escape_object_path_item (nm_device_get_iface (dev));
+		if (escaped_dev) {
+			object_path = g_strdup_printf ("%s/%s/Networks/", NM_DBUS_PATH_DEVICES, escaped_dev);
+			g_free (escaped_dev);
+
+			if (strncmp (path, object_path, strlen (object_path)) == 0)
+				handled = nm_dbus_method_dispatch (data->net_methods, connection, message, &cb_data, &reply);
+			else
+				handled = nm_dbus_method_dispatch (data->device_methods, connection, message, &cb_data, &reply);
+			g_free (object_path);
+		}
 	}
 
 	if (reply)
@@ -1269,6 +769,34 @@ static char *get_nmi_match_string (const char *owner)
 	return g_strdup_printf ("type='signal',interface='" NMI_DBUS_INTERFACE "',sender='%s',path='" NMI_DBUS_PATH "'", owner);
 }
 
+/*
+ * nm_dbus_reinit
+ *
+ * Reconnect to the system message bus if the connection was dropped.
+ *
+ */
+
+static gpointer nm_dbus_reinit (gpointer user_data)
+{
+	NMData *data = (NMData *) user_data;
+	char *owner;
+
+	g_return_val_if_fail (data != NULL, NULL);
+
+	while ((data->dbus_connection = nm_dbus_init (data)) == NULL)
+		g_usleep (G_USEC_PER_SEC * 3);
+
+	/* if HAL was quick it is already back on the bus. Thus, we do not receive NameOwnerChanged */
+	if ((owner = get_name_owner (data->dbus_connection, "org.freedesktop.Hal")))
+		nm_hal_init (data);
+
+	data->dhcp_manager = nm_dhcp_manager_new (data);
+
+	nm_info ("Successfully reconnected to the system bus.");
+	
+	return NULL;
+}
+
 
 /*
  * nm_dbus_init
@@ -1284,6 +812,7 @@ DBusConnection *nm_dbus_init (NMData *data)
 	DBusObjectPathVTable	devices_vtable = {NULL, &nm_dbus_devices_message_handler, NULL, NULL, NULL, NULL};
 	DBusObjectPathVTable	vpn_vtable = {NULL, &nm_dbus_vpn_message_handler, NULL, NULL, NULL, NULL};
 	char *				owner;
+	int					flags, ret;
 
 	dbus_connection_set_change_sigpipe (TRUE);
 
@@ -1291,12 +820,12 @@ DBusConnection *nm_dbus_init (NMData *data)
 	connection = dbus_bus_get (DBUS_BUS_SYSTEM, &error);
 	if ((connection == NULL) || dbus_error_is_set (&error))
 	{
-		nm_warning ("nm_dbus_init() could not get the system bus.  Make sure the message bus daemon is running?");
+		nm_warning ("nm_dbus_init() could not get the system bus.  Make sure the message bus daemon is running!");
 		connection = NULL;
 		goto out;
 	}
 
-//	dbus_connection_set_exit_on_disconnect (connection, FALSE);
+	dbus_connection_set_exit_on_disconnect (connection, FALSE);
 	dbus_connection_setup_with_g_main (connection, data->main_context);
 
 	data->nm_methods = nm_dbus_nm_methods_setup ();
@@ -1336,10 +865,22 @@ DBusConnection *nm_dbus_init (NMData *data)
 	}
 
 	dbus_error_init (&error);
-	dbus_bus_request_name (connection, NM_DBUS_SERVICE, 0, &error);
+#if (DBUS_VERSION_MAJOR == 0) && (DBUS_VERSION_MINOR < 60)
+	flags = DBUS_NAME_FLAG_PROHIBIT_REPLACEMENT;
+#else
+	flags = DBUS_NAME_FLAG_DO_NOT_QUEUE;
+#endif
+	ret = dbus_bus_request_name (connection, NM_DBUS_SERVICE, flags, &error);
 	if (dbus_error_is_set (&error))
 	{
-		nm_warning ("nm_dbus_init() could not acquire its service.  dbus_bus_acquire_service() says: '%s'", error.message);
+		nm_warning ("nm_dbus_init() could not acquire the NetworkManager service.\n  Message: '%s'", error.message);
+		connection = NULL;
+		goto out;
+	}
+	else if (ret != DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER)
+	{
+		nm_warning ("nm_dbus_init() could not acquire the NetworkManager service as it is already taken (ret=%d). Is the daemon already running?",
+				  ret);
 		connection = NULL;
 		goto out;
 	}

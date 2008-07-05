@@ -1,5 +1,5 @@
 /***************************************************************************
- * CVSID: $Id: nm-vpn-ui-interface.h,v 1.3 2005/08/15 19:34:20 caillon Exp $
+ * CVSID: $Id: nm-vpn-ui-interface.h 846 2005-08-15 19:34:20Z caillon $
  *
  * nm-vpn-ui-interface.h : Public interface for VPN UI editing widgets
  *

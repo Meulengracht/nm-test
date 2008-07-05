@@ -19,13 +19,19 @@
  * (C) Copyright 2004 Red Hat, Inc.
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <signal.h>
 #include <arpa/inet.h>
 #include "NetworkManagerSystem.h"
 #include "NetworkManagerUtils.h"
-#include "NetworkManagerDevice.h"
+#include "nm-device.h"
+#include "nm-device-802-3-ethernet.h"
+#include "nm-device-802-11-wireless.h"
 #include "NetworkManagerDialup.h"
 #include "nm-utils.h"
 #include "shvar.h"
@@ -74,7 +80,7 @@ void nm_system_device_flush_routes_with_iface (const char *iface)
 	g_return_if_fail (iface != NULL);
 
 	/* Remove routing table entries */
-	buf = g_strdup_printf ("/sbin/ip route flush dev %s", iface);
+	buf = g_strdup_printf (IP_BINARY_PATH " route flush dev %s", iface);
 	nm_spawn_process (buf);
 	g_free (buf);
 }
@@ -111,7 +117,7 @@ void nm_system_device_add_default_route_via_device_with_iface (const char *iface
 	g_return_if_fail (iface != NULL);
 
 	/* Add default gateway */
-	buf = g_strdup_printf ("/sbin/ip route add default dev %s", iface);
+	buf = g_strdup_printf (IP_BINARY_PATH " route add default dev %s", iface);
 	nm_spawn_process (buf);
 	g_free (buf);
 }
@@ -130,7 +136,7 @@ void nm_system_device_add_route_via_device_with_iface (const char *iface, const 
 	g_return_if_fail (iface != NULL);
 
 	/* Add default gateway */
-	buf = g_strdup_printf ("/sbin/ip route add %s dev %s", route, iface);
+	buf = g_strdup_printf (IP_BINARY_PATH " route add %s dev %s", route, iface);
 	nm_spawn_process (buf);
 	g_free (buf);
 }
@@ -180,7 +186,7 @@ void nm_system_device_flush_addresses_with_iface (const char *iface)
 	g_return_if_fail (iface != NULL);
 
 	/* Remove all IP addresses for a device */
-	buf = g_strdup_printf ("/sbin/ip addr flush dev %s", iface);
+	buf = g_strdup_printf (IP_BINARY_PATH " addr flush dev %s", iface);
 	nm_spawn_process (buf);
 	g_free (buf);
 }
@@ -207,8 +213,8 @@ void nm_system_device_flush_addresses_with_iface (const char *iface)
  */
 void nm_system_enable_loopback (void)
 {
-	nm_spawn_process ("/sbin/ip link set dev lo up");
-	nm_spawn_process ("/sbin/ip addr add 127.0.0.1/8 brd 127.255.255.255 dev lo scope host label loopback");
+	nm_system_device_set_up_down_with_iface ("lo", TRUE);
+	nm_spawn_process (IP_BINARY_PATH " addr add 127.0.0.1/8 brd 127.255.255.255 dev lo scope host label loopback");
 }
 
 
@@ -221,8 +227,7 @@ void nm_system_enable_loopback (void)
  */
 void nm_system_flush_loopback_routes (void)
 {
-	/* Remove routing table entries for lo */
-	nm_spawn_process ("/sbin/ip route flush dev lo");
+	nm_system_device_flush_routes_with_iface ("lo");
 }
 
 
@@ -234,7 +239,7 @@ void nm_system_flush_loopback_routes (void)
  */
 void nm_system_delete_default_route (void)
 {
-	nm_spawn_process ("/sbin/ip route del default");
+	nm_spawn_process (IP_BINARY_PATH " route del default");
 }
 
 
@@ -246,7 +251,7 @@ void nm_system_delete_default_route (void)
  */
 void nm_system_flush_arp_cache (void)
 {
-	nm_spawn_process ("/sbin/ip neigh flush all");
+	nm_spawn_process (IP_BINARY_PATH " neigh flush all");
 }
 
 
@@ -319,8 +324,7 @@ void nm_system_device_add_ip6_link_address (NMDevice *dev)
 	struct ether_addr hw_addr;
 	unsigned char eui[8];
 
-	nm_device_get_hw_address(dev, &hw_addr);
-
+	nm_device_get_hw_address (dev, &hw_addr);
 	memcpy (eui, &(hw_addr.ether_addr_octet), sizeof (hw_addr.ether_addr_octet));
 	memmove (eui+5, eui+3, 3);
 	eui[3] = 0xff;
@@ -328,7 +332,7 @@ void nm_system_device_add_ip6_link_address (NMDevice *dev)
 	eui[0] ^= 2;
 
 	/* Add the default link-local IPv6 address to a device */
-	buf = g_strdup_printf ("/sbin/ip -6 addr add fe80::%x%02x:%x%02x:%x%02x:%x%02x/64 dev %s",
+	buf = g_strdup_printf (IP_BINARY_PATH " -6 addr add fe80::%x%02x:%x%02x:%x%02x:%x%02x/64 dev %s",
 						eui[0], eui[1], eui[2], eui[3], eui[4], eui[5],
 						eui[6], eui[7], nm_device_get_iface (dev));
 	nm_spawn_process (buf);
@@ -340,6 +344,7 @@ typedef struct RHSystemConfigData
 {
 	NMIP4Config *	config;
 	gboolean		use_dhcp;
+	gboolean		system_disabled;
 } RHSystemConfigData;
 
 
@@ -448,7 +453,7 @@ out:
  * Read in the config file for a device.
  *
  */
-void *nm_system_device_get_system_config (NMDevice *dev)
+void *nm_system_device_get_system_config (NMDevice *dev, NMData *app_data)
 {
 	char *				cfg_file_path = NULL;
 	shvarFile *			file;
@@ -491,6 +496,16 @@ void *nm_system_device_get_system_config (NMDevice *dev)
 			sys_data->use_dhcp = FALSE;
 		free (buf);
 	}
+
+	if ((buf = svGetValue (file, "NM_CONTROLLED")))
+	{
+		if (!strcasecmp (buf, "no"))
+		{
+			nm_info ("System configuration disables device %s", nm_device_get_iface (dev));
+			sys_data->system_disabled = TRUE;
+		}
+		free (buf);
+	}		
 
 	sys_data->config = nm_ip4_config_new ();
 
@@ -632,6 +647,26 @@ gboolean nm_system_device_get_use_dhcp (NMDevice *dev)
 }
 
 
+/*
+ * nm_system_device_get_disabled
+ *
+ * Return whether the distro-specific system config tells us to use
+ * dhcp for this device.
+ *
+ */
+gboolean nm_system_device_get_disabled (NMDevice *dev)
+{
+	RHSystemConfigData *sys_data;
+
+	g_return_val_if_fail (dev != NULL, FALSE);
+
+	if ((sys_data = nm_device_get_system_config_data (dev)))
+		return sys_data->system_disabled;
+
+	return FALSE;
+}
+
+
 NMIP4Config *nm_system_device_new_ip4_system_config (NMDevice *dev)
 {
 	RHSystemConfigData	*sys_data;
@@ -660,6 +695,38 @@ void nm_system_deactivate_all_dialup (GSList *list)
 		g_free(cmd);
 	}
 }
+
+
+gboolean nm_system_deactivate_dialup (GSList *list, const char *dialup)
+{
+	GSList *l;
+	gboolean ret = FALSE;
+	
+	for (l = list; l; l = g_slist_next (l))
+	{
+		NMDialUpConfig *config = (NMDialUpConfig *) l->data;
+		if (strcmp (dialup, config->name) == 0)
+		{
+			char *cmd;
+			int status;
+			
+			nm_info ("Dectivating dialup device %s (%s) ...", dialup, (char *) config->data);
+			cmd = g_strdup_printf ("/sbin/ifdown %s", (char *) config->data);
+			status = nm_spawn_process (cmd);
+			g_free (cmd);
+			if (status == 0) {
+				ret = TRUE;
+			} else {
+				/* FIXME: Decode errors into something sensible */
+				nm_warning ("Couldn't deactivate dialup device %s (%s) - %d", dialup, (char *) config->data, status);
+				ret = FALSE;
+			}
+			break;
+		}
+	}
+	return ret;
+}
+
 
 gboolean nm_system_activate_dialup (GSList *list, const char *dialup)
 {
@@ -819,4 +886,57 @@ GSList * nm_system_get_dialup_config (void)
 	g_dir_close (dir);
 	
 	return list;
+}
+
+/*
+ * nm_system_activate_nis
+ *
+ * set up the nis domain and write a yp.conf
+ *
+ */
+void nm_system_activate_nis (NMIP4Config *config)
+{
+}
+
+/*
+ * nm_system_shutdown_nis
+ *
+ * shutdown ypbind
+ *
+ */
+void nm_system_shutdown_nis (void)
+{
+}
+
+/*
+ * nm_system_set_hostname
+ *
+ * set the hostname
+ *
+ */
+void nm_system_set_hostname (NMIP4Config *config)
+{
+}
+
+
+/*
+ * nm_system_should_modify_resolv_conf
+ *
+ * Can NM update resolv.conf, or is it locked down?
+ */
+gboolean nm_system_should_modify_resolv_conf (void)
+{
+	return TRUE;
+}
+
+
+/*
+ * nm_system_get_mtu
+ *
+ * Return a user-provided or system-mandated MTU for this device or zero if
+ * no such MTU is provided.
+ */
+guint32 nm_system_get_mtu (NMDevice *dev)
+{
+	return 0;
 }

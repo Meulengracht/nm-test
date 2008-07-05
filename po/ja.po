@@ -1,14 +1,14 @@
 # Japanese translation for NetworkManager
 # Copyright (C) 2005 Dan Williams <dcbw@redhat.com>
 # This file is distributed under the same license as the NetworkManager package.
-# Satoru SATOH <ss@gnome.gr.jp>, 2005.
+# Satoru SATOH <ss@gnome.gr.jp>, 2005 - 2007.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: NetworkManager 0.3.1\n"
+"Project-Id-Version: NetworkManager NETWORKMANAGER_0_6_0_RELEASE\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-01 11:27+0100\n"
-"PO-Revision-Date: 2005-01-01 23:57+0900\n"
+"POT-Creation-Date: 2007-08-27 00:21+0900\n"
+"PO-Revision-Date: 2007-08-26 23:34+0900\n"
 "Last-Translator: Satoru SATOH <ss@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -16,204 +16,227 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: info-daemon/networks.glade.h:1
-msgid "<span weight=\"bold\">Wireless Networks:</span>"
-msgstr "<span weight=\"bold\">無線ネットワーク:</span>"
+#: ../gnome/vpn-properties/nm-vpn-properties.c:405
+msgid "Cannot add VPN connection"
+msgstr "VPN 接続を追加できません"
 
-#: info-daemon/networks.glade.h:2
-msgid "Modify Wireless Networks"
-msgstr "無線ネットワークを変更"
-
-#: info-daemon/passphrase.glade.h:1 panel-applet/essid.glade.h:1
-msgid "*"
-msgstr "*"
-
-#: info-daemon/passphrase.glade.h:2 panel-applet/essid.glade.h:2
+#: ../gnome/vpn-properties/nm-vpn-properties.c:407
 msgid ""
-"128-bit Passphrase (WEP)\n"
-"Ascii Key (WEP)\n"
-"Hex Key (WEP)"
+"No suitable VPN software was found on your system. Contact your system "
+"administrator."
 msgstr ""
-"128-bit パスフレーズ (WEP)\n"
-"ASCII 鍵 (WEP)\n"
-"16 進鍵 (WEP)"
+"システムに適切な VPN ソフトウェアがみつかりませんでした。システム管理者にご連"
+"絡ください。"
 
-#: info-daemon/passphrase.glade.h:6
-#, no-c-format
+#: ../gnome/vpn-properties/nm-vpn-properties.c:457
+msgid "Cannot import VPN connection"
+msgstr "VPN 接続をインポートできません"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:459
+#, c-format
 msgid ""
-"<span weight=\"bold\" size=\"larger\">Passphrase Required by Wireless "
-"Network</span>\n"
+"Cannot find suitable software for VPN connection type '%s' to import the "
+"file '%s'. Contact your system administrator."
+msgstr ""
+"VPN 接続タイプ「%s」がファイル「%s」をインポートするために適切なソフトウェア"
+"が見つかりません。システム管理者にご連絡ください。"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:596
+#, c-format
+msgid "Error retrieving VPN connection '%s'"
+msgstr "VPN 接続「%s」の取得エラー"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:599
+#, c-format
+msgid ""
+"Could not find the UI files for VPN connection type '%s'. Contact your "
+"system administrator."
+msgstr ""
+"VPN 接続タイプ「%s」の UI ファイルがみつかりませんでした。システム管理者にご"
+"連絡ください。"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:746
+#, c-format
+msgid "Delete VPN connection \"%s\"?"
+msgstr "VPN 接続「%s」を削除しますか?"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:749
+#, c-format
+msgid ""
+"All information about the VPN connection \"%s\" will be lost and you may "
+"need your system administrator to provide information to create a new "
+"connection."
+msgstr ""
+"VPN 接続「%s」に関する情報はすべて失われます。システム管理者が新しい接続を作"
+"成するための情報を提供する必要があります。"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:963
+msgid "Unable to load"
+msgstr "ロードできません"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:965
+msgid "Cannot find some needed resources (the glade file)!"
+msgstr "必要なリソースが見つかりません(グレードファイル)。"
+
+#. Edit dialog
+#: ../gnome/vpn-properties/nm-vpn-properties.c:1084
+msgid "Edit VPN Connection"
+msgstr "VPN 接続を編集します"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:1
+msgid "Add a new VPN connection"
+msgstr "新しい VPN 接続を追加します"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:2
+msgid "Choose which type of VPN connection you wish to create."
+msgstr "作成する VPN 接続のタイプを選択します。"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:3
+msgid "Connect to:"
+msgstr "接続先:"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:4
+msgid "Create VPN Connection"
+msgstr "VPN 接続を作成する"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:5
+msgid "Create VPN Connection - 1 of 2"
+msgstr "VPN 接続を作成します - 1/2"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:6
+msgid "Create VPN Connection - 2 of 2"
+msgstr "VPN 接続を作成します - 2/2"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:7
+msgid "Delete the selected VPN connection"
+msgstr "選択した VPN 接続を削除します "
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:8
+msgid "E_xport"
+msgstr "エクスポート(_X)"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:9
+msgid "Edit the selected VPN connection"
+msgstr "選択した VPN 接続を編集する"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:10
+msgid "Export the VPN settings to a file"
+msgstr "VPN 設定をファイルにエクスポートする"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:11
+msgid "Export the selected VPN connection to a file"
+msgstr "選択した VPN 接続をファイルにエクスポートする"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:12
+msgid "Finish Creating VPN Connection"
+msgstr "VPN 接続の作成を完了する"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:13
+msgid "Manage Virtual Private Network Connections"
+msgstr "仮想プライベートネットワーク接続を管理する"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:14
+msgid ""
+"This assistant will guide you through the creation of a connection to a "
+"Virtual Private Network (VPN).\n"
 "\n"
-"A passphrase or encryption key is required to access the wireless network '%"
-"s'."
+"It will require some information, such as IP addresses and secrets.  Please "
+"see your system administrator to obtain this information."
 msgstr ""
-"<span weight=\"bold\" size=\"larger\">無線ネットワークにはパスフレーズが"
-"必要です</span>\n\n"
-"無線ネットワーク '%s' にアクセスするにはパスフレーズか暗号化鍵が必要です"
+"このアシスタントに従って、仮想プライベートネットワーク (VPN) への接続を作成で"
+"きます。\n"
+"\n"
+"IP アドレスなどの情報が必要です。"
 
-#: info-daemon/passphrase.glade.h:9 panel-applet/essid.glade.h:7
-msgid "Key Type:"
-msgstr "鍵の種別"
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:17
+msgid "VPN Connections"
+msgstr "VPN 接続"
 
-#: info-daemon/passphrase.glade.h:10
-#: info-daemon/NetworkManagerInfoPassphraseDialog.c:139
-#: panel-applet/NMWirelessAppletOtherNetworkDialog.c:147
-#: panel-applet/essid.glade.h:8
-msgid "Passphrase:"
-msgstr "パスフレーズ:"
+#: ../src/nm-ap-security-wep.c:52
+msgid "40-bit WEP"
+msgstr "40-ビット WEP"
 
-#: info-daemon/passphrase.glade.h:11
-msgid "Wireless Network Key Required"
-msgstr "無線ネットワーク鍵が必要です"
+#: ../src/nm-ap-security-wep.c:54
+msgid "104-bit WEP"
+msgstr "104-ビット WEP"
 
-#: info-daemon/passphrase.glade.h:12
-msgid "_Login to Network"
-msgstr "ネットワークにログイン(_L)"
+#: ../src/nm-ap-security-wpa-psk.c:50
+msgid "WPA TKIP"
+msgstr "WPA TKIP"
 
-#: info-daemon/NetworkManagerInfoPassphraseDialog.c:142
-#: panel-applet/NMWirelessAppletOtherNetworkDialog.c:150
-msgid "Ascii Key:"
-msgstr "ASCII 鍵:"
+#: ../src/nm-ap-security-wpa-psk.c:52
+msgid "WPA CCMP"
+msgstr "WPA CCMP"
 
-#: info-daemon/NetworkManagerInfoPassphraseDialog.c:145
-#: panel-applet/NMWirelessAppletOtherNetworkDialog.c:153
-msgid "Hex Key:"
-msgstr "16 進鍵:"
+#: ../src/nm-ap-security-wpa-psk.c:54
+msgid "WPA Automatic"
+msgstr "WPA 自動"
 
-#: info-daemon/NetworkManagerInfoVPN.c:157
+#: ../src/nm-ap-security-wpa-psk.c:59
+msgid "WPA2 TKIP"
+msgstr "WPA2 TKIP"
+
+#: ../src/nm-ap-security-wpa-psk.c:61
+msgid "WPA2 CCMP"
+msgstr "WPA2 CCMP"
+
+#: ../src/nm-ap-security-wpa-psk.c:63
+msgid "WPA2 Automatic"
+msgstr "WPA2 自動"
+
+#: ../src/nm-ap-security.c:338
+msgid "none"
+msgstr "なし"
+
+#: ../src/nm-netlink-monitor.c:170
 #, c-format
-msgid "You must log in to access the private network %s"
-msgstr "プライベートネットワーク %s にアクセスするにはログイン"
-"しなければいけません"
-
-#: panel-applet/NMWirelessApplet.c:293
-msgid "No network connection"
-msgstr "ネットワーク接続なし"
-
-#: panel-applet/NMWirelessApplet.c:297
-msgid "Wired network connection"
-msgstr "無線ネットワーク接続"
-
-#: panel-applet/NMWirelessApplet.c:303
-msgid "Connecting to a wired network..."
-msgstr "無線ネットワークに接続中..."
-
-#: panel-applet/NMWirelessApplet.c:311
-msgid "Connected to an Ad-Hoc wireless network"
-msgstr "Ad-Hoc 無線ネットワークに接続しました"
-
-#: panel-applet/NMWirelessApplet.c:325
-#, c-format
-msgid "Wireless network connection (%d%%)"
-msgstr "無線ネットワーク接続 (%d%%)"
-
-#: panel-applet/NMWirelessApplet.c:329
-msgid "Wireless network connection"
-msgstr "無線ネットワーク接続"
-
-#: panel-applet/NMWirelessApplet.c:335
-msgid "Connecting to a wireless network..."
-msgstr "無線ネットワークに接続中..."
-
-#: panel-applet/NMWirelessApplet.c:339
-msgid "NetworkManager is not running"
-msgstr "NetworkManager は実行されていません"
-
-#: panel-applet/NMWirelessApplet.c:345
-msgid "Scanning for wireless networks..."
-msgstr "無線ネットワークを走査中..."
-
-#: panel-applet/NMWirelessApplet.c:667
-msgid "Other Wireless Networks..."
-msgstr "他の無線ネットワーク..."
-
-#: panel-applet/NMWirelessApplet.c:688
-msgid "Create new Wireless Network..."
-msgstr "新しい無線ネットワークを作成..."
-
-#: panel-applet/NMWirelessApplet.c:798
-msgid "No network devices have been found"
-msgstr "ネットワークデバイスがみつかりませんでした"
-
-#: panel-applet/NMWirelessApplet.c:916
-msgid "NetworkManager is not running..."
-msgstr "NetworkManager は実行されていません..."
-
-#: panel-applet/NMWirelessAppletOtherNetworkDialog.c:226
-msgid "Create new wireless network"
-msgstr "新しい無線ネットワークを作成"
-
-#: panel-applet/NMWirelessAppletOtherNetworkDialog.c:227
 msgid ""
-"Enter the ESSID and security settings of the wireless network you wish to "
-"create."
+"unable to create netlink socket for monitoring wired ethernet devices - %s"
 msgstr ""
-"作成したい無線ネットワークの ESSID とセキュリティ設定を入力して下さい"
+"有線イーサネットデバイスをモニターするネットリンクソケットを作成できません - "
+"%s"
 
-#: panel-applet/NMWirelessAppletOtherNetworkDialog.c:232
-msgid "Custom wireless network"
-msgstr "カスタム無線ネットワーク"
-
-#: panel-applet/NMWirelessAppletOtherNetworkDialog.c:233
-msgid "Enter the ESSID of the wireless network to which you wish to connect."
-msgstr "接続した無線ネットワークの ESSID を入力して下さい"
-
-#. Reuse the above string to make the translators less angry.
-#: panel-applet/NMWirelessAppletOtherNetworkDialog.c:314
-#: panel-applet/NMWirelessAppletOtherNetworkDialog.c:323
+#: ../src/nm-netlink-monitor.c:188
+#, c-format
 msgid ""
-"The NetworkManager Applet could not find some required resources (the glade "
-"file was not found)."
+"unable to bind to netlink socket for monitoring wired ethernet devices - %s"
 msgstr ""
-"NetworkManager アプレットはいくつかの必要なリソース"
-"glade ファイル)をみつけることができませんでした"
+"有線イーサネットデバイスをモニターするネットリンクソケットをバインドできませ"
+"ん - %s "
 
-#: panel-applet/essid.glade.h:5
-msgid "C_onnect"
-msgstr "接続(_O)"
-
-#: panel-applet/essid.glade.h:6
-msgid "Connect with encryption enabled"
-msgstr "暗号化を有効にして接続"
-
-#: panel-applet/essid.glade.h:9
-msgid "Wireless _adapter:"
-msgstr "無線アダプタ(_A):"
-
-#: panel-applet/essid.glade.h:10
-msgid "Wireless _Network:"
-msgstr "無線ネットワーク(_N):"
-
-#: panel-applet/menu-info.c:101
+#: ../src/nm-netlink-monitor.c:426
 #, c-format
-msgid "Wired Network (%s)"
-msgstr "無線ネットワーク (%s)"
+msgid "operation took too long"
+msgstr "操作に時間がかかり過ぎました"
 
-#: panel-applet/menu-info.c:103
-msgid "Wired Network"
-msgstr "無線ネットワーク"
-
-#: panel-applet/menu-info.c:168
+#: ../src/nm-netlink-monitor.c:523
 #, c-format
-msgid "Wireless Network (%s)"
-msgid_plural "Wireless Networks (%s)"
-msgstr[0] "無線ネットワーク (%s)"
-msgstr[1] "無線ネットワーク (%s)"
+msgid "received data from wrong type of sender"
+msgstr "不正な送信者からデータを受信しました"
 
-#: panel-applet/menu-info.c:170
-msgid "Wireless Network"
-msgid_plural "Wireless Networks"
-msgstr[0] "無線ネットワーク"
-msgstr[1] "無線ネットワーク"
+#: ../src/nm-netlink-monitor.c:536
+#, c-format
+msgid "received data from unexpected sender"
+msgstr "予期せぬ送信者からデータを受信しました"
 
-#: panel-applet/menu-info.c:307
-msgid " (invalid Unicode)"
-msgstr " (不正な Unicode)"
+#: ../src/nm-netlink-monitor.c:665
+#, c-format
+msgid "too much data was sent over socket and some of it was lost"
+msgstr "ソケット上に送信されたデータが多過ぎ、その一部は失われました"
 
-#: examples/python/systray/eggtrayicon.c:111
-msgid "Orientation"
-msgstr "向き"
+#: ../src/nm-netlink-monitor.c:775
+#, c-format
+msgid "error occurred while waiting for data on socket"
+msgstr "ソケット上でデータを待機中にエラーが発生しました"
 
-#: examples/python/systray/eggtrayicon.c:112
-msgid "The orientation of the tray."
-msgstr "トレイの向き"
+#: ../src/nm-ap-security-wpa-eap.c:95 ../src/nm-ap-security-wpa-eap.c:119
+msgid "WPA2 Enterprise"
+msgstr "WPA Enterprise"
+
+#: ../src/nm-ap-security-wpa-eap.c:97 ../src/nm-ap-security-wpa-eap.c:124
+msgid "WPA Enterprise"
+msgstr "WPA Enterprise"
+
+#: ../src/nm-ap-security-leap.c:66 ../src/nm-ap-security-leap.c:82
+msgid "LEAP"
+msgstr "LEAP"

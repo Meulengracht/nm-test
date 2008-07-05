@@ -50,7 +50,13 @@ void add_block(const char *type, const char* name)
 
 void add_data(const char *key,const char *data)
 {
-	if_data *ret = (if_data*)calloc(1,sizeof(struct _if_data));
+	if_data *ret;
+
+	// Check if there is a block where we can attach our data
+	if (first == NULL)
+		return;
+			
+	ret = (if_data*) calloc(1,sizeof(struct _if_data));
 	ret->key = g_strdup(key);
 	ret->data = g_strdup(data);
 	
@@ -69,10 +75,14 @@ void add_data(const char *key,const char *data)
 
 #define SPACE_OR_TAB(string,ret) {ret = strchr(string,' ');ret=(ret == NULL?strchr(string,'\t'):ret);}
 
-void ifparser_init()
+void ifparser_init(void)
 {
 	FILE *inp = fopen(INTERFACES,"r");
 	int ret = 0;
+	char *line;
+	char *space;
+	char rline[255];
+
 	if (inp == NULL)
 	{
 		nm_warning ("Error: Can't open %s\n",INTERFACES);
@@ -81,10 +91,16 @@ void ifparser_init()
 	first = last = NULL;
 	while(1)
 	{
-		char *line,rline[255],*space;
+		line = space = NULL;
 		ret = fscanf(inp,"%255[^\n]\n",rline);
 		if (ret == EOF)
 			break;
+		// If the line did not match, skip it
+		if (ret == 0) {
+			fgets(rline, 255, inp);
+			continue;
+		}
+		
 		line = rline;
 		while(line[0] == ' ')
 			line++;
@@ -94,18 +110,19 @@ void ifparser_init()
 		SPACE_OR_TAB(line,space)
 		if (space == NULL)
 		{
-            nm_warning ("Error: Can't parse interface line '%s'\n",line);
+			nm_warning ("Error: Can't parse interface line '%s'\n",line);
 			continue;
 		}
 		space[0] = '\0';
 		
-		
+		// There are four different stanzas:
+		// iface, mapping, auto and allow-*. Create a block for each of them.
 		if (strcmp(line,"iface")==0)
 		{
 			char *space2 = strchr(space+1,' ');
 			if (space2 == NULL)
 			{
-            	nm_warning ("Error: Can't parse iface line '%s'\n",space+1);
+				nm_warning ("Error: Can't parse iface line '%s'\n",space+1);
 				continue;
 			}
 			space2[0]='\0';
@@ -116,7 +133,7 @@ void ifparser_init()
 				space = strchr(space2+1,' ');
 				if (space == NULL)
 				{
-            		nm_warning ("Error: Can't parse data '%s'\n",space2+1);
+					nm_warning ("Error: Can't parse data '%s'\n",space2+1);
 					continue;
 				}
 				space[0] = '\0';
@@ -124,6 +141,10 @@ void ifparser_init()
 			}
 		}
 		else if (strcmp(line,"auto")==0)
+			add_block(line,space+1);
+		else if (strcmp(line,"mapping")==0)
+			add_block(line,space+1);
+		else if (strncmp(line,"allow-",6)==0)
 			add_block(line,space+1);
 		else
 			add_data(line,space+1);
@@ -156,13 +177,13 @@ void _destroy_block(if_block* ifb)
 	return;
 }
 
-void ifparser_destroy() 
+void ifparser_destroy(void) 
 {
 	_destroy_block(first);
 	first = last = NULL;
 }
 
-if_block *ifparser_getfirst()
+if_block *ifparser_getfirst(void)
 {
 	return first;
 }

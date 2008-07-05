@@ -39,6 +39,9 @@
 /* Define if your <locale.h> file defines LC_MESSAGES. */
 #undef HAVE_LC_MESSAGES
 
+/* Define if we have libgnome 2.14 */
+#undef HAVE_LIBGNOME_2_14
+
 /* Define to 1 if you have the <locale.h> header file. */
 #undef HAVE_LOCALE_H
 
@@ -87,6 +90,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Define to path of ip binary */
+#undef IP_BINARY_PATH
+
 /* Define to 1 if your C compiler doesn't accept -c and -o together. */
 #undef NO_MINUS_C_MINUS_O
 
@@ -116,6 +122,13 @@
 
 /* Version number of package */
 #undef VERSION
+
+/* Define to 1 if your processor stores words with the most significant byte
+   first (like Motorola and SPARC, unlike Intel and VAX). */
+#undef WORDS_BIGENDIAN
+
+/* Define to path of wpa_supplicant binary */
+#undef WPA_SUPPLICANT_BINARY_PATH
 
 /* Define to `int' if <sys/types.h> does not define. */
 #undef mode_t

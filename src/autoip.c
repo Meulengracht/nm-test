@@ -30,7 +30,9 @@
 #include <glib.h>
 #include <unistd.h>
 #include "NetworkManager.h"
-#include "NetworkManagerDevice.h"
+#include "nm-device.h"
+#include "nm-device-802-3-ethernet.h"
+#include "nm-device-802-11-wireless.h"
 #include "NetworkManagerMain.h"
 #include "NetworkManagerUtils.h"
 #include "nm-utils.h"
@@ -210,7 +212,7 @@ gboolean get_autoip (NMDevice *dev, struct in_addr *out_ip)
 	ARPMessage		p;
 	struct ether_addr	addr;
 	struct in_addr		ip = {0};
-	NMSock			*sk;
+	NMSock *			sk = NULL;
 	int				nprobes = 0;
 	int				nannounce = 0;
 	gboolean			success = FALSE;
@@ -223,6 +225,8 @@ gboolean get_autoip (NMDevice *dev, struct in_addr *out_ip)
 	/* initialize saddr */
 	memset (&saddr, 0, sizeof (saddr));
 	strncpy (saddr.sa_data, nm_device_get_iface (dev), sizeof (saddr.sa_data));
+
+	nm_device_get_hw_address (dev, &addr);
 
 	/* open an ARP socket */
 	if ((sk = nm_dev_sock_open (dev, NETWORK_CONTROL, __FUNCTION__, NULL)) == NULL)
@@ -237,8 +241,6 @@ gboolean get_autoip (NMDevice *dev, struct in_addr *out_ip)
 		nm_warning ("%s: Couldn't bind to the device.", nm_device_get_iface (dev));
 		goto out;
 	}
-
-	nm_device_get_hw_address (dev, &addr);
 
 	/* initialize pseudo random selection of IP addresses */
 	srandom ( (addr.ether_addr_octet[ETHER_ADDR_LEN-4] << 24) |
@@ -274,9 +276,11 @@ gboolean get_autoip (NMDevice *dev, struct in_addr *out_ip)
 			}
 			else
 			{
-				/* FIXME: we need to randomize the timeout _between_ MIN and MAX */
+				unsigned int usecs_to_sleep = ((PROBE_MAX - PROBE_MIN) * 1000000) - 1;
+
+				/* We want to sleep between PROBE_MIN and PROBE_MAX seconds, exclusive */
 				timeout.tv_sec += PROBE_MIN;
-				timeout.tv_usec += (random () % 200000);
+				timeout.tv_usec += 1 + (random () % usecs_to_sleep);
 			}
 		}
 		else if (nannounce < ANNOUNCE_NUM)
@@ -344,6 +348,7 @@ gboolean get_autoip (NMDevice *dev, struct in_addr *out_ip)
 	}
 
 out:
-	nm_dev_sock_close (sk);
+	if (sk)
+		nm_dev_sock_close (sk);
 	return success;
 }

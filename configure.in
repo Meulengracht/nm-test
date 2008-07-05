@@ -1,6 +1,6 @@
 AC_PREREQ(2.52)
 
-AC_INIT(NetworkManager, 0.5.1, dcbw@redhat.com, NetworkManager)
+AC_INIT(NetworkManager, 0.6.6, dcbw@redhat.com, NetworkManager)
 AM_INIT_AUTOMAKE([subdir-objects])
 AM_MAINTAINER_MODE
 
@@ -35,22 +35,33 @@ AC_FUNC_MEMCMP
 AC_CHECK_FUNCS(select socket uname)
 
 dnl
+dnl GNOME support
+dnl
+AC_ARG_WITH(gnome, AC_HELP_STRING([--without-gnome], [Build NetworkManager without GNOME support, e.g. daemon only]))
+AM_CONDITIONAL(WITH_GNOME, test x"$with_gnome" != xno)
+
+dnl
 dnl translation support
 dnl
 GETTEXT_PACKAGE=NetworkManager
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package])
-ALL_LINGUAS="bs ca cs da de el en_CA es fr gu hr hu it ja nb ne nl no pa pt_BR rw sk sq sr sr@Latn sv uk wa zh_CN zh_TW"
-AC_PROG_INTLTOOL([0.27.2])
+IT_PROG_INTLTOOL([0.35.0])
 AM_GLIB_GNU_GETTEXT
 
-AC_ARG_WITH(distro, AC_HELP_STRING([--with-distro=DISTRO], [Specify the Linux distribution to target: One of redhat, suse, gentoo, debian, or slackware]))
+dnl
+dnl Make sha1.c happy on big endian systems
+dnl
+AC_C_BIGENDIAN
+
+AC_ARG_WITH(distro, AC_HELP_STRING([--with-distro=DISTRO], [Specify the Linux distribution to target: One of redhat, suse, gentoo, debian, arch or slackware]))
 if test "z$with_distro" = "z"; then
 	AC_CHECK_FILE(/etc/redhat-release,with_distro="redhat")
 	AC_CHECK_FILE(/etc/SuSE-release,with_distro="suse")
 	AC_CHECK_FILE(/etc/fedora-release,with_distro="redhat")
 	AC_CHECK_FILE(/etc/gentoo-release,with_distro="gentoo")
 	AC_CHECK_FILE(/etc/debian_version,with_distro="debian")
+	AC_CHECK_FILE(/etc/arch-release,with_distro="arch")
 	AC_CHECK_FILE(/etc/slackware-version,with_distro="slackware")
 fi
 with_distro=`echo ${with_distro} | tr '[[:upper:]]' '[[:lower:]]' `
@@ -60,7 +71,7 @@ if test "z$with_distro" = "z"; then
 	exit 1
 else
 	case $with_distro in
-		redhat|suse|gentoo|debian|slackware) ;;
+		redhat|suse|gentoo|debian|slackware|arch) ;;
 		*)
 			echo "Your distribution (${with_distro}) is not yet supported!  (patches welcome)"
 			exit 1
@@ -72,6 +83,7 @@ AM_CONDITIONAL(TARGET_SUSE, test x"$with_distro" = xsuse)
 AM_CONDITIONAL(TARGET_GENTOO, test x"$with_distro" = xgentoo)
 AM_CONDITIONAL(TARGET_DEBIAN, test x"$with_distro" = xdebian)
 AM_CONDITIONAL(TARGET_SLACKWARE, test x"$with_distro" = xslackware)
+AM_CONDITIONAL(TARGET_ARCH, test x"$with_distro" = xarch)
 
 AC_MSG_CHECKING([for wireless-tools >= 28pre9])
 AC_TRY_COMPILE([#include <iwlib.h>],
@@ -87,7 +99,7 @@ fi
 IWLIB=-liw
 AC_SUBST(IWLIB)
 
-PKG_CHECK_MODULES(DBUS, dbus-glib-1 >= 0.22)
+PKG_CHECK_MODULES(DBUS, dbus-glib-1 >= 0.60)
 
 ##### Find out the version of DBUS we're using
 dbus_version=`pkg-config --modversion dbus-1`
@@ -120,40 +132,28 @@ else
 	DBUS_CFLAGS="$DBUS_CFLAGS -DDBUS_VERSION_MINOR=$DBUS_VERSION_MINOR"
 	DBUS_CFLAGS="$DBUS_CFLAGS -DDBUS_VERSION_MICRO=$DBUS_VERSION_MICRO"
 fi
-AC_SUBST(DBUS_CFLAGS)
-AC_SUBST(DBUS_LIBS)
 
 PKG_CHECK_MODULES(GTHREAD, gthread-2.0)
-AC_SUBST(GTHREAD_CFLAGS)
-AC_SUBST(GTHREAD_LIBS)
+
+PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.6)
+
+PKG_CHECK_MODULES(GOBJECT, gobject-2.0 >= 2.6)
 
 PKG_CHECK_MODULES(GMODULE, gmodule-2.0)
-AC_SUBST(GMODULE_CFLAGS)
-AC_SUBST(GMODULE_LIBS)
 
-PKG_CHECK_MODULES(HAL, hal >= 0.2.91)
-AC_SUBST(HAL_CFLAGS)
-AC_SUBST(HAL_LIBS)
+PKG_CHECK_MODULES(HAL, hal >= 0.5.0)
 
-PKG_CHECK_MODULES(GTK, gtk+-2.0)
-AC_SUBST(GTK_CFLAGS)
-AC_SUBST(GTK_LIBS)
+if test x"$with_gnome" != xno; then
+	PKG_CHECK_MODULES(GTK, gtk+-2.0)
 
-PKG_CHECK_MODULES(GDK_PIXBUF, gdk-pixbuf-2.0)
-AC_SUBST(GDK_PIXBUF_CFLAGS)
-AC_SUBST(GDK_PIXBUF_LIBS)
+	PKG_CHECK_MODULES(GLADE, libglade-2.0)
 
-PKG_CHECK_MODULES(GLADE, libglade-2.0)
-AC_SUBST(GLADE_CFLAGS)
-AC_SUBST(GLADE_LIBS)
+	PKG_CHECK_MODULES(GCONF, gconf-2.0)
 
-PKG_CHECK_MODULES(GCONF, gconf-2.0)
-AC_SUBST(GCONF_CFLAGS)
-AC_SUBST(GCONF_LIBS)
+	PKG_CHECK_MODULES(GNOME_KEYRING, gnome-keyring-1)
+fi
 
-PKG_CHECK_MODULES(GNOME_KEYRING, gnome-keyring-1)
-AC_SUBST(GNOME_KEYRING_CFLAGS)
-AC_SUBST(GNOME_KEYRING_LIBS)
+PKG_CHECK_MODULES(LIBNL, libnl-1 >= 1.0-pre8)
 
 AC_ARG_WITH(gcrypt, AC_HELP_STRING([--with-gcrypt], [Use gcrypt library]), ac_gcrypt=$withval, ac_gcrypt=auto)
 if test x"$ac_gcrypt" != xno; then
@@ -177,13 +177,17 @@ else
 fi
 AM_CONDITIONAL(WITH_GCRYPT, test x"$ac_gcrypt" != xno)
 
-PKG_CHECK_MODULES(PANEL_APPLET, libpanelapplet-2.0)
-AC_SUBST(PANEL_APPLET_CFLAGS)
-AC_SUBST(PANEL_APPLET_LIBS)
+if test x"$with_gnome" != xno; then
+	PKG_CHECK_MODULES(LIBGNOMEUI, libgnomeui-2.0)
 
-PKG_CHECK_MODULES(LIBGNOMEUI, libgnomeui-2.0)
-AC_SUBST(LIBGNOMEUI_CFLAGS) # is this even needed? it was typed incorrectly before
-AC_SUBST(LIBGNOMEUI_LIBS)
+	PKG_CHECK_EXISTS([libgnome-2.0 >= 2.14.0],[have_libgnome_2_14=yes],[have_libgnome_2_14=no])
+	if test "$have_libgnome_2_14" = "yes"; then
+		AC_DEFINE([HAVE_LIBGNOME_2_14],[1],[Define if we have libgnome 2.14])
+	fi
+fi
+
+GLIB_GENMARSHAL=`pkg-config --variable=glib_genmarshal glib-2.0`
+AC_SUBST(GLIB_GENMARSHAL)
 
 AC_ARG_WITH(dbus-sys, AC_HELP_STRING([--with-dbus-sys=DIR], [where D-BUS system.d directory is]))
 
@@ -195,6 +199,7 @@ fi
 AC_SUBST(DBUS_SYS_DIR)
 AC_DEFINE_UNQUOTED(DBUS_SYSTEMD_DIR, "$DBUS_SYS_DIR", [Where system.d dir for DBUS is])
 
+# dhcdbd binary path
 AC_ARG_WITH(dhcdbd, AC_HELP_STRING([--with-dhcdbd=/path/to/dhcdbd], [path to dhcdbd])) 
 if test "x${with_dhcdbd}" = x; then
   AC_PATH_PROG(DHCDBD_BINARY_PATH, dhcdbd, [], $PATH:/sbin:/usr/sbin)
@@ -206,6 +211,32 @@ else
 fi
 AC_DEFINE_UNQUOTED(DHCDBD_BINARY_PATH, "$DHCDBD_BINARY_PATH", [Define to path of dhcdbd binary])
 AC_SUBST(DHCDBD_BINARY_PATH)
+
+# wpa_supplicant binary path
+AC_ARG_WITH(wpa_supplicant, AC_HELP_STRING([--with-wpa_supplicant=/path/to/wpa_supplicant], [path to wpa_supplicant]))
+if test "x${with_wpa_supplicant}" = x; then
+  AC_PATH_PROG(WPA_SUPPLICANT_BINARY_PATH, wpa_supplicant, [], $PATH:/sbin:/usr/sbin)
+  if ! test -x "$WPA_SUPPLICANT_BINARY_PATH"; then
+        AC_MSG_ERROR(wpa_supplicant is not installed.  See http://hostap.epitest.fi/wpa_supplicant/)
+  fi
+else
+  WPA_SUPPLICANT_BINARY_PATH="$with_wpa_supplicant"
+fi
+AC_DEFINE_UNQUOTED(WPA_SUPPLICANT_BINARY_PATH, "$WPA_SUPPLICANT_BINARY_PATH", [Define to path of wpa_supplicant binary])
+AC_SUBST(WPA_SUPPLICANT_BINARY_PATH)
+
+# ip binary path
+AC_ARG_WITH(ip, AC_HELP_STRING([--with-ip=/path/to/ip], [path to ip])) 
+if test "x${with_ip}" = x; then
+  AC_PATH_PROG(IP_BINARY_PATH, ip, [], $PATH:/sbin:/usr/sbin)
+  if ! test -x "$IP_BINARY_PATH"; then
+	AC_MSG_ERROR(iproute2 was not installed.  See http://linux-net.osdl.org/index.php/Iproute2)
+  fi
+else
+  IP_BINARY_PATH="$with_ip"
+fi
+AC_DEFINE_UNQUOTED(IP_BINARY_PATH, "$IP_BINARY_PATH", [Define to path of ip binary])
+AC_SUBST(IP_BINARY_PATH)
 
 #### find the actual value for $prefix that we'll end up with
 ##   (I know this is broken and should be done in the Makefile, but
@@ -252,10 +283,9 @@ if test "$GCC" = "yes" -a "$set_more_warnings" != "no"; then
 	AC_MSG_RESULT(yes)
 	CFLAGS="-Wall -Werror -std=gnu89 $CFLAGS"
 
-	for option in -Wno-unused -Wno-sign-compare -Wno-pointer-sign \
+	for option in -Wshadow -Wmissing-declarations -Wmissing-prototypes \
 		      -Wdeclaration-after-statement -Wstrict-prototypes \
-		      -Wmissing-prototypes -Wmissing-declarations \
-		      -Wno-strict-aliasing; do
+		      -Wfloat-equal -Wno-unused-parameter -Wno-sign-compare; do
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $option"
 		AC_MSG_CHECKING([whether gcc understands $option])
@@ -276,30 +306,44 @@ fi
 
 AC_OUTPUT([
 Makefile
+include/Makefile
 utils/Makefile
 src/Makefile
 src/named-manager/Makefile
 src/vpn-manager/Makefile
 src/dhcp-manager/Makefile
 src/backends/Makefile
+libnm-util/libnm-util.pc
+libnm-util/Makefile
 dispatcher-daemon/Makefile
 gnome/Makefile
-gnome/applet/Makefile
-gnome/applet/icons/Makefile
 gnome/libnm_glib/libnm_glib.pc
 gnome/libnm_glib/Makefile
 gnome/vpn-properties/Makefile
 test/Makefile
+test/test-common/Makefile
+test/libnm-util/Makefile
 initscript/Makefile
 initscript/RedHat/Makefile
 initscript/RedHat/NetworkManager
 initscript/RedHat/NetworkManagerDispatcher
 initscript/Gentoo/Makefile
 initscript/Gentoo/NetworkManager
+initscript/Gentoo/NetworkManagerDispatcher
 initscript/Debian/Makefile
 initscript/Slackware/Makefile
+initscript/Slackware/rc.networkmanager
+initscript/Slackware/rc.networkmanager-dispatcher
 initscript/SUSE/Makefile
 initscript/SUSE/networkmanager
+initscript/SUSE/networkmanager-dispatcher
+initscript/Arch/Makefile
+initscript/Arch/networkmanager
+initscript/Arch/networkmanager-dispatcher
+man/Makefile
+man/NetworkManager.8
+man/NetworkManagerDispatcher.8
+man/nm-tool.1
 po/Makefile.in
 NetworkManager.pc
 ])

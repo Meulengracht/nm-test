@@ -24,7 +24,7 @@
 #include <string.h>
 #include <dbus/dbus.h>
 #include "nm-activation-request.h"
-#include "NetworkManagerDevice.h"
+#include "nm-device.h"
 #include "NetworkManagerDbus.h"
 #include "nm-dhcp-manager.h"
 #include "nm-utils.h"
@@ -36,6 +36,7 @@ struct NMActRequest
 	NMData *			data;
 	NMDevice *		dev;
 	NMAccessPoint *	ap;
+	NMWiredNetwork *wired_net;
 	NMIP4Config *		ip4_config;
 
 	gboolean			user_requested;
@@ -43,31 +44,24 @@ struct NMActRequest
 	NMActStage		stage;
 	DBusPendingCall *	user_key_pcall;
 
-	guint8			dhcp_state;
+	guint32			dhcp_state;
 	guint			dhcp_timeout;
 };
 
 
-NMActRequest * nm_act_request_new (NMData *data, NMDevice *dev, NMAccessPoint *ap, gboolean user_requested)
+NMActRequest * nm_act_request_new (NMData *data, NMDevice *dev, gboolean user_requested)
 {
 	NMActRequest *	req;
 
 	g_return_val_if_fail (data != NULL, NULL);
 	g_return_val_if_fail (dev != NULL, NULL);
 
-	if (nm_device_is_wireless (dev))
-		g_return_val_if_fail (ap != NULL, NULL);
-
 	req = g_malloc0 (sizeof (NMActRequest));
 	req->refcount = 1;
 	req->data = data;
 
-	nm_device_ref (dev);
+	g_object_ref (G_OBJECT (dev));
 	req->dev = dev;
-
-	if (ap)
-		nm_ap_ref (ap);
-	req->ap = ap;
 
 	req->user_requested = user_requested;
 	req->dhcp_state = nm_dhcp_manager_get_state_for_device (data->dhcp_manager, dev);
@@ -90,15 +84,21 @@ void nm_act_request_unref (NMActRequest *req)
 	req->refcount--;
 	if (req->refcount <= 0)
 	{
-		nm_device_unref (req->dev);
+		g_object_unref (G_OBJECT (req->dev));
 		if (req->ap)
 			nm_ap_unref (req->ap);
+
+		if (req->ip4_config)
+			nm_ip4_config_unref (req->ip4_config);
 
 		if (req->dhcp_timeout > 0)
 		{
 			GSource *	source = g_main_context_find_source_by_id (req->data->main_context, req->dhcp_timeout);
 			g_source_destroy (source);
 		}
+
+		if (req->wired_net)
+			g_object_unref (req->wired_net);
 
 		memset (req, 0, sizeof (NMActRequest));
 		g_free (req);
@@ -121,6 +121,14 @@ NMData * nm_act_request_get_data (NMActRequest *req)
 }
 
 
+gboolean nm_act_request_get_user_requested (NMActRequest *req)
+{
+	g_return_val_if_fail (req != NULL, FALSE);
+
+	return req->user_requested;
+}
+
+
 NMAccessPoint * nm_act_request_get_ap (NMActRequest *req)
 {
 	g_return_val_if_fail (req != NULL, NULL);
@@ -129,11 +137,42 @@ NMAccessPoint * nm_act_request_get_ap (NMActRequest *req)
 }
 
 
-gboolean nm_act_request_get_user_requested (NMActRequest *req)
+void nm_act_request_set_ap (NMActRequest *req, NMAccessPoint *ap)
 {
-	g_return_val_if_fail (req != NULL, FALSE);
+	g_return_if_fail (req != NULL);
 
-	return req->user_requested;
+	if (req->ap)
+	{
+		nm_ap_unref (req->ap);
+		req->ap = NULL;
+	}
+	if (ap)
+	{
+		nm_ap_ref (ap);
+		req->ap = ap;
+	}
+}
+
+
+NMWiredNetwork *nm_act_request_get_wired_network (NMActRequest *req)
+{
+	g_return_val_if_fail (req != NULL, NULL);
+
+	return req->wired_net;
+}
+
+
+void nm_act_request_set_wired_network (NMActRequest *req, NMWiredNetwork *wired_net)
+{
+	g_return_if_fail (req != NULL);
+
+	if (req->wired_net)
+	{
+		g_object_unref (req->wired_net);
+		req->wired_net = NULL;
+	}
+	if (wired_net)
+		req->wired_net = g_object_ref (wired_net);
 }
 
 
@@ -239,4 +278,3 @@ void nm_act_request_set_dhcp_timeout (NMActRequest *req, guint dhcp_timeout)
 
 	req->dhcp_timeout = dhcp_timeout;
 }
-

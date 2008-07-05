@@ -19,6 +19,10 @@
  * (C) Copyright 2004 Red Hat, Inc.
  */
 
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
+
 #include <glib.h>
 #include <dbus/dbus.h>
 #include <dbus/dbus-glib-lowlevel.h>
@@ -32,13 +36,15 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <glib/gi18n.h>
 
 #include "NetworkManager.h"
 #include "nm-utils.h"
 #include "NetworkManagerUtils.h"
-#include "NetworkManagerDevice.h"
+#include "nm-device.h"
+#include "nm-device-802-3-ethernet.h"
+#include "nm-device-802-11-wireless.h"
 #include "NetworkManagerPolicy.h"
-#include "NetworkManagerWireless.h"
 #include "NetworkManagerDbus.h"
 #include "NetworkManagerAP.h"
 #include "NetworkManagerAPList.h"
@@ -48,17 +54,22 @@
 #include "nm-dbus-vpn.h"
 #include "nm-netlink-monitor.h"
 #include "nm-dhcp-manager.h"
+#include "nm-logging.h"
 
 #define NM_WIRELESS_LINK_STATE_POLL_INTERVAL (5 * 1000)
+
+#define NM_DEFAULT_PID_FILE	LOCALSTATEDIR"/run/NetworkManager.pid"
 
 /*
  * Globals
  */
 static NMData		*nm_data = NULL;
 
+char *ks_err_message = NULL;
+
 static gboolean sigterm_pipe_handler (GIOChannel *src, GIOCondition condition, gpointer data);
-static void sigterm_handler (int signum);
 static void nm_data_free (NMData *data);
+static gboolean nm_poll_killswitches(gpointer user_data);
 
 /*
  * nm_get_device_interface_from_hal
@@ -129,7 +140,7 @@ NMDevice * nm_create_device_and_add_to_list (NMData *data, const char *udi, cons
 		if (nm_try_acquire_mutex (data->dev_list_mutex, __FUNCTION__))
 		{
 			nm_info ("Now managing %s device '%s'.",
-				nm_device_is_wireless (dev) ? "wireless" : "wired", nm_device_get_iface (dev));
+				nm_device_is_802_11_wireless (dev) ? "wireless (802.11)" : "wired Ethernet (802.3)", nm_device_get_iface (dev));
 
 			data->dev_list = g_slist_append (data->dev_list, dev);
 			nm_device_deactivate (dev);
@@ -143,10 +154,10 @@ NMDevice * nm_create_device_and_add_to_list (NMData *data, const char *udi, cons
 		{
 			/* If we couldn't add the device to our list, free its data. */
 			nm_warning ("could not acquire device list mutex." );
-			nm_device_unref (dev);
+			g_object_unref (G_OBJECT (dev));
 			dev = NULL;
 		}
-	} else nm_warning ("could not allocate device data." );
+	}
 
 	return (dev);
 }
@@ -164,11 +175,10 @@ void nm_remove_device (NMData *data, NMDevice *dev)
 	g_return_if_fail (dev != NULL);
 
 	nm_device_set_removed (dev, TRUE);
-	nm_device_deactivate (dev);
-	nm_device_worker_thread_stop (dev);
+	nm_device_stop (dev);
 	nm_dbus_schedule_device_status_change_signal (data, dev, NULL, DEVICE_REMOVED);
 
-	nm_device_unref (dev);
+	g_object_unref (G_OBJECT (dev));
 
 	/* Remove the device entry from the device list and free its data */
 	data->dev_list = g_slist_remove (data->dev_list, dev);
@@ -235,7 +245,7 @@ static void nm_hal_device_added (LibHalContext *ctx, const char *udi)
 	 */
 	if ((iface = nm_get_device_interface_from_hal (data->hal_ctx, udi)))
 	{
-		nm_create_device_and_add_to_list (data, udi, iface, FALSE, DEVICE_TYPE_DONT_KNOW);
+		nm_create_device_and_add_to_list (data, udi, iface, FALSE, DEVICE_TYPE_UNKNOWN);
 		g_free (iface);
 	}
 }
@@ -267,6 +277,204 @@ static void nm_hal_device_removed (LibHalContext *ctx, const char *udi)
 }
 
 
+static void handle_killswitch_pcall_done (NMData *data, DBusPendingCall * pcall)
+{
+	GSource * source;
+	gboolean now_enabled = FALSE;
+	gboolean now_disabled = FALSE;
+
+	data->ks_pcall_list = g_slist_remove (data->ks_pcall_list, pcall);
+	if (g_slist_length (data->ks_pcall_list) > 0)
+		return;  /* not done with all killswitches yet */
+
+	if (data->hw_rf_enabled != data->tmp_hw_rf_enabled) {
+		nm_info ("Wireless now %s by radio killswitch",
+		         data->tmp_hw_rf_enabled ? "enabled" : "disabled");
+		if (data->tmp_hw_rf_enabled)
+			now_enabled = TRUE;
+		else
+			now_disabled = TRUE;
+
+		data->hw_rf_enabled = data->tmp_hw_rf_enabled;
+	}
+
+	if (data->hw_rf_enabled == data->wireless_enabled)
+		goto out;
+
+	/* Only re-enabled wireless if killswitch just changed, otherwise
+	 * ignore hardware rf enabled state.
+	 */
+	if (now_enabled && !data->wireless_enabled) {
+		data->wireless_enabled = TRUE;
+		nm_policy_schedule_device_change_check (data);
+		nm_dbus_signal_wireless_enabled (data);
+	} else if (!data->hw_rf_enabled && data->wireless_enabled) {
+		GSList * elt;
+
+		/* Deactivate all wireless devices and force them down so they
+		 * turn off their radios.
+		 */
+		nm_lock_mutex (data->dev_list_mutex, __FUNCTION__);
+		for (elt = data->dev_list; elt; elt = g_slist_next (elt)) {
+			NMDevice * dev = (NMDevice *) elt->data;
+			if (nm_device_is_802_11_wireless (dev)) {
+				nm_device_deactivate (dev);
+				nm_device_bring_down (dev);
+			}
+		}
+		nm_unlock_mutex (data->dev_list_mutex, __FUNCTION__);
+
+		data->wireless_enabled = FALSE;
+		nm_policy_schedule_device_change_check (data);
+		nm_dbus_signal_wireless_enabled (data);
+	}
+
+out:
+	/* Schedule another killswitch poll */
+	source = g_timeout_source_new (6000);
+	g_source_set_callback (source, nm_poll_killswitches, data, NULL);
+	g_source_attach (source, data->main_context);
+	g_source_unref (source);
+}
+
+static void nm_killswitch_getpower_reply_cb (DBusPendingCall *pcall, NMData * data)
+{
+	DBusError		err;
+	DBusMessage *	reply = NULL;
+	gint32			int_status = 1;
+	guint32			uint_status = 1;
+
+	g_return_if_fail (pcall != NULL);
+	g_return_if_fail (data != NULL);
+
+	if (!dbus_pending_call_get_completed (pcall))
+		goto out;
+
+	if (!(reply = dbus_pending_call_steal_reply (pcall)))
+		goto out;
+
+	if (message_is_error (reply)) {
+		dbus_error_init (&err);
+		dbus_set_error_from_message (&err, reply);
+		if (!ks_err_message || strcmp (ks_err_message, err.message)) {
+			nm_info ("Error getting killswitch power: %s - %s", err.name, err.message);
+			g_free (ks_err_message);
+			ks_err_message = g_strdup (err.message);
+		}
+		dbus_error_free (&err);
+		goto out;
+	}
+
+	/* Handle both HAL <= 0.5.9 which uses UINT and HAL >= 0.5.10 which
+	 * uses INT.
+	 */
+	dbus_error_init (&err);
+	if (!dbus_message_get_args (reply, &err, DBUS_TYPE_UINT32, &uint_status, DBUS_TYPE_INVALID)) {
+		dbus_error_free (&err);
+
+		dbus_error_init (&err);
+		if (!dbus_message_get_args (reply, &err, DBUS_TYPE_INT32, &int_status, DBUS_TYPE_INVALID)) {
+			if (!ks_err_message || strcmp (ks_err_message, err.message)) {
+				nm_info ("Error getting killswitch power arguments: %s - %s", err.name, err.message);
+				g_free (ks_err_message);
+				ks_err_message = g_strdup (err.message);
+			}
+			dbus_error_free (&err);
+			goto out;
+		} else {
+			if (int_status == 0)
+				data->tmp_hw_rf_enabled = FALSE;
+		}
+	} else {
+		if (uint_status == 0)
+			data->tmp_hw_rf_enabled = FALSE;
+	}
+
+out:
+	if (reply)
+		dbus_message_unref (reply);
+
+	handle_killswitch_pcall_done (data, pcall);
+	dbus_pending_call_unref (pcall);
+}
+
+
+static gboolean nm_poll_killswitches (gpointer user_data)
+{
+	NMData * data = (NMData *) user_data;
+	DBusConnection * connection = data->dbus_connection;
+	GSList * elt;
+
+	g_return_val_if_fail (data != NULL, FALSE);
+
+	data->tmp_hw_rf_enabled = TRUE;
+
+	for (elt = data->killswitch_list; elt; elt = g_slist_next (elt))
+	{
+		DBusPendingCall * pcall;
+		DBusMessage * message;
+
+		message = dbus_message_new_method_call ("org.freedesktop.Hal",
+		                                        elt->data,
+		                                        "org.freedesktop.Hal.Device.KillSwitch",
+		                                        "GetPower");
+		if (!dbus_connection_send_with_reply (connection, message, &pcall, 5000)) {
+			nm_warning ("%s(): could not send dbus message", __func__);
+		} else if (!pcall) {
+			nm_warning ("%s(): could not send dbus message; pcall was NULL", __func__);
+		} else {
+			dbus_pending_call_set_notify (pcall,
+			                              (DBusPendingCallNotifyFunction) nm_killswitch_getpower_reply_cb,
+			                              data,
+			                              NULL);
+			data->ks_pcall_list = g_slist_append (data->ks_pcall_list, pcall);
+		}
+		dbus_message_unref (message);
+	}
+	return FALSE;
+}
+
+
+/*
+ * nm_add_killswitch_device
+ *
+ * Adds a killswitch device to the list
+ *
+ */
+static void nm_add_killswitch_device (NMData * data, const char * udi)
+{
+	char * type;
+	GSList * elt;
+
+	type = libhal_device_get_property_string (data->hal_ctx, udi, "killswitch.type", NULL);
+	if (!type)
+		return;
+
+	if (strcmp (type, "wlan") != 0)
+		goto out;
+
+	/* see if it's already in the list */
+	for (elt = data->killswitch_list; elt; elt = g_slist_next (elt)) {
+		const char * list_udi = (const char *) elt->data;
+		if (strcmp (list_udi, udi) == 0)
+			goto out;
+	}
+
+	/* Start polling switches if this is the first switch we've found */
+	if (g_slist_length (data->killswitch_list) == 0) {
+		GSource * source = g_idle_source_new ();
+		g_source_set_callback (source, nm_poll_killswitches, data, NULL);
+		g_source_attach (source, data->main_context);
+		g_source_unref (source);
+	}
+
+	data->killswitch_list = g_slist_append (data->killswitch_list, g_strdup (udi));
+	nm_info ("Found radio killswitch %s", udi);
+
+out:
+	libhal_free_string (type);
+}
+
 /*
  * nm_hal_device_new_capability
  *
@@ -276,18 +484,21 @@ static void nm_hal_device_new_capability (LibHalContext *ctx, const char *udi, c
 	NMData	*data = (NMData *)libhal_ctx_get_user_data (ctx);
 
 	g_return_if_fail (data != NULL);
+	g_return_if_fail (capability != NULL);
 
-	/*nm_debug ("nm_hal_device_new_capability() called with udi = %s, capability = %s", udi, capability );*/
-
-	if (capability && ((strcmp (capability, "net.80203") == 0) || (strcmp (capability, "net.80211") == 0)))
+	if (((strcmp (capability, "net.80203") == 0) || (strcmp (capability, "net.80211") == 0)))
 	{
 		char *iface;
 
 		if ((iface = nm_get_device_interface_from_hal (data->hal_ctx, udi)))
 		{
-			nm_create_device_and_add_to_list (data, udi, iface, FALSE, DEVICE_TYPE_DONT_KNOW);
+			nm_create_device_and_add_to_list (data, udi, iface, FALSE, DEVICE_TYPE_UNKNOWN);
 			g_free (iface);
 		}
+	}
+	else if (strcmp (capability, "killswitch") == 0)
+	{
+		nm_add_killswitch_device (data, udi);
 	}
 }
 
@@ -324,13 +535,37 @@ void nm_add_initial_devices (NMData *data)
 
 			if ((iface = nm_get_device_interface_from_hal (data->hal_ctx, net_devices[i])))
 			{
-				nm_create_device_and_add_to_list (data, net_devices[i], iface, FALSE, DEVICE_TYPE_DONT_KNOW);
+				nm_create_device_and_add_to_list (data, net_devices[i], iface, FALSE, DEVICE_TYPE_UNKNOWN);
 				g_free (iface);
 			}
 		}
 	}
 
 	libhal_free_string_array (net_devices);
+}
+
+void nm_add_initial_killswitch_devices (NMData * data)
+{
+	char ** udis;
+	int		num_udis, i;
+	DBusError	error;
+
+	g_return_if_fail (data != NULL);
+
+	dbus_error_init (&error);
+	udis = libhal_find_device_by_capability (data->hal_ctx, "killswitch", &num_udis, &error);
+	if (!udis)
+		return;
+
+	if (dbus_error_is_set (&error)) {
+		nm_warning("Could not find killswitch devices: %s", error.message);
+		dbus_error_free (&error);
+		return;
+	}
+
+	for (i = 0; i < num_udis; i++)
+		nm_add_killswitch_device (data, udis[i]);
+	libhal_free_string_array (udis);
 }
 
 
@@ -368,6 +603,45 @@ void nm_schedule_state_change_signal_broadcast (NMData *data)
 }
 
 
+static void
+nm_error_monitoring_device_link_state (NmNetlinkMonitor *monitor,
+				      GError 	       *error,
+				      NMData	       *data)
+{
+	/* FIXME: Try to handle the error instead of just printing it. */
+	nm_warning ("error monitoring wired ethernet link state: %s\n",
+		    error->message);
+}
+
+static NmNetlinkMonitor *
+nm_monitor_setup (NMData *data)
+{
+	GError *error = NULL;
+	NmNetlinkMonitor *monitor;
+
+	monitor = nm_netlink_monitor_new (data);
+	nm_netlink_monitor_open_connection (monitor, &error);
+	if (error != NULL)
+	{
+		nm_warning ("could not monitor wired ethernet devices: %s",
+			    error->message);
+		g_error_free (error);
+		g_object_unref (monitor);
+		return NULL;
+	}
+
+	g_signal_connect (G_OBJECT (monitor), "error",
+			  G_CALLBACK (nm_error_monitoring_device_link_state),
+			  data);
+
+	nm_netlink_monitor_attach (monitor, data->main_context);
+
+	/* Request initial status of cards */
+	nm_netlink_monitor_request_status (monitor, NULL);
+	return monitor;
+}
+
+
 /*
  * nm_data_new
  *
@@ -376,8 +650,6 @@ void nm_schedule_state_change_signal_broadcast (NMData *data)
  */
 static NMData *nm_data_new (gboolean enable_test_devices)
 {
-	struct sigaction	action;
-	sigset_t			block_mask;
 	NMData *			data;
 	GSource *			iosource;
 	
@@ -386,24 +658,20 @@ static NMData *nm_data_new (gboolean enable_test_devices)
 	data->main_context = g_main_context_new ();
 	data->main_loop = g_main_loop_new (data->main_context, FALSE);
 
-	if (pipe(data->sigterm_pipe) < 0)
+	/* Allow clean shutdowns by having the thread which receives the signal
+	 * notify the main thread to quit, rather than having the receiving
+	 * thread try to quit the glib main loop.
+	 */
+	if (pipe (data->sigterm_pipe) < 0)
 	{
 		nm_error ("Couldn't create pipe: %s", g_strerror (errno));
-		exit (EXIT_FAILURE);
+		return NULL;
 	}
-
 	data->sigterm_iochannel = g_io_channel_unix_new (data->sigterm_pipe[0]);
 	iosource = g_io_create_watch (data->sigterm_iochannel, G_IO_IN | G_IO_ERR);
 	g_source_set_callback (iosource, (GSourceFunc) sigterm_pipe_handler, data, NULL);
 	g_source_attach (iosource, data->main_context);
 	g_source_unref (iosource);
-
-	action.sa_handler = sigterm_handler;
-	sigemptyset (&block_mask);
-	action.sa_mask = block_mask;
-	action.sa_flags = 0;
-	sigaction (SIGINT, &action, NULL);
-	sigaction (SIGTERM, &action, NULL);
 
 	/* Initialize the device list mutex to protect additions/deletions to it. */
 	data->dev_list_mutex = g_mutex_new ();
@@ -412,7 +680,7 @@ static NMData *nm_data_new (gboolean enable_test_devices)
 	{
 		nm_data_free (data);
 		nm_warning ("could not initialize data structure locks.");
-		return (NULL);
+		return NULL;
 	}
 	nm_register_mutex_desc (data->dev_list_mutex, "Device List Mutex");
 	nm_register_mutex_desc (data->dialup_list_mutex, "DialUp List Mutex");
@@ -424,15 +692,20 @@ static NMData *nm_data_new (gboolean enable_test_devices)
 	{
 		nm_data_free (data);
 		nm_warning ("could not create access point lists.");
-		return (NULL);
+		return NULL;
+	}
+
+	/* Create watch functions that monitor cards for link status. */
+	if (!(data->netlink_monitor = nm_monitor_setup (data)))
+	{
+		nm_data_free (data);
+		nm_warning ("could not create netlink monitor.");
+		return NULL;
 	}
 
 	data->enable_test_devices = enable_test_devices;
 	data->wireless_enabled = TRUE;
-
-	nm_policy_schedule_device_change_check (data);
-
-	return (data);	
+	return data;
 }
 
 
@@ -440,9 +713,9 @@ static void device_stop_and_free (NMDevice *dev, gpointer user_data)
 {
 	g_return_if_fail (dev != NULL);
 
-	nm_device_set_removed (dev, TRUE);
-	nm_device_deactivate (dev);
-	nm_device_unref (dev);
+	nm_device_set_removed (dev, TRUE);	
+	nm_device_stop (dev);
+	g_object_unref (G_OBJECT (dev));
 }
 
 
@@ -466,9 +739,23 @@ static void nm_data_free (NMData *data)
 	nm_lock_mutex (data->dev_list_mutex, __FUNCTION__);
 	g_slist_foreach (data->dev_list, (GFunc) device_stop_and_free, NULL);
 	g_slist_free (data->dev_list);
+	data->dev_list = NULL;
 	nm_unlock_mutex (data->dev_list_mutex, __FUNCTION__);
 
+	/* device_stop_and_free() deactivates devices, which triggers state change
+	   signals. Without cleaning the queue, they never get the chance to fire,
+	   keeping the device references alive.
+	*/
+	while (g_main_context_pending (data->main_context))
+		g_main_context_iteration (data->main_context, TRUE);
+
 	g_mutex_free (data->dev_list_mutex);
+
+	if (data->netlink_monitor)
+	{
+		g_object_unref (G_OBJECT (data->netlink_monitor));
+		data->netlink_monitor = NULL;
+	}
 
 	nm_ap_list_unref (data->allowed_ap_list);
 	nm_ap_list_unref (data->invalid_ap_list);
@@ -480,23 +767,24 @@ static void nm_data_free (NMData *data)
 	g_main_loop_unref (data->main_loop);
 	g_main_context_unref (data->main_context);
 
-	g_io_channel_unref(data->sigterm_iochannel);
+	nm_dbus_method_list_free (data->nm_methods);
+	nm_dbus_method_list_free (data->device_methods);
+	nm_dbus_method_list_free (data->net_methods);
+	nm_dbus_method_list_free (data->vpn_methods);
+
+	g_io_channel_unref (data->sigterm_iochannel);
 
 	nm_hal_deinit (data);
+
+	if (data->dbus_connection)
+		dbus_connection_unref (data->dbus_connection);
 
 	memset (data, 0, sizeof (NMData));
 }
 
-static void sigterm_handler (int signum)
+int nm_get_sigterm_pipe (void)
 {
-        int ignore;
-
-	/* FIXME: This line is probably not a great 
-	 * thing to have in a signal handler
-	 */
-	nm_info ("Caught SIGINT/SIGTERM");
-
-	ignore = write (nm_data->sigterm_pipe[1], "X", 1);
+	return nm_data->sigterm_pipe[1];
 }
 
 static gboolean sigterm_pipe_handler (GIOChannel *src, GIOCondition condition, gpointer user_data)
@@ -507,234 +795,6 @@ static gboolean sigterm_pipe_handler (GIOChannel *src, GIOCondition condition, g
 	g_main_loop_quit (data->main_loop);
 	return FALSE;
 }
-
-/*
- * nm_print_usage
- *
- * Prints program usage.
- *
- */
-static void nm_print_usage (void)
-{
-	fprintf (stderr, "\n" "usage : NetworkManager [--no-daemon] [--help]\n");
-	fprintf (stderr,
-		"\n"
-		"        --no-daemon             Don't become a daemon\n"
-		"        --enable-test-devices   Allow dummy devices to be created via DBUS methods [DEBUG]\n"
-		"        --help                  Show this information and exit\n"
-		"\n"
-		"NetworkManager monitors all network connections and automatically\n"
-		"chooses the best connection to use.  It also allows the user to\n"
-		"specify wireless access points which wireless cards in the computer\n"
-		"should associate with.\n"
-		"\n");
-}
-
-/*
- * nm_poll_and_update_wireless_link_state
- *
- * Called every 2s to poll wireless cards and determine if they have a link
- * or not.
- *
- */
-static gboolean nm_poll_and_update_wireless_link_state (NMData *data)
-{
-	GSList *		elt;
-	GSList *		copy = NULL;
-	NMDevice *	dev;
-
-	g_return_val_if_fail (data != NULL, TRUE);
-
-	if ((data->wireless_enabled == FALSE) || (data->asleep == TRUE))
-		return (TRUE);
-
-	/* Copy device list and ref devices to keep them around */
-	if (nm_try_acquire_mutex (data->dev_list_mutex, __FUNCTION__))
-	{
-		for (elt = data->dev_list; elt; elt = g_slist_next (elt))
-		{
-			if ((dev = (NMDevice *)(elt->data)))
-			{
-				nm_device_ref (dev);
-				copy = g_slist_append (copy, dev);
-			}
-		}
-		nm_unlock_mutex (data->dev_list_mutex, __FUNCTION__);
-	}
-
-	for (elt = copy; elt; elt = g_slist_next (elt))
-	{
-		if ((dev = (NMDevice *)(elt->data)))
-		{
-			if (nm_device_is_wireless (dev) && !nm_device_is_activating (dev))
-			{
-				nm_device_set_link_active (dev, nm_device_probe_link_state (dev));
-				nm_device_update_signal_strength (dev);
-			}
-			nm_device_unref (dev);
-		}
-	}
-
-	g_slist_free (copy);
-	
-	return TRUE;
-}
-
-static void nm_monitor_wireless_link_state (NMData *data)
-{
-	GSource *link_source;
-	link_source = g_timeout_source_new (NM_WIRELESS_LINK_STATE_POLL_INTERVAL);
-	g_source_set_callback (link_source, 
-			       (GSourceFunc) nm_poll_and_update_wireless_link_state, 
-			       data, NULL);
-	g_source_attach (link_source, nm_data->main_context);
-	g_source_unref (link_source);
-}
-
-static void nm_device_link_activated (NmNetlinkMonitor *monitor, const gchar *interface_name, NMData *data)
-{
-	NMDevice *dev = NULL;
-
-	if (nm_try_acquire_mutex (data->dev_list_mutex, __FUNCTION__))
-	{
-		if ((dev = nm_get_device_by_iface (data, interface_name)))
-			nm_device_ref (dev);
-		nm_unlock_mutex (data->dev_list_mutex, __FUNCTION__);
-	}
-
-	/* Don't do anything if we already have a link */
-	if (dev)
-	{
-		if (nm_device_is_wired (dev) && !nm_device_has_active_link (dev))
-		{
-			nm_device_set_link_active (dev, TRUE);
-			nm_policy_schedule_device_change_check (data);
-		}
-		nm_device_unref (dev);
-	}
-}
-
-static void nm_device_link_deactivated (NmNetlinkMonitor *monitor, const gchar *interface_name, NMData *data)
-{
-	NMDevice *dev = NULL;
-
-	if (nm_try_acquire_mutex (data->dev_list_mutex, __FUNCTION__))
-	{
-		if ((dev = nm_get_device_by_iface (data, interface_name)))
-			nm_device_ref (dev);
-		nm_unlock_mutex (data->dev_list_mutex, __FUNCTION__);
-	}
-
-	if (dev)
-	{
-		if (nm_device_is_wired (dev))
-			nm_device_set_link_active (dev, FALSE);
-		nm_device_unref (dev);
-	}
-}
-
-static void
-nm_error_monitoring_device_link_state (NmNetlinkMonitor *monitor,
-				      GError 	       *error,
-				      NMData	       *data)
-{
-	/* FIXME: Try to handle the error instead of just printing it.
-	 */
-	nm_warning ("error monitoring wired ethernet link state: %s\n",
-		    error->message);
-}
-
-static void
-nm_monitor_wired_link_state (NMData *data)
-{
-	GError *error;
-	NmNetlinkMonitor *monitor;
-
-	monitor = nm_netlink_monitor_new ();
-	
-	error = NULL;
-	nm_netlink_monitor_open_connection (monitor, &error);
-
-	if (error != NULL)
-	{
-		nm_warning ("could not monitor wired ethernet devices: %s",
-			    error->message);
-		g_error_free (error);
-		g_object_unref (monitor);
-		return;
-	}
-
-	g_signal_connect (G_OBJECT (monitor), "interface-connected",
-			  G_CALLBACK (nm_device_link_activated), data);
-
-	g_signal_connect (G_OBJECT (monitor), "interface-disconnected",
-			  G_CALLBACK (nm_device_link_deactivated), data);
-
-	g_signal_connect (G_OBJECT (monitor), "error",
-			  G_CALLBACK (nm_error_monitoring_device_link_state),
-			  data);
-
-	nm_netlink_monitor_attach (monitor, data->main_context);
-
-	/* Request initial status of cards
-	 */
-	nm_netlink_monitor_request_status (monitor, NULL);
-
-	data->netlink_monitor = monitor;
-}
-
-static void
-nm_info_handler (const gchar	*log_domain,
-		GLogLevelFlags	 log_level,
-		const gchar	*message,
-		gboolean 	 is_daemon)
-{
-	int syslog_priority;	
-
-	switch (log_level)
-	{
-		case G_LOG_LEVEL_ERROR:
-			syslog_priority = LOG_CRIT;
-		break;
-
-		case G_LOG_LEVEL_CRITICAL:
-			syslog_priority = LOG_ERR;
-		break;
-
-		case G_LOG_LEVEL_WARNING:
-			syslog_priority = LOG_WARNING;
-		break;
-
-		case G_LOG_LEVEL_MESSAGE:
-			syslog_priority = LOG_NOTICE;
-
-		case G_LOG_LEVEL_DEBUG:
-			syslog_priority = LOG_DEBUG;
-		break;
-
-		case G_LOG_LEVEL_INFO:
-		default:
-			syslog_priority = LOG_INFO;
-		break;
-	}
-
-	syslog (syslog_priority, "%s", message);
-}
-
-static void
-nm_set_up_log_handlers (gboolean become_daemon)
-{
-	if (become_daemon)
-		openlog (G_LOG_DOMAIN, LOG_CONS, LOG_DAEMON);
-	else
-		openlog (G_LOG_DOMAIN, LOG_CONS | LOG_PERROR, LOG_USER);
-
-	g_log_set_handler (G_LOG_DOMAIN, 
-	                   G_LOG_LEVEL_MASK,
-			   (GLogFunc) nm_info_handler,
-			   GINT_TO_POINTER (become_daemon));
-}
-
 
 static LibHalContext *nm_get_hal_ctx (NMData *data)
 {
@@ -753,7 +813,7 @@ static LibHalContext *nm_get_hal_ctx (NMData *data)
 	nm_hal_mainloop_integration (ctx, data->dbus_connection); 
 	libhal_ctx_set_dbus_connection (ctx, data->dbus_connection);
 	dbus_error_init (&error);
-	if(!libhal_ctx_init (ctx, &error))
+	if (!libhal_ctx_init (ctx, &error))
 	{
 		nm_error ("libhal_ctx_init() failed: %s\n"
 			  "Make sure the hal daemon is running?", 
@@ -787,29 +847,78 @@ void nm_hal_init (NMData *data)
 	g_return_if_fail (data != NULL);
 
 	if ((data->hal_ctx = nm_get_hal_ctx (data)))
+	{
+		nm_add_initial_killswitch_devices (data);
 		nm_add_initial_devices (data);
+	}
+
+	/* If there weren't any killswitches, mark hardware RF to on */
+	if (g_slist_length (data->killswitch_list) == 0)
+		data->hw_rf_enabled = TRUE;
 }
 
 
 void nm_hal_deinit (NMData *data)
 {
+	DBusError error;
+
 	g_return_if_fail (data != NULL);
 
-	if (data->hal_ctx)
-	{
-		DBusError error;
+	if (!data->hal_ctx)
+		return;
 
-		dbus_error_init (&error);
-		libhal_ctx_shutdown (data->hal_ctx, &error);
-		if (dbus_error_is_set (&error))
-		{
-			nm_warning ("libhal shutdown failed - %s", error.message);
-			dbus_error_free (&error);
-		}
-		libhal_ctx_free (data->hal_ctx);
-		data->hal_ctx = NULL;
+	g_slist_foreach (data->killswitch_list, (GFunc) g_free, NULL);
+	g_slist_free (data->killswitch_list);
+	data->killswitch_list = NULL;
+
+	dbus_error_init (&error);
+	libhal_ctx_shutdown (data->hal_ctx, &error);
+	if (dbus_error_is_set (&error))
+	{
+		nm_warning ("libhal shutdown failed - %s", error.message);
+		dbus_error_free (&error);
 	}
+	libhal_ctx_free (data->hal_ctx);
+	data->hal_ctx = NULL;
 }
+
+
+static void
+write_pidfile (const char *pidfile)
+{
+ 	char pid[16];
+	int fd;
+ 
+	if ((fd = open (pidfile, O_CREAT|O_WRONLY|O_TRUNC, 00644)) < 0)
+	{
+		nm_warning ("Opening %s failed: %s", pidfile, strerror (errno));
+		return;
+	}
+ 	snprintf (pid, sizeof (pid), "%d", getpid ());
+	if (write (fd, pid, strlen (pid)) < 0)
+		nm_warning ("Writing to %s failed: %s", pidfile, strerror (errno));
+	if (close (fd))
+		nm_warning ("Closing %s failed: %s", pidfile, strerror (errno));
+}
+
+
+/*
+ * nm_print_usage
+ *
+ * Prints program usage.
+ *
+ */
+static void nm_print_usage (void)
+{
+	fprintf (stderr,
+		"\n"
+		"NetworkManager monitors all network connections and automatically\n"
+		"chooses the best connection to use.  It also allows the user to\n"
+		"specify wireless access points which wireless cards in the computer\n"
+		"should associate with.\n"
+		"\n");
+}
+
 
 /*
  * main
@@ -817,9 +926,12 @@ void nm_hal_deinit (NMData *data)
  */
 int main( int argc, char *argv[] )
 {
-	gboolean		become_daemon = TRUE;
+	gboolean		become_daemon = FALSE;
 	gboolean		enable_test_devices = FALSE;
+	gboolean		show_usage = FALSE;
 	char *		owner;
+	char *		pidfile = NULL;
+	char *		user_pidfile = NULL;
 	
 	if (getuid () != 0)
 	{
@@ -827,62 +939,64 @@ int main( int argc, char *argv[] )
 		return (EXIT_FAILURE);
 	}
 
+	bindtextdomain (GETTEXT_PACKAGE, GNOMELOCALEDIR);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+	textdomain (GETTEXT_PACKAGE);
+
 	/* Parse options */
-	while (1)
 	{
-		int c;
-		int option_index = 0;
-		const char *opt;
-
-		static struct option options[] = {
-			{"no-daemon",			0, NULL, 0},
-			{"enable-test-devices",	0, NULL, 0},
-			{"help",				0, NULL, 0},
-			{NULL,				0, NULL, 0}
+		GOptionContext  *opt_ctx = NULL;
+		GOptionEntry options[] = {
+			{"no-daemon", 0, 0, G_OPTION_ARG_NONE, &become_daemon, "Don't become a daemon", NULL},
+			{"pid-file", 0, 0, G_OPTION_ARG_STRING, &user_pidfile, "Specify the location of a PID file", NULL},
+			{"enable-test-devices", 0, 0, G_OPTION_ARG_NONE, &enable_test_devices, "Allow dummy devices to be created via DBUS methods [DEBUG]", NULL},
+			{"info", 0, 0, G_OPTION_ARG_NONE, &show_usage, "Show application information", NULL},
+			{NULL}
 		};
-
-		c = getopt_long (argc, argv, "", options, &option_index);
-		if (c == -1)
-			break;
-
-		switch (c)
-		{
-			case 0:
-				opt = options[option_index].name;
-				if (strcmp (opt, "help") == 0)
-				{
-					nm_print_usage ();
-					exit (EXIT_SUCCESS);
-				}
-				else if (strcmp (opt, "no-daemon") == 0)
-					become_daemon = FALSE;
-				else if (strcmp (opt, "enable-test-devices") == 0)
-					enable_test_devices = TRUE;
-				break;
-
-			default:
-				nm_print_usage ();
-				exit (EXIT_FAILURE);
-				break;
-		}
+		opt_ctx = g_option_context_new("");
+		g_option_context_add_main_entries(opt_ctx, options, NULL);
+		g_option_context_parse(opt_ctx, &argc, &argv, NULL);
+		g_option_context_free(opt_ctx);
 	}
 
-	if (become_daemon && daemon (0, 0) < 0)
+	/* Tricky: become_daemon is FALSE by default, so unless it's TRUE because of a CLI
+	 * option, it'll become TRUE after this */
+	become_daemon = !become_daemon;
+	if (show_usage == TRUE)
 	{
-		int saved_errno;
-
-		saved_errno = errno;
-		nm_error ("NetworkManager could not daemonize: %s [error %u]",
-			  g_strerror (saved_errno), saved_errno);
-		exit (EXIT_FAILURE);
+		nm_print_usage();
+		exit (EXIT_SUCCESS);
 	}
+
+	if (become_daemon)
+	{
+		if (daemon (0, 0) < 0)
+		{
+			int saved_errno;
+
+			saved_errno = errno;
+			nm_error ("NetworkManager could not daemonize: %s [error %u]",
+				  g_strerror (saved_errno), saved_errno);
+			exit (EXIT_FAILURE);
+		}
+
+		pidfile = user_pidfile ? user_pidfile : NM_DEFAULT_PID_FILE;
+		write_pidfile (pidfile);
+	}
+
+	/*
+	 * Set the umask to 0022, which results in 0666 & ~0022 = 0644.
+	 * Otherwise, if root (or an su'ing user) has a wacky umask, we could
+	 * write out an unreadable resolv.conf.
+	 */
+	umask (022);
 
 	g_type_init ();
 	if (!g_thread_supported ())
 		g_thread_init (NULL);
 	dbus_g_thread_init ();
-
-	nm_set_up_log_handlers (become_daemon);
+	
+	nm_logging_setup (become_daemon);
 	nm_info ("starting...");
 
 	nm_system_init();
@@ -893,7 +1007,7 @@ int main( int argc, char *argv[] )
 	{
 		nm_error ("nm_data_new() failed... Not enough memory?");
 		exit (EXIT_FAILURE);
-	}	
+	}
 
 	/* Create our dbus service */
 	nm_data->dbus_connection = nm_dbus_init (nm_data);
@@ -903,7 +1017,6 @@ int main( int argc, char *argv[] )
 			  "Either dbus is not running, or the "
 			  "NetworkManager dbus security policy "
 			  "was not loaded.");
-		nm_data_free (nm_data);
 		exit (EXIT_FAILURE);
 	}
 
@@ -938,20 +1051,22 @@ int main( int argc, char *argv[] )
 	/* Bring up the loopback interface. */
 	nm_system_enable_loopback ();
 
-	/* Create watch functions that monitor cards for link status. */
-	nm_monitor_wireless_link_state (nm_data);
-	nm_monitor_wired_link_state (nm_data);
-
 	/* Get modems, ISDN, and so on's configuration from the system */
 	nm_data->dialup_list = nm_system_get_dialup_config ();
 
+	/* Run the main loop */
+	nm_policy_schedule_device_change_check (nm_data);
 	nm_schedule_state_change_signal_broadcast (nm_data);
-
-	/* Wheeee!!! */
 	g_main_loop_run (nm_data->main_loop);
 
 	nm_print_open_socks ();
 	nm_data_free (nm_data);
+	nm_logging_shutdown ();
+
+	/* Clean up pidfile */
+	if (pidfile)
+		unlink (pidfile);
+	g_free (user_pidfile);
 
 	exit (0);
 }

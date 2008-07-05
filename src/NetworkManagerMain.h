@@ -30,6 +30,7 @@
 #include "NetworkManagerAP.h"
 #include "nm-netlink-monitor.h"
 #include "nm-named-manager.h"
+#include "nm-device.h"
 
 
 typedef enum NMIntState
@@ -81,30 +82,39 @@ typedef struct NMData
 	GSList *				dev_list;
 	GMutex *				dev_list_mutex;
 
+	gboolean				hw_rf_enabled;
 	gboolean				wireless_enabled;
+	gboolean				modem_active;
 	gboolean				asleep;
+	gboolean				disconnected;
 
 	GSList *				dialup_list;
 	GMutex *				dialup_list_mutex;
+
+	GSList *				killswitch_list;
+	GSList *				ks_pcall_list; /* track killswitch D-Bus pending calls */
+	gboolean				tmp_hw_rf_enabled;
 
 	struct NMAccessPointList	*allowed_ap_list;
 	struct NMAccessPointList	*invalid_ap_list;
 } NMData;
 
 
-struct NMDevice *	nm_get_active_device					(NMData *data);
+NMDevice *	nm_get_active_device					(NMData *data);
 
-struct NMDevice *	nm_create_device_and_add_to_list			(NMData *data, const char *udi, const char *iface,
+NMDevice *	nm_create_device_and_add_to_list			(NMData *data, const char *udi, const char *iface,
 														gboolean test_device, NMDeviceType test_device_type);
 
-void				nm_add_initial_devices					(NMData *data);
+void			nm_add_initial_devices					(NMData *data);
 
-void				nm_remove_device						(NMData *data, struct NMDevice *dev);
+void			nm_remove_device						(NMData *data, NMDevice *dev);
 
-void				nm_schedule_state_change_signal_broadcast	(NMData *data);
+void			nm_schedule_state_change_signal_broadcast	(NMData *data);
 
-void				nm_hal_init							(NMData *data);
+void			nm_hal_init							(NMData *data);
 
-void				nm_hal_deinit							(NMData *data);
+void			nm_hal_deinit							(NMData *data);
+
+int			nm_get_sigterm_pipe						(void);
 
 #endif
