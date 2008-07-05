@@ -1,3 +1,5 @@
+/* -*- Mode: C; tab-width: 5; indent-tabs-mode: t; c-basic-offset: 5 -*- */
+
 /* NetworkManager -- Network link manager
  *
  * Dan Williams <dcbw@redhat.com>
@@ -34,6 +36,9 @@
 #include "NetworkManagerDialup.h"
 #include "NetworkManagerSystem.h"
 #include "NetworkManager.h"
+#include "nm-ap-security.h"
+#include "nm-device-802-3-ethernet.h"
+#include "nm-device-802-11-wireless.h"
 
 
 /*
@@ -167,6 +172,43 @@ static DBusMessage *nm_dbus_nm_activate_dialup (DBusConnection *connection, DBus
 	if (!nm_system_activate_dialup (nm_data->dialup_list, dialup))
 		reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, "ActivationFailed",
 									   "Failed to activate the dialup device.");
+	else
+		nm_data->modem_active = TRUE;
+	nm_unlock_mutex (nm_data->dialup_list_mutex, __FUNCTION__);
+
+out:
+	return reply;
+}
+
+
+static DBusMessage *nm_dbus_nm_deactivate_dialup (DBusConnection *connection, DBusMessage *message, NMDbusCBData *data)
+{
+	DBusMessage *reply = NULL;
+	NMData *nm_data = (NMData *) data->data;
+	const char *dialup;
+
+	g_return_val_if_fail (data != NULL, NULL);
+	g_return_val_if_fail (data->data != NULL, NULL);
+	g_return_val_if_fail (connection != NULL, NULL);
+	g_return_val_if_fail (message != NULL, NULL);
+
+	reply = dbus_message_new_method_return (message);
+	if (!reply)
+		return NULL;
+
+	if (!dbus_message_get_args (message, NULL, DBUS_TYPE_STRING, &dialup, DBUS_TYPE_INVALID))
+	{
+		reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, "InvalidArguments",
+									   "NetworkManager::deactivateDialup called with invalid arguments.");
+		goto out;
+	}
+
+	nm_lock_mutex (nm_data->dialup_list_mutex, __FUNCTION__);
+	if (!nm_system_deactivate_dialup (nm_data->dialup_list, dialup))
+		reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, "DeactivationFailed",
+									   "Failed to deactivate the dialup device.");
+	else
+		nm_data->modem_active = FALSE;
 	nm_unlock_mutex (nm_data->dialup_list_mutex, __FUNCTION__);
 
 out:
@@ -183,62 +225,105 @@ out:
  */
 static DBusMessage *nm_dbus_nm_set_active_device (DBusConnection *connection, DBusMessage *message, NMDbusCBData *data)
 {
+	const char * INVALID_ARGS_ERROR = "InvalidArguments";
+	const char * INVALID_ARGS_MESSAGE = "NetworkManager::setActiveDevice called with invalid arguments.";
 	NMDevice *		dev = NULL;
 	DBusMessage *		reply = NULL;
 	char *			dev_path = NULL;
-	char *			essid = NULL;
-	char *			key = NULL;
-	int				key_type = -1;
-	NMAccessPoint *	ap = NULL;
+	NMAPSecurity * 	security = NULL;
+	NMActRequest * req;
+	DBusMessageIter	iter;
+	char *			network_id = NULL;
 
 	g_return_val_if_fail (connection != NULL, NULL);
 	g_return_val_if_fail (message != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
 	g_return_val_if_fail (data->data != NULL, NULL);
 
-	/* Try to grab both device _and_ network first, and if that fails then just the device. */
-	if (!dbus_message_get_args (message, NULL,	DBUS_TYPE_OBJECT_PATH, &dev_path,
-										DBUS_TYPE_STRING, &essid,
-										DBUS_TYPE_STRING, &key,
-										DBUS_TYPE_INT32, &key_type, DBUS_TYPE_INVALID))
-	{
-		/* So if that failed, try getting just the device */
-		if (!dbus_message_get_args (message, NULL, DBUS_TYPE_OBJECT_PATH, &dev_path, DBUS_TYPE_INVALID))
-		{
-			reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, "InvalidArguments",
-							"NetworkManager::setActiveDevice called with invalid arguments.");
-			goto out;
-		} else nm_info ("FORCE: device '%s'", dev_path);
-	} else nm_info ("FORCE: device '%s', network '%s'", dev_path, essid);
+	dbus_message_iter_init (message, &iter);
 
-	/* So by now we have a valid device and possibly a network as well */
-	dev_path = nm_dbus_unescape_object_path (dev_path);
-	dev = nm_dbus_get_device_from_object_path (data->data, dev_path);
-	g_free (dev_path);
+	if (dbus_message_iter_get_arg_type (&iter) != DBUS_TYPE_OBJECT_PATH)
+	{
+		nm_warning ("%s:%d (%s): Invalid arguments (first arg type was not OBJECT_PATH).",
+					__FILE__, __LINE__, __func__);
+		goto out;
+	}
+
+	dbus_message_iter_get_basic (&iter, &dev_path);
+	dev = nm_dbus_get_device_from_escaped_object_path (data->data, dev_path);
+
+	/* Ensure the device exists in our list and is supported */
 	if (!dev || !(nm_device_get_capabilities (dev) & NM_DEVICE_CAP_NM_SUPPORTED))
 	{
 		reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, "DeviceNotFound",
-						"The requested network device does not exist.");
+									   "The requested network device does not exist.");
+		nm_warning ("%s:%d (%s): Invalid device (device not found).", __FILE__, __LINE__, __func__);
 		goto out;
 	}
 
-	/* Make sure network is valid and device is wireless */
-	if (nm_device_is_wireless (dev) && !essid)
-	{
-		reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, "InvalidArguments",
-							"NetworkManager::setActiveDevice called with invalid arguments.");
-		goto out;
+	/* Next up is the network id... */
+	if (dbus_message_iter_next (&iter) && (dbus_message_iter_get_arg_type (&iter) == DBUS_TYPE_STRING))
+		dbus_message_iter_get_basic (&iter, &network_id);
+
+	/* and finally, the security object */
+	if (dbus_message_iter_next (&iter)) {
+		security = nm_ap_security_new_deserialize (&iter);
+		if (!security) {
+			/* There was security info, but it was invalid */
+			reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, INVALID_ARGS_ERROR, INVALID_ARGS_MESSAGE);
+			nm_warning ("%s:%d (%s): Invalid argument (security info).", __FILE__, __LINE__, __func__);
+			goto out;
+		}
 	}
+
+	req = nm_act_request_new (data->data, dev, TRUE);
+
+	if (nm_device_is_802_11_wireless (dev)) {
+		NMAccessPoint *ap;
+
+		if (!network_id || (strlen (network_id) <= 0)) {
+			nm_warning ("%s:%d (%s): Invalid argument type (essid).", __FILE__, __LINE__, __func__);
+			goto out;
+		}
+
+		/* Set up the wireless-specific activation request properties */
+		ap = nm_device_802_11_wireless_get_activation_ap (NM_DEVICE_802_11_WIRELESS (dev), network_id, security);
+		nm_act_request_set_ap (req, ap);
+	} else if (nm_device_is_802_3_ethernet (dev)) {
+		if (network_id && security) {
+			NMWiredNetwork *wired_net;
+
+			wired_net = nm_wired_network_new (network_id, security);
+			nm_act_request_set_wired_network (req, wired_net);
+			g_object_unref (wired_net);
+		}
+	}
+
+	if (network_id)
+		nm_info ("User Switch: %s / %s", dev_path, network_id);
+	else
+		nm_info ("User Switch: %s", dev_path);
 
 	nm_device_deactivate (dev);
-
 	nm_schedule_state_change_signal_broadcast (data->data);
+	nm_policy_schedule_device_activation (req);
+	nm_act_request_unref (req);
 
-	if (nm_device_is_wireless (dev))
-		ap = nm_device_wireless_get_activation_ap (dev, essid, key, (NMEncKeyType)key_type);
-	nm_policy_schedule_device_activation (nm_act_request_new (data->data, dev, ap, TRUE));
+	if (security)
+		g_object_unref (security);
+
+	/* empty success message */
+	reply = dbus_message_new_method_return (message);
+	if (!reply)
+		nm_warning ("Could not allocate dbus message.");
 
 out:
+	if (!reply)
+	{
+		reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE,
+						INVALID_ARGS_ERROR, INVALID_ARGS_MESSAGE);
+	}
+
 	return reply;
 }
 
@@ -250,68 +335,80 @@ out:
  */
 static DBusMessage *nm_dbus_nm_create_wireless_network (DBusConnection *connection, DBusMessage *message, NMDbusCBData *data)
 {
+	const char *		INVALID_ARGS_ERROR = "InvalidArguments";
+	const char *		INVALID_ARGS_MESSAGE = "NetworkManager::createWirelessNetwork called with invalid arguments.";
 	NMDevice *		dev = NULL;
 	DBusMessage *		reply = NULL;
 	char *			dev_path = NULL;
 	NMAccessPoint *	new_ap = NULL;
-	char *			network = NULL;
-	char *			key = NULL;
-	int				key_type = -1;
-	DBusError			error;
+	NMAPSecurity * 	security = NULL;
+	char *			essid = NULL;
+	NMActRequest * req;
+	DBusMessageIter	iter;
 
 	g_return_val_if_fail (connection != NULL, NULL);
 	g_return_val_if_fail (message != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
 	g_return_val_if_fail (data->data != NULL, NULL);
 
-	/* Try to grab both device _and_ network first, and if that fails then just the device. */
-	dbus_error_init (&error);
-	if (!dbus_message_get_args (message, &error, DBUS_TYPE_OBJECT_PATH, &dev_path,
-										DBUS_TYPE_STRING, &network,
-										DBUS_TYPE_STRING, &key,
-										DBUS_TYPE_INT32, &key_type, DBUS_TYPE_INVALID))
-	{
-		reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, "InvalidArguments",
-						"NetworkManager::createWirelessNetwork called with invalid arguments.");
-		return reply;
-	} else nm_info ("Creating network '%s' on device '%s'.", network, dev_path);
+	dbus_message_iter_init (message, &iter);
 
-	dev_path = nm_dbus_unescape_object_path (dev_path);
-	dev = nm_dbus_get_device_from_object_path (data->data, dev_path);
-	g_free (dev_path);
+	if (dbus_message_iter_get_arg_type (&iter) != DBUS_TYPE_OBJECT_PATH)
+	{
+		reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, INVALID_ARGS_ERROR, INVALID_ARGS_MESSAGE);
+		goto out;
+	}
+
+	dbus_message_iter_get_basic (&iter, &dev_path);
+	dev = nm_dbus_get_device_from_escaped_object_path (data->data, dev_path);
+
+	/* Ensure the device exists in our list and is supported */
 	if (!dev || !(nm_device_get_capabilities (dev) & NM_DEVICE_CAP_NM_SUPPORTED))
 	{
 		reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, "DeviceNotFound",
 						"The requested network device does not exist.");
-		return reply;
-	}
-	nm_device_ref (dev);
-
-	/* Make sure network is valid and device is wireless */
-	if (!nm_device_is_wireless (dev) || !network)
-	{
-		reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, "InvalidArguments",
-							"NetworkManager::createWirelessNetwork called with invalid arguments.");
 		goto out;
 	}
 
-	new_ap = nm_ap_new ();
-
-	/* Fill in the description of the network to create */
-	nm_ap_set_essid (new_ap, network);
-	if (nm_is_enc_key_valid (key, (NMEncKeyType)key_type))
+	if (    !nm_device_is_802_11_wireless (dev)
+		|| !dbus_message_iter_next (&iter)
+		|| (dbus_message_iter_get_arg_type (&iter) != DBUS_TYPE_STRING))
 	{
-		nm_ap_set_encrypted (new_ap, TRUE);
-		nm_ap_set_enc_key_source (new_ap, key, (NMEncKeyType)key_type);
-		nm_ap_set_auth_method (new_ap, NM_DEVICE_AUTH_METHOD_OPEN_SYSTEM);
+		reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, INVALID_ARGS_ERROR, INVALID_ARGS_MESSAGE);
+		goto out;
 	}
-	nm_ap_set_mode (new_ap, NETWORK_MODE_ADHOC);
+
+	/* grab ssid and ensure validity */
+	dbus_message_iter_get_basic (&iter, &essid);
+	if (!essid || (strlen (essid) <= 0) || !dbus_message_iter_next (&iter))
+	{
+		reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, INVALID_ARGS_ERROR, INVALID_ARGS_MESSAGE);
+		goto out;
+	}
+
+	if (!(security = nm_ap_security_new_deserialize (&iter)))
+	{
+		reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, INVALID_ARGS_ERROR, INVALID_ARGS_MESSAGE);
+		goto out;
+	}
+
+	nm_info ("Creating network '%s' on device '%s'.", essid, dev_path);
+
+	new_ap = nm_ap_new ();
+	nm_ap_set_essid (new_ap, essid);
+	nm_ap_set_mode (new_ap, IW_MODE_ADHOC);
+	nm_ap_set_security (new_ap, security);
+	g_object_unref (G_OBJECT (security));
 	nm_ap_set_user_created (new_ap, TRUE);
 
-	nm_policy_schedule_device_activation (nm_act_request_new (data->data, dev, new_ap, TRUE));
+	req = nm_act_request_new (data->data, dev, TRUE);
+	nm_act_request_set_ap (req, new_ap);
+	nm_ap_unref (new_ap);
+
+	nm_policy_schedule_device_activation (req);
+	nm_act_request_unref (req);
 
 out:
-	nm_device_unref (dev);
 	return reply;
 }
 
@@ -327,7 +424,7 @@ static DBusMessage *nm_dbus_nm_create_test_device (DBusConnection *connection, D
 
 	dbus_error_init (&err);
 	if (    dbus_message_get_args (message, &err, DBUS_TYPE_INT32, &type, DBUS_TYPE_INVALID)
-		&& ((type == DEVICE_TYPE_WIRED_ETHERNET) || (type == DEVICE_TYPE_WIRELESS_ETHERNET)))
+		&& ((type == DEVICE_TYPE_802_3_ETHERNET) || (type == DEVICE_TYPE_802_11_WIRELESS)))
 	{
 		char			*interface = g_strdup_printf ("test%d", test_dev_num);
 		char			*udi = g_strdup_printf ("/test-devices/%s", interface);
@@ -337,12 +434,14 @@ static DBusMessage *nm_dbus_nm_create_test_device (DBusConnection *connection, D
 		test_dev_num++;
 		if ((reply = dbus_message_new_method_return (message)))
 		{
-			char		*dev_path, *escaped_dev_path;
-			dev_path = g_strdup_printf ("%s/%s", NM_DBUS_PATH_DEVICES, nm_device_get_iface (dev));
-			escaped_dev_path = nm_dbus_escape_object_path (dev_path);
+			char *dev_path, *escaped_dev;
+
+			escaped_dev = nm_dbus_escape_object_path_item (nm_device_get_iface (dev));
+			dev_path = g_strdup_printf ("%s/%s", NM_DBUS_PATH_DEVICES, escaped_dev);
+			g_free (escaped_dev);
+
 			dbus_message_append_args (reply, DBUS_TYPE_STRING, &dev_path, DBUS_TYPE_INVALID);
 			g_free (dev_path);
-			g_free (escaped_dev_path);
 		}
 		g_free (interface);
 		g_free (udi);
@@ -366,9 +465,7 @@ static DBusMessage *nm_dbus_nm_remove_test_device (DBusConnection *connection, D
 	{
 		NMDevice	*dev;
 
-		dev_path = nm_dbus_unescape_object_path (dev_path);
-
-		if ((dev = nm_dbus_get_device_from_object_path (data->data, dev_path)))
+		if ((dev = nm_dbus_get_device_from_escaped_object_path (data->data, dev_path)))
 		{
 			if (nm_device_is_test_device (dev))
 				nm_remove_device (data->data, dev);
@@ -381,8 +478,6 @@ static DBusMessage *nm_dbus_nm_remove_test_device (DBusConnection *connection, D
 			reply = nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, "DeviceNotFound",
 							"The requested network device does not exist.");
 		}
-
-		g_free (dev_path);
 	}
 	else
 	{
@@ -396,52 +491,83 @@ static DBusMessage *nm_dbus_nm_remove_test_device (DBusConnection *connection, D
 	return (reply);
 }
 
-static DBusMessage *nm_dbus_nm_set_wireless_enabled (DBusConnection *connection, DBusMessage *message, NMDbusCBData *data)
+static DBusMessage *nm_dbus_nm_set_wireless_enabled (DBusConnection *connection, DBusMessage *message, NMDbusCBData *cb_data)
 {
 	gboolean	enabled = FALSE;
 	DBusError	err;
-	NMData	*app_data;
+	NMData	*	data;
+	DBusMessage * ret = NULL;
 
-	g_return_val_if_fail (data && data->data && connection && message, NULL);
+	g_return_val_if_fail (cb_data && cb_data->data && connection && message, NULL);
 
 	dbus_error_init (&err);
 	if (!dbus_message_get_args (message, &err, DBUS_TYPE_BOOLEAN, &enabled, DBUS_TYPE_INVALID))
-		return NULL;
+		goto out;
 
-	app_data = data->data;
-	app_data->wireless_enabled = enabled;
+	data = cb_data->data;
+	if (enabled == data->wireless_enabled)
+		goto out;
 
-	if (!enabled)
-	{
-		GSList	*elt;
+	/* Hardware rfkill overrides whatever user wants */
+	if (!data->hw_rf_enabled) {
+		nm_info ("User request to %s wireless overridden by radio killswitch.",
+		         enabled ? "enable" : "disable");
 
-		/* Physically down all wireless devices */
-		nm_lock_mutex (app_data->dev_list_mutex, __FUNCTION__);
-		for (elt = app_data->dev_list; elt; elt = g_slist_next (elt))
-		{
-			NMDevice	*dev = (NMDevice *)(elt->data);
-			if (nm_device_is_wireless (dev))
-			{
+		/* Return error if user tries to re-enable wireless, or just ignore
+		 * a disable wireless request when wireless is already disabled.
+		 */
+		if (enabled) {
+			ret = nm_dbus_create_error_message (message,
+			                                    NM_DBUS_INTERFACE,
+			                                    "DisabledBySystem",
+			                                    "Wireless disabled by hardware switch.");
+		}
+		goto out;
+	}
+
+	nm_info ("User request to %s wireless.", enabled ? "enable" : "disable");
+
+	data->wireless_enabled = enabled;
+	if (!data->wireless_enabled) {
+		GSList * elt;
+
+		/* Deactivate all wireless devices and force them down so they
+		 * turn off their radios.
+		 */
+		nm_lock_mutex (data->dev_list_mutex, __FUNCTION__);
+		for (elt = data->dev_list; elt; elt = g_slist_next (elt)) {
+			NMDevice * dev = (NMDevice *) elt->data;
+			if (nm_device_is_802_11_wireless (dev)) {
 				nm_device_deactivate (dev);
 				nm_device_bring_down (dev);
 			}
 		}
-		nm_unlock_mutex (app_data->dev_list_mutex, __FUNCTION__);
+		nm_unlock_mutex (data->dev_list_mutex, __FUNCTION__);
 	}
 
-	nm_policy_schedule_device_change_check (data->data);
+	nm_policy_schedule_device_change_check (data);
+	nm_dbus_signal_wireless_enabled (data);
 
-	return NULL;
+out:
+	return ret;
 }
 
-static DBusMessage *nm_dbus_nm_get_wireless_enabled (DBusConnection *connection, DBusMessage *message, NMDbusCBData *data)
+static DBusMessage *nm_dbus_nm_get_wireless_enabled (DBusConnection *connection, DBusMessage *message, NMDbusCBData *cb_data)
 {
+	NMData * data;
 	DBusMessage	*reply = NULL;
 
-	g_return_val_if_fail (data && data->data && connection && message, NULL);
+	g_return_val_if_fail (cb_data && connection && message, NULL);
 
-	if ((reply = dbus_message_new_method_return (message)))
-		dbus_message_append_args (reply, DBUS_TYPE_BOOLEAN, &data->data->wireless_enabled, DBUS_TYPE_INVALID);
+	data = cb_data->data;
+	g_return_val_if_fail (data != NULL, NULL);
+
+	if ((reply = dbus_message_new_method_return (message))) {
+		dbus_message_append_args (reply,
+		                          DBUS_TYPE_BOOLEAN, &data->wireless_enabled,
+		                          DBUS_TYPE_BOOLEAN, &data->hw_rf_enabled,
+		                          DBUS_TYPE_INVALID);
+	}
 
 	return reply;
 }
@@ -456,8 +582,29 @@ static DBusMessage *nm_dbus_nm_sleep (DBusConnection *connection, DBusMessage *m
 	if (app_data->asleep == FALSE)
 	{
 		GSList *elt;
+		DBusMessageIter iter;
 
-		nm_info ("Going to sleep.");
+		dbus_message_iter_init (message, &iter);
+
+		switch (dbus_message_iter_get_arg_type (&iter)) {
+		case DBUS_TYPE_INVALID:
+			/* The boolean argument to differentiate between sleep and disabling networking
+			   is optional and defaults to sleep */
+			app_data->disconnected = FALSE;
+			break;
+		case DBUS_TYPE_BOOLEAN:
+			dbus_message_iter_get_basic (&iter, &app_data->disconnected);
+			break;
+		default:
+			return nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, "InvalidArguments",
+												 "NetworkManager::sleep called with invalid arguments.");
+			break;
+		}
+
+		if (app_data->disconnected)
+			nm_info ("Disconnected.");
+		else
+			nm_info ("Going to sleep.");
 
 		app_data->asleep = TRUE;
 		/* Not using nm_schedule_state_change_signal_broadcast() here
@@ -472,11 +619,13 @@ static DBusMessage *nm_dbus_nm_sleep (DBusConnection *connection, DBusMessage *m
 			NMDevice *dev = (NMDevice *)(elt->data);
 			nm_device_set_removed (dev, TRUE);
 			nm_device_deactivate_quickly (dev);
+			nm_system_device_set_up_down (dev, FALSE);
 		}
 		nm_unlock_mutex (app_data->dev_list_mutex, __FUNCTION__);
 
 		nm_lock_mutex (app_data->dialup_list_mutex, __FUNCTION__);
 		nm_system_deactivate_all_dialup (app_data->dialup_list);
+		app_data->modem_active = FALSE;
 		nm_unlock_mutex (app_data->dialup_list_mutex, __FUNCTION__);
 	}
 
@@ -486,14 +635,37 @@ static DBusMessage *nm_dbus_nm_sleep (DBusConnection *connection, DBusMessage *m
 static DBusMessage *nm_dbus_nm_wake (DBusConnection *connection, DBusMessage *message, NMDbusCBData *data)
 {
 	NMData	*app_data;
+	DBusMessageIter iter;
+	gboolean enable_networking = FALSE;
 
 	g_return_val_if_fail (data && data->data && connection && message, NULL);
 
+	dbus_message_iter_init (message, &iter);
+
+	switch (dbus_message_iter_get_arg_type (&iter)) {
+	case DBUS_TYPE_INVALID:
+		/* The boolean argument to differentiate between wake up from sleep and
+		   enabling networking is optional and defaults to wake up. */
+		break;
+	case DBUS_TYPE_BOOLEAN:
+		dbus_message_iter_get_basic (&iter, &enable_networking);
+		break;
+	default:
+		return nm_dbus_create_error_message (message, NM_DBUS_INTERFACE, "InvalidArguments",
+											 "NetworkManager::wake called with invalid arguments.");
+		break;
+	}
+
 	app_data = data->data;
-	if (app_data->asleep == TRUE)
-	{
-		nm_info  ("Waking up from sleep.");
-		app_data->asleep = FALSE;
+	/* Restore networking only if we're not disconnected or
+	   enable_networking argument is passed. */
+	if (app_data->asleep && (!app_data->disconnected || enable_networking)) {
+		if (enable_networking)
+			nm_info ("Enabling networking.");
+		else
+			nm_info ("Waking up from sleep.");
+
+		app_data->asleep = app_data->disconnected = FALSE;
 
 		/* Remove all devices from the device list */
 		nm_lock_mutex (app_data->dev_list_mutex, __FUNCTION__);
@@ -538,6 +710,7 @@ NMDbusMethodList *nm_dbus_nm_methods_setup (void)
 	nm_dbus_method_list_add_method (list, "getDevices",			nm_dbus_nm_get_devices);
 	nm_dbus_method_list_add_method (list, "getDialup",			nm_dbus_nm_get_dialup);
 	nm_dbus_method_list_add_method (list, "activateDialup",		nm_dbus_nm_activate_dialup);
+	nm_dbus_method_list_add_method (list, "deactivateDialup",		nm_dbus_nm_deactivate_dialup);
 	nm_dbus_method_list_add_method (list, "setActiveDevice",		nm_dbus_nm_set_active_device);
 	nm_dbus_method_list_add_method (list, "createWirelessNetwork",	nm_dbus_nm_create_wireless_network);
 	nm_dbus_method_list_add_method (list, "setWirelessEnabled",		nm_dbus_nm_set_wireless_enabled);

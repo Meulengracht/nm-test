@@ -25,10 +25,10 @@
 #include <glib.h>
 #include <time.h>
 #include "NetworkManager.h"
+#include "wpa.h"
+#include "nm-ap-security.h"
 
 typedef struct NMAccessPoint NMAccessPoint;
-
-#define AP_MAX_WPA_IE_LEN 40
 
 
 NMAccessPoint *	nm_ap_new				(void);
@@ -37,28 +37,28 @@ NMAccessPoint *	nm_ap_new_from_ap		(NMAccessPoint *ap);
 void				nm_ap_unref			(NMAccessPoint *ap);
 void				nm_ap_ref				(NMAccessPoint *ap);
 
-const GTimeVal *	nm_ap_get_timestamp		(const NMAccessPoint *ap);
-void				nm_ap_set_timestamp		(NMAccessPoint *ap, const GTimeVal *timestamp);
+const GTimeVal *	nm_ap_get_timestamp				(const NMAccessPoint *ap);
+void				nm_ap_set_timestamp				(NMAccessPoint *ap, glong sec, glong usec);
+void				nm_ap_set_timestamp_via_timestamp	(NMAccessPoint *ap, const GTimeVal *timestamp);
 
-char *			nm_ap_get_essid		(const NMAccessPoint *ap);
+const char *		nm_ap_get_essid		(const NMAccessPoint *ap);
 void				nm_ap_set_essid		(NMAccessPoint *ap, const char *essid);
+/* Get essid in original over-the-air form */
+const char *		nm_ap_get_orig_essid	(const NMAccessPoint *ap);
 
-const char *		nm_ap_get_enc_key_source	(const NMAccessPoint *ap);
-char *			nm_ap_get_enc_key_hashed	(const NMAccessPoint *ap);
-void				nm_ap_set_enc_key_source	(NMAccessPoint *ap, const char *key, NMEncKeyType type);
-NMEncKeyType		nm_ap_get_enc_type		(const NMAccessPoint *ap);
-
-NMDeviceAuthMethod	nm_ap_get_auth_method	(const NMAccessPoint *ap);
-void				nm_ap_set_auth_method	(NMAccessPoint *ap, const NMDeviceAuthMethod auth_method);
+guint32			nm_ap_get_capabilities	(NMAccessPoint *ap);
+void				nm_ap_set_capabilities	(NMAccessPoint *ap, guint32 capabilities);
 
 gboolean			nm_ap_get_encrypted		(const NMAccessPoint *ap);
-void				nm_ap_set_encrypted		(NMAccessPoint *ap, gboolean encrypted);
 
-const struct ether_addr *	nm_ap_get_address		(const NMAccessPoint *ap);
+NMAPSecurity *		nm_ap_get_security		(const NMAccessPoint *ap);
+void				nm_ap_set_security		(NMAccessPoint *ap, NMAPSecurity *security);
+
+const struct ether_addr * nm_ap_get_address	(const NMAccessPoint *ap);
 void				nm_ap_set_address		(NMAccessPoint *ap, const struct ether_addr *addr);
 
-NMNetworkMode		nm_ap_get_mode			(const NMAccessPoint *ap);
-void				nm_ap_set_mode			(NMAccessPoint *ap, const NMNetworkMode mode);
+int				nm_ap_get_mode			(const NMAccessPoint *ap);
+void				nm_ap_set_mode			(NMAccessPoint *ap, const int mode);
 
 gint8			nm_ap_get_strength		(const NMAccessPoint *ap);
 void				nm_ap_set_strength		(NMAccessPoint *ap, gint8 strength);
@@ -72,14 +72,14 @@ void				nm_ap_set_rate			(NMAccessPoint *ap, guint16 rate);
 gboolean			nm_ap_get_invalid		(const NMAccessPoint *ap);
 void				nm_ap_set_invalid		(NMAccessPoint *ap, gboolean invalid);
 
-gboolean			nm_ap_get_matched		(const NMAccessPoint *ap);
-void				nm_ap_set_matched		(NMAccessPoint *ap, gboolean matched);
-
 gboolean			nm_ap_get_trusted		(const NMAccessPoint *ap);
 void				nm_ap_set_trusted		(NMAccessPoint *ap, gboolean trusted);
 
 gboolean			nm_ap_get_artificial	(const NMAccessPoint *ap);
 void				nm_ap_set_artificial	(NMAccessPoint *ap, gboolean artificial);
+
+gboolean			nm_ap_get_broadcast		(const NMAccessPoint *ap);
+void				nm_ap_set_broadcast		(NMAccessPoint *ap, gboolean broadcast);
 
 const GTimeVal *	nm_ap_get_last_seen		(const NMAccessPoint *ap);
 void				nm_ap_set_last_seen		(NMAccessPoint *ap, const GTimeVal *last_seen);
@@ -90,15 +90,9 @@ void				nm_ap_set_user_created	(NMAccessPoint *ap, gboolean user_created);
 GSList *			nm_ap_get_user_addresses	(const NMAccessPoint *ap);
 void				nm_ap_set_user_addresses (NMAccessPoint *ap, GSList *list);
 
-/* Helper */
-gboolean			nm_ap_is_enc_key_valid	(NMAccessPoint *ap);
-gboolean			nm_is_enc_key_valid		(const char *key, NMEncKeyType key_type);
-
-const guint8 *		nm_ap_get_wpa_ie		(NMAccessPoint *ap, guint32 *length);
-void				nm_ap_set_wpa_ie		(NMAccessPoint *ap, const guint8 *wpa_ie, guint32 length);
-
-const guint8 *		nm_ap_get_rsn_ie		(NMAccessPoint *ap, guint32 *length);
-void				nm_ap_set_rsn_ie		(NMAccessPoint *ap, const guint8 *rsn_ie, guint32 length);
+void				nm_ap_add_capabilities_from_security (NMAccessPoint *ap, NMAPSecurity *security);
+void				nm_ap_add_capabilities_from_ie (NMAccessPoint *ap, const guint8 *wpa_ie, guint32 length);
+void				nm_ap_add_capabilities_for_wep (NMAccessPoint *ap);
 
 /* 
  * NOTE:

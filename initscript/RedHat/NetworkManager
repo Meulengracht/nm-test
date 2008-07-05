@@ -4,17 +4,17 @@
 #
 # chkconfig: - 98 02
 # description:  This is a daemon for automatically switching network \
-#               connections to the best available connection. \
+#               connections to the best available connection.
 #
 # processname: NetworkManager
-# pidfile: /var/run/NetworkManager.pid
+# pidfile: /var/run/NetworkManager/NetworkManager.pid
 #
 
-prefix=/usr
-exec_prefix=/usr
-bindir=${exec_prefix}/bin
+prefix=/usr/local
+exec_prefix=/usr/local
+sbindir=${exec_prefix}/sbin
 
-NETWORKMANAGER_BIN=${bindir}/NetworkManager
+NETWORKMANAGER_BIN=${sbindir}/NetworkManager
 
 # Sanity checks.
 [ -x $NETWORKMANAGER_BIN ] || exit 1
@@ -28,7 +28,7 @@ NETWORKMANAGER_BIN=${bindir}/NetworkManager
 # so we can rearrange this easily
 processname=NetworkManager
 servicename=NetworkManager
-pidfile=/var/run/NetworkManager.pid
+pidfile=/var/run/NetworkManager/NetworkManager.pid
 
 RETVAL=0
 
@@ -37,17 +37,16 @@ start()
 	echo $"Setting network parameters... "
 	sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
 	echo -n $"Starting NetworkManager daemon: "
-	daemon --check $servicename $processname
+	daemon --check $servicename $processname --pid-file=$pidfile
 	RETVAL=$?
 	echo
-	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/$servicename && echo `/sbin/pidof $processname` > $pidfile
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/$servicename
 }
 
 stop()
 {
 	echo -n $"Stopping NetworkManager daemon: "
-
-	killproc $servicename -TERM
+	killproc -p $pidfile $servicename
 	RETVAL=$?
 	echo
 	if [ $RETVAL -eq 0 ]; then
@@ -65,7 +64,7 @@ case "$1" in
 		stop
 		;;
 	status)
-		status $processname
+		status -p $pidfile $processname
 		RETVAL=$?
 		;;
 	restart)

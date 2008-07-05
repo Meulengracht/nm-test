@@ -48,14 +48,17 @@ enum NMDAction
 typedef enum NMDAction	NMDAction;
 
 
-#define NM_SCRIPT_DIR	"/etc/NetworkManager/dispatcher.d"
+#define NM_SCRIPT_DIR		SYSCONFDIR"/NetworkManager/dispatcher.d"
 
+#define NMD_DEFAULT_PID_FILE	LOCALSTATEDIR"/run/NetworkManagerDispatcher.pid"
+
+static DBusConnection *nmd_dbus_init (void);
 
 /*
  * nmd_permission_check
  *
  * Verify that the given script has the permissions we want.  Specifically,
- * very that the file is
+ * ensure that the file is
  *	- A regular file.
  *	- Owned by root.
  *	- Not writable by the group or by other.
@@ -172,6 +175,22 @@ static char * nmd_get_device_name (DBusConnection *connection, char *path)
 	return dev_name;
 }
 
+/*
+ * nmd reinit_dbus
+ *
+ * Reconnect to the system message bus if the connection was dropped.
+ *
+ */
+static gboolean nmd_reinit_dbus (gpointer user_data)
+{
+	if (nmd_dbus_init ())
+	{
+		nm_info ("Successfully reconnected to the system bus.");
+		return FALSE;
+	}
+	else
+		return TRUE;
+}
 
 /*
  * nmd_dbus_filter
@@ -188,6 +207,14 @@ static DBusHandlerResult nmd_dbus_filter (DBusConnection *connection, DBusMessag
 
 	dbus_error_init (&error);
 	object_path = dbus_message_get_path (message);
+
+	if (dbus_message_is_signal (message, DBUS_INTERFACE_LOCAL, "Disconnected"))
+	{
+		dbus_connection_unref (connection);
+		connection = NULL;
+		g_timeout_add (3000, nmd_reinit_dbus, NULL);
+		handled = TRUE;
+	}
 
 	if (dbus_message_is_signal (message, NM_DBUS_INTERFACE, "DeviceNoLongerActive"))
 		action = NMD_DEVICE_NOW_INACTIVE;
@@ -223,7 +250,6 @@ static DBusHandlerResult nmd_dbus_filter (DBusConnection *connection, DBusMessag
 	return (handled ? DBUS_HANDLER_RESULT_HANDLED : DBUS_HANDLER_RESULT_NOT_YET_HANDLED);
 }
 
-
 /*
  * nmd_dbus_init
  *
@@ -244,6 +270,7 @@ static DBusConnection *nmd_dbus_init (void)
 		return (NULL);
 	}
 
+	dbus_connection_set_exit_on_disconnect (connection, FALSE);
 	dbus_connection_setup_with_g_main (connection, NULL);
 
 	if (!dbus_connection_add_filter (connection, nmd_dbus_filter, NULL, NULL))
@@ -268,15 +295,35 @@ static DBusConnection *nmd_dbus_init (void)
  */
 static void nmd_print_usage (void)
 {
-	fprintf (stderr, "\n" "usage : NetworkManagerDispatcher [--no-daemon] [--help]\n");
+	fprintf (stderr, "\n" "usage : NetworkManagerDispatcher [--no-daemon] [--pid-file=<file>] [--help]\n");
 	fprintf (stderr,
 		"\n"
-		"        --no-daemon        Become a daemon\n"
+		"        --no-daemon        Do not daemonize\n"
+		"        --pid-file=<path>  Specify the location of a PID file\n"
 		"        --help             Show this information and exit\n"
 		"\n"
 		"NetworkManagerDispatcher listens for device messages from NetworkManager\n"
 		"and runs scripts in " NM_SCRIPT_DIR "\n"
 		"\n");
+}
+
+
+static void
+write_pidfile (const char *pidfile)
+{
+ 	char pid[16];
+	int fd;
+ 
+	if ((fd = open (pidfile, O_CREAT|O_WRONLY|O_TRUNC, 00644)) < 0)
+	{
+		nm_warning ("Opening %s failed: %s", pidfile, strerror (errno));
+		return;
+	}
+ 	snprintf (pid, sizeof (pid), "%d", getpid ());
+	if (write (fd, pid, strlen (pid)) < 0)
+		nm_warning ("Writing to %s failed: %s", pidfile, strerror (errno));
+	if (close (fd))
+		nm_warning ("Closing %s failed: %s", pidfile, strerror (errno));
 }
 
 
@@ -286,9 +333,11 @@ static void nmd_print_usage (void)
  */
 int main (int argc, char *argv[])
 {
-	gboolean		 become_daemon = TRUE;
-	GMainLoop		*loop  = NULL;
+	gboolean		become_daemon = TRUE;
+	GMainLoop *	loop  = NULL;
 	DBusConnection	*connection = NULL;
+	char *		pidfile = NULL;
+	char *		user_pidfile = NULL;
 
 	/* Parse options */
 	while (1)
@@ -299,6 +348,7 @@ int main (int argc, char *argv[])
 
 		static struct option options[] = {
 			{"no-daemon",	0, NULL, 0},
+			{"pid-file",	1, NULL, 0},
 			{"help",		0, NULL, 0},
 			{NULL,		0, NULL, 0}
 		};
@@ -318,6 +368,8 @@ int main (int argc, char *argv[])
 				}
 				else if (strcmp (opt, "no-daemon") == 0)
 					become_daemon = FALSE;
+				else if (strcmp (opt, "pid-file") == 0)
+					user_pidfile = g_strdup (optarg);
 				else
 				{
 					nmd_print_usage ();
@@ -334,10 +386,16 @@ int main (int argc, char *argv[])
 
 	openlog("NetworkManagerDispatcher", (become_daemon) ? LOG_CONS : LOG_CONS | LOG_PERROR, (become_daemon) ? LOG_DAEMON : LOG_USER);
 
-	if (become_daemon && daemon (FALSE, FALSE) < 0)
+	if (become_daemon)
 	{
-	     nm_warning ("NetworkManagerDispatcher could not daemonize.  errno = %d", errno );
-	     exit (1);
+		if (daemon (FALSE, FALSE) < 0)
+		{
+	     	nm_warning ("NetworkManagerDispatcher could not daemonize: %s", strerror (errno));
+		     exit (1);
+		}
+
+		pidfile = user_pidfile ? user_pidfile : NMD_DEFAULT_PID_FILE;
+		write_pidfile (pidfile);
 	}
 
 	g_type_init ();
@@ -350,6 +408,11 @@ int main (int argc, char *argv[])
 		loop = g_main_loop_new (NULL, FALSE);
 		g_main_loop_run (loop);
 	}
+
+	/* Clean up pidfile */
+	if (pidfile)
+		unlink (pidfile);
+	g_free (user_pidfile);
 
 	return 0;
 }

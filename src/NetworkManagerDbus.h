@@ -26,6 +26,9 @@
 #include <dbus/dbus.h>
 #include <dbus/dbus-glib.h>
 #include "NetworkManager.h"
+#include "NetworkManagerMain.h"
+#include "nm-device.h"
+#include "nm-device-802-11-wireless.h"
 #include "NetworkManagerAPList.h"
 
 
@@ -51,7 +54,6 @@ static inline gboolean message_is_error (DBusMessage *msg)
 	return (dbus_message_get_type (msg) == DBUS_MESSAGE_TYPE_ERROR);
 }
 
-
 DBusConnection *nm_dbus_init						(NMData *data);
 
 gboolean		nm_dbus_is_info_daemon_running		(DBusConnection *connection);
@@ -60,26 +62,15 @@ char *		get_name_owner						(DBusConnection *con, const char *name);
 char *		nm_dbus_get_object_path_for_device		(NMDevice *dev);
 char *		nm_dbus_get_object_path_for_network	(NMDevice *dev, NMAccessPoint *ap);
 
-void			nm_dbus_schedule_device_status_change_signal	(NMData *data, NMDevice *dev, NMAccessPoint *ap, DeviceStatus status);
+void			nm_dbus_schedule_device_status_change_signal	(NMData *data, NMDevice *dev, const char *essid, DeviceStatus status);
 
 void			nm_dbus_signal_state_change			(DBusConnection *connection, NMData *data);
 
-void			nm_dbus_signal_wireless_network_change	(DBusConnection *connection, NMDevice *dev, NMAccessPoint *ap, NMNetworkStatus status, gint strength);
-void			nm_dbus_signal_device_strength_change	(DBusConnection *connection, NMDevice *dev, gint strength);
+void			nm_dbus_signal_wireless_network_change	(DBusConnection *connection, NMDevice80211Wireless *dev, NMAccessPoint *ap, NMNetworkStatus status, gint strength);
+void			nm_dbus_signal_device_strength_change	(DBusConnection *connection, NMDevice80211Wireless *dev, gint strength);
+void			nm_dbus_signal_wireless_enabled (NMData * data);
 
-void			nm_dbus_get_user_key_for_network		(DBusConnection *connection, NMActRequest *req, const gboolean new_key);
-
-void			nm_dbus_cancel_get_user_key_for_network	(DBusConnection *connection, NMActRequest *req);
-
-NMAccessPoint *nm_dbus_get_network_object			(DBusConnection *connection, NMNetworkType type, const char *network);
-
-gboolean		nm_dbus_add_network_address			(DBusConnection *connection, NMNetworkType type, const char *network, struct ether_addr *addr);
-
-gboolean		nm_dbus_update_network_info			(DBusConnection *connection, NMAccessPoint *ap, const gboolean user_requested);
-
-void			nm_dbus_update_allowed_networks		(DBusConnection *connection, NMAccessPointList *list, NMData *data);
-
-NMDevice *	nm_dbus_get_device_from_object_path	(NMData *data, const char *path);
+NMDevice *	nm_dbus_get_device_from_escaped_object_path	(NMData *data, const char *path);
 
 NMState		nm_get_app_state_from_data			(NMData *data);
 

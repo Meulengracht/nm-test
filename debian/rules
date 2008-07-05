@@ -1,126 +1,31 @@
 #!/usr/bin/make -f
-# -*- makefile -*-
-# Sample debian/rules that uses debhelper.
-# GNU copyright 1997 to 1999 by Joey Hess.
-#
-# Modified to make a template file for a multi-binary package with separated
-# build-arch and build-indep targets  by Bill Allombert 2001
 
-# Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
+include /usr/share/cdbs/1/class/autotools.mk
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/rules/simple-patchsys.mk
 
-# This has to be exported to make some magic below work.
-export DH_OPTIONS
+DEB_INSTALL_DOCS_ALL := README AUTHORS TODO
 
-# These are used for cross-compiling and for saving the configure script
-# from having to guess our platform (since we know it already)
-DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
-DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_CONFIGURE_EXTRA_FLAGS += \
+		--with-dbus-sys=/etc/dbus-1/system.d \
+		--with-wpa_supplicant=/sbin/wpa_supplicant \
+		--with-dhcdbd=/usr/sbin/dhcdbd \
+		--with-distro=debian
+	
+DEB_DH_INSTALLINIT_ARGS := -r -- start 26 2 3 4 5 . stop 14 0 1 6 .
 
+DEB_DH_SHLIBDEPS_ARGS := -Xnm-vpn-properties
 
-CFLAGS = -Wall -g
-
-ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
-	CFLAGS += -O0
-else
-	CFLAGS += -O2
-endif
-ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
-	INSTALL_PROGRAM += -s
-endif
-
-config.status: 
-	dh_testdir
-	# Add here commands to configure the package.
-	CFLAGS="$(CFLAGS)" ./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info --with-dbus-sys=/etc/dbus-1/system.d --sysconfdir=/etc --libexecdir=/usr/bin --localstatedir=/var/run --without-named --with-dhcdbd=/sbin/dhcdbd --with-distro=debian
-
-
-#Architecture 
-build: build-arch build-indep
-
-build-arch: build-arch-stamp
-build-arch-stamp:  config.status
-
-	# Add here commands to compile the arch part of the package.
-	#$(MAKE) 
-	touch build-arch-stamp
-
-build-indep: build-indep-stamp
-build-indep-stamp:  config.status
-
-	# Add here commands to compile the indep part of the package.
-	#$(MAKE) doc
-	touch build-indep-stamp
-
-clean: 
-	dh_testdir
-	dh_testroot
-	rm -f build-arch-stamp build-indep-stamp #CONFIGURE-STAMP#
+clean::
 	rm -f po/*.gmo
+	rm -f debian/*.1
 
-	# Add here commands to clean up after the build process.
-	-$(MAKE) distclean
 
-	dh_clean 
-
-install: build install-indep install-arch
-install-indep:
-
-install-arch:
-	dh_testdir
-	dh_testroot
-	dh_clean -k -s 
-	dh_installdirs -s
-
-	# Add here commands to install the arch part of the package into 
-	# debian/tmp.
-	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
-
-	install -m 755 debian/network-manager.dbus-event debian/network-manager/etc/dbus-1/event.d/25NetworkManager
-	install -m 755 debian/network-manager-dispatcher.dbus-event debian/network-manager/etc/dbus-1/event.d/25NetworkManagerDispatcher
-	mkdir -p -m 755 debian/network-manager/etc/NetworkManager/dispatcher.d
-	install -m 644 debian/nm-applet.conf debian/network-manager/etc/dbus-1/system.d/nm-applet.conf
-	install -m 644 debian/network-manager.dbus-conf debian/network-manager/etc/dbus-1/system.d/NetworkManager.conf
-
-	dh_install -s
-# Must not depend on anything. This is to be called by
-# binary-arch/binary-indep
-# in another 'make' thread.
-binary-common:
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs ChangeLog
-	dh_installdocs
-	dh_installexamples
-#	dh_installmenu
-#	dh_installdebconf	
-#	dh_installlogrotate	
-#	dh_installemacsen
-#	dh_installpam
-#	dh_installmime
-#	dh_installinit
-#	dh_installcron
-#	dh_installinfo
-	dh_installman
-	dh_link
-	dh_strip
-	dh_compress 
-	dh_fixperms
-#	dh_perl
-#	dh_python
-	dh_makeshlibs
-	dh_installdeb
-	dh_shlibdeps
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
-# Build architecture independant packages using the common target.
-binary-indep: build-indep install-indep
-
-# Build architecture dependant packages using the common target.
-binary-arch: build-arch install-arch
-	$(MAKE) -f debian/rules DH_OPTIONS=-a binary-common
-
-binary: binary-arch binary-indep
-.PHONY: build clean binary-indep binary-arch binary install install-indep install-arch
-
+build/network-manager::
+	/usr/bin/docbook-to-man debian/nm-vpn-properties.sgml > debian/nm-vpn-properties.1
+	
+binary-install/network-manager::
+	dh_installinit --name network-manager-dispatcher $(DEB_DH_INSTALLINIT_ARGS)
+	install -m 755 debian/network-manager-dispatcher.script \
+		debian/network-manager/etc/NetworkManager/dispatcher.d/01ifupdown
+		

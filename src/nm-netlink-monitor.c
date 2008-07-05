@@ -30,15 +30,19 @@
 #include <linux/types.h>
 #include <linux/netlink.h>
 #include <linux/rtnetlink.h>
-#include <linux/if.h>
+#include <net/if.h>
 #include <linux/unistd.h>
 #include <unistd.h>
+#include <stdio.h>
 
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include "NetworkManager.h"
+#include "NetworkManagerSystem.h"
 #include "nm-netlink-monitor.h"
 #include "nm-utils.h"
+#include "nm-marshal.h"
 
 #define NM_NETLINK_MONITOR_EVENT_CONDITIONS \
 	((GIOCondition) (G_IO_IN | G_IO_PRI))
@@ -49,11 +53,13 @@
 #define NM_NETLINK_MONITOR_DISCONNECT_CONDITIONS \
 	((GIOCondition) (G_IO_HUP))
 
+struct NMData;
 struct _NmNetlinkMonitorPrivate 
 {
-	GMainContext	*context;
-	GIOChannel	*io_channel;
-	GSource		*event_source;
+	GMainContext *	context;
+	GIOChannel *	io_channel;
+	GSource *		event_source;
+	struct NMData *app_data;
 };
 
 static void nm_netlink_monitor_finalize (GObject *object);
@@ -75,6 +81,7 @@ enum
 {
   INTERFACE_CONNECTED = 0,
   INTERFACE_DISCONNECTED,
+  WIRELESS_EVENT,
   ERROR,
   NUMBER_OF_SIGNALS
 };
@@ -109,8 +116,8 @@ nm_netlink_monitor_class_install_signals (NmNetlinkMonitorClass	*monitor_class)
 		  G_OBJECT_CLASS_TYPE (object_class),
 		  G_SIGNAL_RUN_LAST,
 		  G_STRUCT_OFFSET (NmNetlinkMonitorClass, interface_connected),
-		  NULL, NULL, g_cclosure_marshal_VOID__STRING,
-		  G_TYPE_NONE, 1, G_TYPE_STRING);
+		  NULL, NULL, nm_marshal_VOID__OBJECT,
+		  G_TYPE_NONE, 1, G_TYPE_OBJECT);
   monitor_class->interface_connected = NULL;
 
   nm_netlink_monitor_signals[INTERFACE_DISCONNECTED] =
@@ -118,25 +125,34 @@ nm_netlink_monitor_class_install_signals (NmNetlinkMonitorClass	*monitor_class)
 		  G_OBJECT_CLASS_TYPE (object_class),
 		  G_SIGNAL_RUN_LAST,
 		  G_STRUCT_OFFSET (NmNetlinkMonitorClass, interface_disconnected),
-		  NULL, NULL, g_cclosure_marshal_VOID__STRING,
-		  G_TYPE_NONE, 1, G_TYPE_STRING);
+		  NULL, NULL, nm_marshal_VOID__OBJECT,
+		  G_TYPE_NONE, 1, G_TYPE_OBJECT);
   monitor_class->interface_disconnected = NULL;
+
+  nm_netlink_monitor_signals[WIRELESS_EVENT] =
+    g_signal_new ("wireless-event",
+		  G_OBJECT_CLASS_TYPE (object_class),
+		  G_SIGNAL_RUN_LAST,
+		  G_STRUCT_OFFSET (NmNetlinkMonitorClass, wireless_event),
+		  NULL, NULL, nm_marshal_VOID__OBJECT_POINTER_INT,
+		  G_TYPE_NONE, 3, G_TYPE_OBJECT, G_TYPE_POINTER, G_TYPE_INT);
+  monitor_class->wireless_event = NULL;
 
   nm_netlink_monitor_signals[ERROR] =
     g_signal_new ("error",
 		  G_OBJECT_CLASS_TYPE (object_class),
 		  G_SIGNAL_RUN_LAST,
 		  G_STRUCT_OFFSET (NmNetlinkMonitorClass, error),
-		  NULL, NULL, g_cclosure_marshal_VOID__POINTER,
+		  NULL, NULL, nm_marshal_VOID__POINTER,
 		  G_TYPE_NONE, 1, G_TYPE_POINTER);
   monitor_class->error = NULL;
 }
 
 gboolean
-nm_netlink_monitor_open_connection (NmNetlinkMonitor  *monitor,
-				    GError	     **error)
+nm_netlink_monitor_open_connection (NmNetlinkMonitor *monitor,
+							 GError **error)
 {
-	struct sockaddr_nl monitor_address = { 0 };
+	struct sockaddr_nl monitor_address = { .nl_family = 0 };
 	int fd, saved_errno;
 	GError *channel_error;
 	GIOFlags channel_flags;
@@ -158,7 +174,7 @@ nm_netlink_monitor_open_connection (NmNetlinkMonitor  *monitor,
 	}
 
 	monitor_address.nl_family = AF_NETLINK;
-	monitor_address.nl_pid = getpid ();
+	monitor_address.nl_pid = UINT_MAX;
 	monitor_address.nl_groups = RTMGRP_LINK;
 
 	if (bind (fd, 
@@ -259,13 +275,17 @@ nm_netlink_monitor_error_quark (void)
 }
 
 NmNetlinkMonitor *
-nm_netlink_monitor_new (void)
+nm_netlink_monitor_new (struct NMData *data)
 {
-	GObject *instance;
+	NmNetlinkMonitor *instance;
 
-	instance = g_object_new (NM_TYPE_NETLINK_MONITOR, NULL, NULL);
+	g_return_val_if_fail (data != NULL, NULL);
 
-	return NM_NETLINK_MONITOR (instance);
+	instance = NM_NETLINK_MONITOR (g_object_new (NM_TYPE_NETLINK_MONITOR,
+				NULL, NULL));
+	instance->priv->app_data = data;
+
+	return instance;
 }
 
 static void
@@ -298,6 +318,7 @@ nm_netlink_monitor_attach (NmNetlinkMonitor *monitor,
 			       (GDestroyNotify) 
                                nm_netlink_monitor_clear_event_source);
 	g_source_attach (event_source, context);
+	g_source_unref (event_source);
 	monitor->priv->event_source = event_source;
 }
 
@@ -323,9 +344,10 @@ nm_netlink_monitor_request_status (NmNetlinkMonitor  *monitor,
 		struct nlmsghdr  header;
 		struct rtgenmsg  request;
 	} NmNetlinkMonitorStatusPacket;
-	NmNetlinkMonitorStatusPacket packet = { { 0 } };
-	struct sockaddr_nl recipient = { 0 };
-	static guint32 sequence_number;
+
+	NmNetlinkMonitorStatusPacket packet;
+	struct sockaddr_nl recipient = { .nl_pad = 0 };
+	static guint32 sequence_number = 0;
 	int fd, saved_errno;
 	ssize_t num_bytes_sent;
 	size_t num_bytes_to_send, total_bytes_sent;
@@ -339,10 +361,11 @@ nm_netlink_monitor_request_status (NmNetlinkMonitor  *monitor,
 	recipient.nl_pid = 0; /* going to kernel */
 	recipient.nl_groups = RTMGRP_LINK;
 
+	memset (&packet, 0, sizeof (NmNetlinkMonitorStatusPacket));
 	packet.header.nlmsg_len = NLMSG_LENGTH (sizeof (struct rtgenmsg));
 	packet.header.nlmsg_flags = NLM_F_ROOT | NLM_F_MATCH | NLM_F_REQUEST;
 	packet.header.nlmsg_type = RTM_GETLINK;
-	packet.header.nlmsg_pid = getpid ();
+	packet.header.nlmsg_pid = UINT_MAX;
 	/* Might be good to generate a unique sequence number and track
 	   the response */
 	packet.header.nlmsg_seq = sequence_number << 16;
@@ -432,7 +455,7 @@ receive_pending_bytes (GIOChannel  *channel,
 	GString *pending_bytes;
 	ssize_t num_bytes_read;
 	gboolean succeeded;
-	struct sockaddr_nl sender = { 0 };
+	struct sockaddr_nl sender = { .nl_pad = 0 };
 	gchar buffer[4096];
 	static const size_t buffer_capacity = (size_t) sizeof (buffer);
 	socklen_t sender_size;
@@ -623,8 +646,6 @@ nm_netlink_monitor_event_handler (GIOChannel       *channel,
 		struct ifinfomsg *interface_info;
 		struct rtattr *attribute;
 		int num_attribute_bytes_to_process;
-		gboolean is_connected;
-		gchar *interface_name;
 
 		g_assert (num_bytes_to_process <= num_received_bytes);
 
@@ -678,37 +699,58 @@ nm_netlink_monitor_event_handler (GIOChannel       *channel,
 			break;
 		}
 
-		interface_name = NULL;
 		interface_info = (struct ifinfomsg *) NLMSG_DATA (header);
 		
-		/* The !! weirdness is to cannonicalize the value to 0 or 1.
-		 */
-		is_connected = !!((gboolean) (interface_info->ifi_flags & IFF_RUNNING));
-
 		num_attribute_bytes_to_process = IFLA_PAYLOAD (header);
 
+		/* Dispatch the event */
 		for (attribute = IFLA_RTA (interface_info);
-		     RTA_OK (attribute, num_attribute_bytes_to_process); 
+		     RTA_OK (attribute, num_attribute_bytes_to_process);
 		     attribute = RTA_NEXT (attribute, num_attribute_bytes_to_process))
 		{
+			int data_len = RTA_PAYLOAD (attribute);
+			
 			if (attribute->rta_type == IFLA_IFNAME) {
-				interface_name = 
-					(gchar *) g_strdup (RTA_DATA (attribute));
+				char * iface = g_malloc0 (data_len + 1);
+				memcpy (iface, RTA_DATA (attribute), data_len);
+				if (strlen (iface))
+				{
+					/* The !! weirdness is to cannonicalize the value to 0 or 1. */
+					gboolean is_connected = !!((gboolean) (interface_info->ifi_flags & IFF_RUNNING));
+					NMDevice * dev;
+
+					if ((dev = nm_get_device_by_iface_locked (monitor->priv->app_data, iface)))
+					{
+						if (is_connected) {
+							g_signal_emit (G_OBJECT (monitor), 
+								       nm_netlink_monitor_signals[INTERFACE_CONNECTED],
+								       0, dev);
+						} else {
+							g_signal_emit (G_OBJECT (monitor), 
+								       nm_netlink_monitor_signals[INTERFACE_DISCONNECTED],
+								       0, dev);
+						}
+						g_object_unref (G_OBJECT (dev));
+					}
+				}
+				g_free (iface);
+			} else if (attribute->rta_type == IFLA_WIRELESS) {
+				char * iface = nm_system_get_iface_from_rtnl_index (interface_info->ifi_index);
+				if (iface != NULL) {
+					NMDevice *dev;
+					if ((dev = nm_get_device_by_iface_locked (monitor->priv->app_data, iface)))
+					{
+						char * data = g_malloc0 (data_len);
+						memcpy (data, RTA_DATA (attribute), data_len);
+						g_signal_emit (G_OBJECT (monitor), 
+							       nm_netlink_monitor_signals[WIRELESS_EVENT],
+							       0, dev, data, data_len);
+						g_free (data);
+						g_object_unref (G_OBJECT (dev));
+					}
+				}
+				g_free (iface);
 			}
-		}
-
-		if (interface_name != NULL)
-		{
-			if (is_connected)
-				g_signal_emit (G_OBJECT (monitor), 
-					       nm_netlink_monitor_signals[INTERFACE_CONNECTED],
-					       0, interface_name);
-		        else
-				g_signal_emit (G_OBJECT (monitor), 
-					       nm_netlink_monitor_signals[INTERFACE_DISCONNECTED],
-					       0, interface_name);
-
-			g_free (interface_name);
 		}
 	}
 	g_free (received_bytes);

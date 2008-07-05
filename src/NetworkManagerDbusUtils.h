@@ -27,7 +27,8 @@
 #include <dbus/dbus-glib-lowlevel.h>
 #include <dbus/dbus-glib.h>
 
-#include "NetworkManagerDevice.h"
+#include "nm-device.h"
+#include "NetworkManagerMain.h"
 
 typedef struct NMDbusCBData
 {

@@ -35,6 +35,9 @@
 #include "NetworkManagerDbus.h"
 #include "nm-activation-request.h"
 #include "nm-utils.h"
+#include "nm-dbus-nmi.h"
+#include "nm-device-802-11-wireless.h"
+#include "nm-device-802-3-ethernet.h"
 
 
 /*
@@ -48,6 +51,8 @@ static gboolean nm_policy_activation_finish (NMActRequest *req)
 {
 	NMDevice			*dev = NULL;
 	NMData			*data = NULL;
+	NMActRequest * dev_req;
+	const char *network_id = NULL;
 
 	g_return_val_if_fail (req != NULL, FALSE);
 
@@ -57,31 +62,26 @@ static gboolean nm_policy_activation_finish (NMActRequest *req)
 	dev = nm_act_request_get_dev (req);
 	g_assert (dev);
 
-	/* Tell NetworkManagerInfo to store the MAC address of the active device's AP */
-	if (nm_device_is_wireless (dev))
-	{
-		struct ether_addr	addr;
-		NMAccessPoint *	ap = nm_act_request_get_ap (req);
-		NMAccessPoint *	tmp_ap;
+	/* Ensure that inactive devices don't get the activated signal
+	 * sent due to race conditions.
+	 */
+	dev_req = nm_device_get_act_request (dev);
+	if (!dev_req || (dev_req != req))
+		return FALSE;
 
-		/* Cache details in the info-daemon since the connect was successful */
-		nm_dbus_update_network_info (data->dbus_connection, ap, nm_act_request_get_user_requested (req));
-
-		/* Cache the correct auth method in our AP list too */
-		if ((tmp_ap = nm_ap_list_get_ap_by_essid (data->allowed_ap_list, nm_ap_get_essid (ap))))
-			nm_ap_set_auth_method (tmp_ap, nm_ap_get_auth_method (ap));
-
-		nm_device_get_ap_address (dev, &addr);
-		if (!nm_ap_get_address (ap) || !nm_ethernet_address_is_valid (nm_ap_get_address (ap)))
-			nm_ap_set_address (ap, &addr);
-
-		/* Don't store MAC addresses for non-infrastructure networks */
-		if ((nm_ap_get_mode (ap) == NETWORK_MODE_INFRA) && nm_ethernet_address_is_valid (&addr))
-			nm_dbus_add_network_address (data->dbus_connection, NETWORK_TYPE_ALLOWED, nm_ap_get_essid (ap), &addr);
+    if (NM_IS_DEVICE_802_11_WIRELESS (dev))
+		network_id = nm_ap_get_essid (nm_act_request_get_ap (req));
+	else if (NM_IS_DEVICE_802_3_ETHERNET (dev)) {
+		NMWiredNetwork *wired_net = nm_act_request_get_wired_network (req);
+		if (wired_net)
+			network_id = nm_wired_network_get_network_id (wired_net);
 	}
 
+	nm_device_activation_success_handler (dev, req);
+
+	nm_act_request_unref (req);
 	nm_info ("Activation (%s) successful, device activated.", nm_device_get_iface (dev));
-	nm_dbus_schedule_device_status_change_signal (data, dev, NULL, DEVICE_NOW_ACTIVE);
+	nm_dbus_schedule_device_status_change_signal (data, dev, network_id, DEVICE_NOW_ACTIVE);
 	nm_schedule_state_change_signal_broadcast (data);
 
 	return FALSE;
@@ -107,6 +107,7 @@ void nm_policy_schedule_activation_finish (NMActRequest *req)
 	g_assert (dev);
 
 	nm_act_request_set_stage (req, NM_ACT_STAGE_ACTIVATED);
+	nm_act_request_ref (req);
 
 	source = g_idle_source_new ();
 	g_source_set_priority (source, G_PRIORITY_HIGH_IDLE);
@@ -125,9 +126,9 @@ void nm_policy_schedule_activation_finish (NMActRequest *req)
  */
 static gboolean nm_policy_activation_failed (NMActRequest *req)
 {
-	NMDevice			*dev = NULL;
-	NMAccessPoint		*ap = NULL;
-	NMData			*data = NULL;
+	NMDevice *	dev = NULL;
+	NMData *		data = NULL;
+	const char *network_id = NULL;
 
 	g_return_val_if_fail (req != NULL, FALSE);
 
@@ -137,33 +138,24 @@ static gboolean nm_policy_activation_failed (NMActRequest *req)
 	dev = nm_act_request_get_dev (req);
 	g_assert (dev);
 
-	if (nm_device_is_wireless (dev))
-	{
-		if ((ap = nm_act_request_get_ap (req)))
-		{
-			/* Only pop up the Network Not Found dialog when its a user-requested access point
-			 * that failed, not one that we've automatically found and connected to.
-			 */
-			if (nm_act_request_get_user_requested (req))
-				nm_dbus_schedule_device_status_change_signal	(data, dev, ap, DEVICE_ACTIVATION_FAILED);
+	nm_device_activation_failure_handler (dev, req);
 
-			/* Add the AP to the invalid list and force a best ap update */
-			nm_ap_set_invalid (ap, TRUE);
-			nm_ap_list_append_ap (data->invalid_ap_list, ap);
-		}
+	if (NM_IS_DEVICE_802_11_WIRELESS (dev))
+		network_id = nm_ap_get_essid (nm_act_request_get_ap (req));
+	else if (NM_IS_DEVICE_802_3_ETHERNET (dev)) {
+		NMWiredNetwork *wired_net = nm_act_request_get_wired_network (req);
+		if (wired_net)
+			network_id = nm_wired_network_get_network_id (wired_net);
+	}
 
-		nm_info ("Activation (%s) failed for access point (%s)", nm_device_get_iface (dev),
-				ap ? nm_ap_get_essid (ap) : "(none)");
-	}
-	else
-	{
-		nm_info ("Activation (%s) failed.", nm_device_get_iface (dev));
-		nm_dbus_schedule_device_status_change_signal	(data, dev, NULL, DEVICE_ACTIVATION_FAILED);
-	}
+	nm_info ("Activation (%s) failed.", nm_device_get_iface (dev));
+	nm_dbus_schedule_device_status_change_signal (data, dev, network_id, DEVICE_ACTIVATION_FAILED);
 
 	nm_device_deactivate (dev);
 	nm_schedule_state_change_signal_broadcast (data);
 	nm_policy_schedule_device_change_check (data);
+
+	nm_act_request_unref (req);
 
 	return FALSE;
 }
@@ -188,6 +180,7 @@ void nm_policy_schedule_activation_failed (NMActRequest *req)
 	g_assert (dev);
 
 	nm_act_request_set_stage (req, NM_ACT_STAGE_FAILED);
+	nm_act_request_ref (req);
 
 	source = g_idle_source_new ();
 	g_source_set_priority (source, G_PRIORITY_HIGH_IDLE);
@@ -207,12 +200,12 @@ void nm_policy_schedule_activation_failed (NMActRequest *req)
  */
 static NMDevice * nm_policy_auto_get_best_device (NMData *data, NMAccessPoint **ap)
 {
-	GSList		*elt;
-	NMDevice		*best_wired_dev = NULL;
-	guint		 best_wired_prio = 0;
-	NMDevice		*best_wireless_dev = NULL;
-	guint		 best_wireless_prio = 0;
-	NMDevice		*highest_priority_dev = NULL;
+	GSList *				elt;
+	NMDevice8023Ethernet *	best_wired_dev = NULL;
+	guint				best_wired_prio = 0;
+	NMDevice80211Wireless *	best_wireless_dev = NULL;
+	guint				best_wireless_prio = 0;
+	NMDevice *			highest_priority_dev = NULL;
 
 	g_return_val_if_fail (data != NULL, NULL);
 	g_return_val_if_fail (ap != NULL, NULL);
@@ -228,7 +221,7 @@ static NMDevice * nm_policy_auto_get_best_device (NMData *data, NMAccessPoint **
 		NMDevice *	dev = (NMDevice *)(elt->data);
 		guint32		caps;
 
-		dev_type = nm_device_get_type (dev);
+		dev_type = nm_device_get_device_type (dev);
 		link_active = nm_device_has_active_link (dev);
 		caps = nm_device_get_capabilities (dev);
 
@@ -236,7 +229,7 @@ static NMDevice * nm_policy_auto_get_best_device (NMData *data, NMAccessPoint **
 		if (!(caps & NM_DEVICE_CAP_NM_SUPPORTED))
 			continue;
 
-		if (nm_device_is_wired (dev))
+		if (nm_device_is_802_3_ethernet (dev))
 		{
 			/* We never automatically choose devices that don't support carrier detect */
 			if (!(caps & NM_DEVICE_CAP_CARRIER_DETECT))
@@ -250,11 +243,11 @@ static NMDevice * nm_policy_auto_get_best_device (NMData *data, NMAccessPoint **
 
 			if (prio > best_wired_prio)
 			{
-				best_wired_dev = dev;
+				best_wired_dev = NM_DEVICE_802_3_ETHERNET (dev);
 				best_wired_prio = prio;
 			}
 		}
-		else if (nm_device_is_wireless (dev) && data->wireless_enabled)
+		else if (nm_device_is_802_11_wireless (dev) && data->wireless_enabled)
 		{
 			/* Don't automatically choose a device that doesn't support wireless scanning */
 			if (!(caps & NM_DEVICE_CAP_WIRELESS_SCAN))
@@ -271,31 +264,34 @@ static NMDevice * nm_policy_auto_get_best_device (NMData *data, NMAccessPoint **
 
 			if (prio > best_wireless_prio)
 			{
-				best_wireless_dev = dev;
+				best_wireless_dev = NM_DEVICE_802_11_WIRELESS (dev);
 				best_wireless_prio = prio;
 			}
 		}
 	}
 
 	if (best_wired_dev)
-		highest_priority_dev = best_wired_dev;
+		highest_priority_dev = NM_DEVICE (best_wired_dev);
 	else if (best_wireless_dev)
 	{
-		highest_priority_dev = best_wireless_dev;
-		*ap = nm_device_get_best_ap (highest_priority_dev);
+		*ap = nm_device_802_11_wireless_get_best_ap (best_wireless_dev);
 		/* If the device doesn't have a "best" ap, then we can't use it */
 		if (!*ap)
 			highest_priority_dev = NULL;
+		else
+			highest_priority_dev = NM_DEVICE (best_wireless_dev);
 	}
 
 #if 0
-	nm_info ("AUTO: Best wired device = %s, best wireless device = %s (%s)", best_wired_dev ? nm_device_get_iface (best_wired_dev) : "(null)",
-			best_wireless_dev ? nm_device_get_iface (best_wireless_dev) : "(null)", (best_wireless_dev && *ap) ? nm_ap_get_essid (*ap) : "null" );
+	nm_info ("AUTO: Best wired device = %s, best wireless device = %s (%s)", best_wired_dev ? nm_device_get_iface (NM_DEVICE (best_wired_dev)) : "(null)",
+			best_wireless_dev ? nm_device_get_iface (NM_DEVICE (best_wireless_dev)) : "(null)", (best_wireless_dev && *ap) ? nm_ap_get_essid (*ap) : "null" );
 #endif
 
 	return highest_priority_dev;
 }
 
+
+static GStaticMutex dcc_mutex = G_STATIC_MUTEX_INIT;
 
 /*
  * nm_policy_device_change_check
@@ -308,7 +304,8 @@ static NMDevice * nm_policy_auto_get_best_device (NMData *data, NMAccessPoint **
  *    3) wireless network topology changes
  *
  */
-static gboolean nm_policy_device_change_check (NMData *data)
+static gboolean
+nm_policy_device_change_check (NMData *data)
 {
 	NMAccessPoint *	ap = NULL;
 	NMDevice *		new_dev = NULL;
@@ -317,7 +314,9 @@ static gboolean nm_policy_device_change_check (NMData *data)
 
 	g_return_val_if_fail (data != NULL, FALSE);
 
+	g_static_mutex_lock (&dcc_mutex);
 	data->dev_change_check_idle_id = 0;
+	g_static_mutex_unlock (&dcc_mutex);
 
 	old_dev = nm_get_active_device (data);
 
@@ -326,10 +325,19 @@ static gboolean nm_policy_device_change_check (NMData *data)
 
 	if (old_dev)
 	{
+		gboolean has_link = TRUE;
 		guint32 caps = nm_device_get_capabilities (old_dev);
 
+		/* Ensure ethernet devices have a link before starting activation,
+		 * partially works around Fedora #194124.
+		 */
+		if (nm_device_is_802_3_ethernet (old_dev))
+			has_link = nm_device_has_active_link (old_dev);
+
 		/* Don't interrupt a currently activating device. */
-		if (nm_device_is_activating (old_dev))
+		if (   nm_device_is_activating (old_dev)
+		    && !nm_device_can_interrupt_activation (old_dev)
+		    && has_link)
 		{
 			nm_info ("Old device '%s' activating, won't change.", nm_device_get_iface (old_dev));
 			goto out;
@@ -338,13 +346,10 @@ static gboolean nm_policy_device_change_check (NMData *data)
 		/* Don't interrupt semi-supported devices either.  If the user chose one, they must
 		 * explicitly choose to move to another device, we're not going to move for them.
 		 */
-		if ((nm_device_is_wired (old_dev) && !(caps & NM_DEVICE_CAP_CARRIER_DETECT))
-			|| (nm_device_is_wireless (old_dev) && !(caps & NM_DEVICE_CAP_WIRELESS_SCAN)))
-		{
-			nm_info ("Old device '%s' was semi-supported and user chosen, won't change unless told to.",
-				nm_device_get_iface (old_dev));
+		if ((nm_device_is_802_3_ethernet (old_dev) && !(caps & NM_DEVICE_CAP_CARRIER_DETECT)))
 			goto out;
-		}
+		if (nm_device_is_802_11_wireless (old_dev) && !(caps & NM_DEVICE_CAP_WIRELESS_SCAN))
+			goto out;
 	}
 
 	new_dev = nm_policy_auto_get_best_device (data, &ap);
@@ -354,7 +359,7 @@ static gboolean nm_policy_device_change_check (NMData *data)
 	 * 1) old device is NULL, new device is NULL - we aren't currently connected to anything, and we
 	 *		can't find anything to connect to.  Do nothing.
 	 *
-	 * 2) old device is NULL, new device is good - we aren't currenlty connected to anything, but
+	 * 2) old device is NULL, new device is good - we aren't currently connected to anything, but
 	 *		we have something we can connect to.  Connect to it.
 	 *
 	 * 3) old device is good, new device is NULL - have a current connection, but it's no good since
@@ -369,7 +374,7 @@ static gboolean nm_policy_device_change_check (NMData *data)
 
 	if (!old_dev && !new_dev)
 	{
-		/* Do nothing, wait for something like link-state to change, or an access point to be found */
+		; /* Do nothing, wait for something like link-state to change, or an access point to be found */
 	}
 	else if (!old_dev && new_dev)
 	{
@@ -388,57 +393,101 @@ static gboolean nm_policy_device_change_check (NMData *data)
 	{
 		NMActRequest *	old_act_req = nm_device_get_act_request (old_dev);
 		gboolean		old_user_requested = nm_act_request_get_user_requested (old_act_req);
+		gboolean		old_has_link = nm_device_has_active_link (old_dev);
 
-		if (nm_device_is_wired (old_dev))
+		if (nm_device_is_802_3_ethernet (old_dev))
 		{
-			/* Only switch if the old device was not user requested, and we are either switching to
+			/* Only switch if the old device was not user requested, and we are switching to
 			 * a new device.  Note that new_dev will never be wireless since automatic device picking
 			 * above will prefer a wired device to a wireless device.
 			 */
-			if (!old_user_requested && (new_dev != old_dev))
+			if ((!old_user_requested || !old_has_link) && (new_dev != old_dev))
 			{
 				nm_info ("SWITCH: found better connection '%s' than current connection '%s'.", nm_device_get_iface (new_dev), nm_device_get_iface (old_dev));
 				do_switch = TRUE;
 			}
 		}
-		else if (nm_device_is_wireless (old_dev))
+		else if (nm_device_is_802_11_wireless (old_dev))
 		{
 			/* Only switch if the old device's wireless config is invalid */
-			if (nm_device_is_wireless (new_dev))
+			if (nm_device_is_802_11_wireless (new_dev))
 			{
 				NMAccessPoint *old_ap = nm_act_request_get_ap (old_act_req);
 				const char *	old_essid = nm_ap_get_essid (old_ap);
+				int			old_mode = nm_ap_get_mode (old_ap);
 				const char *	new_essid = nm_ap_get_essid (ap);
+				gboolean		same_request = FALSE;
 
-				/* Schedule new activation if the currently associated access point is not the "best" one
-				 * or we've lost the link to the old access point.
+				/* Schedule new activation if the currently associated
+				 * access point is not the "best" one or we've lost the
+				 * link to the old access point.  We don't switch away
+				 * from Ad-Hoc APs either.
 				 */
-				gboolean es = (strcmp (old_essid, new_essid) != 0);
-				gboolean link = nm_device_has_active_link (old_dev);
-				if (es || !link)
+				gboolean same_essid = (nm_null_safe_strcmp (old_essid, new_essid) == 0);
+
+				/* If the "best" AP's essid is the same as the current activation
+				 * request's essid, but the current activation request isn't
+				 * done yet, don't switch.  This prevents multiple requests for the
+				 * AP's password on startup.
+				 */
+				if ((old_dev == new_dev) && nm_device_is_activating (new_dev) && same_essid)
+					same_request = TRUE;
+
+				if (!same_request && (!same_essid || !old_has_link) && (old_mode != IW_MODE_ADHOC))
 				{
-					nm_info ("SWITCH: found better connection '%s/%s' than current connection '%s/%s'.  essid=%d, link=%d", nm_device_get_iface (new_dev),
-								new_essid, nm_device_get_iface (old_dev), old_essid, es, link);
+					nm_info ("SWITCH: found better connection '%s/%s'"
+					         " than current connection '%s/%s'.  "
+					         "same_ssid=%d, have_link=%d",
+					         nm_device_get_iface (new_dev),	new_essid,
+					         nm_device_get_iface (old_dev), old_essid,
+					         same_essid, old_has_link);
 					do_switch = TRUE;
 				}
-			}
-			else if (nm_device_is_wired (new_dev))
+			} /* Always prefer Ethernet over wireless, unless the user explicitly switched away. */
+			else if (nm_device_is_802_3_ethernet (new_dev))
 			{
-				if (!nm_device_has_active_link (old_dev))
+				if (!old_user_requested)
 					do_switch = TRUE;
 			}
 		}
 	}
 
-	if (do_switch && (nm_device_is_wired (new_dev) || (nm_device_is_wireless (new_dev) && ap)))
+	if (do_switch && (nm_device_is_802_3_ethernet (new_dev) || (nm_device_is_802_11_wireless (new_dev) && ap)))
 	{
 		NMActRequest *	act_req = NULL;
+		gboolean has_link = TRUE;
 
-		if ((act_req = nm_act_request_new (data, new_dev, ap, FALSE)))
+		/* Ensure ethernet devices have a link before starting activation,
+		 * partially works around Fedora #194124.
+		 */
+		if (nm_device_is_802_3_ethernet (new_dev))
+			has_link = nm_device_has_active_link (new_dev);
 
+		if (has_link)
 		{
-			nm_info ("Will activate connection '%s%s%s'.", nm_device_get_iface (new_dev), ap ? "/" : "", ap ? nm_ap_get_essid (ap) : "");
-			nm_policy_schedule_device_activation (act_req);
+			if ((act_req = nm_act_request_new (data, new_dev, FALSE)))
+			{
+				nm_info ("Will activate connection '%s%s%s'.",
+				         nm_device_get_iface (new_dev),
+				         ap ? "/" : "",
+				         ap ? nm_ap_get_essid (ap) : "");
+
+				if (ap)
+					nm_act_request_set_ap (act_req, ap);
+
+				nm_policy_schedule_device_activation (act_req);
+				nm_act_request_unref (act_req);
+			}
+			else
+			{
+				nm_info ("Error creating activation request for %s",
+				         nm_device_get_iface (new_dev));
+			}
+		}
+		else
+		{
+			nm_info ("Won't activate %s because it no longer has a link.",
+			         nm_device_get_iface (new_dev));
 		}
 	}
 
@@ -460,11 +509,9 @@ out:
  */
 void nm_policy_schedule_device_change_check (NMData *data)
 {
-	static GStaticMutex mutex = G_STATIC_MUTEX_INIT;
-
 	g_return_if_fail (data != NULL);
 
-	g_static_mutex_lock (&mutex);
+	g_static_mutex_lock (&dcc_mutex);
 
 	if (data->dev_change_check_idle_id == 0)
 	{
@@ -474,8 +521,7 @@ void nm_policy_schedule_device_change_check (NMData *data)
 		data->dev_change_check_idle_id = g_source_attach (source, data->main_context);
 		g_source_unref (source);
 	}
-
-	g_static_mutex_unlock (&mutex);
+	g_static_mutex_unlock (&dcc_mutex);
 }
 
 
@@ -501,10 +547,11 @@ static gboolean nm_policy_device_activation (NMActRequest *req)
 		nm_device_deactivate (old_dev);
 
 	new_dev = nm_act_request_get_dev (req);
-	if (nm_device_is_activating (new_dev))
-		return FALSE;
 
-	nm_device_activation_start (req);
+	if (!nm_device_is_activating (new_dev))
+		nm_device_activation_start (req);
+
+	nm_act_request_unref (req);
 
 	return FALSE;
 }
@@ -529,6 +576,8 @@ void nm_policy_schedule_device_activation (NMActRequest *req)
 
 	dev = nm_act_request_get_dev (req);
 	g_assert (dev);
+
+	nm_act_request_ref (req);
 
 	source = g_idle_source_new ();
 	g_source_set_priority (source, G_PRIORITY_HIGH_IDLE);
@@ -619,21 +668,23 @@ static gboolean nm_policy_device_list_update_from_allowed_list (NMData *data)
 	for (elt = data->dev_list; elt != NULL; elt = g_slist_next (elt))
 	{
 		NMDevice	*dev = (NMDevice *)(elt->data);
-		if (nm_device_is_wireless (dev))
+		if (nm_device_is_802_11_wireless (dev))
 		{
-			if (nm_device_get_supports_wireless_scan (dev))
+			NMDevice80211Wireless *	wdev = NM_DEVICE_802_11_WIRELESS (dev);
+
+			if (nm_device_get_capabilities (dev) & NM_DEVICE_CAP_WIRELESS_SCAN)
 			{
 				/* Once we have the list, copy in any relevant information from our Allowed list and fill
 				 * in the ESSID of base stations that aren't broadcasting their ESSID, if we have their
 				 * MAC address in our allowed list.
 				 */
-				nm_ap_list_copy_essids_by_address (nm_device_ap_list_get (dev), data->allowed_ap_list);
-				nm_ap_list_copy_properties (nm_device_ap_list_get (dev), data->allowed_ap_list);
+				nm_ap_list_copy_essids_by_address (data, wdev, nm_device_802_11_wireless_ap_list_get (wdev), data->allowed_ap_list);
+				nm_ap_list_copy_properties (nm_device_802_11_wireless_ap_list_get (wdev), data->allowed_ap_list);
 			}
 			else
-				nm_device_copy_allowed_to_dev_list (dev, data->allowed_ap_list);
+				nm_device_802_11_wireless_copy_allowed_to_dev_list (wdev, data->allowed_ap_list);
 
-			nm_ap_list_remove_duplicate_essids (nm_device_ap_list_get (dev));
+			nm_ap_list_remove_duplicate_essids (nm_device_802_11_wireless_ap_list_get (wdev));
 		}
 	}
 

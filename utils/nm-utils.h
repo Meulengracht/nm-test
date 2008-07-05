@@ -62,13 +62,13 @@ G_STMT_END
 #define nm_info(fmt, args...)						\
 G_STMT_START								\
 {									\
-	g_message ("<information>\t" fmt "\n", ##args);			\
+	g_message ("<info>  " fmt "\n", ##args);			\
 } G_STMT_END
 
 #define nm_info_str(fmt_str, args...)						\
 G_STMT_START								\
 {									\
-	g_message ("<information>\t%s\n", fmt_str, ##args);			\
+	g_message ("<info>  %s\n", fmt_str, ##args);			\
 } G_STMT_END
 
 #define nm_debug(fmt, args...)						\
@@ -76,8 +76,8 @@ G_STMT_START								\
 {									\
 	gdouble _timestamp;						\
 	nm_get_timestamp (&_timestamp);					\
-	g_debug ("<debug info>\t[%f] %s (): " fmt "\n", _timestamp,	\
-		 G_GNUC_PRETTY_FUNCTION, ##args);				\
+	g_debug ("<debug> [%f] %s(): " fmt "\n", _timestamp,	\
+		 G_STRFUNC, ##args);				\
 } G_STMT_END
 
 #define nm_debug_str(fmt_str, args...)						\
@@ -85,22 +85,22 @@ G_STMT_START								\
 {									\
 	gdouble _timestamp;						\
 	nm_get_timestamp (&_timestamp);					\
-	g_debug ("<debug info>\t[%f] %s (): %s\n", _timestamp,	\
-		 G_GNUC_PRETTY_FUNCTION, fmt_str, ##args);				\
+	g_debug ("<debug> [%f] %s(): %s\n", _timestamp,	\
+		 G_STRFUNC, fmt_str, ##args);				\
 } G_STMT_END
 
 #define nm_warning(fmt, args...)					\
 G_STMT_START								\
 {									\
-	g_warning ("<WARNING>\t %s (): " fmt "\n", 			\
-		   G_GNUC_PRETTY_FUNCTION, ##args);			\
+	g_warning ("<WARN>  %s(): " fmt "\n", 			\
+		   G_STRFUNC, ##args);			\
 } G_STMT_END
 
 #define nm_warning_str(fmt_str, args...)					\
 G_STMT_START								\
 {									\
-	g_warning ("<WARNING>\t %s (): %s\n", 			\
-		   G_GNUC_PRETTY_FUNCTION, fmt_str, ##args);			\
+	g_warning ("<WARN>  %s(): %s\n", 			\
+		   G_STRFUNC, fmt_str, ##args);			\
 } G_STMT_END
 
 #define nm_error(fmt, args...)						\
@@ -109,7 +109,7 @@ G_STMT_START								\
 	gdouble _timestamp;						\
 	nm_get_timestamp (&_timestamp);					\
 	g_critical ("<ERROR>\t[%f] %s (): " fmt "\n", _timestamp,	\
-		    G_GNUC_PRETTY_FUNCTION, ##args);			\
+		    G_STRFUNC, ##args);			\
 	nm_print_backtrace ();						\
 	G_BREAKPOINT ();						\
 } G_STMT_END
@@ -120,12 +120,14 @@ G_STMT_START								\
 	gdouble _timestamp;						\
 	nm_get_timestamp (&_timestamp);					\
 	g_critical ("<ERROR>\t[%f] %s (): %s\n", _timestamp,	\
-		    G_GNUC_PRETTY_FUNCTION, fmt_str, ##args);			\
+		    G_STRFUNC, fmt_str, ##args);			\
 	nm_print_backtrace ();						\
 	G_BREAKPOINT ();						\
 } G_STMT_END
 
-gchar *nm_dbus_escape_object_path (const gchar *utf8_string);
+gchar *nm_dbus_escape_object_path_item (const gchar *item);
 gchar *nm_dbus_unescape_object_path (const gchar *object_path);
+
+char *nm_utils_essid_to_utf8 (const char *orig_essid);
 
 #endif /* NM_UTILS_H */

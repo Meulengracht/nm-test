@@ -1,266 +1,245 @@
 # French translation of NetworkManager.
-# Copyright (C) 2004-2005 The GNOME Foundation.
+# Copyright (C) 2004-2007 The GNOME Foundation.
 # This file is distributed under the same license as the NetworkManager package.
 #
 # Raphaël Tournoy <lexpas@free.fr>, 2004.
+# Stéphane Raimbault <stephane.raimbault@gmail.com>, 2006-2007.
+# Jonathan Ernst <jonathan@ernstfamily.ch>, 2007.
+# Claude Paroz <claude@2xlibre.net>, 2007.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: NetworkManager 0.3.3\n"
+"Project-Id-Version: NetworkManager 0.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-16 00:21+0100\n"
-"PO-Revision-Date: 2005-02-16 00:11+0100\n"
-"Last-Translator: Raphaël Tournoy <lexpas@free.fr>\n"
+"POT-Creation-Date: 2007-03-06 20:42+0100\n"
+"PO-Revision-Date: 2007-03-06 20:47+0100\n"
+"Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 
-#: info-daemon/networks.glade.h:1
-msgid "<span weight=\"bold\">Wireless Networks:</span>"
-msgstr "<span weight=\"bold\">Réseaux sans fil :</span>"
+#: ../gnome/vpn-properties/nm-vpn-properties.c:405
+msgid "Cannot add VPN connection"
+msgstr "Impossible d'ajouter la connexion VPN"
 
-#: info-daemon/networks.glade.h:2
-msgid "Modify Wireless Networks"
-msgstr "Modifier les réseaux sans fil"
-
-#: info-daemon/passphrase.glade.h:1 panel-applet/essid.glade.h:1
-msgid "*"
-msgstr "*"
-
-#: info-daemon/passphrase.glade.h:2 panel-applet/essid.glade.h:2
+#: ../gnome/vpn-properties/nm-vpn-properties.c:407
 msgid ""
-"128-bit Passphrase (WEP)\n"
-"Ascii Key (WEP)\n"
-"Hex Key (WEP)"
+"No suitable VPN software was found on your system. Contact your system "
+"administrator."
 msgstr ""
-"Phrase de passe 128 bit (WEP)\n"
-"Clé ASCII (WEP)\n"
-"Clé hexa (WEP)"
+"Aucun logiciel VPN adéquat n'a été trouvé sur votre système. Contactez votre "
+"administrateur système."
 
-#: info-daemon/passphrase.glade.h:6
-#, no-c-format
+#: ../gnome/vpn-properties/nm-vpn-properties.c:457
+msgid "Cannot import VPN connection"
+msgstr "Impossible d'importer la connexion VPN"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:459
+#, c-format
 msgid ""
-"<span weight=\"bold\" size=\"larger\">Passphrase Required by Wireless "
-"Network</span>\n"
+"Cannot find suitable software for VPN connection type '%s' to import the "
+"file '%s'. Contact your system administrator."
+msgstr ""
+"Impossible de trouver un logiciel adéquat supportant la connexion VPN de "
+"type « %s » pour importer le fichier « %s ». Contactez votre administrateur "
+"système."
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:596
+#, c-format
+msgid "Error retrieving VPN connection '%s'"
+msgstr "Erreur de récupération de la connexion VPN « %s »"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:599
+#, c-format
+msgid ""
+"Could not find the UI files for VPN connection type '%s'. Contact your "
+"system administrator."
+msgstr ""
+"Impossible de trouver les fichiers de l'interface utilisateur pour la "
+"connexion VPN de type « %s ». Contactez votre administrateur système."
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:746
+#, c-format
+msgid "Delete VPN connection \"%s\"?"
+msgstr "Voulez-vous supprimer la connexion VPN « %s » ?"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:749
+#, c-format
+msgid ""
+"All information about the VPN connection \"%s\" will be lost and you may "
+"need your system administrator to provide information to create a new "
+"connection."
+msgstr ""
+"Toutes les informations au sujet de la connexion VPN « %s » seront perdues "
+"et votre administrateur système devra peut-être fournir les informations "
+"nécessaires à la création d'une nouvelle connexion."
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:963
+msgid "Unable to load"
+msgstr "Impossible de charger"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.c:965
+msgid "Cannot find some needed resources (the glade file)!"
+msgstr "Impossible de trouver certaines ressources requises (fichier glade) !"
+
+#. Edit dialog
+#: ../gnome/vpn-properties/nm-vpn-properties.c:1084
+msgid "Edit VPN Connection"
+msgstr "Éditer la connexion VPN"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:1
+msgid "Add a new VPN connection"
+msgstr "Ajouter une nouvelle connexion VPN"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:2
+msgid "Choose which type of VPN connection you wish to create."
+msgstr "Choisissez le type de connexion VPN à créer."
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:3
+msgid "Connect to:"
+msgstr "Se connecter à :"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:4
+msgid "Create VPN Connection"
+msgstr "Créer une connexion VPN"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:5
+msgid "Create VPN Connection - 1 of 2"
+msgstr "Créer une connexion VPN - 1 sur 2"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:6
+msgid "Create VPN Connection - 2 of 2"
+msgstr "Créer une connexion VPN - 2 sur 2"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:7
+msgid "Delete the selected VPN connection"
+msgstr "Supprimer la connexion VPN sélectionnée"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:8
+msgid "E_xport"
+msgstr "E_xporter"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:9
+msgid "Edit the selected VPN connection"
+msgstr "Éditer la connexion VPN sélectionnée"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:10
+msgid "Export the VPN settings to a file"
+msgstr "Exporter les paramètres VPN dans un fichier"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:11
+msgid "Export the selected VPN connection to a file"
+msgstr "Exporter la connexion VPN sélectionnée dans un fichier"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:12
+msgid "Finish Creating VPN Connection"
+msgstr "Finir de créer la connexion VPN"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:13
+msgid "Manage Virtual Private Network Connections"
+msgstr "Gérer les connexions au réseau privé virtuel"
+
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:14
+msgid ""
+"This assistant will guide you through the creation of a connection to a "
+"Virtual Private Network (VPN).\n"
 "\n"
-"A passphrase or encryption key is required to access the wireless network '%"
-"s'."
+"It will require some information, such as IP addresses and secrets.  Please "
+"see your system administrator to obtain this information."
 msgstr ""
-"<span weight=\"bold\" size=\"larger\">Phrase de passe requise par le réseau "
-"sans fil</span>\n"
+"Cet assistant va vous aider à créer une connexion à un réseau privé virtuel "
+"(VPN).\n"
 "\n"
-"Une phrase de passe ou une clé de chiffrement est requise pour accéder au "
-"réseau sans fil « %s »."
+"Il aura besoin de certaines informations, telles que des adresses IP et des "
+"éléments secrets. Contactez votre administrateur système pour les obtenir."
 
-#: info-daemon/passphrase.glade.h:9 panel-applet/essid.glade.h:7
-msgid "Key Type:"
-msgstr "Type de clé :"
+#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:17
+msgid "VPN Connections"
+msgstr "Connexions VPN"
 
-#: info-daemon/passphrase.glade.h:10
-#: info-daemon/NetworkManagerInfoPassphraseDialog.c:139
-#: panel-applet/NMWirelessAppletOtherNetworkDialog.c:149
-#: panel-applet/essid.glade.h:8
-msgid "Passphrase:"
-msgstr "Phrase de passe :"
+#: ../src/nm-ap-security-wep.c:52
+msgid "40-bit WEP"
+msgstr "WEP 40 bits"
 
-#: info-daemon/passphrase.glade.h:11
-msgid "Wireless Network Key Required"
-msgstr "Clef requise par le réseau sans fil"
+#: ../src/nm-ap-security-wep.c:54
+msgid "104-bit WEP"
+msgstr "WEP 104 bits"
 
-#: info-daemon/passphrase.glade.h:12
-msgid "_Login to Network"
-msgstr "_Connexion au réseau"
+#: ../src/nm-ap-security-wpa-psk.c:50
+msgid "WPA TKIP"
+msgstr "WPA TKIP"
 
-#: info-daemon/NetworkManagerInfoPassphraseDialog.c:142
-#: panel-applet/NMWirelessAppletOtherNetworkDialog.c:152
-msgid "Ascii Key:"
-msgstr "Clé ASCII :"
+#: ../src/nm-ap-security-wpa-psk.c:52
+msgid "WPA CCMP"
+msgstr "WPA CCMP"
 
-#: info-daemon/NetworkManagerInfoPassphraseDialog.c:145
-#: panel-applet/NMWirelessAppletOtherNetworkDialog.c:155
-msgid "Hex Key:"
-msgstr "Clé hexa :"
+#: ../src/nm-ap-security-wpa-psk.c:54
+msgid "WPA Automatic"
+msgstr "WPA automatique"
 
-#: info-daemon/NetworkManagerInfoVPN.c:157
+#: ../src/nm-ap-security-wpa-psk.c:59
+msgid "WPA2 TKIP"
+msgstr "WPA2 TKIP"
+
+#: ../src/nm-ap-security-wpa-psk.c:61
+msgid "WPA2 CCMP"
+msgstr "WPA2 CCMP"
+
+#: ../src/nm-ap-security-wpa-psk.c:63
+msgid "WPA2 Automatic"
+msgstr "WPA2 automatique"
+
+#: ../src/nm-ap-security.c:338
+msgid "none"
+msgstr "aucun"
+
+#: ../src/nm-netlink-monitor.c:170
 #, c-format
-msgid "You must log in to access the private network %s"
-msgstr "Vous devez vous connecter pour accéder au réseau privé %s"
-
-#: panel-applet/NMWirelessApplet.c:140 panel-applet/NMWirelessApplet.c:158
-msgid "NetworkManager Applet"
-msgstr "Applet NetworkManager"
-
-#: panel-applet/NMWirelessApplet.c:142
-msgid "(C) 2004-2005 Red Hat, Inc."
-msgstr "© 2004-2005 Red Hat, Inc."
-
-#: panel-applet/NMWirelessApplet.c:143 panel-applet/NMWirelessApplet.c:161
-msgid "A panel application for managing your network devices & connections."
-msgstr ""
-"Une application de tableau de bord pour gérer vos périphériques réseaux et "
-"vox connexions."
-
-#: panel-applet/NMWirelessApplet.c:160
-msgid "(C) 2004-2005 by Red Hat, Inc."
-msgstr "© 2004-2005 by Red Hat, Inc."
-
-#: panel-applet/NMWirelessApplet.c:377
-msgid "No network connection"
-msgstr "Aucune connexion réseau"
-
-#: panel-applet/NMWirelessApplet.c:382
-msgid "Wired network connection"
-msgstr "Connexion à un réseau cablé"
-
-#: panel-applet/NMWirelessApplet.c:387
-msgid "Connecting to a wired network..."
-msgstr "Connexion à un réseau sans fil..."
-
-#: panel-applet/NMWirelessApplet.c:396
-msgid "Connected to an Ad-Hoc wireless network"
-msgstr "Connecté à un réseau sans fil Ad-Hoc"
-
-#: panel-applet/NMWirelessApplet.c:410
-#, c-format
-msgid "Wireless network connection to '%s' (%d%%)"
-msgstr "Connexion au réseau sans fil vers « %s » (%d%%)"
-
-#: panel-applet/NMWirelessApplet.c:415
-msgid "Wireless network connection"
-msgstr "Connexion réseau sans fil"
-
-#: panel-applet/NMWirelessApplet.c:420
-#, c-format
-msgid "Connecting to wireless network '%s'..."
-msgstr "Connexion au réseau sans fil « %s »..."
-
-#: panel-applet/NMWirelessApplet.c:426
-msgid "NetworkManager is not running"
-msgstr "NetworkManager n'est pas lancé"
-
-#: panel-applet/NMWirelessApplet.c:431
-msgid "Scanning for wireless networks..."
-msgstr "Recherche de réseaux sans fil..."
-
-#: panel-applet/NMWirelessApplet.c:754
-msgid "Other Wireless Networks..."
-msgstr "Autres réseaux sans fil..."
-
-#: panel-applet/NMWirelessApplet.c:775
-msgid "Create new Wireless Network..."
-msgstr "Créer un nouveau réseau sans fil..."
-
-#: panel-applet/NMWirelessApplet.c:885
-msgid "No network devices have been found"
-msgstr "Aucun périphérique réseau n'a été détecté"
-
-#: panel-applet/NMWirelessApplet.c:1003
-msgid "NetworkManager is not running..."
-msgstr "NetworkManager n'est pas lancé..."
-
-#: panel-applet/NMWirelessApplet.c:1047 panel-applet/NMWirelessApplet.c:1096
-msgid "Pause Wireless Scanning"
-msgstr "Interrompre la recherche de réseau sans fil"
-
-#: panel-applet/NMWirelessApplet.c:1052
-msgid "Resume Wireless Scanning"
-msgstr "Reprendre la recherche de réseau sans fil"
-
-#: panel-applet/NMWirelessApplet.c:1062 panel-applet/NMWirelessApplet.c:1102
-msgid "Stop All Wireless Devices"
-msgstr "Arrêter tous les périphériques sans fil"
-
-#: panel-applet/NMWirelessApplet.c:1067
-msgid "Start All Wireless Devices"
-msgstr "Démarrer tous les périphériques sans fil"
-
-#: panel-applet/NMWirelessApplet.c:1112
-msgid "Help"
-msgstr "Aide"
-
-#: panel-applet/NMWirelessApplet.c:1119
-msgid "About"
-msgstr "À _propos"
-
-#: panel-applet/NMWirelessAppletOtherNetworkDialog.c:228
-msgid "Create new wireless network"
-msgstr "Créer un nouveau réseau sans fil"
-
-#: panel-applet/NMWirelessAppletOtherNetworkDialog.c:229
 msgid ""
-"Enter the ESSID and security settings of the wireless network you wish to "
-"create."
+"unable to create netlink socket for monitoring wired ethernet devices - %s"
 msgstr ""
-"Saisissez l'ESSID et les paramètres de sécurité du réseau sans fil que vous "
-"voulez créer."
+"impossible de créer un socket netlink pour surveiller les périphériques "
+"Ethernet câblés - %s"
 
-#: panel-applet/NMWirelessAppletOtherNetworkDialog.c:234
-msgid "Custom wireless network"
-msgstr "Réseau sans fil personnalisé"
-
-#: panel-applet/NMWirelessAppletOtherNetworkDialog.c:235
-msgid "Enter the ESSID of the wireless network to which you wish to connect."
-msgstr ""
-"Saisissez l'ESSID du réseau sans fil auquel vous voulez vous connecter."
-
-#. Reuse the above string to make the translators less angry.
-#: panel-applet/NMWirelessAppletOtherNetworkDialog.c:316
-#: panel-applet/NMWirelessAppletOtherNetworkDialog.c:325
+#: ../src/nm-netlink-monitor.c:188
+#, c-format
 msgid ""
-"The NetworkManager Applet could not find some required resources (the glade "
-"file was not found)."
+"unable to bind to netlink socket for monitoring wired ethernet devices - %s"
 msgstr ""
-"L'applet NetworkManager n'a pas pu trouver les ressources requises (le "
-"fichier glade n'a pas été trouvé)."
+"impossible d'effectuer une liaison au socket netlink pour surveiller les "
+"périphériques Ethernet câblés - %s"
 
-#: panel-applet/essid.glade.h:5
-msgid "C_onnect"
-msgstr "Se _connecter"
+#: ../src/nm-netlink-monitor.c:426
+msgid "operation took too long"
+msgstr "l'opération a duré trop longtemps"
 
-#: panel-applet/essid.glade.h:6
-msgid "Connect with encryption enabled"
-msgstr "Se connecter avec le chiffrement activé"
+#: ../src/nm-netlink-monitor.c:523
+msgid "received data from wrong type of sender"
+msgstr "données reçues d'un type erroné d'expéditeur"
 
-#: panel-applet/essid.glade.h:9
-msgid "Wireless _adapter:"
-msgstr "_Adaptateur sans fil :"
+#: ../src/nm-netlink-monitor.c:536
+msgid "received data from unexpected sender"
+msgstr "données reçues d'un expéditeur inattendu"
 
-#: panel-applet/essid.glade.h:10
-msgid "Wireless _Network:"
-msgstr "Réseau _sans fil :"
+#: ../src/nm-netlink-monitor.c:665
+msgid "too much data was sent over socket and some of it was lost"
+msgstr ""
+"trop de données ont été envoyées sur le socket et certaines ont été perdues"
 
-#: panel-applet/menu-info.c:109
-#, c-format
-msgid "Wired Network (%s)"
-msgstr "Réseau cablé (%s)"
+#: ../src/nm-netlink-monitor.c:775
+msgid "error occurred while waiting for data on socket"
+msgstr "une erreur s'est produite pendant l'attente des données sur le socket"
 
-#: panel-applet/menu-info.c:111
-msgid "Wired Network"
-msgstr "Réseau cablé"
+#: ../src/nm-ap-security-wpa-eap.c:96 ../src/nm-ap-security-wpa-eap.c:120
+msgid "WPA2 Enterprise"
+msgstr "WPA2 Entreprise"
 
-#: panel-applet/menu-info.c:181
-#, c-format
-msgid "Wireless Network (%s)"
-msgid_plural "Wireless Networks (%s)"
-msgstr[0] "Réseau sans fil (%s)"
-msgstr[1] "Réseaux sans fil (%s)"
+#: ../src/nm-ap-security-wpa-eap.c:98 ../src/nm-ap-security-wpa-eap.c:125
+msgid "WPA Enterprise"
+msgstr "WPA Entreprise"
 
-#: panel-applet/menu-info.c:183
-msgid "Wireless Network"
-msgid_plural "Wireless Networks"
-msgstr[0] "Réseau sans fil"
-msgstr[1] "Réseaux sans fil"
-
-#: panel-applet/menu-info.c:320
-msgid " (invalid Unicode)"
-msgstr " (Unicode non valide)"
-
-#: examples/python/systray/eggtrayicon.c:111
-msgid "Orientation"
-msgstr "Orientation"
-
-#: examples/python/systray/eggtrayicon.c:112
-msgid "The orientation of the tray."
-msgstr "L'orientation de la zone de notification."
+#: ../src/nm-ap-security-leap.c:66 ../src/nm-ap-security-leap.c:82
+msgid "LEAP"
+msgstr "LEAP"

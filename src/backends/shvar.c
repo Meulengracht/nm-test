@@ -121,9 +121,13 @@ unescape(char *s) {
     len = strlen(s);
     if ((s[0] == '"' || s[0] == '\'') && s[0] == s[len-1]) {
 	i = len - 2;
-	memmove(s, s+1, i);
-	s[i+1] = '\0';
-	len = i;
+	if (i == 0)
+	  s[0] = '\0';
+	else {
+	  memmove(s, s+1, i);
+	  s[i+1] = '\0';
+	  len = i;
+	}
     }
     for (i = 0; i < len; i++) {
 	if (s[i] == '\\') {
@@ -392,7 +396,12 @@ svCloseFile(shvarFile *s)
     }
     g_free(s->fileName);
     g_list_free(s->freeList);
-    g_list_free(s->lineList); /* implicitly frees s->current */
+
+	if (s->lineList) {
+		g_list_foreach(s->lineList, (GFunc) g_free, NULL);
+		g_list_free(s->lineList); /* implicitly frees s->current */
+	}
+
     g_free(s);
     return 0;
 }
