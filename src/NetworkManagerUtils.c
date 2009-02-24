@@ -1,6 +1,5 @@
+/* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
 /* NetworkManager -- Network link manager
- *
- * Dan Williams <dcbw@redhat.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,323 +11,29 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * (C) Copyright 2004 Red Hat, Inc.
+ * Copyright (C) 2004 - 2008 Red Hat, Inc.
+ * Copyright (C) 2005 - 2008 Novell, Inc.
  */
 
 #include <glib.h>
 #include <stdio.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <linux/sockios.h>
-#include <syslog.h>
-#include <stdarg.h>
-#include <sys/time.h>
 #include <string.h>
-#include <signal.h>
-#include <iwlib.h>
 
-#include "NetworkManager.h"
 #include "NetworkManagerUtils.h"
 #include "nm-utils.h"
 #include "nm-device.h"
-#include "nm-device-802-11-wireless.h"
-#include "nm-device-802-3-ethernet.h"
-#include "wpa_ctrl.h"
+#include "nm-device-wifi.h"
+#include "nm-device-ethernet.h"
+#include "nm-dbus-manager.h"
+#include "nm-dispatcher-action.h"
+#include "nm-dbus-glib-types.h"
 
 #include <netlink/addr.h>
 #include <netinet/in.h>
-
-
-struct NMSock
-{
-	int	fd;
-	char *func;
-	char *desc;
-	NMDevice *dev;
-};
-
-static GSList		*sock_list = NULL;
-static GStaticMutex	 sock_list_mutex = G_STATIC_MUTEX_INIT;
-
-typedef struct MutexDesc
-{
-	GMutex	*mutex;
-	char		*desc;
-} MutexDesc;
-
-GSList	*mutex_descs = NULL;
-
-/*#define LOCKING_DEBUG*/
-
-
-static MutexDesc *nm_find_mutex_desc (GMutex *mutex)
-{
-	GSList	*elt;
-
-	for (elt = mutex_descs; elt; elt = g_slist_next (elt))
-	{
-		MutexDesc	*desc = (MutexDesc *)(elt->data);
-		if (desc && (desc->mutex == mutex))
-			return desc;
-	}
-
-	return NULL;
-}
-
-
-/*
- * nm_register_mutex_desc
- * 
- * Associate a description with a particular mutex.
- *
- */
-void nm_register_mutex_desc (GMutex *mutex, const char *string)
-{
-	if (!(nm_find_mutex_desc (mutex)))
-	{
-		MutexDesc	*desc = g_malloc0 (sizeof (MutexDesc));
-		desc->mutex = mutex;
-		desc->desc = g_strdup (string);
-		mutex_descs = g_slist_append (mutex_descs, desc);
-	}
-}
-
-
-/*
- * nm_try_acquire_mutex
- *
- * Tries to acquire a given mutex, sleeping a bit between tries.
- *
- * Returns:	FALSE if mutex was not acquired
- *			TRUE  if mutex was successfully acquired
- */
-gboolean nm_try_acquire_mutex (GMutex *mutex, const char *func)
-{
-	g_return_val_if_fail (mutex != NULL, FALSE);
-
-	if (g_mutex_trylock (mutex))
-	{
-#ifdef LOCKING_DEBUG
-		if (func)
-		{
-			MutexDesc	*desc = nm_find_mutex_desc (mutex);
-			nm_debug ("MUTEX: <%s %p> acquired by %s", desc ? desc->desc : "(none)", mutex, func);
-		}
-#endif
-		return (TRUE);
-	}
-
-#ifdef LOCKING_DEBUG
-	if (func)
-	{
-		MutexDesc	*desc = nm_find_mutex_desc (mutex);
-		nm_debug ("MUTEX: <%s %p> FAILED to be acquired by %s", desc ? desc->desc : "(none)", mutex, func);
-	}
-#endif
-	return (FALSE);
-}
-
-
-/*
- * nm_lock_mutex
- *
- * Blocks until a mutex is grabbed, with debugging.
- *
- */
-void nm_lock_mutex (GMutex *mutex, const char *func)
-{
-#ifdef LOCKING_DEBUG
-	if (func)
-	{
-		MutexDesc	*desc = nm_find_mutex_desc (mutex);
-		nm_debug ("MUTEX: <%s %p> being acquired by %s", desc ? desc->desc : "(none)", mutex, func);
-	}
-#endif
-	g_mutex_lock (mutex);
-}
-
-
-/*
- * nm_unlock_mutex
- *
- * Simply unlocks a mutex, balances nm_try_acquire_mutex()
- *
- */
-void nm_unlock_mutex (GMutex *mutex, const char *func)
-{
-	g_return_if_fail (mutex != NULL);
-
-#ifdef LOCKING_DEBUG	
-	if (func)
-	{
-		MutexDesc	*desc = nm_find_mutex_desc (mutex);
-		nm_debug ("MUTEX: <%s %p> released by %s", desc ? desc->desc : "(none)", mutex, func);
-	}
-#endif
-
-	g_mutex_unlock (mutex);
-}
-
-
-/*
- * nm_dev_sock_open
- *
- * Open a socket to a network device and store some debug info about it.
- *
- */
-NMSock *nm_dev_sock_open (NMDevice *dev, SockType type, const char *func_name, const char *desc)
-{
-	NMSock	*sock = NULL;
-
-	sock = g_malloc0 (sizeof (NMSock));
-
-	sock->fd = -1;
-
-	switch (type)
-	{
-		case DEV_WIRELESS:
-			sock->fd = iw_sockets_open ();
-			break;
-
-		case DEV_GENERAL:
-			if ((sock->fd = socket (PF_INET, SOCK_DGRAM, 0)) < 0)
-				if ((sock->fd = socket (PF_PACKET, SOCK_DGRAM, 0)) < 0)
-					sock->fd = socket (PF_INET6, SOCK_DGRAM, 0);
-			break;
-
-		case NETWORK_CONTROL:
-			sock->fd = socket (AF_PACKET, SOCK_PACKET, htons (ETH_P_ALL));
-			break;
-
-		default:
-			break;
-	}
-
-	if (sock->fd < 0)
-	{
-		g_free (sock);
-		nm_warning ("Could not open control socket for device '%s'.", dev ? nm_device_get_iface (dev) : "none");
-		return NULL;
-	}
-
-	sock->func = func_name ? g_strdup (func_name) : NULL;
-	sock->desc = desc ? g_strdup (desc) : NULL;
-	sock->dev = dev;
-	if (sock->dev)
-		g_object_ref (G_OBJECT (sock->dev));
-
-	/* Add the sock to our global sock list for tracking */
-	g_static_mutex_lock (&sock_list_mutex);
-	sock_list = g_slist_append (sock_list, sock);
-	g_static_mutex_unlock (&sock_list_mutex);
-
-	return sock;
-}
-
-
-/*
- * nm_dev_sock_close
- *
- * Close a socket and free its debug data.
- *
- */
-void nm_dev_sock_close (NMSock *sock)
-{
-	GSList	*elt;
-
-	g_return_if_fail (sock != NULL);
-
-	close (sock->fd);
-	g_free (sock->func);
-	g_free (sock->desc);
-	if (sock->dev)
-		g_object_unref (G_OBJECT (sock->dev));
-
-	memset (sock, 0, sizeof (NMSock));
-
-	g_static_mutex_lock (&sock_list_mutex);
-	for (elt = sock_list; elt; elt = g_slist_next (elt))
-	{
-		NMSock	*temp_sock = (NMSock *)(elt->data);
-		if (temp_sock == sock)
-		{
-			sock_list = g_slist_remove_link (sock_list, elt);
-			g_slist_free (elt);
-			break;
-		}
-	}
-	g_static_mutex_unlock (&sock_list_mutex);
-
-	g_free (sock);
-}
-
-
-/*
- * nm_dev_sock_get_fd
- *
- * Return the fd associated with an NMSock
- *
- */
-int nm_dev_sock_get_fd (NMSock *sock)
-{
-	g_return_val_if_fail (sock != NULL, -1);
-
-	return sock->fd;
-}
-
-
-/*
- * nm_print_open_socks
- *
- * Print a list of currently open and registered NMSocks.
- *
- */
-void nm_print_open_socks (void)
-{
-	GSList	*elt = NULL;
-	int		 i = 0;
-
-	nm_debug ("Open Sockets List:");
-	g_static_mutex_lock (&sock_list_mutex);
-	for (elt = sock_list; elt; elt = g_slist_next (elt))
-	{
-		NMSock	*sock = (NMSock *)(elt->data);
-		if (sock)
-		{
-			i++;
-			nm_debug ("  %d: %s fd:%d F:'%s' D:'%s'", i, sock->dev ? nm_device_get_iface (sock->dev) : "",
-				sock->fd, sock->func, sock->desc);
-		}
-	}
-	g_static_mutex_unlock (&sock_list_mutex);
-	nm_debug ("Open Sockets List Done.");
-}
-
-
-/*
- * nm_null_safe_strcmp
- *
- * Doesn't freaking segfault if s1/s2 are NULL
- *
- */
-int nm_null_safe_strcmp (const char *s1, const char *s2)
-{
-	if (!s1 && !s2)
-		return 0;
-	if (!s1 && s2)
-		return -1;
-	if (s1 && !s2)
-		return 1;
-		
-	return (strcmp (s1, s2));
-}
-
 
 /*
  * nm_ethernet_address_is_valid
@@ -336,362 +41,91 @@ int nm_null_safe_strcmp (const char *s1, const char *s2)
  * Compares an Ethernet address against known invalid addresses.
  *
  */
-gboolean nm_ethernet_address_is_valid (const struct ether_addr *test_addr)
+gboolean
+nm_ethernet_address_is_valid (const struct ether_addr *test_addr)
 {
-	gboolean			valid = FALSE;
-	struct ether_addr	invalid_addr1 = { {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF} };
-	struct ether_addr	invalid_addr2 = { {0x00, 0x00, 0x00, 0x00, 0x00, 0x00} };
-	struct ether_addr	invalid_addr3 = { {0x44, 0x44, 0x44, 0x44, 0x44, 0x44} };
-	struct ether_addr	invalid_addr4 = { {0x00, 0x30, 0xb4, 0x00, 0x00, 0x00} }; /* prism54 dummy MAC */
+	guint8 invalid_addr1[ETH_ALEN] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+	guint8 invalid_addr2[ETH_ALEN] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+	guint8 invalid_addr3[ETH_ALEN] = {0x44, 0x44, 0x44, 0x44, 0x44, 0x44};
+	guint8 invalid_addr4[ETH_ALEN] = {0x00, 0x30, 0xb4, 0x00, 0x00, 0x00}; /* prism54 dummy MAC */
 
 	g_return_val_if_fail (test_addr != NULL, FALSE);
 
 	/* Compare the AP address the card has with invalid ethernet MAC addresses. */
-	if (    (memcmp(test_addr, &invalid_addr1, sizeof(struct ether_addr)) != 0)
-		&& (memcmp(test_addr, &invalid_addr2, sizeof(struct ether_addr)) != 0)
-		&& (memcmp(test_addr, &invalid_addr3, sizeof(struct ether_addr)) != 0)
-		&& (memcmp(test_addr, &invalid_addr4, sizeof(struct ether_addr)) != 0)
-		&& ((test_addr->ether_addr_octet[0] & 1) == 0))			/* Multicast addresses */
-		valid = TRUE;
-
-	return (valid);
-}
-
-
-/*
- * nm_ethernet_addresses_are_equal
- *
- * Compare two Ethernet addresses and return TRUE if equal and FALSE if not.
- */
-gboolean nm_ethernet_addresses_are_equal (const struct ether_addr *a, const struct ether_addr *b)
-{
-	if (memcmp (a, b, sizeof (struct ether_addr)))
+	if (!memcmp (test_addr->ether_addr_octet, &invalid_addr1, ETH_ALEN))
 		return FALSE;
+
+	if (!memcmp (test_addr->ether_addr_octet, &invalid_addr2, ETH_ALEN))
+		return FALSE;
+
+	if (!memcmp (test_addr->ether_addr_octet, &invalid_addr3, ETH_ALEN))
+		return FALSE;
+
+	if (!memcmp (test_addr->ether_addr_octet, &invalid_addr4, ETH_ALEN))
+		return FALSE;
+
+	if (test_addr->ether_addr_octet[0] & 1)			/* Multicast addresses */
+		return FALSE;
+	
 	return TRUE;
 }
 
 
-/*
- * nm_spawn_process
- *
- * Wrap g_spawn_sync in a usable manner
- *
- */
-int nm_spawn_process (const char *args)
+int
+nm_spawn_process (const char *args)
 {
-	gint		  num_args;
-	char		**argv = NULL;
-	int		  exit_status = -1;
-	GError	 *error = NULL;
-	char		 *so = NULL;
-	char		 *se = NULL;
+	gint num_args;
+	char **argv = NULL;
+	int status = -1;
+	GError *error = NULL;
 
 	g_return_val_if_fail (args != NULL, -1);
 
-	if (g_shell_parse_argv (args, &num_args, &argv, &error))
-	{
-		GError *error2 = NULL;
+	if (!g_shell_parse_argv (args, &num_args, &argv, &error)) {
+		nm_warning ("could not parse arguments for '%s': %s", args, error->message);
+		g_error_free (error);
+		return -1;
+	}
 
-		if (!g_spawn_sync ("/", argv, NULL, 0, NULL, NULL, &so, &se, &exit_status, &error2))
-			nm_warning ("nm_spawn_process('%s'): could not spawn process. (%s)\n", args, error2->message);
+	if (!g_spawn_sync ("/", argv, NULL, 0, NULL, NULL, NULL, NULL, &status, &error)) {
+		nm_warning ("could not spawn process '%s': %s", args, error->message);
+		g_error_free (error);
+	}
 
-		if (so)    g_free(so);
-		if (se)    g_free(se);
-		if (argv)  g_strfreev (argv);
-		if (error2) g_error_free (error2);
-	} else nm_warning ("nm_spawn_process('%s'): could not parse arguments (%s)\n", args, error->message);
-
-	if (error) g_error_free (error);
-
-	return (exit_status);
+	g_strfreev (argv);
+	return status;
 }
 
-
-/*
- * nm_print_device_capabilities
- *
- * Return the capabilities for a particular device.
- *
- */
-void nm_print_device_capabilities (NMDevice *dev)
+void
+nm_print_device_capabilities (NMDevice *dev)
 {
-	gboolean		full_support = TRUE;
-	guint32		caps;
-	const char *	driver = NULL;
+	gboolean full_support = TRUE;
+	guint32 caps;
+	const char *driver, *iface;
 
 	g_return_if_fail (dev != NULL);
 
 	caps = nm_device_get_capabilities (dev);
+	iface = nm_device_get_iface (dev);
 	driver = nm_device_get_driver (dev);
+	if (!driver)
+		driver = "<unknown>";
 
-	if (caps == NM_DEVICE_CAP_NONE || !(NM_DEVICE_CAP_NM_SUPPORTED))
-	{
-		nm_info ("%s: Driver support level for '%s' is unsupported",
-				nm_device_get_iface (dev), driver);
+	if (caps == NM_DEVICE_CAP_NONE || !(NM_DEVICE_CAP_NM_SUPPORTED)) {
+		nm_info ("(%s): driver '%s' is unsupported", iface, driver);
 		return;
 	}
 
-	if (nm_device_is_802_3_ethernet (dev))
-	{
-		if (!(caps & NM_DEVICE_CAP_CARRIER_DETECT))
-		{
-			nm_info ("%s: Driver '%s' does not support carrier detection.\n"
+	if (NM_IS_DEVICE_ETHERNET (dev)) {
+		if (!(caps & NM_DEVICE_CAP_CARRIER_DETECT)) {
+			nm_info ("(%s): driver '%s' does not support carrier detection.\n"
 					"\tYou must switch to it manually.",
-					nm_device_get_iface (dev), driver);
+					iface, driver);
 			full_support = FALSE;
 		}
+	} else if (NM_IS_DEVICE_WIFI (dev)) {
+		/* Print out WPA support */
 	}
-	else if (nm_device_is_802_11_wireless (dev))
-	{
-		if (!(caps & NM_DEVICE_CAP_WIRELESS_SCAN))
-		{
-			nm_info ("%s: Driver '%s' does not support wireless scanning.\n"
-					"\tSome features will not be available.",
-						nm_device_get_iface (dev), driver);
-			full_support = FALSE;
-		}
-	}
-
-	if (full_support)
-	{
-		nm_info ("%s: Device is fully-supported using driver '%s'.",
-				nm_device_get_iface (dev), driver);
-	}
-}
-
-static inline int nm_timeval_cmp(const struct timeval *a,
-				 const struct timeval *b)
-{
-	int x;
-	x = a->tv_sec - b->tv_sec;
-	x *= G_USEC_PER_SEC;
-	if (x)
-		return x;
-	x = a->tv_usec - b->tv_usec;
-	if (x)
-		return x;
-	return 0;
-}
-
-static inline int nm_timeval_has_passed(const struct timeval *a)
-{
-	struct timeval current;
-
-	gettimeofday(&current, NULL);
-
-	return (nm_timeval_cmp(&current, a) >= 0);
-}
-
-static inline void nm_timeval_add(struct timeval *a,
-				  const struct timeval *b)
-{
-	struct timeval b1;
-
-	memmove(&b1, b, sizeof b1);
-
-	/* normalize a and b to be positive for everything */
-	while (a->tv_usec < 0)
-	{
-		a->tv_sec--;
-		a->tv_usec += G_USEC_PER_SEC;
-	}
-	while (b1.tv_usec < 0)
-	{
-		b1.tv_sec--;
-		b1.tv_usec += G_USEC_PER_SEC;
-	}
-
-	/* now add secs and usecs */
-	a->tv_sec += b1.tv_sec;
-	a->tv_usec += b1.tv_usec;
-
-	/* and handle our overflow */
-	if (a->tv_usec > G_USEC_PER_SEC)
-	{
-		a->tv_sec++;
-		a->tv_usec -= G_USEC_PER_SEC;
-	}
-}
-
-static void nm_v_wait_for_completion_or_timeout(
-		const int max_tries,
-		const struct timeval *max_time,
-		const guint interval_usecs,
-		nm_completion_func test_func,
-		nm_completion_func action_func,
-		nm_completion_args args)
-{
-	int try;
-	gboolean finished = FALSE;
-	struct timeval finish_time;
-
-	g_return_if_fail (test_func || action_func);
-
-	if (max_time) {
-		gettimeofday(&finish_time, NULL);
-		nm_timeval_add(&finish_time, max_time);
-	}
-
-	try = -1;
-	while (!finished &&
-		(max_tries == NM_COMPLETION_TRIES_INFINITY || try < max_tries))
-	{
-		if (max_time && nm_timeval_has_passed(&finish_time))
-			break;
-		try++;
-		if (test_func)
-		{
-			finished = (*test_func)(try, args);
-			if (finished)
-				break;
-		}
-
-/* #define NM_SLEEP_DEBUG */
-#ifdef NM_SLEEP_DEBUG
-		syslog (LOG_INFO, "sleeping for %d usecs", interval_usecs);
-#endif
-		g_usleep(interval_usecs);
-		if (action_func)
-			finished = (*action_func)(try, args);
-	}
-}
-
-/* these should probably be moved to NetworkManagerUtils.h as macros
- * since they don't do varargs stuff any more */
-void nm_wait_for_completion_or_timeout(
-	const int max_tries,
-	const struct timeval *max_time,
-	const guint interval_usecs,
-	nm_completion_func test_func,
-	nm_completion_func action_func,
-	nm_completion_args args)
-{
-	nm_v_wait_for_completion_or_timeout(max_tries, max_time,
-					    interval_usecs, test_func,
-					    action_func, args);
-}
-
-void nm_wait_for_completion(
-		const int max_tries,
-		const guint interval_usecs,
-		nm_completion_func test_func,
-		nm_completion_func action_func,
-		nm_completion_args args)
-{
-	nm_v_wait_for_completion_or_timeout(max_tries, NULL,
-					    interval_usecs, test_func,
-					    action_func, args);
-}
-
-void nm_wait_for_timeout(
-		const struct timeval *max_time,
-		const guint interval_usecs,
-		nm_completion_func test_func,
-		nm_completion_func action_func,
-		nm_completion_args args)
-{
-	nm_v_wait_for_completion_or_timeout(NM_COMPLETION_TRIES_INFINITY, max_time,
-			interval_usecs, test_func, action_func, args);
-}
-
-/* you can use these, but they're really just examples */
-gboolean nm_completion_boolean_test(int tries, nm_completion_args args)
-{
-	gboolean *condition = (gboolean *)args[0];
-	char *message = (char *)args[1];
-	int log_level = GPOINTER_TO_INT (args[2]);
-	int log_interval = GPOINTER_TO_INT (args[3]);
-
-	g_return_val_if_fail (condition != NULL, TRUE);
-
-	if (message)
-		if ((log_interval == 0 && tries == 0) || (log_interval != 0 && tries % log_interval == 0))
-		{
-			if (log_level == LOG_WARNING)
-				nm_warning_str (message);
-			else if (log_level == LOG_ERR)
-				nm_error_str (message);
-			else if (log_level == LOG_DEBUG)
-				nm_debug_str (message);
-			else
-				nm_info_str (message);
-		}
-
-	if (*condition)
-		return TRUE;
-	return FALSE;
-}
-
-gboolean nm_completion_boolean_function1_test(int tries,
-		nm_completion_args args)
-{
-	nm_completion_boolean_function_1 condition = args[0];
-	char *message = args[1];
-	int log_level = GPOINTER_TO_INT (args[2]);
-	int log_interval = GPOINTER_TO_INT (args[3]);
-	u_int64_t arg0;
-	
-	memcpy(&arg0, &args[4], sizeof (arg0));
-
-	g_return_val_if_fail (condition, TRUE);
-
-	if (message)
-		if ((log_interval == 0 && tries == 0)
-			   || (log_interval != 0 && tries % log_interval == 0))
-			syslog(log_level, "%s", message);
-
-	if (!(*condition)(arg0))
-		return TRUE;
-	return FALSE;
-}
-
-gboolean nm_completion_boolean_function2_test(int tries,
-		nm_completion_args args)
-{
-	nm_completion_boolean_function_2 condition = args[0];
-	char *message = args[1];
-	int log_level = GPOINTER_TO_INT (args[2]);
-	int log_interval = GPOINTER_TO_INT (args[3]);
-	u_int64_t arg0, arg1;
-
-	memcpy(&arg0, &args[4], sizeof (arg0));
-	memcpy(&arg1, &args[4]+sizeof (arg0), sizeof (arg1));
-
-	g_return_val_if_fail (condition, TRUE);
-
-	if (message)
-		if ((log_interval == 0 && tries == 0)
-			   || (log_interval != 0 && tries % log_interval == 0))
-			syslog(log_level, "%s", message);
-
-	if (!(*condition)(arg0, arg1))
-		return TRUE;
-	return FALSE;
-}
-
-
-gchar *nm_utils_inet_ip4_address_as_string (guint32 ip)
-{
-	struct in_addr tmp_addr;
-	gchar *ip_string;
-
-	tmp_addr.s_addr = ip;
-	ip_string = inet_ntoa (tmp_addr);
-
-	return g_strdup (ip_string);
-}
-
-
-struct nl_addr * nm_utils_ip4_addr_to_nl_addr (guint32 ip4_addr)
-{
-	struct nl_addr * nla = NULL;
-
-	if (!(nla = nl_addr_alloc (sizeof (in_addr_t))))
-		return NULL;
-	nl_addr_set_family (nla, AF_INET);
-	nl_addr_set_binary_addr (nla, &ip4_addr, sizeof (guint32));
-
-	return nla;
 }
 
 /*
@@ -701,142 +135,356 @@ struct nl_addr * nm_utils_ip4_addr_to_nl_addr (guint32 ip4_addr)
  * MUST be in network byte order.
  *
  */
-int nm_utils_ip4_netmask_to_prefix (guint32 ip4_netmask)
+guint32
+nm_utils_ip4_netmask_to_prefix (guint32 netmask)
 {
-	int i = 1;
+	guchar *p, *end;
+	guint32 prefix = 0;
 
-	g_return_val_if_fail (ip4_netmask != 0, 0);
+	p = (guchar *) &netmask;
+	end = p + sizeof (guint32);
 
-	/* Just count how many bit shifts we need */
-	ip4_netmask = ntohl (ip4_netmask);
-	while (!(ip4_netmask & 0x1) && ++i)
-		ip4_netmask = ip4_netmask >> 1;
-	return (32 - (i-1));
+	while ((*p == 0xFF) && p < end) {
+		prefix += 8;
+		p++;
+	}
+
+	if (p < end) {
+		guchar v = *p;
+
+		while (v) {
+			prefix++;
+			v <<= 1;
+		}
+	}
+
+	return prefix;
+}
+
+/*
+ * nm_utils_ip4_prefix_to_netmask
+ *
+ * Figure out the netmask from a prefix.
+ *
+ */
+guint32
+nm_utils_ip4_prefix_to_netmask (guint32 prefix)
+{
+	guint32 msk = 0x80000000;
+	guint32 netmask = 0;
+
+	while (prefix > 0) {
+		netmask |= msk;
+		msk >>= 1;
+		prefix--;
+	}
+
+	return (guint32) htonl (netmask);
 }
 
 
-#define SUPPLICANT_DEBUG
-#define RESPONSE_SIZE	2048
+/* From hostap, Copyright (c) 2002-2005, Jouni Malinen <jkmaline@cc.hut.fi> */
 
-
-static char *
-kill_newline (char *s, size_t *l)
+static int hex2num (char c)
 {
-	g_return_val_if_fail (l != NULL, s);
-
-	while ((--(*l) > 0) && (s[*l] != '\n'))
-		;
-	if (s[*l] == '\n')
-		s[*l] = '\0';
-	return s;
+	if (c >= '0' && c <= '9')
+		return c - '0';
+	if (c >= 'a' && c <= 'f')
+		return c - 'a' + 10;
+	if (c >= 'A' && c <= 'F')
+		return c - 'A' + 10;
+	return -1;
 }
 
+static int hex2byte (const char *hex)
+{
+	int a, b;
+	a = hex2num(*hex++);
+	if (a < 0)
+		return -1;
+	b = hex2num(*hex++);
+	if (b < 0)
+		return -1;
+	return (a << 4) | b;
+}
 
 char *
-nm_utils_supplicant_request (struct wpa_ctrl *ctrl,
-                             const char *format,
-                             ...)
+nm_utils_hexstr2bin (const char *hex,
+                     size_t len)
 {
-	va_list	args;
-	size_t	len;
-	char *	response = NULL;
-	char *	command;
+	size_t       i;
+	int          a;
+	const char * ipos = hex;
+	char *       buf = NULL;
+	char *       opos;
 
-	g_return_val_if_fail (ctrl != NULL, NULL);
-	g_return_val_if_fail (format != NULL, NULL);
-
-	va_start (args, format);
-	if (!(command = g_strdup_vprintf (format, args)))
+	/* Length must be a multiple of 2 */
+	if ((len % 2) != 0)
 		return NULL;
-	va_end (args);
 
-	response = g_malloc (RESPONSE_SIZE);
-	len = RESPONSE_SIZE;
-#ifdef SUPPLICANT_DEBUG
-	nm_info ("SUP: sending command '%s'", command);
-#endif
-	wpa_ctrl_request (ctrl, command, strlen (command), response, &len, NULL);
-	g_free (command);
-	response[len] = '\0';
-#ifdef SUPPLICANT_DEBUG
-	{
-		response = kill_newline (response, &len);
-		nm_info ("SUP: response was '%s'", response);
+	opos = buf = g_malloc0 ((len / 2) + 1);
+	for (i = 0; i < len; i += 2) {
+		a = hex2byte (ipos);
+		if (a < 0) {
+			g_free (buf);
+			return NULL;
+		}
+		*opos++ = a;
+		ipos += 2;
 	}
-#endif
-	return response;
+	return buf;
 }
 
+/* End from hostap */
 
-gboolean
-nm_utils_supplicant_request_with_check (struct wpa_ctrl *ctrl,
-                                        const char *expected,
-                                        const char *func,
-								const char *err_msg_cmd,
-                                        const char *format,
-                                        ...)
+char *
+nm_ether_ntop (const struct ether_addr *mac)
 {
-	va_list	args;
-	gboolean	success = FALSE;
-	size_t	len;
-	char *	response = NULL;
-	char *	command;
-	char *	temp;
-
-	g_return_val_if_fail (ctrl != NULL, FALSE);
-	g_return_val_if_fail (expected != NULL, FALSE);
-	g_return_val_if_fail (format != NULL, FALSE);
-
-	va_start (args, format);
-	if (!(command = g_strdup_vprintf (format, args)))
-		goto out;
-
-	response = g_malloc (RESPONSE_SIZE);
-	len = RESPONSE_SIZE;
-#ifdef SUPPLICANT_DEBUG
-	/* Hack: don't print anything out for SCAN commands since they
-	 * happen so often.
+	/* we like leading zeros and all-caps, instead
+	 * of what glibc's ether_ntop() gives us
 	 */
-	if (strcmp (command, "SCAN") != 0)
-		nm_info ("SUP: sending command '%s'", err_msg_cmd ? err_msg_cmd : command);
-#endif
-	wpa_ctrl_request (ctrl, command, strlen (command), response, &len, NULL);
-	response[len] = '\0';
-#ifdef SUPPLICANT_DEBUG
-	/* Hack: don't print anything out for SCAN commands since they
-	 * happen so often.
-	 */
-	if (strcmp (command, "SCAN") != 0) {
-		response = kill_newline (response, &len);
-		nm_info ("SUP: response was '%s'", response);
+	return g_strdup_printf ("%02X:%02X:%02X:%02X:%02X:%02X",
+	                        mac->ether_addr_octet[0], mac->ether_addr_octet[1],
+	                        mac->ether_addr_octet[2], mac->ether_addr_octet[3],
+	                        mac->ether_addr_octet[4], mac->ether_addr_octet[5]);
+}
+
+void
+nm_utils_merge_ip4_config (NMIP4Config *ip4_config, NMSettingIP4Config *setting)
+{
+	int i, j;
+
+	if (!setting)
+		return; /* Defaults are just fine */
+
+	if (nm_setting_ip4_config_get_ignore_auto_dns (setting)) {
+		nm_ip4_config_reset_nameservers (ip4_config);
+		nm_ip4_config_reset_searches (ip4_config);
 	}
-#endif
 
-	if (response)
-	{
-		if (strncmp (response, expected, strlen (expected)) == 0)
-			success = TRUE;
-		else
-		{
-			response = kill_newline (response, &len);
-			temp = g_strdup_printf ("%s: supplicant error for '%s'.  Response: '%s'",
-						func, err_msg_cmd ? err_msg_cmd : command, response);
-			nm_warning_str (temp);
-			g_free (temp);
+	if (nm_setting_ip4_config_get_ignore_auto_routes (setting))
+		nm_ip4_config_reset_routes (ip4_config);
+
+	for (i = 0; i < nm_setting_ip4_config_get_num_dns (setting); i++) {
+		guint32 ns;
+		gboolean found = FALSE;
+
+		/* Avoid dupes */
+		ns = nm_setting_ip4_config_get_dns (setting, i);
+		for (j = 0; j < nm_ip4_config_get_num_nameservers (ip4_config); j++) {
+			if (nm_ip4_config_get_nameserver (ip4_config, j) == ns) {
+				found = TRUE;
+				break;
+			}
 		}
-		g_free (response);
-	}
-	else
-	{
-		temp = g_strdup_printf ("%s: supplicant error for '%s'.  No response.",
-					func, err_msg_cmd ? err_msg_cmd : command);
-		nm_warning_str (temp);
-		g_free (temp);
-	}
-	g_free (command);
 
-out:
-	va_end (args);
-	return success;
+		if (!found)
+			nm_ip4_config_add_nameserver (ip4_config, ns);
+	}
+
+	/* DNS search domains */
+	for (i = 0; i < nm_setting_ip4_config_get_num_dns_searches (setting); i++) {
+		const char *search = nm_setting_ip4_config_get_dns_search (setting, i);
+		gboolean found = FALSE;
+
+		/* Avoid dupes */
+		for (j = 0; j < nm_ip4_config_get_num_searches (ip4_config); j++) {
+			if (!strcmp (search, nm_ip4_config_get_search (ip4_config, j))) {
+				found = TRUE;
+				break;
+			}
+		}
+
+		if (!found)
+			nm_ip4_config_add_search (ip4_config, search);
+	}
+
+	/* IPv4 addresses */
+	for (i = 0; i < nm_setting_ip4_config_get_num_addresses (setting); i++) {
+		NMIP4Address *setting_addr = nm_setting_ip4_config_get_address (setting, i);
+		guint32 num;
+
+		num = nm_ip4_config_get_num_addresses (ip4_config);
+		for (j = 0; j < num; j++) {
+			NMIP4Address *cfg_addr = nm_ip4_config_get_address (ip4_config, j);
+
+			/* Dupe, override with user-specified address */
+			if (nm_ip4_address_get_address (cfg_addr) == nm_ip4_address_get_address (setting_addr)) {
+				nm_ip4_config_replace_address (ip4_config, j, setting_addr);
+				break;
+			}
+		}
+
+		if (j == num)
+			nm_ip4_config_add_address (ip4_config, setting_addr);
+	}
+
+	/* IPv4 routes */
+	for (i = 0; i < nm_setting_ip4_config_get_num_routes (setting); i++) {
+		NMIP4Route *setting_route = nm_setting_ip4_config_get_route (setting, i);
+		guint32 num;
+
+		num = nm_ip4_config_get_num_routes (ip4_config);
+		for (j = 0; j < num; j++) {
+			NMIP4Route *cfg_route = nm_ip4_config_get_route (ip4_config, j);
+
+			/* Dupe, override with user-specified route */
+			if (   (nm_ip4_route_get_dest (cfg_route) == nm_ip4_route_get_dest (setting_route))
+			    && (nm_ip4_route_get_prefix (cfg_route) == nm_ip4_route_get_prefix (setting_route))
+			    && (nm_ip4_route_get_next_hop (cfg_route) == nm_ip4_route_get_next_hop (setting_route))) {
+				nm_ip4_config_replace_route (ip4_config, j, setting_route);
+				break;
+			}
+		}
+
+		if (j == num)
+			nm_ip4_config_add_route (ip4_config, setting_route);
+	}
+
+	if (nm_setting_ip4_config_get_never_default (setting))
+		nm_ip4_config_set_never_default (ip4_config, TRUE);
+}
+
+static void
+nm_gvalue_destroy (gpointer data)
+{
+	GValue *value = (GValue *) data;
+
+	g_value_unset (value);
+	g_slice_free (GValue, value);
+}
+
+static GValue *
+str_to_gvalue (const char *str)
+{
+	GValue *value;
+
+	value = g_slice_new0 (GValue);
+	g_value_init (value, G_TYPE_STRING);
+	g_value_set_string (value, str);
+	return value;
+}
+
+static GValue *
+op_to_gvalue (const char *op)
+{
+	GValue *value;
+
+	value = g_slice_new0 (GValue);
+	g_value_init (value, DBUS_TYPE_G_OBJECT_PATH);
+	g_value_set_boxed (value, op);
+	return value;
+}
+
+static GValue *
+uint_to_gvalue (guint32 val)
+{
+	GValue *value;
+
+	value = g_slice_new0 (GValue);
+	g_value_init (value, G_TYPE_UINT);
+	g_value_set_uint (value, val);
+	return value;
+}
+
+void
+nm_utils_call_dispatcher (const char *action,
+                          NMConnection *connection,
+                          NMDevice *device,
+                          const char *vpn_iface)
+{
+	NMDBusManager *dbus_mgr;
+	DBusGProxy *proxy;
+	DBusGConnection *g_connection;
+	GHashTable *connection_hash;
+	GHashTable *connection_props;
+	GHashTable *device_props;
+
+	g_return_if_fail (action != NULL);
+
+	/* All actions except 'hostname' require a device */
+	if (strcmp (action, "hostname"))
+		g_return_if_fail (NM_IS_DEVICE (device));
+
+	dbus_mgr = nm_dbus_manager_get ();
+	g_connection = nm_dbus_manager_get_connection (dbus_mgr);
+	proxy = dbus_g_proxy_new_for_name (g_connection,
+	                                   NM_DISPATCHER_DBUS_SERVICE,
+	                                   NM_DISPATCHER_DBUS_PATH,
+	                                   NM_DISPATCHER_DBUS_IFACE);
+	if (!proxy) {
+		nm_warning ("Error: could not get dispatcher proxy!");
+		g_object_unref (dbus_mgr);
+		return;
+	}
+
+	if (connection) {
+		connection_hash = nm_connection_to_hash (connection);
+
+		connection_props = g_hash_table_new_full (g_str_hash, g_str_equal,
+		                                          NULL, nm_gvalue_destroy);
+
+		/* Service name */
+		if (nm_connection_get_scope (connection) == NM_CONNECTION_SCOPE_USER) {
+			g_hash_table_insert (connection_props,
+			                     NMD_CONNECTION_PROPS_SERVICE_NAME,
+			                     str_to_gvalue (NM_DBUS_SERVICE_USER_SETTINGS));
+		} else if (nm_connection_get_scope (connection) == NM_CONNECTION_SCOPE_SYSTEM) {
+			g_hash_table_insert (connection_props,
+			                     NMD_CONNECTION_PROPS_SERVICE_NAME,
+			                     str_to_gvalue (NM_DBUS_SERVICE_SYSTEM_SETTINGS));
+		}
+
+		/* path */
+		g_hash_table_insert (connection_props,
+		                     NMD_CONNECTION_PROPS_PATH,
+		                     op_to_gvalue (nm_connection_get_path (connection)));
+	} else {
+		connection_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
+		connection_props = g_hash_table_new (g_direct_hash, g_direct_equal);
+	}
+
+	device_props = g_hash_table_new_full (g_str_hash, g_str_equal,
+	                                      NULL, nm_gvalue_destroy);
+
+	/* Hostname actions do not require a device */
+	if (strcmp (action, "hostname")) {
+		/* interface */
+		g_hash_table_insert (device_props, NMD_DEVICE_PROPS_INTERFACE,
+		                     str_to_gvalue (nm_device_get_iface (device)));
+
+		/* IP interface */
+		if (vpn_iface) {
+			g_hash_table_insert (device_props, NMD_DEVICE_PROPS_IP_INTERFACE,
+			                     str_to_gvalue (vpn_iface));
+		} else if (nm_device_get_ip_iface (device)) {
+			g_hash_table_insert (device_props, NMD_DEVICE_PROPS_IP_INTERFACE,
+			                     str_to_gvalue (nm_device_get_ip_iface (device)));
+		}
+
+		/* type */
+		g_hash_table_insert (device_props, NMD_DEVICE_PROPS_TYPE,
+		                     uint_to_gvalue (nm_device_get_device_type (device)));
+
+		/* state */
+		g_hash_table_insert (device_props, NMD_DEVICE_PROPS_STATE,
+		                     uint_to_gvalue (nm_device_get_state (device)));
+
+		g_hash_table_insert (device_props, NMD_DEVICE_PROPS_PATH,
+		                     op_to_gvalue (nm_device_get_udi (device)));
+	}
+
+	dbus_g_proxy_call_no_reply (proxy, "Action",
+	                            G_TYPE_STRING, action,
+	                            DBUS_TYPE_G_MAP_OF_MAP_OF_VARIANT, connection_hash,
+	                            DBUS_TYPE_G_MAP_OF_VARIANT, connection_props,
+	                            DBUS_TYPE_G_MAP_OF_VARIANT, device_props,
+	                            G_TYPE_INVALID);
+
+	g_object_unref (proxy);
+	g_hash_table_destroy (connection_hash);
+	g_hash_table_destroy (connection_props);
+	g_hash_table_destroy (device_props);
+	g_object_unref (dbus_mgr);
 }
 

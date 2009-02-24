@@ -1,66 +1,109 @@
+SUBDIRS=. tests
+
 INCLUDES = -I${top_srcdir} -I${top_srcdir}/include
 
 lib_LTLIBRARIES=libnm-util.la
 
-libnm_util_la_CPPFLAGS =				\
-	$(GLIB_CFLAGS)					\
-	$(DBUS_CFLAGS)					\
-	-DDBUS_API_SUBJECT_TO_CHANGE		\
-	-DG_DISABLE_DEPRECATED			\
-	-DGDK_DISABLE_DEPRECATED			\
-	-DGNOME_DISABLE_DEPRECATED		\
-	-DGNOMELOCALEDIR=\"$(datadir)/locale\"
+libnm_util_la_CPPFLAGS = \
+	$(GLIB_CFLAGS) \
+	$(DBUS_CFLAGS) \
+	$(UUID_CFLAGS) \
+	-DDBUS_API_SUBJECT_TO_CHANGE \
+	-DG_DISABLE_DEPRECATED
 
-if WITH_GCRYPT
-libnm_util_la_CPPFLAGS += $(LIBGCRYPT_CFLAGS)
-endif
+libnm_util_include_HEADERS = 		\
+	nm-connection.h			\
+	nm-setting.h			\
+	nm-setting-8021x.h		\
+	nm-setting-connection.h		\
+	nm-setting-ip4-config.h		\
+	nm-setting-ppp.h		\
+	nm-setting-pppoe.h		\
+	nm-setting-serial.h		\
+	nm-setting-gsm.h		\
+	nm-setting-cdma.h		\
+	nm-setting-wired.h		\
+	nm-setting-wireless.h		\
+	nm-setting-wireless-security.h	\
+	nm-setting-vpn.h		\
+	nm-utils.h
 
 libnm_util_la_SOURCES=			\
-	cipher.c					\
-	cipher.h					\
-	cipher-private.h			\
-	cipher-wep-hex.c			\
-	cipher-wep-hex.h			\
-	cipher-wep-passphrase.c		\
-	cipher-wep-passphrase.h		\
-	cipher-wep-ascii.c			\
-	cipher-wep-ascii.h			\
-	cipher-wpa-psk-hex.c		\
-	cipher-wpa-psk-hex.h		\
-	cipher-wpa-psk-passphrase.c	\
-	cipher-wpa-psk-passphrase.h	\
-	dbus-helpers.c				\
-	dbus-helpers.h				\
-	sha1.c					\
-	sha1.h					\
-	dbus-method-dispatcher.c		\
-	dbus-method-dispatcher.h
+	crypto.c			\
+	crypto.h			\
+	nm-connection.c			\
+	nm-param-spec-specialized.c	\
+	nm-param-spec-specialized.h \
+	nm-setting.c			\
+	nm-setting-8021x.c		\
+	nm-setting-connection.c		\
+	nm-setting-ip4-config.c		\
+	nm-setting-ip6-config.c		\
+	nm-setting-ppp.c		\
+	nm-setting-pppoe.c		\
+	nm-setting-serial.c		\
+	nm-setting-gsm.c		\
+	nm-setting-cdma.c		\
+	nm-setting-wired.c		\
+	nm-setting-wireless.c		\
+	nm-setting-wireless-security.c	\
+	nm-setting-vpn.c		\
+	nm-utils.c			\
+	nm-utils-private.h \
+	$(libnm_util_include_HEADERS)
 
-if !WITH_GCRYPT
-libnm_util_la_SOURCES += gnome-keyring-md5.c gnome-keyring-md5.h
+libnm_util_la_LIBADD = $(GLIB_LIBS) $(DBUS_LIBS) $(UUID_LIBS)
+
+libnm_util_la_LDFLAGS = -Wl,--version-script=$(srcdir)/libnm-util.ver \
+	-version-info "1:0:0"
+
+if WITH_GNUTLS
+libnm_util_la_SOURCES += crypto_gnutls.c
+libnm_util_la_CPPFLAGS += $(LIBGCRYPT_CFLAGS) $(GNUTLS_CFLAGS)
+libnm_util_la_LIBADD += $(LIBGCRYPT_LIBS) $(GNUTLS_LIBS)
 endif
 
-libnm_util_la_LDFLAGS= $(GLIB_LIBS) $(DBUS_LIBS)
-
-if WITH_GCRYPT
-libnm_util_la_LDFLAGS += $(LIBGCRYPT_LIBS)
+if WITH_NSS
+libnm_util_la_SOURCES += crypto_nss.c
+libnm_util_la_CPPFLAGS += $(NSS_CFLAGS)
+libnm_util_la_LIBADD += $(NSS_LIBS)
 endif
 
 libnm_util_includedir=$(includedir)/NetworkManager
 
-libnm_util_include_HEADERS = 		\
-	cipher.h					\
-	cipher-wep-hex.h			\
-	cipher-wep-passphrase.h		\
-	cipher-wep-ascii.h			\
-	cipher-wpa-psk-hex.h		\
-	cipher-wpa-psk-passphrase.h	\
-	dbus-helpers.h				\
-	dbus-method-dispatcher.h
+
+###########################################
+# Crypto test library
+###########################################
+
+noinst_LTLIBRARIES = libtest-crypto.la
+
+libtest_crypto_la_SOURCES = crypto.c
+
+libtest_crypto_la_CPPFLAGS = \
+	$(GLIB_CFLAGS)
+
+libtest_crypto_la_LIBADD = \
+	$(GLIB_LIBS)
+
+if WITH_GNUTLS
+libtest_crypto_la_SOURCES += crypto_gnutls.c
+libtest_crypto_la_CPPFLAGS += $(LIBGCRYPT_CFLAGS) $(GNUTLS_CFLAGS)
+libtest_crypto_la_LIBADD += $(LIBGCRYPT_LIBS) $(GNUTLS_LIBS)
+endif
+
+if WITH_NSS
+libtest_crypto_la_SOURCES += crypto_nss.c
+libtest_crypto_la_CPPFLAGS += $(NSS_CFLAGS)
+libtest_crypto_la_LIBADD += $(NSS_LIBS)
+endif
+
+
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libnm-util.pc
 
 DISTCLEANFILES = libnm-util.pc
 
-EXTRA_DIST = libnm-util.pc.in
+EXTRA_DIST = libnm-util.pc.in libnm-util.ver nm-setting-ip6-config.h
+

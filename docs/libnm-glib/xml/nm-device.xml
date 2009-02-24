@@ -1,0 +1,457 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="NMDevice">
+<refmeta>
+<refentrytitle role="top_of_page">NMDevice</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNM-GLIB Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>NMDevice</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+
+
+#define             <link linkend="NM-DEVICE-UDI:CAPS">NM_DEVICE_UDI</link>
+#define             <link linkend="NM-DEVICE-INTERFACE:CAPS">NM_DEVICE_INTERFACE</link>
+#define             <link linkend="NM-DEVICE-DRIVER:CAPS">NM_DEVICE_DRIVER</link>
+#define             <link linkend="NM-DEVICE-CAPABILITIES:CAPS">NM_DEVICE_CAPABILITIES</link>
+#define             <link linkend="NM-DEVICE-MANAGED:CAPS">NM_DEVICE_MANAGED</link>
+#define             <link linkend="NM-DEVICE-IP4-CONFIG:CAPS">NM_DEVICE_IP4_CONFIG</link>
+#define             <link linkend="NM-DEVICE-DHCP4-CONFIG:CAPS">NM_DEVICE_DHCP4_CONFIG</link>
+#define             <link linkend="NM-DEVICE-STATE:CAPS">NM_DEVICE_STATE</link>
+#define             <link linkend="NM-DEVICE-VENDOR:CAPS">NM_DEVICE_VENDOR</link>
+#define             <link linkend="NM-DEVICE-PRODUCT:CAPS">NM_DEVICE_PRODUCT</link>
+                    <link linkend="NMDevice-struct">NMDevice</link>;
+<link linkend="GObject">GObject</link>*            <link linkend="nm-device-new">nm_device_new</link>                       (<link linkend="DBusGConnection">DBusGConnection</link> *connection,
+                                                         const <link linkend="char">char</link> *path);
+const <link linkend="char">char</link>*         <link linkend="nm-device-get-iface">nm_device_get_iface</link>                 (<link linkend="NMDevice">NMDevice</link> *device);
+const <link linkend="char">char</link>*         <link linkend="nm-device-get-udi">nm_device_get_udi</link>                   (<link linkend="NMDevice">NMDevice</link> *device);
+const <link linkend="char">char</link>*         <link linkend="nm-device-get-driver">nm_device_get_driver</link>                (<link linkend="NMDevice">NMDevice</link> *device);
+<link linkend="guint32">guint32</link>             <link linkend="nm-device-get-capabilities">nm_device_get_capabilities</link>          (<link linkend="NMDevice">NMDevice</link> *device);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-device-get-managed">nm_device_get_managed</link>               (<link linkend="NMDevice">NMDevice</link> *device);
+<link linkend="NMIP4Config">NMIP4Config</link>*        <link linkend="nm-device-get-ip4-config">nm_device_get_ip4_config</link>            (<link linkend="NMDevice">NMDevice</link> *device);
+<link linkend="NMDHCP4Config">NMDHCP4Config</link>*      <link linkend="nm-device-get-dhcp4-config">nm_device_get_dhcp4_config</link>          (<link linkend="NMDevice">NMDevice</link> *device);
+<link linkend="NMDeviceState">NMDeviceState</link>       <link linkend="nm-device-get-state">nm_device_get_state</link>                 (<link linkend="NMDevice">NMDevice</link> *device);
+const <link linkend="char">char</link>*         <link linkend="nm-device-get-product">nm_device_get_product</link>               (<link linkend="NMDevice">NMDevice</link> *device);
+const <link linkend="char">char</link>*         <link linkend="nm-device-get-vendor">nm_device_get_vendor</link>                (<link linkend="NMDevice">NMDevice</link> *device);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+
+  <link linkend="GObject">GObject</link>
+   +----<link linkend="NMObject">NMObject</link>
+         +----NMDevice
+               +----<link linkend="NMDeviceEthernet">NMDeviceEthernet</link>
+               +----<link linkend="NMDeviceWifi">NMDeviceWifi</link>
+               +----<link linkend="NMSerialDevice">NMSerialDevice</link>
+</synopsis>
+
+</refsect1>
+
+
+
+
+
+<refsect1 role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+
+  &quot;<link linkend="NMDevice--capabilities">capabilities</link>&quot;             <link linkend="guint">guint</link>                 : Read
+  &quot;<link linkend="NMDevice--dhcp4-config">dhcp4-config</link>&quot;             <link linkend="NMDHCP4Config">NMDHCP4Config</link>         : Read
+  &quot;<link linkend="NMDevice--driver">driver</link>&quot;                   <link linkend="gchararray">gchararray</link>            : Read
+  &quot;<link linkend="NMDevice--interface">interface</link>&quot;                <link linkend="gchararray">gchararray</link>            : Read
+  &quot;<link linkend="NMDevice--ip4-config">ip4-config</link>&quot;               <link linkend="NMIP4Config">NMIP4Config</link>           : Read
+  &quot;<link linkend="NMDevice--managed">managed</link>&quot;                  <link linkend="gboolean">gboolean</link>              : Read
+  &quot;<link linkend="NMDevice--product">product</link>&quot;                  <link linkend="gchararray">gchararray</link>            : Read
+  &quot;<link linkend="NMDevice--state">state</link>&quot;                    <link linkend="guint">guint</link>                 : Read
+  &quot;<link linkend="NMDevice--udi">udi</link>&quot;                      <link linkend="gchararray">gchararray</link>            : Read
+  &quot;<link linkend="NMDevice--vendor">vendor</link>&quot;                   <link linkend="gchararray">gchararray</link>            : Read
+</synopsis>
+</refsect1>
+
+<refsect1 role="signal_proto">
+<title role="signal_proto.title">Signals</title>
+<synopsis>
+
+  &quot;<link linkend="NMDevice-state-changed">state-changed</link>&quot;                                  : Run First
+</synopsis>
+</refsect1>
+
+
+<refsect1 role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 role="details">
+<title role="details.title">Details</title>
+<refsect2>
+<title><anchor id="NM-DEVICE-UDI:CAPS" role="macro"/>NM_DEVICE_UDI</title>
+<indexterm><primary>NM_DEVICE_UDI</primary></indexterm><programlisting>#define NM_DEVICE_UDI "udi"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-DEVICE-INTERFACE:CAPS" role="macro"/>NM_DEVICE_INTERFACE</title>
+<indexterm><primary>NM_DEVICE_INTERFACE</primary></indexterm><programlisting>#define NM_DEVICE_INTERFACE "interface"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-DEVICE-DRIVER:CAPS" role="macro"/>NM_DEVICE_DRIVER</title>
+<indexterm><primary>NM_DEVICE_DRIVER</primary></indexterm><programlisting>#define NM_DEVICE_DRIVER "driver"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-DEVICE-CAPABILITIES:CAPS" role="macro"/>NM_DEVICE_CAPABILITIES</title>
+<indexterm><primary>NM_DEVICE_CAPABILITIES</primary></indexterm><programlisting>#define NM_DEVICE_CAPABILITIES "capabilities"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-DEVICE-MANAGED:CAPS" role="macro"/>NM_DEVICE_MANAGED</title>
+<indexterm><primary>NM_DEVICE_MANAGED</primary></indexterm><programlisting>#define NM_DEVICE_MANAGED "managed"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-DEVICE-IP4-CONFIG:CAPS" role="macro"/>NM_DEVICE_IP4_CONFIG</title>
+<indexterm><primary>NM_DEVICE_IP4_CONFIG</primary></indexterm><programlisting>#define NM_DEVICE_IP4_CONFIG "ip4-config"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-DEVICE-DHCP4-CONFIG:CAPS" role="macro"/>NM_DEVICE_DHCP4_CONFIG</title>
+<indexterm><primary>NM_DEVICE_DHCP4_CONFIG</primary></indexterm><programlisting>#define NM_DEVICE_DHCP4_CONFIG "dhcp4-config"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-DEVICE-STATE:CAPS" role="macro"/>NM_DEVICE_STATE</title>
+<indexterm><primary>NM_DEVICE_STATE</primary></indexterm><programlisting>#define NM_DEVICE_STATE "state"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-DEVICE-VENDOR:CAPS" role="macro"/>NM_DEVICE_VENDOR</title>
+<indexterm><primary>NM_DEVICE_VENDOR</primary></indexterm><programlisting>#define NM_DEVICE_VENDOR "vendor"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-DEVICE-PRODUCT:CAPS" role="macro"/>NM_DEVICE_PRODUCT</title>
+<indexterm><primary>NM_DEVICE_PRODUCT</primary></indexterm><programlisting>#define NM_DEVICE_PRODUCT "product"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMDevice-struct" role="struct"/>NMDevice</title>
+<indexterm><primary>NMDevice</primary></indexterm><programlisting>typedef struct _NMDevice NMDevice;</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-device-new" role="function"/>nm_device_new ()</title>
+<indexterm><primary>nm_device_new</primary></indexterm><programlisting><link linkend="GObject">GObject</link>*            nm_device_new                       (<link linkend="DBusGConnection">DBusGConnection</link> *connection,
+                                                         const <link linkend="char">char</link> *path);</programlisting>
+<para>
+Creates a new <link linkend="NMDevice"><type>NMDevice</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="DBusGConnection"><type>DBusGConnection</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>path</parameter>&nbsp;:</term>
+<listitem><simpara> the DBus object path of the device
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a new device
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-device-get-iface" role="function"/>nm_device_get_iface ()</title>
+<indexterm><primary>nm_device_get_iface</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_device_get_iface                 (<link linkend="NMDevice">NMDevice</link> *device);</programlisting>
+<para>
+Gets the interface name of the <link linkend="NMDevice"><type>NMDevice</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMDevice"><type>NMDevice</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the interface of the device. This is the internal string used by the
+device, and must not be modified.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-device-get-udi" role="function"/>nm_device_get_udi ()</title>
+<indexterm><primary>nm_device_get_udi</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_device_get_udi                   (<link linkend="NMDevice">NMDevice</link> *device);</programlisting>
+<para>
+Gets the HAL UDI of the <link linkend="NMDevice"><type>NMDevice</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMDevice"><type>NMDevice</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the HAL UDI of the device. This is the internal string used by the
+device, and must not be modified.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-device-get-driver" role="function"/>nm_device_get_driver ()</title>
+<indexterm><primary>nm_device_get_driver</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_device_get_driver                (<link linkend="NMDevice">NMDevice</link> *device);</programlisting>
+<para>
+Gets the driver of the <link linkend="NMDevice"><type>NMDevice</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMDevice"><type>NMDevice</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the driver of the device. This is the internal string used by the
+device, and must not be modified.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-device-get-capabilities" role="function"/>nm_device_get_capabilities ()</title>
+<indexterm><primary>nm_device_get_capabilities</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_device_get_capabilities          (<link linkend="NMDevice">NMDevice</link> *device);</programlisting>
+<para>
+Gets the device' capabilities.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMDevice"><type>NMDevice</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the capabilities
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-device-get-managed" role="function"/>nm_device_get_managed ()</title>
+<indexterm><primary>nm_device_get_managed</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_device_get_managed               (<link linkend="NMDevice">NMDevice</link> *device);</programlisting>
+<para>
+Whether the <link linkend="NMDevice"><type>NMDevice</type></link> is managed by NetworkManager.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMDevice"><type>NMDevice</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if the device is managed by NetworkManager
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-device-get-ip4-config" role="function"/>nm_device_get_ip4_config ()</title>
+<indexterm><primary>nm_device_get_ip4_config</primary></indexterm><programlisting><link linkend="NMIP4Config">NMIP4Config</link>*        nm_device_get_ip4_config            (<link linkend="NMDevice">NMDevice</link> *device);</programlisting>
+<para>
+Gets the current <link linkend="NMIP4Config"><type>NMIP4Config</type></link> associated with the <link linkend="NMDevice"><type>NMDevice</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMDevice"><type>NMDevice</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the <link linkend="NMIP4Config"><type>NMIP4Config</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if the device is not activated.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-device-get-dhcp4-config" role="function"/>nm_device_get_dhcp4_config ()</title>
+<indexterm><primary>nm_device_get_dhcp4_config</primary></indexterm><programlisting><link linkend="NMDHCP4Config">NMDHCP4Config</link>*      nm_device_get_dhcp4_config          (<link linkend="NMDevice">NMDevice</link> *device);</programlisting>
+<para>
+Gets the current <link linkend="NMDHCP4Config"><type>NMDHCP4Config</type></link> associated with the <link linkend="NMDevice"><type>NMDevice</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMDevice"><type>NMDevice</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the <link linkend="NMDHCPConfig"><type>NMDHCPConfig</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if the device is not activated or not
+using DHCP.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-device-get-state" role="function"/>nm_device_get_state ()</title>
+<indexterm><primary>nm_device_get_state</primary></indexterm><programlisting><link linkend="NMDeviceState">NMDeviceState</link>       nm_device_get_state                 (<link linkend="NMDevice">NMDevice</link> *device);</programlisting>
+<para>
+Gets the current <link linkend="NMDevice"><type>NMDevice</type></link> state.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMDevice"><type>NMDevice</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the current device state
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-device-get-product" role="function"/>nm_device_get_product ()</title>
+<indexterm><primary>nm_device_get_product</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_device_get_product               (<link linkend="NMDevice">NMDevice</link> *device);</programlisting>
+<para>
+Gets the product string of the <link linkend="NMDevice"><type>NMDevice</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMDevice"><type>NMDevice</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the product name of the device. This is the internal string used by the
+device, and must not be modified.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-device-get-vendor" role="function"/>nm_device_get_vendor ()</title>
+<indexterm><primary>nm_device_get_vendor</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_device_get_vendor                (<link linkend="NMDevice">NMDevice</link> *device);</programlisting>
+<para>
+Gets the vendor string of the <link linkend="NMDevice"><type>NMDevice</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMDevice"><type>NMDevice</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the vendor name of the device. This is the internal string used by the
+device, and must not be modified.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+<refsect1 role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2><title><anchor id="NMDevice--capabilities"/>The <literal>&quot;capabilities&quot;</literal> property</title>
+<indexterm><primary>NMDevice:capabilities</primary></indexterm><programlisting>  &quot;capabilities&quot;             <link linkend="guint">guint</link>                 : Read</programlisting>
+<para>
+The capabilities of the device.</para>
+<para>
+
+</para><para>Default value: 0</para>
+</refsect2>
+<refsect2><title><anchor id="NMDevice--dhcp4-config"/>The <literal>&quot;dhcp4-config&quot;</literal> property</title>
+<indexterm><primary>NMDevice:dhcp4-config</primary></indexterm><programlisting>  &quot;dhcp4-config&quot;             <link linkend="NMDHCP4Config">NMDHCP4Config</link>         : Read</programlisting>
+<para>
+The <link linkend="NMDHCP4Config"><type>NMDHCP4Config</type></link> of the device.</para>
+<para>
+
+</para></refsect2>
+<refsect2><title><anchor id="NMDevice--driver"/>The <literal>&quot;driver&quot;</literal> property</title>
+<indexterm><primary>NMDevice:driver</primary></indexterm><programlisting>  &quot;driver&quot;                   <link linkend="gchararray">gchararray</link>            : Read</programlisting>
+<para>
+The driver of the device.</para>
+<para>
+
+</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMDevice--interface"/>The <literal>&quot;interface&quot;</literal> property</title>
+<indexterm><primary>NMDevice:interface</primary></indexterm><programlisting>  &quot;interface&quot;                <link linkend="gchararray">gchararray</link>            : Read</programlisting>
+<para>
+The interface of the device.</para>
+<para>
+
+</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMDevice--ip4-config"/>The <literal>&quot;ip4-config&quot;</literal> property</title>
+<indexterm><primary>NMDevice:ip4-config</primary></indexterm><programlisting>  &quot;ip4-config&quot;               <link linkend="NMIP4Config">NMIP4Config</link>           : Read</programlisting>
+<para>
+The <link linkend="NMIP4Config"><type>NMIP4Config</type></link> of the device.</para>
+<para>
+
+</para></refsect2>
+<refsect2><title><anchor id="NMDevice--managed"/>The <literal>&quot;managed&quot;</literal> property</title>
+<indexterm><primary>NMDevice:managed</primary></indexterm><programlisting>  &quot;managed&quot;                  <link linkend="gboolean">gboolean</link>              : Read</programlisting>
+<para>
+Whether the device is managed by NetworkManager.</para>
+<para>
+
+</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2><title><anchor id="NMDevice--product"/>The <literal>&quot;product&quot;</literal> property</title>
+<indexterm><primary>NMDevice:product</primary></indexterm><programlisting>  &quot;product&quot;                  <link linkend="gchararray">gchararray</link>            : Read</programlisting>
+<para>
+The product string of the device.</para>
+<para>
+
+</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMDevice--state"/>The <literal>&quot;state&quot;</literal> property</title>
+<indexterm><primary>NMDevice:state</primary></indexterm><programlisting>  &quot;state&quot;                    <link linkend="guint">guint</link>                 : Read</programlisting>
+<para>
+The state of the device.</para>
+<para>
+
+</para><para>Default value: 0</para>
+</refsect2>
+<refsect2><title><anchor id="NMDevice--udi"/>The <literal>&quot;udi&quot;</literal> property</title>
+<indexterm><primary>NMDevice:udi</primary></indexterm><programlisting>  &quot;udi&quot;                      <link linkend="gchararray">gchararray</link>            : Read</programlisting>
+<para>
+The HAL UDI of the device.</para>
+<para>
+
+</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMDevice--vendor"/>The <literal>&quot;vendor&quot;</literal> property</title>
+<indexterm><primary>NMDevice:vendor</primary></indexterm><programlisting>  &quot;vendor&quot;                   <link linkend="gchararray">gchararray</link>            : Read</programlisting>
+<para>
+The vendor string of the device.</para>
+<para>
+
+</para><para>Default value: NULL</para>
+</refsect2>
+
+</refsect1>
+
+<refsect1 role="signals">
+<title role="signals.title">Signal Details</title>
+<refsect2><title><anchor id="NMDevice-state-changed"/>The <literal>&quot;state-changed&quot;</literal> signal</title>
+<indexterm><primary>NMDevice::state-changed</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NMDevice">NMDevice</link> *device,
+                                                        <link linkend="guint">guint</link>     state,
+                                                        <link linkend="guint">guint</link>     arg2,
+                                                        <link linkend="guint">guint</link>     arg3,
+                                                        <link linkend="gpointer">gpointer</link>  user_data)      : Run First</programlisting>
+<para>
+Notifies the state change of a <link linkend="NMDevice"><type>NMDevice</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> the client that received the signal
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>state</parameter>&nbsp;:</term>
+<listitem><simpara> the new state of the device
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+</refsect1>
+
+
+
+
+<refsect1><refsect2 /><refsect2 /></refsect1>
+</refentry>

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-29 18:33+0200\n"
-"PO-Revision-Date: 2005-10-16 17:47+0800\n"
+"POT-Creation-Date: 2006-05-27 12:26+0200\n"
+"PO-Revision-Date: 2006-05-27 23:35+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -21,12 +21,12 @@ msgstr ""
 msgid "Passphrase for wireless network %s"
 msgstr "无线网络 %s 的密码句"
 
-#: ../gnome/applet/applet-dbus.c:265
+#: ../gnome/applet/applet-dbus.c:383
 #, c-format
 msgid "Connection to the wireless network '%s' failed."
 msgstr "到无线网络“%s”的连接失败。"
 
-#: ../gnome/applet/applet-dbus.c:270
+#: ../gnome/applet/applet-dbus.c:388
 msgid "Connection to the wired network failed."
 msgstr "连接到有线网络失败。"
 
@@ -197,7 +197,7 @@ msgstr "有线网络连接"
 
 #: ../gnome/applet/applet.c:1097
 msgid "Connected to an Ad-Hoc wireless network"
-msgstr "已连接到点对点无线网络"
+msgstr "已连接到 Ad-Hoc 无线网络"
 
 #: ../gnome/applet/applet.c:1099
 #, c-format
@@ -585,9 +585,7 @@ msgstr ""
 msgid ""
 "Open System\n"
 "Shared Key"
-msgstr ""
-"开放式系统\n"
-"共享密钥"
+msgstr "开放式系统\n共享密钥"
 
 #: ../gnome/applet/applet.glade.h:39
 msgid "Other Wireless Network..."
@@ -689,21 +687,21 @@ msgstr "网络名称(_N)："
 msgid "_Wireless Security:"
 msgstr "无线安全性(_W)："
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:383
+#: ../gnome/vpn-properties/nm-vpn-properties.c:378
 msgid "Cannot add VPN connection"
 msgstr "无法添加 VPN 连接"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:385
+#: ../gnome/vpn-properties/nm-vpn-properties.c:380
 msgid ""
 "No suitable VPN software was found on your system. Contact your system "
 "administrator."
 msgstr "您的系统上未找到合适的 VPN 软件。请联系您的系统管理员。"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:437
+#: ../gnome/vpn-properties/nm-vpn-properties.c:432
 msgid "Cannot import VPN connection"
-msgstr "没有导入 VPN 连接"
+msgstr "无法导入 VPN 连接"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:439
+#: ../gnome/vpn-properties/nm-vpn-properties.c:434
 #, c-format
 msgid ""
 "Cannot find suitable software for VPN connection type '%s' to import the "
@@ -711,24 +709,24 @@ msgid ""
 msgstr ""
 "找不到合适的软件来导入 VPN 连接类型“%s”的文件“%s”。请联系您的系统管理员。"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:579
+#: ../gnome/vpn-properties/nm-vpn-properties.c:574
 #, c-format
 msgid "Error retrieving VPN connection '%s'"
 msgstr "获取 VPN 连接“%s”出错"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:582
+#: ../gnome/vpn-properties/nm-vpn-properties.c:577
 #, c-format
 msgid ""
 "Could not find the UI files for VPN connection type '%s'. Contact your "
 "system administrator."
 msgstr "找不到 VPN 连接类型“%s”的用户界面文件。请联系您的系统管理员。"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:739
+#: ../gnome/vpn-properties/nm-vpn-properties.c:734
 #, c-format
 msgid "Delete VPN connection \"%s\"?"
 msgstr "删除 VPN 连接“%s”吗？"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:742
+#: ../gnome/vpn-properties/nm-vpn-properties.c:737
 #, c-format
 msgid ""
 "All information about the VPN connection \"%s\" will be lost and you may "
@@ -738,16 +736,16 @@ msgstr ""
 "关于 VPN 连接“%s”的全部信息都将丢失。要创建新连接的话，您就必须请求您的系统管"
 "理员提供相应信息。"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:959
+#: ../gnome/vpn-properties/nm-vpn-properties.c:947
 msgid "Unable to load"
 msgstr "无法装入"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:961
+#: ../gnome/vpn-properties/nm-vpn-properties.c:949
 msgid "Cannot find some needed resources (the glade file)!"
 msgstr "找不到所需的资源(glade 文件)！"
 
 #. Edit dialog
-#: ../gnome/vpn-properties/nm-vpn-properties.c:1071
+#: ../gnome/vpn-properties/nm-vpn-properties.c:1058
 msgid "Edit VPN Connection"
 msgstr "编辑 VPN 连接"
 
@@ -856,172 +854,61 @@ msgstr "WPA2 自动"
 msgid "none"
 msgstr "无"
 
-#: ../src/nm-netlink-monitor.c:154
+#: ../src/nm-netlink-monitor.c:170
 #, c-format
 msgid ""
 "unable to create netlink socket for monitoring wired ethernet devices - %s"
 msgstr "无法创建监视有线以太网设备的网络连接套接字 - %s"
 
-#: ../src/nm-netlink-monitor.c:172
+#: ../src/nm-netlink-monitor.c:188
 #, c-format
 msgid ""
 "unable to bind to netlink socket for monitoring wired ethernet devices - %s"
 msgstr "无法绑定到监视有线以太网设备的网络连接套接字 - %s"
 
-#: ../src/nm-netlink-monitor.c:405
+#: ../src/nm-netlink-monitor.c:425
 msgid "operation took too long"
 msgstr "操作时间太长"
 
-#: ../src/nm-netlink-monitor.c:502
+#: ../src/nm-netlink-monitor.c:522
 msgid "received data from wrong type of sender"
 msgstr "从错误的发送者类型收到数据"
 
-#: ../src/nm-netlink-monitor.c:515
+#: ../src/nm-netlink-monitor.c:535
 msgid "received data from unexpected sender"
 msgstr "从未知的发送者收到数据"
 
-#: ../src/nm-netlink-monitor.c:646
+#: ../src/nm-netlink-monitor.c:664
 msgid "too much data was sent over socket and some of it was lost"
 msgstr "向套接字发送的数据太多，其中有些已经丢失"
 
-#: ../src/nm-netlink-monitor.c:735
+#: ../src/nm-netlink-monitor.c:774
 msgid "error occurred while waiting for data on socket"
 msgstr "等候套接字上的数据时发生了错误"
 
-#: ../gnome/applet/applet-dbus-devices.c:898
+#: ../gnome/applet/applet-dbus-devices.c:922
 #, c-format
 msgid "You are now connected to the Ad-Hoc wireless network '%s'."
 msgstr "您现在已连接到 Ad-Hoc 无线网络“%s”。"
 
-#: ../gnome/applet/applet-dbus-devices.c:903
+#: ../gnome/applet/applet-dbus-devices.c:927
 #, c-format
 msgid "You are now connected to the wireless network '%s'."
 msgstr "您现在已连接到无线网络“%s”。"
 
-#: ../gnome/applet/applet-dbus-devices.c:910
+#: ../gnome/applet/applet-dbus-devices.c:934
 msgid "You are now connected to the wired network."
 msgstr "您现在已连接到有线网络。"
 
-#: ../gnome/applet/applet-dbus-devices.c:916
+#: ../gnome/applet/applet-dbus-devices.c:940
 msgid "Connection Established"
 msgstr "连接已建立"
 
-#: ../gnome/applet/applet-dbus-devices.c:959
+#: ../gnome/applet/applet-dbus-devices.c:983
 msgid "Disconnected"
 msgstr "已断开连接"
 
-#: ../gnome/applet/applet-dbus-devices.c:960
+#: ../gnome/applet/applet-dbus-devices.c:984
 msgid "The network connection has been disconnected."
 msgstr "网络连接现已断开。"
 
-#~ msgid ""
-#~ "The requested wireless network '%s' does not appear to be in range.  A "
-#~ "different wireless network will be used if any are available."
-#~ msgstr ""
-#~ "所请求的无线网络“%s”似乎不在范围内。如果有其它无线网络的话，将会切换到可用"
-#~ "的无线网络。"
-
-#~ msgid "VPN Error"
-#~ msgstr "VPN 出错"
-
-#~ msgid "The VPN service said: \"%s\""
-#~ msgstr "VPN 服务说：“%s”"
-
-#~ msgid "VPN connection '%s' said:"
-#~ msgstr "VPN 连接“%s”说："
-
-#~ msgid "_Wireless Enabled"
-#~ msgstr "无线已启用(_W)"
-
-#~ msgid "_Passphrase:"
-#~ msgstr "密码句(_P)："
-
-#~ msgid "_ASCII Key:"
-#~ msgstr "_ASCII 密钥："
-
-#~ msgid "_Hex Key:"
-#~ msgstr "十六进制密钥(_H)："
-
-#~ msgid ", with no encryption enabled."
-#~ msgstr "，并且不启用加密。"
-
-#~ msgid "ASCII Key:"
-#~ msgstr "ASCII 密钥："
-
-#~ msgid ""
-#~ "128-bit Passphrase (WEP)\n"
-#~ "ASCII Key (WEP)\n"
-#~ "Hex Key (WEP)"
-#~ msgstr ""
-#~ "128 位密码句(WEP)\n"
-#~ "ASCII 密钥(WEP)\n"
-#~ "十六进制密钥(WEP)"
-
-#~ msgid ""
-#~ "128-bit passphrase (WEP)\n"
-#~ "ASCII key (WEP)\n"
-#~ "Hex key (WEP)"
-#~ msgstr ""
-#~ "128 位密码句(WEP)\n"
-#~ "ASCII 密钥(WEP)\n"
-#~ "十六进制密钥(WEP)"
-
-#~ msgid "Connect with _encryption enabled"
-#~ msgstr "启用加密连接(_E)"
-
-#~ msgid "Wireless _network:"
-#~ msgstr "无线网络(_N)："
-
-#~ msgid "_Key type:"
-#~ msgstr "密钥类型(_K)："
-
-#~ msgid "Copyright (c) 2004-2005 Red Hat, Inc."
-#~ msgstr "Copyright (c) 2004-2005 Red Hat, Inc."
-
-#~ msgid "Stop automatically running the networking applet?"
-#~ msgstr "要自动停止运行联网小程序吗？"
-
-#~ msgid ""
-#~ "The networking applet will now terminate, but will automatically launch "
-#~ "the next time you login.  Would you like to stop automatically running "
-#~ "the networking applet on login?"
-#~ msgstr ""
-#~ "联网小程序将立即终止，但会在您下次登录时自动起动。要在登录时自动停止运行联"
-#~ "网小程序吗？"
-
-#~ msgid "_Remove"
-#~ msgstr "去除(_R)"
-
-#~ msgid "Wire"
-#~ msgid_plural " (inva"
-#~ msgstr[0] "无线网络"
-
-#~ msgid " (inva"
-#~ msgstr " (无效的 Unicode)"
-
-#~ msgid "Error displaying connection information: "
-#~ msgstr "显示连接信息出错："
-
-#~ msgid "Copyright (C) 2004-2005 Red Hat, Inc."
-#~ msgstr "版权 (C) 2004-2005 Red Hat, Inc."
-
-#~ msgid ""
-#~ "Enter the ESSID and security settings of the wireless network you wish to "
-#~ "create."
-#~ msgstr "输入您想要创建的无线网络的 ESSID 和安全设置。"
-
-#~ msgid "By default, the ESSID is set to your computer's name,"
-#~ msgstr "默认情况下，ESSID 会设定为您的计算机名称 "
-
-#~ msgid "Custom wireless network"
-#~ msgstr "自定义无线网络"
-
-#~ msgid ""
-#~ "Enter the ESSID of the wireless network to which you wish to connect."
-#~ msgstr "输入您想要连接的无线网络的 ESSID。"
-
-#~ msgid "Hex Key:"
-#~ msgstr "十六进制密钥："
-
-#~ msgid "_Key Type:"
-#~ msgstr "密钥类型(_K)："

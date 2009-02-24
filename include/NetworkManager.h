@@ -12,11 +12,11 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * (C) Copyright 2004 Red Hat, Inc.
+ * (C) Copyright 2004 - 2008 Red Hat, Inc.
  */
 
 #ifndef NETWORK_MANAGER_H
@@ -27,38 +27,34 @@
  */
 #define	NM_DBUS_SERVICE			"org.freedesktop.NetworkManager"
 
-#define	NM_DBUS_PATH				"/org/freedesktop/NetworkManager"
-#define	NM_DBUS_INTERFACE			"org.freedesktop.NetworkManager"
-#define	NM_DBUS_PATH_DEVICES		"/org/freedesktop/NetworkManager/Devices"
-#define	NM_DBUS_INTERFACE_DEVICES	"org.freedesktop.NetworkManager.Devices"
-#define	NM_DBUS_PATH_DHCP			"/org/freedesktop/NetworkManager/DhcpOptions"
-#define	NM_DBUS_INTERFACE_DHCP		"org.freedesktop.NetworkManager.DhcpOptions"
-
-#define	NMI_DBUS_SERVICE			"org.freedesktop.NetworkManagerInfo"
-#define	NMI_DBUS_PATH				"/org/freedesktop/NetworkManagerInfo"
-#define	NMI_DBUS_INTERFACE			"org.freedesktop.NetworkManagerInfo"
-
-
-/*
- * Some common errors
- */
-#define NM_DBUS_NO_DEVICES_ERROR		"org.freedesktop.NetworkManager.NoDevices"
-#define NM_DBUS_NO_DIALUP_ERROR		"org.freedesktop.NetworkManager.NoDialup"
-#define NM_DBUS_NO_NETWORKS_ERROR		"org.freedesktop.NetworkManager.NoNetworks"
-#define NM_DBUS_NO_ACTIVE_DEVICE_ERROR	"org.freedesktop.NetworkManager.NoActiveDevice"
-#define NM_DBUS_NO_ACTIVE_NET_ERROR	"org.freedesktop.NetworkManager.NoActiveNetwork"
-
-#define NMI_DBUS_USER_KEY_CANCELED_ERROR	"org.freedesktop.NetworkManagerInfo.CanceledError"
+#define	NM_DBUS_PATH				        "/org/freedesktop/NetworkManager"
+#define	NM_DBUS_INTERFACE			        "org.freedesktop.NetworkManager"
+#define	NM_DBUS_INTERFACE_DEVICE	        NM_DBUS_INTERFACE ".Device"
+#define NM_DBUS_INTERFACE_DEVICE_WIRED      NM_DBUS_INTERFACE_DEVICE ".Wired"
+#define NM_DBUS_INTERFACE_DEVICE_WIRELESS   NM_DBUS_INTERFACE_DEVICE ".Wireless"
+#define NM_DBUS_PATH_ACCESS_POINT           NM_DBUS_PATH "/AccessPoint"
+#define NM_DBUS_INTERFACE_ACCESS_POINT      NM_DBUS_INTERFACE ".AccessPoint"
+#define NM_DBUS_INTERFACE_SERIAL_DEVICE     NM_DBUS_INTERFACE_DEVICE ".Serial"
+#define NM_DBUS_INTERFACE_GSM_DEVICE        NM_DBUS_INTERFACE_DEVICE ".Gsm"
+#define NM_DBUS_INTERFACE_CDMA_DEVICE       NM_DBUS_INTERFACE_DEVICE ".Cdma"
+#define NM_DBUS_INTERFACE_ACTIVE_CONNECTION NM_DBUS_INTERFACE ".Connection.Active"
+#define NM_DBUS_INTERFACE_IP4_CONFIG        NM_DBUS_INTERFACE ".IP4Config"
+#define NM_DBUS_INTERFACE_DHCP4_CONFIG      NM_DBUS_INTERFACE ".DHCP4Config"
 
 
-/*
- * NetworkManager signals
- */
-#define NM_DBUS_SIGNAL_STATE_CHANGE	"StateChange"
+#define NM_DBUS_SERVICE_USER_SETTINGS     "org.freedesktop.NetworkManagerUserSettings"
+#define NM_DBUS_SERVICE_SYSTEM_SETTINGS   "org.freedesktop.NetworkManagerSystemSettings"
+#define NM_DBUS_IFACE_SETTINGS            "org.freedesktop.NetworkManagerSettings"
+#define NM_DBUS_IFACE_SETTINGS_SYSTEM     "org.freedesktop.NetworkManagerSettings.System"
+#define NM_DBUS_PATH_SETTINGS             "/org/freedesktop/NetworkManagerSettings"
+
+#define NM_DBUS_IFACE_SETTINGS_CONNECTION "org.freedesktop.NetworkManagerSettings.Connection"
+#define NM_DBUS_PATH_SETTINGS_CONNECTION  "/org/freedesktop/NetworkManagerSettings/Connection"
+#define NM_DBUS_IFACE_SETTINGS_CONNECTION_SECRETS "org.freedesktop.NetworkManagerSettings.Connection.Secrets"
 
 
 /*
- * Types of NetworkManager devices
+ * Types of NetworkManager states
  */
 typedef enum NMState
 {
@@ -75,10 +71,19 @@ typedef enum NMState
  */
 typedef enum NMDeviceType
 {
-	DEVICE_TYPE_UNKNOWN = 0,
-	DEVICE_TYPE_802_3_ETHERNET,
-	DEVICE_TYPE_802_11_WIRELESS
+	NM_DEVICE_TYPE_UNKNOWN = 0,
+	NM_DEVICE_TYPE_ETHERNET,
+	NM_DEVICE_TYPE_WIFI,
+	NM_DEVICE_TYPE_GSM,
+	NM_DEVICE_TYPE_CDMA
 } NMDeviceType;
+
+/* DEPRECATED TYPE NAMES */
+#define DEVICE_TYPE_UNKNOWN          NM_DEVICE_TYPE_UNKNOWN
+#define DEVICE_TYPE_802_3_ETHERNET   NM_DEVICE_TYPE_ETHERNET
+#define DEVICE_TYPE_802_11_WIRELESS  NM_DEVICE_TYPE_WIFI
+#define DEVICE_TYPE_GSM              NM_DEVICE_TYPE_GSM
+#define DEVICE_TYPE_CDMA             NM_DEVICE_TYPE_CDMA
 
 
 /*
@@ -88,111 +93,267 @@ typedef enum NMDeviceType
 #define NM_DEVICE_CAP_NONE			0x00000000
 #define NM_DEVICE_CAP_NM_SUPPORTED		0x00000001
 #define NM_DEVICE_CAP_CARRIER_DETECT	0x00000002
-#define NM_DEVICE_CAP_WIRELESS_SCAN	0x00000004
 
 
-/* 802.11 wireless-specific device capability bits */
-#define NM_802_11_CAP_NONE			0x00000000
-#define NM_802_11_CAP_PROTO_NONE		0x00000001
-#define NM_802_11_CAP_PROTO_WEP		0x00000002
-#define NM_802_11_CAP_PROTO_WPA		0x00000004
-#define NM_802_11_CAP_PROTO_WPA2		0x00000008
-#define NM_802_11_CAP_RESERVED1		0x00000010
-#define NM_802_11_CAP_RESERVED2		0x00000020
-#define NM_802_11_CAP_KEY_MGMT_PSK		0x00000040
-#define NM_802_11_CAP_KEY_MGMT_802_1X	0x00000080
-#define NM_802_11_CAP_RESERVED3		0x00000100
-#define NM_802_11_CAP_RESERVED4		0x00000200
-#define NM_802_11_CAP_RESERVED5		0x00000400
-#define NM_802_11_CAP_RESERVED6		0x00000800
-#define NM_802_11_CAP_CIPHER_WEP40		0x00001000
-#define NM_802_11_CAP_CIPHER_WEP104	0x00002000
-#define NM_802_11_CAP_CIPHER_TKIP		0x00004000
-#define NM_802_11_CAP_CIPHER_CCMP		0x00008000
+/* 802.11 wireless device-specific capabilities */
+#define NM_WIFI_DEVICE_CAP_NONE			0x00000000
+#define NM_WIFI_DEVICE_CAP_CIPHER_WEP40	0x00000001
+#define NM_WIFI_DEVICE_CAP_CIPHER_WEP104	0x00000002
+#define NM_WIFI_DEVICE_CAP_CIPHER_TKIP	0x00000004
+#define NM_WIFI_DEVICE_CAP_CIPHER_CCMP	0x00000008
+#define NM_WIFI_DEVICE_CAP_WPA			0x00000010
+#define NM_WIFI_DEVICE_CAP_RSN			0x00000020
+
 
 /*
- * NM-supported Authentication Methods
+ * 802.11 Access Point flags
+ *
  */
-#define NM_AUTH_TYPE_WPA_PSK_AUTO		0x00000000
-#define NM_AUTH_TYPE_NONE			0x00000001
-#define NM_AUTH_TYPE_WEP40			0x00000002
-#define NM_AUTH_TYPE_WPA_PSK_TKIP		0x00000004
-#define NM_AUTH_TYPE_WPA_PSK_CCMP		0x00000008
-#define NM_AUTH_TYPE_WEP104			0x00000010
-#define NM_AUTH_TYPE_WPA_EAP			0x00000020
-#define NM_AUTH_TYPE_LEAP			0x00000040
-
+#define NM_802_11_AP_FLAGS_NONE				0x00000000
+#define NM_802_11_AP_FLAGS_PRIVACY			0x00000001
 
 /*
- * EAP Method in libnm-util is a bitfield of (EAP Method) | (Phase2 Method)
+ * 802.11 Access Point security flags
+ *
+ * These describe the current security requirements of the BSSID as extracted
+ * from various pieces of beacon information, like beacon flags and various
+ * information elements.
  */
-
-#define NM_EAP_METHOD_MASK			0x0000ffff
-#define NM_PHASE2_METHOD_MASK			0xffff0000
-
-#define NM_EAP_TO_EAP_METHOD(eap)    (eap & NM_EAP_METHOD_MASK)
-#define NM_EAP_TO_PHASE2_METHOD(eap) (eap & NM_PHASE2_METHOD_MASK)
+#define NM_802_11_AP_SEC_NONE				0x00000000
+#define NM_802_11_AP_SEC_PAIR_WEP40			0x00000001
+#define NM_802_11_AP_SEC_PAIR_WEP104		0x00000002
+#define NM_802_11_AP_SEC_PAIR_TKIP			0x00000004
+#define NM_802_11_AP_SEC_PAIR_CCMP			0x00000008
+#define NM_802_11_AP_SEC_GROUP_WEP40		0x00000010
+#define NM_802_11_AP_SEC_GROUP_WEP104		0x00000020
+#define NM_802_11_AP_SEC_GROUP_TKIP			0x00000040
+#define NM_802_11_AP_SEC_GROUP_CCMP			0x00000080
+#define NM_802_11_AP_SEC_KEY_MGMT_PSK		0x00000100
+#define NM_802_11_AP_SEC_KEY_MGMT_802_1X	0x00000200
 
 /*
- * EAP Methods
+ * 802.11 AP and Station modes
+ *
  */
-#define NM_EAP_METHOD_MD5			0x00000001	/* EAP-MD5 */
-#define NM_EAP_METHOD_MSCHAP			0x00000002	/* EAP-MSCHAPv2 */
-#define NM_EAP_METHOD_OTP			0x00000004	/* EAP-OTP */
-#define NM_EAP_METHOD_GTC			0x00000008	/* EAP-GTC */
-#define NM_EAP_METHOD_PEAP			0x00000010	/* EAP-PEAP */
-#define NM_EAP_METHOD_TLS			0x00000020	/* EAP-TLS */
-#define NM_EAP_METHOD_TTLS			0x00000040	/* EAP-TTLS */
-
-/*
- * Phase2 Methods
- */
-#define NM_PHASE2_AUTH_NONE			0x00000000
-#define NM_PHASE2_AUTH_PAP			0x00010000
-#define NM_PHASE2_AUTH_MSCHAP			0x00020000
-#define NM_PHASE2_AUTH_MSCHAPV2		0x00030000
-#define NM_PHASE2_AUTH_GTC			0x00040000
+typedef enum {
+	NM_802_11_MODE_UNKNOWN = 0,
+	NM_802_11_MODE_ADHOC,
+	NM_802_11_MODE_INFRA
+} NM80211Mode;
 
 
 /*
- * Wireless network update types
+ * Device states
  */
 typedef enum
 {
-	NETWORK_STATUS_DISAPPEARED = 0,
-	NETWORK_STATUS_APPEARED,
-	NETWORK_STATUS_STRENGTH_CHANGED
-} NMNetworkStatus;
+	NM_DEVICE_STATE_UNKNOWN = 0,
+
+	/* Initial state of all devices and the only state for devices not
+	 * managed by NetworkManager.
+	 *
+	 * Allowed next states:
+	 *   UNAVAILABLE:  the device is now managed by NetworkManager
+	 */
+	NM_DEVICE_STATE_UNMANAGED,
+
+	/* Indicates the device is not yet ready for use, but is managed by
+	 * NetworkManager.  For Ethernet devices, the device may not have an
+	 * active carrier.  For WiFi devices, the device may not have it's radio
+	 * enabled.
+	 *
+	 * Allowed next states:
+	 *   UNMANAGED:  the device is no longer managed by NetworkManager
+	 *   DISCONNECTED:  the device is now ready for use
+	 */
+	NM_DEVICE_STATE_UNAVAILABLE,
+
+	/* Indicates the device does not have an activate connection to anything.
+	 *
+	 * Allowed next states:
+	 *   UNMANAGED:  the device is no longer managed by NetworkManager
+	 *   UNAVAILABLE:  the device is no longer ready for use (rfkill, no carrier, etc)
+	 *   PREPARE:  the device has started activation
+	 */
+	NM_DEVICE_STATE_DISCONNECTED,
+
+	/* Indicate states in device activation.
+	 *
+	 * Allowed next states:
+	 *   UNMANAGED:  the device is no longer managed by NetworkManager
+	 *   UNAVAILABLE:  the device is no longer ready for use (rfkill, no carrier, etc)
+	 *   FAILED:  an error ocurred during activation
+	 *   NEED_AUTH:  authentication/secrets are needed
+	 *   ACTIVATED:  (IP_CONFIG only) activation was successful
+	 *   DISCONNECTED:  the device's connection is no longer valid, or NetworkManager went to sleep
+	 */
+	NM_DEVICE_STATE_PREPARE,
+	NM_DEVICE_STATE_CONFIG,
+	NM_DEVICE_STATE_NEED_AUTH,
+	NM_DEVICE_STATE_IP_CONFIG,
+
+	/* Indicates the device is part of an active network connection.
+	 *
+	 * Allowed next states:
+	 *   UNMANAGED:  the device is no longer managed by NetworkManager
+	 *   UNAVAILABLE:  the device is no longer ready for use (rfkill, no carrier, etc)
+	 *   FAILED:  a DHCP lease was not renewed, or another error
+	 *   DISCONNECTED:  the device's connection is no longer valid, or NetworkManager went to sleep
+	 */
+	NM_DEVICE_STATE_ACTIVATED,
+
+	/* Indicates the device's activation failed.
+	 *
+	 * Allowed next states:
+	 *   UNMANAGED:  the device is no longer managed by NetworkManager
+	 *   UNAVAILABLE:  the device is no longer ready for use (rfkill, no carrier, etc)
+	 *   DISCONNECTED:  the device's connection is ready for activation, or NetworkManager went to sleep
+	 */
+	NM_DEVICE_STATE_FAILED
+} NMDeviceState;
 
 
 /*
- * Wireless network types
+ * Device state change reason codes
  */
-typedef enum NMNetworkType
-{
-	NETWORK_TYPE_UNKNOWN = 0,
-	NETWORK_TYPE_ALLOWED,
-	NETWORK_TYPE_INVALID,
-	NETWORK_TYPE_DEVICE,
-	NETWORK_TYPE_WIRED
-} NMNetworkType;
+typedef enum {
+	/* No reason given */
+	NM_DEVICE_STATE_REASON_NONE = 0,
+
+	/* Unknown error */
+	NM_DEVICE_STATE_REASON_UNKNOWN,
+
+	/* Device is now managed */
+	NM_DEVICE_STATE_REASON_NOW_MANAGED,
+
+	/* Device is now managed unmanaged */
+	NM_DEVICE_STATE_REASON_NOW_UNMANAGED,
+
+	/* The device could not be readied for configuration */
+	NM_DEVICE_STATE_REASON_CONFIG_FAILED,
+
+	/* IP configuration could not be reserved (no available address, timeout, etc) */
+	NM_DEVICE_STATE_REASON_IP_CONFIG_UNAVAILABLE,
+
+	/* The IP config is no longer valid */
+	NM_DEVICE_STATE_REASON_IP_CONFIG_EXPIRED,
+
+	/* Secrets were required, but not provided */
+	NM_DEVICE_STATE_REASON_NO_SECRETS,
+
+	/* 802.1x supplicant disconnected */
+	NM_DEVICE_STATE_REASON_SUPPLICANT_DISCONNECT,
+
+	/* 802.1x supplicant configuration failed */
+	NM_DEVICE_STATE_REASON_SUPPLICANT_CONFIG_FAILED,
+
+	/* 802.1x supplicant failed */
+	NM_DEVICE_STATE_REASON_SUPPLICANT_FAILED,
+
+	/* 802.1x supplicant took too long to authenticate */
+	NM_DEVICE_STATE_REASON_SUPPLICANT_TIMEOUT,
+
+	/* PPP service failed to start */
+	NM_DEVICE_STATE_REASON_PPP_START_FAILED,
+
+	/* PPP service disconnected */
+	NM_DEVICE_STATE_REASON_PPP_DISCONNECT,
+
+	/* PPP failed */
+	NM_DEVICE_STATE_REASON_PPP_FAILED,
+
+	/* DHCP client failed to start */
+	NM_DEVICE_STATE_REASON_DHCP_START_FAILED,
+
+	/* DHCP client error */
+	NM_DEVICE_STATE_REASON_DHCP_ERROR,
+
+	/* DHCP client failed */
+	NM_DEVICE_STATE_REASON_DHCP_FAILED,
+
+	/* Shared connection service failed to start */
+	NM_DEVICE_STATE_REASON_SHARED_START_FAILED,
+
+	/* Shared connection service failed */
+	NM_DEVICE_STATE_REASON_SHARED_FAILED,
+
+	/* AutoIP service failed to start */
+	NM_DEVICE_STATE_REASON_AUTOIP_START_FAILED,
+
+	/* AutoIP service error */
+	NM_DEVICE_STATE_REASON_AUTOIP_ERROR,
+
+	/* AutoIP service failed */
+	NM_DEVICE_STATE_REASON_AUTOIP_FAILED,
+
+	/* The line is busy */
+	NM_DEVICE_STATE_REASON_MODEM_BUSY,
+
+	/* No dial tone */
+	NM_DEVICE_STATE_REASON_MODEM_NO_DIAL_TONE,
+
+	/* No carrier could be established */
+	NM_DEVICE_STATE_REASON_MODEM_NO_CARRIER,
+
+	/* The dialing request timed out */
+	NM_DEVICE_STATE_REASON_MODEM_DIAL_TIMEOUT,
+
+	/* The dialing attempt failed */
+	NM_DEVICE_STATE_REASON_MODEM_DIAL_FAILED,
+
+	/* Modem initialization failed */
+	NM_DEVICE_STATE_REASON_MODEM_INIT_FAILED,
+
+	/* Failed to select the specified APN */
+	NM_DEVICE_STATE_REASON_GSM_APN_FAILED,
+
+	/* Not searching for networks */
+	NM_DEVICE_STATE_REASON_GSM_REGISTRATION_NOT_SEARCHING,
+
+	/* Network registration denied */
+	NM_DEVICE_STATE_REASON_GSM_REGISTRATION_DENIED,
+
+	/* Network registration timed out */
+	NM_DEVICE_STATE_REASON_GSM_REGISTRATION_TIMEOUT,
+
+	/* Failed to register with the requested network */
+	NM_DEVICE_STATE_REASON_GSM_REGISTRATION_FAILED,
+
+	/* PIN check failed */
+	NM_DEVICE_STATE_REASON_GSM_PIN_CHECK_FAILED,
+
+	/* Necessary firmware for the device may be missing */
+	NM_DEVICE_STATE_REASON_FIRMWARE_MISSING,
+
+	/* The device was removed */
+	NM_DEVICE_STATE_REASON_REMOVED,
+
+	/* NetworkManager went to sleep */
+	NM_DEVICE_STATE_REASON_SLEEPING,
+
+	/* The device's active connection disappeared */
+	NM_DEVICE_STATE_REASON_CONNECTION_REMOVED,
+
+	/* Device disconnected by user or client */
+	NM_DEVICE_STATE_REASON_USER_REQUESTED,
+
+	/* Carrier/link changed */
+	NM_DEVICE_STATE_REASON_CARRIER,
+
+	/* Unused */
+	NM_DEVICE_STATE_REASON_LAST = 0xFFFF
+} NMDeviceStateReason;
 
 
-/*
- * Device activation stages
- */
-typedef enum NMActStage
-{
-	NM_ACT_STAGE_UNKNOWN = 0,
-	NM_ACT_STAGE_DEVICE_PREPARE,
-	NM_ACT_STAGE_DEVICE_CONFIG,
-	NM_ACT_STAGE_NEED_USER_KEY,
-	NM_ACT_STAGE_IP_CONFIG_START,
-	NM_ACT_STAGE_IP_CONFIG_GET,
-	NM_ACT_STAGE_IP_CONFIG_COMMIT,
-	NM_ACT_STAGE_ACTIVATED,
-	NM_ACT_STAGE_FAILED,
-	NM_ACT_STAGE_CANCELLED
-} NMActStage;
+typedef enum {
+	NM_ACTIVE_CONNECTION_STATE_UNKNOWN = 0,
 
-#endif
+	/* Indicates the connection is activating */
+	NM_ACTIVE_CONNECTION_STATE_ACTIVATING,
+
+	/* Indicates the connection is currently active */
+	NM_ACTIVE_CONNECTION_STATE_ACTIVATED
+} NMActiveConnectionState;
+
+#endif /* NETWORK_MANAGER_H */
+

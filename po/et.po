@@ -1,215 +1,289 @@
-# GNOME NetworkManager
-# Copyright (C) 2007 The GNOME Project.
-# This file is distributed under the same license as the NetworkManager package.
-# Priit Laes <amd@store20.com>, 2007.
-# Mattias Põldaru <mattias@gmail.com>, 2007.
+# Networkmanageri tõlge eesti keelde.
+# Estonian translation of Networkmanager.
+#
+# Copyright (C) 2006 Free Software Foundation, Inc.
+# Copyright (C) 2007 The GNOME Project
+# This file is distributed under the same license as the Networkmanager package.
+#
+# Priit Laes <amd@store20.com>, 2006, 2007.
+# Ivar Smolin <okul at linux.ee> 2006, 2007.
+# Mattias Põldaru <mattias@gmail.com>, 2007-2008.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: NetworkManager 0.6\n"
+"Project-Id-Version: Networkmanager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-28 16:09+0000\n"
-"PO-Revision-Date: 2007-10-31 23:13+0300\n"
+"POT-Creation-Date: 2008-09-05 18:57+0000\n"
+"PO-Revision-Date: 2008-09-28 21:10+0300\n"
 "Last-Translator: Mattias Põldaru <mahfiaz@gmail.com>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:405
-msgid "Cannot add VPN connection"
-msgstr "VPN ühendust ei saa lisada"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.c:407
-msgid "No suitable VPN software was found on your system. Contact your system administrator."
-msgstr "Arvutist ei leitud sobilikku VPN tarkvara. Võta ühendus oma süsteemi administraatoriga."
-
-#: ../gnome/vpn-properties/nm-vpn-properties.c:457
-msgid "Cannot import VPN connection"
-msgstr "VPN ühendust ei saa importida"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.c:459
+#: ../src/nm-netlink-monitor.c:193
+#: ../src/nm-netlink-monitor.c:474
 #, c-format
-msgid "Cannot find suitable software for VPN connection type '%s' to import the file '%s'. Contact your system administrator."
-msgstr "'%s' tüüpi VPN ühenduse tarkvara ei leitud, et importida faili '%s'. Võta ühendust oma süsteemi administraatoriga."
+msgid "error processing netlink message: %s"
+msgstr "viga netlink sõnumi töötlemisel: %s"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:596
+#: ../src/nm-netlink-monitor.c:250
 #, c-format
-msgid "Error retrieving VPN connection '%s'"
-msgstr "Viga VPN ühenduse '%s' otsimisel"
+msgid "unable to allocate netlink handle for monitoring link status: %s"
+msgstr "võrguoleku monitooringu jaoks netlink pideme eraldamine võimatu: %s"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:599
+#: ../src/nm-netlink-monitor.c:260
 #, c-format
-msgid "Could not find the UI files for VPN connection type '%s'. Contact your system administrator."
-msgstr "'%s' tüüpi VPN ühenduse jaoks ei leitud kasutajaliidese faile. Võta ühendust oma süsteemi administraatoriga."
+msgid "unable to connect to netlink for monitoring link status: %s"
+msgstr "võrguoleku monitooringu jaoks netlink'iga ühendumine võimatu: %s"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:746
+#: ../src/nm-netlink-monitor.c:268
 #, c-format
-msgid "Delete VPN connection \"%s\"?"
-msgstr "Kas kustutada VPN ühendus \"%s\"?"
+msgid "unable to join netlink group for monitoring link status: %s"
+msgstr "võrguoleku monitooringu jaoks netlink grupiga liitumine võimatu: %s"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:749
+#: ../src/nm-netlink-monitor.c:276
 #, c-format
-msgid "All information about the VPN connection \"%s\" will be lost and you may need your system administrator to provide information to create a new connection."
-msgstr "Kõik VPN ühendusega \"%s\" seotud info läheb kaotsi ja sul võib vaja minna süsteemi administraatori abi uue ühenduse loomisel."
+msgid "unable to allocate netlink link cache for monitoring link status: %s"
+msgstr "võrguoleku monitooringu jaoks netlink lingi puhvri eraldamine võimatu: %s"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:963
-msgid "Unable to load"
-msgstr "Ei saa laadida"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.c:965
-msgid "Cannot find some needed resources (the glade file)!"
-msgstr "Ei leia vajalikke allikaid (glade fail)!"
-
-#. Edit dialog
-#: ../gnome/vpn-properties/nm-vpn-properties.c:1084
-msgid "Edit VPN Connection"
-msgstr "Muuda VPN ühendust"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:1
-msgid "Add a new VPN connection"
-msgstr "Lisa uus VPN ühendus"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:2
-msgid "Choose which type of VPN connection you wish to create."
-msgstr "Vali mis tüüpi VPN ühendust sa tahad luua."
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:3
-msgid "Connect to:"
-msgstr "Ühendu kuhu:"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:4
-msgid "Create VPN Connection"
-msgstr "VPN ühenduse loomine"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:5
-msgid "Create VPN Connection - 1 of 2"
-msgstr "VPN ühenduse loomine - 1 / 2"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:6
-msgid "Create VPN Connection - 2 of 2"
-msgstr "VPN ühenduse loomine - 2 / 2"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:7
-msgid "Delete the selected VPN connection"
-msgstr "Kustuta valitud VPN ühendus"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:8
-msgid "E_xport"
-msgstr "E_kspordi"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:9
-msgid "Edit the selected VPN connection"
-msgstr "Muuda valitud VPN ühendust"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:10
-msgid "Export the VPN settings to a file"
-msgstr "VPN-i seadete eksportimine faili"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:11
-msgid "Export the selected VPN connection to a file"
-msgstr "Valitud VPN-i eksportimine faili"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:12
-msgid "Finish Creating VPN Connection"
-msgstr "Lõpeta VPN ühenduse loomine"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:13
-msgid "Manage Virtual Private Network Connections"
-msgstr "Virtuaalsete eravõrkude ühenduste haldamine"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:14
-msgid ""
-"This assistant will guide you through the creation of a connection to a Virtual Private Network (VPN).\n"
-"\n"
-"It will require some information, such as IP addresses and secrets.  Please see your system administrator to obtain this information."
-msgstr ""
-"See assistent juhatab sind Virtuaalse eravõrgu loomisel.\n"
-"\n"
-"See vajab infot nagu IP aadressid ja salasõnad. Selle info hankimiseks võta ühendust oma süsteemi administraatoriga."
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:17
-msgid "VPN Connections"
-msgstr "VPN ühendused"
-
-#: ../src/nm-ap-security-wep.c:52
-msgid "40-bit WEP"
-msgstr "40 bitine WEP"
-
-#: ../src/nm-ap-security-wep.c:54
-msgid "104-bit WEP"
-msgstr "104 bitine WEP"
-
-#: ../src/nm-ap-security-wpa-psk.c:50
-msgid "WPA TKIP"
-msgstr "WPA TKIP"
-
-#: ../src/nm-ap-security-wpa-psk.c:52
-msgid "WPA CCMP"
-msgstr "WPA CCMP"
-
-#: ../src/nm-ap-security-wpa-psk.c:54
-msgid "WPA Automatic"
-msgstr "Automaatne WPA"
-
-#: ../src/nm-ap-security-wpa-psk.c:59
-msgid "WPA2 TKIP"
-msgstr "WPA2 TKIP"
-
-#: ../src/nm-ap-security-wpa-psk.c:61
-msgid "WPA2 CCMP"
-msgstr "WPA2 CCMP"
-
-#: ../src/nm-ap-security-wpa-psk.c:63
-msgid "WPA2 Automatic"
-msgstr "Automaatne WPA2"
-
-#: ../src/nm-ap-security.c:338
-msgid "none"
-msgstr "ei ükski"
-
-#: ../src/nm-netlink-monitor.c:170
+#: ../src/nm-netlink-monitor.c:439
 #, c-format
-msgid "unable to create netlink socket for monitoring wired ethernet devices - %s"
-msgstr "ei suudeta luua netlink soklit juhtmega võrguühenduse monitoorimiseks - %s"
+msgid "error updating link cache: %s"
+msgstr "viga lingi puhvri uuendamisel: %s"
 
-#: ../src/nm-netlink-monitor.c:188
+#: ../src/nm-netlink-monitor.c:497
 #, c-format
-msgid "unable to bind to netlink socket for monitoring wired ethernet devices - %s"
-msgstr "ei suudeta luua netlink soklit juhtmega võrguühenduse sidumiseks - %s"
-
-#: ../src/nm-netlink-monitor.c:426
-msgid "operation took too long"
-msgstr "operatsiooniks kulus liiga palju aega"
-
-#: ../src/nm-netlink-monitor.c:523
-msgid "received data from wrong type of sender"
-msgstr "vastuvõetud andmed on valet tüüpi saatjalt"
-
-#: ../src/nm-netlink-monitor.c:536
-msgid "received data from unexpected sender"
-msgstr "vastuvõetud andmed on ootamatult saatjalt"
-
-#: ../src/nm-netlink-monitor.c:665
-msgid "too much data was sent over socket and some of it was lost"
-msgstr "sokli kaudu saadeti liiga palju andmeid ning osa sellest läks kaotsi"
-
-#: ../src/nm-netlink-monitor.c:775
 msgid "error occurred while waiting for data on socket"
 msgstr "soklist andmete ootamisel tekkis viga"
 
-#: ../src/nm-ap-security-wpa-eap.c:95
-#: ../src/nm-ap-security-wpa-eap.c:119
-msgid "WPA2 Enterprise"
-msgstr "Enterprise WPA2"
+#: ../src/NetworkManager.c:250
+#, c-format
+msgid "Invalid option.  Please use --help to see a list of valid options.\n"
+msgstr "Vigane valik.  Kasuta --help võtit sobivate valikute nimistu nägemiseks.\n"
 
-#: ../src/nm-ap-security-wpa-eap.c:97
-#: ../src/nm-ap-security-wpa-eap.c:124
-msgid "WPA Enterprise"
-msgstr "Enterprise WPA"
+#: ../src/dhcp-manager/nm-dhcp-dhclient.c:87
+msgid "# Created by NetworkManager\n"
+msgstr "# Loodud NetworkManager'i poolt\n"
 
-#: ../src/nm-ap-security-leap.c:66
-#: ../src/nm-ap-security-leap.c:82
-msgid "LEAP"
-msgstr "LEAP"
+#: ../src/dhcp-manager/nm-dhcp-dhclient.c:93
+#, c-format
+msgid ""
+"# Merged from %s\n"
+"\n"
+msgstr ""
+"# Liidetud allikast %s\n"
+"\n"
+
+#: ../src/named-manager/nm-named-manager.c:240
+msgid "NOTE: the libc resolver may not support more than 3 nameservers."
+msgstr "MÄRKUS: libc lahendaja ei pruugi toetada rohkem kui 3 nimeserverit."
+
+#: ../src/named-manager/nm-named-manager.c:242
+msgid "The nameservers listed below may not be recognized."
+msgstr "Järgneva nimistu nimeservereid ei tuntud ära."
+
+#: ../system-settings/src/main.c:366
+#, c-format
+msgid "Auto %s"
+msgstr "Automaatne %s"
+
+#: ../libnm-util/crypto.c:125
+#, c-format
+msgid "PEM key file had no end tag '%s'."
+msgstr "PEM võtmefaili lõpus ei olnud '%s'."
+
+#: ../libnm-util/crypto.c:135
+#, c-format
+msgid "Doesn't look like a PEM private key file."
+msgstr "Ei paista nagu PEM-eravõtme fail."
+
+#: ../libnm-util/crypto.c:143
+#, c-format
+msgid "Not enough memory to store PEM file data."
+msgstr "PEM faili andmete hoidmiseks pole piisavalt mälu."
+
+#: ../libnm-util/crypto.c:159
+#, c-format
+msgid "Malformed PEM file: Proc-Type was not first tag."
+msgstr "Vigane PEM fail: Proc-Type ei olnud esimene silt."
+
+#: ../libnm-util/crypto.c:167
+#, c-format
+msgid "Malformed PEM file: unknown Proc-Type tag '%s'."
+msgstr "Vigane PEM fail: tundmatu Proc-Type silt '%s'."
+
+#: ../libnm-util/crypto.c:177
+#, c-format
+msgid "Malformed PEM file: DEK-Info was not the second tag."
+msgstr "Vigane PEM fail: DEK-info ei olnud teine silt."
+
+#: ../libnm-util/crypto.c:188
+#, c-format
+msgid "Malformed PEM file: no IV found in DEK-Info tag."
+msgstr "Vigane PEM fail: IV ei leitud DEK-Info sildis."
+
+#: ../libnm-util/crypto.c:195
+#, c-format
+msgid "Malformed PEM file: invalid format of IV in DEK-Info tag."
+msgstr "Vigane PEM fail: IV vigane vorming DEK-Info sildis."
+
+#: ../libnm-util/crypto.c:208
+#, c-format
+msgid "Malformed PEM file: unknown private key cipher '%s'."
+msgstr "Vigane PEM fail: tunmatu privaatvõtme šiffer '%s'."
+
+#: ../libnm-util/crypto.c:227
+#, c-format
+msgid "Could not decode private key."
+msgstr "Privaatvõtit ei saa dešifreerida."
+
+#: ../libnm-util/crypto.c:271
+#, c-format
+msgid "PEM certificate '%s' had no end tag '%s'."
+msgstr "PEM-sertifikaadil '%s' pole lõpusilti '%s'."
+
+#: ../libnm-util/crypto.c:281
+#, c-format
+msgid "Failed to decode certificate."
+msgstr "Sertifikaadi dešifreerimine nurjus."
+
+#: ../libnm-util/crypto.c:290
+#: ../libnm-util/crypto.c:298
+#, c-format
+msgid "Not enough memory to store certificate data."
+msgstr "Sertifikaadi andmete salvestamiseks pole piisavalt mälu."
+
+#: ../libnm-util/crypto.c:328
+#, c-format
+msgid "IV must be an even number of bytes in length."
+msgstr "IV pikkus baitides peab olema paarisarv."
+
+#: ../libnm-util/crypto.c:337
+#, c-format
+msgid "Not enough memory to store the IV."
+msgstr "IV hoidmiseks pole piisavalt mälu."
+
+#: ../libnm-util/crypto.c:348
+#, c-format
+msgid "IV contains non-hexadecimal digits."
+msgstr "IV sisaldab mitte-oktaalarvu."
+
+#: ../libnm-util/crypto.c:386
+#: ../libnm-util/crypto_gnutls.c:142
+#: ../libnm-util/crypto_nss.c:155
+#, c-format
+msgid "Private key cipher '%s' was unknown."
+msgstr "Privaatvõtme šiffer '%s' oli tundmatu."
+
+#: ../libnm-util/crypto.c:395
+#, c-format
+msgid "Not enough memory to create private key decryption key."
+msgstr "Privaatvõtme dešifreerimise võtme loomiseks pole piisavalt mälu."
+
+#: ../libnm-util/crypto.c:513
+#, c-format
+msgid "Not enough memory to store decrypted private key."
+msgstr "Dešifreeritud privaatvõtme hoidmiseks pole piisavalt mälu."
+
+#: ../libnm-util/crypto_gnutls.c:43
+msgid "Failed to initialize the crypto engine."
+msgstr "Šifreerimismootori lähtestamine nurjus."
+
+#: ../libnm-util/crypto_gnutls.c:88
+#, c-format
+msgid "Failed to initialize the MD5 engine: %s / %s."
+msgstr "MD5-mootori lähtestamine nurjus: %s / %s."
+
+#: ../libnm-util/crypto_gnutls.c:151
+#: ../libnm-util/crypto_nss.c:164
+#, c-format
+msgid "Not enough memory for decrypted key buffer."
+msgstr "Dešifreeritud võtme puhvri jaoks pole piisavalt mälu."
+
+#: ../libnm-util/crypto_gnutls.c:159
+#, c-format
+msgid "Failed to initialize the decryption cipher context: %s / %s."
+msgstr "Dešifreerimise šifri konteksti lähtestamine nurjus: %s / %s."
+
+#: ../libnm-util/crypto_gnutls.c:168
+#, c-format
+msgid "Failed to set symmetric key for decryption: %s / %s."
+msgstr "Sümmeetrilise võtme määramine dešifreerimiseks nurjus: %s / %s."
+
+#: ../libnm-util/crypto_gnutls.c:177
+#, c-format
+msgid "Failed to set IV for decryption: %s / %s."
+msgstr "IV määramine dešifreerimiseks nurjus: %s / %s."
+
+#: ../libnm-util/crypto_gnutls.c:186
+#, c-format
+msgid "Failed to decrypt the private key: %s / %s."
+msgstr "Privaatvõtme dešifreerimine nurjus: %s / %s."
+
+#: ../libnm-util/crypto_gnutls.c:224
+#, c-format
+msgid "Error initializing certificate data: %s"
+msgstr "Sertifikaadi andmete lähtestamine nurjus: %s"
+
+#: ../libnm-util/crypto_gnutls.c:236
+#, c-format
+msgid "Couldn't decode certificate: %s"
+msgstr "Sertifikaati ei saa dešifreerida: %s"
+
+#: ../libnm-util/crypto_nss.c:49
+#, c-format
+msgid "Failed to initialize the crypto engine: %d."
+msgstr "Šifrimootori lähtestamine nurjus: %d."
+
+#: ../libnm-util/crypto_nss.c:96
+#, c-format
+msgid "Failed to initialize the MD5 context: %d."
+msgstr "MD5 konteksti lähtestamine nurjus: %d."
+
+#: ../libnm-util/crypto_nss.c:172
+#, c-format
+msgid "Failed to initialize the decryption cipher slot."
+msgstr "Šifripesa lähtestamine nurjus."
+
+#: ../libnm-util/crypto_nss.c:182
+#, c-format
+msgid "Failed to set symmetric key for decryption."
+msgstr "Sümmeetrilise võtme määramine dešifreerimiseks nurjus."
+
+#: ../libnm-util/crypto_nss.c:192
+#, c-format
+msgid "Failed to set IV for decryption."
+msgstr "IV määramine dešifreerimiseks nurjus."
+
+#: ../libnm-util/crypto_nss.c:200
+#, c-format
+msgid "Failed to initialize the decryption context."
+msgstr "Dešifreerimise konteksti lähtestamine nurjus."
+
+#: ../libnm-util/crypto_nss.c:213
+#, c-format
+msgid "Failed to decrypt the private key: %d."
+msgstr "Privaatvõtme dešifreerimine nurjus: %d."
+
+#: ../libnm-util/crypto_nss.c:225
+#, c-format
+msgid "Failed to finalize decryption of the private key: %d."
+msgstr "Privaatvõtme dešifreerimise lõpetamine nurjus: %d."
+
+#: ../libnm-util/crypto_nss.c:269
+#, c-format
+msgid "Couldn't decode certificate: %d"
+msgstr "Sertifikaati ei suudetud dekodeerida: %d"
+
+#~ msgid "operation took too long"
+#~ msgstr "operatsiooniks kulus liiga palju aega"
+#~ msgid "received data from wrong type of sender"
+#~ msgstr "vastuvõetud andmed on valet tüüpi saatjalt"
+#~ msgid "received data from unexpected sender"
+#~ msgstr "vastuvõetud andmed on ootamatult saatjalt"
+#~ msgid "too much data was sent over socket and some of it was lost"
+#~ msgstr ""
+#~ "sokli kaudu saadeti liiga palju andmeid ning osa sellest läks kaotsi"
 

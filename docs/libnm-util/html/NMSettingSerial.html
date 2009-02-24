@@ -1,0 +1,488 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>NMSettingSerial</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="libnm-util Reference Manual">
+<link rel="up" href="ch01.html" title="[Insert title here]">
+<link rel="prev" href="NMSettingPPP.html" title="NMSettingPPP">
+<link rel="next" href="NMSettingPPPOE.html" title="NMSettingPPPOE">
+<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="[Insert title here]">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="NMSettingPPP.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">libnm-util Reference Manual</th>
+<td><a accesskey="n" href="NMSettingPPPOE.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2681795" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2635026" class="shortcut">Description</a>
+                  &#160;|&#160;
+                  <a href="#id2634916" class="shortcut">Object Hierarchy</a>
+                  &#160;|&#160;
+                  <a href="#id2634947" class="shortcut">Properties</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="NMSettingSerial"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2681795"></a><span class="refentrytitle">NMSettingSerial</span>
+</h2>
+<p>NMSettingSerial</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+#define             <a class="link" href="NMSettingSerial.html#NM-SETTING-SERIAL-SETTING-NAME:CAPS">NM_SETTING_SERIAL_SETTING_NAME</a>
+enum                <a class="link" href="NMSettingSerial.html#NMSettingSerialError">NMSettingSerialError</a>;
+#define             <a class="link" href="NMSettingSerial.html#NM-TYPE-SETTING-SERIAL-ERROR:CAPS">NM_TYPE_SETTING_SERIAL_ERROR</a>
+#define             <a class="link" href="NMSettingSerial.html#NM-SETTING-SERIAL-ERROR:CAPS">NM_SETTING_SERIAL_ERROR</a>
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+>GQuark</a>              <a class="link" href="NMSettingSerial.html#nm-setting-serial-error-quark">nm_setting_serial_error_quark</a>       (void);
+#define             <a class="link" href="NMSettingSerial.html#NM-SETTING-SERIAL-BAUD:CAPS">NM_SETTING_SERIAL_BAUD</a>
+#define             <a class="link" href="NMSettingSerial.html#NM-SETTING-SERIAL-BITS:CAPS">NM_SETTING_SERIAL_BITS</a>
+#define             <a class="link" href="NMSettingSerial.html#NM-SETTING-SERIAL-PARITY:CAPS">NM_SETTING_SERIAL_PARITY</a>
+#define             <a class="link" href="NMSettingSerial.html#NM-SETTING-SERIAL-STOPBITS:CAPS">NM_SETTING_SERIAL_STOPBITS</a>
+#define             <a class="link" href="NMSettingSerial.html#NM-SETTING-SERIAL-SEND-DELAY:CAPS">NM_SETTING_SERIAL_SEND_DELAY</a>
+                    <a class="link" href="NMSettingSerial.html#NMSettingSerial-struct">NMSettingSerial</a>;
+<a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a>               <a class="link" href="NMSettingSerial.html#nm-setting-serial-get-type">nm_setting_serial_get_type</a>          (void);
+<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          <a class="link" href="NMSettingSerial.html#nm-setting-serial-new">nm_setting_serial_new</a>               (void);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>               <a class="link" href="NMSettingSerial.html#nm-setting-serial-get-baud">nm_setting_serial_get_baud</a>          (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>               <a class="link" href="NMSettingSerial.html#nm-setting-serial-get-bits">nm_setting_serial_get_bits</a>          (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);
+char                <a class="link" href="NMSettingSerial.html#nm-setting-serial-get-parity">nm_setting_serial_get_parity</a>        (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>               <a class="link" href="NMSettingSerial.html#nm-setting-serial-get-stopbits">nm_setting_serial_get_stopbits</a>      (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+>guint64</a>             <a class="link" href="NMSettingSerial.html#nm-setting-serial-get-send-delay">nm_setting_serial_get_send_delay</a>    (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);
+
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2634916"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+
+  <a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
+   +----<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>
+         +----NMSettingSerial
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2634947"></a><h2>Properties</h2>
+<pre class="synopsis">
+
+  "<a class="link" href="NMSettingSerial.html#NMSettingSerial--baud">baud</a>"                     <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct
+  "<a class="link" href="NMSettingSerial.html#NMSettingSerial--bits">bits</a>"                     <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct
+  "<a class="link" href="NMSettingSerial.html#NMSettingSerial--parity">parity</a>"                   <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>                 : Read / Write / Construct
+  "<a class="link" href="NMSettingSerial.html#NMSettingSerial--send-delay">send-delay</a>"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+>guint64</a>               : Read / Write / Construct
+  "<a class="link" href="NMSettingSerial.html#NMSettingSerial--stopbits">stopbits</a>"                 <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2635026"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2635042"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2635053"></a><h3>
+<a name="NM-SETTING-SERIAL-SETTING-NAME:CAPS"></a>NM_SETTING_SERIAL_SETTING_NAME</h3>
+<a class="indexterm" name="id2635066"></a><pre class="programlisting">#define NM_SETTING_SERIAL_SETTING_NAME "serial"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2635083"></a><h3>
+<a name="NMSettingSerialError"></a>enum NMSettingSerialError</h3>
+<a class="indexterm" name="id2635094"></a><pre class="programlisting">typedef enum
+{
+	NM_SETTING_SERIAL_ERROR_UNKNOWN = 0,
+	NM_SETTING_SERIAL_ERROR_INVALID_PROPERTY,
+	NM_SETTING_SERIAL_ERROR_MISSING_PROPERTY,
+	NM_SETTING_SERIAL_ERROR_MISSING_PPP_SETTING
+} NMSettingSerialError;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2635113"></a><h3>
+<a name="NM-TYPE-SETTING-SERIAL-ERROR:CAPS"></a>NM_TYPE_SETTING_SERIAL_ERROR</h3>
+<a class="indexterm" name="id2635126"></a><pre class="programlisting">#define NM_TYPE_SETTING_SERIAL_ERROR (nm_setting_serial_error_get_type ()) 
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2635143"></a><h3>
+<a name="NM-SETTING-SERIAL-ERROR:CAPS"></a>NM_SETTING_SERIAL_ERROR</h3>
+<a class="indexterm" name="id2635156"></a><pre class="programlisting">#define NM_SETTING_SERIAL_ERROR nm_setting_serial_error_quark ()
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2635171"></a><h3>
+<a name="nm-setting-serial-error-quark"></a>nm_setting_serial_error_quark ()</h3>
+<a class="indexterm" name="id2635184"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+>GQuark</a>              nm_setting_serial_error_quark       (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2709030"></a><h3>
+<a name="NM-SETTING-SERIAL-BAUD:CAPS"></a>NM_SETTING_SERIAL_BAUD</h3>
+<a class="indexterm" name="id2709041"></a><pre class="programlisting">#define NM_SETTING_SERIAL_BAUD "baud"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2709056"></a><h3>
+<a name="NM-SETTING-SERIAL-BITS:CAPS"></a>NM_SETTING_SERIAL_BITS</h3>
+<a class="indexterm" name="id2709068"></a><pre class="programlisting">#define NM_SETTING_SERIAL_BITS "bits"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2709083"></a><h3>
+<a name="NM-SETTING-SERIAL-PARITY:CAPS"></a>NM_SETTING_SERIAL_PARITY</h3>
+<a class="indexterm" name="id2709096"></a><pre class="programlisting">#define NM_SETTING_SERIAL_PARITY "parity"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2709111"></a><h3>
+<a name="NM-SETTING-SERIAL-STOPBITS:CAPS"></a>NM_SETTING_SERIAL_STOPBITS</h3>
+<a class="indexterm" name="id2709123"></a><pre class="programlisting">#define NM_SETTING_SERIAL_STOPBITS "stopbits"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2709139"></a><h3>
+<a name="NM-SETTING-SERIAL-SEND-DELAY:CAPS"></a>NM_SETTING_SERIAL_SEND_DELAY</h3>
+<a class="indexterm" name="id2709152"></a><pre class="programlisting">#define NM_SETTING_SERIAL_SEND_DELAY "send-delay"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2709169"></a><h3>
+<a name="NMSettingSerial-struct"></a>NMSettingSerial</h3>
+<a class="indexterm" name="id2709180"></a><pre class="programlisting">typedef struct _NMSettingSerial NMSettingSerial;</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2709197"></a><h3>
+<a name="nm-setting-serial-get-type"></a>nm_setting_serial_get_type ()</h3>
+<a class="indexterm" name="id2709208"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a>               nm_setting_serial_get_type          (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2709245"></a><h3>
+<a name="nm-setting-serial-new"></a>nm_setting_serial_new ()</h3>
+<a class="indexterm" name="id2709256"></a><pre class="programlisting"><a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          nm_setting_serial_new               (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2709292"></a><h3>
+<a name="nm-setting-serial-get-baud"></a>nm_setting_serial_get_baud ()</h3>
+<a class="indexterm" name="id2709304"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>               nm_setting_serial_get_baud          (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2709360"></a><h3>
+<a name="nm-setting-serial-get-bits"></a>nm_setting_serial_get_bits ()</h3>
+<a class="indexterm" name="id2709372"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>               nm_setting_serial_get_bits          (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2709429"></a><h3>
+<a name="nm-setting-serial-get-parity"></a>nm_setting_serial_get_parity ()</h3>
+<a class="indexterm" name="id2709442"></a><pre class="programlisting">char                nm_setting_serial_get_parity        (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2709500"></a><h3>
+<a name="nm-setting-serial-get-stopbits"></a>nm_setting_serial_get_stopbits ()</h3>
+<a class="indexterm" name="id2709513"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>               nm_setting_serial_get_stopbits      (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2709570"></a><h3>
+<a name="nm-setting-serial-get-send-delay"></a>nm_setting_serial_get_send_delay ()</h3>
+<a class="indexterm" name="id2709583"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+>guint64</a>             nm_setting_serial_get_send_delay    (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2703781"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2703792"></a><h3>
+<a name="NMSettingSerial--baud"></a>The <code class="literal">"baud"</code> property</h3>
+<a class="indexterm" name="id2703806"></a><pre class="programlisting">  "baud"                     <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct</pre>
+<p>Baud rate.</p>
+<p>Default value: 57600</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2703831"></a><h3>
+<a name="NMSettingSerial--bits"></a>The <code class="literal">"bits"</code> property</h3>
+<a class="indexterm" name="id2703845"></a><pre class="programlisting">  "bits"                     <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct</pre>
+<p>Bits.</p>
+<p>Allowed values: [5,8]</p>
+<p>Default value: 8</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2703874"></a><h3>
+<a name="NMSettingSerial--parity"></a>The <code class="literal">"parity"</code> property</h3>
+<a class="indexterm" name="id2703887"></a><pre class="programlisting">  "parity"                   <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>                 : Read / Write / Construct</pre>
+<p>Parity.</p>
+<p>Allowed values: [69,111]</p>
+<p>Default value: 110</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2703916"></a><h3>
+<a name="NMSettingSerial--send-delay"></a>The <code class="literal">"send-delay"</code> property</h3>
+<a class="indexterm" name="id2703930"></a><pre class="programlisting">  "send-delay"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+>guint64</a>               : Read / Write / Construct</pre>
+<p>Send delay.</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2703956"></a><h3>
+<a name="NMSettingSerial--stopbits"></a>The <code class="literal">"stopbits"</code> property</h3>
+<a class="indexterm" name="id2703969"></a><pre class="programlisting">  "stopbits"                 <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct</pre>
+<p>Stopbits.</p>
+<p>Allowed values: [1,2]</p>
+<p>Default value: 1</p>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2704000"></a><div class="refsect2" lang="en"><a name="id2704001"></a></div>
+<hr>
+<div class="refsect2" lang="en"><a name="id2704002"></a></div>
+</div>
+</div>
+</body>
+</html>

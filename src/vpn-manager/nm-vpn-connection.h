@@ -1,43 +1,77 @@
-/* nm-vpn-connection.h - handle a single VPN connection within NetworkManager's framework 
- *
- * Copyright (C) 2005 Dan Williams
+/* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
+/* NetworkManager -- Network link manager
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2, or (at your option)
- * any later version.
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.  
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Copyright (C) 2005 - 2008 Red Hat, Inc.
+ * Copyright (C) 2006 - 2008 Novell, Inc.
  */
+
 #ifndef NM_VPN_CONNECTION_H
 #define NM_VPN_CONNECTION_H
 
+#include <glib.h>
+#include <glib-object.h>
+#include "NetworkManagerVPN.h"
 #include "nm-device.h"
-#include "nm-named-manager.h"
+#include "nm-activation-request.h"
 
-typedef struct NMVPNConnection NMVPNConnection;
+#define NM_TYPE_VPN_CONNECTION            (nm_vpn_connection_get_type ())
+#define NM_VPN_CONNECTION(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), NM_TYPE_VPN_CONNECTION, NMVPNConnection))
+#define NM_VPN_CONNECTION_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), NM_TYPE_VPN_CONNECTION, NMVPNConnectionClass))
+#define NM_IS_VPN_CONNECTION(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), NM_TYPE_VPN_CONNECTION))
+#define NM_IS_VPN_CONNECTION_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), NM_TYPE_VPN_CONNECTION))
+#define NM_VPN_CONNECTION_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), NM_TYPE_VPN_CONNECTION, NMVPNConnectionClass))
 
+#define NM_VPN_CONNECTION_VPN_STATE "vpn-state"
+#define NM_VPN_CONNECTION_BANNER "banner"
 
-NMVPNConnection *	nm_vpn_connection_new			(const char *name, const char *user_name, const char *service_name,
-												NMNamedManager *named_manager, DBusConnection *dbus_connection);
-void				nm_vpn_connection_ref			(NMVPNConnection *con);
-void				nm_vpn_connection_unref			(NMVPNConnection *con);
+typedef struct {
+	GObject parent;
+} NMVPNConnection;
 
-const char *		nm_vpn_connection_get_name		(NMVPNConnection *con);
-const char *		nm_vpn_connection_get_user_name	(NMVPNConnection *con);
-const char *		nm_vpn_connection_get_service_name	(NMVPNConnection *con);
+typedef struct {
+	GObjectClass parent;
 
-void				nm_vpn_connection_activate		(NMVPNConnection *con);
-void				nm_vpn_connection_deactivate		(NMVPNConnection *con);
+	/* Signals */
+	void (*vpn_state_changed) (NMVPNConnection *connection,
+	                           NMVPNConnectionState state,
+	                           NMVPNConnectionStateReason reason);
 
-gboolean			nm_vpn_connection_set_config		(NMVPNConnection *con, const char *vpn_iface, NMDevice *dev, NMIP4Config *ip4_config);
+	void (*properties_changed) (NMVPNConnection *connection, GHashTable *properties);
+} NMVPNConnectionClass;
 
-#endif  /* NM_VPN_MANAGER_H */
+GType nm_vpn_connection_get_type (void);
+
+NMVPNConnection * nm_vpn_connection_new (NMConnection *connection,
+                                         NMActRequest *act_request,
+                                         NMDevice *parent_device);
+
+void                 nm_vpn_connection_activate        (NMVPNConnection *connection);
+NMConnection *       nm_vpn_connection_get_connection  (NMVPNConnection *connection);
+const char *         nm_vpn_connection_get_active_connection_path (NMVPNConnection *connection);
+const char *         nm_vpn_connection_get_name        (NMVPNConnection *connection);
+NMVPNConnectionState nm_vpn_connection_get_vpn_state   (NMVPNConnection *connection);
+const char *         nm_vpn_connection_get_banner      (NMVPNConnection *connection);
+void                 nm_vpn_connection_fail            (NMVPNConnection *connection,
+                                                        NMVPNConnectionStateReason reason);
+void                 nm_vpn_connection_disconnect      (NMVPNConnection *connection,
+                                                        NMVPNConnectionStateReason reason);
+NMIP4Config *        nm_vpn_connection_get_ip4_config  (NMVPNConnection *connection);
+const char *         nm_vpn_connection_get_ip_iface    (NMVPNConnection *connection);
+NMDevice *           nm_vpn_connection_get_parent_device (NMVPNConnection *connection);
+guint32        nm_vpn_connection_get_ip4_internal_gateway (NMVPNConnection *connection);
+
+#endif /* NM_VPN_CONNECTION_H */

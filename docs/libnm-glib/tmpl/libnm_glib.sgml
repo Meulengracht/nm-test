@@ -1,0 +1,91 @@
+<!-- ##### SECTION Title ##### -->
+libnm_glib
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### ENUM libnm_glib_state ##### -->
+<para>
+
+</para>
+
+@LIBNM_NO_DBUS: 
+@LIBNM_NO_NETWORKMANAGER: 
+@LIBNM_NO_NETWORK_CONNECTION: 
+@LIBNM_ACTIVE_NETWORK_CONNECTION: 
+@LIBNM_INVALID_CONTEXT: 
+
+<!-- ##### TYPEDEF libnm_glib_ctx ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### USER_FUNCTION libnm_glib_callback_func ##### -->
+<para>
+
+</para>
+
+@libnm_ctx: 
+@user_data: 
+
+
+<!-- ##### FUNCTION libnm_glib_init ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION libnm_glib_shutdown ##### -->
+<para>
+
+</para>
+
+@ctx: 
+
+
+<!-- ##### FUNCTION libnm_glib_get_network_state ##### -->
+<para>
+
+</para>
+
+@ctx: 
+@Returns: 
+
+
+<!-- ##### FUNCTION libnm_glib_register_callback ##### -->
+<para>
+
+</para>
+
+@ctx: 
+@func: 
+@user_data: 
+@g_main_ctx: 
+@Returns: 
+
+
+<!-- ##### FUNCTION libnm_glib_unregister_callback ##### -->
+<para>
+
+</para>
+
+@ctx: 
+@id: 
+
+

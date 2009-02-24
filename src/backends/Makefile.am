@@ -1,6 +1,5 @@
 INCLUDES = -I${top_srcdir}				\
 		 -I${top_srcdir}/include			\
-		 -I${top_srcdir}/utils			\
 		 -I${top_srcdir}/src			\
 		 -I${top_srcdir}/src/vpn-manager	\
 		 -I${top_srcdir}/src/named-manager	\
@@ -8,46 +7,52 @@ INCLUDES = -I${top_srcdir}				\
 
 noinst_LTLIBRARIES = libnmbackend.la
 
-libnmbackend_la_SOURCES =
+libnmbackend_la_SOURCES = NetworkManagerGeneric.c	\
+				NetworkManagerGeneric.h
+
+libnmbackend_la_LIBADD =
 
 if TARGET_REDHAT
-libnmbackend_la_SOURCES +=	NetworkManagerRedHat.c	\
-						shvar.c				\
-						shvar.h
+libnmbackend_la_SOURCES += NetworkManagerRedHat.c
 endif
 
 if TARGET_SUSE
-libnmbackend_la_SOURCES +=	NetworkManagerSuSE.c				\
-						shvar.c				\
-						shvar.h
+libnmbackend_la_SOURCES += NetworkManagerSuSE.c
 endif
 
 if TARGET_GENTOO
-libnmbackend_la_SOURCES +=	NetworkManagerGentoo.c		\
-						shvar.c				\
-						shvar.h
+libnmbackend_la_SOURCES += NetworkManagerGentoo.c
 endif
 
 if TARGET_DEBIAN
-libnmbackend_la_SOURCES +=	NetworkManagerDebian.c	\
-						interface_parser.c		\
-						interface_parser.h	
+libnmbackend_la_SOURCES += NetworkManagerDebian.c
 endif
 
 if TARGET_SLACKWARE
-libnmbackend_la_SOURCES +=	NetworkManagerSlackware.c
+libnmbackend_la_SOURCES += NetworkManagerSlackware.c
 endif
 
 if TARGET_ARCH
-libnmbackend_la_SOURCES +=	NetworkManagerArch.c
+libnmbackend_la_SOURCES += NetworkManagerArch.c
 endif
 
-libnmbackend_la_LIBADD = $(DBUS_LIBS) $(GTHREAD_LIBS)
+if TARGET_PALDO
+libnmbackend_la_SOURCES += NetworkManagerPaldo.c
+endif
+
+if TARGET_FRUGALWARE
+libnmbackend_la_SOURCES += NetworkManagerFrugalware.c
+libnmbackend_la_LIBADD += -lfwnetconfig -lfwutil
+endif
+
+if TARGET_MANDRIVA
+libnmbackend_la_SOURCES += NetworkManagerMandriva.c
+endif
+
+libnmbackend_la_LIBADD += $(DBUS_LIBS) $(GLIB_LIBS)
 libnmbackend_la_CPPFLAGS =	$(DBUS_CFLAGS)				\
-					$(GTHREAD_CFLAGS)				\
+					$(GLIB_CFLAGS)				\
 					$(HAL_CFLAGS)					\
-					-g							\
-					-Wall						\
 					-DDBUS_API_SUBJECT_TO_CHANGE		\
 					-DG_DISABLE_DEPRECATED			\
 					-DBINDIR=\"$(bindir)\"			\

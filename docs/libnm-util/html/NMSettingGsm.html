@@ -1,0 +1,675 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>NMSettingGsm</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="libnm-util Reference Manual">
+<link rel="up" href="ch01.html" title="[Insert title here]">
+<link rel="prev" href="ch01.html" title="[Insert title here]">
+<link rel="next" href="NMSetting8021x.html" title="NMSetting8021x">
+<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="[Insert title here]">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="ch01.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">libnm-util Reference Manual</th>
+<td><a accesskey="n" href="NMSetting8021x.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2664525" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2610172" class="shortcut">Description</a>
+                  &#160;|&#160;
+                  <a href="#id2614855" class="shortcut">Object Hierarchy</a>
+                  &#160;|&#160;
+                  <a href="#id2614886" class="shortcut">Properties</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="NMSettingGsm"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2664525"></a><span class="refentrytitle">NMSettingGsm</span>
+</h2>
+<p>NMSettingGsm</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+#define             <a class="link" href="NMSettingGsm.html#NM-SETTING-GSM-SETTING-NAME:CAPS">NM_SETTING_GSM_SETTING_NAME</a>
+enum                <a class="link" href="NMSettingGsm.html#NMSettingGsmError">NMSettingGsmError</a>;
+#define             <a class="link" href="NMSettingGsm.html#NM-TYPE-SETTING-GSM-ERROR:CAPS">NM_TYPE_SETTING_GSM_ERROR</a>
+#define             <a class="link" href="NMSettingGsm.html#NM-SETTING-GSM-ERROR:CAPS">NM_SETTING_GSM_ERROR</a>
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+>GQuark</a>              <a class="link" href="NMSettingGsm.html#nm-setting-gsm-error-quark">nm_setting_gsm_error_quark</a>          (void);
+#define             <a class="link" href="NMSettingGsm.html#NM-SETTING-GSM-NUMBER:CAPS">NM_SETTING_GSM_NUMBER</a>
+#define             <a class="link" href="NMSettingGsm.html#NM-SETTING-GSM-USERNAME:CAPS">NM_SETTING_GSM_USERNAME</a>
+#define             <a class="link" href="NMSettingGsm.html#NM-SETTING-GSM-PASSWORD:CAPS">NM_SETTING_GSM_PASSWORD</a>
+#define             <a class="link" href="NMSettingGsm.html#NM-SETTING-GSM-APN:CAPS">NM_SETTING_GSM_APN</a>
+#define             <a class="link" href="NMSettingGsm.html#NM-SETTING-GSM-NETWORK-ID:CAPS">NM_SETTING_GSM_NETWORK_ID</a>
+#define             <a class="link" href="NMSettingGsm.html#NM-SETTING-GSM-NETWORK-TYPE:CAPS">NM_SETTING_GSM_NETWORK_TYPE</a>
+#define             <a class="link" href="NMSettingGsm.html#NM-SETTING-GSM-BAND:CAPS">NM_SETTING_GSM_BAND</a>
+#define             <a class="link" href="NMSettingGsm.html#NM-SETTING-GSM-PIN:CAPS">NM_SETTING_GSM_PIN</a>
+#define             <a class="link" href="NMSettingGsm.html#NM-SETTING-GSM-PUK:CAPS">NM_SETTING_GSM_PUK</a>
+                    <a class="link" href="NMSettingGsm.html#NMSettingGsm-struct">NMSettingGsm</a>;
+<a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a>               <a class="link" href="NMSettingGsm.html#nm-setting-gsm-get-type">nm_setting_gsm_get_type</a>             (void);
+<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          <a class="link" href="NMSettingGsm.html#nm-setting-gsm-new">nm_setting_gsm_new</a>                  (void);
+const char*         <a class="link" href="NMSettingGsm.html#nm-setting-gsm-get-number">nm_setting_gsm_get_number</a>           (<a class="link" href="NMSettingGsm.html" title="NMSettingGsm">NMSettingGsm</a> *setting);
+const char*         <a class="link" href="NMSettingGsm.html#nm-setting-gsm-get-username">nm_setting_gsm_get_username</a>         (<a class="link" href="NMSettingGsm.html" title="NMSettingGsm">NMSettingGsm</a> *setting);
+const char*         <a class="link" href="NMSettingGsm.html#nm-setting-gsm-get-password">nm_setting_gsm_get_password</a>         (<a class="link" href="NMSettingGsm.html" title="NMSettingGsm">NMSettingGsm</a> *setting);
+const char*         <a class="link" href="NMSettingGsm.html#nm-setting-gsm-get-apn">nm_setting_gsm_get_apn</a>              (<a class="link" href="NMSettingGsm.html" title="NMSettingGsm">NMSettingGsm</a> *setting);
+const char*         <a class="link" href="NMSettingGsm.html#nm-setting-gsm-get-network-id">nm_setting_gsm_get_network_id</a>       (<a class="link" href="NMSettingGsm.html" title="NMSettingGsm">NMSettingGsm</a> *setting);
+int                 <a class="link" href="NMSettingGsm.html#nm-setting-gsm-get-network-type">nm_setting_gsm_get_network_type</a>     (<a class="link" href="NMSettingGsm.html" title="NMSettingGsm">NMSettingGsm</a> *setting);
+int                 <a class="link" href="NMSettingGsm.html#nm-setting-gsm-get-band">nm_setting_gsm_get_band</a>             (<a class="link" href="NMSettingGsm.html" title="NMSettingGsm">NMSettingGsm</a> *setting);
+const char*         <a class="link" href="NMSettingGsm.html#nm-setting-gsm-get-pin">nm_setting_gsm_get_pin</a>              (<a class="link" href="NMSettingGsm.html" title="NMSettingGsm">NMSettingGsm</a> *setting);
+const char*         <a class="link" href="NMSettingGsm.html#nm-setting-gsm-get-puk">nm_setting_gsm_get_puk</a>              (<a class="link" href="NMSettingGsm.html" title="NMSettingGsm">NMSettingGsm</a> *setting);
+
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2614855"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+
+  <a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
+   +----<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>
+         +----NMSettingGsm
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2614886"></a><h2>Properties</h2>
+<pre class="synopsis">
+
+  "<a class="link" href="NMSettingGsm.html#NMSettingGsm--apn">apn</a>"                      <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write
+  "<a class="link" href="NMSettingGsm.html#NMSettingGsm--band">band</a>"                     <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+>gint</a>                  : Read / Write / Construct
+  "<a class="link" href="NMSettingGsm.html#NMSettingGsm--network-id">network-id</a>"               <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write
+  "<a class="link" href="NMSettingGsm.html#NMSettingGsm--network-type">network-type</a>"             <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+>gint</a>                  : Read / Write / Construct
+  "<a class="link" href="NMSettingGsm.html#NMSettingGsm--number">number</a>"                   <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write
+  "<a class="link" href="NMSettingGsm.html#NMSettingGsm--password">password</a>"                 <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write
+  "<a class="link" href="NMSettingGsm.html#NMSettingGsm--pin">pin</a>"                      <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write
+  "<a class="link" href="NMSettingGsm.html#NMSettingGsm--puk">puk</a>"                      <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write
+  "<a class="link" href="NMSettingGsm.html#NMSettingGsm--username">username</a>"                 <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2610172"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2610188"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2610198"></a><h3>
+<a name="NM-SETTING-GSM-SETTING-NAME:CAPS"></a>NM_SETTING_GSM_SETTING_NAME</h3>
+<a class="indexterm" name="id2610212"></a><pre class="programlisting">#define NM_SETTING_GSM_SETTING_NAME "gsm"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2610227"></a><h3>
+<a name="NMSettingGsmError"></a>enum NMSettingGsmError</h3>
+<a class="indexterm" name="id2610239"></a><pre class="programlisting">typedef enum
+{
+	NM_SETTING_GSM_ERROR_UNKNOWN = 0,
+	NM_SETTING_GSM_ERROR_INVALID_PROPERTY,
+	NM_SETTING_GSM_ERROR_MISSING_PROPERTY,
+	NM_SETTING_GSM_ERROR_MISSING_SERIAL_SETTING
+} NMSettingGsmError;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2610258"></a><h3>
+<a name="NM-TYPE-SETTING-GSM-ERROR:CAPS"></a>NM_TYPE_SETTING_GSM_ERROR</h3>
+<a class="indexterm" name="id2610270"></a><pre class="programlisting">#define NM_TYPE_SETTING_GSM_ERROR (nm_setting_gsm_error_get_type ()) 
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2610287"></a><h3>
+<a name="NM-SETTING-GSM-ERROR:CAPS"></a>NM_SETTING_GSM_ERROR</h3>
+<a class="indexterm" name="id2610298"></a><pre class="programlisting">#define NM_SETTING_GSM_ERROR nm_setting_gsm_error_quark ()
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2610314"></a><h3>
+<a name="nm-setting-gsm-error-quark"></a>nm_setting_gsm_error_quark ()</h3>
+<a class="indexterm" name="id2610325"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+>GQuark</a>              nm_setting_gsm_error_quark          (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2610361"></a><h3>
+<a name="NM-SETTING-GSM-NUMBER:CAPS"></a>NM_SETTING_GSM_NUMBER</h3>
+<a class="indexterm" name="id2674962"></a><pre class="programlisting">#define NM_SETTING_GSM_NUMBER       "number"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2674978"></a><h3>
+<a name="NM-SETTING-GSM-USERNAME:CAPS"></a>NM_SETTING_GSM_USERNAME</h3>
+<a class="indexterm" name="id2674992"></a><pre class="programlisting">#define NM_SETTING_GSM_USERNAME     "username"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675008"></a><h3>
+<a name="NM-SETTING-GSM-PASSWORD:CAPS"></a>NM_SETTING_GSM_PASSWORD</h3>
+<a class="indexterm" name="id2675020"></a><pre class="programlisting">#define NM_SETTING_GSM_PASSWORD     "password"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675036"></a><h3>
+<a name="NM-SETTING-GSM-APN:CAPS"></a>NM_SETTING_GSM_APN</h3>
+<a class="indexterm" name="id2675048"></a><pre class="programlisting">#define NM_SETTING_GSM_APN          "apn"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675063"></a><h3>
+<a name="NM-SETTING-GSM-NETWORK-ID:CAPS"></a>NM_SETTING_GSM_NETWORK_ID</h3>
+<a class="indexterm" name="id2675076"></a><pre class="programlisting">#define NM_SETTING_GSM_NETWORK_ID   "network-id"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675092"></a><h3>
+<a name="NM-SETTING-GSM-NETWORK-TYPE:CAPS"></a>NM_SETTING_GSM_NETWORK_TYPE</h3>
+<a class="indexterm" name="id2675104"></a><pre class="programlisting">#define NM_SETTING_GSM_NETWORK_TYPE "network-type"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675120"></a><h3>
+<a name="NM-SETTING-GSM-BAND:CAPS"></a>NM_SETTING_GSM_BAND</h3>
+<a class="indexterm" name="id2675132"></a><pre class="programlisting">#define NM_SETTING_GSM_BAND         "band"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675147"></a><h3>
+<a name="NM-SETTING-GSM-PIN:CAPS"></a>NM_SETTING_GSM_PIN</h3>
+<a class="indexterm" name="id2675159"></a><pre class="programlisting">#define NM_SETTING_GSM_PIN          "pin"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675174"></a><h3>
+<a name="NM-SETTING-GSM-PUK:CAPS"></a>NM_SETTING_GSM_PUK</h3>
+<a class="indexterm" name="id2675186"></a><pre class="programlisting">#define NM_SETTING_GSM_PUK          "puk"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675202"></a><h3>
+<a name="NMSettingGsm-struct"></a>NMSettingGsm</h3>
+<a class="indexterm" name="id2675214"></a><pre class="programlisting">typedef struct _NMSettingGsm NMSettingGsm;</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675229"></a><h3>
+<a name="nm-setting-gsm-get-type"></a>nm_setting_gsm_get_type ()</h3>
+<a class="indexterm" name="id2675241"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a>               nm_setting_gsm_get_type             (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675277"></a><h3>
+<a name="nm-setting-gsm-new"></a>nm_setting_gsm_new ()</h3>
+<a class="indexterm" name="id2675289"></a><pre class="programlisting"><a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          nm_setting_gsm_new                  (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675325"></a><h3>
+<a name="nm-setting-gsm-get-number"></a>nm_setting_gsm_get_number ()</h3>
+<a class="indexterm" name="id2675336"></a><pre class="programlisting">const char*         nm_setting_gsm_get_number           (<a class="link" href="NMSettingGsm.html" title="NMSettingGsm">NMSettingGsm</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675394"></a><h3>
+<a name="nm-setting-gsm-get-username"></a>nm_setting_gsm_get_username ()</h3>
+<a class="indexterm" name="id2675406"></a><pre class="programlisting">const char*         nm_setting_gsm_get_username         (<a class="link" href="NMSettingGsm.html" title="NMSettingGsm">NMSettingGsm</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675464"></a><h3>
+<a name="nm-setting-gsm-get-password"></a>nm_setting_gsm_get_password ()</h3>
+<a class="indexterm" name="id2675476"></a><pre class="programlisting">const char*         nm_setting_gsm_get_password         (<a class="link" href="NMSettingGsm.html" title="NMSettingGsm">NMSettingGsm</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675534"></a><h3>
+<a name="nm-setting-gsm-get-apn"></a>nm_setting_gsm_get_apn ()</h3>
+<a class="indexterm" name="id2675545"></a><pre class="programlisting">const char*         nm_setting_gsm_get_apn              (<a class="link" href="NMSettingGsm.html" title="NMSettingGsm">NMSettingGsm</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675603"></a><h3>
+<a name="nm-setting-gsm-get-network-id"></a>nm_setting_gsm_get_network_id ()</h3>
+<a class="indexterm" name="id2675616"></a><pre class="programlisting">const char*         nm_setting_gsm_get_network_id       (<a class="link" href="NMSettingGsm.html" title="NMSettingGsm">NMSettingGsm</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675675"></a><h3>
+<a name="nm-setting-gsm-get-network-type"></a>nm_setting_gsm_get_network_type ()</h3>
+<a class="indexterm" name="id2675688"></a><pre class="programlisting">int                 nm_setting_gsm_get_network_type     (<a class="link" href="NMSettingGsm.html" title="NMSettingGsm">NMSettingGsm</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675745"></a><h3>
+<a name="nm-setting-gsm-get-band"></a>nm_setting_gsm_get_band ()</h3>
+<a class="indexterm" name="id2675756"></a><pre class="programlisting">int                 nm_setting_gsm_get_band             (<a class="link" href="NMSettingGsm.html" title="NMSettingGsm">NMSettingGsm</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675813"></a><h3>
+<a name="nm-setting-gsm-get-pin"></a>nm_setting_gsm_get_pin ()</h3>
+<a class="indexterm" name="id2675824"></a><pre class="programlisting">const char*         nm_setting_gsm_get_pin              (<a class="link" href="NMSettingGsm.html" title="NMSettingGsm">NMSettingGsm</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675882"></a><h3>
+<a name="nm-setting-gsm-get-puk"></a>nm_setting_gsm_get_puk ()</h3>
+<a class="indexterm" name="id2675893"></a><pre class="programlisting">const char*         nm_setting_gsm_get_puk              (<a class="link" href="NMSettingGsm.html" title="NMSettingGsm">NMSettingGsm</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2675952"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2675963"></a><h3>
+<a name="NMSettingGsm--apn"></a>The <code class="literal">"apn"</code> property</h3>
+<a class="indexterm" name="id2675978"></a><pre class="programlisting">  "apn"                      <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write</pre>
+<p>APN.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2676004"></a><h3>
+<a name="NMSettingGsm--band"></a>The <code class="literal">"band"</code> property</h3>
+<a class="indexterm" name="id2676019"></a><pre class="programlisting">  "band"                     <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+>gint</a>                  : Read / Write / Construct</pre>
+<p>Band.</p>
+<p>Allowed values: [-1,5]</p>
+<p>Default value: -1</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2676048"></a><h3>
+<a name="NMSettingGsm--network-id"></a>The <code class="literal">"network-id"</code> property</h3>
+<a class="indexterm" name="id2676062"></a><pre class="programlisting">  "network-id"               <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write</pre>
+<p>Network ID (GSM LAI format).</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2676088"></a><h3>
+<a name="NMSettingGsm--network-type"></a>The <code class="literal">"network-type"</code> property</h3>
+<a class="indexterm" name="id2676102"></a><pre class="programlisting">  "network-type"             <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+>gint</a>                  : Read / Write / Construct</pre>
+<p>Network type.</p>
+<p>Allowed values: [-1,2]</p>
+<p>Default value: -1</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2676132"></a><h3>
+<a name="NMSettingGsm--number"></a>The <code class="literal">"number"</code> property</h3>
+<a class="indexterm" name="id2676146"></a><pre class="programlisting">  "number"                   <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write</pre>
+<p>Number.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2676172"></a><h3>
+<a name="NMSettingGsm--password"></a>The <code class="literal">"password"</code> property</h3>
+<a class="indexterm" name="id2676185"></a><pre class="programlisting">  "password"                 <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write</pre>
+<p>Password.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2676211"></a><h3>
+<a name="NMSettingGsm--pin"></a>The <code class="literal">"pin"</code> property</h3>
+<a class="indexterm" name="id2676226"></a><pre class="programlisting">  "pin"                      <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write</pre>
+<p>PIN.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2676251"></a><h3>
+<a name="NMSettingGsm--puk"></a>The <code class="literal">"puk"</code> property</h3>
+<a class="indexterm" name="id2676266"></a><pre class="programlisting">  "puk"                      <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write</pre>
+<p>PUK.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2676292"></a><h3>
+<a name="NMSettingGsm--username"></a>The <code class="literal">"username"</code> property</h3>
+<a class="indexterm" name="id2676305"></a><pre class="programlisting">  "username"                 <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write</pre>
+<p>Username.</p>
+<p>Default value: NULL</p>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2676332"></a><div class="refsect2" lang="en"><a name="id2676333"></a></div>
+<hr>
+<div class="refsect2" lang="en"><a name="id2676334"></a></div>
+</div>
+</div>
+</body>
+</html>

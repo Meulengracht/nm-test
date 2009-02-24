@@ -1,0 +1,1275 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>NMConnection</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="libnm-util Reference Manual">
+<link rel="up" href="ch01.html" title="[Insert title here]">
+<link rel="prev" href="NMSettingWireless.html" title="NMSettingWireless">
+<link rel="next" href="libnm-util-nm-utils.html" title="nm-utils">
+<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="[Insert title here]">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="NMSettingWireless.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">libnm-util Reference Manual</th>
+<td><a accesskey="n" href="libnm-util-nm-utils.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2633982" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2736276" class="shortcut">Description</a>
+                  &#160;|&#160;
+                  <a href="#id2725036" class="shortcut">Object Hierarchy</a>
+                  &#160;|&#160;
+                  <a href="#id2725060" class="shortcut">Properties</a>
+                  &#160;|&#160;
+                  <a href="#id2736251" class="shortcut">Signals</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="NMConnection"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2633982"></a><span class="refentrytitle">NMConnection</span>
+</h2>
+<p>NMConnection &#8212; Describes a connection to specific network or provider</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+#include &lt;nm-connection.h&gt;
+
+
+enum                <a class="link" href="NMConnection.html#NMConnectionScope">NMConnectionScope</a>;
+enum                <a class="link" href="NMConnection.html#NMConnectionError">NMConnectionError</a>;
+#define             <a class="link" href="NMConnection.html#NM-TYPE-CONNECTION-ERROR:CAPS">NM_TYPE_CONNECTION_ERROR</a>
+#define             <a class="link" href="NMConnection.html#NM-CONNECTION-ERROR:CAPS">NM_CONNECTION_ERROR</a>
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+>GQuark</a>              <a class="link" href="NMConnection.html#nm-connection-error-quark">nm_connection_error_quark</a>           (void);
+#define             <a class="link" href="NMConnection.html#NM-CONNECTION-SCOPE:CAPS">NM_CONNECTION_SCOPE</a>
+#define             <a class="link" href="NMConnection.html#NM-CONNECTION-PATH:CAPS">NM_CONNECTION_PATH</a>
+                    <a class="link" href="NMConnection.html#NMConnection-struct">NMConnection</a>;
+<a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a>               <a class="link" href="NMConnection.html#nm-connection-get-type">nm_connection_get_type</a>              (void);
+<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a>*       <a class="link" href="NMConnection.html#nm-connection-new">nm_connection_new</a>                   (void);
+<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a>*       <a class="link" href="NMConnection.html#nm-connection-new-from-hash">nm_connection_new_from_hash</a>         (<a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+>GHashTable</a> *hash,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **error);
+<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a>*       <a class="link" href="NMConnection.html#nm-connection-duplicate">nm_connection_duplicate</a>             (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection);
+void                <a class="link" href="NMConnection.html#nm-connection-add-setting">nm_connection_add_setting</a>           (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         <a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a> *setting);
+void                <a class="link" href="NMConnection.html#nm-connection-remove-setting">nm_connection_remove_setting</a>        (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a> setting_type);
+<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          <a class="link" href="NMConnection.html#nm-connection-get-setting">nm_connection_get_setting</a>           (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a> setting_type);
+<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          <a class="link" href="NMConnection.html#nm-connection-get-setting-by-name">nm_connection_get_setting_by_name</a>   (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         const char *name);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMConnection.html#nm-connection-replace-settings">nm_connection_replace_settings</a>      (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+>GHashTable</a> *new_settings,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **error);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMConnection.html#nm-connection-compare">nm_connection_compare</a>               (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *a,
+                                                         <a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *b,
+                                                         <a class="link" href="NMSetting.html#NMSettingCompareFlags">NMSettingCompareFlags</a> flags);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMConnection.html#nm-connection-verify">nm_connection_verify</a>                (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **error);
+const char*         <a class="link" href="NMConnection.html#nm-connection-need-secrets">nm_connection_need_secrets</a>          (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Pointer-Arrays.html#GPtrArray"
+>GPtrArray</a> **hints);
+void                <a class="link" href="NMConnection.html#nm-connection-clear-secrets">nm_connection_clear_secrets</a>         (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMConnection.html#nm-connection-update-secrets">nm_connection_update_secrets</a>        (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         const char *setting_name,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+>GHashTable</a> *secrets,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **error);
+void                <a class="link" href="NMConnection.html#nm-connection-set-scope">nm_connection_set_scope</a>             (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         <a class="link" href="NMConnection.html#NMConnectionScope">NMConnectionScope</a> scope);
+<a class="link" href="NMConnection.html#NMConnectionScope">NMConnectionScope</a>   <a class="link" href="NMConnection.html#nm-connection-get-scope">nm_connection_get_scope</a>             (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection);
+void                <a class="link" href="NMConnection.html#nm-connection-set-path">nm_connection_set_path</a>              (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         const char *path);
+const char*         <a class="link" href="NMConnection.html#nm-connection-get-path">nm_connection_get_path</a>              (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection);
+void                <a class="link" href="NMConnection.html#nm-connection-for-each-setting-value">nm_connection_for_each_setting_value</a>
+                                                        (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         <a class="link" href="NMSetting.html#NMSettingValueIterFn">NMSettingValueIterFn</a> func,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+>gpointer</a> user_data);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+>GHashTable</a>*         <a class="link" href="NMConnection.html#nm-connection-to-hash">nm_connection_to_hash</a>               (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection);
+void                <a class="link" href="NMConnection.html#nm-connection-dump">nm_connection_dump</a>                  (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection);
+<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          <a class="link" href="NMConnection.html#nm-connection-create-setting">nm_connection_create_setting</a>        (const char *name);
+<a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a>               <a class="link" href="NMConnection.html#nm-connection-lookup-setting-type">nm_connection_lookup_setting_type</a>   (const char *name);
+<a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a>               <a class="link" href="NMConnection.html#nm-connection-lookup-setting-type-by-quark">nm_connection_lookup_setting_type_by_quark</a>
+                                                        (<a
+href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+>GQuark</a> error_quark);
+
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2725036"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+
+  <a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
+   +----NMConnection
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2725060"></a><h2>Properties</h2>
+<pre class="synopsis">
+
+  "<a class="link" href="NMConnection.html#NMConnection--path">path</a>"                     <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write
+  "<a class="link" href="NMConnection.html#NMConnection--scope">scope</a>"                    <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2736251"></a><h2>Signals</h2>
+<pre class="synopsis">
+
+  "<a class="link" href="NMConnection.html#NMConnection-secrets-updated">secrets-updated</a>"                                : Run First
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2736276"></a><h2>Description</h2>
+<p>
+An <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a> describes all the settings and configuration values that
+are necessary to configure network devices for operation on a specific
+network.  Connections are the fundamental operating object for
+NetworkManager; no device is connected without a <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>, or
+disconnected without having been connected with a <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>.
+</p>
+<p>
+Each <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a> contains a list of <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a> objects usually referenced
+by name (using <a class="link" href="NMConnection.html#nm-connection-get-setting-by-name"><code class="function">nm_connection_get_setting_by_name()</code></a>) or by type (with
+<a class="link" href="NMConnection.html#nm-connection-get-setting"><code class="function">nm_connection_get_setting()</code></a>).  The settings describe the actual parameters
+with which the network devices are configured, including device-specific
+parameters (MTU, SSID, APN, channel, rate, etc) and IP-level parameters
+(addresses, routes, addressing methods, etc).
+</p>
+<p>
+Most connections also have a <a class="link" href="NMConnection.html#NMConnectionScope"><code class="literal">NMConnectionScope</code></a>; a connection will be
+provided over D-Bus either by the user settings service
+(org.freedesktop.NetworkManagerUserSettings) running in an active user
+session, or by the system-wide system settings service
+(org.freedesktop.NetworkManagerSystemSettings) which provides  connections
+for all users.</p>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2736381"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2736392"></a><h3>
+<a name="NMConnectionScope"></a>enum NMConnectionScope</h3>
+<a class="indexterm" name="id2736405"></a><pre class="programlisting">typedef enum {
+	NM_CONNECTION_SCOPE_UNKNOWN = 0,
+	NM_CONNECTION_SCOPE_SYSTEM,
+	NM_CONNECTION_SCOPE_USER
+} NMConnectionScope;
+</pre>
+<p>
+Connection scope indicated what settings service, if any, provides the
+connection.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><a name="NM-CONNECTION-SCOPE-UNKNOWN:CAPS"></a><code class="literal">NM_CONNECTION_SCOPE_UNKNOWN</code></span></p></td>
+<td> scope not known or not yet set
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="NM-CONNECTION-SCOPE-SYSTEM:CAPS"></a><code class="literal">NM_CONNECTION_SCOPE_SYSTEM</code></span></p></td>
+<td> connection is provided by the system settings
+  service
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="NM-CONNECTION-SCOPE-USER:CAPS"></a><code class="literal">NM_CONNECTION_SCOPE_USER</code></span></p></td>
+<td> connection is provided by a user settings service
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2736500"></a><h3>
+<a name="NMConnectionError"></a>enum NMConnectionError</h3>
+<a class="indexterm" name="id2736512"></a><pre class="programlisting">typedef enum
+{
+	NM_CONNECTION_ERROR_UNKNOWN = 0,
+	NM_CONNECTION_ERROR_CONNECTION_SETTING_NOT_FOUND
+} NMConnectionError;
+</pre>
+<p>
+Describes errors that may result from operations involving a <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><a name="NM-CONNECTION-ERROR-UNKNOWN:CAPS"></a><code class="literal">NM_CONNECTION_ERROR_UNKNOWN</code></span></p></td>
+<td> unknown or unclassified error
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a name="NM-CONNECTION-ERROR-CONNECTION-SETTING-NOT-FOUND:CAPS"></a><code class="literal">NM_CONNECTION_ERROR_CONNECTION_SETTING_NOT_FOUND</code></span></p></td>
+<td> the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a> object
+  did not contain the required <a class="link" href="NMSettingConnection.html" title="NMSettingConnection"><span class="type">NMSettingConnection</span></a> object, which must be
+  present for all connections
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2736607"></a><h3>
+<a name="NM-TYPE-CONNECTION-ERROR:CAPS"></a>NM_TYPE_CONNECTION_ERROR</h3>
+<a class="indexterm" name="id2736620"></a><pre class="programlisting">#define NM_TYPE_CONNECTION_ERROR (nm_connection_error_get_type ()) 
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2736637"></a><h3>
+<a name="NM-CONNECTION-ERROR:CAPS"></a>NM_CONNECTION_ERROR</h3>
+<a class="indexterm" name="id2736648"></a><pre class="programlisting">#define NM_CONNECTION_ERROR nm_connection_error_quark ()
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2736665"></a><h3>
+<a name="nm-connection-error-quark"></a>nm_connection_error_quark ()</h3>
+<a class="indexterm" name="id2736676"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+>GQuark</a>              nm_connection_error_quark           (void);</pre>
+<p>
+Registers an error quark for <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a> if necessary.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the error quark used for <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a> errors.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2736731"></a><h3>
+<a name="NM-CONNECTION-SCOPE:CAPS"></a>NM_CONNECTION_SCOPE</h3>
+<a class="indexterm" name="id2736742"></a><pre class="programlisting">#define NM_CONNECTION_SCOPE "scope"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2736758"></a><h3>
+<a name="NM-CONNECTION-PATH:CAPS"></a>NM_CONNECTION_PATH</h3>
+<a class="indexterm" name="id2736769"></a><pre class="programlisting">#define NM_CONNECTION_PATH "path"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2736786"></a><h3>
+<a name="NMConnection-struct"></a>NMConnection</h3>
+<a class="indexterm" name="id2736798"></a><pre class="programlisting">typedef struct _NMConnection NMConnection;</pre>
+<p>
+The NMConnection struct contains only private data.
+It should only be accessed through the functions described below.</p>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2736819"></a><h3>
+<a name="nm-connection-get-type"></a>nm_connection_get_type ()</h3>
+<a class="indexterm" name="id2736830"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a>               nm_connection_get_type              (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2736866"></a><h3>
+<a name="nm-connection-new"></a>nm_connection_new ()</h3>
+<a class="indexterm" name="id2736879"></a><pre class="programlisting"><a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a>*       nm_connection_new                   (void);</pre>
+<p>
+Creates a new <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a> object with no <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a> objects.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the new empty <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a> object
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2736941"></a><h3>
+<a name="nm-connection-new-from-hash"></a>nm_connection_new_from_hash ()</h3>
+<a class="indexterm" name="id2736953"></a><pre class="programlisting"><a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a>*       nm_connection_new_from_hash         (<a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+>GHashTable</a> *hash,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **error);</pre>
+<p>
+Creates a new <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a> from a hash table describing the connection.  See
+<a class="link" href="NMConnection.html#nm-connection-to-hash"><code class="function">nm_connection_to_hash()</code></a> for a description of the expected hash table.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>hash</code></em>&#160;:</span></p></td>
+<td> the <a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+><span class="type">GHashTable</span></a> describing the connection
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the new <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a> object, populated with settings created
+from the values in the hash table, or NULL if the connection failed to
+validate
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2737068"></a><h3>
+<a name="nm-connection-duplicate"></a>nm_connection_duplicate ()</h3>
+<a class="indexterm" name="id2737079"></a><pre class="programlisting"><a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a>*       nm_connection_duplicate             (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection);</pre>
+<p>
+Duplicates a <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a> to duplicate
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> a new <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a> containing the same settings and properties
+as the source <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2737170"></a><h3>
+<a name="nm-connection-add-setting"></a>nm_connection_add_setting ()</h3>
+<a class="indexterm" name="id2737182"></a><pre class="programlisting">void                nm_connection_add_setting           (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         <a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a> *setting);</pre>
+<p>
+Adds a <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a> to the connection, replacing any previous <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a> of the
+same name which has previously been added to the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>.  The
+connection takes ownership of the <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a> object and does not increase
+the setting object's reference count.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> a <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td> the <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a> to add to the connection object
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2737298"></a><h3>
+<a name="nm-connection-remove-setting"></a>nm_connection_remove_setting ()</h3>
+<a class="indexterm" name="id2737311"></a><pre class="programlisting">void                nm_connection_remove_setting        (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a> setting_type);</pre>
+<p>
+Removes the <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a> with the given <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+><span class="type">GType</span></a> from the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>.  This
+operation dereferences the <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a> object.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> a <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting_type</code></em>&#160;:</span></p></td>
+<td> the <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+><span class="type">GType</span></a> of the setting object to remove
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2737427"></a><h3>
+<a name="nm-connection-get-setting"></a>nm_connection_get_setting ()</h3>
+<a class="indexterm" name="id2737439"></a><pre class="programlisting"><a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          nm_connection_get_setting           (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a> setting_type);</pre>
+<p>
+Gets the <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a> with the given <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+><span class="type">GType</span></a>, if one has been previously added
+to the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> a <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting_type</code></em>&#160;:</span></p></td>
+<td> the <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+><span class="type">GType</span></a> of the setting object to return
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a>, or NULL if no setting of that type was previously
+added to the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2737572"></a><h3>
+<a name="nm-connection-get-setting-by-name"></a>nm_connection_get_setting_by_name ()</h3>
+<a class="indexterm" name="id2737585"></a><pre class="programlisting"><a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          nm_connection_get_setting_by_name   (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         const char *name);</pre>
+<p>
+Gets the <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a> with the given name, if one has been previously added
+the the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> a <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em>&#160;:</span></p></td>
+<td> a setting name
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a>, or NULL if no setting with that name was previously
+added to the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2737705"></a><h3>
+<a name="nm-connection-replace-settings"></a>nm_connection_replace_settings ()</h3>
+<a class="indexterm" name="id2737718"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_connection_replace_settings      (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+>GHashTable</a> *new_settings,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **error);</pre>
+<p>
+</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> a <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>new_settings</code></em>&#160;:</span></p></td>
+<td> a <a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+><span class="type">GHashTable</span></a> of settings
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em>&#160;:</span></p></td>
+<td> location to store error, or <a
+href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"
+><code class="literal">NULL</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"
+><code class="literal">TRUE</code></a> if the settings were valid and added to the connection, <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"
+><code class="literal">FALSE</code></a>
+if they were not
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2737866"></a><h3>
+<a name="nm-connection-compare"></a>nm_connection_compare ()</h3>
+<a class="indexterm" name="id2737877"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_connection_compare               (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *a,
+                                                         <a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *b,
+                                                         <a class="link" href="NMSetting.html#NMSettingCompareFlags">NMSettingCompareFlags</a> flags);</pre>
+<p>
+Compares two <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a> objects for similarity, with comparison behavior
+modified by a set of flags.  See <a class="link" href="NMSetting.html#nm-setting-compare"><code class="function">nm_setting_compare()</code></a> for a description of
+each flag's behavior.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>a</code></em>&#160;:</span></p></td>
+<td> a <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>b</code></em>&#160;:</span></p></td>
+<td> a second <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a> to compare with the first
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>flags</code></em>&#160;:</span></p></td>
+<td> compare flags, e.g. <a class="link" href="NMSetting.html#NM-SETTING-COMPARE-FLAG-EXACT:CAPS"><code class="literal">NM_SETTING_COMPARE_FLAG_EXACT</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"
+><code class="literal">TRUE</code></a> if the comparison succeeds, <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"
+><code class="literal">FALSE</code></a> if it does not
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2738040"></a><h3>
+<a name="nm-connection-verify"></a>nm_connection_verify ()</h3>
+<a class="indexterm" name="id2738052"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_connection_verify                (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **error);</pre>
+<p>
+Validates the connection and all its settings.  Each setting's properties
+have allowed values, and some values are dependent on other values.  For
+example, if a WiFi connection is security enabled, the <a class="link" href="NMSettingWireless.html" title="NMSettingWireless"><span class="type">NMSettingWireless</span></a>
+setting object's 'security' property must contain the setting name of the
+<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity"><span class="type">NMSettingWirelessSecurity</span></a> object, which must also be present in the 
+connection for the connection to be valid.  As another example, the
+<a class="link" href="NMSettingWired.html" title="NMSettingWired"><span class="type">NMSettingWired</span></a> object's 'mac-address' property must be a validly formatted
+MAC address.  The returned <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+><span class="type">GError</span></a> contains information about which
+setting and which property failed validation, and how it failed validation.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a> to verify
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em>&#160;:</span></p></td>
+<td> location to store error, or <a
+href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"
+><code class="literal">NULL</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"
+><code class="literal">TRUE</code></a> if the connection is valid, <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"
+><code class="literal">FALSE</code></a> if it is not
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2738207"></a><h3>
+<a name="nm-connection-need-secrets"></a>nm_connection_need_secrets ()</h3>
+<a class="indexterm" name="id2738219"></a><pre class="programlisting">const char*         nm_connection_need_secrets          (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Pointer-Arrays.html#GPtrArray"
+>GPtrArray</a> **hints);</pre>
+<p>
+Returns the name of the first setting object in the connection which would
+need secrets to make a successful connection.  The returned hints are only
+intended as a guide to what secrets may be required, because in some
+circumstances, there is no way to conclusively determine exactly which
+secrets are needed.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>hints</code></em>&#160;:</span></p></td>
+<td> the address of a pointer to a <a
+href="/usr/share/gtk-doc/html/glib/glib-Pointer-Arrays.html#GPtrArray"
+><span class="type">GPtrArray</span></a>, initialized to NULL, which
+on return points to an allocated <a
+href="/usr/share/gtk-doc/html/glib/glib-Pointer-Arrays.html#GPtrArray"
+><span class="type">GPtrArray</span></a> containing the property names of
+secrets of the <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a> which may be required; the caller owns the array
+and must free the each array element with <a
+href="/usr/share/gtk-doc/html/glib/glib-Memory-Allocation.html#g-free"
+><code class="function">g_free()</code></a>, as well as the array
+itself with <a
+href="/usr/share/gtk-doc/html/glib/glib-Pointer-Arrays.html#g-ptr-array-free"
+><code class="function">g_ptr_array_free()</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the setting name of the <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a> object which has invalid or
+missing secrets
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2740816"></a><h3>
+<a name="nm-connection-clear-secrets"></a>nm_connection_clear_secrets ()</h3>
+<a class="indexterm" name="id2740826"></a><pre class="programlisting">void                nm_connection_clear_secrets         (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection);</pre>
+<p>
+Clears and frees any secrets that may be stored in the connection, to avoid
+keeping secret data in memory when not needed.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2740879"></a><h3>
+<a name="nm-connection-update-secrets"></a>nm_connection_update_secrets ()</h3>
+<a class="indexterm" name="id2740889"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_connection_update_secrets        (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         const char *setting_name,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+>GHashTable</a> *secrets,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **error);</pre>
+<p>
+Update the specified setting's secrets, given a hash table of secrets
+intended for that setting (deserialized from D-Bus for example).</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting_name</code></em>&#160;:</span></p></td>
+<td> the setting object name to which the secrets apply
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>secrets</code></em>&#160;:</span></p></td>
+<td> a <a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+><span class="type">GHashTable</span></a> mapping string:<a
+href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"
+><span class="type">GValue</span></a> of setting property names and
+secrets
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em>&#160;:</span></p></td>
+<td> location to store error, or <a
+href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"
+><code class="literal">NULL</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"
+><code class="literal">TRUE</code></a> if the secrets were successfully updated and the connection
+is valid, <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"
+><code class="literal">FALSE</code></a> on failure or if the setting was never added to the connection
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2741050"></a><h3>
+<a name="nm-connection-set-scope"></a>nm_connection_set_scope ()</h3>
+<a class="indexterm" name="id2741060"></a><pre class="programlisting">void                nm_connection_set_scope             (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         <a class="link" href="NMConnection.html#NMConnectionScope">NMConnectionScope</a> scope);</pre>
+<p>
+Sets the scope of the connection.  This property is not serialized, and is
+only for the reference of the caller.  A connection may have no scope
+(internal, temporary connections), "system" scope (provided by the system
+settings service), or "user" scope, provided by a user settings service.  The
+creator of the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a> object is responsible for setting the
+connection's scope if needed.  Sets the <a class="link" href="NMConnection.html#NMConnection--scope"><span class="type">"scope"</span></a> property.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>scope</code></em>&#160;:</span></p></td>
+<td> the scope of the connection
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2741150"></a><h3>
+<a name="nm-connection-get-scope"></a>nm_connection_get_scope ()</h3>
+<a class="indexterm" name="id2741160"></a><pre class="programlisting"><a class="link" href="NMConnection.html#NMConnectionScope">NMConnectionScope</a>   nm_connection_get_scope             (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection);</pre>
+<p>
+Returns the connection scope.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the scope of the connection, previously set by a call to
+<a class="link" href="NMConnection.html#nm-connection-set-scope"><code class="function">nm_connection_set_scope()</code></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2741230"></a><h3>
+<a name="nm-connection-set-path"></a>nm_connection_set_path ()</h3>
+<a class="indexterm" name="id2741240"></a><pre class="programlisting">void                nm_connection_set_path              (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         const char *path);</pre>
+<p>
+Sets the D-Bus path of the connection.  This property is not serialized, and
+is only for the reference of the caller.  Sets the <a class="link" href="NMConnection.html#NMConnection--path"><span class="type">"path"</span></a>
+property.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>path</code></em>&#160;:</span></p></td>
+<td> the D-Bus path of the connection as given by the settings service
+which provides the connection
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2741320"></a><h3>
+<a name="nm-connection-get-path"></a>nm_connection_get_path ()</h3>
+<a class="indexterm" name="id2741330"></a><pre class="programlisting">const char*         nm_connection_get_path              (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection);</pre>
+<p>
+Returns the connection's D-Bus path.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the D-Bus path of the connection, previously set by a call to
+<a class="link" href="NMConnection.html#nm-connection-set-path"><code class="function">nm_connection_set_path()</code></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2741402"></a><h3>
+<a name="nm-connection-for-each-setting-value"></a>nm_connection_for_each_setting_value ()</h3>
+<a class="indexterm" name="id2741414"></a><pre class="programlisting">void                nm_connection_for_each_setting_value
+                                                        (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                         <a class="link" href="NMSetting.html#NMSettingValueIterFn">NMSettingValueIterFn</a> func,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+>gpointer</a> user_data);</pre>
+<p>
+Iterates over the properties of each <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a> object in the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>,
+calling the supplied user function for each property.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>func</code></em>&#160;:</span></p></td>
+<td> user-supplied function called for each setting's property
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em>&#160;:</span></p></td>
+<td> user data passed to <em class="parameter"><code>func</code></em> at each invocation
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2741525"></a><h3>
+<a name="nm-connection-to-hash"></a>nm_connection_to_hash ()</h3>
+<a class="indexterm" name="id2741536"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+>GHashTable</a>*         nm_connection_to_hash               (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection);</pre>
+<p>
+Converts the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a> into a <a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+><span class="type">GHashTable</span></a> describing the connection,
+suitable for marshalling over D-Bus or serializing.  The hash table mapping
+is string:<a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+><span class="type">GHashTable</span></a> with each element in the returned hash representing
+a <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a> object.  The keys are setting object names, and the values
+are <span class="type">GHashTables</span> mapping string:GValue, each of which represents the
+properties of the <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a> object.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> a new <a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+><span class="type">GHashTable</span></a> describing the connection, its settings, and
+each setting's properties.  The caller owns the hash table and must unref
+the hash table with <a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#g-hash-table-unref"
+><code class="function">g_hash_table_unref()</code></a> when it is no longer needed.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2741656"></a><h3>
+<a name="nm-connection-dump"></a>nm_connection_dump ()</h3>
+<a class="indexterm" name="id2741667"></a><pre class="programlisting">void                nm_connection_dump                  (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection);</pre>
+<p>
+Print the connection to stdout.  For debugging purposes ONLY, should NOT
+be used for serialization of the connection or machine-parsed in any way. The
+output format is not guaranteed to be stable and may change at any time.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> the <a class="link" href="NMConnection.html" title="NMConnection"><span class="type">NMConnection</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2741721"></a><h3>
+<a name="nm-connection-create-setting"></a>nm_connection_create_setting ()</h3>
+<a class="indexterm" name="id2741733"></a><pre class="programlisting"><a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          nm_connection_create_setting        (const char *name);</pre>
+<p>
+Create a new <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a> object of the desired type, given a setting name.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em>&#160;:</span></p></td>
+<td> a setting name
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the new setting object, or NULL if the setting name was unknown
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2741796"></a><h3>
+<a name="nm-connection-lookup-setting-type"></a>nm_connection_lookup_setting_type ()</h3>
+<a class="indexterm" name="id2741809"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a>               nm_connection_lookup_setting_type   (const char *name);</pre>
+<p>
+Returns the <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+><span class="type">GType</span></a> of the setting's class for a given setting name.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em>&#160;:</span></p></td>
+<td> a setting name
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+><span class="type">GType</span></a> of the setting's class
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2741876"></a><h3>
+<a name="nm-connection-lookup-setting-type-by-quark"></a>nm_connection_lookup_setting_type_by_quark ()</h3>
+<a class="indexterm" name="id2741890"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a>               nm_connection_lookup_setting_type_by_quark
+                                                        (<a
+href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+>GQuark</a> error_quark);</pre>
+<p>
+Returns the <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+><span class="type">GType</span></a> of the setting's class for a given setting error quark.
+Useful for figuring out which setting a returned error is for.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error_quark</code></em>&#160;:</span></p></td>
+<td> a setting error quark
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+><span class="type">GType</span></a> of the setting's class
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2741960"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2741970"></a><h3>
+<a name="NMConnection--path"></a>The <code class="literal">"path"</code> property</h3>
+<a class="indexterm" name="id2741982"></a><pre class="programlisting">  "path"                     <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write</pre>
+<p>
+The connection's D-Bus path, used only by the calling process as a record
+of the D-Bus path of the connection as provided by a settings service.</p>
+<p>
+
+</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2742010"></a><h3>
+<a name="NMConnection--scope"></a>The <code class="literal">"scope"</code> property</h3>
+<a class="indexterm" name="id2742023"></a><pre class="programlisting">  "scope"                    <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write</pre>
+<p>
+The connection's scope, used only by the calling process as a record
+of which settings service the connection is provided by.  One of the
+NM_CONNECTION_SCOPE_* defines.</p>
+<p>
+
+</p>
+<p>Allowed values: &lt;= 2</p>
+<p>Default value: 0</p>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2742057"></a><h2>Signal Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2742066"></a><h3>
+<a name="NMConnection-secrets-updated"></a>The <code class="literal">"secrets-updated"</code> signal</h3>
+<a class="indexterm" name="id2742081"></a><pre class="programlisting">void                user_function                      (<a class="link" href="NMConnection.html" title="NMConnection">NMConnection</a> *connection,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>        *setting_name,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>      user_data)         : Run First</pre>
+<p>
+The ::secrets-updated signal is emitted when the secrets of a setting
+have been changed.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> the object on which the signal is emitted
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting_name</code></em>&#160;:</span></p></td>
+<td> the setting name of the <a class="link" href="NMSetting.html" title="NMSetting"><span class="type">NMSetting</span></a> for which secrets were
+updated
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em>&#160;:</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2742175"></a><div class="refsect2" lang="en"><a name="id2742176"></a></div>
+<hr>
+<div class="refsect2" lang="en"><a name="id2742178"></a></div>
+</div>
+</div>
+</body>
+</html>

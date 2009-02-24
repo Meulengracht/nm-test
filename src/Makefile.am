@@ -1,44 +1,76 @@
-SUBDIRS=named-manager vpn-manager dhcp-manager backends
+SUBDIRS= \
+	named-manager \
+	vpn-manager \
+	dhcp-manager \
+	supplicant-manager \
+	ppp-manager \
+	backends \
+	dnsmasq-manager \
+	. \
+	tests
 
 INCLUDES = -I${top_srcdir}                   \
            -I${top_srcdir}/include           \
+           -I${top_builddir}/marshallers   \
            -I${top_srcdir}/src/named-manager \
            -I${top_srcdir}/src/vpn-manager   \
            -I${top_srcdir}/src/dhcp-manager  \
-           -I${top_srcdir}/utils			\
-           -I${top_srcdir}/libnm-util
+           -I${top_srcdir}/src/supplicant-manager  \
+           -I${top_srcdir}/src/dnsmasq-manager  \
+           -I${top_srcdir}/libnm-util \
+           -I${top_srcdir}/callouts
+
+###########################################
+# DHCP test library
+###########################################
+
+noinst_LTLIBRARIES = libtest-dhcp.la
+
+libtest_dhcp_la_SOURCES = \
+	nm-ip4-config.c \
+	nm-dbus-manager.c
+
+libtest_dhcp_la_CPPFLAGS = \
+	$(GLIB_CFLAGS) \
+	$(DBUS_CFLAGS) \
+	$(LIBNL_CFLAGS)
+
+libtest_dhcp_la_LIBADD = \
+	$(GLIB_LIBS) \
+	$(DBUS_LIBS) \
+	$(LIBNL_LIBS) \
+	$(top_builddir)/libnm-util/libnm-util.la
+
+
+###########################################
+# NetworkManager
+###########################################
 
 sbin_PROGRAMS = NetworkManager
 
 NetworkManager_SOURCES =				\
+		nm-call-store.c				\
+		nm-call-store.h				\
 		nm-device.c				\
 		nm-device.h				\
+		nm-device-interface.c			\
+		nm-device-interface.h			\
 		nm-device-private.h			\
-		nm-device-802-3-ethernet.c	\
-		nm-device-802-3-ethernet.h	\
-		nm-device-802-11-wireless.c	\
-		nm-device-802-11-wireless.h	\
+		nm-device-ethernet.c	\
+		nm-device-ethernet.h	\
+		nm-device-wifi.c	\
+		nm-device-wifi.h	\
 		NetworkManagerAP.c			\
 		NetworkManagerAP.h			\
-		NetworkManagerAPList.c		\
-		NetworkManagerAPList.h		\
-		NetworkManagerDbus.c		\
-		NetworkManagerDbus.h		\
-		NetworkManagerDbusUtils.c	\
-		NetworkManagerDialup.h		\
-		NetworkManagerDbusUtils.h	\
-		nm-dbus-nm.c				\
-		nm-dbus-nm.h				\
-		nm-dbus-device.c			\
-		nm-dbus-device.h			\
-		nm-dbus-net.c				\
-		nm-dbus-net.h				\
-		nm-dbus-nmi.c				\
-		nm-dbus-nmi.h				\
+		nm-dbus-manager.h			\
+		nm-dbus-manager.c			\
+		nm-hal-manager.c			\
+		nm-hal-manager.h			\
 		nm-ip4-config.c			\
 		nm-ip4-config.h			\
+		nm-active-connection.h \
+		nm-active-connection.c \
 		NetworkManager.c			\
-		NetworkManagerMain.h		\
 		NetworkManagerPolicy.c		\
 		NetworkManagerPolicy.h		\
 		NetworkManagerUtils.c		\
@@ -47,98 +79,123 @@ NetworkManager_SOURCES =				\
 		NetworkManagerSystem.h		\
 		nm-logging.c				\
 		nm-logging.h				\
+		nm-manager.c				\
+		nm-manager.h				\
 		nm-netlink-monitor.c		\
 		nm-netlink-monitor.h		\
 		nm-activation-request.c		\
 		nm-activation-request.h		\
-		autoip.c					\
-		autoip.h					\
-		nm-ap-security.c			\
-		nm-ap-security.h			\
-		nm-ap-security-private.h		\
-		nm-ap-security-wep.c		\
-		nm-ap-security-wep.h		\
-		nm-ap-security-wpa-eap.c		\
-		nm-ap-security-wpa-eap.h		\
-		nm-ap-security-wpa-psk.c		\
-		nm-ap-security-wpa-psk.h		\
-		nm-ap-security-leap.c   		\
-		nm-ap-security-leap.h   		\
-		nm-supplicant.h				\
-		nm-supplicant.c				\
-		nm-wired-network.c			\
-		nm-wired-network.h			\
-		nm-marshal-main.c			\
-		kernel-types.h				\
-		wpa.c					\
-		wpa.h					\
-		wpa_ctrl.c				\
-		wpa_ctrl.h
+		nm-properties-changed-signal.c	\
+		nm-properties-changed-signal.h	\
+		nm-serial-device.c		\
+		nm-serial-device.h		\
+		nm-gsm-device.c		\
+		nm-gsm-device.h		\
+		nm-cdma-device.c		\
+		nm-cdma-device.h		\
+		nm-hso-gsm-device.c \
+		nm-hso-gsm-device.h \
+		wpa.c				\
+		wpa.h				\
+		nm-netlink.c			\
+		nm-netlink.h \
+		nm-dhcp4-config.c \
+		nm-dhcp4-config.h
 
-nm-marshal.h: Makefile.am nm-marshal.list
-	$(GLIB_GENMARSHAL) --prefix=nm_marshal $(srcdir)/nm-marshal.list --header > xgen-gmh \
-	&& (cmp -s xgen-gmh nm-marshal.h || cp xgen-gmh nm-marshal.h) \
-	&& rm -f xgen-gmh xgen-gmh~
+nm-access-point-glue.h: $(top_srcdir)/introspection/nm-access-point.xml
+	dbus-binding-tool --prefix=nm_access_point --mode=glib-server --output=$@ $<
 
-nm-marshal.c: Makefile.am nm-marshal.list
-	$(GLIB_GENMARSHAL) --prefix=nm_marshal $(srcdir)/nm-marshal.list --body > xgen-gmc \
-	&& cp xgen-gmc nm-marshal.c \
-	&& rm -f xgen-gmc xgen-gmc~
+nm-manager-glue.h: $(top_srcdir)/introspection/nm-manager.xml
+	dbus-binding-tool --prefix=nm_manager --mode=glib-server --output=$@ $<
 
-nm-marshal-main.c: nm-marshal.c nm-marshal.h
+nm-device-interface-glue.h: $(top_srcdir)/introspection/nm-device.xml
+	dbus-binding-tool --prefix=nm_device_interface --mode=glib-server --output=$@ $<
 
-built_sources = 					\
-	nm-marshal.h					\
-	nm-marshal.c					\
-	$(NULL)
+nm-device-ethernet-glue.h: $(top_srcdir)/introspection/nm-device-ethernet.xml
+	dbus-binding-tool --prefix=nm_device_ethernet --mode=glib-server --output=$@ $<
 
-$(NetworkManager_OBJECTS): $(built_sources)
+nm-device-wifi-glue.h: $(top_srcdir)/introspection/nm-device-wifi.xml
+	dbus-binding-tool --prefix=nm_device_wifi --mode=glib-server --output=$@ $<
 
-NetworkManager_CPPFLAGS = 							\
-	$(DBUS_CFLAGS)									\
-	$(GTHREAD_CFLAGS)								\
-	$(HAL_CFLAGS)									\
-	$(OPENSSL_CFLAGS)								\
-	$(LIBNL_CFLAGS)								\
-	-DWPA_SUPPLICANT_BIN=\"$(WPA_SUPPLICANT_BINARY_PATH)\"	\
-	-DDBUS_API_SUBJECT_TO_CHANGE						\
-	-DG_DISABLE_DEPRECATED							\
-	-DBINDIR=\"$(bindir)\"							\
-	-DSBINDIR=\"$(sbindir)\"							\
-	-DLIBEXECDIR=\"$(libexecdir)\"					\
-	-DDATADIR=\"$(datadir)\"							\
-	-DSYSCONFDIR=\"$(sysconfdir)\"					\
-	-DLOCALSTATEDIR=\"$(localstatedir)\"				\
-	-DNM_RUN_DIR=\"$(rundir)\"						\
-	-DGNOMELOCALEDIR=\"$(datadir)/locale\"				\
+nm-serial-device-glue.h: $(top_srcdir)/introspection/nm-device-serial.xml
+	dbus-binding-tool --prefix=nm_serial_device --mode=glib-server --output=$@ $<
+
+nm-cdma-device-glue.h: $(top_srcdir)/introspection/nm-device-cdma.xml
+	dbus-binding-tool --prefix=nm_cdma_device --mode=glib-server --output=$@ $<
+
+nm-gsm-device-glue.h: $(top_srcdir)/introspection/nm-device-gsm.xml
+	dbus-binding-tool --prefix=nm_gsm_device --mode=glib-server --output=$@ $<
+
+nm-ip4-config-glue.h: $(top_srcdir)/introspection/nm-ip4-config.xml
+	dbus-binding-tool --prefix=nm_ip4_config --mode=glib-server --output=$@ $<
+
+nm-active-connection-glue.h: $(top_srcdir)/introspection/nm-active-connection.xml
+	dbus-binding-tool --prefix=nm_active_connection --mode=glib-server --output=$@ $<
+
+nm-dhcp4-config-glue.h: $(top_srcdir)/introspection/nm-dhcp4-config.xml
+	dbus-binding-tool --prefix=nm_dhcp4_config --mode=glib-server --output=$@ $<
+
+BUILT_SOURCES = 					\
+	nm-access-point-glue.h				\
+	nm-manager-glue.h				\
+	nm-device-interface-glue.h			\
+	nm-device-ethernet-glue.h			\
+	nm-device-wifi-glue.h		\
+	nm-serial-device-glue.h \
+	nm-cdma-device-glue.h \
+	nm-gsm-device-glue.h \
+	nm-ip4-config-glue.h				\
+	nm-active-connection-glue.h \
+	nm-dhcp4-config-glue.h
+
+NetworkManager_CPPFLAGS = \
+	$(DBUS_CFLAGS) \
+	$(GLIB_CFLAGS) \
+	$(HAL_CFLAGS) \
+	$(OPENSSL_CFLAGS) \
+	$(LIBNL_CFLAGS) \
+	$(LIBUDEV_CFLAGS) \
+	-DDBUS_API_SUBJECT_TO_CHANGE \
+	-DG_DISABLE_DEPRECATED \
+	-DBINDIR=\"$(bindir)\" \
+	-DSBINDIR=\"$(sbindir)\" \
+	-DLIBEXECDIR=\"$(libexecdir)\" \
+	-DDATADIR=\"$(datadir)\" \
+	-DSYSCONFDIR=\"$(sysconfdir)\" \
+	-DLOCALSTATEDIR=\"$(localstatedir)\" \
+	-DNM_RUN_DIR=\"$(rundir)\" \
+	-DNMLOCALEDIR=\"$(datadir)/locale\" \
 	-DARP_DEBUG
 
-NetworkManager_LDADD = 							\
-			$(DBUS_LIBS)						\
-			$(GTHREAD_LIBS)					\
-			$(HAL_LIBS)						\
-			$(IWLIB)							\
-			$(LIBNL_LIBS)						\
-			$(top_builddir)/utils/libnmutils.la	\
-			./named-manager/libnamed-manager.la	\
-			./vpn-manager/libvpn-manager.la		\
-			./dhcp-manager/libdhcp-manager.la		\
-			./backends/libnmbackend.la			\
-			$(top_builddir)/libnm-util/libnm-util.la
+NetworkManager_LDADD = \
+	$(DBUS_LIBS) \
+	$(GLIB_LIBS) \
+	$(HAL_LIBS) \
+	$(LIBNL_LIBS) \
+	$(LIBUDEV_LIBS) \
+	$(top_builddir)/marshallers/libmarshallers.la \
+	./named-manager/libnamed-manager.la \
+	./vpn-manager/libvpn-manager.la \
+	./dhcp-manager/libdhcp-manager.la \
+	./supplicant-manager/libsupplicant-manager.la \
+	./dnsmasq-manager/libdnsmasq-manager.la \
+	./ppp-manager/libppp-manager.la \
+	./backends/libnmbackend.la \
+	$(top_builddir)/libnm-util/libnm-util.la
 
 NetworkManager_LDFLAGS = -rdynamic
 
 libexec_PROGRAMS = nm-crash-logger
 nm_crash_logger_SOURCES = nm-crash-logger.c
 nm_crash_logger_CPPFLAGS = \
-	$(GTHREAD_CFLAGS)								\
+	$(GLIB_CFLAGS)								\
 	-DG_DISABLE_DEPRECATED							\
 	-DBINDIR=\"$(bindir)\"							\
 	-DSBINDIR=\"$(sbindir)\"							\
 	-DDATADIR=\"$(datadir)\"							\
 	-DSYSCONFDIR=\"$(sysconfdir)\"					\
 	-DLOCALSTATEDIR=\"$(localstatedir)\"
-nm_crash_logger_LDADD = $(GTHREAD_LIBS)
+nm_crash_logger_LDADD = $(GLIB_LIBS)
 
 
 NetworkManagerdir = $(datadir)/NetworkManager
@@ -149,14 +206,11 @@ dbusservice_DATA = NetworkManager.conf
 
 EXTRA_DIST = \
 	$(dbusservice_DATA) \
-	$(NetworkManager_DATA) \
-	nm-marshal.list
+	$(NetworkManager_DATA)
 
 rundir=$(localstatedir)/run/NetworkManager
-dispatcherdir=$(sysconfdir)/NetworkManager/dispatcher.d
 install-data-hook:
-	   $(mkinstalldirs) -m 0700 $(DESTDIR)$(rundir)
-	   $(mkinstalldirs) -m 0755 $(DESTDIR)$(dispatcherdir)
+	$(mkinstalldirs) -m 0700 $(DESTDIR)$(rundir)
 
-CLEANFILES = $(built_sources)
+CLEANFILES = $(BUILT_SOURCES)
 

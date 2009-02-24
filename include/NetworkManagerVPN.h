@@ -12,9 +12,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  * (C) Copyright 2004 Red Hat, Inc.
  */
@@ -25,9 +25,14 @@
 /*
  * dbus services details
  */
-#define	NM_DBUS_PATH_VPN			"/org/freedesktop/NetworkManager/VPNConnections"
-#define	NM_DBUS_INTERFACE_VPN		"org.freedesktop.NetworkManager.VPNConnections"
+#define	NM_DBUS_PATH_VPN                  "/org/freedesktop/NetworkManager/VPN/Manager"
+#define	NM_DBUS_INTERFACE_VPN             "org.freedesktop.NetworkManager.VPN.Manager"
 
+#define	NM_DBUS_PATH_VPN_CONNECTION       "/org/freedesktop/NetworkManager/VPN/Connection"
+#define	NM_DBUS_INTERFACE_VPN_CONNECTION  "org.freedesktop.NetworkManager.VPN.Connection"
+
+#define NM_VPN_DBUS_PLUGIN_PATH           "/org/freedesktop/NetworkManager/VPN/Plugin"
+#define NM_VPN_DBUS_PLUGIN_INTERFACE      "org.freedesktop.NetworkManager.VPN.Plugin"
 
 /*
  * VPN Errors
@@ -42,7 +47,6 @@
 #define NM_DBUS_VPN_ALREADY_STOPPED		"AlreadyStopped"
 #define NM_DBUS_VPN_WRONG_STATE			"WrongState"
 #define NM_DBUS_VPN_BAD_ARGUMENTS			"BadArguments"
-#define NM_DBUS_VPN_LAUNCH_FAILED			"LaunchFailed"
 
 
 /*
@@ -60,32 +64,72 @@
 /*
  * VPN daemon states
  */
-typedef enum NMVPNState
+typedef enum NMVPNServiceState
 {
-	NM_VPN_STATE_UNKNOWN = 0,
-	NM_VPN_STATE_INIT,
-	NM_VPN_STATE_SHUTDOWN,
-	NM_VPN_STATE_STARTING,
-	NM_VPN_STATE_STARTED,
-	NM_VPN_STATE_STOPPING,
-	NM_VPN_STATE_STOPPED
-} NMVPNState;
+	NM_VPN_SERVICE_STATE_UNKNOWN = 0,
+	NM_VPN_SERVICE_STATE_INIT,
+	NM_VPN_SERVICE_STATE_SHUTDOWN,
+	NM_VPN_SERVICE_STATE_STARTING,
+	NM_VPN_SERVICE_STATE_STARTED,
+	NM_VPN_SERVICE_STATE_STOPPING,
+	NM_VPN_SERVICE_STATE_STOPPED
+} NMVPNServiceState;
 
 
 /*
- * VPN connection activation stages
+ * VPN connection states
  */
-typedef enum NMVPNActStage
+typedef enum NMVPNConnectionState
 {
-	NM_VPN_ACT_STAGE_UNKNOWN = 0,
-	NM_VPN_ACT_STAGE_DISCONNECTED,
-	NM_VPN_ACT_STAGE_PREPARE,
-	NM_VPN_ACT_STAGE_CONNECT,
-	NM_VPN_ACT_STAGE_IP_CONFIG_GET,
-	NM_VPN_ACT_STAGE_ACTIVATED,
-	NM_VPN_ACT_STAGE_FAILED,
-	NM_VPN_ACT_STAGE_CANCELED
-} NMVPNActStage;
+	NM_VPN_CONNECTION_STATE_UNKNOWN = 0,
+	NM_VPN_CONNECTION_STATE_PREPARE,
+	NM_VPN_CONNECTION_STATE_NEED_AUTH,
+	NM_VPN_CONNECTION_STATE_CONNECT,
+	NM_VPN_CONNECTION_STATE_IP_CONFIG_GET,
+	NM_VPN_CONNECTION_STATE_ACTIVATED,
+	NM_VPN_CONNECTION_STATE_FAILED,
+	NM_VPN_CONNECTION_STATE_DISCONNECTED
+} NMVPNConnectionState;
+
+typedef enum NMVPNConnectionStateReason
+{
+	NM_VPN_CONNECTION_STATE_REASON_UNKNOWN = 0,
+	NM_VPN_CONNECTION_STATE_REASON_NONE,
+	NM_VPN_CONNECTION_STATE_REASON_USER_DISCONNECTED,
+	NM_VPN_CONNECTION_STATE_REASON_DEVICE_DISCONNECTED,
+	NM_VPN_CONNECTION_STATE_REASON_SERVICE_STOPPED,
+	NM_VPN_CONNECTION_STATE_REASON_IP_CONFIG_INVALID,
+	NM_VPN_CONNECTION_STATE_REASON_CONNECT_TIMEOUT,
+	NM_VPN_CONNECTION_STATE_REASON_SERVICE_START_TIMEOUT,
+	NM_VPN_CONNECTION_STATE_REASON_SERVICE_START_FAILED,
+	NM_VPN_CONNECTION_STATE_REASON_NO_SECRETS,
+	NM_VPN_CONNECTION_STATE_REASON_LOGIN_FAILED,
+	NM_VPN_CONNECTION_STATE_REASON_CONNECTION_REMOVED
+} NMVPNConnectionStateReason;
+
+typedef enum {
+	NM_VPN_PLUGIN_FAILURE_LOGIN_FAILED,
+	NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED,
+	NM_VPN_PLUGIN_FAILURE_BAD_IP_CONFIG
+} NMVPNPluginFailure;
+
+
+#define NM_VPN_PLUGIN_IP4_CONFIG_EXT_GATEWAY "gateway"
+#define NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY "internal-gateway"
+#define NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS     "address"
+#define NM_VPN_PLUGIN_IP4_CONFIG_PTP         "ptp"
+#define NM_VPN_PLUGIN_IP4_CONFIG_PREFIX      "prefix"
+#define NM_VPN_PLUGIN_IP4_CONFIG_DNS         "dns"
+#define NM_VPN_PLUGIN_IP4_CONFIG_NBNS        "nbns"
+#define NM_VPN_PLUGIN_IP4_CONFIG_MSS         "mss"
+#define NM_VPN_PLUGIN_IP4_CONFIG_MTU         "mtu"
+#define NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV      "tundev"
+#define NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN      "domain"
+#define NM_VPN_PLUGIN_IP4_CONFIG_BANNER      "banner"
+#define NM_VPN_PLUGIN_IP4_CONFIG_ROUTES      "routes"
+
+/* Deprecated */
+#define NM_VPN_PLUGIN_IP4_CONFIG_GATEWAY   NM_VPN_PLUGIN_IP4_CONFIG_EXT_GATEWAY
 
 
 #endif /* NETWORK_MANAGER_VPN_H */

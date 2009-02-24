@@ -12,11 +12,12 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * (C) Copyright 2005 Red Hat, Inc.
+ * (C) Copyright 2005 - 2009 Red Hat, Inc.
+ * (C) Copyright 2007 Novell, Inc.
  */
 
 #include <glib.h>
@@ -26,70 +27,86 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <iwlib.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
-#include "NetworkManager.h"
-#include "nm-utils.h"
+#include <nm-client.h>
+#include <nm-device.h>
+#include <nm-device-ethernet.h>
+#include <nm-device-wifi.h>
+#include <nm-gsm-device.h>
+#include <nm-cdma-device.h>
+#include <nm-utils.h>
+#include <nm-setting-ip4-config.h>
+#include <nm-vpn-connection.h>
+#include <nm-setting-connection.h>
 
+#include "nm-dbus-glib-types.h"
 
-static gboolean get_nm_state (DBusConnection *connection)
+static GHashTable *user_connections = NULL;
+static GHashTable *system_connections = NULL;
+
+static gboolean
+get_nm_state (NMClient *client)
 {
-	dbus_uint32_t	uint32_state;
-	char *		state_string = NULL;
-	gboolean		success = TRUE;
-	DBusMessage *	message = NULL;
-	DBusMessage *	reply = NULL;
+	NMState state;
+	char *state_string;
+	gboolean success = TRUE;
 
-	if (!(message = dbus_message_new_method_call (NM_DBUS_SERVICE, NM_DBUS_PATH, NM_DBUS_INTERFACE, "state")))
-	{
-		fprintf (stderr, "get_nm_state(): couldn't create new dbus message.\n");
-		return FALSE;
+	state = nm_client_get_state (client);
+
+	switch (state) {
+	case NM_STATE_ASLEEP:
+		state_string = "asleep";
+		break;
+
+	case NM_STATE_CONNECTING:
+		state_string = "connecting";
+		break;
+
+	case NM_STATE_CONNECTED:
+		state_string = "connected";
+		break;
+
+	case NM_STATE_DISCONNECTED:
+		state_string = "disconnected";
+		break;
+
+	case NM_STATE_UNKNOWN:
+	default:
+		state_string = "unknown";
+		success = FALSE;
+		break;
 	}
 
-	reply = dbus_connection_send_with_reply_and_block (connection, message, -1, NULL);
-	dbus_message_unref (message);
-	if (!reply)
-	{
-		fprintf (stderr, "get_nm_state(): didn't get a reply from NetworkManager.\n");
-		return FALSE;
-	}
-
-	if (!dbus_message_get_args (reply, NULL, DBUS_TYPE_UINT32, &uint32_state, DBUS_TYPE_INVALID))
-	{
-		fprintf (stderr, "get_nm_state(): unexpected reply from NetworkManager.\n");
-		return FALSE;
-	}
-
-	switch ((NMState) uint32_state)
-	{
-		case NM_STATE_ASLEEP:
-			state_string = "asleep";
-			break;
-
-		case NM_STATE_CONNECTING:
-			state_string = "connecting";
-			break;
-
-		case NM_STATE_CONNECTED:
-			state_string = "connected";
-			break;
-
-		case NM_STATE_DISCONNECTED:
-			state_string = "disconnected";
-			break;
-
-		case NM_STATE_UNKNOWN:
-		default:
-			state_string = "unknown";
-			success = FALSE;
-			break;
-	}
 	printf ("State: %s\n\n", state_string);
 
 	return success;
 }
 
-static void print_string (const char *label, const char *data)
+static void
+print_header (const char *label, const char *iface, const char *connection)
+{
+	GString *string;
+
+	string = g_string_sized_new (79);
+	g_string_append_printf (string, "- %s: ", label);
+	if (iface)
+		g_string_append_printf (string, "%s ", iface);
+	if (connection)
+		g_string_append_printf (string, " [%s] ", connection);
+
+	while (string->len < 80)
+		g_string_append_c (string, '-');
+
+	printf ("%s\n", string->str);
+
+	g_string_free (string, TRUE);
+}
+
+static void
+print_string (const char *label, const char *data)
 {
 #define SPACING 18
 	int label_len = 0;
@@ -110,375 +127,532 @@ static void print_string (const char *label, const char *data)
 }
 
 
-static void detail_network (DBusConnection *connection, const char *path, const char *active_path)
+static void
+detail_access_point (gpointer data, gpointer user_data)
 {
-	DBusMessage *		message = NULL;
-	DBusMessage *		reply = NULL;
-	const char *		op = NULL;
-	const char *		essid = NULL;
-	const char *		hw_addr = NULL;
-	dbus_int32_t		strength = -1;
-	double 			freq = 0;
-	dbus_int32_t		rate = 0;
-	dbus_int32_t		capabilities = NM_802_11_CAP_NONE;
-	dbus_uint32_t		mode = 0;
-	gboolean			broadcast = TRUE;
+	NMAccessPoint *ap = NM_ACCESS_POINT (data);
+	const char *active_bssid = (const char *) user_data;
+	GString *str;
+	gboolean active = FALSE;
+	guint32 flags, wpa_flags, rsn_flags;
+	const GByteArray * ssid;
+	char *tmp;
 
-	g_return_if_fail (connection != NULL);
-	g_return_if_fail (path != NULL);
+	flags = nm_access_point_get_flags (ap);
+	wpa_flags = nm_access_point_get_wpa_flags (ap);
+	rsn_flags = nm_access_point_get_rsn_flags (ap);
 
-	if (!(message = dbus_message_new_method_call (NM_DBUS_SERVICE, path, NM_DBUS_INTERFACE_DEVICES, "getProperties")))
-	{
-		fprintf (stderr, "detail_network(): couldn't create new dbus message.\n");
-		return;
+	if (active_bssid) {
+		const char *current_bssid = nm_access_point_get_hw_address (ap);
+		if (current_bssid && !strcmp (current_bssid, active_bssid))
+			active = TRUE;
 	}
 
-	reply = dbus_connection_send_with_reply_and_block (connection, message, -1, NULL);
-	dbus_message_unref (message);
-	if (!reply)
-	{
-		fprintf (stderr, "detail_network(): didn't get a reply from NetworkManager for device %s.\n", path);
-		return;
-	}
+	str = g_string_new (NULL);
+	g_string_append_printf (str,
+	                        "%s, %s, Freq %d MHz, Rate %d Mb/s, Strength %d",
+	                        (nm_access_point_get_mode (ap) == NM_802_11_MODE_INFRA) ? "Infra" : "Ad-Hoc",
+	                        nm_access_point_get_hw_address (ap),
+	                        nm_access_point_get_frequency (ap),
+	                        nm_access_point_get_max_bitrate (ap) / 1000,
+	                        nm_access_point_get_strength (ap));
 
-	if (dbus_message_get_args (reply, NULL,	DBUS_TYPE_OBJECT_PATH, &op,
-									DBUS_TYPE_STRING,  &essid,
-									DBUS_TYPE_STRING,  &hw_addr,
-									DBUS_TYPE_INT32,   &strength,
-									DBUS_TYPE_DOUBLE,  &freq,
-									DBUS_TYPE_INT32,   &rate,
-									DBUS_TYPE_INT32,   &mode,
-									DBUS_TYPE_INT32,   &capabilities,
-									DBUS_TYPE_BOOLEAN, &broadcast,
-									DBUS_TYPE_INVALID))
-	{
-		char *temp = NULL;
-		char *temp_essid = NULL;
-		float flt_freq = freq / 1000000000;
-		gboolean active = (active_path && !strcmp (active_path, path)) ? TRUE : FALSE;
-		GString *enc_string = g_string_new (NULL);
+	if (   !(flags & NM_802_11_AP_FLAGS_PRIVACY)
+	    &&  (wpa_flags != NM_802_11_AP_SEC_NONE)
+	    &&  (rsn_flags != NM_802_11_AP_SEC_NONE))
+		g_string_append (str, ", Encrypted: ");
 
-		if (capabilities & NM_802_11_CAP_PROTO_WEP)
-			enc_string = g_string_append (enc_string, "WEP");
-		if (capabilities & NM_802_11_CAP_PROTO_WPA)
-		{
-			if (enc_string->str && (strlen (enc_string->str) > 0))
-				enc_string = g_string_append_c (enc_string, ' ');
-			enc_string = g_string_append (enc_string, "WPA");
-		}
-		if (capabilities & NM_802_11_CAP_PROTO_WPA2)
-		{
-			if (enc_string->str && (strlen (enc_string->str) > 0))
-				enc_string = g_string_append_c (enc_string, ' ');
-			enc_string = g_string_append (enc_string, "WPA2");
-		}
-		if (capabilities & NM_802_11_CAP_KEY_MGMT_802_1X)
-		{
-			if (enc_string->str && (strlen (enc_string->str) > 0))
-				enc_string = g_string_append_c (enc_string, ' ');
-			enc_string = g_string_append (enc_string, "Enterprise");
-		}
-		if (enc_string->str && (strlen (enc_string->str) > 0))
-		{
-			enc_string = g_string_prepend (enc_string, ", Encrypted (");
-			enc_string = g_string_append (enc_string, ")");
-		}
+	if (   (flags & NM_802_11_AP_FLAGS_PRIVACY)
+	    && (wpa_flags == NM_802_11_AP_SEC_NONE)
+	    && (rsn_flags == NM_802_11_AP_SEC_NONE))
+		g_string_append (str, " WEP");
+	if (wpa_flags != NM_802_11_AP_SEC_NONE)
+		g_string_append (str, " WPA");
+	if (rsn_flags != NM_802_11_AP_SEC_NONE)
+		g_string_append (str, " WPA2");
+	if (   (wpa_flags & NM_802_11_AP_SEC_KEY_MGMT_802_1X)
+	    || (rsn_flags & NM_802_11_AP_SEC_KEY_MGMT_802_1X))
+		g_string_append (str, " Enterprise");
 
-		temp = g_strdup_printf ("%s Mode, Freq %.3f MHz, Rate %d Mb/s, Strength %d%%%s%s",
-						    (mode == IW_MODE_INFRA) ? "Infrastructure" : "Ad-Hoc", 
-						    flt_freq,
-						    rate / 1024,
-						    strength,
-						    (enc_string && strlen (enc_string->str)) ? enc_string->str : "",
-						    !broadcast ? ", Hidden" : "");
-		temp_essid = g_strdup_printf ("  %s%s", active ? "*" : "", essid);
-		print_string (temp_essid, temp);
-		g_string_free (enc_string, TRUE);
-		g_free (temp_essid);
-		g_free (temp);
-	}
-	else
-		fprintf (stderr, "detail_network(): unexpected reply from NetworkManager for device %s.\n", path);
+	/* FIXME: broadcast/hidden */
 
-	dbus_message_unref (reply);
+	ssid = nm_access_point_get_ssid (ap);
+	tmp = g_strdup_printf ("  %s%s", active ? "*" : "",
+	                       ssid ? nm_utils_escape_ssid (ssid->data, ssid->len) : "(none)");
+
+	print_string (tmp, str->str);
+
+	g_string_free (str, TRUE);
+	g_free (tmp);
 }
 
-
-static char *
-get_driver_name (DBusConnection *connection, const char *path)
+static gchar *
+ip4_address_as_string (guint32 ip)
 {
-	DBusMessage *	message;
-	DBusMessage *	reply;
-	char *		driver = NULL;
-	DBusError		error;
+	struct in_addr tmp_addr;
+	char buf[INET_ADDRSTRLEN+1];
 
-	g_return_val_if_fail (path != NULL, NULL);
+	memset (&buf, '\0', sizeof (buf));
+	tmp_addr.s_addr = ip;
 
-	if (!(message = dbus_message_new_method_call (NM_DBUS_SERVICE, path, NM_DBUS_INTERFACE_DEVICES, "getDriver")))
-	{
-		nm_warning ("%s(): Couldn't allocate the dbus message", __func__);
+	if (inet_ntop (AF_INET, &tmp_addr, buf, INET_ADDRSTRLEN)) {
+		return g_strdup (buf);
+	} else {
+		nm_warning ("%s: error converting IP4 address 0x%X",
+		            __func__, ntohl (tmp_addr.s_addr));
 		return NULL;
 	}
-
-	dbus_error_init (&error);
-	reply = dbus_connection_send_with_reply_and_block (connection, message, -1, &error);
-	dbus_message_unref (message);
-	if (dbus_error_is_set (&error))
-		dbus_error_free (&error);
-	else if (reply)
-	{
-		if (dbus_message_get_args (reply, NULL, DBUS_TYPE_STRING, &driver, DBUS_TYPE_INVALID))
-			driver = g_strdup (driver);
-		dbus_message_unref (reply);
-	}
-
-	return driver;
 }
 
-
-static void detail_device (DBusConnection *connection, const char *path)
+static const char *
+get_dev_state_string (NMDeviceState state)
 {
-	DBusMessage *		message = NULL;
-	DBusMessage *		reply = NULL;
-	char *			op = NULL;
-	const char *		iface = NULL;
-	dbus_uint32_t		type = 0;
-	const char *		udi = NULL;
-	dbus_bool_t		active = FALSE;
-	const char *		ip4_address = NULL;
-	const char *		broadcast = NULL;
-	const char *		subnetmask = NULL;
-	const char *		hw_addr = NULL;
-	const char *		route = NULL;
-	const char *		primary_dns = NULL;
-	const char *		secondary_dns = NULL;
-	dbus_uint32_t		mode = 0;
-	dbus_int32_t		strength = -1;
-	char *			active_network_path = NULL;
-	dbus_bool_t		link_active = FALSE;
-	dbus_int32_t		speed = 0;
-	dbus_uint32_t		caps = NM_DEVICE_CAP_NONE;
-	dbus_uint32_t		type_caps = NM_DEVICE_CAP_NONE;
-	char **			networks = NULL;
-	int				num_networks = 0;
-	NMActStage		act_stage = NM_ACT_STAGE_UNKNOWN;
+	if (state == NM_DEVICE_STATE_UNMANAGED)
+		return "unmanaged";
+	else if (state == NM_DEVICE_STATE_UNAVAILABLE)
+		return "unavailable";
+	else if (state == NM_DEVICE_STATE_DISCONNECTED)
+		return "disconnected";
+	else if (state == NM_DEVICE_STATE_PREPARE)
+		return "connecting (prepare)";
+	else if (state == NM_DEVICE_STATE_CONFIG)
+		return "connecting (configuring)";
+	else if (state == NM_DEVICE_STATE_NEED_AUTH)
+		return "connecting (need authentication)";
+	else if (state == NM_DEVICE_STATE_IP_CONFIG)
+		return "connecting (getting IP configuration)";
+	else if (state == NM_DEVICE_STATE_ACTIVATED)
+		return "connected";
+	else if (state == NM_DEVICE_STATE_FAILED)
+		return "connection failed";
+	return "unknown";
+}
 
-	g_return_if_fail (connection != NULL);
-	g_return_if_fail (path != NULL);
+static NMConnection *
+get_connection_for_active (NMActiveConnection *active)
+{
+	NMConnectionScope scope;
+	const char *path;
 
-	if (!(message = dbus_message_new_method_call (NM_DBUS_SERVICE, path, NM_DBUS_INTERFACE_DEVICES, "getProperties")))
-	{
-		fprintf (stderr, "detail_device(): couldn't create new dbus message.\n");
-		return;
+	g_return_val_if_fail (active != NULL, NULL);
+
+	path = nm_active_connection_get_connection (active);
+	g_return_val_if_fail (path != NULL, NULL);
+
+	scope = nm_active_connection_get_scope (active);
+	if (scope == NM_CONNECTION_SCOPE_USER)
+		return (NMConnection *) g_hash_table_lookup (user_connections, path);
+	else if (scope == NM_CONNECTION_SCOPE_SYSTEM)
+		return (NMConnection *) g_hash_table_lookup (system_connections, path);
+
+	g_warning ("error: unknown connection scope");
+	return NULL;
+}
+
+struct cb_info {
+	NMClient *client;
+	const GPtrArray *active;
+};
+
+static void
+detail_device (gpointer data, gpointer user_data)
+{
+	NMDevice *device = NM_DEVICE (data);
+	struct cb_info *info = user_data;
+	char *tmp;
+	NMDeviceState state;
+	guint32 caps;
+	guint32 speed;
+	const GArray *array;
+	int j;
+	gboolean is_default = FALSE;
+	const char *id = NULL;
+
+	state = nm_device_get_state (device);
+
+	for (j = 0; info->active && (j < info->active->len); j++) {
+		NMActiveConnection *candidate = g_ptr_array_index (info->active, j);
+		const GPtrArray *devices = nm_active_connection_get_devices (candidate);
+		NMDevice *candidate_dev;
+		NMConnection *connection;
+		NMSettingConnection *s_con;
+
+		if (!devices || !devices->len)
+			continue;
+		candidate_dev = g_ptr_array_index (devices, 0);
+
+		if (candidate_dev == device) {
+			if (nm_active_connection_get_default (candidate))
+				is_default = TRUE;
+
+			connection = get_connection_for_active (candidate);
+			if (!connection)
+				break;
+
+			s_con = (NMSettingConnection *) nm_connection_get_setting (connection, NM_TYPE_SETTING_CONNECTION);
+			if (s_con)
+				id = nm_setting_connection_get_id (s_con);
+			break;
+		}
 	}
 
-	reply = dbus_connection_send_with_reply_and_block (connection, message, -1, NULL);
-	dbus_message_unref (message);
-	if (!reply)
-	{
-		fprintf (stderr, "detail_device(): didn't get a reply from NetworkManager for device %s.\n", path);
-		return;
-	}
+	print_header ("Device", nm_device_get_iface (device), id);
 
-	if (dbus_message_get_args (reply, NULL,	DBUS_TYPE_OBJECT_PATH, &op,
-									DBUS_TYPE_STRING, &iface,
-									DBUS_TYPE_UINT32, &type,
-									DBUS_TYPE_STRING, &udi,
-									DBUS_TYPE_BOOLEAN,&active,
-									DBUS_TYPE_UINT32, &act_stage,
-									DBUS_TYPE_STRING, &ip4_address,
-									DBUS_TYPE_STRING, &subnetmask,
-									DBUS_TYPE_STRING, &broadcast,
-									DBUS_TYPE_STRING, &hw_addr,
-									DBUS_TYPE_STRING, &route,
-									DBUS_TYPE_STRING, &primary_dns,
-									DBUS_TYPE_STRING, &secondary_dns,
-									DBUS_TYPE_INT32,  &mode,
-									DBUS_TYPE_INT32,  &strength,
-									DBUS_TYPE_BOOLEAN,&link_active,
-									DBUS_TYPE_INT32,  &speed,
-									DBUS_TYPE_UINT32, &caps,
-									DBUS_TYPE_UINT32, &type_caps,
-									DBUS_TYPE_STRING, &active_network_path,
-									DBUS_TYPE_ARRAY, DBUS_TYPE_STRING, &networks, &num_networks,
-									DBUS_TYPE_INVALID))
-	{
-		char *	driver;
+	/* General information */
+	if (NM_IS_DEVICE_ETHERNET (device))
+		print_string ("Type", "Wired");
+	else if (NM_IS_DEVICE_WIFI (device))
+		print_string ("Type", "802.11 WiFi");
+	else if (NM_IS_GSM_DEVICE (device))
+		print_string ("Type", "Mobile Broadband (GSM)");
+	else if (NM_IS_CDMA_DEVICE (device))
+		print_string ("Type", "Mobile Broadband (CDMA)");
 
-		printf ("- Device: %s ----------------------------------------------------------------\n", iface);
+	print_string ("Driver", nm_device_get_driver (device) ? nm_device_get_driver (device) : "(unknown)");
 
-		/* General information */
-		print_string ("NM Path", op);
-		if (type == DEVICE_TYPE_802_11_WIRELESS)
-			print_string ("Type", "802.11 Wireless");
-		else if (type == DEVICE_TYPE_802_3_ETHERNET)
-			print_string ("Type", "Wired");
+	print_string ("State", get_dev_state_string (state));
 
-		if ((driver = get_driver_name (connection, path)))
-			print_string ("Driver", driver);
-		else
-			print_string ("Driver", "(unknown)");
-		
-		if (active)
-			print_string ("Active", "yes");
-		else
-			print_string ("Active", "no");
-
-		print_string ("HW Address", hw_addr);
-
-		/* Capabilities */
-		printf ("\n  Capabilities:\n");
-		if (caps & NM_DEVICE_CAP_NM_SUPPORTED)
-			print_string ("  Supported", "yes");
-		else
-			print_string ("  Supported", "no");
-		if (caps & NM_DEVICE_CAP_CARRIER_DETECT)
-			print_string ("  Carrier Detect", "yes");
-
-		if (speed)
-		{
-			char *speed_string;
-
-			speed_string = g_strdup_printf ("%d Mb/s", speed);
-			print_string ("  Speed", speed_string);
-			g_free (speed_string);
-		}
-
-		/* Wireless specific information */
-		if (type == DEVICE_TYPE_802_11_WIRELESS)
-		{
-			int	 i;
-
-			printf ("\n  Wireless Settings\n");
-
-			if (caps & NM_DEVICE_CAP_WIRELESS_SCAN)
-				print_string ("  Scanning", "yes");
-
-			if (type_caps & NM_802_11_CAP_PROTO_WEP)
-				print_string ("  WEP Encryption", "yes");
-			if (type_caps & NM_802_11_CAP_PROTO_WPA)
-				print_string ("  WPA Encryption", "yes");
-			if (type_caps & NM_802_11_CAP_PROTO_WPA2)
-				print_string ("  WPA2 Encryption", "yes");
-
-			/*
-			printf ("\n  Wireless Settings\n");
-			if (mode == IW_MODE_INFRA)
-				print_string ("  Mode", "Infrastructure");
-			else if (mode == IW_MODE_ADHOC)
-				print_string ("  Mode", "Ad-Hoc");
-			str_strength = g_strdup_printf ("%d%%", strength);
-			print_string ("  Strength", str_strength);
-			g_free (str_strength);
-			*/
-
-			printf ("\n  Wireless Networks (* = Current Network)\n");
-			for (i = 0; i < num_networks; i++)
-				detail_network (connection, networks[i], active_network_path);
-		}
-		else if (type == DEVICE_TYPE_802_3_ETHERNET)
-		{
-			printf ("\n  Wired Settings\n");
-			if (link_active)
-				print_string ("  Hardware Link", "yes");
-			else
-				print_string ("  Hardware Link", "no");
-		}
-
-		/* IP Setup info */
-		if (active)
-		{
-			printf ("\n  IP Settings:\n");
-			print_string ("  IP Address", ip4_address);
-			print_string ("  Subnet Mask", subnetmask);
-			print_string ("  Broadcast", broadcast);
-			print_string ("  Gateway", route);
-			print_string ("  Primary DNS", primary_dns);
-			print_string ("  Secondary DNS", secondary_dns);
-		}
-		
-
-		printf ("\n\n");
-		dbus_free_string_array (networks);
-	}
+	if (is_default)
+		print_string ("Default", "yes");
 	else
-		fprintf (stderr, "detail_device(): unexpected reply from NetworkManager for device %s.\n", path);
+		print_string ("Default", "no");
 
-	dbus_message_unref (reply);
-}
+	tmp = NULL;
+	if (NM_IS_DEVICE_ETHERNET (device))
+		tmp = g_strdup (nm_device_ethernet_get_hw_address (NM_DEVICE_ETHERNET (device)));
+	else if (NM_IS_DEVICE_WIFI (device))
+		tmp = g_strdup (nm_device_wifi_get_hw_address (NM_DEVICE_WIFI (device)));
 
-
-static void print_devices (DBusConnection *connection)
-{
-	DBusMessage *	message = NULL;
-	DBusMessage *	reply = NULL;
-	DBusError		error;
-	char **		paths = NULL;
-	int			num = -1;
-	int			i;
-
-	if (!(message = dbus_message_new_method_call (NM_DBUS_SERVICE, NM_DBUS_PATH, NM_DBUS_INTERFACE, "getDevices")))
-	{
-		fprintf (stderr, "print_devices(): couldn't create new dbus message.\n");
-		return;
+	if (tmp) {
+		print_string ("HW Address", tmp);
+		g_free (tmp);
 	}
 
-	dbus_error_init (&error);
-	reply = dbus_connection_send_with_reply_and_block (connection, message, -1, &error);
-	dbus_message_unref (message);
-	if (!reply)
-	{
-		fprintf (stderr, "print_devices(): didn't get a reply from NetworkManager.\n");
-		if (dbus_error_is_set (&error))
-		{
-			if (dbus_error_has_name (&error, NM_DBUS_NO_DEVICES_ERROR))
-				fprintf (stderr, "There are no available network devices.\n");
+	/* Capabilities */
+	caps = nm_device_get_capabilities (device);
+	printf ("\n  Capabilities:\n");
+	if (caps & NM_DEVICE_CAP_CARRIER_DETECT)
+		print_string ("  Carrier Detect", "yes");
+
+	speed = 0;
+	if (NM_IS_DEVICE_ETHERNET (device)) {
+		/* Speed in Mb/s */
+		speed = nm_device_ethernet_get_speed (NM_DEVICE_ETHERNET (device));
+	} else if (NM_IS_DEVICE_WIFI (device)) {
+		/* Speed in b/s */
+		speed = nm_device_wifi_get_bitrate (NM_DEVICE_WIFI (device));
+		speed /= 1000;
+	}
+
+	if (speed) {
+		char *speed_string;
+
+		speed_string = g_strdup_printf ("%u Mb/s", speed);
+		print_string ("  Speed", speed_string);
+		g_free (speed_string);
+	}
+
+	/* Wireless specific information */
+	if ((NM_IS_DEVICE_WIFI (device))) {
+		guint32 wcaps;
+		NMAccessPoint *active_ap = NULL;
+		const char *active_bssid = NULL;
+		const GPtrArray *aps;
+
+		printf ("\n  Wireless Properties\n");
+
+		wcaps = nm_device_wifi_get_capabilities (NM_DEVICE_WIFI (device));
+
+		if (wcaps & (NM_WIFI_DEVICE_CAP_CIPHER_WEP40 | NM_WIFI_DEVICE_CAP_CIPHER_WEP104))
+			print_string ("  WEP Encryption", "yes");
+		if (wcaps & NM_WIFI_DEVICE_CAP_WPA)
+			print_string ("  WPA Encryption", "yes");
+		if (wcaps & NM_WIFI_DEVICE_CAP_RSN)
+			print_string ("  WPA2 Encryption", "yes");
+
+		if (nm_device_get_state (device) == NM_DEVICE_STATE_ACTIVATED) {
+			active_ap = nm_device_wifi_get_active_access_point (NM_DEVICE_WIFI (device));
+			active_bssid = active_ap ? nm_access_point_get_hw_address (active_ap) : NULL;
 		}
+
+		printf ("\n  Wireless Access Points %s\n", active_ap ? "(* = current AP)" : "");
+
+		aps = nm_device_wifi_get_access_points (NM_DEVICE_WIFI (device));
+		if (aps && aps->len)
+			g_ptr_array_foreach ((GPtrArray *) aps, detail_access_point, (gpointer) active_bssid);
+	} else if (NM_IS_DEVICE_ETHERNET (device)) {
+		printf ("\n  Wired Properties\n");
+
+		if (nm_device_ethernet_get_carrier (NM_DEVICE_ETHERNET (device)))
+			print_string ("  Carrier", "on");
 		else
-			fprintf (stderr, "print_devices(): NetworkManager returned an error: '%s'\n", error.message);
-		return;
+			print_string ("  Carrier", "off");
 	}
 
-	if (!dbus_message_get_args (reply, NULL, DBUS_TYPE_ARRAY, DBUS_TYPE_OBJECT_PATH, &paths, &num, DBUS_TYPE_INVALID))
-	{
-		fprintf (stderr, "print_devices(): unexpected reply from NetworkManager.\n");
-		dbus_message_unref (reply);
-		return;
+	/* IP Setup info */
+	if (state == NM_DEVICE_STATE_ACTIVATED) {
+		NMIP4Config *cfg = nm_device_get_ip4_config (device);
+		GSList *iter;
+
+		printf ("\n  IPv4 Settings:\n");
+
+		for (iter = (GSList *) nm_ip4_config_get_addresses (cfg); iter; iter = g_slist_next (iter)) {
+			NMIP4Address *addr = (NMIP4Address *) iter->data;
+			guint32 prefix = nm_ip4_address_get_prefix (addr);
+			char *tmp2;
+
+			tmp = ip4_address_as_string (nm_ip4_address_get_address (addr));
+			print_string ("  Address", tmp);
+			g_free (tmp);
+
+			tmp2 = ip4_address_as_string (nm_utils_ip4_prefix_to_netmask (prefix));
+			tmp = g_strdup_printf ("%d (%s)", prefix, tmp2);
+			g_free (tmp2);
+			print_string ("  Prefix", tmp);
+			g_free (tmp);
+
+			tmp = ip4_address_as_string (nm_ip4_address_get_gateway (addr));
+			print_string ("  Gateway", tmp);
+			g_free (tmp);
+			printf ("\n");
+		}
+
+		array = nm_ip4_config_get_nameservers (cfg);
+		if (array) {
+			int i;
+
+			for (i = 0; i < array->len; i++) {
+				tmp = ip4_address_as_string (g_array_index (array, guint32, i));
+				print_string ("  DNS", tmp);
+				g_free (tmp);
+			}
+		}
 	}
 
-	for (i = 0; i < num; i++)
-		detail_device (connection, paths[i]);
-
-	dbus_free_string_array (paths);
-	dbus_message_unref (reply);
+	printf ("\n\n");
 }
 
-
-int main( int argc, char *argv[] )
+static const char *
+get_vpn_state_string (NMVPNConnectionState state)
 {
-	DBusConnection *connection;
-	DBusError		error;
+	switch (state) {
+	case NM_VPN_CONNECTION_STATE_PREPARE:
+		return "connecting (prepare)";
+	case NM_VPN_CONNECTION_STATE_NEED_AUTH:
+		return "connecting (need authentication)";
+	case NM_VPN_CONNECTION_STATE_CONNECT:
+		return "connecting";
+	case NM_VPN_CONNECTION_STATE_IP_CONFIG_GET:
+		return "connecting (getting IP configuration)";
+	case NM_VPN_CONNECTION_STATE_ACTIVATED:
+		return "connected";
+	case NM_VPN_CONNECTION_STATE_FAILED:
+		return "connection failed";
+	case NM_VPN_CONNECTION_STATE_DISCONNECTED:
+		return "disconnected";
+	default:
+		break;
+	}
+
+	return "unknown";
+}
+
+static void
+detail_vpn (gpointer data, gpointer user_data)
+{
+	NMActiveConnection *active = NM_ACTIVE_CONNECTION (data);
+	NMConnection *connection;
+	NMSettingConnection *s_con;
+	NMVPNConnectionState state;
+	const char *banner;
+
+	if (!NM_IS_VPN_CONNECTION (active))
+		return;
+
+	connection = get_connection_for_active (active);
+	g_return_if_fail (connection != NULL);
+
+	s_con = (NMSettingConnection *) nm_connection_get_setting (connection, NM_TYPE_SETTING_CONNECTION);
+	g_return_if_fail (connection != NULL);
+
+	print_header ("VPN", NULL, nm_setting_connection_get_id (s_con));
+
+	state = nm_vpn_connection_get_vpn_state (NM_VPN_CONNECTION (active));
+	print_string ("State", get_vpn_state_string (state));
+
+	if (nm_active_connection_get_default (active))
+		print_string ("Default", "yes");
+	else
+		print_string ("Default", "no");
+
+	banner = nm_vpn_connection_get_banner (NM_VPN_CONNECTION (active));
+	if (banner) {
+		char **lines, **iter;
+
+		printf ("\n  Message:\n");
+		lines = g_strsplit_set (banner, "\n\r", -1);
+		for (iter = lines; *iter; iter++) {
+			if (*iter && strlen (*iter))
+				printf ("    %s\n", *iter);
+		}
+		g_strfreev (lines);
+	}
+
+	printf ("\n\n");
+}
+
+static void
+get_one_connection (DBusGConnection *bus,
+                    const char *path,
+                    NMConnectionScope scope,
+                    GHashTable *table)
+{
+	DBusGProxy *proxy;
+	NMConnection *connection;
+	const char *service;
+	GError *error = NULL;
+	GHashTable *settings = NULL;
+
+	g_return_if_fail (bus != NULL);
+	g_return_if_fail (path != NULL);
+	g_return_if_fail (table != NULL);
+
+	service = (scope == NM_CONNECTION_SCOPE_SYSTEM) ?
+		NM_DBUS_SERVICE_SYSTEM_SETTINGS : NM_DBUS_SERVICE_USER_SETTINGS;
+
+	proxy = dbus_g_proxy_new_for_name (bus, service, path, NM_DBUS_IFACE_SETTINGS_CONNECTION);
+	if (!proxy)
+		return;
+
+	if (!dbus_g_proxy_call (proxy, "GetSettings", &error,
+	                        G_TYPE_INVALID,
+	                        DBUS_TYPE_G_MAP_OF_MAP_OF_VARIANT, &settings,
+	                        G_TYPE_INVALID)) {
+		nm_warning ("error: cannot retrieve connection: %s", error ? error->message : "(unknown)");
+		goto out;
+	}
+
+	connection = nm_connection_new_from_hash (settings, &error);
+	g_hash_table_destroy (settings);
+
+	if (!connection) {
+		nm_warning ("error: invalid connection: '%s' / '%s' invalid: %d",
+		            error ? g_type_name (nm_connection_lookup_setting_type_by_quark (error->domain)) : "(unknown)",
+		            error ? error->message : "(unknown)",
+		            error ? error->code : -1);
+		goto out;
+	}
+
+	nm_connection_set_scope (connection, scope);
+	nm_connection_set_path (connection, path);
+	g_hash_table_insert (table, g_strdup (path), g_object_ref (connection));
+
+out:
+	g_clear_error (&error);
+	g_object_unref (connection);
+	g_object_unref (proxy);
+}
+
+static void
+get_connections_for_service (DBusGConnection *bus,
+                             NMConnectionScope scope,
+                             GHashTable *table)
+{
+	GError *error = NULL;
+	DBusGProxy *proxy;
+	GPtrArray *paths = NULL;
+	int i;
+	const char *service;
+
+	service = (scope == NM_CONNECTION_SCOPE_SYSTEM) ?
+		NM_DBUS_SERVICE_SYSTEM_SETTINGS : NM_DBUS_SERVICE_USER_SETTINGS;
+
+	proxy = dbus_g_proxy_new_for_name (bus,
+	                                   service,
+	                                   NM_DBUS_PATH_SETTINGS,
+	                                   NM_DBUS_IFACE_SETTINGS);
+	if (!proxy) {
+		g_warning ("error: failed to create DBus proxy for %s", service);
+		return;
+	}
+
+	if (!dbus_g_proxy_call (proxy, "ListConnections", &error,
+                                G_TYPE_INVALID,
+                                DBUS_TYPE_G_ARRAY_OF_OBJECT_PATH, &paths,
+                                G_TYPE_INVALID)) {
+		g_warning ("error: failed to read connections from %s:\n    %s",
+		           service, error ? error->message : "(unknown)");
+		g_clear_error (&error);
+		goto out;
+	}
+
+	for (i = 0; paths && (i < paths->len); i++)
+		get_one_connection (bus, g_ptr_array_index (paths, i), scope, table);
+
+out:
+	g_object_unref (proxy);
+}
+
+static gboolean
+get_all_connections (void)
+{
+	DBusGConnection *bus;
+	GError *error = NULL;
+
+	bus = dbus_g_bus_get (DBUS_BUS_SYSTEM, &error);
+	if (error || !bus) {
+		g_warning ("error: could not connect to dbus");
+		return FALSE;
+	}
+
+	user_connections = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+	get_connections_for_service (bus, NM_CONNECTION_SCOPE_USER, user_connections);
+
+	system_connections = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+	get_connections_for_service (bus, NM_CONNECTION_SCOPE_SYSTEM, system_connections);
+
+	dbus_g_connection_unref (bus);
+	return TRUE;
+}
+
+int
+main (int argc, char *argv[])
+{
+	NMClient *client;
+	const GPtrArray *devices;
+	struct cb_info info;
 
 	g_type_init ();
 
-	dbus_error_init (&error);
-	connection = dbus_bus_get (DBUS_BUS_SYSTEM, &error);
-	if (connection == NULL)
-	{
-		fprintf (stderr, "Error connecting to system bus: %s\n", error.message);
-		dbus_error_free (&error);
-		return 1;
+	client = nm_client_new ();
+	if (!client) {
+		exit (1);
 	}
 
 	printf ("\nNetworkManager Tool\n\n");
 
-	if (!get_nm_state (connection))
-	{
-		fprintf (stderr, "\n\nNetworkManager appears not to be running (could not get its state).\n");
+	if (!get_nm_state (client)) {
+		g_warning ("error: could not connect to NetworkManager");
 		exit (1);
 	}
 
-	print_devices (connection);
+	if (!get_all_connections ())
+		exit (1);
+
+	info.client = client;
+	info.active = nm_client_get_active_connections (client);
+
+
+	devices = nm_client_get_devices (client);
+	if (devices)
+		g_ptr_array_foreach ((GPtrArray *) devices, detail_device, &info);
+
+	if (info.active)
+		g_ptr_array_foreach ((GPtrArray *) info.active, detail_vpn, &info);
+
+	g_object_unref (client);
+	g_hash_table_unref (user_connections);
+	g_hash_table_unref (system_connections);
 
 	return 0;
 }

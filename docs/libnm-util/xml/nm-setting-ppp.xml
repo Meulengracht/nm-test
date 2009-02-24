@@ -1,0 +1,660 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="NMSettingPPP">
+<refmeta>
+<refentrytitle role="top_of_page">NMSettingPPP</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNM-UTIL Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>NMSettingPPP</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+
+
+#define             <link linkend="NM-SETTING-PPP-SETTING-NAME:CAPS">NM_SETTING_PPP_SETTING_NAME</link>
+enum                <link linkend="NMSettingPPPError">NMSettingPPPError</link>;
+#define             <link linkend="NM-TYPE-SETTING-PPP-ERROR:CAPS">NM_TYPE_SETTING_PPP_ERROR</link>
+#define             <link linkend="NM-SETTING-PPP-ERROR:CAPS">NM_SETTING_PPP_ERROR</link>
+<link linkend="GQuark">GQuark</link>              <link linkend="nm-setting-ppp-error-quark">nm_setting_ppp_error_quark</link>          (void);
+#define             <link linkend="NM-SETTING-PPP-NOAUTH:CAPS">NM_SETTING_PPP_NOAUTH</link>
+#define             <link linkend="NM-SETTING-PPP-REFUSE-EAP:CAPS">NM_SETTING_PPP_REFUSE_EAP</link>
+#define             <link linkend="NM-SETTING-PPP-REFUSE-PAP:CAPS">NM_SETTING_PPP_REFUSE_PAP</link>
+#define             <link linkend="NM-SETTING-PPP-REFUSE-CHAP:CAPS">NM_SETTING_PPP_REFUSE_CHAP</link>
+#define             <link linkend="NM-SETTING-PPP-REFUSE-MSCHAP:CAPS">NM_SETTING_PPP_REFUSE_MSCHAP</link>
+#define             <link linkend="NM-SETTING-PPP-REFUSE-MSCHAPV2:CAPS">NM_SETTING_PPP_REFUSE_MSCHAPV2</link>
+#define             <link linkend="NM-SETTING-PPP-NOBSDCOMP:CAPS">NM_SETTING_PPP_NOBSDCOMP</link>
+#define             <link linkend="NM-SETTING-PPP-NODEFLATE:CAPS">NM_SETTING_PPP_NODEFLATE</link>
+#define             <link linkend="NM-SETTING-PPP-NO-VJ-COMP:CAPS">NM_SETTING_PPP_NO_VJ_COMP</link>
+#define             <link linkend="NM-SETTING-PPP-REQUIRE-MPPE:CAPS">NM_SETTING_PPP_REQUIRE_MPPE</link>
+#define             <link linkend="NM-SETTING-PPP-REQUIRE-MPPE-128:CAPS">NM_SETTING_PPP_REQUIRE_MPPE_128</link>
+#define             <link linkend="NM-SETTING-PPP-MPPE-STATEFUL:CAPS">NM_SETTING_PPP_MPPE_STATEFUL</link>
+#define             <link linkend="NM-SETTING-PPP-CRTSCTS:CAPS">NM_SETTING_PPP_CRTSCTS</link>
+#define             <link linkend="NM-SETTING-PPP-BAUD:CAPS">NM_SETTING_PPP_BAUD</link>
+#define             <link linkend="NM-SETTING-PPP-MRU:CAPS">NM_SETTING_PPP_MRU</link>
+#define             <link linkend="NM-SETTING-PPP-MTU:CAPS">NM_SETTING_PPP_MTU</link>
+#define             <link linkend="NM-SETTING-PPP-LCP-ECHO-FAILURE:CAPS">NM_SETTING_PPP_LCP_ECHO_FAILURE</link>
+#define             <link linkend="NM-SETTING-PPP-LCP-ECHO-INTERVAL:CAPS">NM_SETTING_PPP_LCP_ECHO_INTERVAL</link>
+                    <link linkend="NMSettingPPP-struct">NMSettingPPP</link>;
+<link linkend="GType">GType</link>               <link linkend="nm-setting-ppp-get-type">nm_setting_ppp_get_type</link>             (void);
+<link linkend="NMSetting">NMSetting</link>*          <link linkend="nm-setting-ppp-new">nm_setting_ppp_new</link>                  (void);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ppp-get-noauth">nm_setting_ppp_get_noauth</link>           (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ppp-get-refuse-eap">nm_setting_ppp_get_refuse_eap</link>       (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ppp-get-refuse-pap">nm_setting_ppp_get_refuse_pap</link>       (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ppp-get-refuse-chap">nm_setting_ppp_get_refuse_chap</link>      (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ppp-get-refuse-mschap">nm_setting_ppp_get_refuse_mschap</link>    (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ppp-get-refuse-mschapv2">nm_setting_ppp_get_refuse_mschapv2</link>  (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ppp-get-nobsdcomp">nm_setting_ppp_get_nobsdcomp</link>        (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ppp-get-nodeflate">nm_setting_ppp_get_nodeflate</link>        (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ppp-get-no-vj-comp">nm_setting_ppp_get_no_vj_comp</link>       (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ppp-get-require-mppe">nm_setting_ppp_get_require_mppe</link>     (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ppp-get-require-mppe-128">nm_setting_ppp_get_require_mppe_128</link> (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ppp-get-mppe-stateful">nm_setting_ppp_get_mppe_stateful</link>    (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ppp-get-crtscts">nm_setting_ppp_get_crtscts</link>          (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);
+<link linkend="guint32">guint32</link>             <link linkend="nm-setting-ppp-get-baud">nm_setting_ppp_get_baud</link>             (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);
+<link linkend="guint32">guint32</link>             <link linkend="nm-setting-ppp-get-mru">nm_setting_ppp_get_mru</link>              (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);
+<link linkend="guint32">guint32</link>             <link linkend="nm-setting-ppp-get-mtu">nm_setting_ppp_get_mtu</link>              (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);
+<link linkend="guint32">guint32</link>             <link linkend="nm-setting-ppp-get-lcp-echo-failure">nm_setting_ppp_get_lcp_echo_failure</link> (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);
+<link linkend="guint32">guint32</link>             <link linkend="nm-setting-ppp-get-lcp-echo-interval">nm_setting_ppp_get_lcp_echo_interval</link>
+                                                        (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+
+  <link linkend="GObject">GObject</link>
+   +----<link linkend="NMSetting">NMSetting</link>
+         +----NMSettingPPP
+</synopsis>
+
+</refsect1>
+
+
+
+
+
+<refsect1 role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+
+  &quot;<link linkend="NMSettingPPP--baud">baud</link>&quot;                     <link linkend="guint">guint</link>                 : Read / Write / Construct
+  &quot;<link linkend="NMSettingPPP--crtscts">crtscts</link>&quot;                  <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
+  &quot;<link linkend="NMSettingPPP--lcp-echo-failure">lcp-echo-failure</link>&quot;         <link linkend="guint">guint</link>                 : Read / Write / Construct
+  &quot;<link linkend="NMSettingPPP--lcp-echo-interval">lcp-echo-interval</link>&quot;        <link linkend="guint">guint</link>                 : Read / Write / Construct
+  &quot;<link linkend="NMSettingPPP--mppe-stateful">mppe-stateful</link>&quot;            <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
+  &quot;<link linkend="NMSettingPPP--mru">mru</link>&quot;                      <link linkend="guint">guint</link>                 : Read / Write / Construct
+  &quot;<link linkend="NMSettingPPP--mtu">mtu</link>&quot;                      <link linkend="guint">guint</link>                 : Read / Write / Construct
+  &quot;<link linkend="NMSettingPPP--no-vj-comp">no-vj-comp</link>&quot;               <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
+  &quot;<link linkend="NMSettingPPP--noauth">noauth</link>&quot;                   <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
+  &quot;<link linkend="NMSettingPPP--nobsdcomp">nobsdcomp</link>&quot;                <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
+  &quot;<link linkend="NMSettingPPP--nodeflate">nodeflate</link>&quot;                <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
+  &quot;<link linkend="NMSettingPPP--refuse-chap">refuse-chap</link>&quot;              <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
+  &quot;<link linkend="NMSettingPPP--refuse-eap">refuse-eap</link>&quot;               <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
+  &quot;<link linkend="NMSettingPPP--refuse-mschap">refuse-mschap</link>&quot;            <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
+  &quot;<link linkend="NMSettingPPP--refuse-mschapv2">refuse-mschapv2</link>&quot;          <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
+  &quot;<link linkend="NMSettingPPP--refuse-pap">refuse-pap</link>&quot;               <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
+  &quot;<link linkend="NMSettingPPP--require-mppe">require-mppe</link>&quot;             <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
+  &quot;<link linkend="NMSettingPPP--require-mppe-128">require-mppe-128</link>&quot;         <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
+</synopsis>
+</refsect1>
+
+
+
+<refsect1 role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 role="details">
+<title role="details.title">Details</title>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-SETTING-NAME:CAPS" role="macro"/>NM_SETTING_PPP_SETTING_NAME</title>
+<indexterm><primary>NM_SETTING_PPP_SETTING_NAME</primary></indexterm><programlisting>#define NM_SETTING_PPP_SETTING_NAME "ppp"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMSettingPPPError" role="enum"/>enum NMSettingPPPError</title>
+<indexterm><primary>NMSettingPPPError</primary></indexterm><programlisting>typedef enum
+{
+	NM_SETTING_PPP_ERROR_UNKNOWN = 0,
+	NM_SETTING_PPP_ERROR_INVALID_PROPERTY,
+	NM_SETTING_PPP_ERROR_MISSING_PROPERTY,
+	NM_SETTING_PPP_ERROR_REQUIRE_MPPE_NOT_ALLOWED
+} NMSettingPPPError;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-TYPE-SETTING-PPP-ERROR:CAPS" role="macro"/>NM_TYPE_SETTING_PPP_ERROR</title>
+<indexterm><primary>NM_TYPE_SETTING_PPP_ERROR</primary></indexterm><programlisting>#define NM_TYPE_SETTING_PPP_ERROR (nm_setting_ppp_error_get_type ()) 
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-ERROR:CAPS" role="macro"/>NM_SETTING_PPP_ERROR</title>
+<indexterm><primary>NM_SETTING_PPP_ERROR</primary></indexterm><programlisting>#define NM_SETTING_PPP_ERROR nm_setting_ppp_error_quark ()
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-error-quark" role="function"/>nm_setting_ppp_error_quark ()</title>
+<indexterm><primary>nm_setting_ppp_error_quark</primary></indexterm><programlisting><link linkend="GQuark">GQuark</link>              nm_setting_ppp_error_quark          (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-NOAUTH:CAPS" role="macro"/>NM_SETTING_PPP_NOAUTH</title>
+<indexterm><primary>NM_SETTING_PPP_NOAUTH</primary></indexterm><programlisting>#define NM_SETTING_PPP_NOAUTH            "noauth"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-REFUSE-EAP:CAPS" role="macro"/>NM_SETTING_PPP_REFUSE_EAP</title>
+<indexterm><primary>NM_SETTING_PPP_REFUSE_EAP</primary></indexterm><programlisting>#define NM_SETTING_PPP_REFUSE_EAP        "refuse-eap"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-REFUSE-PAP:CAPS" role="macro"/>NM_SETTING_PPP_REFUSE_PAP</title>
+<indexterm><primary>NM_SETTING_PPP_REFUSE_PAP</primary></indexterm><programlisting>#define NM_SETTING_PPP_REFUSE_PAP        "refuse-pap"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-REFUSE-CHAP:CAPS" role="macro"/>NM_SETTING_PPP_REFUSE_CHAP</title>
+<indexterm><primary>NM_SETTING_PPP_REFUSE_CHAP</primary></indexterm><programlisting>#define NM_SETTING_PPP_REFUSE_CHAP       "refuse-chap"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-REFUSE-MSCHAP:CAPS" role="macro"/>NM_SETTING_PPP_REFUSE_MSCHAP</title>
+<indexterm><primary>NM_SETTING_PPP_REFUSE_MSCHAP</primary></indexterm><programlisting>#define NM_SETTING_PPP_REFUSE_MSCHAP     "refuse-mschap"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-REFUSE-MSCHAPV2:CAPS" role="macro"/>NM_SETTING_PPP_REFUSE_MSCHAPV2</title>
+<indexterm><primary>NM_SETTING_PPP_REFUSE_MSCHAPV2</primary></indexterm><programlisting>#define NM_SETTING_PPP_REFUSE_MSCHAPV2   "refuse-mschapv2"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-NOBSDCOMP:CAPS" role="macro"/>NM_SETTING_PPP_NOBSDCOMP</title>
+<indexterm><primary>NM_SETTING_PPP_NOBSDCOMP</primary></indexterm><programlisting>#define NM_SETTING_PPP_NOBSDCOMP         "nobsdcomp"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-NODEFLATE:CAPS" role="macro"/>NM_SETTING_PPP_NODEFLATE</title>
+<indexterm><primary>NM_SETTING_PPP_NODEFLATE</primary></indexterm><programlisting>#define NM_SETTING_PPP_NODEFLATE         "nodeflate"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-NO-VJ-COMP:CAPS" role="macro"/>NM_SETTING_PPP_NO_VJ_COMP</title>
+<indexterm><primary>NM_SETTING_PPP_NO_VJ_COMP</primary></indexterm><programlisting>#define NM_SETTING_PPP_NO_VJ_COMP        "no-vj-comp"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-REQUIRE-MPPE:CAPS" role="macro"/>NM_SETTING_PPP_REQUIRE_MPPE</title>
+<indexterm><primary>NM_SETTING_PPP_REQUIRE_MPPE</primary></indexterm><programlisting>#define NM_SETTING_PPP_REQUIRE_MPPE      "require-mppe"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-REQUIRE-MPPE-128:CAPS" role="macro"/>NM_SETTING_PPP_REQUIRE_MPPE_128</title>
+<indexterm><primary>NM_SETTING_PPP_REQUIRE_MPPE_128</primary></indexterm><programlisting>#define NM_SETTING_PPP_REQUIRE_MPPE_128  "require-mppe-128"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-MPPE-STATEFUL:CAPS" role="macro"/>NM_SETTING_PPP_MPPE_STATEFUL</title>
+<indexterm><primary>NM_SETTING_PPP_MPPE_STATEFUL</primary></indexterm><programlisting>#define NM_SETTING_PPP_MPPE_STATEFUL     "mppe-stateful"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-CRTSCTS:CAPS" role="macro"/>NM_SETTING_PPP_CRTSCTS</title>
+<indexterm><primary>NM_SETTING_PPP_CRTSCTS</primary></indexterm><programlisting>#define NM_SETTING_PPP_CRTSCTS           "crtscts"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-BAUD:CAPS" role="macro"/>NM_SETTING_PPP_BAUD</title>
+<indexterm><primary>NM_SETTING_PPP_BAUD</primary></indexterm><programlisting>#define NM_SETTING_PPP_BAUD              "baud"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-MRU:CAPS" role="macro"/>NM_SETTING_PPP_MRU</title>
+<indexterm><primary>NM_SETTING_PPP_MRU</primary></indexterm><programlisting>#define NM_SETTING_PPP_MRU               "mru"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-MTU:CAPS" role="macro"/>NM_SETTING_PPP_MTU</title>
+<indexterm><primary>NM_SETTING_PPP_MTU</primary></indexterm><programlisting>#define NM_SETTING_PPP_MTU               "mtu"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-LCP-ECHO-FAILURE:CAPS" role="macro"/>NM_SETTING_PPP_LCP_ECHO_FAILURE</title>
+<indexterm><primary>NM_SETTING_PPP_LCP_ECHO_FAILURE</primary></indexterm><programlisting>#define NM_SETTING_PPP_LCP_ECHO_FAILURE  "lcp-echo-failure"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-PPP-LCP-ECHO-INTERVAL:CAPS" role="macro"/>NM_SETTING_PPP_LCP_ECHO_INTERVAL</title>
+<indexterm><primary>NM_SETTING_PPP_LCP_ECHO_INTERVAL</primary></indexterm><programlisting>#define NM_SETTING_PPP_LCP_ECHO_INTERVAL "lcp-echo-interval"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMSettingPPP-struct" role="struct"/>NMSettingPPP</title>
+<indexterm><primary>NMSettingPPP</primary></indexterm><programlisting>typedef struct _NMSettingPPP NMSettingPPP;</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-type" role="function"/>nm_setting_ppp_get_type ()</title>
+<indexterm><primary>nm_setting_ppp_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_setting_ppp_get_type             (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-new" role="function"/>nm_setting_ppp_new ()</title>
+<indexterm><primary>nm_setting_ppp_new</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link>*          nm_setting_ppp_new                  (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-noauth" role="function"/>nm_setting_ppp_get_noauth ()</title>
+<indexterm><primary>nm_setting_ppp_get_noauth</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ppp_get_noauth           (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-refuse-eap" role="function"/>nm_setting_ppp_get_refuse_eap ()</title>
+<indexterm><primary>nm_setting_ppp_get_refuse_eap</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ppp_get_refuse_eap       (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-refuse-pap" role="function"/>nm_setting_ppp_get_refuse_pap ()</title>
+<indexterm><primary>nm_setting_ppp_get_refuse_pap</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ppp_get_refuse_pap       (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-refuse-chap" role="function"/>nm_setting_ppp_get_refuse_chap ()</title>
+<indexterm><primary>nm_setting_ppp_get_refuse_chap</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ppp_get_refuse_chap      (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-refuse-mschap" role="function"/>nm_setting_ppp_get_refuse_mschap ()</title>
+<indexterm><primary>nm_setting_ppp_get_refuse_mschap</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ppp_get_refuse_mschap    (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-refuse-mschapv2" role="function"/>nm_setting_ppp_get_refuse_mschapv2 ()</title>
+<indexterm><primary>nm_setting_ppp_get_refuse_mschapv2</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ppp_get_refuse_mschapv2  (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-nobsdcomp" role="function"/>nm_setting_ppp_get_nobsdcomp ()</title>
+<indexterm><primary>nm_setting_ppp_get_nobsdcomp</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ppp_get_nobsdcomp        (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-nodeflate" role="function"/>nm_setting_ppp_get_nodeflate ()</title>
+<indexterm><primary>nm_setting_ppp_get_nodeflate</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ppp_get_nodeflate        (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-no-vj-comp" role="function"/>nm_setting_ppp_get_no_vj_comp ()</title>
+<indexterm><primary>nm_setting_ppp_get_no_vj_comp</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ppp_get_no_vj_comp       (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-require-mppe" role="function"/>nm_setting_ppp_get_require_mppe ()</title>
+<indexterm><primary>nm_setting_ppp_get_require_mppe</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ppp_get_require_mppe     (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-require-mppe-128" role="function"/>nm_setting_ppp_get_require_mppe_128 ()</title>
+<indexterm><primary>nm_setting_ppp_get_require_mppe_128</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ppp_get_require_mppe_128 (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-mppe-stateful" role="function"/>nm_setting_ppp_get_mppe_stateful ()</title>
+<indexterm><primary>nm_setting_ppp_get_mppe_stateful</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ppp_get_mppe_stateful    (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-crtscts" role="function"/>nm_setting_ppp_get_crtscts ()</title>
+<indexterm><primary>nm_setting_ppp_get_crtscts</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ppp_get_crtscts          (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-baud" role="function"/>nm_setting_ppp_get_baud ()</title>
+<indexterm><primary>nm_setting_ppp_get_baud</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_ppp_get_baud             (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-mru" role="function"/>nm_setting_ppp_get_mru ()</title>
+<indexterm><primary>nm_setting_ppp_get_mru</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_ppp_get_mru              (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-mtu" role="function"/>nm_setting_ppp_get_mtu ()</title>
+<indexterm><primary>nm_setting_ppp_get_mtu</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_ppp_get_mtu              (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-lcp-echo-failure" role="function"/>nm_setting_ppp_get_lcp_echo_failure ()</title>
+<indexterm><primary>nm_setting_ppp_get_lcp_echo_failure</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_ppp_get_lcp_echo_failure (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-ppp-get-lcp-echo-interval" role="function"/>nm_setting_ppp_get_lcp_echo_interval ()</title>
+<indexterm><primary>nm_setting_ppp_get_lcp_echo_interval</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_ppp_get_lcp_echo_interval
+                                                        (<link linkend="NMSettingPPP">NMSettingPPP</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+<refsect1 role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2><title><anchor id="NMSettingPPP--baud"/>The <literal>&quot;baud&quot;</literal> property</title>
+<indexterm><primary>NMSettingPPP:baud</primary></indexterm><programlisting>  &quot;baud&quot;                     <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
+<para>Baud.</para><para>Default value: 0</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingPPP--crtscts"/>The <literal>&quot;crtscts&quot;</literal> property</title>
+<indexterm><primary>NMSettingPPP:crtscts</primary></indexterm><programlisting>  &quot;crtscts&quot;                  <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
+<para>CRTSCTS.</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingPPP--lcp-echo-failure"/>The <literal>&quot;lcp-echo-failure&quot;</literal> property</title>
+<indexterm><primary>NMSettingPPP:lcp-echo-failure</primary></indexterm><programlisting>  &quot;lcp-echo-failure&quot;         <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
+<para>LCP echo failure.</para><para>Default value: 0</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingPPP--lcp-echo-interval"/>The <literal>&quot;lcp-echo-interval&quot;</literal> property</title>
+<indexterm><primary>NMSettingPPP:lcp-echo-interval</primary></indexterm><programlisting>  &quot;lcp-echo-interval&quot;        <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
+<para>LCP echo interval.</para><para>Default value: 0</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingPPP--mppe-stateful"/>The <literal>&quot;mppe-stateful&quot;</literal> property</title>
+<indexterm><primary>NMSettingPPP:mppe-stateful</primary></indexterm><programlisting>  &quot;mppe-stateful&quot;            <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
+<para>MPPE stateful.</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingPPP--mru"/>The <literal>&quot;mru&quot;</literal> property</title>
+<indexterm><primary>NMSettingPPP:mru</primary></indexterm><programlisting>  &quot;mru&quot;                      <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
+<para>MRU.</para><para>Default value: 0</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingPPP--mtu"/>The <literal>&quot;mtu&quot;</literal> property</title>
+<indexterm><primary>NMSettingPPP:mtu</primary></indexterm><programlisting>  &quot;mtu&quot;                      <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
+<para>MTU.</para><para>Default value: 0</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingPPP--no-vj-comp"/>The <literal>&quot;no-vj-comp&quot;</literal> property</title>
+<indexterm><primary>NMSettingPPP:no-vj-comp</primary></indexterm><programlisting>  &quot;no-vj-comp&quot;               <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
+<para>No VJ compression.</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingPPP--noauth"/>The <literal>&quot;noauth&quot;</literal> property</title>
+<indexterm><primary>NMSettingPPP:noauth</primary></indexterm><programlisting>  &quot;noauth&quot;                   <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
+<para>NoAuth.</para><para>Default value: TRUE</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingPPP--nobsdcomp"/>The <literal>&quot;nobsdcomp&quot;</literal> property</title>
+<indexterm><primary>NMSettingPPP:nobsdcomp</primary></indexterm><programlisting>  &quot;nobsdcomp&quot;                <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
+<para>No BSD compression.</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingPPP--nodeflate"/>The <literal>&quot;nodeflate&quot;</literal> property</title>
+<indexterm><primary>NMSettingPPP:nodeflate</primary></indexterm><programlisting>  &quot;nodeflate&quot;                <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
+<para>No deflate.</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingPPP--refuse-chap"/>The <literal>&quot;refuse-chap&quot;</literal> property</title>
+<indexterm><primary>NMSettingPPP:refuse-chap</primary></indexterm><programlisting>  &quot;refuse-chap&quot;              <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
+<para>Refuse CHAP.</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingPPP--refuse-eap"/>The <literal>&quot;refuse-eap&quot;</literal> property</title>
+<indexterm><primary>NMSettingPPP:refuse-eap</primary></indexterm><programlisting>  &quot;refuse-eap&quot;               <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
+<para>Refuse EAP.</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingPPP--refuse-mschap"/>The <literal>&quot;refuse-mschap&quot;</literal> property</title>
+<indexterm><primary>NMSettingPPP:refuse-mschap</primary></indexterm><programlisting>  &quot;refuse-mschap&quot;            <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
+<para>Refuse MSCHAP.</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingPPP--refuse-mschapv2"/>The <literal>&quot;refuse-mschapv2&quot;</literal> property</title>
+<indexterm><primary>NMSettingPPP:refuse-mschapv2</primary></indexterm><programlisting>  &quot;refuse-mschapv2&quot;          <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
+<para>Refuse MSCHAPv2.</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingPPP--refuse-pap"/>The <literal>&quot;refuse-pap&quot;</literal> property</title>
+<indexterm><primary>NMSettingPPP:refuse-pap</primary></indexterm><programlisting>  &quot;refuse-pap&quot;               <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
+<para>Refuse PAP.</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingPPP--require-mppe"/>The <literal>&quot;require-mppe&quot;</literal> property</title>
+<indexterm><primary>NMSettingPPP:require-mppe</primary></indexterm><programlisting>  &quot;require-mppe&quot;             <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
+<para>Require MPPE.</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingPPP--require-mppe-128"/>The <literal>&quot;require-mppe-128&quot;</literal> property</title>
+<indexterm><primary>NMSettingPPP:require-mppe-128</primary></indexterm><programlisting>  &quot;require-mppe-128&quot;         <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
+<para>Require MPPE 128.</para><para>Default value: FALSE</para>
+</refsect2>
+
+</refsect1>
+
+
+
+
+
+<refsect1><refsect2 /><refsect2 /></refsect1>
+</refentry>

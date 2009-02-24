@@ -1,0 +1,59 @@
+<!-- ##### SECTION Title ##### -->
+NMDBusSettings
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### MACRO NM_DBUS_SETTINGS_DBUS_CONNECTION ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_DBUS_SETTINGS_SCOPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### STRUCT NMDBusSettings ##### -->
+<para>
+
+</para>
+
+@parent: 
+
+<!-- ##### FUNCTION nm_dbus_settings_new ##### -->
+<para>
+
+</para>
+
+@dbus_connection: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_dbus_settings_get_connection_by_path ##### -->
+<para>
+
+</para>
+
+@self: 
+@path: 
+@Returns: 
+
+

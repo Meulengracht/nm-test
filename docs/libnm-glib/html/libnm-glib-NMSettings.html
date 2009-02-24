@@ -1,0 +1,628 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>NMSettings</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="libnm-glib Reference Manual">
+<link rel="up" href="ch01.html" title="[Insert title here]">
+<link rel="prev" href="NMObject.html" title="NMObject">
+<link rel="next" href="libnm-glib-NMVPNConnection.html" title="NMVPNConnection">
+<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="[Insert title here]">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="NMObject.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">libnm-glib Reference Manual</th>
+<td><a accesskey="n" href="libnm-glib-NMVPNConnection.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id3049045" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id3074893" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="libnm-glib-NMSettings"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id3049045"></a><span class="refentrytitle">NMSettings</span>
+</h2>
+<p>NMSettings</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+enum                <a class="link" href="libnm-glib-NMSettings.html#NMSettingsError">NMSettingsError</a>;
+#define             <a class="link" href="libnm-glib-NMSettings.html#NM-SETTINGS-ERROR:CAPS">NM_SETTINGS_ERROR</a>
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+>GQuark</a>              <a class="link" href="libnm-glib-NMSettings.html#nm-settings-error-quark">nm_settings_error_quark</a>             (void);
+#define             <a class="link" href="libnm-glib-NMSettings.html#NM-EXPORTED-CONNECTION-CONNECTION:CAPS">NM_EXPORTED_CONNECTION_CONNECTION</a>
+#define             <a class="link" href="libnm-glib-NMSettings.html#NM-EXPORTED-CONNECTION-DBUS-METHOD-INVOCATION:CAPS">NM_EXPORTED_CONNECTION_DBUS_METHOD_INVOCATION</a>
+                    <a class="link" href="libnm-glib-NMSettings.html#NMExportedConnection">NMExportedConnection</a>;
+<a class="link" href="libnm-glib-NMSettings.html#NMExportedConnection">NMExportedConnection</a>* <a class="link" href="libnm-glib-NMSettings.html#nm-exported-connection-new">nm_exported_connection_new</a>        (<a
+href="http://[SERVER]/libnm-util/NMConnection.html"
+>NMConnection</a> *wrapped);
+void                <a class="link" href="libnm-glib-NMSettings.html#nm-exported-connection-register-object">nm_exported_connection_register_object</a>
+                                                        (<a class="link" href="libnm-glib-NMSettings.html#NMExportedConnection">NMExportedConnection</a> *connection,
+                                                         <a
+href="http://[SERVER]/libnm-util/NMConnection.html#NMConnectionScope"
+>NMConnectionScope</a> scope,
+                                                         <a
+href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
+>DBusGConnection</a> *dbus_connection);
+<a
+href="http://[SERVER]/libnm-util/NMConnection.html"
+>NMConnection</a>*       <a class="link" href="libnm-glib-NMSettings.html#nm-exported-connection-get-connection">nm_exported_connection_get_connection</a>
+                                                        (<a class="link" href="libnm-glib-NMSettings.html#NMExportedConnection">NMExportedConnection</a> *connection);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="libnm-glib-NMSettings.html#nm-exported-connection-update">nm_exported_connection_update</a>       (<a class="link" href="libnm-glib-NMSettings.html#NMExportedConnection">NMExportedConnection</a> *connection,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+>GHashTable</a> *new_settings,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **err);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="libnm-glib-NMSettings.html#nm-exported-connection-delete">nm_exported_connection_delete</a>       (<a class="link" href="libnm-glib-NMSettings.html#NMExportedConnection">NMExportedConnection</a> *connection,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **err);
+void                <a class="link" href="libnm-glib-NMSettings.html#nm-exported-connection-signal-updated">nm_exported_connection_signal_updated</a>
+                                                        (<a class="link" href="libnm-glib-NMSettings.html#NMExportedConnection">NMExportedConnection</a> *connection,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+>GHashTable</a> *new_settings);
+void                <a class="link" href="libnm-glib-NMSettings.html#nm-exported-connection-signal-removed">nm_exported_connection_signal_removed</a>
+                                                        (<a class="link" href="libnm-glib-NMSettings.html#NMExportedConnection">NMExportedConnection</a> *connection);
+#define             <a class="link" href="libnm-glib-NMSettings.html#NM-TYPE-SETTINGS:CAPS">NM_TYPE_SETTINGS</a>
+#define             <a class="link" href="libnm-glib-NMSettings.html#NM-SETTINGS:CAPS">NM_SETTINGS</a>                         (obj)
+#define             <a class="link" href="libnm-glib-NMSettings.html#NM-SETTINGS-CLASS:CAPS">NM_SETTINGS_CLASS</a>                   (klass)
+#define             <a class="link" href="libnm-glib-NMSettings.html#NM-IS-SETTINGS:CAPS">NM_IS_SETTINGS</a>                      (obj)
+#define             <a class="link" href="libnm-glib-NMSettings.html#NM-IS-SETTINGS-CLASS:CAPS">NM_IS_SETTINGS_CLASS</a>                (klass)
+#define             <a class="link" href="libnm-glib-NMSettings.html#NM-SETTINGS-GET-CLASS:CAPS">NM_SETTINGS_GET_CLASS</a>               (obj)
+                    <a class="link" href="libnm-glib-NMSettings.html#NMSettings">NMSettings</a>;
+<a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a>               <a class="link" href="libnm-glib-NMSettings.html#nm-settings-get-type">nm_settings_get_type</a>                (void);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Singly-Linked-Lists.html#GSList"
+>GSList</a>*             <a class="link" href="libnm-glib-NMSettings.html#nm-settings-list-connections">nm_settings_list_connections</a>        (<a class="link" href="libnm-glib-NMSettings.html#NMSettings">NMSettings</a> *settings);
+void                <a class="link" href="libnm-glib-NMSettings.html#nm-settings-signal-new-connection">nm_settings_signal_new_connection</a>   (<a class="link" href="libnm-glib-NMSettings.html#NMSettings">NMSettings</a> *settings,
+                                                         <a class="link" href="libnm-glib-NMSettings.html#NMExportedConnection">NMExportedConnection</a> *connection);
+
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id3074893"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id3074908"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id3074919"></a><h3>
+<a name="NMSettingsError"></a>enum NMSettingsError</h3>
+<a class="indexterm" name="id3074932"></a><pre class="programlisting">typedef enum
+{
+	NM_SETTINGS_ERROR_INVALID_CONNECTION = 0,
+	NM_SETTINGS_ERROR_READ_ONLY_CONNECTION,
+	NM_SETTINGS_ERROR_INTERNAL_ERROR,
+	NM_SETTINGS_ERROR_SECRETS_UNAVAILABLE,
+	NM_SETTINGS_ERROR_SECRETS_REQUEST_CANCELED
+} NMSettingsError;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3074951"></a><h3>
+<a name="NM-SETTINGS-ERROR:CAPS"></a>NM_SETTINGS_ERROR</h3>
+<a class="indexterm" name="id3076490"></a><pre class="programlisting">#define NM_SETTINGS_ERROR (nm_settings_error_quark ())
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3076507"></a><h3>
+<a name="nm-settings-error-quark"></a>nm_settings_error_quark ()</h3>
+<a class="indexterm" name="id3076518"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+>GQuark</a>              nm_settings_error_quark             (void);</pre>
+<p>
+Setting error quark.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the setting error quark
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3076557"></a><h3>
+<a name="NM-EXPORTED-CONNECTION-CONNECTION:CAPS"></a>NM_EXPORTED_CONNECTION_CONNECTION</h3>
+<a class="indexterm" name="id3076569"></a><pre class="programlisting">#define NM_EXPORTED_CONNECTION_CONNECTION "connection"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3076586"></a><h3>
+<a name="NM-EXPORTED-CONNECTION-DBUS-METHOD-INVOCATION:CAPS"></a>NM_EXPORTED_CONNECTION_DBUS_METHOD_INVOCATION</h3>
+<a class="indexterm" name="id3076600"></a><pre class="programlisting">#define NM_EXPORTED_CONNECTION_DBUS_METHOD_INVOCATION "nm-exported-connection-dbus-method-invocation"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3076618"></a><h3>
+<a name="NMExportedConnection"></a>NMExportedConnection</h3>
+<a class="indexterm" name="id3076629"></a><pre class="programlisting">typedef struct {
+	GObject parent;
+} NMExportedConnection;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3076645"></a><h3>
+<a name="nm-exported-connection-new"></a>nm_exported_connection_new ()</h3>
+<a class="indexterm" name="id3076657"></a><pre class="programlisting"><a class="link" href="libnm-glib-NMSettings.html#NMExportedConnection">NMExportedConnection</a>* nm_exported_connection_new        (<a
+href="http://[SERVER]/libnm-util/NMConnection.html"
+>NMConnection</a> *wrapped);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>wrapped</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3076712"></a><h3>
+<a name="nm-exported-connection-register-object"></a>nm_exported_connection_register_object ()</h3>
+<a class="indexterm" name="id3076723"></a><pre class="programlisting">void                nm_exported_connection_register_object
+                                                        (<a class="link" href="libnm-glib-NMSettings.html#NMExportedConnection">NMExportedConnection</a> *connection,
+                                                         <a
+href="http://[SERVER]/libnm-util/NMConnection.html#NMConnectionScope"
+>NMConnectionScope</a> scope,
+                                                         <a
+href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
+>DBusGConnection</a> *dbus_connection);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>scope</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dbus_connection</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3078301"></a><h3>
+<a name="nm-exported-connection-get-connection"></a>nm_exported_connection_get_connection ()</h3>
+<a class="indexterm" name="id3078313"></a><pre class="programlisting"><a
+href="http://[SERVER]/libnm-util/NMConnection.html"
+>NMConnection</a>*       nm_exported_connection_get_connection
+                                                        (<a class="link" href="libnm-glib-NMSettings.html#NMExportedConnection">NMExportedConnection</a> *connection);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3078370"></a><h3>
+<a name="nm-exported-connection-update"></a>nm_exported_connection_update ()</h3>
+<a class="indexterm" name="id3078383"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_exported_connection_update       (<a class="link" href="libnm-glib-NMSettings.html#NMExportedConnection">NMExportedConnection</a> *connection,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+>GHashTable</a> *new_settings,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>new_settings</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3078482"></a><h3>
+<a name="nm-exported-connection-delete"></a>nm_exported_connection_delete ()</h3>
+<a class="indexterm" name="id3078495"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_exported_connection_delete       (<a class="link" href="libnm-glib-NMSettings.html#NMExportedConnection">NMExportedConnection</a> *connection,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **err);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3078573"></a><h3>
+<a name="nm-exported-connection-signal-updated"></a>nm_exported_connection_signal_updated ()</h3>
+<a class="indexterm" name="id3078587"></a><pre class="programlisting">void                nm_exported_connection_signal_updated
+                                                        (<a class="link" href="libnm-glib-NMSettings.html#NMExportedConnection">NMExportedConnection</a> *connection,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+>GHashTable</a> *new_settings);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>new_settings</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3078655"></a><h3>
+<a name="nm-exported-connection-signal-removed"></a>nm_exported_connection_signal_removed ()</h3>
+<a class="indexterm" name="id3078669"></a><pre class="programlisting">void                nm_exported_connection_signal_removed
+                                                        (<a class="link" href="libnm-glib-NMSettings.html#NMExportedConnection">NMExportedConnection</a> *connection);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3078716"></a><h3>
+<a name="NM-TYPE-SETTINGS:CAPS"></a>NM_TYPE_SETTINGS</h3>
+<a class="indexterm" name="id3078728"></a><pre class="programlisting">#define NM_TYPE_SETTINGS            (nm_settings_get_type ())
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3078744"></a><h3>
+<a name="NM-SETTINGS:CAPS"></a>NM_SETTINGS()</h3>
+<a class="indexterm" name="id3078757"></a><pre class="programlisting">#define NM_SETTINGS(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), NM_TYPE_SETTINGS, NMSettings))
+</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>obj</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3078793"></a><h3>
+<a name="NM-SETTINGS-CLASS:CAPS"></a>NM_SETTINGS_CLASS()</h3>
+<a class="indexterm" name="id3078804"></a><pre class="programlisting">#define NM_SETTINGS_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), NM_TYPE_SETTINGS, NMSettingsClass))
+</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>klass</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3078841"></a><h3>
+<a name="NM-IS-SETTINGS:CAPS"></a>NM_IS_SETTINGS()</h3>
+<a class="indexterm" name="id3078853"></a><pre class="programlisting">#define NM_IS_SETTINGS(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), NM_TYPE_SETTINGS))
+</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>obj</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3078889"></a><h3>
+<a name="NM-IS-SETTINGS-CLASS:CAPS"></a>NM_IS_SETTINGS_CLASS()</h3>
+<a class="indexterm" name="id3078900"></a><pre class="programlisting">#define NM_IS_SETTINGS_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), NM_TYPE_SETTINGS))
+</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>klass</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3078936"></a><h3>
+<a name="NM-SETTINGS-GET-CLASS:CAPS"></a>NM_SETTINGS_GET_CLASS()</h3>
+<a class="indexterm" name="id3078947"></a><pre class="programlisting">#define NM_SETTINGS_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), NM_TYPE_SETTINGS, NMSettingsClass))
+</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>obj</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3078983"></a><h3>
+<a name="NMSettings"></a>NMSettings</h3>
+<a class="indexterm" name="id3078995"></a><pre class="programlisting">typedef struct {
+	GObject parent;
+} NMSettings;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3079011"></a><h3>
+<a name="nm-settings-get-type"></a>nm_settings_get_type ()</h3>
+<a class="indexterm" name="id3079022"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a>               nm_settings_get_type                (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3079058"></a><h3>
+<a name="nm-settings-list-connections"></a>nm_settings_list_connections ()</h3>
+<a class="indexterm" name="id3079072"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Singly-Linked-Lists.html#GSList"
+>GSList</a>*             nm_settings_list_connections        (<a class="link" href="libnm-glib-NMSettings.html#NMSettings">NMSettings</a> *settings);</pre>
+<p>
+Lists all the available connections.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>settings</code></em>&#160;:</span></p></td>
+<td> 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the <a
+href="/usr/share/gtk-doc/html/glib/glib-Singly-Linked-Lists.html#GSList"
+><span class="type">GSList</span></a> containing <a class="link" href="libnm-glib-NMSettings.html#NMExportedConnection"><span class="type">NMExportedConnection</span></a>s
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3079148"></a><h3>
+<a name="nm-settings-signal-new-connection"></a>nm_settings_signal_new_connection ()</h3>
+<a class="indexterm" name="id3079162"></a><pre class="programlisting">void                nm_settings_signal_new_connection   (<a class="link" href="libnm-glib-NMSettings.html#NMSettings">NMSettings</a> *settings,
+                                                         <a class="link" href="libnm-glib-NMSettings.html#NMExportedConnection">NMExportedConnection</a> *connection);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>settings</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id3079230"></a><div class="refsect2" lang="en"><a name="id3079231"></a></div>
+<hr>
+<div class="refsect2" lang="en"><a name="id3079232"></a></div>
+</div>
+</div>
+</body>
+</html>

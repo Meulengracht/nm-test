@@ -1,18 +1,18 @@
 # French translation of NetworkManager.
-# Copyright (C) 2004-2007 The GNOME Foundation.
+# Copyright (C) 2004-2008 The GNOME Foundation.
 # This file is distributed under the same license as the NetworkManager package.
 #
 # Raphaël Tournoy <lexpas@free.fr>, 2004.
-# Stéphane Raimbault <stephane.raimbault@gmail.com>, 2006-2007.
+# Stéphane Raimbault <stephane.raimbault@gmail.com>, 2006-2008.
 # Jonathan Ernst <jonathan@ernstfamily.ch>, 2007.
-# Claude Paroz <claude@2xlibre.net>, 2007.
+# Robert-André Mauchin <zebob.m@pengzone.org>, 2007-2008.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: NetworkManager 0.6.0\n"
+"Project-Id-Version: NetworkManager 0.7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-06 20:42+0100\n"
-"PO-Revision-Date: 2007-03-06 20:47+0100\n"
+"POT-Creation-Date: 2008-09-25 22:59+0200\n"
+"PO-Revision-Date: 2008-09-25 23:04+0200\n"
 "Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,226 +20,247 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:405
-msgid "Cannot add VPN connection"
-msgstr "Impossible d'ajouter la connexion VPN"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.c:407
-msgid ""
-"No suitable VPN software was found on your system. Contact your system "
-"administrator."
-msgstr ""
-"Aucun logiciel VPN adéquat n'a été trouvé sur votre système. Contactez votre "
-"administrateur système."
-
-#: ../gnome/vpn-properties/nm-vpn-properties.c:457
-msgid "Cannot import VPN connection"
-msgstr "Impossible d'importer la connexion VPN"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.c:459
+#: ../src/nm-netlink-monitor.c:193 ../src/nm-netlink-monitor.c:474
 #, c-format
-msgid ""
-"Cannot find suitable software for VPN connection type '%s' to import the "
-"file '%s'. Contact your system administrator."
-msgstr ""
-"Impossible de trouver un logiciel adéquat supportant la connexion VPN de "
-"type « %s » pour importer le fichier « %s ». Contactez votre administrateur "
-"système."
+msgid "error processing netlink message: %s"
+msgstr "erreur lors du traitement du message netlink : %s"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:596
+#: ../src/nm-netlink-monitor.c:250
 #, c-format
-msgid "Error retrieving VPN connection '%s'"
-msgstr "Erreur de récupération de la connexion VPN « %s »"
+msgid "unable to allocate netlink handle for monitoring link status: %s"
+msgstr ""
+"impossible d'allouer un gestionnaire netlink pour surveiller l'état de la "
+"connexion : %s"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:599
+#: ../src/nm-netlink-monitor.c:260
 #, c-format
-msgid ""
-"Could not find the UI files for VPN connection type '%s'. Contact your "
-"system administrator."
+msgid "unable to connect to netlink for monitoring link status: %s"
 msgstr ""
-"Impossible de trouver les fichiers de l'interface utilisateur pour la "
-"connexion VPN de type « %s ». Contactez votre administrateur système."
+"impossible de se connecter à netlink pour surveiller l'état de la "
+"connexion : %s"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:746
+#: ../src/nm-netlink-monitor.c:268
 #, c-format
-msgid "Delete VPN connection \"%s\"?"
-msgstr "Voulez-vous supprimer la connexion VPN « %s » ?"
+msgid "unable to join netlink group for monitoring link status: %s"
+msgstr ""
+"impossible de joindre le groupe netlink pour surveiller l'état de la "
+"connexion : %s"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:749
+#: ../src/nm-netlink-monitor.c:276
 #, c-format
-msgid ""
-"All information about the VPN connection \"%s\" will be lost and you may "
-"need your system administrator to provide information to create a new "
-"connection."
+msgid "unable to allocate netlink link cache for monitoring link status: %s"
 msgstr ""
-"Toutes les informations au sujet de la connexion VPN « %s » seront perdues "
-"et votre administrateur système devra peut-être fournir les informations "
-"nécessaires à la création d'une nouvelle connexion."
+"impossible d'allouer un cache de connexion netlink pour surveiller l'état de "
+"la connexion : %s"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:963
-msgid "Unable to load"
-msgstr "Impossible de charger"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.c:965
-msgid "Cannot find some needed resources (the glade file)!"
-msgstr "Impossible de trouver certaines ressources requises (fichier glade) !"
-
-#. Edit dialog
-#: ../gnome/vpn-properties/nm-vpn-properties.c:1084
-msgid "Edit VPN Connection"
-msgstr "Éditer la connexion VPN"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:1
-msgid "Add a new VPN connection"
-msgstr "Ajouter une nouvelle connexion VPN"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:2
-msgid "Choose which type of VPN connection you wish to create."
-msgstr "Choisissez le type de connexion VPN à créer."
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:3
-msgid "Connect to:"
-msgstr "Se connecter à :"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:4
-msgid "Create VPN Connection"
-msgstr "Créer une connexion VPN"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:5
-msgid "Create VPN Connection - 1 of 2"
-msgstr "Créer une connexion VPN - 1 sur 2"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:6
-msgid "Create VPN Connection - 2 of 2"
-msgstr "Créer une connexion VPN - 2 sur 2"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:7
-msgid "Delete the selected VPN connection"
-msgstr "Supprimer la connexion VPN sélectionnée"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:8
-msgid "E_xport"
-msgstr "E_xporter"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:9
-msgid "Edit the selected VPN connection"
-msgstr "Éditer la connexion VPN sélectionnée"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:10
-msgid "Export the VPN settings to a file"
-msgstr "Exporter les paramètres VPN dans un fichier"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:11
-msgid "Export the selected VPN connection to a file"
-msgstr "Exporter la connexion VPN sélectionnée dans un fichier"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:12
-msgid "Finish Creating VPN Connection"
-msgstr "Finir de créer la connexion VPN"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:13
-msgid "Manage Virtual Private Network Connections"
-msgstr "Gérer les connexions au réseau privé virtuel"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:14
-msgid ""
-"This assistant will guide you through the creation of a connection to a "
-"Virtual Private Network (VPN).\n"
-"\n"
-"It will require some information, such as IP addresses and secrets.  Please "
-"see your system administrator to obtain this information."
-msgstr ""
-"Cet assistant va vous aider à créer une connexion à un réseau privé virtuel "
-"(VPN).\n"
-"\n"
-"Il aura besoin de certaines informations, telles que des adresses IP et des "
-"éléments secrets. Contactez votre administrateur système pour les obtenir."
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:17
-msgid "VPN Connections"
-msgstr "Connexions VPN"
-
-#: ../src/nm-ap-security-wep.c:52
-msgid "40-bit WEP"
-msgstr "WEP 40 bits"
-
-#: ../src/nm-ap-security-wep.c:54
-msgid "104-bit WEP"
-msgstr "WEP 104 bits"
-
-#: ../src/nm-ap-security-wpa-psk.c:50
-msgid "WPA TKIP"
-msgstr "WPA TKIP"
-
-#: ../src/nm-ap-security-wpa-psk.c:52
-msgid "WPA CCMP"
-msgstr "WPA CCMP"
-
-#: ../src/nm-ap-security-wpa-psk.c:54
-msgid "WPA Automatic"
-msgstr "WPA automatique"
-
-#: ../src/nm-ap-security-wpa-psk.c:59
-msgid "WPA2 TKIP"
-msgstr "WPA2 TKIP"
-
-#: ../src/nm-ap-security-wpa-psk.c:61
-msgid "WPA2 CCMP"
-msgstr "WPA2 CCMP"
-
-#: ../src/nm-ap-security-wpa-psk.c:63
-msgid "WPA2 Automatic"
-msgstr "WPA2 automatique"
-
-#: ../src/nm-ap-security.c:338
-msgid "none"
-msgstr "aucun"
-
-#: ../src/nm-netlink-monitor.c:170
+#: ../src/nm-netlink-monitor.c:439
 #, c-format
-msgid ""
-"unable to create netlink socket for monitoring wired ethernet devices - %s"
-msgstr ""
-"impossible de créer un socket netlink pour surveiller les périphériques "
-"Ethernet câblés - %s"
+msgid "error updating link cache: %s"
+msgstr "erreur lors de la mise à jour du cache de connexion : %s"
 
-#: ../src/nm-netlink-monitor.c:188
-#, c-format
-msgid ""
-"unable to bind to netlink socket for monitoring wired ethernet devices - %s"
-msgstr ""
-"impossible d'effectuer une liaison au socket netlink pour surveiller les "
-"périphériques Ethernet câblés - %s"
-
-#: ../src/nm-netlink-monitor.c:426
-msgid "operation took too long"
-msgstr "l'opération a duré trop longtemps"
-
-#: ../src/nm-netlink-monitor.c:523
-msgid "received data from wrong type of sender"
-msgstr "données reçues d'un type erroné d'expéditeur"
-
-#: ../src/nm-netlink-monitor.c:536
-msgid "received data from unexpected sender"
-msgstr "données reçues d'un expéditeur inattendu"
-
-#: ../src/nm-netlink-monitor.c:665
-msgid "too much data was sent over socket and some of it was lost"
-msgstr ""
-"trop de données ont été envoyées sur le socket et certaines ont été perdues"
-
-#: ../src/nm-netlink-monitor.c:775
+#: ../src/nm-netlink-monitor.c:497
 msgid "error occurred while waiting for data on socket"
-msgstr "une erreur s'est produite pendant l'attente des données sur le socket"
+msgstr "une erreur est survenue pendant l'attente de données sur le connecteur"
 
-#: ../src/nm-ap-security-wpa-eap.c:96 ../src/nm-ap-security-wpa-eap.c:120
-msgid "WPA2 Enterprise"
-msgstr "WPA2 Entreprise"
+#: ../src/NetworkManager.c:250
+msgid "Invalid option.  Please use --help to see a list of valid options.\n"
+msgstr ""
+"Option non valide.  Utilisez --help pour afficher une liste d'options "
+"valides.\n"
 
-#: ../src/nm-ap-security-wpa-eap.c:98 ../src/nm-ap-security-wpa-eap.c:125
-msgid "WPA Enterprise"
-msgstr "WPA Entreprise"
+#: ../src/dhcp-manager/nm-dhcp-dhclient.c:89
+msgid "# Created by NetworkManager\n"
+msgstr "# Créé par NetworkManager\n"
 
-#: ../src/nm-ap-security-leap.c:66 ../src/nm-ap-security-leap.c:82
-msgid "LEAP"
-msgstr "LEAP"
+#: ../src/dhcp-manager/nm-dhcp-dhclient.c:95
+#, c-format
+msgid ""
+"# Merged from %s\n"
+"\n"
+msgstr ""
+"# Fusionné depuis %s\n"
+"\n"
+
+#: ../src/named-manager/nm-named-manager.c:256
+msgid "NOTE: the libc resolver may not support more than 3 nameservers."
+msgstr ""
+"NOTE : il se peut que le solveur libc ne prenne pas en charge plus de 3 serveurs de noms."
+
+#: ../src/named-manager/nm-named-manager.c:258
+msgid "The nameservers listed below may not be recognized."
+msgstr "Les serveurs de noms listés ci-dessous peuvent ne pas être reconnus."
+
+#: ../system-settings/src/main.c:366
+#, c-format
+msgid "Auto %s"
+msgstr "Auto %s"
+
+#: ../libnm-util/crypto.c:125
+#, c-format
+msgid "PEM key file had no end tag '%s'."
+msgstr "Le fichier de clé PEM n'a pas de balise de fin « %s »."
+
+#: ../libnm-util/crypto.c:135
+msgid "Doesn't look like a PEM private key file."
+msgstr "Cela ne semble pas être un fichier de clé privée PEM."
+
+#: ../libnm-util/crypto.c:143
+msgid "Not enough memory to store PEM file data."
+msgstr "Mémoire insuffisante pour contenir les données du fichier PEM."
+
+#: ../libnm-util/crypto.c:159
+msgid "Malformed PEM file: Proc-Type was not first tag."
+msgstr "Fichier PEM incorrect : Proc-Type n'est pas la première balise."
+
+#: ../libnm-util/crypto.c:167
+#, c-format
+msgid "Malformed PEM file: unknown Proc-Type tag '%s'."
+msgstr "Fichier PEM incorrect : étiquette Proc-Type « %s » inconnue."
+
+#: ../libnm-util/crypto.c:177
+msgid "Malformed PEM file: DEK-Info was not the second tag."
+msgstr "Fichier PEM incorrect : DEK-Info n'est pas la deuxième balise."
+
+#: ../libnm-util/crypto.c:188
+msgid "Malformed PEM file: no IV found in DEK-Info tag."
+msgstr "Fichier PEM incorrect : aucun IV trouvé dans la balise DEK-Info."
+
+#: ../libnm-util/crypto.c:195
+msgid "Malformed PEM file: invalid format of IV in DEK-Info tag."
+msgstr "Fichier PEM incorrect : format de IV invalide dans la balise DEK-Info."
+
+#: ../libnm-util/crypto.c:208
+#, c-format
+msgid "Malformed PEM file: unknown private key cipher '%s'."
+msgstr "Fichier PEM incorrect : chiffre de clé privée « %s » inconnu."
+
+#: ../libnm-util/crypto.c:227
+msgid "Could not decode private key."
+msgstr "Impossible de décoder la clé privée."
+
+#: ../libnm-util/crypto.c:271
+#, c-format
+msgid "PEM certificate '%s' had no end tag '%s'."
+msgstr "Le certificat PEM « %s » n'a pas de balise de fin « %s »."
+
+#: ../libnm-util/crypto.c:281
+msgid "Failed to decode certificate."
+msgstr "Impossible de décoder le certificat."
+
+#: ../libnm-util/crypto.c:290 ../libnm-util/crypto.c:298
+msgid "Not enough memory to store certificate data."
+msgstr "Mémoire insuffisante pour contenir les données du certificat."
+
+#: ../libnm-util/crypto.c:328
+msgid "IV must be an even number of bytes in length."
+msgstr "La longueur en octets de IV doit être paire."
+
+#: ../libnm-util/crypto.c:337
+msgid "Not enough memory to store the IV."
+msgstr "Mémoire insuffisante pour contenir IV."
+
+#: ../libnm-util/crypto.c:348
+msgid "IV contains non-hexadecimal digits."
+msgstr "IV contient des chiffres non-hexadécimaux."
+
+#: ../libnm-util/crypto.c:386 ../libnm-util/crypto_gnutls.c:143
+#: ../libnm-util/crypto_nss.c:157
+#, c-format
+msgid "Private key cipher '%s' was unknown."
+msgstr "Le chiffre « %s » de la clé privée est inconnu."
+
+#: ../libnm-util/crypto.c:395
+msgid "Not enough memory to create private key decryption key."
+msgstr ""
+"Mémoire insuffisante pour créer une clé de déchiffrement de la clé privée."
+
+#: ../libnm-util/crypto.c:513
+msgid "Not enough memory to store decrypted private key."
+msgstr "Mémoire insuffisante pour contenir la clé privée déchiffrée."
+
+#: ../libnm-util/crypto_gnutls.c:45
+msgid "Failed to initialize the crypto engine."
+msgstr "L'initialisation du moteur de chiffrement a échoué."
+
+#: ../libnm-util/crypto_gnutls.c:89
+#, c-format
+msgid "Failed to initialize the MD5 engine: %s / %s."
+msgstr "L'initialisation du moteur MD5 a échoué : %s / %s."
+
+#: ../libnm-util/crypto_gnutls.c:152 ../libnm-util/crypto_nss.c:166
+msgid "Not enough memory for decrypted key buffer."
+msgstr "Mémoire insuffisante pour le tampon de clé déchiffrée."
+
+#: ../libnm-util/crypto_gnutls.c:160
+#, c-format
+msgid "Failed to initialize the decryption cipher context: %s / %s."
+msgstr ""
+"L'initialisation du contexte du chiffre de déchiffrement a échoué : %s / %s."
+
+#: ../libnm-util/crypto_gnutls.c:169
+#, c-format
+msgid "Failed to set symmetric key for decryption: %s / %s."
+msgstr ""
+"La définition de la clé symétrique pour le déchiffrement a échoué : %s / %s."
+
+#: ../libnm-util/crypto_gnutls.c:178
+#, c-format
+msgid "Failed to set IV for decryption: %s / %s."
+msgstr "La définition de IV pour le déchiffrement a échoué : %s / %s."
+
+#: ../libnm-util/crypto_gnutls.c:187
+#, c-format
+msgid "Failed to decrypt the private key: %s / %s."
+msgstr "Le déchiffrement de la clé privée a échoué : %s / %s."
+
+#: ../libnm-util/crypto_gnutls.c:225
+#, c-format
+msgid "Error initializing certificate data: %s"
+msgstr "Erreur lors de l'initialisation des données du certificat : %s"
+
+#: ../libnm-util/crypto_gnutls.c:237
+#, c-format
+msgid "Couldn't decode certificate: %s"
+msgstr "Impossible de décoder le certificat : %s"
+
+#: ../libnm-util/crypto_nss.c:52
+#, c-format
+msgid "Failed to initialize the crypto engine: %d."
+msgstr "L'initialisation du moteur de chiffrement a échoué : %d."
+
+#: ../libnm-util/crypto_nss.c:98
+#, c-format
+msgid "Failed to initialize the MD5 context: %d."
+msgstr "L'initialisation du contexte MD5 a échoué : %d."
+
+#: ../libnm-util/crypto_nss.c:174
+msgid "Failed to initialize the decryption cipher slot."
+msgstr ""
+"L'initialisation de l'emplacement du chiffre de déchiffrement a échoué."
+
+#: ../libnm-util/crypto_nss.c:184
+msgid "Failed to set symmetric key for decryption."
+msgstr "La définition de la clé symétrique pour le déchiffrement a échoué."
+
+#: ../libnm-util/crypto_nss.c:194
+msgid "Failed to set IV for decryption."
+msgstr "La définition de IV pour le déchiffrement a échoué."
+
+#: ../libnm-util/crypto_nss.c:202
+msgid "Failed to initialize the decryption context."
+msgstr "L'initialisation du contexte de déchiffrement a échoué."
+
+#: ../libnm-util/crypto_nss.c:215
+#, c-format
+msgid "Failed to decrypt the private key: %d."
+msgstr "Le déchiffrement de la clé privée a échoué : %d."
+
+#: ../libnm-util/crypto_nss.c:227
+#, c-format
+msgid "Failed to finalize decryption of the private key: %d."
+msgstr "La finalisation du déchiffrement de la clé privée a échoué : %d."
+
+#: ../libnm-util/crypto_nss.c:271
+#, c-format
+msgid "Couldn't decode certificate: %d"
+msgstr "Impossible de décoder le certificat : %d"

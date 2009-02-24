@@ -1,6 +1,5 @@
+/* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
 /* NetworkManager -- Network link manager
- *
- * Dan Williams <dcbw@redhat.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,29 +11,26 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * (C) Copyright 2004 Red Hat, Inc.
+ * Copyright (C) 2004 - 2008 Red Hat, Inc.
+ * Copyright (C) 2007 - 2008 Novell, Inc.
  */
 
 #ifndef NETWORK_MANAGER_POLICY_H
 #define NETWORK_MANAGER_POLICY_H
 
 #include "NetworkManager.h"
+#include "nm-manager.h"
+#include "nm-vpn-manager.h"
 #include "nm-device.h"
-#include "NetworkManagerDbus.h"
 #include "nm-activation-request.h"
 
-void			nm_policy_schedule_device_change_check	(NMData *data);
+typedef struct NMPolicy NMPolicy;
 
-void			nm_policy_schedule_device_activation	(NMActRequest *req);
+NMPolicy *nm_policy_new (NMManager *manager, NMVPNManager *vpn_manager);
+void nm_policy_destroy (NMPolicy *policy);
 
-void			nm_policy_schedule_allowed_ap_list_update (NMData *app_data);
-void			nm_policy_schedule_device_ap_lists_update_from_allowed	(NMData *app_data);
-
-void			nm_policy_schedule_activation_finish	(NMActRequest *req);
-void			nm_policy_schedule_activation_failed	(NMActRequest *req);
-
-#endif
+#endif /* NETWORK_MANAGER_POLICY_H */

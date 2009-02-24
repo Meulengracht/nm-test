@@ -1,6 +1,5 @@
+/* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
 /* NetworkManager -- Network link manager
- *
- * Dan Williams <dcbw@redhat.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,11 +11,12 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * (C) Copyright 2005 Red Hat, Inc.
+ * Copyright (C) 2007 - 2008 Novell, Inc.
+ * Copyright (C) 2007 - 2008 Red Hat, Inc.
  */
 
 #ifndef NM_DEVICE_PRIVATE_H
@@ -24,13 +24,22 @@
 
 #include "nm-device.h"
 
-gboolean		nm_device_is_activated (NMDevice *dev);
+void nm_device_set_ip_iface (NMDevice *self, const char *iface);
 
-GMainContext *	nm_device_get_main_context (NMDevice *dev);
+void nm_device_set_device_type (NMDevice *dev, NMDeviceType type);
 
-NMIP4Config *	nm_device_new_ip4_autoip_config (NMDevice *self);
+void nm_device_activate_schedule_stage3_ip_config_start (NMDevice *device);
 
-void			nm_device_activate_schedule_stage3_ip_config_start (struct NMActRequest *req);
+void nm_device_state_changed (NMDevice *device,
+                              NMDeviceState state,
+                              NMDeviceStateReason reason);
 
+gboolean nm_device_hw_bring_up (NMDevice *self, gboolean wait, gboolean *no_firmware);
+
+void nm_device_hw_take_down (NMDevice *self, gboolean block);
+
+void nm_device_handle_autoip4_event (NMDevice *self,
+                                     const char *event,
+                                     const char *address);
 
 #endif	/* NM_DEVICE_PRIVATE_H */

@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>NMGsmDevice</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="libnm-glib Reference Manual">
+<link rel="up" href="ch01.html" title="[Insert title here]">
+<link rel="prev" href="NMClient.html" title="NMClient">
+<link rel="next" href="NMDevice.html" title="NMDevice">
+<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="[Insert title here]">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="NMClient.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">libnm-glib Reference Manual</th>
+<td><a accesskey="n" href="NMDevice.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id3060529" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id3044813" class="shortcut">Description</a>
+                  &#160;|&#160;
+                  <a href="#id3036497" class="shortcut">Object Hierarchy</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="NMGsmDevice"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id3060529"></a><span class="refentrytitle">NMGsmDevice</span>
+</h2>
+<p>NMGsmDevice</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+                    <a class="link" href="NMGsmDevice.html#NMGsmDevice-struct">NMGsmDevice</a>;
+<a class="link" href="NMGsmDevice.html" title="NMGsmDevice">NMGsmDevice</a>*        <a class="link" href="NMGsmDevice.html#nm-gsm-device-new">nm_gsm_device_new</a>                   (<a
+href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
+>DBusGConnection</a> *connection,
+                                                         const char *path);
+
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id3036497"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+
+  <a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
+   +----<a class="link" href="NMObject.html" title="NMObject">NMObject</a>
+         +----<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a>
+               +----<a class="link" href="NMSerialDevice.html" title="NMSerialDevice">NMSerialDevice</a>
+                     +----NMGsmDevice
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id3044813"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id3045141"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id3045151"></a><h3>
+<a name="NMGsmDevice-struct"></a>NMGsmDevice</h3>
+<a class="indexterm" name="id3045164"></a><pre class="programlisting">typedef struct _NMGsmDevice NMGsmDevice;</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3045179"></a><h3>
+<a name="nm-gsm-device-new"></a>nm_gsm_device_new ()</h3>
+<a class="indexterm" name="id3045191"></a><pre class="programlisting"><a class="link" href="NMGsmDevice.html" title="NMGsmDevice">NMGsmDevice</a>*        nm_gsm_device_new                   (<a
+href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
+>DBusGConnection</a> *connection,
+                                                         const char *path);</pre>
+<p>
+Creates a new <a class="link" href="NMGsmDevice.html" title="NMGsmDevice"><span class="type">NMGsmDevice</span></a>.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> the <a
+href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
+><span class="type">DBusGConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>path</code></em>&#160;:</span></p></td>
+<td> the DBus object path of the device
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> a new device
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id3054729"></a><div class="refsect2" lang="en"><a name="id3054730"></a></div>
+<hr>
+<div class="refsect2" lang="en"><a name="id3054731"></a></div>
+</div>
+</div>
+</body>
+</html>

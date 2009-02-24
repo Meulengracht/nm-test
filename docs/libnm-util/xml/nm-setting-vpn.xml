@@ -1,0 +1,416 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="NMSettingVPN">
+<refmeta>
+<refentrytitle role="top_of_page">NMSettingVPN</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNM-UTIL Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>NMSettingVPN</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+
+
+#define             <link linkend="NM-SETTING-VPN-SETTING-NAME:CAPS">NM_SETTING_VPN_SETTING_NAME</link>
+enum                <link linkend="NMSettingVpnError">NMSettingVpnError</link>;
+#define             <link linkend="NM-TYPE-SETTING-VPN-ERROR:CAPS">NM_TYPE_SETTING_VPN_ERROR</link>
+#define             <link linkend="NM-SETTING-VPN-ERROR:CAPS">NM_SETTING_VPN_ERROR</link>
+<link linkend="GQuark">GQuark</link>              <link linkend="nm-setting-vpn-error-quark">nm_setting_vpn_error_quark</link>          (void);
+#define             <link linkend="NM-SETTING-VPN-SERVICE-TYPE:CAPS">NM_SETTING_VPN_SERVICE_TYPE</link>
+#define             <link linkend="NM-SETTING-VPN-USER-NAME:CAPS">NM_SETTING_VPN_USER_NAME</link>
+#define             <link linkend="NM-SETTING-VPN-DATA:CAPS">NM_SETTING_VPN_DATA</link>
+#define             <link linkend="NM-SETTING-VPN-SECRETS:CAPS">NM_SETTING_VPN_SECRETS</link>
+                    <link linkend="NMSettingVPN-struct">NMSettingVPN</link>;
+<link linkend="void">void</link>                (<link linkend="VPNIterFunc">*VPNIterFunc</link>)                      (const <link linkend="char">char</link> *key,
+                                                         const <link linkend="char">char</link> *value,
+                                                         <link linkend="gpointer">gpointer</link> user_data);
+<link linkend="GType">GType</link>               <link linkend="nm-setting-vpn-get-type">nm_setting_vpn_get_type</link>             (void);
+<link linkend="NMSetting">NMSetting</link>*          <link linkend="nm-setting-vpn-new">nm_setting_vpn_new</link>                  (void);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-vpn-get-service-type">nm_setting_vpn_get_service_type</link>     (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-vpn-get-user-name">nm_setting_vpn_get_user_name</link>        (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting);
+<link linkend="void">void</link>                <link linkend="nm-setting-vpn-add-data-item">nm_setting_vpn_add_data_item</link>        (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting,
+                                                         const <link linkend="char">char</link> *key,
+                                                         const <link linkend="char">char</link> *item);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-vpn-get-data-item">nm_setting_vpn_get_data_item</link>        (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting,
+                                                         const <link linkend="char">char</link> *key);
+<link linkend="void">void</link>                <link linkend="nm-setting-vpn-remove-data-item">nm_setting_vpn_remove_data_item</link>     (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting,
+                                                         const <link linkend="char">char</link> *key);
+<link linkend="void">void</link>                <link linkend="nm-setting-vpn-foreach-data-item">nm_setting_vpn_foreach_data_item</link>    (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting,
+                                                         <link linkend="VPNIterFunc">VPNIterFunc</link> func,
+                                                         <link linkend="gpointer">gpointer</link> user_data);
+<link linkend="void">void</link>                <link linkend="nm-setting-vpn-add-secret">nm_setting_vpn_add_secret</link>           (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting,
+                                                         const <link linkend="char">char</link> *key,
+                                                         const <link linkend="char">char</link> *secret);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-vpn-get-secret">nm_setting_vpn_get_secret</link>           (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting,
+                                                         const <link linkend="char">char</link> *key);
+<link linkend="void">void</link>                <link linkend="nm-setting-vpn-remove-secret">nm_setting_vpn_remove_secret</link>        (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting,
+                                                         const <link linkend="char">char</link> *key);
+<link linkend="void">void</link>                <link linkend="nm-setting-vpn-foreach-secret">nm_setting_vpn_foreach_secret</link>       (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting,
+                                                         <link linkend="VPNIterFunc">VPNIterFunc</link> func,
+                                                         <link linkend="gpointer">gpointer</link> user_data);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+
+  <link linkend="GObject">GObject</link>
+   +----<link linkend="NMSetting">NMSetting</link>
+         +----NMSettingVPN
+</synopsis>
+
+</refsect1>
+
+
+
+
+
+<refsect1 role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+
+  &quot;<link linkend="NMSettingVPN--service-type">service-type</link>&quot;             <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingVPN--user-name">user-name</link>&quot;                <link linkend="gchararray">gchararray</link>            : Read / Write
+</synopsis>
+</refsect1>
+
+
+
+<refsect1 role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 role="details">
+<title role="details.title">Details</title>
+<refsect2>
+<title><anchor id="NM-SETTING-VPN-SETTING-NAME:CAPS" role="macro"/>NM_SETTING_VPN_SETTING_NAME</title>
+<indexterm><primary>NM_SETTING_VPN_SETTING_NAME</primary></indexterm><programlisting>#define NM_SETTING_VPN_SETTING_NAME "vpn"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMSettingVpnError" role="enum"/>enum NMSettingVpnError</title>
+<indexterm><primary>NMSettingVpnError</primary></indexterm><programlisting>typedef enum
+{
+	NM_SETTING_VPN_ERROR_UNKNOWN = 0,
+	NM_SETTING_VPN_ERROR_INVALID_PROPERTY,
+	NM_SETTING_VPN_ERROR_MISSING_PROPERTY,
+} NMSettingVpnError;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-TYPE-SETTING-VPN-ERROR:CAPS" role="macro"/>NM_TYPE_SETTING_VPN_ERROR</title>
+<indexterm><primary>NM_TYPE_SETTING_VPN_ERROR</primary></indexterm><programlisting>#define NM_TYPE_SETTING_VPN_ERROR (nm_setting_vpn_error_get_type ()) 
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-VPN-ERROR:CAPS" role="macro"/>NM_SETTING_VPN_ERROR</title>
+<indexterm><primary>NM_SETTING_VPN_ERROR</primary></indexterm><programlisting>#define NM_SETTING_VPN_ERROR nm_setting_vpn_error_quark ()
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-vpn-error-quark" role="function"/>nm_setting_vpn_error_quark ()</title>
+<indexterm><primary>nm_setting_vpn_error_quark</primary></indexterm><programlisting><link linkend="GQuark">GQuark</link>              nm_setting_vpn_error_quark          (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-VPN-SERVICE-TYPE:CAPS" role="macro"/>NM_SETTING_VPN_SERVICE_TYPE</title>
+<indexterm><primary>NM_SETTING_VPN_SERVICE_TYPE</primary></indexterm><programlisting>#define NM_SETTING_VPN_SERVICE_TYPE "service-type"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-VPN-USER-NAME:CAPS" role="macro"/>NM_SETTING_VPN_USER_NAME</title>
+<indexterm><primary>NM_SETTING_VPN_USER_NAME</primary></indexterm><programlisting>#define NM_SETTING_VPN_USER_NAME    "user-name"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-VPN-DATA:CAPS" role="macro"/>NM_SETTING_VPN_DATA</title>
+<indexterm><primary>NM_SETTING_VPN_DATA</primary></indexterm><programlisting>#define NM_SETTING_VPN_DATA         "data"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-VPN-SECRETS:CAPS" role="macro"/>NM_SETTING_VPN_SECRETS</title>
+<indexterm><primary>NM_SETTING_VPN_SECRETS</primary></indexterm><programlisting>#define NM_SETTING_VPN_SECRETS      "secrets"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMSettingVPN-struct" role="struct"/>NMSettingVPN</title>
+<indexterm><primary>NMSettingVPN</primary></indexterm><programlisting>typedef struct _NMSettingVPN NMSettingVPN;</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="VPNIterFunc" role="function"/>VPNIterFunc ()</title>
+<indexterm><primary>VPNIterFunc</primary></indexterm><programlisting><link linkend="void">void</link>                (*VPNIterFunc)                      (const <link linkend="char">char</link> *key,
+                                                         const <link linkend="char">char</link> *value,
+                                                         <link linkend="gpointer">gpointer</link> user_data);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>key</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-vpn-get-type" role="function"/>nm_setting_vpn_get_type ()</title>
+<indexterm><primary>nm_setting_vpn_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_setting_vpn_get_type             (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-vpn-new" role="function"/>nm_setting_vpn_new ()</title>
+<indexterm><primary>nm_setting_vpn_new</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link>*          nm_setting_vpn_new                  (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-vpn-get-service-type" role="function"/>nm_setting_vpn_get_service_type ()</title>
+<indexterm><primary>nm_setting_vpn_get_service_type</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_vpn_get_service_type     (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-vpn-get-user-name" role="function"/>nm_setting_vpn_get_user_name ()</title>
+<indexterm><primary>nm_setting_vpn_get_user_name</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_vpn_get_user_name        (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-vpn-add-data-item" role="function"/>nm_setting_vpn_add_data_item ()</title>
+<indexterm><primary>nm_setting_vpn_add_data_item</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_vpn_add_data_item        (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting,
+                                                         const <link linkend="char">char</link> *key,
+                                                         const <link linkend="char">char</link> *item);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>key</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>item</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-vpn-get-data-item" role="function"/>nm_setting_vpn_get_data_item ()</title>
+<indexterm><primary>nm_setting_vpn_get_data_item</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_vpn_get_data_item        (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting,
+                                                         const <link linkend="char">char</link> *key);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>key</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-vpn-remove-data-item" role="function"/>nm_setting_vpn_remove_data_item ()</title>
+<indexterm><primary>nm_setting_vpn_remove_data_item</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_vpn_remove_data_item     (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting,
+                                                         const <link linkend="char">char</link> *key);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>key</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-vpn-foreach-data-item" role="function"/>nm_setting_vpn_foreach_data_item ()</title>
+<indexterm><primary>nm_setting_vpn_foreach_data_item</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_vpn_foreach_data_item    (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting,
+                                                         <link linkend="VPNIterFunc">VPNIterFunc</link> func,
+                                                         <link linkend="gpointer">gpointer</link> user_data);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>func</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-vpn-add-secret" role="function"/>nm_setting_vpn_add_secret ()</title>
+<indexterm><primary>nm_setting_vpn_add_secret</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_vpn_add_secret           (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting,
+                                                         const <link linkend="char">char</link> *key,
+                                                         const <link linkend="char">char</link> *secret);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>key</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>secret</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-vpn-get-secret" role="function"/>nm_setting_vpn_get_secret ()</title>
+<indexterm><primary>nm_setting_vpn_get_secret</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_vpn_get_secret           (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting,
+                                                         const <link linkend="char">char</link> *key);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>key</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-vpn-remove-secret" role="function"/>nm_setting_vpn_remove_secret ()</title>
+<indexterm><primary>nm_setting_vpn_remove_secret</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_vpn_remove_secret        (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting,
+                                                         const <link linkend="char">char</link> *key);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>key</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-vpn-foreach-secret" role="function"/>nm_setting_vpn_foreach_secret ()</title>
+<indexterm><primary>nm_setting_vpn_foreach_secret</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_vpn_foreach_secret       (<link linkend="NMSettingVPN">NMSettingVPN</link> *setting,
+                                                         <link linkend="VPNIterFunc">VPNIterFunc</link> func,
+                                                         <link linkend="gpointer">gpointer</link> user_data);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>func</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+<refsect1 role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2><title><anchor id="NMSettingVPN--service-type"/>The <literal>&quot;service-type&quot;</literal> property</title>
+<indexterm><primary>NMSettingVPN:service-type</primary></indexterm><programlisting>  &quot;service-type&quot;             <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>Service type.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingVPN--user-name"/>The <literal>&quot;user-name&quot;</literal> property</title>
+<indexterm><primary>NMSettingVPN:user-name</primary></indexterm><programlisting>  &quot;user-name&quot;                <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>User name.</para><para>Default value: NULL</para>
+</refsect2>
+
+</refsect1>
+
+
+
+
+
+<refsect1><refsect2 /><refsect2 /></refsect1>
+</refentry>

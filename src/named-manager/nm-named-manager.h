@@ -1,23 +1,24 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/*
- * Copyright (C) 2004 Red Hat, Inc.
+/* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
+/* NetworkManager -- Network link manager
  *
- * Written by Colin Walters <walters@redhat.com>
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Copyright (C) 2004 - 2005 Colin Walters <walters@redhat.com>
+ * Copyright (C) 2004 - 2008 Red Hat, Inc.
+ * Copyright (C) 2005 - 2008 Novell, Inc.
+ *   and others
  */
 
 #ifndef __NM_NAMED_MANAGER_H__
@@ -28,13 +29,18 @@
 #include <dbus/dbus.h>
 #include "nm-ip4-config.h"
 
-typedef enum
-{
+typedef enum {
 	NM_NAMED_MANAGER_ERROR_SYSTEM,
 	NM_NAMED_MANAGER_ERROR_INVALID_NAMESERVER,
 	NM_NAMED_MANAGER_ERROR_INVALID_HOST,
 	NM_NAMED_MANAGER_ERROR_INVALID_ID
 } NMNamedManagerError;
+
+typedef enum {
+	NM_NAMED_IP_CONFIG_TYPE_DEFAULT = 0,
+	NM_NAMED_IP_CONFIG_TYPE_BEST_DEVICE,
+	NM_NAMED_IP_CONFIG_TYPE_VPN
+} NMNamedIPConfigType;
 
 #define NM_NAMED_MANAGER_ERROR nm_named_manager_error_quark ()
 GQuark nm_named_manager_error_quark (void);
@@ -50,30 +56,26 @@ G_BEGIN_DECLS
 
 typedef struct NMNamedManagerPrivate NMNamedManagerPrivate;
 
-typedef struct
-{
+typedef struct {
 	GObject parent;
-
-	NMNamedManagerPrivate *priv;
 } NMNamedManager;
 
-typedef struct
-{
+typedef struct {
 	GObjectClass parent;
-
 } NMNamedManagerClass;
 
 GType nm_named_manager_get_type (void);
 
-NMNamedManager * nm_named_manager_new (DBusConnection *connection);
+NMNamedManager * nm_named_manager_get (void);
 
-gboolean nm_named_manager_process_name_owner_changed (NMNamedManager *mgr,
-						const char *changed_service_name,
-						const char *old_owner, const char *new_owner);
+gboolean nm_named_manager_add_ip4_config (NMNamedManager *mgr,
+					  const char *iface,
+                                          NMIP4Config *config,
+                                          NMNamedIPConfigType cfg_type);
 
-gboolean nm_named_manager_add_ip4_config (NMNamedManager *mgr, NMIP4Config *config);
-
-gboolean nm_named_manager_remove_ip4_config (NMNamedManager *mgr, NMIP4Config *config);
+gboolean nm_named_manager_remove_ip4_config (NMNamedManager *mgr,
+					     const char *iface,
+					     NMIP4Config *config);
 
 G_END_DECLS
 

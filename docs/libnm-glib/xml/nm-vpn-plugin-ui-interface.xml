@@ -1,0 +1,529 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="libnm-glib-nm-vpn-plugin-ui-interface">
+<refmeta>
+<refentrytitle role="top_of_page">nm-vpn-plugin-ui-interface</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNM-GLIB Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>nm-vpn-plugin-ui-interface</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+
+
+                    <link linkend="NMVpnPluginUiInterface">NMVpnPluginUiInterface</link>;
+                    <link linkend="NMVpnPluginUiWidgetInterface">NMVpnPluginUiWidgetInterface</link>;
+<link linkend="NMVpnPluginUiInterface">NMVpnPluginUiInterface</link>* (<link linkend="NMVpnPluginUiFactory">*NMVpnPluginUiFactory</link>)         (<link linkend="GError">GError</link> **error);
+<link linkend="NMVpnPluginUiInterface">NMVpnPluginUiInterface</link>* <link linkend="nm-vpn-plugin-ui-factory">nm_vpn_plugin_ui_factory</link>        (<link linkend="GError">GError</link> **error);
+#define             <link linkend="NM-VPN-PLUGIN-UI-INTERFACE-GET-INTERFACE:CAPS">NM_VPN_PLUGIN_UI_INTERFACE_GET_INTERFACE</link>(obj)
+#define             <link linkend="NM-VPN-PLUGIN-UI-CAPABILITY-NONE:CAPS">NM_VPN_PLUGIN_UI_CAPABILITY_NONE</link>
+#define             <link linkend="NM-VPN-PLUGIN-UI-CAPABILITY-IMPORT:CAPS">NM_VPN_PLUGIN_UI_CAPABILITY_IMPORT</link>
+#define             <link linkend="NM-VPN-PLUGIN-UI-CAPABILITY-EXPORT:CAPS">NM_VPN_PLUGIN_UI_CAPABILITY_EXPORT</link>
+#define             <link linkend="NM-VPN-PLUGIN-UI-INTERFACE-NAME:CAPS">NM_VPN_PLUGIN_UI_INTERFACE_NAME</link>
+#define             <link linkend="NM-VPN-PLUGIN-UI-INTERFACE-DESC:CAPS">NM_VPN_PLUGIN_UI_INTERFACE_DESC</link>
+#define             <link linkend="NM-VPN-PLUGIN-UI-INTERFACE-SERVICE:CAPS">NM_VPN_PLUGIN_UI_INTERFACE_SERVICE</link>
+enum                <link linkend="NMVpnPluginUiInterfaceProp">NMVpnPluginUiInterfaceProp</link>;
+<link linkend="NMVpnPluginUiWidgetInterface">NMVpnPluginUiWidgetInterface</link>* <link linkend="nm-vpn-plugin-ui-interface-ui-factory">nm_vpn_plugin_ui_interface_ui_factory</link>
+                                                        (<link linkend="NMVpnPluginUiInterface">NMVpnPluginUiInterface</link> *iface,
+                                                         <link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GError">GError</link> **error);
+<link linkend="guint32">guint32</link>             <link linkend="nm-vpn-plugin-ui-interface-get-capabilities">nm_vpn_plugin_ui_interface_get_capabilities</link>
+                                                        (<link linkend="NMVpnPluginUiInterface">NMVpnPluginUiInterface</link> *iface);
+<link linkend="NMConnection">NMConnection</link>*       <link linkend="nm-vpn-plugin-ui-interface-import">nm_vpn_plugin_ui_interface_import</link>   (<link linkend="NMVpnPluginUiInterface">NMVpnPluginUiInterface</link> *iface,
+                                                         const <link linkend="char">char</link> *path,
+                                                         <link linkend="GError">GError</link> **error);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-vpn-plugin-ui-interface-export">nm_vpn_plugin_ui_interface_export</link>   (<link linkend="NMVpnPluginUiInterface">NMVpnPluginUiInterface</link> *iface,
+                                                         const <link linkend="char">char</link> *path,
+                                                         <link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GError">GError</link> **error);
+<link linkend="char">char</link>*               <link linkend="nm-vpn-plugin-ui-interface-get-suggested-name">nm_vpn_plugin_ui_interface_get_suggested_name</link>
+                                                        (<link linkend="NMVpnPluginUiInterface">NMVpnPluginUiInterface</link> *iface,
+                                                         <link linkend="NMConnection">NMConnection</link> *connection);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-vpn-plugin-ui-interface-delete-connection">nm_vpn_plugin_ui_interface_delete_connection</link>
+                                                        (<link linkend="NMVpnPluginUiInterface">NMVpnPluginUiInterface</link> *iface,
+                                                         <link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GError">GError</link> **error);
+#define             <link linkend="NM-TYPE-VPN-PLUGIN-UI-WIDGET-INTERFACE:CAPS">NM_TYPE_VPN_PLUGIN_UI_WIDGET_INTERFACE</link>
+#define             <link linkend="NM-VPN-PLUGIN-UI-WIDGET-INTERFACE:CAPS">NM_VPN_PLUGIN_UI_WIDGET_INTERFACE</link>   (obj)
+#define             <link linkend="NM-IS-VPN-PLUGIN-UI-WIDGET-INTERFACE:CAPS">NM_IS_VPN_PLUGIN_UI_WIDGET_INTERFACE</link>(obj)
+#define             <link linkend="NM-VPN-PLUGIN-UI-WIDGET-INTERFACE-GET-INTERFACE:CAPS">NM_VPN_PLUGIN_UI_WIDGET_INTERFACE_GET_INTERFACE</link>(obj)
+<link linkend="GType">GType</link>               <link linkend="nm-vpn-plugin-ui-widget-interface-get-type">nm_vpn_plugin_ui_widget_interface_get_type</link>
+                                                        (void);
+<link linkend="GObject">GObject</link>*            <link linkend="nm-vpn-plugin-ui-widget-interface-get-widget">nm_vpn_plugin_ui_widget_interface_get_widget</link>
+                                                        (<link linkend="NMVpnPluginUiWidgetInterface">NMVpnPluginUiWidgetInterface</link> *iface);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-vpn-plugin-ui-widget-interface-update-connection">nm_vpn_plugin_ui_widget_interface_update_connection</link>
+                                                        (<link linkend="NMVpnPluginUiWidgetInterface">NMVpnPluginUiWidgetInterface</link> *iface,
+                                                         <link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GError">GError</link> **error);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-vpn-plugin-ui-widget-interface-save-secrets">nm_vpn_plugin_ui_widget_interface_save_secrets</link>
+                                                        (<link linkend="NMVpnPluginUiWidgetInterface">NMVpnPluginUiWidgetInterface</link> *iface,
+                                                         <link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GError">GError</link> **error);
+
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 role="details">
+<title role="details.title">Details</title>
+<refsect2>
+<title><anchor id="NMVpnPluginUiInterface" role="struct"/>NMVpnPluginUiInterface</title>
+<indexterm><primary>NMVpnPluginUiInterface</primary></indexterm><programlisting>typedef struct {
+	GTypeInterface g_iface;
+
+	/* Plugin's factory function that returns a GObject that implements
+	 * NMVpnPluginUiWidgetInterface, pre-filled with values from 'connection'
+	 * if non-NULL.
+	 */
+	NMVpnPluginUiWidgetInterface * (*ui_factory) (NMVpnPluginUiInterface *iface,
+	                                              NMConnection *connection,
+	                                              GError **error);
+
+	/* Plugin's capabiltity function that returns a bitmask of capabilities
+	 * described by NM_VPN_PLUGIN_UI_CAPABILITY_* defines.
+	 */
+	guint32 (*get_capabilities) (NMVpnPluginUiInterface *iface);
+
+	/* Try to import a connection from the specified path.  On success, return a
+	 * partial NMConnection object.  On error, return NULL and set 'error' with
+	 * additional information.  Note that 'error' can be NULL, in which case no
+	 * additional error information should be provided.
+	 */
+	NMConnection * (*import) (NMVpnPluginUiInterface *iface, const char *path, GError **error);
+
+	/* Export the given connection to the specified path.  Return TRUE on success.
+	 * On error, return FALSE and set 'error' with additional error information.
+	 * Note that 'error' can be NULL, in which case no additional error information
+	 * should be provided.
+	 */
+	gboolean (*export) (NMVpnPluginUiInterface *iface, const char *path, NMConnection *connection, GError **error);
+
+	/* For a given connection, return a suggested file name.  Returned value should
+	 * be NULL or a suggested file name allocated via g_malloc/g_new/etc to be freed
+	 * by the caller.
+	 */
+	char * (*get_suggested_name) (NMVpnPluginUiInterface *iface, NMConnection *connection);
+
+	/* Called when the user has chosen to remove the connection (for user
+	 * connections only; system connections are handled by the system
+	 * settings service).  Should clear out any VPN-specific secrets or data
+	 * related to the connection.
+	 */
+	gboolean (*delete_connection) (NMVpnPluginUiInterface *iface, NMConnection *connection, GError **error);
+} NMVpnPluginUiInterface;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMVpnPluginUiWidgetInterface" role="struct"/>NMVpnPluginUiWidgetInterface</title>
+<indexterm><primary>NMVpnPluginUiWidgetInterface</primary></indexterm><programlisting>typedef struct {
+	GTypeInterface g_iface;
+
+	/* Return the GtkWidget for the VPN's UI */
+	GObject * (*get_widget) (NMVpnPluginUiWidgetInterface *iface);
+
+	/* Called to save the user-entered options to the connection object.  Should
+	 * return FALSE and set 'error' if the current options are invalid.  'error'
+	 * should contain enough information for the plugin to determine which UI
+	 * widget is invalid at a later point in time.  For example, creating unique
+	 * error codes for what error occurred and populating the message field
+	 * of 'error' with the name of the invalid property.
+	 */
+	gboolean (*update_connection) (NMVpnPluginUiWidgetInterface *iface,
+	                               NMConnection *connection,
+	                               GError **error);
+
+	/* Called when the user has chosen to save the connection (for user
+	 * connections only; system connections are handled by the system
+	 * settings service).  Should save VPN-specific connection secrets in
+	 * a way that the auth-dialog can read them.
+	 */
+	gboolean (*save_secrets) (NMVpnPluginUiWidgetInterface *iface,
+	                          NMConnection *connection,
+	                          GError **error);
+
+	/* Emitted when the value of a UI widget changes.  May trigger a validity
+	 * check via update_connection() to write values to the connection */
+	void (*changed) (NMVpnPluginUiWidgetInterface *iface);
+} NMVpnPluginUiWidgetInterface;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMVpnPluginUiFactory" role="function"/>NMVpnPluginUiFactory ()</title>
+<indexterm><primary>NMVpnPluginUiFactory</primary></indexterm><programlisting><link linkend="NMVpnPluginUiInterface">NMVpnPluginUiInterface</link>* (*NMVpnPluginUiFactory)         (<link linkend="GError">GError</link> **error);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>error</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-vpn-plugin-ui-factory" role="function"/>nm_vpn_plugin_ui_factory ()</title>
+<indexterm><primary>nm_vpn_plugin_ui_factory</primary></indexterm><programlisting><link linkend="NMVpnPluginUiInterface">NMVpnPluginUiInterface</link>* nm_vpn_plugin_ui_factory        (<link linkend="GError">GError</link> **error);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>error</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="NM-VPN-PLUGIN-UI-INTERFACE-GET-INTERFACE:CAPS" role="macro"/>NM_VPN_PLUGIN_UI_INTERFACE_GET_INTERFACE()</title>
+<indexterm><primary>NM_VPN_PLUGIN_UI_INTERFACE_GET_INTERFACE</primary></indexterm><programlisting>#define NM_VPN_PLUGIN_UI_INTERFACE_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), NM_TYPE_VPN_PLUGIN_UI_INTERFACE, NMVpnPluginUiInterface))
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>obj</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="NM-VPN-PLUGIN-UI-CAPABILITY-NONE:CAPS" role="macro"/>NM_VPN_PLUGIN_UI_CAPABILITY_NONE</title>
+<indexterm><primary>NM_VPN_PLUGIN_UI_CAPABILITY_NONE</primary></indexterm><programlisting>#define NM_VPN_PLUGIN_UI_CAPABILITY_NONE     0x00
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-VPN-PLUGIN-UI-CAPABILITY-IMPORT:CAPS" role="macro"/>NM_VPN_PLUGIN_UI_CAPABILITY_IMPORT</title>
+<indexterm><primary>NM_VPN_PLUGIN_UI_CAPABILITY_IMPORT</primary></indexterm><programlisting>#define NM_VPN_PLUGIN_UI_CAPABILITY_IMPORT   0x01
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-VPN-PLUGIN-UI-CAPABILITY-EXPORT:CAPS" role="macro"/>NM_VPN_PLUGIN_UI_CAPABILITY_EXPORT</title>
+<indexterm><primary>NM_VPN_PLUGIN_UI_CAPABILITY_EXPORT</primary></indexterm><programlisting>#define NM_VPN_PLUGIN_UI_CAPABILITY_EXPORT   0x02
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-VPN-PLUGIN-UI-INTERFACE-NAME:CAPS" role="macro"/>NM_VPN_PLUGIN_UI_INTERFACE_NAME</title>
+<indexterm><primary>NM_VPN_PLUGIN_UI_INTERFACE_NAME</primary></indexterm><programlisting>#define NM_VPN_PLUGIN_UI_INTERFACE_NAME "name"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-VPN-PLUGIN-UI-INTERFACE-DESC:CAPS" role="macro"/>NM_VPN_PLUGIN_UI_INTERFACE_DESC</title>
+<indexterm><primary>NM_VPN_PLUGIN_UI_INTERFACE_DESC</primary></indexterm><programlisting>#define NM_VPN_PLUGIN_UI_INTERFACE_DESC "desc"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-VPN-PLUGIN-UI-INTERFACE-SERVICE:CAPS" role="macro"/>NM_VPN_PLUGIN_UI_INTERFACE_SERVICE</title>
+<indexterm><primary>NM_VPN_PLUGIN_UI_INTERFACE_SERVICE</primary></indexterm><programlisting>#define NM_VPN_PLUGIN_UI_INTERFACE_SERVICE "service"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMVpnPluginUiInterfaceProp" role="enum"/>enum NMVpnPluginUiInterfaceProp</title>
+<indexterm><primary>NMVpnPluginUiInterfaceProp</primary></indexterm><programlisting>typedef enum {
+	NM_VPN_PLUGIN_UI_INTERFACE_PROP_FIRST = 0x1000,
+
+	NM_VPN_PLUGIN_UI_INTERFACE_PROP_NAME = NM_VPN_PLUGIN_UI_INTERFACE_PROP_FIRST,
+	NM_VPN_PLUGIN_UI_INTERFACE_PROP_DESC,
+	NM_VPN_PLUGIN_UI_INTERFACE_PROP_SERVICE
+} NMVpnPluginUiInterfaceProp;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-vpn-plugin-ui-interface-ui-factory" role="function"/>nm_vpn_plugin_ui_interface_ui_factory ()</title>
+<indexterm><primary>nm_vpn_plugin_ui_interface_ui_factory</primary></indexterm><programlisting><link linkend="NMVpnPluginUiWidgetInterface">NMVpnPluginUiWidgetInterface</link>* nm_vpn_plugin_ui_interface_ui_factory
+                                                        (<link linkend="NMVpnPluginUiInterface">NMVpnPluginUiInterface</link> *iface,
+                                                         <link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GError">GError</link> **error);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>iface</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>error</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-vpn-plugin-ui-interface-get-capabilities" role="function"/>nm_vpn_plugin_ui_interface_get_capabilities ()</title>
+<indexterm><primary>nm_vpn_plugin_ui_interface_get_capabilities</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_vpn_plugin_ui_interface_get_capabilities
+                                                        (<link linkend="NMVpnPluginUiInterface">NMVpnPluginUiInterface</link> *iface);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>iface</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-vpn-plugin-ui-interface-import" role="function"/>nm_vpn_plugin_ui_interface_import ()</title>
+<indexterm><primary>nm_vpn_plugin_ui_interface_import</primary></indexterm><programlisting><link linkend="NMConnection">NMConnection</link>*       nm_vpn_plugin_ui_interface_import   (<link linkend="NMVpnPluginUiInterface">NMVpnPluginUiInterface</link> *iface,
+                                                         const <link linkend="char">char</link> *path,
+                                                         <link linkend="GError">GError</link> **error);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>iface</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>path</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>error</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-vpn-plugin-ui-interface-export" role="function"/>nm_vpn_plugin_ui_interface_export ()</title>
+<indexterm><primary>nm_vpn_plugin_ui_interface_export</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_vpn_plugin_ui_interface_export   (<link linkend="NMVpnPluginUiInterface">NMVpnPluginUiInterface</link> *iface,
+                                                         const <link linkend="char">char</link> *path,
+                                                         <link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GError">GError</link> **error);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>iface</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>path</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>error</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-vpn-plugin-ui-interface-get-suggested-name" role="function"/>nm_vpn_plugin_ui_interface_get_suggested_name ()</title>
+<indexterm><primary>nm_vpn_plugin_ui_interface_get_suggested_name</primary></indexterm><programlisting><link linkend="char">char</link>*               nm_vpn_plugin_ui_interface_get_suggested_name
+                                                        (<link linkend="NMVpnPluginUiInterface">NMVpnPluginUiInterface</link> *iface,
+                                                         <link linkend="NMConnection">NMConnection</link> *connection);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>iface</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-vpn-plugin-ui-interface-delete-connection" role="function"/>nm_vpn_plugin_ui_interface_delete_connection ()</title>
+<indexterm><primary>nm_vpn_plugin_ui_interface_delete_connection</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_vpn_plugin_ui_interface_delete_connection
+                                                        (<link linkend="NMVpnPluginUiInterface">NMVpnPluginUiInterface</link> *iface,
+                                                         <link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GError">GError</link> **error);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>iface</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>error</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="NM-TYPE-VPN-PLUGIN-UI-WIDGET-INTERFACE:CAPS" role="macro"/>NM_TYPE_VPN_PLUGIN_UI_WIDGET_INTERFACE</title>
+<indexterm><primary>NM_TYPE_VPN_PLUGIN_UI_WIDGET_INTERFACE</primary></indexterm><programlisting>#define NM_TYPE_VPN_PLUGIN_UI_WIDGET_INTERFACE      (nm_vpn_plugin_ui_widget_interface_get_type ())
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-VPN-PLUGIN-UI-WIDGET-INTERFACE:CAPS" role="macro"/>NM_VPN_PLUGIN_UI_WIDGET_INTERFACE()</title>
+<indexterm><primary>NM_VPN_PLUGIN_UI_WIDGET_INTERFACE</primary></indexterm><programlisting>#define NM_VPN_PLUGIN_UI_WIDGET_INTERFACE(obj)      (G_TYPE_CHECK_INSTANCE_CAST ((obj), NM_TYPE_VPN_PLUGIN_UI_WIDGET_INTERFACE, NMVpnPluginUiWidgetInterface))
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>obj</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="NM-IS-VPN-PLUGIN-UI-WIDGET-INTERFACE:CAPS" role="macro"/>NM_IS_VPN_PLUGIN_UI_WIDGET_INTERFACE()</title>
+<indexterm><primary>NM_IS_VPN_PLUGIN_UI_WIDGET_INTERFACE</primary></indexterm><programlisting>#define NM_IS_VPN_PLUGIN_UI_WIDGET_INTERFACE(obj)   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), NM_TYPE_VPN_PLUGIN_UI_WIDGET_INTERFACE))
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>obj</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="NM-VPN-PLUGIN-UI-WIDGET-INTERFACE-GET-INTERFACE:CAPS" role="macro"/>NM_VPN_PLUGIN_UI_WIDGET_INTERFACE_GET_INTERFACE()</title>
+<indexterm><primary>NM_VPN_PLUGIN_UI_WIDGET_INTERFACE_GET_INTERFACE</primary></indexterm><programlisting>#define NM_VPN_PLUGIN_UI_WIDGET_INTERFACE_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), NM_TYPE_VPN_PLUGIN_UI_WIDGET_INTERFACE, NMVpnPluginUiWidgetInterface))
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>obj</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-vpn-plugin-ui-widget-interface-get-type" role="function"/>nm_vpn_plugin_ui_widget_interface_get_type ()</title>
+<indexterm><primary>nm_vpn_plugin_ui_widget_interface_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_vpn_plugin_ui_widget_interface_get_type
+                                                        (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-vpn-plugin-ui-widget-interface-get-widget" role="function"/>nm_vpn_plugin_ui_widget_interface_get_widget ()</title>
+<indexterm><primary>nm_vpn_plugin_ui_widget_interface_get_widget</primary></indexterm><programlisting><link linkend="GObject">GObject</link>*            nm_vpn_plugin_ui_widget_interface_get_widget
+                                                        (<link linkend="NMVpnPluginUiWidgetInterface">NMVpnPluginUiWidgetInterface</link> *iface);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>iface</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-vpn-plugin-ui-widget-interface-update-connection" role="function"/>nm_vpn_plugin_ui_widget_interface_update_connection ()</title>
+<indexterm><primary>nm_vpn_plugin_ui_widget_interface_update_connection</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_vpn_plugin_ui_widget_interface_update_connection
+                                                        (<link linkend="NMVpnPluginUiWidgetInterface">NMVpnPluginUiWidgetInterface</link> *iface,
+                                                         <link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GError">GError</link> **error);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>iface</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>error</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-vpn-plugin-ui-widget-interface-save-secrets" role="function"/>nm_vpn_plugin_ui_widget_interface_save_secrets ()</title>
+<indexterm><primary>nm_vpn_plugin_ui_widget_interface_save_secrets</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_vpn_plugin_ui_widget_interface_save_secrets
+                                                        (<link linkend="NMVpnPluginUiWidgetInterface">NMVpnPluginUiWidgetInterface</link> *iface,
+                                                         <link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GError">GError</link> **error);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>iface</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>error</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+
+<refsect1><refsect2 /><refsect2 /></refsect1>
+</refentry>

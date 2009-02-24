@@ -1,0 +1,348 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="NMDeviceWifi">
+<refmeta>
+<refentrytitle role="top_of_page">NMDeviceWifi</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNM-GLIB Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>NMDeviceWifi</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+
+
+#define             <link linkend="NM-DEVICE-WIFI-HW-ADDRESS:CAPS">NM_DEVICE_WIFI_HW_ADDRESS</link>
+#define             <link linkend="NM-DEVICE-WIFI-MODE:CAPS">NM_DEVICE_WIFI_MODE</link>
+#define             <link linkend="NM-DEVICE-WIFI-BITRATE:CAPS">NM_DEVICE_WIFI_BITRATE</link>
+#define             <link linkend="NM-DEVICE-WIFI-ACTIVE-ACCESS-POINT:CAPS">NM_DEVICE_WIFI_ACTIVE_ACCESS_POINT</link>
+#define             <link linkend="NM-DEVICE-WIFI-CAPABILITIES:CAPS">NM_DEVICE_WIFI_CAPABILITIES</link>
+                    <link linkend="NMDeviceWifi-struct">NMDeviceWifi</link>;
+<link linkend="GObject">GObject</link>*            <link linkend="nm-device-wifi-new">nm_device_wifi_new</link>                  (<link linkend="DBusGConnection">DBusGConnection</link> *connection,
+                                                         const <link linkend="char">char</link> *path);
+const <link linkend="char">char</link>*         <link linkend="nm-device-wifi-get-hw-address">nm_device_wifi_get_hw_address</link>       (<link linkend="NMDeviceWifi">NMDeviceWifi</link> *device);
+<link linkend="NM80211Mode">NM80211Mode</link>         <link linkend="nm-device-wifi-get-mode">nm_device_wifi_get_mode</link>             (<link linkend="NMDeviceWifi">NMDeviceWifi</link> *device);
+<link linkend="guint32">guint32</link>             <link linkend="nm-device-wifi-get-bitrate">nm_device_wifi_get_bitrate</link>          (<link linkend="NMDeviceWifi">NMDeviceWifi</link> *device);
+<link linkend="guint32">guint32</link>             <link linkend="nm-device-wifi-get-capabilities">nm_device_wifi_get_capabilities</link>     (<link linkend="NMDeviceWifi">NMDeviceWifi</link> *device);
+<link linkend="NMAccessPoint">NMAccessPoint</link>*      <link linkend="nm-device-wifi-get-active-access-point">nm_device_wifi_get_active_access_point</link>
+                                                        (<link linkend="NMDeviceWifi">NMDeviceWifi</link> *device);
+<link linkend="NMAccessPoint">NMAccessPoint</link>*      <link linkend="nm-device-wifi-get-access-point-by-path">nm_device_wifi_get_access_point_by_path</link>
+                                                        (<link linkend="NMDeviceWifi">NMDeviceWifi</link> *device,
+                                                         const <link linkend="char">char</link> *path);
+const <link linkend="GPtrArray">GPtrArray</link>*    <link linkend="nm-device-wifi-get-access-points">nm_device_wifi_get_access_points</link>    (<link linkend="NMDeviceWifi">NMDeviceWifi</link> *device);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+
+  <link linkend="GObject">GObject</link>
+   +----<link linkend="NMObject">NMObject</link>
+         +----<link linkend="NMDevice">NMDevice</link>
+               +----NMDeviceWifi
+</synopsis>
+
+</refsect1>
+
+
+
+
+
+<refsect1 role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+
+  &quot;<link linkend="NMDeviceWifi--active-access-point">active-access-point</link>&quot;      <link linkend="NMAccessPoint">NMAccessPoint</link>         : Read
+  &quot;<link linkend="NMDeviceWifi--bitrate">bitrate</link>&quot;                  <link linkend="guint">guint</link>                 : Read
+  &quot;<link linkend="NMDeviceWifi--hw-address">hw-address</link>&quot;               <link linkend="gchararray">gchararray</link>            : Read
+  &quot;<link linkend="NMDeviceWifi--mode">mode</link>&quot;                     <link linkend="guint">guint</link>                 : Read
+  &quot;<link linkend="NMDeviceWifi--wireless-capabilities">wireless-capabilities</link>&quot;    <link linkend="guint">guint</link>                 : Read
+</synopsis>
+</refsect1>
+
+<refsect1 role="signal_proto">
+<title role="signal_proto.title">Signals</title>
+<synopsis>
+
+  &quot;<link linkend="NMDeviceWifi-access-point-added">access-point-added</link>&quot;                             : Run First
+  &quot;<link linkend="NMDeviceWifi-access-point-removed">access-point-removed</link>&quot;                           : Run First
+</synopsis>
+</refsect1>
+
+
+<refsect1 role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 role="details">
+<title role="details.title">Details</title>
+<refsect2>
+<title><anchor id="NM-DEVICE-WIFI-HW-ADDRESS:CAPS" role="macro"/>NM_DEVICE_WIFI_HW_ADDRESS</title>
+<indexterm><primary>NM_DEVICE_WIFI_HW_ADDRESS</primary></indexterm><programlisting>#define NM_DEVICE_WIFI_HW_ADDRESS          "hw-address"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-DEVICE-WIFI-MODE:CAPS" role="macro"/>NM_DEVICE_WIFI_MODE</title>
+<indexterm><primary>NM_DEVICE_WIFI_MODE</primary></indexterm><programlisting>#define NM_DEVICE_WIFI_MODE                "mode"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-DEVICE-WIFI-BITRATE:CAPS" role="macro"/>NM_DEVICE_WIFI_BITRATE</title>
+<indexterm><primary>NM_DEVICE_WIFI_BITRATE</primary></indexterm><programlisting>#define NM_DEVICE_WIFI_BITRATE             "bitrate"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-DEVICE-WIFI-ACTIVE-ACCESS-POINT:CAPS" role="macro"/>NM_DEVICE_WIFI_ACTIVE_ACCESS_POINT</title>
+<indexterm><primary>NM_DEVICE_WIFI_ACTIVE_ACCESS_POINT</primary></indexterm><programlisting>#define NM_DEVICE_WIFI_ACTIVE_ACCESS_POINT "active-access-point"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-DEVICE-WIFI-CAPABILITIES:CAPS" role="macro"/>NM_DEVICE_WIFI_CAPABILITIES</title>
+<indexterm><primary>NM_DEVICE_WIFI_CAPABILITIES</primary></indexterm><programlisting>#define NM_DEVICE_WIFI_CAPABILITIES        "wireless-capabilities"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMDeviceWifi-struct" role="struct"/>NMDeviceWifi</title>
+<indexterm><primary>NMDeviceWifi</primary></indexterm><programlisting>typedef struct _NMDeviceWifi NMDeviceWifi;</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-device-wifi-new" role="function"/>nm_device_wifi_new ()</title>
+<indexterm><primary>nm_device_wifi_new</primary></indexterm><programlisting><link linkend="GObject">GObject</link>*            nm_device_wifi_new                  (<link linkend="DBusGConnection">DBusGConnection</link> *connection,
+                                                         const <link linkend="char">char</link> *path);</programlisting>
+<para>
+Creates a new <link linkend="NMDeviceWifi"><type>NMDeviceWifi</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="DBusGConnection"><type>DBusGConnection</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>path</parameter>&nbsp;:</term>
+<listitem><simpara> the DBus object path of the device
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a new device
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-device-wifi-get-hw-address" role="function"/>nm_device_wifi_get_hw_address ()</title>
+<indexterm><primary>nm_device_wifi_get_hw_address</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_device_wifi_get_hw_address       (<link linkend="NMDeviceWifi">NMDeviceWifi</link> *device);</programlisting>
+<para>
+Gets the hardware (MAC) address of the <link linkend="NMDeviceWifi"><type>NMDeviceWifi</type></link></para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMDeviceWifi"><type>NMDeviceWifi</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the hardware address. This is the internal string used by the
+device, and must not be modified.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-device-wifi-get-mode" role="function"/>nm_device_wifi_get_mode ()</title>
+<indexterm><primary>nm_device_wifi_get_mode</primary></indexterm><programlisting><link linkend="NM80211Mode">NM80211Mode</link>         nm_device_wifi_get_mode             (<link linkend="NMDeviceWifi">NMDeviceWifi</link> *device);</programlisting>
+<para>
+Gets the <link linkend="NMDeviceWifi"><type>NMDeviceWifi</type></link> mode.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMDeviceWifi"><type>NMDeviceWifi</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the mode
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-device-wifi-get-bitrate" role="function"/>nm_device_wifi_get_bitrate ()</title>
+<indexterm><primary>nm_device_wifi_get_bitrate</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_device_wifi_get_bitrate          (<link linkend="NMDeviceWifi">NMDeviceWifi</link> *device);</programlisting>
+<para>
+Gets the bit rate of the <link linkend="NMDeviceWifi"><type>NMDeviceWifi</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMDeviceWifi"><type>NMDeviceWifi</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the bit rate
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-device-wifi-get-capabilities" role="function"/>nm_device_wifi_get_capabilities ()</title>
+<indexterm><primary>nm_device_wifi_get_capabilities</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_device_wifi_get_capabilities     (<link linkend="NMDeviceWifi">NMDeviceWifi</link> *device);</programlisting>
+<para>
+Gets the WIFI capabilities of the <link linkend="NMDeviceWifi"><type>NMDeviceWifi</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMDeviceWifi"><type>NMDeviceWifi</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the capabilities
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-device-wifi-get-active-access-point" role="function"/>nm_device_wifi_get_active_access_point ()</title>
+<indexterm><primary>nm_device_wifi_get_active_access_point</primary></indexterm><programlisting><link linkend="NMAccessPoint">NMAccessPoint</link>*      nm_device_wifi_get_active_access_point
+                                                        (<link linkend="NMDeviceWifi">NMDeviceWifi</link> *device);</programlisting>
+<para>
+Gets the active <link linkend="NMAccessPoint"><type>NMAccessPoint</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMDeviceWifi"><type>NMDeviceWifi</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the access point or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if none is active
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-device-wifi-get-access-point-by-path" role="function"/>nm_device_wifi_get_access_point_by_path ()</title>
+<indexterm><primary>nm_device_wifi_get_access_point_by_path</primary></indexterm><programlisting><link linkend="NMAccessPoint">NMAccessPoint</link>*      nm_device_wifi_get_access_point_by_path
+                                                        (<link linkend="NMDeviceWifi">NMDeviceWifi</link> *device,
+                                                         const <link linkend="char">char</link> *path);</programlisting>
+<para>
+Gets a <link linkend="NMAccessPoint"><type>NMAccessPoint</type></link> by path.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMDeviceWifi"><type>NMDeviceWifi</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>path</parameter>&nbsp;:</term>
+<listitem><simpara> the object path of the access point
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the access point or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if none is found.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-device-wifi-get-access-points" role="function"/>nm_device_wifi_get_access_points ()</title>
+<indexterm><primary>nm_device_wifi_get_access_points</primary></indexterm><programlisting>const <link linkend="GPtrArray">GPtrArray</link>*    nm_device_wifi_get_access_points    (<link linkend="NMDeviceWifi">NMDeviceWifi</link> *device);</programlisting>
+<para>
+Gets all the scanned access points of the <link linkend="NMDeviceWifi"><type>NMDeviceWifi</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMDeviceWifi"><type>NMDeviceWifi</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a <link linkend="GPtrArray"><type>GPtrArray</type></link> containing all the scanned <link linkend="NMAccessPoint"><type>NMAccessPoint</type></link><!-- -->s.
+The returned array is owned by the client and should not be modified.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+<refsect1 role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2><title><anchor id="NMDeviceWifi--active-access-point"/>The <literal>&quot;active-access-point&quot;</literal> property</title>
+<indexterm><primary>NMDeviceWifi:active-access-point</primary></indexterm><programlisting>  &quot;active-access-point&quot;      <link linkend="NMAccessPoint">NMAccessPoint</link>         : Read</programlisting>
+<para>
+The active <link linkend="NMAccessPoint"><type>NMAccessPoint</type></link> of the device.</para>
+<para>
+
+</para></refsect2>
+<refsect2><title><anchor id="NMDeviceWifi--bitrate"/>The <literal>&quot;bitrate&quot;</literal> property</title>
+<indexterm><primary>NMDeviceWifi:bitrate</primary></indexterm><programlisting>  &quot;bitrate&quot;                  <link linkend="guint">guint</link>                 : Read</programlisting>
+<para>
+The bit rate of the device.</para>
+<para>
+
+</para><para>Default value: 0</para>
+</refsect2>
+<refsect2><title><anchor id="NMDeviceWifi--hw-address"/>The <literal>&quot;hw-address&quot;</literal> property</title>
+<indexterm><primary>NMDeviceWifi:hw-address</primary></indexterm><programlisting>  &quot;hw-address&quot;               <link linkend="gchararray">gchararray</link>            : Read</programlisting>
+<para>
+The hardware (MAC) address of the device.</para>
+<para>
+
+</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMDeviceWifi--mode"/>The <literal>&quot;mode&quot;</literal> property</title>
+<indexterm><primary>NMDeviceWifi:mode</primary></indexterm><programlisting>  &quot;mode&quot;                     <link linkend="guint">guint</link>                 : Read</programlisting>
+<para>
+The mode of the device.</para>
+<para>
+
+</para><para>Allowed values: &lt;= 2</para>
+<para>Default value: 2</para>
+</refsect2>
+<refsect2><title><anchor id="NMDeviceWifi--wireless-capabilities"/>The <literal>&quot;wireless-capabilities&quot;</literal> property</title>
+<indexterm><primary>NMDeviceWifi:wireless-capabilities</primary></indexterm><programlisting>  &quot;wireless-capabilities&quot;    <link linkend="guint">guint</link>                 : Read</programlisting>
+<para>
+The wireless capabilities of the device.</para>
+<para>
+
+</para><para>Default value: 0</para>
+</refsect2>
+
+</refsect1>
+
+<refsect1 role="signals">
+<title role="signals.title">Signal Details</title>
+<refsect2><title><anchor id="NMDeviceWifi-access-point-added"/>The <literal>&quot;access-point-added&quot;</literal> signal</title>
+<indexterm><primary>NMDeviceWifi::access-point-added</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NMDeviceWifi">NMDeviceWifi</link> *device,
+                                                        <link linkend="GObject">GObject</link>      *ap,
+                                                        <link linkend="gpointer">gpointer</link>      user_data)      : Run First</programlisting>
+<para>
+Notifies that a <link linkend="NMAccessPoint"><type>NMAccessPoint</type></link> is added to the wifi device.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> the wifi device that received the signal
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>ap</parameter>&nbsp;:</term>
+<listitem><simpara> the new access point
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2><refsect2><title><anchor id="NMDeviceWifi-access-point-removed"/>The <literal>&quot;access-point-removed&quot;</literal> signal</title>
+<indexterm><primary>NMDeviceWifi::access-point-removed</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NMDeviceWifi">NMDeviceWifi</link> *device,
+                                                        <link linkend="GObject">GObject</link>      *ap,
+                                                        <link linkend="gpointer">gpointer</link>      user_data)      : Run First</programlisting>
+<para>
+Notifies that a <link linkend="NMAccessPoint"><type>NMAccessPoint</type></link> is removed from the wifi device.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<listitem><simpara> the wifi device that received the signal
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>ap</parameter>&nbsp;:</term>
+<listitem><simpara> the removed access point
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+</refsect1>
+
+
+
+
+<refsect1><refsect2 /><refsect2 /></refsect1>
+</refentry>
