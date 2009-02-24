@@ -4,858 +4,350 @@
 # Hendrik Brandt <heb@gnome-de.org>, 2004, 2005.
 # Frank Arnold <frank@scirocco-5v-turbo.de>, 2005.
 # Hendrik Richter <hendrikr@gnome.org>, 2006.
-# Thomas Gier >info@thomasgier.de>, 2007.
+# Thomas Gier <info@thomasgier.de>, 2007.
+# Andre Klapper <ak-47@gmx.net>, 2007.
+# Hauke Mehrtens <hauke@hauke-m.de>, 2008.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-10 15:09+0100\n"
-"PO-Revision-Date: 2007-03-10 15:10+0100\n"
-"Last-Translator: Thomas Gier <info@thomasgier.de>\n"
+"POT-Creation-Date: 2008-11-25 21:44+0100\n"
+"PO-Revision-Date: 2008-11-22 00:08+0100\n"
+"Last-Translator: Hauke Mehrtens <hauke@hauke-m.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:405
-msgid "Cannot add VPN connection"
-msgstr "Die VPN-Verbindung konnte nicht hinzugefügt werden"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.c:407
-msgid ""
-"No suitable VPN software was found on your system. Contact your system "
-"administrator."
-msgstr ""
-"Die notwendige VPN-Software wurde nicht gefunden. Bitte setzen Sie sich mit "
-"Ihrem Systemadministrator in Verbindung."
-
-#: ../gnome/vpn-properties/nm-vpn-properties.c:457
-msgid "Cannot import VPN connection"
-msgstr "Die VPN-Verbindung konnte nicht importiert werden"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.c:459
+#: ../src/nm-netlink-monitor.c:194 ../src/nm-netlink-monitor.c:454
 #, c-format
-msgid ""
-"Cannot find suitable software for VPN connection type '%s' to import the "
-"file '%s'. Contact your system administrator."
-msgstr ""
-"Die notwendige Software für VPN-Verbindungen vom Typ »%s«, um die Datei »%s« "
-"zu importieren, wurde nicht gefunden. Bitte setzen Sie sich mit Ihrem "
-"Systemadministrator in Verbindung."
+msgid "error processing netlink message: %s"
+msgstr "Fehler beim Verarbeiten der netlink Nachricht: %s"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:596
+#: ../src/nm-netlink-monitor.c:251
 #, c-format
-msgid "Error retrieving VPN connection '%s'"
-msgstr "Fehler beim Abrufen der VPN-Verbindung »%s«"
+msgid "unable to allocate netlink handle for monitoring link status: %s"
+msgstr ""
+"Kann netlink handle zur Überwachung von Netzwerkverbindung nicht belegen: %s"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:599
+#: ../src/nm-netlink-monitor.c:261
 #, c-format
-msgid ""
-"Could not find the UI files for VPN connection type '%s'. Contact your "
-"system administrator."
+msgid "unable to connect to netlink for monitoring link status: %s"
 msgstr ""
-"Die Dateien für die Benutzerschnittstelle für VPN-Verbindungen vom Typ »%s« "
-"wurden nicht gefunden. Bitte setzen Sie sich mit Ihrem Systemadministrator "
-"in Verbindung."
+"Kann nicht mit netlink zur Überwachung von Netzwerkverbindung verbinden: %s"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:746
+#: ../src/nm-netlink-monitor.c:269
 #, c-format
-msgid "Delete VPN connection \"%s\"?"
-msgstr "Möchten Sie die VPN-Verbindungen »%s« löschen?"
+msgid "unable to join netlink group for monitoring link status: %s"
+msgstr ""
+"Kann nicht mit netlink Gruppe zur Überwachung der Netzwerkverbindung "
+"verbinden: %s"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:749
+#: ../src/nm-netlink-monitor.c:277
 #, c-format
-msgid ""
-"All information about the VPN connection \"%s\" will be lost and you may "
-"need your system administrator to provide information to create a new "
-"connection."
+msgid "unable to allocate netlink link cache for monitoring link status: %s"
 msgstr ""
-"Alle Informationen über die VPN-Verbindung »%s« werden verloren gehen und "
-"Sie werden Ihren Systemadministrator für das Bereitstellen der Informationen "
-"für eine neue Verbindung benötigen."
+"Kann netlink Cache zur Überwachung der Netzwerkverbindung nicht belegen: %s"
 
-#: ../gnome/vpn-properties/nm-vpn-properties.c:963
-msgid "Unable to load"
-msgstr "Konnte nicht geladen werden"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.c:965
-msgid "Cannot find some needed resources (the glade file)!"
-msgstr ""
-"Einige benötigte Ressourcen wurden nicht gefunden (die Glade-Datei fehlt)."
-
-#. Edit dialog
-#: ../gnome/vpn-properties/nm-vpn-properties.c:1084
-msgid "Edit VPN Connection"
-msgstr "VPN-Verbindung bearbeiten"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:1
-msgid "Add a new VPN connection"
-msgstr "Neue VPN-Verbindung hinzufügen"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:2
-msgid "Choose which type of VPN connection you wish to create."
-msgstr "Bitte wählen Sie aus, welche Art VPN-Verbindung Sie erstellen möchten."
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:3
-msgid "Connect to:"
-msgstr "Verbinden mit:"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:4
-msgid "Create VPN Connection"
-msgstr "Neue VPN-Verbindungen erstellen"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:5
-msgid "Create VPN Connection - 1 of 2"
-msgstr "Neue VPN-Verbindungen erstellen - 1 von 2"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:6
-msgid "Create VPN Connection - 2 of 2"
-msgstr "Neue VPN-Verbindungen erstellen - 2 von 2"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:7
-msgid "Delete the selected VPN connection"
-msgstr "Die ausgewählte VPN-Verbindung löschen"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:8
-msgid "E_xport"
-msgstr "E_xportieren"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:9
-msgid "Edit the selected VPN connection"
-msgstr "Die ausgewählte VPN-Verbindung bearbeiten"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:10
-msgid "Export the VPN settings to a file"
-msgstr "Die VPN-Verbindungseinstellungen in eine Datei exportieren"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:11
-msgid "Export the selected VPN connection to a file"
-msgstr "Ausgewählte VPN-Verbindung in eine Datei exportieren"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:12
-msgid "Finish Creating VPN Connection"
-msgstr "Erstellen der VPN-Verbindung abschließen"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:13
-msgid "Manage Virtual Private Network Connections"
-msgstr "Verbindungen mit Virtuellen Privaten Netzwerken verwalten"
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:14
-msgid ""
-"This assistant will guide you through the creation of a connection to a "
-"Virtual Private Network (VPN).\n"
-"\n"
-"It will require some information, such as IP addresses and secrets.  Please "
-"see your system administrator to obtain this information."
-msgstr ""
-"Dieser Assistent wird Sie durch das Erstellen einer neuen VPN-Verbindung zu "
-"einem privaten Netzwerk geleiten.\n"
-"\n"
-"Dazu benötigen Sie eventuell einige Informationen, wie z.B. IP-Adressen und "
-"Passwörter, welche Sie durch Ihren Systemadministrator erhalten."
-
-#: ../gnome/vpn-properties/nm-vpn-properties.glade.h:17
-msgid "VPN Connections"
-msgstr "VPN-Verbindungen"
-
-#: ../src/nm-ap-security-wep.c:52
-msgid "40-bit WEP"
-msgstr "40-bit WEP"
-
-#: ../src/nm-ap-security-wep.c:54
-msgid "104-bit WEP"
-msgstr "104-bit WEP"
-
-#: ../src/nm-ap-security-wpa-psk.c:50
-msgid "WPA TKIP"
-msgstr "WPA TKIP"
-
-#: ../src/nm-ap-security-wpa-psk.c:52
-msgid "WPA CCMP"
-msgstr "WPA CCMP"
-
-#: ../src/nm-ap-security-wpa-psk.c:54
-msgid "WPA Automatic"
-msgstr "WPA Automatisch"
-
-#: ../src/nm-ap-security-wpa-psk.c:59
-msgid "WPA2 TKIP"
-msgstr "WPA2 TKIP"
-
-#: ../src/nm-ap-security-wpa-psk.c:61
-msgid "WPA2 CCMP"
-msgstr "WPA2 CCMP"
-
-#: ../src/nm-ap-security-wpa-psk.c:63
-msgid "WPA2 Automatic"
-msgstr "WPA2 Automatisch"
-
-#: ../src/nm-ap-security.c:338
-msgid "none"
-msgstr "Keine"
-
-#: ../src/nm-netlink-monitor.c:170
+#: ../src/nm-netlink-monitor.c:418
 #, c-format
-msgid ""
-"unable to create netlink socket for monitoring wired ethernet devices - %s"
-msgstr ""
-"Erstellen eines Netlink-Socket zur Überwachung von Kabelnetzwerkgeräten "
-"gescheitert - %s"
+msgid "error updating link cache: %s"
+msgstr "Fehler beim aktualisieren des Verbindungscaches: %s"
 
-#: ../src/nm-netlink-monitor.c:188
-#, c-format
-msgid ""
-"unable to bind to netlink socket for monitoring wired ethernet devices - %s"
-msgstr ""
-"Bindung an den Netlink-Socket zur Überwachung von Kabelnetzwerkgeräten "
-"gescheitert - %s"
-
-#: ../src/nm-netlink-monitor.c:426
-msgid "operation took too long"
-msgstr "Vorgang dauerte zu lange"
-
-#: ../src/nm-netlink-monitor.c:523
-msgid "received data from wrong type of sender"
-msgstr "Daten von einem falschen Absendertyp erhalten"
-
-#: ../src/nm-netlink-monitor.c:536
-msgid "received data from unexpected sender"
-msgstr "Daten von einem unerwarteten Absender erhalten"
-
-#: ../src/nm-netlink-monitor.c:665
-msgid "too much data was sent over socket and some of it was lost"
-msgstr ""
-"Es wurden zu viele Daten über den Socket gesendet und einige davon sind "
-"verloren gegangen"
-
-#: ../src/nm-netlink-monitor.c:775
+#: ../src/nm-netlink-monitor.c:484
 msgid "error occurred while waiting for data on socket"
 msgstr "Während des Wartens auf Daten am Socket ist ein Fehler aufgetreten"
 
-#: ../src/nm-ap-security-wpa-eap.c:96 ../src/nm-ap-security-wpa-eap.c:120
-msgid "WPA2 Enterprise"
-msgstr "WPA2 Enterprise"
+#: ../src/NetworkManager.c:293
+#, c-format
+msgid "Invalid option.  Please use --help to see a list of valid options.\n"
+msgstr ""
+"Ungültige Option.  Benutzen Sie Bitte --help um eine Liste der gültigen "
+"Optionen zu erhalten.\n"
 
-#: ../src/nm-ap-security-wpa-eap.c:98 ../src/nm-ap-security-wpa-eap.c:125
-msgid "WPA Enterprise"
-msgstr "WPA Enterprise"
+#: ../src/dhcp-manager/nm-dhcp-dhclient.c:88
+msgid "# Created by NetworkManager\n"
+msgstr "# Erzeugt vom NetzwerkManager\n"
 
-#: ../src/nm-ap-security-leap.c:66 ../src/nm-ap-security-leap.c:82
-msgid "LEAP"
-msgstr "LEAP"
+#: ../src/dhcp-manager/nm-dhcp-dhclient.c:94
+#, c-format
+msgid ""
+"# Merged from %s\n"
+"\n"
+msgstr ""
+"# Zusammengefügt aus %s\n"
+"\n"
 
-#~ msgid "Passphrase for wireless network %s"
-#~ msgstr "Passphrase für Funknetzwerk %s"
+#: ../src/named-manager/nm-named-manager.c:256
+msgid "NOTE: the libc resolver may not support more than 3 nameservers."
+msgstr ""
+"Achtung: der libc resolver unterstützt wahrscheinlich nicht mehr als 3 "
+"Nameserver."
 
-#~ msgid "Connection to the wireless network '%s' failed."
-#~ msgstr "Die Verbindung mit Funknetzwerk »%s« ist fehlgeschlagen."
+#: ../src/named-manager/nm-named-manager.c:258
+msgid "The nameservers listed below may not be recognized."
+msgstr "Die Nameserver unter diesem werden wahrscheinlich nicht benutzt."
 
-#~ msgid "Connection to the wired network failed."
-#~ msgstr "Die Verbindung mit dem Kabelnetzwerk ist fehlgeschlagen."
+#: ../system-settings/src/main.c:376
+#, c-format
+msgid "Auto %s"
+msgstr "Auto %s"
 
-#~ msgid "Error displaying connection information:"
-#~ msgstr "Die Verbindungsinformationen konnten nicht angezeigt werden:"
+#: ../libnm-util/crypto.c:120
+#, c-format
+msgid "PEM key file had no end tag '%s'."
+msgstr "PEM Schlüssel Datei hat keine abschließendes Tag '%s'."
 
-#~ msgid "Could not find some required resources (the glade file)!"
+#: ../libnm-util/crypto.c:130
+#, c-format
+msgid "Doesn't look like a PEM private key file."
+msgstr "Das sieht nicht nach einem privatem PEM Schlüssel aus."
+
+#: ../libnm-util/crypto.c:138
+#, c-format
+msgid "Not enough memory to store PEM file data."
+msgstr ""
+"Es steht nicht genug Speicher zum Speichern der PEM Datei zur Verfügung."
+
+#: ../libnm-util/crypto.c:154
+#, c-format
+msgid "Malformed PEM file: Proc-Type was not first tag."
+msgstr "Fehlerhafte PEM Datei: Proc-Type ist nicht der erste Tag."
+
+#: ../libnm-util/crypto.c:162
+#, c-format
+msgid "Malformed PEM file: unknown Proc-Type tag '%s'."
+msgstr "Fehlerhafte PEM Datei: unbekannter Proc-Type Tag '%s'."
+
+#: ../libnm-util/crypto.c:172
+#, c-format
+msgid "Malformed PEM file: DEK-Info was not the second tag."
+msgstr "Fehlerhafte PEM Datei: DEK-Info ist nicht der zweite Tag."
+
+#: ../libnm-util/crypto.c:183
+#, c-format
+msgid "Malformed PEM file: no IV found in DEK-Info tag."
+msgstr "Fehlerhafte PEM Datei: kein IV im DEK-Info Tag gefunden."
+
+#: ../libnm-util/crypto.c:190
+#, c-format
+msgid "Malformed PEM file: invalid format of IV in DEK-Info tag."
+msgstr "Fehlerhafte PEM Datei: falsches Format des IV in DEK-Info Tag."
+
+#: ../libnm-util/crypto.c:203
+#, c-format
+msgid "Malformed PEM file: unknown private key cipher '%s'."
+msgstr ""
+"Fehlerhafte PEM Datei: unbekannte Verschlüsselung '%s' des privaten "
+"Schlüssels."
+
+#: ../libnm-util/crypto.c:222
+#, c-format
+msgid "Could not decode private key."
+msgstr "Konnte privaten Schlüssel nicht dekodieren."
+
+#: ../libnm-util/crypto.c:267
+#, c-format
+msgid "PEM certificate '%s' had no end tag '%s'."
+msgstr "PEM Zertifikat '%s' hat keine abschließendes Tag '%s'."
+
+#: ../libnm-util/crypto.c:277
+#, c-format
+msgid "Failed to decode certificate."
+msgstr "Fehler beim dekodieren des Zertifikats."
+
+#: ../libnm-util/crypto.c:286
+#, c-format
+msgid "Not enough memory to store certificate data."
+msgstr "Nicht genug Speicher zum Abspeichern des Zertifikates."
+
+#: ../libnm-util/crypto.c:294
+#, c-format
+msgid "Not enough memory to store file data."
+msgstr "Nicht genug Speicher zum Abspeichern der Datei."
+
+#: ../libnm-util/crypto.c:324
+#, c-format
+msgid "IV must be an even number of bytes in length."
+msgstr "IV muss eine gerade Anzahl an Zeichen lang sein."
+
+#: ../libnm-util/crypto.c:333
+#, c-format
+msgid "Not enough memory to store the IV."
+msgstr "Nicht genug Speicher zum Sichern des IV."
+
+#: ../libnm-util/crypto.c:344
+#, c-format
+msgid "IV contains non-hexadecimal digits."
+msgstr "IV enthält nicht hexadezimale Zeichen."
+
+#: ../libnm-util/crypto.c:382 ../libnm-util/crypto_gnutls.c:143
+#: ../libnm-util/crypto_nss.c:169
+#, c-format
+msgid "Private key cipher '%s' was unknown."
+msgstr "Unbekannte Verschlüsselung '%s' des privaten Schlüssels."
+
+#: ../libnm-util/crypto.c:391
+#, c-format
+msgid "Not enough memory to decrypt private key."
+msgstr "Nicht genug Speicher zum entschlüsseln des privaten Schlüssels."
+
+#: ../libnm-util/crypto.c:511
+#, c-format
+msgid "Unable to determine private key type."
+msgstr "Kann die Art des privaten Schlüssels nicht bestimmen."
+
+#: ../libnm-util/crypto.c:530
+#, c-format
+msgid "Not enough memory to store decrypted private key."
+msgstr ""
+"Nicht genug Speicher zum Speichern des entschlüsselten privaten Schlüssels."
+
+#: ../libnm-util/crypto_gnutls.c:46
+msgid "Failed to initialize the crypto engine."
+msgstr "Fehler beim Initialisieren der Verschlüsselung."
+
+#: ../libnm-util/crypto_gnutls.c:90
+#, c-format
+msgid "Failed to initialize the MD5 engine: %s / %s."
+msgstr "Fehler beim Initialisieren von MD5: %s / %s."
+
+#: ../libnm-util/crypto_gnutls.c:152 ../libnm-util/crypto_nss.c:178
+#, c-format
+msgid "Not enough memory for decrypted key buffer."
+msgstr "Nicht genug Speicher für den Entschlüsselungs-Puffer."
+
+#: ../libnm-util/crypto_gnutls.c:160
+#, c-format
+msgid "Failed to initialize the decryption cipher context: %s / %s."
+msgstr "Fehler beim Initialisieren des Entschlüsselungs-Kontextes: %s / %s."
+
+#: ../libnm-util/crypto_gnutls.c:169
+#, c-format
+msgid "Failed to set symmetric key for decryption: %s / %s."
+msgstr ""
+"Fehler beim setzen des symmetrischen Schlüssels für die Entschlüsselung: %"
+"s / %s."
+
+#: ../libnm-util/crypto_gnutls.c:178
+#, c-format
+msgid "Failed to set IV for decryption: %s / %s."
+msgstr "Fehler beim setzen des IV für die Verschlüsselung: %s / %s."
+
+#: ../libnm-util/crypto_gnutls.c:187
+#, c-format
+msgid "Failed to decrypt the private key: %s / %s."
+msgstr "Fehler beim Entschlüsseln des privaten Schlüssels: %s / %s."
+
+#: ../libnm-util/crypto_gnutls.c:200
+#, c-format
+msgid "Failed to decrypt the private key."
+msgstr "Fehler beim Entschlüsseln des privaten Schlüssels."
+
+#: ../libnm-util/crypto_gnutls.c:235
+#, c-format
+msgid "Error initializing certificate data: %s"
+msgstr "Fehler beim Initialisieren des Zertifikates: %s"
+
+#: ../libnm-util/crypto_gnutls.c:257
+#, c-format
+msgid "Couldn't decode certificate: %s"
+msgstr "Konnte Zertifikat nicht dekodieren: %s"
+
+#: ../libnm-util/crypto_gnutls.c:281
+#, c-format
+msgid "Couldn't initialize PKCS#12 decoder: %s"
+msgstr "Konnte PKCS#12 Decoder nicht initialisieren: %s"
+
+#: ../libnm-util/crypto_gnutls.c:294
+#, c-format
+msgid "Couldn't decode PKCS#12 file: %s"
+msgstr "Konnte  PKCS#12 nicht decodieren: %s"
+
+#: ../libnm-util/crypto_gnutls.c:306
+#, c-format
+msgid "Couldn't verify PKCS#12 file: %s"
+msgstr "Konnte PKCS#12 Datei nicht überprüfen: %s"
+
+#: ../libnm-util/crypto_nss.c:57
+#, c-format
+msgid "Failed to initialize the crypto engine: %d."
+msgstr "Fehler beim Erstellen der Verschlüsselung: %d."
+
+#: ../libnm-util/crypto_nss.c:111
+#, c-format
+msgid "Failed to initialize the MD5 context: %d."
+msgstr "Fehler beim Erstellen des MD5-Kontextes: %d."
+
+#: ../libnm-util/crypto_nss.c:186
+#, c-format
+msgid "Failed to initialize the decryption cipher slot."
+msgstr "Fehler beim Erstellen des Verschlüsselungs-Slots."
+
+#: ../libnm-util/crypto_nss.c:196
+#, c-format
+msgid "Failed to set symmetric key for decryption."
+msgstr ""
+"Fehler beim Setzen des symmetrischen Schlüssels für die Entschlüsselung."
+
+#: ../libnm-util/crypto_nss.c:206
+#, c-format
+msgid "Failed to set IV for decryption."
+msgstr "Fehler beim Setzten des IV für die Entschlüsselung."
+
+#: ../libnm-util/crypto_nss.c:214
+#, c-format
+msgid "Failed to initialize the decryption context."
+msgstr "Fehler beim Erstellen des Entschlüsselungs-Kontextes."
+
+#: ../libnm-util/crypto_nss.c:227
+#, c-format
+msgid "Failed to decrypt the private key: %d."
+msgstr "Fehler beim Entschlüsseln des privaten Schlüssels: %d."
+
+#: ../libnm-util/crypto_nss.c:239
+#, c-format
+msgid "Failed to finalize decryption of the private key: %d."
+msgstr ""
+"Fehler beim Abschließen der Entschlüsselung des privaten Schlüssels: %d."
+
+#: ../libnm-util/crypto_nss.c:284
+#, c-format
+msgid "Couldn't decode certificate: %d"
+msgstr "Konnte Zertifikate nicht dekodieren: %d"
+
+#: ../libnm-util/crypto_nss.c:319
+#, c-format
+msgid "Couldn't convert password to UCS2: %d"
+msgstr "Konnte Passwort nicht zu UCS2 konvertieren: %d"
+
+#: ../libnm-util/crypto_nss.c:347
+#, c-format
+msgid "Couldn't initialize PKCS#12 decoder: %d"
+msgstr "Konnte PKCS#12 Decoder nicht initialisieren: %d"
+
+#: ../libnm-util/crypto_nss.c:356
+#, c-format
+msgid "Couldn't decode PKCS#12 file: %d"
+msgstr "Konnte PKCS#12 Datei nicht decodieren: %d"
+
+#: ../libnm-util/crypto_nss.c:365
+#, c-format
+msgid "Couldn't verify PKCS#12 file: %d"
+msgstr "Konnte PKCS#12 Datei nicht überprüfen: %d"
+
+#~ msgid "operation took too long"
+#~ msgstr "Vorgang dauerte zu lange"
+
+#~ msgid "received data from wrong type of sender"
+#~ msgstr "Daten von einem falschen Absendertyp erhalten"
+
+#~ msgid "received data from unexpected sender"
+#~ msgstr "Daten von einem unerwarteten Absender erhalten"
+
+#~ msgid "too much data was sent over socket and some of it was lost"
 #~ msgstr ""
-#~ "Einige benötigte Ressourcen wurden nicht gefunden (die Glade-Datei fehlt)."
-
-#~ msgid "No active connections!"
-#~ msgstr "Keine aktive Netzwerkverbindung"
-
-#~ msgid "Wired Ethernet (%s)"
-#~ msgstr "Kabel-Ethernet (%s)"
-
-#~ msgid "Wireless Ethernet (%s)"
-#~ msgstr "Funk-Ethernet (%s)"
-
-#~ msgid "NetworkManager Applet"
-#~ msgstr "Netzwerk-Manager-Applet"
-
-#~ msgid ""
-#~ "Copyright © 2004-2006 Red Hat, Inc.\n"
-#~ "Copyright © 2005-2006 Novell, Inc."
-#~ msgstr ""
-#~ "Copyright © 2004-2005 Red Hat, Inc.\n"
-#~ "Copyright © 2005-2006 Novell, Inc."
-
-#~ msgid ""
-#~ "Notification area applet for managing your network devices and "
-#~ "connections."
-#~ msgstr ""
-#~ "Ein Applet für das Benachrichtigungsfeld, mit dem Sie Ihre Netzwerkgeräte "
-#~ "und Netzwerkverbindungen verwalten können."
-
-#~ msgid "translator-credits"
-#~ msgstr "Hendrik Brandt <heb@gnome-de.org>"
-
-#~ msgid ""
-#~ "Copyright © 2004-2005 Red Hat, Inc.\n"
-#~ "Copyright © 2005-2006 Novell, Inc."
-#~ msgstr ""
-#~ "Copyright © 2004-2005 Red Hat, Inc.\n"
-#~ "Copyright © 2005-2006 Novell, Inc."
-
-#~ msgid "VPN Login Failure"
-#~ msgstr "VPN-Anmeldefehler"
-
-#~ msgid "Could not start the VPN connection '%s' due to a login failure."
-#~ msgstr ""
-#~ "VPN-Verbindung »%s« konnte auf Grund eines Anmeldefehlers nicht gestartet "
-#~ "werden."
-
-#~ msgid "VPN Start Failure"
-#~ msgstr "VPN-Startfehler"
-
-#~ msgid ""
-#~ "Could not start the VPN connection '%s' due to a failure launching the "
-#~ "VPN program."
-#~ msgstr ""
-#~ "Die VPN-Verbindung »%s« konnte infolge eines Fehlers beim Starten des VPN-"
-#~ "Programms nicht hergestellt werden."
-
-#~ msgid "VPN Connect Failure"
-#~ msgstr "VPN-Verbindungsfehler"
-
-#~ msgid "Could not start the VPN connection '%s' due to a connection error."
-#~ msgstr ""
-#~ "VPN-Verbindung »%s« konnte auf Grund eines Verbindungsfehlers nicht "
-#~ "gestartet werden"
-
-#~ msgid "VPN Configuration Error"
-#~ msgstr "VPN-Konfigurationsfehler"
-
-#~ msgid "The VPN connection '%s' was not correctly configured."
-#~ msgstr "Die VPN-Verbindung »%s« wurde nicht richtig konfiguriert."
-
-#~ msgid ""
-#~ "Could not start the VPN connection '%s' because the VPN server did not "
-#~ "return an adequate network configuration."
-#~ msgstr ""
-#~ "Die VPN-Verbindung »%s« konnte nicht hergestellt werden, da der VPN-"
-#~ "Server keine geeignete Netzwerkkonfiguration lieferte."
-
-#~ msgid "VPN Login Message"
-#~ msgstr "VPN-Anmeldemitteilung"
-
-#~ msgid ""
-#~ "The NetworkManager Applet could not find some required resources (the "
-#~ "glade file was not found)."
-#~ msgstr ""
-#~ "Das Netzwerk-Manager-Applet konnte benötigte Ressourcen nicht finden (Die "
-#~ "Glade-Datei wurde nicht gefunden)."
-
-#~ msgid "The network device \"%s (%s)\" does not support wireless scanning."
-#~ msgstr "Das Netzwerkgerät »%s (%s)« unterstützt keine Funknetzwerksuche."
-
-#~ msgid "The network device \"%s (%s)\" does not support link detection."
-#~ msgstr "Das Netzwerkgerät »%s (%s)« unterstützt keine Link-Erkennung."
-
-#~ msgid "Preparing device %s for the wired network..."
-#~ msgstr "Vorbereiten des Geräts %s wird für das Kabelnetzwerk …"
-
-#~ msgid "Preparing device %s for the wireless network '%s'..."
-#~ msgstr "Vorbereiten des Geräts %s für das Funknetzwerk »%s« …"
-
-#~ msgid "Configuring device %s for the wired network..."
-#~ msgstr "Konfigurieren des Geräts %s für das Kabelnetzwerk …"
-
-#~ msgid "Attempting to join the wireless network '%s'..."
-#~ msgstr "Versuch, dem Funknetzwerk »%s« beizutreten …"
-
-#~ msgid "Waiting for Network Key for the wireless network '%s'..."
-#~ msgstr "Warten auf den Netzwerkschlüssel für das Funknetzwerk »%s« …"
-
-#~ msgid "Requesting a network address from the wired network..."
-#~ msgstr "Anfordern einer Netzwerkadresse vom Kabelnetzwerk …"
-
-#~ msgid "Requesting a network address from the wireless network '%s'..."
-#~ msgstr "Anfordern einer Netzwerkadresse vom Funknetzwerk »%s« …"
-
-#~ msgid "Finishing connection to the wired network..."
-#~ msgstr "Fertigstellen der Verbindung mit dem Kabelnetzwerk …"
-
-#~ msgid "Finishing connection to the wireless network '%s'..."
-#~ msgstr "Fertigstellen der Verbindung mit dem Funknetzwerk »%s« …"
-
-#~ msgid "NetworkManager is not running"
-#~ msgstr "Der Netzwerk-Manager läuft zur Zeit nicht"
-
-#~ msgid "Networking disabled"
-#~ msgstr "Netzwerk deaktiviert"
-
-#~ msgid "No network connection"
-#~ msgstr "Keine Netzwerkverbindung"
-
-#~ msgid "Wired network connection"
-#~ msgstr "Kabelnetzwerkverbindung"
-
-#~ msgid "Connected to an Ad-Hoc wireless network"
-#~ msgstr "Verbunden mit einem Ad-Hoc-Funknetzwerk"
-
-#~ msgid "Wireless network connection to '%s' (%d%%)"
-#~ msgstr "Funknetzwerkverbindung mit »%s« (%d%%)"
-
-#~ msgid "VPN connection to '%s'"
-#~ msgstr "VPN-Verbindung zu »%s«"
-
-#~ msgid "VPN connecting to '%s'"
-#~ msgstr "VPN verbindet zu »%s«"
-
-#~ msgid "_Connect to Other Wireless Network..."
-#~ msgstr "Mit einem anderen Funknetzwerk _verbinden …"
-
-#~ msgid "Create _New Wireless Network..."
-#~ msgstr "_Neues Funknetzwerk erstellen …"
-
-#~ msgid "_VPN Connections"
-#~ msgstr "_VPN-Verbindungen"
-
-#~ msgid "_Configure VPN..."
-#~ msgstr "VPN _konfigurieren …"
-
-#~ msgid "_Disconnect VPN..."
-#~ msgstr "VPN _trennen …"
-
-#~ msgid "_Dial Up Connections"
-#~ msgstr "_Einwahlverbindungen"
-
-#~ msgid "Connect to %s..."
-#~ msgstr "Verbinden mit %s …"
-
-#~ msgid "Disconnect from %s..."
-#~ msgstr "Trennen von %s …"
-
-#~ msgid "No network devices have been found"
-#~ msgstr "Es wurden keine Netzwerkgeräte gefunden"
-
-#~ msgid "NetworkManager is not running..."
-#~ msgstr "Der Netzwerk-Manager läuft zur Zeit nicht …"
-
-#~ msgid "Enable _Networking"
-#~ msgstr "_Netzwerk aktivieren"
-
-#~ msgid "Enable _Wireless"
-#~ msgstr "_Funknetzwerk aktivieren"
-
-#~ msgid "Connection _Information"
-#~ msgstr "Verbindungs_informationen"
-
-#~ msgid "_Help"
-#~ msgstr "_Hilfe"
-
-#~ msgid "_About"
-#~ msgstr "_Info"
-
-#~ msgid ""
-#~ "The NetworkManager applet could not find some required resources.  It "
-#~ "cannot continue.\n"
-#~ msgstr ""
-#~ "Das Netzwerk-Manager-Applet konnte benötigte Ressourcen nicht finden und "
-#~ "kann deshalb nicht fortfahren.\n"
-
-#~ msgid "Open System"
-#~ msgstr "Offenes System"
-
-#~ msgid "Shared Key"
-#~ msgstr "Gemeinsamer Schlüssel (PSK)"
-
-#~ msgid "Automatic (Default)"
-#~ msgstr "Automatisch (Vorgabe)"
-
-#~ msgid "AES-CCMP"
-#~ msgstr "AES-CCMP"
-
-#~ msgid "TKIP"
-#~ msgstr "TKIP"
-
-#~ msgid "Dynamic WEP"
-#~ msgstr "Dynamisches WEP"
-
-#~ msgid "None"
-#~ msgstr "Keine"
-
-#~ msgid "WEP 64/128-bit ASCII"
-#~ msgstr "WEP 64/128-bit ASCII"
-
-#~ msgid "WEP 64/128-bit Hex"
-#~ msgstr "WEP 64/128-bit Hex"
-
-#~ msgid "WEP 128-bit Passphrase"
-#~ msgstr "WEP 128-bit Passphrase"
-
-#~ msgid "TLS"
-#~ msgstr "TLS"
-
-#~ msgid "TTLS"
-#~ msgstr "TTLS"
-
-#~ msgid "WPA2 Personal"
-#~ msgstr "WPA2 Personal"
-
-#~ msgid "WPA Personal"
-#~ msgstr "WPA Personal"
-
-#~ msgid "Orientation"
-#~ msgstr "Ausrichtung"
-
-#~ msgid "The orientation of the tray."
-#~ msgstr "Die Ausrichtung des Benachrichtigungsfeldes."
-
-#~ msgid "Wired Network (%s)"
-#~ msgstr "Kabelnetzwerk (%s)"
-
-#~ msgid "_Wired Network"
-#~ msgstr "_Kabelnetzwerk"
-
-#~ msgid "Wireless Network (%s)"
-#~ msgid_plural "Wireless Networks (%s)"
-#~ msgstr[0] "Funknetzwerk (%s)"
-#~ msgstr[1] "Funknetzwerke (%s)"
-
-#~ msgid "Wireless Network"
-#~ msgid_plural "Wireless Networks"
-#~ msgstr[0] "Funknetzwerk"
-#~ msgstr[1] "Funknetzwerke"
-
-#~ msgid " (invalid Unicode)"
-#~ msgstr " (ungültiger Unicode)"
-
-#~ msgid ""
-#~ "By default, the wireless network's name is set to your computer's name, %"
-#~ "s, with no encryption enabled"
-#~ msgstr ""
-#~ "Als Vorgabe wird der Name Ihres Rechners »%s« als Netzwerkname verwendet "
-#~ "und keine Verschlüsselung eingerichtet."
-
-#~ msgid "Create new wireless network"
-#~ msgstr "Ein neues Funknetzwerk erstellen"
-
-#~ msgid ""
-#~ "Enter the name and security settings of the wireless network you wish to "
-#~ "create."
-#~ msgstr ""
-#~ "Bitte geben Sie den Namen und die Sicherheitseinstellungen des zu "
-#~ "erstellenden Funknetzwerks ein."
-
-#~ msgid "Create New Wireless Network"
-#~ msgstr "Neues Funknetzwerk erstellen"
-
-#~ msgid "Existing wireless network"
-#~ msgstr "Bestehendes Funknetzwerk"
-
-#~ msgid "Enter the name of the wireless network to which you wish to connect."
-#~ msgstr ""
-#~ "Bitte geben Sie den Namen des Funknetzwerks, mit dem Sie sich verbinden "
-#~ "möchten, ein."
-
-#~ msgid "Connect to Other Wireless Network"
-#~ msgstr "Mit einem anderen Funknetzwerk verbinden"
-
-#~ msgid "Error connecting to wireless network"
-#~ msgstr "Fehler beim Verbinden mit dem Funknetzwerk"
-
-#~ msgid ""
-#~ "The requested wireless network requires security capabilities unsupported "
-#~ "by your hardware."
-#~ msgstr ""
-#~ "Dieses Funknetzwerk erfordert Sicherheitsfunktionen, die ihre Hardware "
-#~ "nicht unterstützt."
-
-#~ msgid "Cannot start VPN connection '%s'"
-#~ msgstr "VPN-Verbindung »%s« konnte nicht gestartet werden"
-
-#~ msgid ""
-#~ "Could not find the authentication dialog for VPN connection type '%s'. "
-#~ "Contact your system administrator."
-#~ msgstr ""
-#~ "Es konnte kein Authentifizierungsdialog für die VPN-Verbindung vom Typ »%"
-#~ "s« gefunden werden. Bitte setzen Sie sich mit Ihrem Systemadministrator "
-#~ "in Verbindung."
-
-#~ msgid ""
-#~ "There was a problem launching the authentication dialog for VPN "
-#~ "connection type '%s'. Contact your system administrator."
-#~ msgstr ""
-#~ "Beim Starten des Authentifizierungsdialog für die VPN-Verbindung vom Typ "
-#~ "»%s« ist ein Problem aufgetreten. Bitte setzen Sie sich mit Ihrem "
-#~ "Systemadministrator in Verbindung."
-
-#~ msgid " "
-#~ msgstr " "
-
-#~ msgid ""
-#~ "<span weight=\"bold\" size=\"larger\">Active Connection Information</span>"
-#~ msgstr ""
-#~ "<span weight=\"bold\" size=\"larger\">Informationen zur aktiven "
-#~ "Verbindung</span>"
-
-#~ msgid ""
-#~ "<span weight=\"bold\" size=\"larger\">Passphrase Required by Wireless "
-#~ "Network</span>\n"
-#~ "\n"
-#~ "A passphrase or encryption key is required to access the wireless network "
-#~ "'%s'."
-#~ msgstr ""
-#~ "<span weight=\"bold\" size=\"larger\">Passwortgeschütztes Funknetzwerk</"
-#~ "span>\n"
-#~ "\n"
-#~ "Für den Zugang zu dem Funknetzwerk »%s« wird ein Schlüssel oder eine "
-#~ "Passphrase benötigt."
-
-#~ msgid ""
-#~ "<span weight=\"bold\" size=\"larger\">Reduced Network Functionality</"
-#~ "span>\n"
-#~ "\n"
-#~ "%s  It will not be completely functional."
-#~ msgstr ""
-#~ "<span weight=\"bold\" size=\"larger\">Eingeschränkte "
-#~ "Netzwerkfunktionalität</span>\n"
-#~ "\n"
-#~ "%s  Es könnte zu Fehlfunktionen kommen."
-
-#~ msgid ""
-#~ "<span weight=\"bold\" size=\"larger\">Wireless Network Login "
-#~ "Confirmation</span>\n"
-#~ "\n"
-#~ "You have chosen to log in to the wireless network '%s'.  If you are sure "
-#~ "that this wireless network is secure, click the checkbox below and "
-#~ "NetworkManager will not require confirmation on subsequent log ins."
-#~ msgstr ""
-#~ "<span weight=\"bold\" size=\"larger\">Anmeldebestätigung für das "
-#~ "Funknetzwerk</span>\n"
-#~ "\n"
-#~ "Sie haben die Anmeldung am Funknetzwerk »%s« gewählt. Falls Sie sicher "
-#~ "sind, dass dieses Funknetzwerk vertrauenswürdig ist, können Sie die unten "
-#~ "angegebene Option auswählen und der Netzwerk-Manager wird ab sofort keine "
-#~ "Bestätigung mehr für dieses Netzwerk verlangen."
-
-#~ msgid "Anonymous Identity:"
-#~ msgstr "Anonyme Identität:"
-
-#~ msgid "Authentication:"
-#~ msgstr "Authentifizierung:"
-
-#~ msgid "Broadcast Address:"
-#~ msgstr "Broadcast-Adresse:"
-
-#~ msgid "CA Certificate File:"
-#~ msgstr "Datei mit CA-Zertifikat:"
-
-#~ msgid "C_onnect"
-#~ msgstr "_Verbinden"
-
-#~ msgid "Client Certificate File:"
-#~ msgstr "Datei mit Client-Zertifikat:"
-
-#~ msgid "Connection Information"
-#~ msgstr "Verbindungsinformationen"
-
-#~ msgid "Default Route:"
-#~ msgstr "Vorgaberoute:"
-
-#~ msgid "Destination Address:"
-#~ msgstr "Zieladresse:"
-
-#~ msgid "Driver:"
-#~ msgstr "Treiber:"
-
-#~ msgid "EAP Method:"
-#~ msgstr "EAP-Methode:"
-
-#~ msgid "Hardware Address:"
-#~ msgstr "Hardware-Adresse:"
-
-#~ msgid "IP Address:"
-#~ msgstr "IP-Adresse:"
-
-#~ msgid "Identity:"
-#~ msgstr "Identität:"
-
-#~ msgid "Interface:"
-#~ msgstr "Schnittstelle:"
-
-#~ msgid "Key Type:"
-#~ msgstr "Schlüsseltyp:"
-
-#~ msgid "Key management:"
-#~ msgstr "Schlüsselverwaltung:"
-
-#~ msgid "Key:"
-#~ msgstr "Schlüssel:"
-
-#~ msgid ""
-#~ "None\n"
-#~ "WEP 128-bit Passphrase\n"
-#~ "WEP 64/128-bit Hex\n"
-#~ "WEP 64/128-bit ASCII\n"
-#~ msgstr ""
-#~ "Keine\n"
-#~ "WEP 128-bit Passphrase\n"
-#~ "WEP 64/128-bit Hex\n"
-#~ "WEP 64/128-bit ASCII\n"
-
-#~ msgid ""
-#~ "Open System\n"
-#~ "Shared Key"
-#~ msgstr ""
-#~ "Offenes System\n"
-#~ "Gemeinsamer Schlüssel"
-
-#~ msgid "Other Wireless Network..."
-#~ msgstr "Anderes Funknetzwerk …"
-
-#~ msgid "Passphrase:"
-#~ msgstr "Passphrase:"
-
-#~ msgid "Password:"
-#~ msgstr "Passwort:"
-
-#~ msgid "Primary DNS:"
-#~ msgstr "Primäres DNS:"
-
-#~ msgid "Private Key File:"
-#~ msgstr "Datei mit geheimem Schlüssel:"
-
-#~ msgid "Private Key Password:"
-#~ msgstr "Passwort des geheimen Schlüssels:"
-
-#~ msgid "Secondary DNS:"
-#~ msgstr "Sekundäres DNS:"
-
-#~ msgid "Select the CA Certificate File"
-#~ msgstr "Die Datei mit dem CA-Zertifikat auswählen"
-
-#~ msgid "Select the Client Certificate File"
-#~ msgstr "Die Datei mit dem Client-Zertifikat auswählen"
-
-#~ msgid "Select the Private Key File"
-#~ msgstr "Die Datei mit dem geheimen Schlüssel auswählen"
-
-#~ msgid "Show key"
-#~ msgstr "Schlüssel anzeigen"
-
-#~ msgid "Show passphrase"
-#~ msgstr "Passphrase anzeigen"
-
-#~ msgid "Show password"
-#~ msgstr "Passwort anzeigen"
-
-#~ msgid "Show passwords"
-#~ msgstr "Passwörter anzeigen"
-
-#~ msgid "Speed:"
-#~ msgstr "Geschwindigkeit:"
-
-#~ msgid "Subnet Mask:"
-#~ msgstr "Subnetz-Maske:"
-
-#~ msgid "Type:"
-#~ msgstr "_Typ:"
-
-#~ msgid "User Name:"
-#~ msgstr "Benutzername:"
-
-#~ msgid "Wireless Network Key Required"
-#~ msgstr "Schlüssel für Funknetzwerk benötigt"
-
-#~ msgid "Wireless _adapter:"
-#~ msgstr "Funknetzwerkk_arte:"
-
-#~ msgid "_Always Trust this Wireless Network"
-#~ msgstr "_Diesem Funknetzwerk immer vertrauen"
-
-#~ msgid "_Don't remind me again"
-#~ msgstr "Diesen _Hinweis nicht mehr anzeigen"
-
-#~ msgid "_Fallback on this Network"
-#~ msgstr "Netzwerk ist _Ausweichlösung"
-
-#~ msgid "_Login to Network"
-#~ msgstr "_Am Netzwerk anmelden"
-
-#~ msgid "_Network Name:"
-#~ msgstr "_Netzwerkname:"
-
-#~ msgid "_Wireless Security:"
-#~ msgstr "_Sicherheit des Funknetzwerks:"
-
-#~ msgid "You are now connected to the Ad-Hoc wireless network '%s'."
-#~ msgstr "Sie sind nun mit dem Ad-Hoc-Funknetzwerk »%s« verbunden."
-
-#~ msgid "You are now connected to the wireless network '%s'."
-#~ msgstr "Sie sind nun mit dem Funknetzwerk »%s« verbunden."
-
-#~ msgid "You are now connected to the wired network."
-#~ msgstr "Sie sind nun über Kabel mit dem Netzwerk verbunden."
-
-#~ msgid "Connection Established"
-#~ msgstr "Verbindung hergestellt"
-
-#~ msgid "Disconnected"
-#~ msgstr "Verbindung getrennt"
-
-#~ msgid "The network connection has been disconnected."
-#~ msgstr "Die Netzwerkverbindung wurde getrennt."
-
-#~ msgid ""
-#~ "The requested wireless network '%s' does not appear to be in range.  A "
-#~ "different wireless network will be used if any are available."
-#~ msgstr ""
-#~ "Das gewünschte Funknetzwerk »%s« scheint nicht in Reichweite zu sein. "
-#~ "Falls weitere Funknetzwerke verfügbar sind, wird ein anderes verwendet."
-
-#~ msgid "VPN Error"
-#~ msgstr "VPN-Fehler"
-
-#~ msgid "The VPN service said: \"%s\""
-#~ msgstr "Anwort des VPN-Dienstes: »%s«"
-
-#~ msgid "VPN connection '%s' said:"
-#~ msgstr "Antwort der VPN-Verbindung »%s«:"
-
-#~ msgid "_Wireless Enabled"
-#~ msgstr "_Funknetz aktiv"
-
-#~ msgid "_Passphrase:"
-#~ msgstr "_Passwort:"
-
-#~ msgid "_ASCII Key:"
-#~ msgstr "_ASCII-Schlüssel:"
-
-#~ msgid "_Hex Key:"
-#~ msgstr "_Hexadezimalschlüssel:"
-
-#~ msgid ", with no encryption enabled."
-#~ msgstr ", ohne aktivierte Verschlüsselung."
-
-#~ msgid "ASCII Key:"
-#~ msgstr "ASCII-Schlüssel:"
-
-#~ msgid ""
-#~ "128-bit Passphrase (WEP)\n"
-#~ "ASCII Key (WEP)\n"
-#~ "Hex Key (WEP)"
-#~ msgstr ""
-#~ "128-Bit Passwort (WEP)\n"
-#~ "ASCII-Schlüssel (WEP)\n"
-#~ "Hexadezimalschlüssel (WEP)"
-
-#~ msgid ""
-#~ "128-bit passphrase (WEP)\n"
-#~ "ASCII key (WEP)\n"
-#~ "Hex key (WEP)"
-#~ msgstr ""
-#~ "128-Bit Passwort (WEP)\n"
-#~ "ASCII-Schlüssel (WEP)\n"
-#~ "Hexadezimalschlüssel (WEP)"
-
-#~ msgid "Connect with _encryption enabled"
-#~ msgstr "Mit aktivierter _Verschlüsselung verbinden"
-
-#~ msgid "Wireless _network:"
-#~ msgstr "_Funknetzwerk:"
-
-#~ msgid "_Key type:"
-#~ msgstr "_Schlüsseltyp:"
+#~ "Es wurden zu viele Daten über den Socket gesendet und einige davon sind "
+#~ "verloren gegangen"

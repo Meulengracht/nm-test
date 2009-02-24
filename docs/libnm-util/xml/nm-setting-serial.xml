@@ -1,0 +1,297 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="NMSettingSerial">
+<refmeta>
+<refentrytitle role="top_of_page">NMSettingSerial</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNM-UTIL Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>NMSettingSerial</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+
+
+#define             <link linkend="NM-SETTING-SERIAL-SETTING-NAME:CAPS">NM_SETTING_SERIAL_SETTING_NAME</link>
+enum                <link linkend="NMSettingSerialError">NMSettingSerialError</link>;
+#define             <link linkend="NM-TYPE-SETTING-SERIAL-ERROR:CAPS">NM_TYPE_SETTING_SERIAL_ERROR</link>
+#define             <link linkend="NM-SETTING-SERIAL-ERROR:CAPS">NM_SETTING_SERIAL_ERROR</link>
+<link linkend="GQuark">GQuark</link>              <link linkend="nm-setting-serial-error-quark">nm_setting_serial_error_quark</link>       (void);
+#define             <link linkend="NM-SETTING-SERIAL-BAUD:CAPS">NM_SETTING_SERIAL_BAUD</link>
+#define             <link linkend="NM-SETTING-SERIAL-BITS:CAPS">NM_SETTING_SERIAL_BITS</link>
+#define             <link linkend="NM-SETTING-SERIAL-PARITY:CAPS">NM_SETTING_SERIAL_PARITY</link>
+#define             <link linkend="NM-SETTING-SERIAL-STOPBITS:CAPS">NM_SETTING_SERIAL_STOPBITS</link>
+#define             <link linkend="NM-SETTING-SERIAL-SEND-DELAY:CAPS">NM_SETTING_SERIAL_SEND_DELAY</link>
+                    <link linkend="NMSettingSerial-struct">NMSettingSerial</link>;
+<link linkend="GType">GType</link>               <link linkend="nm-setting-serial-get-type">nm_setting_serial_get_type</link>          (void);
+<link linkend="NMSetting">NMSetting</link>*          <link linkend="nm-setting-serial-new">nm_setting_serial_new</link>               (void);
+<link linkend="guint">guint</link>               <link linkend="nm-setting-serial-get-baud">nm_setting_serial_get_baud</link>          (<link linkend="NMSettingSerial">NMSettingSerial</link> *setting);
+<link linkend="guint">guint</link>               <link linkend="nm-setting-serial-get-bits">nm_setting_serial_get_bits</link>          (<link linkend="NMSettingSerial">NMSettingSerial</link> *setting);
+<link linkend="char">char</link>                <link linkend="nm-setting-serial-get-parity">nm_setting_serial_get_parity</link>        (<link linkend="NMSettingSerial">NMSettingSerial</link> *setting);
+<link linkend="guint">guint</link>               <link linkend="nm-setting-serial-get-stopbits">nm_setting_serial_get_stopbits</link>      (<link linkend="NMSettingSerial">NMSettingSerial</link> *setting);
+<link linkend="guint64">guint64</link>             <link linkend="nm-setting-serial-get-send-delay">nm_setting_serial_get_send_delay</link>    (<link linkend="NMSettingSerial">NMSettingSerial</link> *setting);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+
+  <link linkend="GObject">GObject</link>
+   +----<link linkend="NMSetting">NMSetting</link>
+         +----NMSettingSerial
+</synopsis>
+
+</refsect1>
+
+
+
+
+
+<refsect1 role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+
+  &quot;<link linkend="NMSettingSerial--baud">baud</link>&quot;                     <link linkend="guint">guint</link>                 : Read / Write / Construct
+  &quot;<link linkend="NMSettingSerial--bits">bits</link>&quot;                     <link linkend="guint">guint</link>                 : Read / Write / Construct
+  &quot;<link linkend="NMSettingSerial--parity">parity</link>&quot;                   <link linkend="gchar">gchar</link>                 : Read / Write / Construct
+  &quot;<link linkend="NMSettingSerial--send-delay">send-delay</link>&quot;               <link linkend="guint64">guint64</link>               : Read / Write / Construct
+  &quot;<link linkend="NMSettingSerial--stopbits">stopbits</link>&quot;                 <link linkend="guint">guint</link>                 : Read / Write / Construct
+</synopsis>
+</refsect1>
+
+
+
+<refsect1 role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 role="details">
+<title role="details.title">Details</title>
+<refsect2>
+<title><anchor id="NM-SETTING-SERIAL-SETTING-NAME:CAPS" role="macro"/>NM_SETTING_SERIAL_SETTING_NAME</title>
+<indexterm><primary>NM_SETTING_SERIAL_SETTING_NAME</primary></indexterm><programlisting>#define NM_SETTING_SERIAL_SETTING_NAME "serial"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMSettingSerialError" role="enum"/>enum NMSettingSerialError</title>
+<indexterm><primary>NMSettingSerialError</primary></indexterm><programlisting>typedef enum
+{
+	NM_SETTING_SERIAL_ERROR_UNKNOWN = 0,
+	NM_SETTING_SERIAL_ERROR_INVALID_PROPERTY,
+	NM_SETTING_SERIAL_ERROR_MISSING_PROPERTY,
+	NM_SETTING_SERIAL_ERROR_MISSING_PPP_SETTING
+} NMSettingSerialError;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-TYPE-SETTING-SERIAL-ERROR:CAPS" role="macro"/>NM_TYPE_SETTING_SERIAL_ERROR</title>
+<indexterm><primary>NM_TYPE_SETTING_SERIAL_ERROR</primary></indexterm><programlisting>#define NM_TYPE_SETTING_SERIAL_ERROR (nm_setting_serial_error_get_type ()) 
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-SERIAL-ERROR:CAPS" role="macro"/>NM_SETTING_SERIAL_ERROR</title>
+<indexterm><primary>NM_SETTING_SERIAL_ERROR</primary></indexterm><programlisting>#define NM_SETTING_SERIAL_ERROR nm_setting_serial_error_quark ()
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-serial-error-quark" role="function"/>nm_setting_serial_error_quark ()</title>
+<indexterm><primary>nm_setting_serial_error_quark</primary></indexterm><programlisting><link linkend="GQuark">GQuark</link>              nm_setting_serial_error_quark       (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-SERIAL-BAUD:CAPS" role="macro"/>NM_SETTING_SERIAL_BAUD</title>
+<indexterm><primary>NM_SETTING_SERIAL_BAUD</primary></indexterm><programlisting>#define NM_SETTING_SERIAL_BAUD "baud"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-SERIAL-BITS:CAPS" role="macro"/>NM_SETTING_SERIAL_BITS</title>
+<indexterm><primary>NM_SETTING_SERIAL_BITS</primary></indexterm><programlisting>#define NM_SETTING_SERIAL_BITS "bits"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-SERIAL-PARITY:CAPS" role="macro"/>NM_SETTING_SERIAL_PARITY</title>
+<indexterm><primary>NM_SETTING_SERIAL_PARITY</primary></indexterm><programlisting>#define NM_SETTING_SERIAL_PARITY "parity"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-SERIAL-STOPBITS:CAPS" role="macro"/>NM_SETTING_SERIAL_STOPBITS</title>
+<indexterm><primary>NM_SETTING_SERIAL_STOPBITS</primary></indexterm><programlisting>#define NM_SETTING_SERIAL_STOPBITS "stopbits"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-SERIAL-SEND-DELAY:CAPS" role="macro"/>NM_SETTING_SERIAL_SEND_DELAY</title>
+<indexterm><primary>NM_SETTING_SERIAL_SEND_DELAY</primary></indexterm><programlisting>#define NM_SETTING_SERIAL_SEND_DELAY "send-delay"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMSettingSerial-struct" role="struct"/>NMSettingSerial</title>
+<indexterm><primary>NMSettingSerial</primary></indexterm><programlisting>typedef struct _NMSettingSerial NMSettingSerial;</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-serial-get-type" role="function"/>nm_setting_serial_get_type ()</title>
+<indexterm><primary>nm_setting_serial_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_setting_serial_get_type          (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-serial-new" role="function"/>nm_setting_serial_new ()</title>
+<indexterm><primary>nm_setting_serial_new</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link>*          nm_setting_serial_new               (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-serial-get-baud" role="function"/>nm_setting_serial_get_baud ()</title>
+<indexterm><primary>nm_setting_serial_get_baud</primary></indexterm><programlisting><link linkend="guint">guint</link>               nm_setting_serial_get_baud          (<link linkend="NMSettingSerial">NMSettingSerial</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-serial-get-bits" role="function"/>nm_setting_serial_get_bits ()</title>
+<indexterm><primary>nm_setting_serial_get_bits</primary></indexterm><programlisting><link linkend="guint">guint</link>               nm_setting_serial_get_bits          (<link linkend="NMSettingSerial">NMSettingSerial</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-serial-get-parity" role="function"/>nm_setting_serial_get_parity ()</title>
+<indexterm><primary>nm_setting_serial_get_parity</primary></indexterm><programlisting><link linkend="char">char</link>                nm_setting_serial_get_parity        (<link linkend="NMSettingSerial">NMSettingSerial</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-serial-get-stopbits" role="function"/>nm_setting_serial_get_stopbits ()</title>
+<indexterm><primary>nm_setting_serial_get_stopbits</primary></indexterm><programlisting><link linkend="guint">guint</link>               nm_setting_serial_get_stopbits      (<link linkend="NMSettingSerial">NMSettingSerial</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-serial-get-send-delay" role="function"/>nm_setting_serial_get_send_delay ()</title>
+<indexterm><primary>nm_setting_serial_get_send_delay</primary></indexterm><programlisting><link linkend="guint64">guint64</link>             nm_setting_serial_get_send_delay    (<link linkend="NMSettingSerial">NMSettingSerial</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+<refsect1 role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2><title><anchor id="NMSettingSerial--baud"/>The <literal>&quot;baud&quot;</literal> property</title>
+<indexterm><primary>NMSettingSerial:baud</primary></indexterm><programlisting>  &quot;baud&quot;                     <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
+<para>Baud rate.</para><para>Default value: 57600</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingSerial--bits"/>The <literal>&quot;bits&quot;</literal> property</title>
+<indexterm><primary>NMSettingSerial:bits</primary></indexterm><programlisting>  &quot;bits&quot;                     <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
+<para>Bits.</para><para>Allowed values: [5,8]</para>
+<para>Default value: 8</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingSerial--parity"/>The <literal>&quot;parity&quot;</literal> property</title>
+<indexterm><primary>NMSettingSerial:parity</primary></indexterm><programlisting>  &quot;parity&quot;                   <link linkend="gchar">gchar</link>                 : Read / Write / Construct</programlisting>
+<para>Parity.</para><para>Allowed values: [69,111]</para>
+<para>Default value: 110</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingSerial--send-delay"/>The <literal>&quot;send-delay&quot;</literal> property</title>
+<indexterm><primary>NMSettingSerial:send-delay</primary></indexterm><programlisting>  &quot;send-delay&quot;               <link linkend="guint64">guint64</link>               : Read / Write / Construct</programlisting>
+<para>Send delay.</para><para>Default value: 0</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingSerial--stopbits"/>The <literal>&quot;stopbits&quot;</literal> property</title>
+<indexterm><primary>NMSettingSerial:stopbits</primary></indexterm><programlisting>  &quot;stopbits&quot;                 <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
+<para>Stopbits.</para><para>Allowed values: [1,2]</para>
+<para>Default value: 1</para>
+</refsect2>
+
+</refsect1>
+
+
+
+
+
+<refsect1><refsect2 /><refsect2 /></refsect1>
+</refentry>

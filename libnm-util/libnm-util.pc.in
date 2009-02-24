@@ -6,7 +6,7 @@ includedir=@includedir@
 Name: libnm_util
 Description: Convenience library for clients of NetworkManager
 Version: @VERSION@
-Requires: dbus-1
+Requires: glib-2.0
 Cflags: -I${includedir}/NetworkManager
 Libs: -L${libdir} -lnm-util
 

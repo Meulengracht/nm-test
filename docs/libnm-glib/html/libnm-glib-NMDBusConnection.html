@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>NMDBusConnection</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="libnm-glib Reference Manual">
+<link rel="up" href="ch01.html" title="[Insert title here]">
+<link rel="prev" href="NMDeviceWifi.html" title="NMDeviceWifi">
+<link rel="next" href="NMSerialDevice.html" title="NMSerialDevice">
+<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="[Insert title here]">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="NMDeviceWifi.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">libnm-glib Reference Manual</th>
+<td><a accesskey="n" href="NMSerialDevice.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id3064356" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id3065532" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="libnm-glib-NMDBusConnection"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id3064356"></a><span class="refentrytitle">NMDBusConnection</span>
+</h2>
+<p>NMDBusConnection</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+#define             <a class="link" href="libnm-glib-NMDBusConnection.html#NM-DBUS-CONNECTION-BUS:CAPS">NM_DBUS_CONNECTION_BUS</a>
+#define             <a class="link" href="libnm-glib-NMDBusConnection.html#NM-DBUS-CONNECTION-SCOPE:CAPS">NM_DBUS_CONNECTION_SCOPE</a>
+#define             <a class="link" href="libnm-glib-NMDBusConnection.html#NM-DBUS-CONNECTION-PATH:CAPS">NM_DBUS_CONNECTION_PATH</a>
+                    <a class="link" href="libnm-glib-NMDBusConnection.html#NMDBusConnection">NMDBusConnection</a>;
+<a class="link" href="libnm-glib-NMDBusConnection.html#NMDBusConnection">NMDBusConnection</a>*   <a class="link" href="libnm-glib-NMDBusConnection.html#nm-dbus-connection-new">nm_dbus_connection_new</a>              (<a
+href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
+>DBusGConnection</a> *dbus_connection,
+                                                         <a
+href="http://[SERVER]/libnm-util/NMConnection.html#NMConnectionScope"
+>NMConnectionScope</a> scope,
+                                                         const char *path);
+
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id3065532"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id3042464"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id3084490"></a><h3>
+<a name="NM-DBUS-CONNECTION-BUS:CAPS"></a>NM_DBUS_CONNECTION_BUS</h3>
+<a class="indexterm" name="id3084501"></a><pre class="programlisting">#define NM_DBUS_CONNECTION_BUS   "bus"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3084515"></a><h3>
+<a name="NM-DBUS-CONNECTION-SCOPE:CAPS"></a>NM_DBUS_CONNECTION_SCOPE</h3>
+<a class="indexterm" name="id3084527"></a><pre class="programlisting">#define NM_DBUS_CONNECTION_SCOPE "scope"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3084542"></a><h3>
+<a name="NM-DBUS-CONNECTION-PATH:CAPS"></a>NM_DBUS_CONNECTION_PATH</h3>
+<a class="indexterm" name="id3084553"></a><pre class="programlisting">#define NM_DBUS_CONNECTION_PATH  "path"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3084568"></a><h3>
+<a name="NMDBusConnection"></a>NMDBusConnection</h3>
+<a class="indexterm" name="id3084041"></a><pre class="programlisting">typedef struct {
+	NMExportedConnection parent;
+} NMDBusConnection;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3084058"></a><h3>
+<a name="nm-dbus-connection-new"></a>nm_dbus_connection_new ()</h3>
+<a class="indexterm" name="id3084069"></a><pre class="programlisting"><a class="link" href="libnm-glib-NMDBusConnection.html#NMDBusConnection">NMDBusConnection</a>*   nm_dbus_connection_new              (<a
+href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
+>DBusGConnection</a> *dbus_connection,
+                                                         <a
+href="http://[SERVER]/libnm-util/NMConnection.html#NMConnectionScope"
+>NMConnectionScope</a> scope,
+                                                         const char *path);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dbus_connection</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>scope</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>path</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id3084169"></a><div class="refsect2" lang="en"><a name="id3084170"></a></div>
+<hr>
+<div class="refsect2" lang="en"><a name="id3084171"></a></div>
+</div>
+</div>
+</body>
+</html>

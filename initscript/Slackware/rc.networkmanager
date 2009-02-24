@@ -9,17 +9,14 @@
 # pidfile: /var/run/NetworkManager.pid
 #
 
-prefix=/usr/local
-exec_prefix=/usr/local
+prefix=/usr
+exec_prefix=/usr
 sbindir=${exec_prefix}/sbin
 
 NETWORKMANAGER_BIN=${sbindir}/NetworkManager
 
 # Sanity checks.
 [ -x $NETWORKMANAGER_BIN ] || exit 0
-
-# We need /sbin/ip
-[ -x /sbin/ip ] || exit 0
 
 PIDFILE=/var/run/NetworkManager.pid
 

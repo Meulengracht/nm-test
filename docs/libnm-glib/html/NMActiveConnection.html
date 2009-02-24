@@ -1,0 +1,518 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>NMActiveConnection</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="libnm-glib Reference Manual">
+<link rel="up" href="ch01.html" title="[Insert title here]">
+<link rel="prev" href="libnm-glib-NMDBusSettingsSystem.html" title="NMDBusSettingsSystem">
+<link rel="next" href="NMDeviceEthernet.html" title="NMDeviceEthernet">
+<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="[Insert title here]">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="libnm-glib-NMDBusSettingsSystem.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">libnm-glib Reference Manual</th>
+<td><a accesskey="n" href="NMDeviceEthernet.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id3045640" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id3079343" class="shortcut">Description</a>
+                  &#160;|&#160;
+                  <a href="#id3005086" class="shortcut">Object Hierarchy</a>
+                  &#160;|&#160;
+                  <a href="#id3079253" class="shortcut">Properties</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="NMActiveConnection"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id3045640"></a><span class="refentrytitle">NMActiveConnection</span>
+</h2>
+<p>NMActiveConnection</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+#define             <a class="link" href="NMActiveConnection.html#NM-ACTIVE-CONNECTION-SERVICE-NAME:CAPS">NM_ACTIVE_CONNECTION_SERVICE_NAME</a>
+#define             <a class="link" href="NMActiveConnection.html#NM-ACTIVE-CONNECTION-CONNECTION:CAPS">NM_ACTIVE_CONNECTION_CONNECTION</a>
+#define             <a class="link" href="NMActiveConnection.html#NM-ACTIVE-CONNECTION-SPECIFIC-OBJECT:CAPS">NM_ACTIVE_CONNECTION_SPECIFIC_OBJECT</a>
+#define             <a class="link" href="NMActiveConnection.html#NM-ACTIVE-CONNECTION-DEVICES:CAPS">NM_ACTIVE_CONNECTION_DEVICES</a>
+#define             <a class="link" href="NMActiveConnection.html#NM-ACTIVE-CONNECTION-STATE:CAPS">NM_ACTIVE_CONNECTION_STATE</a>
+#define             <a class="link" href="NMActiveConnection.html#NM-ACTIVE-CONNECTION-DEFAULT:CAPS">NM_ACTIVE_CONNECTION_DEFAULT</a>
+                    <a class="link" href="NMActiveConnection.html#NMActiveConnection-struct">NMActiveConnection</a>;
+<a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>*            <a class="link" href="NMActiveConnection.html#nm-active-connection-new">nm_active_connection_new</a>            (<a
+href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
+>DBusGConnection</a> *connection,
+                                                         const char *path);
+const char*         <a class="link" href="NMActiveConnection.html#nm-active-connection-get-service-name">nm_active_connection_get_service_name</a>
+                                                        (<a class="link" href="NMActiveConnection.html" title="NMActiveConnection">NMActiveConnection</a> *connection);
+<a
+href="http://[SERVER]/libnm-util/NMConnection.html#NMConnectionScope"
+>NMConnectionScope</a>   <a class="link" href="NMActiveConnection.html#nm-active-connection-get-scope">nm_active_connection_get_scope</a>      (<a class="link" href="NMActiveConnection.html" title="NMActiveConnection">NMActiveConnection</a> *connection);
+const char*         <a class="link" href="NMActiveConnection.html#nm-active-connection-get-connection">nm_active_connection_get_connection</a> (<a class="link" href="NMActiveConnection.html" title="NMActiveConnection">NMActiveConnection</a> *connection);
+const char*         <a class="link" href="NMActiveConnection.html#nm-active-connection-get-specific-object">nm_active_connection_get_specific_object</a>
+                                                        (<a class="link" href="NMActiveConnection.html" title="NMActiveConnection">NMActiveConnection</a> *connection);
+const <a
+href="/usr/share/gtk-doc/html/glib/glib-Pointer-Arrays.html#GPtrArray"
+>GPtrArray</a>*    <a class="link" href="NMActiveConnection.html#nm-active-connection-get-devices">nm_active_connection_get_devices</a>    (<a class="link" href="NMActiveConnection.html" title="NMActiveConnection">NMActiveConnection</a> *connection);
+NMActiveConnectionState <a class="link" href="NMActiveConnection.html#nm-active-connection-get-state">nm_active_connection_get_state</a>  (<a class="link" href="NMActiveConnection.html" title="NMActiveConnection">NMActiveConnection</a> *connection);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMActiveConnection.html#nm-active-connection-get-default">nm_active_connection_get_default</a>    (<a class="link" href="NMActiveConnection.html" title="NMActiveConnection">NMActiveConnection</a> *connection);
+
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id3005086"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+
+  <a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
+   +----<a class="link" href="NMObject.html" title="NMObject">NMObject</a>
+         +----NMActiveConnection
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id3079253"></a><h2>Properties</h2>
+<pre class="synopsis">
+
+  "<a class="link" href="NMActiveConnection.html#NMActiveConnection--connection">connection</a>"               <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read
+  "<a class="link" href="NMActiveConnection.html#NMActiveConnection--default">default</a>"                  <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read
+  "<a class="link" href="NMActiveConnection.html#NMActiveConnection--devices">devices</a>"                  nm-object-array       : Read
+  "<a class="link" href="NMActiveConnection.html#NMActiveConnection--service-name">service-name</a>"             <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read
+  "<a class="link" href="NMActiveConnection.html#NMActiveConnection--specific-object">specific-object</a>"          <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read
+  "<a class="link" href="NMActiveConnection.html#NMActiveConnection--state">state</a>"                    <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id3079343"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id3079359"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id3079370"></a><h3>
+<a name="NM-ACTIVE-CONNECTION-SERVICE-NAME:CAPS"></a>NM_ACTIVE_CONNECTION_SERVICE_NAME</h3>
+<a class="indexterm" name="id3079382"></a><pre class="programlisting">#define NM_ACTIVE_CONNECTION_SERVICE_NAME        "service-name"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3034539"></a><h3>
+<a name="NM-ACTIVE-CONNECTION-CONNECTION:CAPS"></a>NM_ACTIVE_CONNECTION_CONNECTION</h3>
+<a class="indexterm" name="id3034551"></a><pre class="programlisting">#define NM_ACTIVE_CONNECTION_CONNECTION          "connection"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3034568"></a><h3>
+<a name="NM-ACTIVE-CONNECTION-SPECIFIC-OBJECT:CAPS"></a>NM_ACTIVE_CONNECTION_SPECIFIC_OBJECT</h3>
+<a class="indexterm" name="id3034579"></a><pre class="programlisting">#define NM_ACTIVE_CONNECTION_SPECIFIC_OBJECT     "specific-object"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3034595"></a><h3>
+<a name="NM-ACTIVE-CONNECTION-DEVICES:CAPS"></a>NM_ACTIVE_CONNECTION_DEVICES</h3>
+<a class="indexterm" name="id3034608"></a><pre class="programlisting">#define NM_ACTIVE_CONNECTION_DEVICES             "devices"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3034625"></a><h3>
+<a name="NM-ACTIVE-CONNECTION-STATE:CAPS"></a>NM_ACTIVE_CONNECTION_STATE</h3>
+<a class="indexterm" name="id3034638"></a><pre class="programlisting">#define NM_ACTIVE_CONNECTION_STATE               "state"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3034654"></a><h3>
+<a name="NM-ACTIVE-CONNECTION-DEFAULT:CAPS"></a>NM_ACTIVE_CONNECTION_DEFAULT</h3>
+<a class="indexterm" name="id3034667"></a><pre class="programlisting">#define NM_ACTIVE_CONNECTION_DEFAULT             "default"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3034684"></a><h3>
+<a name="NMActiveConnection-struct"></a>NMActiveConnection</h3>
+<a class="indexterm" name="id3034695"></a><pre class="programlisting">typedef struct _NMActiveConnection NMActiveConnection;</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3034712"></a><h3>
+<a name="nm-active-connection-new"></a>nm_active_connection_new ()</h3>
+<a class="indexterm" name="id3034723"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>*            nm_active_connection_new            (<a
+href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
+>DBusGConnection</a> *connection,
+                                                         const char *path);</pre>
+<p>
+Creates a new <a class="link" href="NMActiveConnection.html" title="NMActiveConnection"><span class="type">NMActiveConnection</span></a>.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> the <a
+href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
+><span class="type">DBusGConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>path</code></em>&#160;:</span></p></td>
+<td> the DBus object path of the device
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> a new active connection
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3082828"></a><h3>
+<a name="nm-active-connection-get-service-name"></a>nm_active_connection_get_service_name ()</h3>
+<a class="indexterm" name="id3082840"></a><pre class="programlisting">const char*         nm_active_connection_get_service_name
+                                                        (<a class="link" href="NMActiveConnection.html" title="NMActiveConnection">NMActiveConnection</a> *connection);</pre>
+<p>
+Gets the service name of the active connection.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> a <a class="link" href="NMActiveConnection.html" title="NMActiveConnection"><span class="type">NMActiveConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the service name. This is the internal string used by the
+connection, and must not be modified.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3082912"></a><h3>
+<a name="nm-active-connection-get-scope"></a>nm_active_connection_get_scope ()</h3>
+<a class="indexterm" name="id3082925"></a><pre class="programlisting"><a
+href="http://[SERVER]/libnm-util/NMConnection.html#NMConnectionScope"
+>NMConnectionScope</a>   nm_active_connection_get_scope      (<a class="link" href="NMActiveConnection.html" title="NMActiveConnection">NMActiveConnection</a> *connection);</pre>
+<p>
+Gets the scope of the active connection.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> a <a class="link" href="NMActiveConnection.html" title="NMActiveConnection"><span class="type">NMActiveConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the connection's scope
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3082994"></a><h3>
+<a name="nm-active-connection-get-connection"></a>nm_active_connection_get_connection ()</h3>
+<a class="indexterm" name="id3083008"></a><pre class="programlisting">const char*         nm_active_connection_get_connection (<a class="link" href="NMActiveConnection.html" title="NMActiveConnection">NMActiveConnection</a> *connection);</pre>
+<p>
+Gets the <a
+href="http://[SERVER]/libnm-util/NMConnection.html"
+><span class="type">NMConnection</span></a>'s DBus object path.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> a <a class="link" href="NMActiveConnection.html" title="NMActiveConnection"><span class="type">NMActiveConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the object path of the <a
+href="http://[SERVER]/libnm-util/NMConnection.html"
+><span class="type">NMConnection</span></a> inside of <a class="link" href="NMActiveConnection.html" title="NMActiveConnection"><span class="type">NMActiveConnection</span></a>.
+This is the internal string used by the connection, and must not be modified.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3083101"></a><h3>
+<a name="nm-active-connection-get-specific-object"></a>nm_active_connection_get_specific_object ()</h3>
+<a class="indexterm" name="id3083114"></a><pre class="programlisting">const char*         nm_active_connection_get_specific_object
+                                                        (<a class="link" href="NMActiveConnection.html" title="NMActiveConnection">NMActiveConnection</a> *connection);</pre>
+<p>
+Gets the "specific object" used at the activation.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> a <a class="link" href="NMActiveConnection.html" title="NMActiveConnection"><span class="type">NMActiveConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the specific object's DBus path. This is the internal string used by the
+connection, and must not be modified.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3083188"></a><h3>
+<a name="nm-active-connection-get-devices"></a>nm_active_connection_get_devices ()</h3>
+<a class="indexterm" name="id3083201"></a><pre class="programlisting">const <a
+href="/usr/share/gtk-doc/html/glib/glib-Pointer-Arrays.html#GPtrArray"
+>GPtrArray</a>*    nm_active_connection_get_devices    (<a class="link" href="NMActiveConnection.html" title="NMActiveConnection">NMActiveConnection</a> *connection);</pre>
+<p>
+Gets the <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>s used for the active connections.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> a <a class="link" href="NMActiveConnection.html" title="NMActiveConnection"><span class="type">NMActiveConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the <a
+href="/usr/share/gtk-doc/html/glib/glib-Pointer-Arrays.html#GPtrArray"
+><span class="type">GPtrArray</span></a> containing <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>s.
+This is the internal copy used by the connection, and must not be modified.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3083296"></a><h3>
+<a name="nm-active-connection-get-state"></a>nm_active_connection_get_state ()</h3>
+<a class="indexterm" name="id3083309"></a><pre class="programlisting">NMActiveConnectionState nm_active_connection_get_state  (<a class="link" href="NMActiveConnection.html" title="NMActiveConnection">NMActiveConnection</a> *connection);</pre>
+<p>
+Gets the active connection's state.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> a <a class="link" href="NMActiveConnection.html" title="NMActiveConnection"><span class="type">NMActiveConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> the state
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3083377"></a><h3>
+<a name="nm-active-connection-get-default"></a>nm_active_connection_get_default ()</h3>
+<a class="indexterm" name="id3083391"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_active_connection_get_default    (<a class="link" href="NMActiveConnection.html" title="NMActiveConnection">NMActiveConnection</a> *connection);</pre>
+<p>
+Whether the active connection is the default one (that is, is used for the default route
+and DNS information).</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td> a <a class="link" href="NMActiveConnection.html" title="NMActiveConnection"><span class="type">NMActiveConnection</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td> <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"
+><code class="literal">TRUE</code></a> if the active connection is the default one
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id3083472"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="id3083483"></a><h3>
+<a name="NMActiveConnection--connection"></a>The <code class="literal">"connection"</code> property</h3>
+<a class="indexterm" name="id3083499"></a><pre class="programlisting">  "connection"               <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read</pre>
+<p>
+The connection's path of the active connection.</p>
+<p>
+
+</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3083529"></a><h3>
+<a name="NMActiveConnection--default"></a>The <code class="literal">"default"</code> property</h3>
+<a class="indexterm" name="id3083543"></a><pre class="programlisting">  "default"                  <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read</pre>
+<p>
+Whether the active connection is the default one.</p>
+<p>
+
+</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3083572"></a><h3>
+<a name="NMActiveConnection--devices"></a>The <code class="literal">"devices"</code> property</h3>
+<a class="indexterm" name="id3083586"></a><pre class="programlisting">  "devices"                  nm-object-array       : Read</pre>
+<p>Devices.</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3083608"></a><h3>
+<a name="NMActiveConnection--service-name"></a>The <code class="literal">"service-name"</code> property</h3>
+<a class="indexterm" name="id3083624"></a><pre class="programlisting">  "service-name"             <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read</pre>
+<p>
+The service name of the active connection.</p>
+<p>
+
+</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3083654"></a><h3>
+<a name="NMActiveConnection--specific-object"></a>The <code class="literal">"specific-object"</code> property</h3>
+<a class="indexterm" name="id3083670"></a><pre class="programlisting">  "specific-object"          <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read</pre>
+<p>
+The specific object's path of the active connection.</p>
+<p>
+
+</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3083700"></a><h3>
+<a name="NMActiveConnection--state"></a>The <code class="literal">"state"</code> property</h3>
+<a class="indexterm" name="id3083714"></a><pre class="programlisting">  "state"                    <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read</pre>
+<p>
+The state of the active connection.</p>
+<p>
+
+</p>
+<p>Allowed values: &lt;= 2</p>
+<p>Default value: 0</p>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id3083749"></a><div class="refsect2" lang="en"><a name="id3083750"></a></div>
+<hr>
+<div class="refsect2" lang="en"><a name="id3083751"></a></div>
+</div>
+</div>
+</body>
+</html>

@@ -1,6 +1,5 @@
+/* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
 /* NetworkManager -- Network link manager
- *
- * Dan Williams <dcbw@redhat.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,48 +11,50 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * (C) Copyright 2005 Red Hat, Inc.
+ * Copyright (C) 2005 - 2008 Red Hat, Inc.
+ * Copyright (C) 2005 - 2008 Novell, Inc.
  */
 
 #ifndef NM_VPN_SERVICE_H
 #define NM_VPN_SERVICE_H
 
-
-#include <dbus/dbus.h>
-#include "NetworkManager.h"
-#include "NetworkManagerVPN.h"
-#include "NetworkManagerMain.h"
+#include <glib.h>
+#include <glib-object.h>
+#include "nm-device.h"
 #include "nm-vpn-connection.h"
+#include "nm-activation-request.h"
 
-typedef struct NMVPNService NMVPNService;
+#define NM_TYPE_VPN_SERVICE            (nm_vpn_service_get_type ())
+#define NM_VPN_SERVICE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), NM_TYPE_VPN_SERVICE, NMVPNService))
+#define NM_VPN_SERVICE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), NM_TYPE_VPN_SERVICE, NMVPNServiceClass))
+#define NM_IS_VPN_SERVICE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), NM_TYPE_VPN_SERVICE))
+#define NM_IS_VPN_SERVICE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), NM_TYPE_VPN_SERVICE))
+#define NM_VPN_SERVICE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), NM_TYPE_VPN_SERVICE, NMVPNServiceClass))
 
+typedef struct {
+	GObject parent;
+} NMVPNService;
 
-NMVPNService *	nm_vpn_service_new				(NMVPNManager *manager, NMData *app_data);
+typedef struct {
+	GObjectClass parent;
+} NMVPNServiceClass;
 
-void			nm_vpn_service_ref				(NMVPNService *service);
-void			nm_vpn_service_unref			(NMVPNService *service);
+GType nm_vpn_service_get_type (void);
 
-const char *	nm_vpn_service_get_name			(NMVPNService *service);
-void			nm_vpn_service_set_name			(NMVPNService *service, const char *name);
+NMVPNService * nm_vpn_service_new (const char *service_name);
 
-const char *	nm_vpn_service_get_service_name	(NMVPNService *service);
-void			nm_vpn_service_set_service_name	(NMVPNService *service, const char *name);
+const char * nm_vpn_service_get_name (NMVPNService *service);
 
-const char *	nm_vpn_service_get_program		(NMVPNService *service);
-void			nm_vpn_service_set_program		(NMVPNService *service, const char *program);
+NMVPNConnection * nm_vpn_service_activate (NMVPNService *service,
+                                           NMConnection *connection,
+                                           NMActRequest *act_request,
+                                           NMDevice *device,
+                                           GError **error);
 
-DBusConnection* nm_vpn_service_get_dbus_connection (NMVPNService *service);
+GSList * nm_vpn_service_get_active_connections (NMVPNService *service);
 
-NMVPNState	nm_vpn_service_get_state			(NMVPNService *service);
-
-gboolean		nm_vpn_service_name_owner_changed	(NMVPNService *service, NMVPNActRequest *req, const char *old, const char *new);
-gboolean		nm_vpn_service_process_signal		(NMVPNService *service, NMVPNActRequest *req, DBusMessage *message);
-
-void			nm_vpn_service_start_connection	(NMVPNService *service, NMVPNActRequest *req);
-void			nm_vpn_service_stop_connection	(NMVPNService *service, NMVPNActRequest *req);
-
-#endif
+#endif  /* NM_VPN_VPN_SERVICE_H */

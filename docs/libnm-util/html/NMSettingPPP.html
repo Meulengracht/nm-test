@@ -1,0 +1,1206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>NMSettingPPP</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="libnm-util Reference Manual">
+<link rel="up" href="ch01.html" title="[Insert title here]">
+<link rel="prev" href="NMSettingIP4Config.html" title="NMSettingIP4Config">
+<link rel="next" href="NMSettingSerial.html" title="NMSettingSerial">
+<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="[Insert title here]">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="NMSettingIP4Config.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">libnm-util Reference Manual</th>
+<td><a accesskey="n" href="NMSettingSerial.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2673234" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2709981" class="shortcut">Description</a>
+                  &#160;|&#160;
+                  <a href="#id2705959" class="shortcut">Object Hierarchy</a>
+                  &#160;|&#160;
+                  <a href="#id2705989" class="shortcut">Properties</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="NMSettingPPP"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2673234"></a><span class="refentrytitle">NMSettingPPP</span>
+</h2>
+<p>NMSettingPPP</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-SETTING-NAME:CAPS">NM_SETTING_PPP_SETTING_NAME</a>
+enum                <a class="link" href="NMSettingPPP.html#NMSettingPPPError">NMSettingPPPError</a>;
+#define             <a class="link" href="NMSettingPPP.html#NM-TYPE-SETTING-PPP-ERROR:CAPS">NM_TYPE_SETTING_PPP_ERROR</a>
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-ERROR:CAPS">NM_SETTING_PPP_ERROR</a>
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+>GQuark</a>              <a class="link" href="NMSettingPPP.html#nm-setting-ppp-error-quark">nm_setting_ppp_error_quark</a>          (void);
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-NOAUTH:CAPS">NM_SETTING_PPP_NOAUTH</a>
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-REFUSE-EAP:CAPS">NM_SETTING_PPP_REFUSE_EAP</a>
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-REFUSE-PAP:CAPS">NM_SETTING_PPP_REFUSE_PAP</a>
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-REFUSE-CHAP:CAPS">NM_SETTING_PPP_REFUSE_CHAP</a>
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-REFUSE-MSCHAP:CAPS">NM_SETTING_PPP_REFUSE_MSCHAP</a>
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-REFUSE-MSCHAPV2:CAPS">NM_SETTING_PPP_REFUSE_MSCHAPV2</a>
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-NOBSDCOMP:CAPS">NM_SETTING_PPP_NOBSDCOMP</a>
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-NODEFLATE:CAPS">NM_SETTING_PPP_NODEFLATE</a>
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-NO-VJ-COMP:CAPS">NM_SETTING_PPP_NO_VJ_COMP</a>
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-REQUIRE-MPPE:CAPS">NM_SETTING_PPP_REQUIRE_MPPE</a>
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-REQUIRE-MPPE-128:CAPS">NM_SETTING_PPP_REQUIRE_MPPE_128</a>
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-MPPE-STATEFUL:CAPS">NM_SETTING_PPP_MPPE_STATEFUL</a>
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-CRTSCTS:CAPS">NM_SETTING_PPP_CRTSCTS</a>
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-BAUD:CAPS">NM_SETTING_PPP_BAUD</a>
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-MRU:CAPS">NM_SETTING_PPP_MRU</a>
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-MTU:CAPS">NM_SETTING_PPP_MTU</a>
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-LCP-ECHO-FAILURE:CAPS">NM_SETTING_PPP_LCP_ECHO_FAILURE</a>
+#define             <a class="link" href="NMSettingPPP.html#NM-SETTING-PPP-LCP-ECHO-INTERVAL:CAPS">NM_SETTING_PPP_LCP_ECHO_INTERVAL</a>
+                    <a class="link" href="NMSettingPPP.html#NMSettingPPP-struct">NMSettingPPP</a>;
+<a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a>               <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-type">nm_setting_ppp_get_type</a>             (void);
+<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          <a class="link" href="NMSettingPPP.html#nm-setting-ppp-new">nm_setting_ppp_new</a>                  (void);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-noauth">nm_setting_ppp_get_noauth</a>           (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-refuse-eap">nm_setting_ppp_get_refuse_eap</a>       (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-refuse-pap">nm_setting_ppp_get_refuse_pap</a>       (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-refuse-chap">nm_setting_ppp_get_refuse_chap</a>      (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-refuse-mschap">nm_setting_ppp_get_refuse_mschap</a>    (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-refuse-mschapv2">nm_setting_ppp_get_refuse_mschapv2</a>  (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-nobsdcomp">nm_setting_ppp_get_nobsdcomp</a>        (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-nodeflate">nm_setting_ppp_get_nodeflate</a>        (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-no-vj-comp">nm_setting_ppp_get_no_vj_comp</a>       (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-require-mppe">nm_setting_ppp_get_require_mppe</a>     (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-require-mppe-128">nm_setting_ppp_get_require_mppe_128</a> (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-mppe-stateful">nm_setting_ppp_get_mppe_stateful</a>    (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-crtscts">nm_setting_ppp_get_crtscts</a>          (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-baud">nm_setting_ppp_get_baud</a>             (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-mru">nm_setting_ppp_get_mru</a>              (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-mtu">nm_setting_ppp_get_mtu</a>              (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-lcp-echo-failure">nm_setting_ppp_get_lcp_echo_failure</a> (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             <a class="link" href="NMSettingPPP.html#nm-setting-ppp-get-lcp-echo-interval">nm_setting_ppp_get_lcp_echo_interval</a>
+                                                        (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);
+
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2705959"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+
+  <a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
+   +----<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>
+         +----NMSettingPPP
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2705989"></a><h2>Properties</h2>
+<pre class="synopsis">
+
+  "<a class="link" href="NMSettingPPP.html#NMSettingPPP--baud">baud</a>"                     <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct
+  "<a class="link" href="NMSettingPPP.html#NMSettingPPP--crtscts">crtscts</a>"                  <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct
+  "<a class="link" href="NMSettingPPP.html#NMSettingPPP--lcp-echo-failure">lcp-echo-failure</a>"         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct
+  "<a class="link" href="NMSettingPPP.html#NMSettingPPP--lcp-echo-interval">lcp-echo-interval</a>"        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct
+  "<a class="link" href="NMSettingPPP.html#NMSettingPPP--mppe-stateful">mppe-stateful</a>"            <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct
+  "<a class="link" href="NMSettingPPP.html#NMSettingPPP--mru">mru</a>"                      <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct
+  "<a class="link" href="NMSettingPPP.html#NMSettingPPP--mtu">mtu</a>"                      <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct
+  "<a class="link" href="NMSettingPPP.html#NMSettingPPP--no-vj-comp">no-vj-comp</a>"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct
+  "<a class="link" href="NMSettingPPP.html#NMSettingPPP--noauth">noauth</a>"                   <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct
+  "<a class="link" href="NMSettingPPP.html#NMSettingPPP--nobsdcomp">nobsdcomp</a>"                <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct
+  "<a class="link" href="NMSettingPPP.html#NMSettingPPP--nodeflate">nodeflate</a>"                <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct
+  "<a class="link" href="NMSettingPPP.html#NMSettingPPP--refuse-chap">refuse-chap</a>"              <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct
+  "<a class="link" href="NMSettingPPP.html#NMSettingPPP--refuse-eap">refuse-eap</a>"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct
+  "<a class="link" href="NMSettingPPP.html#NMSettingPPP--refuse-mschap">refuse-mschap</a>"            <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct
+  "<a class="link" href="NMSettingPPP.html#NMSettingPPP--refuse-mschapv2">refuse-mschapv2</a>"          <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct
+  "<a class="link" href="NMSettingPPP.html#NMSettingPPP--refuse-pap">refuse-pap</a>"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct
+  "<a class="link" href="NMSettingPPP.html#NMSettingPPP--require-mppe">require-mppe</a>"             <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct
+  "<a class="link" href="NMSettingPPP.html#NMSettingPPP--require-mppe-128">require-mppe-128</a>"         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2709981"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2709997"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2710008"></a><h3>
+<a name="NM-SETTING-PPP-SETTING-NAME:CAPS"></a>NM_SETTING_PPP_SETTING_NAME</h3>
+<a class="indexterm" name="id2710021"></a><pre class="programlisting">#define NM_SETTING_PPP_SETTING_NAME "ppp"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710036"></a><h3>
+<a name="NMSettingPPPError"></a>enum NMSettingPPPError</h3>
+<a class="indexterm" name="id2710048"></a><pre class="programlisting">typedef enum
+{
+	NM_SETTING_PPP_ERROR_UNKNOWN = 0,
+	NM_SETTING_PPP_ERROR_INVALID_PROPERTY,
+	NM_SETTING_PPP_ERROR_MISSING_PROPERTY,
+	NM_SETTING_PPP_ERROR_REQUIRE_MPPE_NOT_ALLOWED
+} NMSettingPPPError;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710067"></a><h3>
+<a name="NM-TYPE-SETTING-PPP-ERROR:CAPS"></a>NM_TYPE_SETTING_PPP_ERROR</h3>
+<a class="indexterm" name="id2710079"></a><pre class="programlisting">#define NM_TYPE_SETTING_PPP_ERROR (nm_setting_ppp_error_get_type ()) 
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710096"></a><h3>
+<a name="NM-SETTING-PPP-ERROR:CAPS"></a>NM_SETTING_PPP_ERROR</h3>
+<a class="indexterm" name="id2710107"></a><pre class="programlisting">#define NM_SETTING_PPP_ERROR nm_setting_ppp_error_quark ()
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710123"></a><h3>
+<a name="nm-setting-ppp-error-quark"></a>nm_setting_ppp_error_quark ()</h3>
+<a class="indexterm" name="id2710134"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+>GQuark</a>              nm_setting_ppp_error_quark          (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710170"></a><h3>
+<a name="NM-SETTING-PPP-NOAUTH:CAPS"></a>NM_SETTING_PPP_NOAUTH</h3>
+<a class="indexterm" name="id2710182"></a><pre class="programlisting">#define NM_SETTING_PPP_NOAUTH            "noauth"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710198"></a><h3>
+<a name="NM-SETTING-PPP-REFUSE-EAP:CAPS"></a>NM_SETTING_PPP_REFUSE_EAP</h3>
+<a class="indexterm" name="id2710211"></a><pre class="programlisting">#define NM_SETTING_PPP_REFUSE_EAP        "refuse-eap"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710227"></a><h3>
+<a name="NM-SETTING-PPP-REFUSE-PAP:CAPS"></a>NM_SETTING_PPP_REFUSE_PAP</h3>
+<a class="indexterm" name="id2710240"></a><pre class="programlisting">#define NM_SETTING_PPP_REFUSE_PAP        "refuse-pap"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710256"></a><h3>
+<a name="NM-SETTING-PPP-REFUSE-CHAP:CAPS"></a>NM_SETTING_PPP_REFUSE_CHAP</h3>
+<a class="indexterm" name="id2710268"></a><pre class="programlisting">#define NM_SETTING_PPP_REFUSE_CHAP       "refuse-chap"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710284"></a><h3>
+<a name="NM-SETTING-PPP-REFUSE-MSCHAP:CAPS"></a>NM_SETTING_PPP_REFUSE_MSCHAP</h3>
+<a class="indexterm" name="id2710297"></a><pre class="programlisting">#define NM_SETTING_PPP_REFUSE_MSCHAP     "refuse-mschap"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710314"></a><h3>
+<a name="NM-SETTING-PPP-REFUSE-MSCHAPV2:CAPS"></a>NM_SETTING_PPP_REFUSE_MSCHAPV2</h3>
+<a class="indexterm" name="id2710327"></a><pre class="programlisting">#define NM_SETTING_PPP_REFUSE_MSCHAPV2   "refuse-mschapv2"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710344"></a><h3>
+<a name="NM-SETTING-PPP-NOBSDCOMP:CAPS"></a>NM_SETTING_PPP_NOBSDCOMP</h3>
+<a class="indexterm" name="id2710357"></a><pre class="programlisting">#define NM_SETTING_PPP_NOBSDCOMP         "nobsdcomp"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710373"></a><h3>
+<a name="NM-SETTING-PPP-NODEFLATE:CAPS"></a>NM_SETTING_PPP_NODEFLATE</h3>
+<a class="indexterm" name="id2710386"></a><pre class="programlisting">#define NM_SETTING_PPP_NODEFLATE         "nodeflate"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710402"></a><h3>
+<a name="NM-SETTING-PPP-NO-VJ-COMP:CAPS"></a>NM_SETTING_PPP_NO_VJ_COMP</h3>
+<a class="indexterm" name="id2710414"></a><pre class="programlisting">#define NM_SETTING_PPP_NO_VJ_COMP        "no-vj-comp"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710430"></a><h3>
+<a name="NM-SETTING-PPP-REQUIRE-MPPE:CAPS"></a>NM_SETTING_PPP_REQUIRE_MPPE</h3>
+<a class="indexterm" name="id2710443"></a><pre class="programlisting">#define NM_SETTING_PPP_REQUIRE_MPPE      "require-mppe"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710459"></a><h3>
+<a name="NM-SETTING-PPP-REQUIRE-MPPE-128:CAPS"></a>NM_SETTING_PPP_REQUIRE_MPPE_128</h3>
+<a class="indexterm" name="id2710470"></a><pre class="programlisting">#define NM_SETTING_PPP_REQUIRE_MPPE_128  "require-mppe-128"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710486"></a><h3>
+<a name="NM-SETTING-PPP-MPPE-STATEFUL:CAPS"></a>NM_SETTING_PPP_MPPE_STATEFUL</h3>
+<a class="indexterm" name="id2710499"></a><pre class="programlisting">#define NM_SETTING_PPP_MPPE_STATEFUL     "mppe-stateful"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710516"></a><h3>
+<a name="NM-SETTING-PPP-CRTSCTS:CAPS"></a>NM_SETTING_PPP_CRTSCTS</h3>
+<a class="indexterm" name="id2710527"></a><pre class="programlisting">#define NM_SETTING_PPP_CRTSCTS           "crtscts"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710543"></a><h3>
+<a name="NM-SETTING-PPP-BAUD:CAPS"></a>NM_SETTING_PPP_BAUD</h3>
+<a class="indexterm" name="id2710555"></a><pre class="programlisting">#define NM_SETTING_PPP_BAUD              "baud"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710571"></a><h3>
+<a name="NM-SETTING-PPP-MRU:CAPS"></a>NM_SETTING_PPP_MRU</h3>
+<a class="indexterm" name="id2710583"></a><pre class="programlisting">#define NM_SETTING_PPP_MRU               "mru"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710599"></a><h3>
+<a name="NM-SETTING-PPP-MTU:CAPS"></a>NM_SETTING_PPP_MTU</h3>
+<a class="indexterm" name="id2710611"></a><pre class="programlisting">#define NM_SETTING_PPP_MTU               "mtu"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710627"></a><h3>
+<a name="NM-SETTING-PPP-LCP-ECHO-FAILURE:CAPS"></a>NM_SETTING_PPP_LCP_ECHO_FAILURE</h3>
+<a class="indexterm" name="id2710639"></a><pre class="programlisting">#define NM_SETTING_PPP_LCP_ECHO_FAILURE  "lcp-echo-failure"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710656"></a><h3>
+<a name="NM-SETTING-PPP-LCP-ECHO-INTERVAL:CAPS"></a>NM_SETTING_PPP_LCP_ECHO_INTERVAL</h3>
+<a class="indexterm" name="id2710668"></a><pre class="programlisting">#define NM_SETTING_PPP_LCP_ECHO_INTERVAL "lcp-echo-interval"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710685"></a><h3>
+<a name="NMSettingPPP-struct"></a>NMSettingPPP</h3>
+<a class="indexterm" name="id2710697"></a><pre class="programlisting">typedef struct _NMSettingPPP NMSettingPPP;</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710713"></a><h3>
+<a name="nm-setting-ppp-get-type"></a>nm_setting_ppp_get_type ()</h3>
+<a class="indexterm" name="id2710724"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a>               nm_setting_ppp_get_type             (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710760"></a><h3>
+<a name="nm-setting-ppp-new"></a>nm_setting_ppp_new ()</h3>
+<a class="indexterm" name="id2710772"></a><pre class="programlisting"><a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          nm_setting_ppp_new                  (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710808"></a><h3>
+<a name="nm-setting-ppp-get-noauth"></a>nm_setting_ppp_get_noauth ()</h3>
+<a class="indexterm" name="id2710820"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_ppp_get_noauth           (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710877"></a><h3>
+<a name="nm-setting-ppp-get-refuse-eap"></a>nm_setting_ppp_get_refuse_eap ()</h3>
+<a class="indexterm" name="id2710890"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_ppp_get_refuse_eap       (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2710947"></a><h3>
+<a name="nm-setting-ppp-get-refuse-pap"></a>nm_setting_ppp_get_refuse_pap ()</h3>
+<a class="indexterm" name="id2710960"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_ppp_get_refuse_pap       (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2711018"></a><h3>
+<a name="nm-setting-ppp-get-refuse-chap"></a>nm_setting_ppp_get_refuse_chap ()</h3>
+<a class="indexterm" name="id2711031"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_ppp_get_refuse_chap      (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2711088"></a><h3>
+<a name="nm-setting-ppp-get-refuse-mschap"></a>nm_setting_ppp_get_refuse_mschap ()</h3>
+<a class="indexterm" name="id2711101"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_ppp_get_refuse_mschap    (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2711158"></a><h3>
+<a name="nm-setting-ppp-get-refuse-mschapv2"></a>nm_setting_ppp_get_refuse_mschapv2 ()</h3>
+<a class="indexterm" name="id2711172"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_ppp_get_refuse_mschapv2  (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2711228"></a><h3>
+<a name="nm-setting-ppp-get-nobsdcomp"></a>nm_setting_ppp_get_nobsdcomp ()</h3>
+<a class="indexterm" name="id2711241"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_ppp_get_nobsdcomp        (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2711299"></a><h3>
+<a name="nm-setting-ppp-get-nodeflate"></a>nm_setting_ppp_get_nodeflate ()</h3>
+<a class="indexterm" name="id2711312"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_ppp_get_nodeflate        (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2711369"></a><h3>
+<a name="nm-setting-ppp-get-no-vj-comp"></a>nm_setting_ppp_get_no_vj_comp ()</h3>
+<a class="indexterm" name="id2711382"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_ppp_get_no_vj_comp       (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2711439"></a><h3>
+<a name="nm-setting-ppp-get-require-mppe"></a>nm_setting_ppp_get_require_mppe ()</h3>
+<a class="indexterm" name="id2711453"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_ppp_get_require_mppe     (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2711510"></a><h3>
+<a name="nm-setting-ppp-get-require-mppe-128"></a>nm_setting_ppp_get_require_mppe_128 ()</h3>
+<a class="indexterm" name="id2711523"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_ppp_get_require_mppe_128 (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2711580"></a><h3>
+<a name="nm-setting-ppp-get-mppe-stateful"></a>nm_setting_ppp_get_mppe_stateful ()</h3>
+<a class="indexterm" name="id2711593"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_ppp_get_mppe_stateful    (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2711650"></a><h3>
+<a name="nm-setting-ppp-get-crtscts"></a>nm_setting_ppp_get_crtscts ()</h3>
+<a class="indexterm" name="id2711662"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_ppp_get_crtscts          (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2711718"></a><h3>
+<a name="nm-setting-ppp-get-baud"></a>nm_setting_ppp_get_baud ()</h3>
+<a class="indexterm" name="id2711730"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_setting_ppp_get_baud             (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2711786"></a><h3>
+<a name="nm-setting-ppp-get-mru"></a>nm_setting_ppp_get_mru ()</h3>
+<a class="indexterm" name="id2711797"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_setting_ppp_get_mru              (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2711854"></a><h3>
+<a name="nm-setting-ppp-get-mtu"></a>nm_setting_ppp_get_mtu ()</h3>
+<a class="indexterm" name="id2711865"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_setting_ppp_get_mtu              (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2716906"></a><h3>
+<a name="nm-setting-ppp-get-lcp-echo-failure"></a>nm_setting_ppp_get_lcp_echo_failure ()</h3>
+<a class="indexterm" name="id2716916"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_setting_ppp_get_lcp_echo_failure (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2716967"></a><h3>
+<a name="nm-setting-ppp-get-lcp-echo-interval"></a>nm_setting_ppp_get_lcp_echo_interval ()</h3>
+<a class="indexterm" name="id2716979"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_setting_ppp_get_lcp_echo_interval
+                                                        (<a class="link" href="NMSettingPPP.html" title="NMSettingPPP">NMSettingPPP</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2717032"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2717041"></a><h3>
+<a name="NMSettingPPP--baud"></a>The <code class="literal">"baud"</code> property</h3>
+<a class="indexterm" name="id2717054"></a><pre class="programlisting">  "baud"                     <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct</pre>
+<p>Baud.</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2717077"></a><h3>
+<a name="NMSettingPPP--crtscts"></a>The <code class="literal">"crtscts"</code> property</h3>
+<a class="indexterm" name="id2717090"></a><pre class="programlisting">  "crtscts"                  <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct</pre>
+<p>CRTSCTS.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2717113"></a><h3>
+<a name="NMSettingPPP--lcp-echo-failure"></a>The <code class="literal">"lcp-echo-failure"</code> property</h3>
+<a class="indexterm" name="id2717128"></a><pre class="programlisting">  "lcp-echo-failure"         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct</pre>
+<p>LCP echo failure.</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2717151"></a><h3>
+<a name="NMSettingPPP--lcp-echo-interval"></a>The <code class="literal">"lcp-echo-interval"</code> property</h3>
+<a class="indexterm" name="id2717166"></a><pre class="programlisting">  "lcp-echo-interval"        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct</pre>
+<p>LCP echo interval.</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2717189"></a><h3>
+<a name="NMSettingPPP--mppe-stateful"></a>The <code class="literal">"mppe-stateful"</code> property</h3>
+<a class="indexterm" name="id2717202"></a><pre class="programlisting">  "mppe-stateful"            <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct</pre>
+<p>MPPE stateful.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2717225"></a><h3>
+<a name="NMSettingPPP--mru"></a>The <code class="literal">"mru"</code> property</h3>
+<a class="indexterm" name="id2717238"></a><pre class="programlisting">  "mru"                      <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct</pre>
+<p>MRU.</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2717261"></a><h3>
+<a name="NMSettingPPP--mtu"></a>The <code class="literal">"mtu"</code> property</h3>
+<a class="indexterm" name="id2717274"></a><pre class="programlisting">  "mtu"                      <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct</pre>
+<p>MTU.</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2717297"></a><h3>
+<a name="NMSettingPPP--no-vj-comp"></a>The <code class="literal">"no-vj-comp"</code> property</h3>
+<a class="indexterm" name="id2717310"></a><pre class="programlisting">  "no-vj-comp"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct</pre>
+<p>No VJ compression.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2717333"></a><h3>
+<a name="NMSettingPPP--noauth"></a>The <code class="literal">"noauth"</code> property</h3>
+<a class="indexterm" name="id2717346"></a><pre class="programlisting">  "noauth"                   <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct</pre>
+<p>NoAuth.</p>
+<p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2717369"></a><h3>
+<a name="NMSettingPPP--nobsdcomp"></a>The <code class="literal">"nobsdcomp"</code> property</h3>
+<a class="indexterm" name="id2717382"></a><pre class="programlisting">  "nobsdcomp"                <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct</pre>
+<p>No BSD compression.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2717405"></a><h3>
+<a name="NMSettingPPP--nodeflate"></a>The <code class="literal">"nodeflate"</code> property</h3>
+<a class="indexterm" name="id2717418"></a><pre class="programlisting">  "nodeflate"                <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct</pre>
+<p>No deflate.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2717441"></a><h3>
+<a name="NMSettingPPP--refuse-chap"></a>The <code class="literal">"refuse-chap"</code> property</h3>
+<a class="indexterm" name="id2717454"></a><pre class="programlisting">  "refuse-chap"              <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct</pre>
+<p>Refuse CHAP.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2717477"></a><h3>
+<a name="NMSettingPPP--refuse-eap"></a>The <code class="literal">"refuse-eap"</code> property</h3>
+<a class="indexterm" name="id2717490"></a><pre class="programlisting">  "refuse-eap"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct</pre>
+<p>Refuse EAP.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2717513"></a><h3>
+<a name="NMSettingPPP--refuse-mschap"></a>The <code class="literal">"refuse-mschap"</code> property</h3>
+<a class="indexterm" name="id2717526"></a><pre class="programlisting">  "refuse-mschap"            <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct</pre>
+<p>Refuse MSCHAP.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2717549"></a><h3>
+<a name="NMSettingPPP--refuse-mschapv2"></a>The <code class="literal">"refuse-mschapv2"</code> property</h3>
+<a class="indexterm" name="id2717564"></a><pre class="programlisting">  "refuse-mschapv2"          <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct</pre>
+<p>Refuse MSCHAPv2.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2717587"></a><h3>
+<a name="NMSettingPPP--refuse-pap"></a>The <code class="literal">"refuse-pap"</code> property</h3>
+<a class="indexterm" name="id2717600"></a><pre class="programlisting">  "refuse-pap"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct</pre>
+<p>Refuse PAP.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2717623"></a><h3>
+<a name="NMSettingPPP--require-mppe"></a>The <code class="literal">"require-mppe"</code> property</h3>
+<a class="indexterm" name="id2717636"></a><pre class="programlisting">  "require-mppe"             <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct</pre>
+<p>Require MPPE.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2717659"></a><h3>
+<a name="NMSettingPPP--require-mppe-128"></a>The <code class="literal">"require-mppe-128"</code> property</h3>
+<a class="indexterm" name="id2717674"></a><pre class="programlisting">  "require-mppe-128"         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct</pre>
+<p>Require MPPE 128.</p>
+<p>Default value: FALSE</p>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2717698"></a><div class="refsect2" lang="en"><a name="id2717699"></a></div>
+<hr>
+<div class="refsect2" lang="en"><a name="id2717700"></a></div>
+</div>
+</div>
+</body>
+</html>

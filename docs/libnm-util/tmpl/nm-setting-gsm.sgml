@@ -1,0 +1,269 @@
+<!-- ##### SECTION Title ##### -->
+NMSettingGsm
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### MACRO NM_SETTING_GSM_SETTING_NAME ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### ENUM NMSettingGsmError ##### -->
+<para>
+
+</para>
+
+@NM_SETTING_GSM_ERROR_UNKNOWN: 
+@NM_SETTING_GSM_ERROR_INVALID_PROPERTY: 
+@NM_SETTING_GSM_ERROR_MISSING_PROPERTY: 
+@NM_SETTING_GSM_ERROR_MISSING_SERIAL_SETTING: 
+
+<!-- ##### MACRO NM_TYPE_SETTING_GSM_ERROR ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_SETTING_GSM_ERROR ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION nm_setting_gsm_error_quark ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### MACRO NM_SETTING_GSM_NUMBER ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_SETTING_GSM_USERNAME ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_SETTING_GSM_PASSWORD ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_SETTING_GSM_APN ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_SETTING_GSM_NETWORK_ID ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_SETTING_GSM_NETWORK_TYPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_SETTING_GSM_BAND ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_SETTING_GSM_PIN ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_SETTING_GSM_PUK ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### STRUCT NMSettingGsm ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingGsm:apn ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSettingGsm:band ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSettingGsm:network-id ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSettingGsm:network-type ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSettingGsm:number ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSettingGsm:password ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSettingGsm:pin ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSettingGsm:puk ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSettingGsm:username ##### -->
+<para>
+
+</para>
+
+<!-- ##### FUNCTION nm_setting_gsm_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_setting_gsm_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_setting_gsm_get_number ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_setting_gsm_get_username ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_setting_gsm_get_password ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_setting_gsm_get_apn ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_setting_gsm_get_network_id ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_setting_gsm_get_network_type ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_setting_gsm_get_band ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_setting_gsm_get_pin ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_setting_gsm_get_puk ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+

@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="libnm-glib-NMDBusSettingsSystem">
+<refmeta>
+<refentrytitle role="top_of_page">NMDBusSettingsSystem</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNM-GLIB Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>NMDBusSettingsSystem</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+
+
+#define             <link linkend="NM-DBUS-SETTINGS-SYSTEM-UNMANAGED-DEVICES:CAPS">NM_DBUS_SETTINGS_SYSTEM_UNMANAGED_DEVICES</link>
+#define             <link linkend="NM-DBUS-SETTINGS-SYSTEM-HOSTNAME:CAPS">NM_DBUS_SETTINGS_SYSTEM_HOSTNAME</link>
+#define             <link linkend="NM-DBUS-SETTINGS-SYSTEM-CAN-MODIFY:CAPS">NM_DBUS_SETTINGS_SYSTEM_CAN_MODIFY</link>
+                    <link linkend="NMDBusSettingsSystem">NMDBusSettingsSystem</link>;
+<link linkend="NMDBusSettingsSystem">NMDBusSettingsSystem</link>* <link linkend="nm-dbus-settings-system-new">nm_dbus_settings_system_new</link>       (<link linkend="DBusGConnection">DBusGConnection</link> *dbus_connection);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-dbus-settings-system-add-connection">nm_dbus_settings_system_add_connection</link>
+                                                        (<link linkend="NMDBusSettingsSystem">NMDBusSettingsSystem</link> *self,
+                                                         <link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GError">GError</link> **err);
+<link linkend="GSList">GSList</link>*             <link linkend="nm-dbus-settings-system-get-unmanaged-devices">nm_dbus_settings_system_get_unmanaged_devices</link>
+                                                        (<link linkend="NMDBusSettingsSystem">NMDBusSettingsSystem</link> *self);
+const <link linkend="char">char</link>*         <link linkend="nm-dbus-settings-system-get-hostname">nm_dbus_settings_system_get_hostname</link>
+                                                        (<link linkend="NMDBusSettingsSystem">NMDBusSettingsSystem</link> *self);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-dbus-settings-system-save-hostname">nm_dbus_settings_system_save_hostname</link>
+                                                        (<link linkend="NMDBusSettingsSystem">NMDBusSettingsSystem</link> *self,
+                                                         const <link linkend="char">char</link> *hostname,
+                                                         <link linkend="GError">GError</link> **err);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-dbus-settings-system-get-can-modify">nm_dbus_settings_system_get_can_modify</link>
+                                                        (<link linkend="NMDBusSettingsSystem">NMDBusSettingsSystem</link> *self);
+
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 role="details">
+<title role="details.title">Details</title>
+<refsect2>
+<title><anchor id="NM-DBUS-SETTINGS-SYSTEM-UNMANAGED-DEVICES:CAPS" role="macro"/>NM_DBUS_SETTINGS_SYSTEM_UNMANAGED_DEVICES</title>
+<indexterm><primary>NM_DBUS_SETTINGS_SYSTEM_UNMANAGED_DEVICES</primary></indexterm><programlisting>#define NM_DBUS_SETTINGS_SYSTEM_UNMANAGED_DEVICES "unmanaged-devices"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-DBUS-SETTINGS-SYSTEM-HOSTNAME:CAPS" role="macro"/>NM_DBUS_SETTINGS_SYSTEM_HOSTNAME</title>
+<indexterm><primary>NM_DBUS_SETTINGS_SYSTEM_HOSTNAME</primary></indexterm><programlisting>#define NM_DBUS_SETTINGS_SYSTEM_HOSTNAME "hostname"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-DBUS-SETTINGS-SYSTEM-CAN-MODIFY:CAPS" role="macro"/>NM_DBUS_SETTINGS_SYSTEM_CAN_MODIFY</title>
+<indexterm><primary>NM_DBUS_SETTINGS_SYSTEM_CAN_MODIFY</primary></indexterm><programlisting>#define NM_DBUS_SETTINGS_SYSTEM_CAN_MODIFY "can-modify"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMDBusSettingsSystem" role="struct"/>NMDBusSettingsSystem</title>
+<indexterm><primary>NMDBusSettingsSystem</primary></indexterm><programlisting>typedef struct {
+	NMDBusSettings parent;
+} NMDBusSettingsSystem;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-dbus-settings-system-new" role="function"/>nm_dbus_settings_system_new ()</title>
+<indexterm><primary>nm_dbus_settings_system_new</primary></indexterm><programlisting><link linkend="NMDBusSettingsSystem">NMDBusSettingsSystem</link>* nm_dbus_settings_system_new       (<link linkend="DBusGConnection">DBusGConnection</link> *dbus_connection);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>dbus_connection</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-dbus-settings-system-add-connection" role="function"/>nm_dbus_settings_system_add_connection ()</title>
+<indexterm><primary>nm_dbus_settings_system_add_connection</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_dbus_settings_system_add_connection
+                                                        (<link linkend="NMDBusSettingsSystem">NMDBusSettingsSystem</link> *self,
+                                                         <link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GError">GError</link> **err);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>err</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-dbus-settings-system-get-unmanaged-devices" role="function"/>nm_dbus_settings_system_get_unmanaged_devices ()</title>
+<indexterm><primary>nm_dbus_settings_system_get_unmanaged_devices</primary></indexterm><programlisting><link linkend="GSList">GSList</link>*             nm_dbus_settings_system_get_unmanaged_devices
+                                                        (<link linkend="NMDBusSettingsSystem">NMDBusSettingsSystem</link> *self);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-dbus-settings-system-get-hostname" role="function"/>nm_dbus_settings_system_get_hostname ()</title>
+<indexterm><primary>nm_dbus_settings_system_get_hostname</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_dbus_settings_system_get_hostname
+                                                        (<link linkend="NMDBusSettingsSystem">NMDBusSettingsSystem</link> *self);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-dbus-settings-system-save-hostname" role="function"/>nm_dbus_settings_system_save_hostname ()</title>
+<indexterm><primary>nm_dbus_settings_system_save_hostname</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_dbus_settings_system_save_hostname
+                                                        (<link linkend="NMDBusSettingsSystem">NMDBusSettingsSystem</link> *self,
+                                                         const <link linkend="char">char</link> *hostname,
+                                                         <link linkend="GError">GError</link> **err);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>hostname</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>err</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-dbus-settings-system-get-can-modify" role="function"/>nm_dbus_settings_system_get_can_modify ()</title>
+<indexterm><primary>nm_dbus_settings_system_get_can_modify</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_dbus_settings_system_get_can_modify
+                                                        (<link linkend="NMDBusSettingsSystem">NMDBusSettingsSystem</link> *self);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+
+<refsect1><refsect2 /><refsect2 /></refsect1>
+</refentry>

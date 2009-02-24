@@ -2,16 +2,25 @@
 #
 # NetworkManager:   NetworkManager daemon
 #
-# chkconfig: - 98 02
+# chkconfig: - 27 84
 # description:  This is a daemon for automatically switching network \
 #               connections to the best available connection.
 #
 # processname: NetworkManager
 # pidfile: /var/run/NetworkManager/NetworkManager.pid
 #
+### BEGIN INIT INFO
+# Provides: network_manager $network
+# Required-Start: messagebus haldaemon
+# Required-Stop: messagebus
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: start and stop NetworkManager
+# Description: NetworkManager is a tool for easily managing network connections
+### END INIT INFO
 
-prefix=/usr/local
-exec_prefix=/usr/local
+prefix=/usr
+exec_prefix=/usr
 sbindir=${exec_prefix}/sbin
 
 NETWORKMANAGER_BIN=${sbindir}/NetworkManager
@@ -19,11 +28,11 @@ NETWORKMANAGER_BIN=${sbindir}/NetworkManager
 # Sanity checks.
 [ -x $NETWORKMANAGER_BIN ] || exit 1
 
-# We need /sbin/ip
-[ -x /sbin/ip ] || exit 1
-
 # Source function library.
 . /etc/rc.d/init.d/functions
+
+# Source network configuration
+. /etc/sysconfig/network
 
 # so we can rearrange this easily
 processname=NetworkManager
@@ -34,12 +43,23 @@ RETVAL=0
 
 start()
 {
-	echo $"Setting network parameters... "
+	echo -n $"Setting network parameters... "
 	sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
+	success
+	echo
+
 	echo -n $"Starting NetworkManager daemon: "
 	daemon --check $servicename $processname --pid-file=$pidfile
 	RETVAL=$?
 	echo
+	if [ -n "${NETWORKWAIT}" ]; then 
+		[ -z "${LINKDELAY}" ] && LINKDELAY=10
+		echo -n $"Waiting for network..."
+		nm-online -q --timeout=$LINKDELAY || nm-online -q -x --timeout=30
+		[ "$?" = "0" ] && success "network startup" || failure "network startup"
+		echo
+		[ -n "${NETWORKDELAY}" ] && /bin/sleep ${NETWORKDELAY}
+	fi
 	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/$servicename
 }
 

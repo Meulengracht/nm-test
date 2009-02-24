@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="NMObject">
+<refmeta>
+<refentrytitle role="top_of_page">NMObject</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNM-GLIB Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>NMObject</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+
+
+#define             <link linkend="NM-OBJECT-DBUS-CONNECTION:CAPS">NM_OBJECT_DBUS_CONNECTION</link>
+#define             <link linkend="NM-OBJECT-DBUS-PATH:CAPS">NM_OBJECT_DBUS_PATH</link>
+                    <link linkend="NMObject-struct">NMObject</link>;
+<link linkend="DBusGConnection">DBusGConnection</link>*    <link linkend="nm-object-get-connection">nm_object_get_connection</link>            (<link linkend="NMObject">NMObject</link> *object);
+const <link linkend="char">char</link>*         <link linkend="nm-object-get-path">nm_object_get_path</link>                  (<link linkend="NMObject">NMObject</link> *object);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+
+  <link linkend="GObject">GObject</link>
+   +----NMObject
+         +----<link linkend="NMClient">NMClient</link>
+         +----<link linkend="NMDevice">NMDevice</link>
+         +----<link linkend="NMAccessPoint">NMAccessPoint</link>
+         +----<link linkend="NMIP4Config">NMIP4Config</link>
+         +----<link linkend="NMActiveConnection">NMActiveConnection</link>
+         +----<link linkend="NMDHCP4Config">NMDHCP4Config</link>
+</synopsis>
+
+</refsect1>
+
+
+
+
+
+<refsect1 role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+
+  &quot;<link linkend="NMObject--dbus-connection">dbus-connection</link>&quot;          <link linkend="DBusGConnection">DBusGConnection</link>       : Read / Write / Construct Only
+  &quot;<link linkend="NMObject--dbus-path">dbus-path</link>&quot;                <link linkend="gchararray">gchararray</link>            : Read / Write / Construct Only
+</synopsis>
+</refsect1>
+
+
+
+<refsect1 role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 role="details">
+<title role="details.title">Details</title>
+<refsect2>
+<title><anchor id="NM-OBJECT-DBUS-CONNECTION:CAPS" role="macro"/>NM_OBJECT_DBUS_CONNECTION</title>
+<indexterm><primary>NM_OBJECT_DBUS_CONNECTION</primary></indexterm><programlisting>#define NM_OBJECT_DBUS_CONNECTION "dbus-connection"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-OBJECT-DBUS-PATH:CAPS" role="macro"/>NM_OBJECT_DBUS_PATH</title>
+<indexterm><primary>NM_OBJECT_DBUS_PATH</primary></indexterm><programlisting>#define NM_OBJECT_DBUS_PATH "dbus-path"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMObject-struct" role="struct"/>NMObject</title>
+<indexterm><primary>NMObject</primary></indexterm><programlisting>typedef struct _NMObject NMObject;</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-object-get-connection" role="function"/>nm_object_get_connection ()</title>
+<indexterm><primary>nm_object_get_connection</primary></indexterm><programlisting><link linkend="DBusGConnection">DBusGConnection</link>*    nm_object_get_connection            (<link linkend="NMObject">NMObject</link> *object);</programlisting>
+<para>
+Gets the <link linkend="NMObject"><type>NMObject</type></link>'s DBusGConnection.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>object</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMObject"><type>NMObject</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the connection
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-object-get-path" role="function"/>nm_object_get_path ()</title>
+<indexterm><primary>nm_object_get_path</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_object_get_path                  (<link linkend="NMObject">NMObject</link> *object);</programlisting>
+<para>
+Gets the DBus path of the <link linkend="NMObject"><type>NMObject</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>object</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMObject"><type>NMObject</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the object's path. This is the internal string used by the
+device, and must not be modified.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+<refsect1 role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2><title><anchor id="NMObject--dbus-connection"/>The <literal>&quot;dbus-connection&quot;</literal> property</title>
+<indexterm><primary>NMObject:dbus-connection</primary></indexterm><programlisting>  &quot;dbus-connection&quot;          <link linkend="DBusGConnection">DBusGConnection</link>       : Read / Write / Construct Only</programlisting>
+<para>Connection.</para></refsect2>
+<refsect2><title><anchor id="NMObject--dbus-path"/>The <literal>&quot;dbus-path&quot;</literal> property</title>
+<indexterm><primary>NMObject:dbus-path</primary></indexterm><programlisting>  &quot;dbus-path&quot;                <link linkend="gchararray">gchararray</link>            : Read / Write / Construct Only</programlisting>
+<para>DBus Object Path.</para><para>Default value: NULL</para>
+</refsect2>
+
+</refsect1>
+
+
+
+
+
+<refsect1><refsect2 /><refsect2 /></refsect1>
+</refentry>

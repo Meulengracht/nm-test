@@ -1,0 +1,613 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="libnm-util-nm-utils">
+<refmeta>
+<refentrytitle role="top_of_page">nm-utils</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNM-UTIL Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>nm-utils</refname>
+<refpurpose>Utility functions</refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+#include &lt;nm-utils.h&gt;
+
+
+#define             <link linkend="nm-print-backtrace">nm_print_backtrace</link>                  ()
+#define             <link linkend="nm-get-timestamp">nm_get_timestamp</link>                    (timestamp)
+#define             <link linkend="nm-info">nm_info</link>                             (fmt, args...)
+#define             <link linkend="nm-info-str">nm_info_str</link>                         (fmt_str, args...)
+#define             <link linkend="nm-debug">nm_debug</link>                            (fmt, args...)
+#define             <link linkend="nm-debug-str">nm_debug_str</link>                        (fmt_str, args...)
+#define             <link linkend="nm-warning">nm_warning</link>                          (fmt, args...)
+#define             <link linkend="nm-warning-str">nm_warning_str</link>                      (fmt_str, args...)
+#define             <link linkend="nm-error">nm_error</link>                            (fmt, args...)
+#define             <link linkend="nm-error-str">nm_error_str</link>                        (fmt_str, args...)
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-utils-init">nm_utils_init</link>                       (<link linkend="GError">GError</link> **error);
+<link linkend="void">void</link>                <link linkend="nm-utils-deinit">nm_utils_deinit</link>                     (void);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-utils-is-empty-ssid">nm_utils_is_empty_ssid</link>              (const <link linkend="guint8">guint8</link> *ssid,
+                                                         <link linkend="int">int</link> len);
+const <link linkend="char">char</link>*         <link linkend="nm-utils-escape-ssid">nm_utils_escape_ssid</link>                (const <link linkend="guint8">guint8</link> *ssid,
+                                                         <link linkend="guint32">guint32</link> len);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-utils-same-ssid">nm_utils_same_ssid</link>                  (const <link linkend="GByteArray">GByteArray</link> *ssid1,
+                                                         const <link linkend="GByteArray">GByteArray</link> *ssid2,
+                                                         <link linkend="gboolean">gboolean</link> ignore_trailing_null);
+<link linkend="char">char</link>*               <link linkend="nm-utils-ssid-to-utf8">nm_utils_ssid_to_utf8</link>               (const <link linkend="char">char</link> *ssid,
+                                                         <link linkend="guint32">guint32</link> len);
+<link linkend="GHashTable">GHashTable</link>*         <link linkend="nm-utils-gvalue-hash-dup">nm_utils_gvalue_hash_dup</link>            (<link linkend="GHashTable">GHashTable</link> *hash);
+<link linkend="void">void</link>                <link linkend="nm-utils-slist-free">nm_utils_slist_free</link>                 (<link linkend="GSList">GSList</link> *list,
+                                                         <link linkend="GDestroyNotify">GDestroyNotify</link> elem_destroy_fn);
+enum                <link linkend="NMUtilsSecurityType">NMUtilsSecurityType</link>;
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-utils-security-valid">nm_utils_security_valid</link>             (<link linkend="NMUtilsSecurityType">NMUtilsSecurityType</link> type,
+                                                         <link linkend="guint32">guint32</link> wifi_caps,
+                                                         <link linkend="gboolean">gboolean</link> have_ap,
+                                                         <link linkend="gboolean">gboolean</link> adhoc,
+                                                         <link linkend="guint32">guint32</link> ap_flags,
+                                                         <link linkend="guint32">guint32</link> ap_wpa,
+                                                         <link linkend="guint32">guint32</link> ap_rsn);
+<link linkend="GSList">GSList</link>*             <link linkend="nm-utils-ip4-addresses-from-gvalue">nm_utils_ip4_addresses_from_gvalue</link>  (const <link linkend="GValue">GValue</link> *value);
+<link linkend="void">void</link>                <link linkend="nm-utils-ip4-addresses-to-gvalue">nm_utils_ip4_addresses_to_gvalue</link>    (<link linkend="GSList">GSList</link> *list,
+                                                         <link linkend="GValue">GValue</link> *value);
+<link linkend="GSList">GSList</link>*             <link linkend="nm-utils-ip4-routes-from-gvalue">nm_utils_ip4_routes_from_gvalue</link>     (const <link linkend="GValue">GValue</link> *value);
+<link linkend="void">void</link>                <link linkend="nm-utils-ip4-routes-to-gvalue">nm_utils_ip4_routes_to_gvalue</link>       (<link linkend="GSList">GSList</link> *list,
+                                                         <link linkend="GValue">GValue</link> *value);
+<link linkend="guint32">guint32</link>             <link linkend="nm-utils-ip4-netmask-to-prefix">nm_utils_ip4_netmask_to_prefix</link>      (<link linkend="guint32">guint32</link> netmask);
+<link linkend="guint32">guint32</link>             <link linkend="nm-utils-ip4-prefix-to-netmask">nm_utils_ip4_prefix_to_netmask</link>      (<link linkend="guint32">guint32</link> prefix);
+<link linkend="char">char</link>*               <link linkend="nm-utils-uuid-generate">nm_utils_uuid_generate</link>              (void);
+<link linkend="char">char</link>*               <link linkend="nm-utils-uuid-generate-from-string">nm_utils_uuid_generate_from_string</link>  (const <link linkend="char">char</link> *s);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 role="desc">
+<title role="desc.title">Description</title>
+<para>
+A collection of utility functions for working SSIDs, IP addresses, WiFi
+access points and devices, among other things.</para>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 role="details">
+<title role="details.title">Details</title>
+<refsect2>
+<title><anchor id="nm-print-backtrace" role="macro"/>nm_print_backtrace()</title>
+<indexterm><primary>nm_print_backtrace</primary></indexterm><programlisting>#define             nm_print_backtrace()</programlisting>
+<para>
+Prints a backtrace of the calling process to the logging location.</para>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-get-timestamp" role="macro"/>nm_get_timestamp()</title>
+<indexterm><primary>nm_get_timestamp</primary></indexterm><programlisting>#define             nm_get_timestamp(timestamp)</programlisting>
+<para>
+For debugging only.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>timestamp</parameter>&nbsp;:</term>
+<listitem><simpara> location in which to place the current timestamp
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-info" role="macro"/>nm_info()</title>
+<indexterm><primary>nm_info</primary></indexterm><programlisting>#define             nm_info(fmt, args...)</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>fmt</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>args...</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-info-str" role="macro"/>nm_info_str()</title>
+<indexterm><primary>nm_info_str</primary></indexterm><programlisting>#define             nm_info_str(fmt_str, args...)</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>fmt_str</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>args...</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-debug" role="macro"/>nm_debug()</title>
+<indexterm><primary>nm_debug</primary></indexterm><programlisting>#define             nm_debug(fmt, args...)</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>fmt</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>args...</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-debug-str" role="macro"/>nm_debug_str()</title>
+<indexterm><primary>nm_debug_str</primary></indexterm><programlisting>#define             nm_debug_str(fmt_str, args...)</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>fmt_str</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>args...</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-warning" role="macro"/>nm_warning()</title>
+<indexterm><primary>nm_warning</primary></indexterm><programlisting>#define             nm_warning(fmt, args...)</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>fmt</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>args...</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-warning-str" role="macro"/>nm_warning_str()</title>
+<indexterm><primary>nm_warning_str</primary></indexterm><programlisting>#define             nm_warning_str(fmt_str, args...)</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>fmt_str</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>args...</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-error" role="macro"/>nm_error()</title>
+<indexterm><primary>nm_error</primary></indexterm><programlisting>#define             nm_error(fmt, args...)</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>fmt</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>args...</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-error-str" role="macro"/>nm_error_str()</title>
+<indexterm><primary>nm_error_str</primary></indexterm><programlisting>#define             nm_error_str(fmt_str, args...)</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>fmt_str</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>args...</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-utils-init" role="function"/>nm_utils_init ()</title>
+<indexterm><primary>nm_utils_init</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_utils_init                       (<link linkend="GError">GError</link> **error);</programlisting>
+<para>
+Initializes libnm-util; should be called when starting and program that
+uses libnm-util.  Sets up an <link linkend="atexit"><function>atexit()</function></link> handler to ensure de-initialization
+is performed, but calling <link linkend="nm-utils-deinit"><function>nm_utils_deinit()</function></link> to explicitly deinitialize
+libnm-util can also be done.  This function can be called more than once.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>error</parameter>&nbsp;:</term>
+<listitem><simpara> location to store error, or <link linkend="NULL:CAPS"><literal>NULL</literal></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> TRUE if the initialization was successful, FALSE on failure.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-utils-deinit" role="function"/>nm_utils_deinit ()</title>
+<indexterm><primary>nm_utils_deinit</primary></indexterm><programlisting><link linkend="void">void</link>                nm_utils_deinit                     (void);</programlisting>
+<para>
+Different manufacturers use different mechanisms for not broadcasting the
+AP's SSID.  This function attempts to detect blank/empty SSIDs using a
+number of known SSID-cloaking methods.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ssid</parameter>&nbsp;:</term>
+<listitem><simpara> pointer to a buffer containing the SSID data
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>len</parameter>&nbsp;:</term>
+<listitem><simpara> length of the SSID data in <parameter>ssid</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> TRUE if the SSID is "empty", FALSE if it is not
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-utils-is-empty-ssid" role="function"/>nm_utils_is_empty_ssid ()</title>
+<indexterm><primary>nm_utils_is_empty_ssid</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_utils_is_empty_ssid              (const <link linkend="guint8">guint8</link> *ssid,
+                                                         <link linkend="int">int</link> len);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ssid</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>len</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-utils-escape-ssid" role="function"/>nm_utils_escape_ssid ()</title>
+<indexterm><primary>nm_utils_escape_ssid</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_utils_escape_ssid                (const <link linkend="guint8">guint8</link> *ssid,
+                                                         <link linkend="guint32">guint32</link> len);</programlisting>
+<para>
+This function does a quick printable character conversion of the SSID, simply
+replacing embedded NULLs and non-printable characters with the hexadecimal
+representation of that character.  Intended for debugging only, should not
+be used for display of SSIDs.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ssid</parameter>&nbsp;:</term>
+<listitem><simpara> pointer to a buffer containing the SSID data
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>len</parameter>&nbsp;:</term>
+<listitem><simpara> length of the SSID data in <parameter>ssid</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> pointer to the escaped SSID, which uses an internal static buffer
+and will be overwritten by subsequent calls to this function
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-utils-same-ssid" role="function"/>nm_utils_same_ssid ()</title>
+<indexterm><primary>nm_utils_same_ssid</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_utils_same_ssid                  (const <link linkend="GByteArray">GByteArray</link> *ssid1,
+                                                         const <link linkend="GByteArray">GByteArray</link> *ssid2,
+                                                         <link linkend="gboolean">gboolean</link> ignore_trailing_null);</programlisting>
+<para>
+Earlier versions of the Linux kernel added a NULL byte to the end of the
+SSID to enable easy printing of the SSID on the console or in a terminal,
+but this behavior was problematic (SSIDs are simply byte arrays, not strings)
+and thus was changed.  This function compensates for that behavior at the
+cost of some compatibility with odd SSIDs that may legitimately have trailing
+NULLs, even though that is functionally pointless.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ssid1</parameter>&nbsp;:</term>
+<listitem><simpara> first SSID data to compare
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>ssid2</parameter>&nbsp;:</term>
+<listitem><simpara> second SSID data to compare
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>ignore_trailing_null</parameter>&nbsp;:</term>
+<listitem><simpara> TRUE to ignore one trailing NULL byte
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> TRUE if the SSIDs are the same, FALSE if they are not
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-utils-ssid-to-utf8" role="function"/>nm_utils_ssid_to_utf8 ()</title>
+<indexterm><primary>nm_utils_ssid_to_utf8</primary></indexterm><programlisting><link linkend="char">char</link>*               nm_utils_ssid_to_utf8               (const <link linkend="char">char</link> *ssid,
+                                                         <link linkend="guint32">guint32</link> len);</programlisting>
+<para>
+WiFi SSIDs are byte arrays, they are _not_ strings.  Thus, an SSID may
+contain embedded NULLs and other unprintable characters.  Often it is
+useful to print the SSID out for debugging purposes, but that should be the
+_only_ use of this function.  Do not use this function for any persistent
+storage of the SSID, since the printable SSID returned from this function
+cannot be converted back into the real SSID of the access point.
+</para>
+<para>
+This function does almost everything humanly possible to convert the input
+into a printable UTF-8 string, using roughly the following procedure:
+</para>
+<para>
+1) if the input data is already UTF-8 safe, no conversion is performed
+2) attempts to get the current system language from the LANG environment
+   variable, and depending on the language, uses a table of alternative
+   encodings to try.  For example, if LANG=hu_HU, the table may first try
+   the ISO-8859-2 encoding, and if that fails, try the Windows-1250 encoding.
+   If all fallback encodings fail, replaces non-UTF-8 characters with '?'.
+3) If the system language was unable to be determined, falls back to the
+   ISO-8859-1 encoding, then to the Windows-1251 encoding.
+4) If step 3 fails, replaces non-UTF-8 characters with '?'.
+</para>
+<para>
+Again, this function should be used for debugging and display purposes
+_only_.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ssid</parameter>&nbsp;:</term>
+<listitem><simpara> pointer to a buffer containing the SSID data
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>len</parameter>&nbsp;:</term>
+<listitem><simpara> length of the SSID data in <parameter>ssid</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> an allocated string containing a UTF-8 representation of the
+SSID, which must be freed by the caller using <link linkend="g-free"><function>g_free()</function></link>.  Returns NULL
+on errors.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-utils-gvalue-hash-dup" role="function"/>nm_utils_gvalue_hash_dup ()</title>
+<indexterm><primary>nm_utils_gvalue_hash_dup</primary></indexterm><programlisting><link linkend="GHashTable">GHashTable</link>*         nm_utils_gvalue_hash_dup            (<link linkend="GHashTable">GHashTable</link> *hash);</programlisting>
+<para>
+Utility function to duplicate a hash table of GValues.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>hash</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="GHashTable"><type>GHashTable</type></link> mapping string:GValue
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a newly allocated duplicated <link linkend="GHashTable"><type>GHashTable</type></link>, caller must free the
+returned hash with <link linkend="g-hash-table-unref"><function>g_hash_table_unref()</function></link> or <link linkend="g-hash-table-destroy"><function>g_hash_table_destroy()</function></link>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-utils-slist-free" role="function"/>nm_utils_slist_free ()</title>
+<indexterm><primary>nm_utils_slist_free</primary></indexterm><programlisting><link linkend="void">void</link>                nm_utils_slist_free                 (<link linkend="GSList">GSList</link> *list,
+                                                         <link linkend="GDestroyNotify">GDestroyNotify</link> elem_destroy_fn);</programlisting>
+<para>
+Utility function to free a <link linkend="GSList"><type>GSList</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>list</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="GSList"><type>GSList</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>elem_destroy_fn</parameter>&nbsp;:</term>
+<listitem><simpara> user function called for each element in <parameter>list</parameter>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="NMUtilsSecurityType" role="enum"/>enum NMUtilsSecurityType</title>
+<indexterm><primary>NMUtilsSecurityType</primary></indexterm><programlisting>typedef enum {
+	NMU_SEC_INVALID = 0,
+	NMU_SEC_NONE,
+	NMU_SEC_STATIC_WEP,
+	NMU_SEC_LEAP,
+	NMU_SEC_DYNAMIC_WEP,
+	NMU_SEC_WPA_PSK,
+	NMU_SEC_WPA_ENTERPRISE,
+	NMU_SEC_WPA2_PSK,
+	NMU_SEC_WPA2_ENTERPRISE
+} NMUtilsSecurityType;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-utils-security-valid" role="function"/>nm_utils_security_valid ()</title>
+<indexterm><primary>nm_utils_security_valid</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_utils_security_valid             (<link linkend="NMUtilsSecurityType">NMUtilsSecurityType</link> type,
+                                                         <link linkend="guint32">guint32</link> wifi_caps,
+                                                         <link linkend="gboolean">gboolean</link> have_ap,
+                                                         <link linkend="gboolean">gboolean</link> adhoc,
+                                                         <link linkend="guint32">guint32</link> ap_flags,
+                                                         <link linkend="guint32">guint32</link> ap_wpa,
+                                                         <link linkend="guint32">guint32</link> ap_rsn);</programlisting>
+<para>
+Given a set of device capabilities, and a desired security type to check
+against, determines whether the combination of device, desired security
+type, and AP capabilities intersect.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>type</parameter>&nbsp;:</term>
+<listitem><simpara> the security type to check AP flags and device capabilties against,
+e.g. <link linkend="NMU-SEC-STATIC-WEP:CAPS"><type>NMU_SEC_STATIC_WEP</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>wifi_caps</parameter>&nbsp;:</term>
+<listitem><simpara> bitfield of the capabilities of the specific WiFi device, e.g.
+<link linkend="NM-WIFI-DEVICE-CAP-CIPHER-WEP40:CAPS"><type>NM_WIFI_DEVICE_CAP_CIPHER_WEP40</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>have_ap</parameter>&nbsp;:</term>
+<listitem><simpara> whether the <parameter>ap_flags</parameter>, <parameter>ap_wpa</parameter>, and <parameter>ap_rsn</parameter> arguments are valid
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>adhoc</parameter>&nbsp;:</term>
+<listitem><simpara> whether the capabilities being tested are from an Ad-Hoc AP (IBSS)
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>ap_flags</parameter>&nbsp;:</term>
+<listitem><simpara> bitfield of AP capabilities, e.g. <link linkend="NM-802-11-AP-FLAGS-PRIVACY:CAPS"><type>NM_802_11_AP_FLAGS_PRIVACY</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>ap_wpa</parameter>&nbsp;:</term>
+<listitem><simpara> bitfield of AP capabilties derived from the AP's WPA beacon,
+e.g. (<link linkend="NM-802-11-AP-SEC-PAIR-TKIP:CAPS"><type>NM_802_11_AP_SEC_PAIR_TKIP</type></link> | <link linkend="NM-802-11-AP-SEC-KEY-MGMT-PSK:CAPS"><type>NM_802_11_AP_SEC_KEY_MGMT_PSK</type></link>)
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>ap_rsn</parameter>&nbsp;:</term>
+<listitem><simpara> bitfield of AP capabilties derived from the AP's RSN/WPA2 beacon,
+e.g. (<link linkend="NM-802-11-AP-SEC-PAIR-CCMP:CAPS"><type>NM_802_11_AP_SEC_PAIR_CCMP</type></link> | <link linkend="NM-802-11-AP-SEC-PAIR-TKIP:CAPS"><type>NM_802_11_AP_SEC_PAIR_TKIP</type></link>)
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> TRUE if the device capabilities and AP capabilties intersect and are
+compatible with the desired <parameter>type</parameter>, FALSE if they are not
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-utils-ip4-addresses-from-gvalue" role="function"/>nm_utils_ip4_addresses_from_gvalue ()</title>
+<indexterm><primary>nm_utils_ip4_addresses_from_gvalue</primary></indexterm><programlisting><link linkend="GSList">GSList</link>*             nm_utils_ip4_addresses_from_gvalue  (const <link linkend="GValue">GValue</link> *value);</programlisting>
+<para>
+Utility function to convert a <link linkend="GPtrArray"><type>GPtrArray</type></link> of <link linkend="GArrays"><type>GArrays</type></link> of guint32s representing
+a list of NetworkManager IPv4 addresses (which is a tuple of address, gateway,
+and prefix) into a GSList of <link linkend="NMIP4Address"><type>NMIP4Address</type></link> objects.  The specific format of
+this serialization is not guaranteed to be stable and the <link linkend="GArray"><type>GArray</type></link> may be
+extended in the future.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>value</parameter>&nbsp;:</term>
+<listitem><simpara> gvalue containing a GPtrArray of GArrays of guint32s
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a newly allocated <link linkend="GSList"><type>GSList</type></link> of <link linkend="NMIP4Address"><type>NMIP4Address</type></link> objects
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-utils-ip4-addresses-to-gvalue" role="function"/>nm_utils_ip4_addresses_to_gvalue ()</title>
+<indexterm><primary>nm_utils_ip4_addresses_to_gvalue</primary></indexterm><programlisting><link linkend="void">void</link>                nm_utils_ip4_addresses_to_gvalue    (<link linkend="GSList">GSList</link> *list,
+                                                         <link linkend="GValue">GValue</link> *value);</programlisting>
+<para>
+Utility function to convert a <link linkend="GSList"><type>GSList</type></link> of <link linkend="NMIP4Address"><type>NMIP4Address</type></link> objects into a
+GPtrArray of GArrays of guint32s representing a list of NetworkManager IPv4
+addresses (which is a tuple of address, gateway, and prefix).   The specific
+format of this serialization is not guaranteed to be stable and may be
+extended in the future.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>list</parameter>&nbsp;:</term>
+<listitem><simpara> a list of <link linkend="NMIP4Address"><type>NMIP4Address</type></link> objects
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&nbsp;:</term>
+<listitem><simpara> a pointer to a <link linkend="GValue"><type>GValue</type></link> into which to place the converted addresses,
+which should be unset by the caller (when no longer needed) with
+<link linkend="g-value-unset"><function>g_value_unset()</function></link>.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-utils-ip4-routes-from-gvalue" role="function"/>nm_utils_ip4_routes_from_gvalue ()</title>
+<indexterm><primary>nm_utils_ip4_routes_from_gvalue</primary></indexterm><programlisting><link linkend="GSList">GSList</link>*             nm_utils_ip4_routes_from_gvalue     (const <link linkend="GValue">GValue</link> *value);</programlisting>
+<para>
+Utility function to convert a GPtrArray of GArrays of guint32s representing
+a list of NetworkManager IPv4 routes (which is a tuple of route, next hop,
+prefix, and metric) into a GSList of <link linkend="NMIP4Route"><type>NMIP4Route</type></link> objects.  The specific
+format of this serialization is not guaranteed to be stable and may be
+extended in the future.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>value</parameter>&nbsp;:</term>
+<listitem><simpara> gvalue containing a GPtrArray of GArrays of guint32s
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a newly allocated <link linkend="GSList"><type>GSList</type></link> of <link linkend="NMIP4Route"><type>NMIP4Route</type></link> objects
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-utils-ip4-routes-to-gvalue" role="function"/>nm_utils_ip4_routes_to_gvalue ()</title>
+<indexterm><primary>nm_utils_ip4_routes_to_gvalue</primary></indexterm><programlisting><link linkend="void">void</link>                nm_utils_ip4_routes_to_gvalue       (<link linkend="GSList">GSList</link> *list,
+                                                         <link linkend="GValue">GValue</link> *value);</programlisting>
+<para>
+Utility function to convert a <link linkend="GSList"><type>GSList</type></link> of <link linkend="NMIP4Route"><type>NMIP4Route</type></link> objects into a
+GPtrArray of GArrays of guint32s representing a list of NetworkManager IPv4
+routes (which is a tuple of route, next hop, prefix, and metric).   The
+specific format of this serialization is not guaranteed to be stable and may
+be extended in the future.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>list</parameter>&nbsp;:</term>
+<listitem><simpara> a list of <link linkend="NMIP4Route"><type>NMIP4Route</type></link> objects
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&nbsp;:</term>
+<listitem><simpara> a pointer to a <link linkend="GValue"><type>GValue</type></link> into which to place the converted routes,
+which should be unset by the caller (when no longer needed) with
+<link linkend="g-value-unset"><function>g_value_unset()</function></link>.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-utils-ip4-netmask-to-prefix" role="function"/>nm_utils_ip4_netmask_to_prefix ()</title>
+<indexterm><primary>nm_utils_ip4_netmask_to_prefix</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_utils_ip4_netmask_to_prefix      (<link linkend="guint32">guint32</link> netmask);</programlisting>
+<para>
+</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>netmask</parameter>&nbsp;:</term>
+<listitem><simpara> an IPv4 netmask in network byte order
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the CIDR prefix represented by the netmask
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-utils-ip4-prefix-to-netmask" role="function"/>nm_utils_ip4_prefix_to_netmask ()</title>
+<indexterm><primary>nm_utils_ip4_prefix_to_netmask</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_utils_ip4_prefix_to_netmask      (<link linkend="guint32">guint32</link> prefix);</programlisting>
+<para>
+</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>prefix</parameter>&nbsp;:</term>
+<listitem><simpara> a CIDR prefix
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the netmask represented by the prefix
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-utils-uuid-generate" role="function"/>nm_utils_uuid_generate ()</title>
+<indexterm><primary>nm_utils_uuid_generate</primary></indexterm><programlisting><link linkend="char">char</link>*               nm_utils_uuid_generate              (void);</programlisting>
+<para>
+</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a newly allocated UUID suitable for use as the <link linkend="NMSettingConnection"><type>NMSettingConnection</type></link>
+object's <link linkend="NMSettingConnection--id:"><type>"id:"</type></link> property.  Should be freed with <link linkend="g-free"><function>g_free()</function></link>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-utils-uuid-generate-from-string" role="function"/>nm_utils_uuid_generate_from_string ()</title>
+<indexterm><primary>nm_utils_uuid_generate_from_string</primary></indexterm><programlisting><link linkend="char">char</link>*               nm_utils_uuid_generate_from_string  (const <link linkend="char">char</link> *s);</programlisting>
+<para>
+For a given <parameter>s</parameter>, this function will always return the same UUID.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>s</parameter>&nbsp;:</term>
+<listitem><simpara> a string to use as the seed for the UUID
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a newly allocated UUID suitable for use as the <link linkend="NMSettingConnection"><type>NMSettingConnection</type></link>
+object's <link linkend="NMSettingConnection--id:"><type>"id:"</type></link> property
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+
+<refsect1><refsect2 /><refsect2 /></refsect1>
+</refentry>

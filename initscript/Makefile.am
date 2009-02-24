@@ -17,3 +17,9 @@ endif
 if TARGET_ARCH
 SUBDIRS += Arch
 endif
+if TARGET_PALDO
+SUBDIRS += paldo
+endif
+if TARGET_MANDRIVA
+SUBDIRS += Mandriva
+endif

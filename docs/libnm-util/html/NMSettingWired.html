@@ -1,0 +1,522 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>NMSettingWired</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="libnm-util Reference Manual">
+<link rel="up" href="ch01.html" title="[Insert title here]">
+<link rel="prev" href="NMSettingCdma.html" title="NMSettingCdma">
+<link rel="next" href="NMSettingConnection.html" title="NMSettingConnection">
+<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="[Insert title here]">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="NMSettingCdma.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">libnm-util Reference Manual</th>
+<td><a accesskey="n" href="NMSettingConnection.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2716154" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2718061" class="shortcut">Description</a>
+                  &#160;|&#160;
+                  <a href="#id2717951" class="shortcut">Object Hierarchy</a>
+                  &#160;|&#160;
+                  <a href="#id2717981" class="shortcut">Properties</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="NMSettingWired"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2716154"></a><span class="refentrytitle">NMSettingWired</span>
+</h2>
+<p>NMSettingWired</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+#define             <a class="link" href="NMSettingWired.html#NM-SETTING-WIRED-SETTING-NAME:CAPS">NM_SETTING_WIRED_SETTING_NAME</a>
+enum                <a class="link" href="NMSettingWired.html#NMSettingWiredError">NMSettingWiredError</a>;
+#define             <a class="link" href="NMSettingWired.html#NM-TYPE-SETTING-WIRED-ERROR:CAPS">NM_TYPE_SETTING_WIRED_ERROR</a>
+#define             <a class="link" href="NMSettingWired.html#NM-SETTING-WIRED-ERROR:CAPS">NM_SETTING_WIRED_ERROR</a>
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+>GQuark</a>              <a class="link" href="NMSettingWired.html#nm-setting-wired-error-quark">nm_setting_wired_error_quark</a>        (void);
+#define             <a class="link" href="NMSettingWired.html#NM-SETTING-WIRED-PORT:CAPS">NM_SETTING_WIRED_PORT</a>
+#define             <a class="link" href="NMSettingWired.html#NM-SETTING-WIRED-SPEED:CAPS">NM_SETTING_WIRED_SPEED</a>
+#define             <a class="link" href="NMSettingWired.html#NM-SETTING-WIRED-DUPLEX:CAPS">NM_SETTING_WIRED_DUPLEX</a>
+#define             <a class="link" href="NMSettingWired.html#NM-SETTING-WIRED-AUTO-NEGOTIATE:CAPS">NM_SETTING_WIRED_AUTO_NEGOTIATE</a>
+#define             <a class="link" href="NMSettingWired.html#NM-SETTING-WIRED-MAC-ADDRESS:CAPS">NM_SETTING_WIRED_MAC_ADDRESS</a>
+#define             <a class="link" href="NMSettingWired.html#NM-SETTING-WIRED-MTU:CAPS">NM_SETTING_WIRED_MTU</a>
+                    <a class="link" href="NMSettingWired.html#NMSettingWired-struct">NMSettingWired</a>;
+<a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a>               <a class="link" href="NMSettingWired.html#nm-setting-wired-get-type">nm_setting_wired_get_type</a>           (void);
+<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          <a class="link" href="NMSettingWired.html#nm-setting-wired-new">nm_setting_wired_new</a>                (void);
+const char*         <a class="link" href="NMSettingWired.html#nm-setting-wired-get-port">nm_setting_wired_get_port</a>           (<a class="link" href="NMSettingWired.html" title="NMSettingWired">NMSettingWired</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             <a class="link" href="NMSettingWired.html#nm-setting-wired-get-speed">nm_setting_wired_get_speed</a>          (<a class="link" href="NMSettingWired.html" title="NMSettingWired">NMSettingWired</a> *setting);
+const char*         <a class="link" href="NMSettingWired.html#nm-setting-wired-get-duplex">nm_setting_wired_get_duplex</a>         (<a class="link" href="NMSettingWired.html" title="NMSettingWired">NMSettingWired</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMSettingWired.html#nm-setting-wired-get-auto-negotiate">nm_setting_wired_get_auto_negotiate</a> (<a class="link" href="NMSettingWired.html" title="NMSettingWired">NMSettingWired</a> *setting);
+const <a
+href="/usr/share/gtk-doc/html/glib/glib-Byte-Arrays.html#GByteArray"
+>GByteArray</a>*   <a class="link" href="NMSettingWired.html#nm-setting-wired-get-mac-address">nm_setting_wired_get_mac_address</a>    (<a class="link" href="NMSettingWired.html" title="NMSettingWired">NMSettingWired</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             <a class="link" href="NMSettingWired.html#nm-setting-wired-get-mtu">nm_setting_wired_get_mtu</a>            (<a class="link" href="NMSettingWired.html" title="NMSettingWired">NMSettingWired</a> *setting);
+
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2717951"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+
+  <a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
+   +----<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>
+         +----NMSettingWired
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2717981"></a><h2>Properties</h2>
+<pre class="synopsis">
+
+  "<a class="link" href="NMSettingWired.html#NMSettingWired--auto-negotiate">auto-negotiate</a>"           <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct
+  "<a class="link" href="NMSettingWired.html#NMSettingWired--duplex">duplex</a>"                   <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write
+  "<a class="link" href="NMSettingWired.html#NMSettingWired--mtu">mtu</a>"                      <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct
+  "<a class="link" href="NMSettingWired.html#NMSettingWired--port">port</a>"                     <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write
+  "<a class="link" href="NMSettingWired.html#NMSettingWired--speed">speed</a>"                    <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2718061"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2718077"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2718088"></a><h3>
+<a name="NM-SETTING-WIRED-SETTING-NAME:CAPS"></a>NM_SETTING_WIRED_SETTING_NAME</h3>
+<a class="indexterm" name="id2718101"></a><pre class="programlisting">#define NM_SETTING_WIRED_SETTING_NAME "802-3-ethernet"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2718118"></a><h3>
+<a name="NMSettingWiredError"></a>enum NMSettingWiredError</h3>
+<a class="indexterm" name="id2718130"></a><pre class="programlisting">typedef enum
+{
+	NM_SETTING_WIRED_ERROR_UNKNOWN = 0,
+	NM_SETTING_WIRED_ERROR_INVALID_PROPERTY,
+	NM_SETTING_WIRED_ERROR_MISSING_PROPERTY
+} NMSettingWiredError;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2718148"></a><h3>
+<a name="NM-TYPE-SETTING-WIRED-ERROR:CAPS"></a>NM_TYPE_SETTING_WIRED_ERROR</h3>
+<a class="indexterm" name="id2718161"></a><pre class="programlisting">#define NM_TYPE_SETTING_WIRED_ERROR (nm_setting_wired_error_get_type ()) 
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2718178"></a><h3>
+<a name="NM-SETTING-WIRED-ERROR:CAPS"></a>NM_SETTING_WIRED_ERROR</h3>
+<a class="indexterm" name="id2718189"></a><pre class="programlisting">#define NM_SETTING_WIRED_ERROR nm_setting_wired_error_quark ()
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2718204"></a><h3>
+<a name="nm-setting-wired-error-quark"></a>nm_setting_wired_error_quark ()</h3>
+<a class="indexterm" name="id2718217"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+>GQuark</a>              nm_setting_wired_error_quark        (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2718253"></a><h3>
+<a name="NM-SETTING-WIRED-PORT:CAPS"></a>NM_SETTING_WIRED_PORT</h3>
+<a class="indexterm" name="id2718265"></a><pre class="programlisting">#define NM_SETTING_WIRED_PORT "port"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2718280"></a><h3>
+<a name="NM-SETTING-WIRED-SPEED:CAPS"></a>NM_SETTING_WIRED_SPEED</h3>
+<a class="indexterm" name="id2718291"></a><pre class="programlisting">#define NM_SETTING_WIRED_SPEED "speed"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2718306"></a><h3>
+<a name="NM-SETTING-WIRED-DUPLEX:CAPS"></a>NM_SETTING_WIRED_DUPLEX</h3>
+<a class="indexterm" name="id2718319"></a><pre class="programlisting">#define NM_SETTING_WIRED_DUPLEX "duplex"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2718334"></a><h3>
+<a name="NM-SETTING-WIRED-AUTO-NEGOTIATE:CAPS"></a>NM_SETTING_WIRED_AUTO_NEGOTIATE</h3>
+<a class="indexterm" name="id2718345"></a><pre class="programlisting">#define NM_SETTING_WIRED_AUTO_NEGOTIATE "auto-negotiate"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2718362"></a><h3>
+<a name="NM-SETTING-WIRED-MAC-ADDRESS:CAPS"></a>NM_SETTING_WIRED_MAC_ADDRESS</h3>
+<a class="indexterm" name="id2718375"></a><pre class="programlisting">#define NM_SETTING_WIRED_MAC_ADDRESS "mac-address"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2723584"></a><h3>
+<a name="NM-SETTING-WIRED-MTU:CAPS"></a>NM_SETTING_WIRED_MTU</h3>
+<a class="indexterm" name="id2723595"></a><pre class="programlisting">#define NM_SETTING_WIRED_MTU "mtu"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2723611"></a><h3>
+<a name="NMSettingWired-struct"></a>NMSettingWired</h3>
+<a class="indexterm" name="id2723622"></a><pre class="programlisting">typedef struct _NMSettingWired NMSettingWired;</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2723639"></a><h3>
+<a name="nm-setting-wired-get-type"></a>nm_setting_wired_get_type ()</h3>
+<a class="indexterm" name="id2723651"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a>               nm_setting_wired_get_type           (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2723687"></a><h3>
+<a name="nm-setting-wired-new"></a>nm_setting_wired_new ()</h3>
+<a class="indexterm" name="id2723698"></a><pre class="programlisting"><a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          nm_setting_wired_new                (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2723734"></a><h3>
+<a name="nm-setting-wired-get-port"></a>nm_setting_wired_get_port ()</h3>
+<a class="indexterm" name="id2723746"></a><pre class="programlisting">const char*         nm_setting_wired_get_port           (<a class="link" href="NMSettingWired.html" title="NMSettingWired">NMSettingWired</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2723804"></a><h3>
+<a name="nm-setting-wired-get-speed"></a>nm_setting_wired_get_speed ()</h3>
+<a class="indexterm" name="id2723816"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_setting_wired_get_speed          (<a class="link" href="NMSettingWired.html" title="NMSettingWired">NMSettingWired</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2723872"></a><h3>
+<a name="nm-setting-wired-get-duplex"></a>nm_setting_wired_get_duplex ()</h3>
+<a class="indexterm" name="id2723884"></a><pre class="programlisting">const char*         nm_setting_wired_get_duplex         (<a class="link" href="NMSettingWired.html" title="NMSettingWired">NMSettingWired</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2723942"></a><h3>
+<a name="nm-setting-wired-get-auto-negotiate"></a>nm_setting_wired_get_auto_negotiate ()</h3>
+<a class="indexterm" name="id2723955"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_wired_get_auto_negotiate (<a class="link" href="NMSettingWired.html" title="NMSettingWired">NMSettingWired</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2724012"></a><h3>
+<a name="nm-setting-wired-get-mac-address"></a>nm_setting_wired_get_mac_address ()</h3>
+<a class="indexterm" name="id2724025"></a><pre class="programlisting">const <a
+href="/usr/share/gtk-doc/html/glib/glib-Byte-Arrays.html#GByteArray"
+>GByteArray</a>*   nm_setting_wired_get_mac_address    (<a class="link" href="NMSettingWired.html" title="NMSettingWired">NMSettingWired</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2724082"></a><h3>
+<a name="nm-setting-wired-get-mtu"></a>nm_setting_wired_get_mtu ()</h3>
+<a class="indexterm" name="id2724094"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_setting_wired_get_mtu            (<a class="link" href="NMSettingWired.html" title="NMSettingWired">NMSettingWired</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2724152"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2724162"></a><h3>
+<a name="NMSettingWired--auto-negotiate"></a>The <code class="literal">"auto-negotiate"</code> property</h3>
+<a class="indexterm" name="id2724178"></a><pre class="programlisting">  "auto-negotiate"           <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct</pre>
+<p>Auto negotiate.</p>
+<p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2724204"></a><h3>
+<a name="NMSettingWired--duplex"></a>The <code class="literal">"duplex"</code> property</h3>
+<a class="indexterm" name="id2724218"></a><pre class="programlisting">  "duplex"                   <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write</pre>
+<p>Duplex.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2724243"></a><h3>
+<a name="NMSettingWired--mtu"></a>The <code class="literal">"mtu"</code> property</h3>
+<a class="indexterm" name="id2724258"></a><pre class="programlisting">  "mtu"                      <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct</pre>
+<p>MTU.</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2724283"></a><h3>
+<a name="NMSettingWired--port"></a>The <code class="literal">"port"</code> property</h3>
+<a class="indexterm" name="id2724297"></a><pre class="programlisting">  "port"                     <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write</pre>
+<p>Port type.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2724323"></a><h3>
+<a name="NMSettingWired--speed"></a>The <code class="literal">"speed"</code> property</h3>
+<a class="indexterm" name="id2724337"></a><pre class="programlisting">  "speed"                    <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct</pre>
+<p>Speed.</p>
+<p>Default value: 0</p>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2724363"></a><div class="refsect2" lang="en"><a name="id2724364"></a></div>
+<hr>
+<div class="refsect2" lang="en"><a name="id2724366"></a></div>
+</div>
+</div>
+</body>
+</html>

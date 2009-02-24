@@ -1,0 +1,408 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="NMSettingGsm">
+<refmeta>
+<refentrytitle role="top_of_page">NMSettingGsm</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNM-UTIL Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>NMSettingGsm</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+
+
+#define             <link linkend="NM-SETTING-GSM-SETTING-NAME:CAPS">NM_SETTING_GSM_SETTING_NAME</link>
+enum                <link linkend="NMSettingGsmError">NMSettingGsmError</link>;
+#define             <link linkend="NM-TYPE-SETTING-GSM-ERROR:CAPS">NM_TYPE_SETTING_GSM_ERROR</link>
+#define             <link linkend="NM-SETTING-GSM-ERROR:CAPS">NM_SETTING_GSM_ERROR</link>
+<link linkend="GQuark">GQuark</link>              <link linkend="nm-setting-gsm-error-quark">nm_setting_gsm_error_quark</link>          (void);
+#define             <link linkend="NM-SETTING-GSM-NUMBER:CAPS">NM_SETTING_GSM_NUMBER</link>
+#define             <link linkend="NM-SETTING-GSM-USERNAME:CAPS">NM_SETTING_GSM_USERNAME</link>
+#define             <link linkend="NM-SETTING-GSM-PASSWORD:CAPS">NM_SETTING_GSM_PASSWORD</link>
+#define             <link linkend="NM-SETTING-GSM-APN:CAPS">NM_SETTING_GSM_APN</link>
+#define             <link linkend="NM-SETTING-GSM-NETWORK-ID:CAPS">NM_SETTING_GSM_NETWORK_ID</link>
+#define             <link linkend="NM-SETTING-GSM-NETWORK-TYPE:CAPS">NM_SETTING_GSM_NETWORK_TYPE</link>
+#define             <link linkend="NM-SETTING-GSM-BAND:CAPS">NM_SETTING_GSM_BAND</link>
+#define             <link linkend="NM-SETTING-GSM-PIN:CAPS">NM_SETTING_GSM_PIN</link>
+#define             <link linkend="NM-SETTING-GSM-PUK:CAPS">NM_SETTING_GSM_PUK</link>
+                    <link linkend="NMSettingGsm-struct">NMSettingGsm</link>;
+<link linkend="GType">GType</link>               <link linkend="nm-setting-gsm-get-type">nm_setting_gsm_get_type</link>             (void);
+<link linkend="NMSetting">NMSetting</link>*          <link linkend="nm-setting-gsm-new">nm_setting_gsm_new</link>                  (void);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-gsm-get-number">nm_setting_gsm_get_number</link>           (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-gsm-get-username">nm_setting_gsm_get_username</link>         (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-gsm-get-password">nm_setting_gsm_get_password</link>         (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-gsm-get-apn">nm_setting_gsm_get_apn</link>              (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-gsm-get-network-id">nm_setting_gsm_get_network_id</link>       (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);
+<link linkend="int">int</link>                 <link linkend="nm-setting-gsm-get-network-type">nm_setting_gsm_get_network_type</link>     (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);
+<link linkend="int">int</link>                 <link linkend="nm-setting-gsm-get-band">nm_setting_gsm_get_band</link>             (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-gsm-get-pin">nm_setting_gsm_get_pin</link>              (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-gsm-get-puk">nm_setting_gsm_get_puk</link>              (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+
+  <link linkend="GObject">GObject</link>
+   +----<link linkend="NMSetting">NMSetting</link>
+         +----NMSettingGsm
+</synopsis>
+
+</refsect1>
+
+
+
+
+
+<refsect1 role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+
+  &quot;<link linkend="NMSettingGsm--apn">apn</link>&quot;                      <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingGsm--band">band</link>&quot;                     <link linkend="gint">gint</link>                  : Read / Write / Construct
+  &quot;<link linkend="NMSettingGsm--network-id">network-id</link>&quot;               <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingGsm--network-type">network-type</link>&quot;             <link linkend="gint">gint</link>                  : Read / Write / Construct
+  &quot;<link linkend="NMSettingGsm--number">number</link>&quot;                   <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingGsm--password">password</link>&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingGsm--pin">pin</link>&quot;                      <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingGsm--puk">puk</link>&quot;                      <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingGsm--username">username</link>&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write
+</synopsis>
+</refsect1>
+
+
+
+<refsect1 role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 role="details">
+<title role="details.title">Details</title>
+<refsect2>
+<title><anchor id="NM-SETTING-GSM-SETTING-NAME:CAPS" role="macro"/>NM_SETTING_GSM_SETTING_NAME</title>
+<indexterm><primary>NM_SETTING_GSM_SETTING_NAME</primary></indexterm><programlisting>#define NM_SETTING_GSM_SETTING_NAME "gsm"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMSettingGsmError" role="enum"/>enum NMSettingGsmError</title>
+<indexterm><primary>NMSettingGsmError</primary></indexterm><programlisting>typedef enum
+{
+	NM_SETTING_GSM_ERROR_UNKNOWN = 0,
+	NM_SETTING_GSM_ERROR_INVALID_PROPERTY,
+	NM_SETTING_GSM_ERROR_MISSING_PROPERTY,
+	NM_SETTING_GSM_ERROR_MISSING_SERIAL_SETTING
+} NMSettingGsmError;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-TYPE-SETTING-GSM-ERROR:CAPS" role="macro"/>NM_TYPE_SETTING_GSM_ERROR</title>
+<indexterm><primary>NM_TYPE_SETTING_GSM_ERROR</primary></indexterm><programlisting>#define NM_TYPE_SETTING_GSM_ERROR (nm_setting_gsm_error_get_type ()) 
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-GSM-ERROR:CAPS" role="macro"/>NM_SETTING_GSM_ERROR</title>
+<indexterm><primary>NM_SETTING_GSM_ERROR</primary></indexterm><programlisting>#define NM_SETTING_GSM_ERROR nm_setting_gsm_error_quark ()
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-gsm-error-quark" role="function"/>nm_setting_gsm_error_quark ()</title>
+<indexterm><primary>nm_setting_gsm_error_quark</primary></indexterm><programlisting><link linkend="GQuark">GQuark</link>              nm_setting_gsm_error_quark          (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-GSM-NUMBER:CAPS" role="macro"/>NM_SETTING_GSM_NUMBER</title>
+<indexterm><primary>NM_SETTING_GSM_NUMBER</primary></indexterm><programlisting>#define NM_SETTING_GSM_NUMBER       "number"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-GSM-USERNAME:CAPS" role="macro"/>NM_SETTING_GSM_USERNAME</title>
+<indexterm><primary>NM_SETTING_GSM_USERNAME</primary></indexterm><programlisting>#define NM_SETTING_GSM_USERNAME     "username"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-GSM-PASSWORD:CAPS" role="macro"/>NM_SETTING_GSM_PASSWORD</title>
+<indexterm><primary>NM_SETTING_GSM_PASSWORD</primary></indexterm><programlisting>#define NM_SETTING_GSM_PASSWORD     "password"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-GSM-APN:CAPS" role="macro"/>NM_SETTING_GSM_APN</title>
+<indexterm><primary>NM_SETTING_GSM_APN</primary></indexterm><programlisting>#define NM_SETTING_GSM_APN          "apn"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-GSM-NETWORK-ID:CAPS" role="macro"/>NM_SETTING_GSM_NETWORK_ID</title>
+<indexterm><primary>NM_SETTING_GSM_NETWORK_ID</primary></indexterm><programlisting>#define NM_SETTING_GSM_NETWORK_ID   "network-id"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-GSM-NETWORK-TYPE:CAPS" role="macro"/>NM_SETTING_GSM_NETWORK_TYPE</title>
+<indexterm><primary>NM_SETTING_GSM_NETWORK_TYPE</primary></indexterm><programlisting>#define NM_SETTING_GSM_NETWORK_TYPE "network-type"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-GSM-BAND:CAPS" role="macro"/>NM_SETTING_GSM_BAND</title>
+<indexterm><primary>NM_SETTING_GSM_BAND</primary></indexterm><programlisting>#define NM_SETTING_GSM_BAND         "band"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-GSM-PIN:CAPS" role="macro"/>NM_SETTING_GSM_PIN</title>
+<indexterm><primary>NM_SETTING_GSM_PIN</primary></indexterm><programlisting>#define NM_SETTING_GSM_PIN          "pin"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-GSM-PUK:CAPS" role="macro"/>NM_SETTING_GSM_PUK</title>
+<indexterm><primary>NM_SETTING_GSM_PUK</primary></indexterm><programlisting>#define NM_SETTING_GSM_PUK          "puk"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMSettingGsm-struct" role="struct"/>NMSettingGsm</title>
+<indexterm><primary>NMSettingGsm</primary></indexterm><programlisting>typedef struct _NMSettingGsm NMSettingGsm;</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-gsm-get-type" role="function"/>nm_setting_gsm_get_type ()</title>
+<indexterm><primary>nm_setting_gsm_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_setting_gsm_get_type             (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-gsm-new" role="function"/>nm_setting_gsm_new ()</title>
+<indexterm><primary>nm_setting_gsm_new</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link>*          nm_setting_gsm_new                  (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-gsm-get-number" role="function"/>nm_setting_gsm_get_number ()</title>
+<indexterm><primary>nm_setting_gsm_get_number</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_gsm_get_number           (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-gsm-get-username" role="function"/>nm_setting_gsm_get_username ()</title>
+<indexterm><primary>nm_setting_gsm_get_username</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_gsm_get_username         (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-gsm-get-password" role="function"/>nm_setting_gsm_get_password ()</title>
+<indexterm><primary>nm_setting_gsm_get_password</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_gsm_get_password         (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-gsm-get-apn" role="function"/>nm_setting_gsm_get_apn ()</title>
+<indexterm><primary>nm_setting_gsm_get_apn</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_gsm_get_apn              (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-gsm-get-network-id" role="function"/>nm_setting_gsm_get_network_id ()</title>
+<indexterm><primary>nm_setting_gsm_get_network_id</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_gsm_get_network_id       (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-gsm-get-network-type" role="function"/>nm_setting_gsm_get_network_type ()</title>
+<indexterm><primary>nm_setting_gsm_get_network_type</primary></indexterm><programlisting><link linkend="int">int</link>                 nm_setting_gsm_get_network_type     (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-gsm-get-band" role="function"/>nm_setting_gsm_get_band ()</title>
+<indexterm><primary>nm_setting_gsm_get_band</primary></indexterm><programlisting><link linkend="int">int</link>                 nm_setting_gsm_get_band             (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-gsm-get-pin" role="function"/>nm_setting_gsm_get_pin ()</title>
+<indexterm><primary>nm_setting_gsm_get_pin</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_gsm_get_pin              (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-gsm-get-puk" role="function"/>nm_setting_gsm_get_puk ()</title>
+<indexterm><primary>nm_setting_gsm_get_puk</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_gsm_get_puk              (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+<refsect1 role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2><title><anchor id="NMSettingGsm--apn"/>The <literal>&quot;apn&quot;</literal> property</title>
+<indexterm><primary>NMSettingGsm:apn</primary></indexterm><programlisting>  &quot;apn&quot;                      <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>APN.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingGsm--band"/>The <literal>&quot;band&quot;</literal> property</title>
+<indexterm><primary>NMSettingGsm:band</primary></indexterm><programlisting>  &quot;band&quot;                     <link linkend="gint">gint</link>                  : Read / Write / Construct</programlisting>
+<para>Band.</para><para>Allowed values: [-1,5]</para>
+<para>Default value: -1</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingGsm--network-id"/>The <literal>&quot;network-id&quot;</literal> property</title>
+<indexterm><primary>NMSettingGsm:network-id</primary></indexterm><programlisting>  &quot;network-id&quot;               <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>Network ID (GSM LAI format).</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingGsm--network-type"/>The <literal>&quot;network-type&quot;</literal> property</title>
+<indexterm><primary>NMSettingGsm:network-type</primary></indexterm><programlisting>  &quot;network-type&quot;             <link linkend="gint">gint</link>                  : Read / Write / Construct</programlisting>
+<para>Network type.</para><para>Allowed values: [-1,2]</para>
+<para>Default value: -1</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingGsm--number"/>The <literal>&quot;number&quot;</literal> property</title>
+<indexterm><primary>NMSettingGsm:number</primary></indexterm><programlisting>  &quot;number&quot;                   <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>Number.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingGsm--password"/>The <literal>&quot;password&quot;</literal> property</title>
+<indexterm><primary>NMSettingGsm:password</primary></indexterm><programlisting>  &quot;password&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>Password.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingGsm--pin"/>The <literal>&quot;pin&quot;</literal> property</title>
+<indexterm><primary>NMSettingGsm:pin</primary></indexterm><programlisting>  &quot;pin&quot;                      <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>PIN.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingGsm--puk"/>The <literal>&quot;puk&quot;</literal> property</title>
+<indexterm><primary>NMSettingGsm:puk</primary></indexterm><programlisting>  &quot;puk&quot;                      <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>PUK.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingGsm--username"/>The <literal>&quot;username&quot;</literal> property</title>
+<indexterm><primary>NMSettingGsm:username</primary></indexterm><programlisting>  &quot;username&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>Username.</para><para>Default value: NULL</para>
+</refsect2>
+
+</refsect1>
+
+
+
+
+
+<refsect1><refsect2 /><refsect2 /></refsect1>
+</refentry>

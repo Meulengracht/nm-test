@@ -1,32 +1,44 @@
-INCLUDES = -I${top_srcdir}                       \
-           -I${top_srcdir}/include               \
-           -I${top_srcdir}/utils                 \
-           -I${top_srcdir}/src                   \
-           -I${top_srcdir}/src/named-manager
+INCLUDES = \
+	-I${top_srcdir} \
+	-I${top_srcdir}/include \
+	-I${top_srcdir}/libnm-util \
+	-I${top_srcdir}/src \
+	-I${top_builddir}/marshallers \
+	-I${top_srcdir}/src/named-manager \
+	-DVPN_NAME_FILES_DIR=\""$(sysconfdir)/NetworkManager/VPN"\"
+
 
 noinst_LTLIBRARIES = libvpn-manager.la
 
-libvpn_manager_la_SOURCES =	nm-dbus-vpn.c			\
-						nm-dbus-vpn.h			\
-						nm-vpn-connection.c		\
-						nm-vpn-connection.h		\
-						nm-vpn-manager.c		\
-						nm-vpn-manager.h		\
-						nm-vpn-service.c		\
-						nm-vpn-service.h		\
-						nm-vpn-act-request.c	\
-						nm-vpn-act-request.h
+libvpn_manager_la_SOURCES =	\
+	nm-vpn-manager.c	\
+	nm-vpn-manager.h	\
+	nm-vpn-service.c	\
+	nm-vpn-service.h	\
+	nm-vpn-connection.c	\
+	nm-vpn-connection.h
 
-libvpn_manager_la_CPPFLAGS =	$(DBUS_CFLAGS)					\
-						$(GTHREAD_CFLAGS)				\
-						$(HAL_CFLAGS)					\
-						-g							\
-						-Wall						\
-						-DDBUS_API_SUBJECT_TO_CHANGE		\
-						-DG_DISABLE_DEPRECATED			\
-						-DBINDIR=\"$(bindir)\"			\
-						-DDATADIR=\"$(datadir)\"			\
-						-DSYSCONFDIR=\"$(sysconfdir)\"
+libvpn_manager_la_CPPFLAGS =	\
+	$(DBUS_CFLAGS)		\
+	$(GLIB_CFLAGS)		\
+	-DG_DISABLE_DEPRECATED
+
+libvpn_manager_la_LIBADD =	\
+	$(DBUS_LIBS)		\
+	$(GLIB_LIBS)		\
+	$(top_builddir)/marshallers/libmarshallers.la \
+	$(top_builddir)/libnm-util/libnm-util.la
+
+nm-vpn-connection-glue.h: $(top_srcdir)/introspection/nm-vpn-connection.xml
+	dbus-binding-tool --prefix=nm_vpn_connection --mode=glib-server --output=$@ $<
+
+nm-vpn-plugin-bindings.h: $(top_srcdir)/introspection/nm-vpn-plugin.xml
+	dbus-binding-tool --prefix=nm_vpn_plugin --mode=glib-client --output=$@ $<
 
 
-libvpn_manager_la_LIBADD = $(DBUS_LIBS) $(GTHREAD_LIBS)
+BUILT_SOURCES = \
+	nm-vpn-connection-glue.h \
+	nm-vpn-plugin-bindings.h
+
+CLEANFILES = $(BUILT_SOURCES)
+

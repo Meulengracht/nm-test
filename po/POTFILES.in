@@ -1,11 +1,12 @@
 [encoding: UTF-8]
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
-gnome/vpn-properties/nm-vpn-properties.c
-gnome/vpn-properties/nm-vpn-properties.glade
-src/nm-ap-security-wep.c
-src/nm-ap-security-wpa-psk.c
-src/nm-ap-security.c
+libnm-util/crypto.c
+libnm-util/crypto_gnutls.c
+libnm-util/crypto_nss.c
 src/nm-netlink-monitor.c
-src/nm-ap-security-wpa-eap.c
-src/nm-ap-security-leap.c
+src/NetworkManager.c
+src/dhcp-manager/nm-dhcp-dhclient.c
+src/named-manager/nm-named-manager.c
+system-settings/src/main.c
+

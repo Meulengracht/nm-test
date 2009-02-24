@@ -1,0 +1,751 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="NMConnection">
+<refmeta>
+<refentrytitle role="top_of_page">NMConnection</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNM-UTIL Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>NMConnection</refname>
+<refpurpose>Describes a connection to specific network or provider</refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+#include &lt;nm-connection.h&gt;
+
+
+enum                <link linkend="NMConnectionScope">NMConnectionScope</link>;
+enum                <link linkend="NMConnectionError">NMConnectionError</link>;
+#define             <link linkend="NM-TYPE-CONNECTION-ERROR:CAPS">NM_TYPE_CONNECTION_ERROR</link>
+#define             <link linkend="NM-CONNECTION-ERROR:CAPS">NM_CONNECTION_ERROR</link>
+<link linkend="GQuark">GQuark</link>              <link linkend="nm-connection-error-quark">nm_connection_error_quark</link>           (void);
+#define             <link linkend="NM-CONNECTION-SCOPE:CAPS">NM_CONNECTION_SCOPE</link>
+#define             <link linkend="NM-CONNECTION-PATH:CAPS">NM_CONNECTION_PATH</link>
+                    <link linkend="NMConnection-struct">NMConnection</link>;
+<link linkend="GType">GType</link>               <link linkend="nm-connection-get-type">nm_connection_get_type</link>              (void);
+<link linkend="NMConnection">NMConnection</link>*       <link linkend="nm-connection-new">nm_connection_new</link>                   (void);
+<link linkend="NMConnection">NMConnection</link>*       <link linkend="nm-connection-new-from-hash">nm_connection_new_from_hash</link>         (<link linkend="GHashTable">GHashTable</link> *hash,
+                                                         <link linkend="GError">GError</link> **error);
+<link linkend="NMConnection">NMConnection</link>*       <link linkend="nm-connection-duplicate">nm_connection_duplicate</link>             (<link linkend="NMConnection">NMConnection</link> *connection);
+<link linkend="void">void</link>                <link linkend="nm-connection-add-setting">nm_connection_add_setting</link>           (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="NMSetting">NMSetting</link> *setting);
+<link linkend="void">void</link>                <link linkend="nm-connection-remove-setting">nm_connection_remove_setting</link>        (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GType">GType</link> setting_type);
+<link linkend="NMSetting">NMSetting</link>*          <link linkend="nm-connection-get-setting">nm_connection_get_setting</link>           (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GType">GType</link> setting_type);
+<link linkend="NMSetting">NMSetting</link>*          <link linkend="nm-connection-get-setting-by-name">nm_connection_get_setting_by_name</link>   (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         const <link linkend="char">char</link> *name);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-connection-replace-settings">nm_connection_replace_settings</link>      (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GHashTable">GHashTable</link> *new_settings,
+                                                         <link linkend="GError">GError</link> **error);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-connection-compare">nm_connection_compare</link>               (<link linkend="NMConnection">NMConnection</link> *a,
+                                                         <link linkend="NMConnection">NMConnection</link> *b,
+                                                         <link linkend="NMSettingCompareFlags">NMSettingCompareFlags</link> flags);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-connection-verify">nm_connection_verify</link>                (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GError">GError</link> **error);
+const <link linkend="char">char</link>*         <link linkend="nm-connection-need-secrets">nm_connection_need_secrets</link>          (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GPtrArray">GPtrArray</link> **hints);
+<link linkend="void">void</link>                <link linkend="nm-connection-clear-secrets">nm_connection_clear_secrets</link>         (<link linkend="NMConnection">NMConnection</link> *connection);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-connection-update-secrets">nm_connection_update_secrets</link>        (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         const <link linkend="char">char</link> *setting_name,
+                                                         <link linkend="GHashTable">GHashTable</link> *secrets,
+                                                         <link linkend="GError">GError</link> **error);
+<link linkend="void">void</link>                <link linkend="nm-connection-set-scope">nm_connection_set_scope</link>             (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="NMConnectionScope">NMConnectionScope</link> scope);
+<link linkend="NMConnectionScope">NMConnectionScope</link>   <link linkend="nm-connection-get-scope">nm_connection_get_scope</link>             (<link linkend="NMConnection">NMConnection</link> *connection);
+<link linkend="void">void</link>                <link linkend="nm-connection-set-path">nm_connection_set_path</link>              (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         const <link linkend="char">char</link> *path);
+const <link linkend="char">char</link>*         <link linkend="nm-connection-get-path">nm_connection_get_path</link>              (<link linkend="NMConnection">NMConnection</link> *connection);
+<link linkend="void">void</link>                <link linkend="nm-connection-for-each-setting-value">nm_connection_for_each_setting_value</link>
+                                                        (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="NMSettingValueIterFn">NMSettingValueIterFn</link> func,
+                                                         <link linkend="gpointer">gpointer</link> user_data);
+<link linkend="GHashTable">GHashTable</link>*         <link linkend="nm-connection-to-hash">nm_connection_to_hash</link>               (<link linkend="NMConnection">NMConnection</link> *connection);
+<link linkend="void">void</link>                <link linkend="nm-connection-dump">nm_connection_dump</link>                  (<link linkend="NMConnection">NMConnection</link> *connection);
+<link linkend="NMSetting">NMSetting</link>*          <link linkend="nm-connection-create-setting">nm_connection_create_setting</link>        (const <link linkend="char">char</link> *name);
+<link linkend="GType">GType</link>               <link linkend="nm-connection-lookup-setting-type">nm_connection_lookup_setting_type</link>   (const <link linkend="char">char</link> *name);
+<link linkend="GType">GType</link>               <link linkend="nm-connection-lookup-setting-type-by-quark">nm_connection_lookup_setting_type_by_quark</link>
+                                                        (<link linkend="GQuark">GQuark</link> error_quark);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+
+  <link linkend="GObject">GObject</link>
+   +----NMConnection
+</synopsis>
+
+</refsect1>
+
+
+
+
+
+<refsect1 role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+
+  &quot;<link linkend="NMConnection--path">path</link>&quot;                     <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMConnection--scope">scope</link>&quot;                    <link linkend="guint">guint</link>                 : Read / Write
+</synopsis>
+</refsect1>
+
+<refsect1 role="signal_proto">
+<title role="signal_proto.title">Signals</title>
+<synopsis>
+
+  &quot;<link linkend="NMConnection-secrets-updated">secrets-updated</link>&quot;                                : Run First
+</synopsis>
+</refsect1>
+
+
+<refsect1 role="desc">
+<title role="desc.title">Description</title>
+<para>
+An <link linkend="NMConnection"><type>NMConnection</type></link> describes all the settings and configuration values that
+are necessary to configure network devices for operation on a specific
+network.  Connections are the fundamental operating object for
+NetworkManager; no device is connected without a <link linkend="NMConnection"><type>NMConnection</type></link>, or
+disconnected without having been connected with a <link linkend="NMConnection"><type>NMConnection</type></link>.
+</para>
+<para>
+Each <link linkend="NMConnection"><type>NMConnection</type></link> contains a list of <link linkend="NMSetting"><type>NMSetting</type></link> objects usually referenced
+by name (using <link linkend="nm-connection-get-setting-by-name"><function>nm_connection_get_setting_by_name()</function></link>) or by type (with
+<link linkend="nm-connection-get-setting"><function>nm_connection_get_setting()</function></link>).  The settings describe the actual parameters
+with which the network devices are configured, including device-specific
+parameters (MTU, SSID, APN, channel, rate, etc) and IP-level parameters
+(addresses, routes, addressing methods, etc).
+</para>
+<para>
+Most connections also have a <link linkend="NMConnectionScope"><literal>NMConnectionScope</literal></link>; a connection will be
+provided over D-Bus either by the user settings service
+(org.freedesktop.NetworkManagerUserSettings) running in an active user
+session, or by the system-wide system settings service
+(org.freedesktop.NetworkManagerSystemSettings) which provides  connections
+for all users.</para>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 role="details">
+<title role="details.title">Details</title>
+<refsect2>
+<title><anchor id="NMConnectionScope" role="enum"/>enum NMConnectionScope</title>
+<indexterm><primary>NMConnectionScope</primary></indexterm><programlisting>typedef enum {
+	NM_CONNECTION_SCOPE_UNKNOWN = 0,
+	NM_CONNECTION_SCOPE_SYSTEM,
+	NM_CONNECTION_SCOPE_USER
+} NMConnectionScope;
+</programlisting>
+<para>
+Connection scope indicated what settings service, if any, provides the
+connection.</para>
+<para>
+
+</para><variablelist role="enum">
+<varlistentry>
+<term><anchor id="NM-CONNECTION-SCOPE-UNKNOWN:CAPS" role="constant"/><literal>NM_CONNECTION_SCOPE_UNKNOWN</literal></term>
+<listitem><simpara> scope not known or not yet set
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><anchor id="NM-CONNECTION-SCOPE-SYSTEM:CAPS" role="constant"/><literal>NM_CONNECTION_SCOPE_SYSTEM</literal></term>
+<listitem><simpara> connection is provided by the system settings
+  service
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><anchor id="NM-CONNECTION-SCOPE-USER:CAPS" role="constant"/><literal>NM_CONNECTION_SCOPE_USER</literal></term>
+<listitem><simpara> connection is provided by a user settings service
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="NMConnectionError" role="enum"/>enum NMConnectionError</title>
+<indexterm><primary>NMConnectionError</primary></indexterm><programlisting>typedef enum
+{
+	NM_CONNECTION_ERROR_UNKNOWN = 0,
+	NM_CONNECTION_ERROR_CONNECTION_SETTING_NOT_FOUND
+} NMConnectionError;
+</programlisting>
+<para>
+Describes errors that may result from operations involving a <link linkend="NMConnection"><type>NMConnection</type></link>.</para>
+<para>
+
+</para><variablelist role="enum">
+<varlistentry>
+<term><anchor id="NM-CONNECTION-ERROR-UNKNOWN:CAPS" role="constant"/><literal>NM_CONNECTION_ERROR_UNKNOWN</literal></term>
+<listitem><simpara> unknown or unclassified error
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><anchor id="NM-CONNECTION-ERROR-CONNECTION-SETTING-NOT-FOUND:CAPS" role="constant"/><literal>NM_CONNECTION_ERROR_CONNECTION_SETTING_NOT_FOUND</literal></term>
+<listitem><simpara> the <link linkend="NMConnection"><type>NMConnection</type></link> object
+  did not contain the required <link linkend="NMSettingConnection"><type>NMSettingConnection</type></link> object, which must be
+  present for all connections
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="NM-TYPE-CONNECTION-ERROR:CAPS" role="macro"/>NM_TYPE_CONNECTION_ERROR</title>
+<indexterm><primary>NM_TYPE_CONNECTION_ERROR</primary></indexterm><programlisting>#define NM_TYPE_CONNECTION_ERROR (nm_connection_error_get_type ()) 
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-CONNECTION-ERROR:CAPS" role="macro"/>NM_CONNECTION_ERROR</title>
+<indexterm><primary>NM_CONNECTION_ERROR</primary></indexterm><programlisting>#define NM_CONNECTION_ERROR nm_connection_error_quark ()
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-error-quark" role="function"/>nm_connection_error_quark ()</title>
+<indexterm><primary>nm_connection_error_quark</primary></indexterm><programlisting><link linkend="GQuark">GQuark</link>              nm_connection_error_quark           (void);</programlisting>
+<para>
+Registers an error quark for <link linkend="NMConnection"><type>NMConnection</type></link> if necessary.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the error quark used for <link linkend="NMConnection"><type>NMConnection</type></link> errors.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="NM-CONNECTION-SCOPE:CAPS" role="macro"/>NM_CONNECTION_SCOPE</title>
+<indexterm><primary>NM_CONNECTION_SCOPE</primary></indexterm><programlisting>#define NM_CONNECTION_SCOPE "scope"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-CONNECTION-PATH:CAPS" role="macro"/>NM_CONNECTION_PATH</title>
+<indexterm><primary>NM_CONNECTION_PATH</primary></indexterm><programlisting>#define NM_CONNECTION_PATH "path"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMConnection-struct" role="struct"/>NMConnection</title>
+<indexterm><primary>NMConnection</primary></indexterm><programlisting>typedef struct _NMConnection NMConnection;</programlisting>
+<para>
+The NMConnection struct contains only private data.
+It should only be accessed through the functions described below.</para>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-get-type" role="function"/>nm_connection_get_type ()</title>
+<indexterm><primary>nm_connection_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_connection_get_type              (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-new" role="function"/>nm_connection_new ()</title>
+<indexterm><primary>nm_connection_new</primary></indexterm><programlisting><link linkend="NMConnection">NMConnection</link>*       nm_connection_new                   (void);</programlisting>
+<para>
+Creates a new <link linkend="NMConnection"><type>NMConnection</type></link> object with no <link linkend="NMSetting"><type>NMSetting</type></link> objects.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the new empty <link linkend="NMConnection"><type>NMConnection</type></link> object
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-new-from-hash" role="function"/>nm_connection_new_from_hash ()</title>
+<indexterm><primary>nm_connection_new_from_hash</primary></indexterm><programlisting><link linkend="NMConnection">NMConnection</link>*       nm_connection_new_from_hash         (<link linkend="GHashTable">GHashTable</link> *hash,
+                                                         <link linkend="GError">GError</link> **error);</programlisting>
+<para>
+Creates a new <link linkend="NMConnection"><type>NMConnection</type></link> from a hash table describing the connection.  See
+<link linkend="nm-connection-to-hash"><function>nm_connection_to_hash()</function></link> for a description of the expected hash table.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>hash</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="GHashTable"><type>GHashTable</type></link> describing the connection
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>error</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the new <link linkend="NMConnection"><type>NMConnection</type></link> object, populated with settings created
+from the values in the hash table, or NULL if the connection failed to
+validate
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-duplicate" role="function"/>nm_connection_duplicate ()</title>
+<indexterm><primary>nm_connection_duplicate</primary></indexterm><programlisting><link linkend="NMConnection">NMConnection</link>*       nm_connection_duplicate             (<link linkend="NMConnection">NMConnection</link> *connection);</programlisting>
+<para>
+Duplicates a <link linkend="NMConnection"><type>NMConnection</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="NMConnection"><type>NMConnection</type></link> to duplicate
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a new <link linkend="NMConnection"><type>NMConnection</type></link> containing the same settings and properties
+as the source <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-add-setting" role="function"/>nm_connection_add_setting ()</title>
+<indexterm><primary>nm_connection_add_setting</primary></indexterm><programlisting><link linkend="void">void</link>                nm_connection_add_setting           (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="NMSetting">NMSetting</link> *setting);</programlisting>
+<para>
+Adds a <link linkend="NMSetting"><type>NMSetting</type></link> to the connection, replacing any previous <link linkend="NMSetting"><type>NMSetting</type></link> of the
+same name which has previously been added to the <link linkend="NMConnection"><type>NMConnection</type></link>.  The
+connection takes ownership of the <link linkend="NMSetting"><type>NMSetting</type></link> object and does not increase
+the setting object's reference count.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="NMSetting"><type>NMSetting</type></link> to add to the connection object
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-remove-setting" role="function"/>nm_connection_remove_setting ()</title>
+<indexterm><primary>nm_connection_remove_setting</primary></indexterm><programlisting><link linkend="void">void</link>                nm_connection_remove_setting        (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GType">GType</link> setting_type);</programlisting>
+<para>
+Removes the <link linkend="NMSetting"><type>NMSetting</type></link> with the given <link linkend="GType"><type>GType</type></link> from the <link linkend="NMConnection"><type>NMConnection</type></link>.  This
+operation dereferences the <link linkend="NMSetting"><type>NMSetting</type></link> object.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>setting_type</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="GType"><type>GType</type></link> of the setting object to remove
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-get-setting" role="function"/>nm_connection_get_setting ()</title>
+<indexterm><primary>nm_connection_get_setting</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link>*          nm_connection_get_setting           (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GType">GType</link> setting_type);</programlisting>
+<para>
+Gets the <link linkend="NMSetting"><type>NMSetting</type></link> with the given <link linkend="GType"><type>GType</type></link>, if one has been previously added
+to the <link linkend="NMConnection"><type>NMConnection</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>setting_type</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="GType"><type>GType</type></link> of the setting object to return
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the <link linkend="NMSetting"><type>NMSetting</type></link>, or NULL if no setting of that type was previously
+added to the <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-get-setting-by-name" role="function"/>nm_connection_get_setting_by_name ()</title>
+<indexterm><primary>nm_connection_get_setting_by_name</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link>*          nm_connection_get_setting_by_name   (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         const <link linkend="char">char</link> *name);</programlisting>
+<para>
+Gets the <link linkend="NMSetting"><type>NMSetting</type></link> with the given name, if one has been previously added
+the the <link linkend="NMConnection"><type>NMConnection</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>name</parameter>&nbsp;:</term>
+<listitem><simpara> a setting name
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the <link linkend="NMSetting"><type>NMSetting</type></link>, or NULL if no setting with that name was previously
+added to the <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-replace-settings" role="function"/>nm_connection_replace_settings ()</title>
+<indexterm><primary>nm_connection_replace_settings</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_connection_replace_settings      (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GHashTable">GHashTable</link> *new_settings,
+                                                         <link linkend="GError">GError</link> **error);</programlisting>
+<para>
+</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>new_settings</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="GHashTable"><type>GHashTable</type></link> of settings
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>error</parameter>&nbsp;:</term>
+<listitem><simpara> location to store error, or <link linkend="NULL:CAPS"><literal>NULL</literal></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if the settings were valid and added to the connection, <link linkend="FALSE:CAPS"><literal>FALSE</literal></link>
+if they were not
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-compare" role="function"/>nm_connection_compare ()</title>
+<indexterm><primary>nm_connection_compare</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_connection_compare               (<link linkend="NMConnection">NMConnection</link> *a,
+                                                         <link linkend="NMConnection">NMConnection</link> *b,
+                                                         <link linkend="NMSettingCompareFlags">NMSettingCompareFlags</link> flags);</programlisting>
+<para>
+Compares two <link linkend="NMConnection"><type>NMConnection</type></link> objects for similarity, with comparison behavior
+modified by a set of flags.  See <link linkend="nm-setting-compare"><function>nm_setting_compare()</function></link> for a description of
+each flag's behavior.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>a</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>b</parameter>&nbsp;:</term>
+<listitem><simpara> a second <link linkend="NMConnection"><type>NMConnection</type></link> to compare with the first
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>flags</parameter>&nbsp;:</term>
+<listitem><simpara> compare flags, e.g. <link linkend="NM-SETTING-COMPARE-FLAG-EXACT:CAPS"><literal>NM_SETTING_COMPARE_FLAG_EXACT</literal></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if the comparison succeeds, <link linkend="FALSE:CAPS"><literal>FALSE</literal></link> if it does not
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-verify" role="function"/>nm_connection_verify ()</title>
+<indexterm><primary>nm_connection_verify</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_connection_verify                (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GError">GError</link> **error);</programlisting>
+<para>
+Validates the connection and all its settings.  Each setting's properties
+have allowed values, and some values are dependent on other values.  For
+example, if a WiFi connection is security enabled, the <link linkend="NMSettingWireless"><type>NMSettingWireless</type></link>
+setting object's 'security' property must contain the setting name of the
+<link linkend="NMSettingWirelessSecurity"><type>NMSettingWirelessSecurity</type></link> object, which must also be present in the 
+connection for the connection to be valid.  As another example, the
+<link linkend="NMSettingWired"><type>NMSettingWired</type></link> object's 'mac-address' property must be a validly formatted
+MAC address.  The returned <link linkend="GError"><type>GError</type></link> contains information about which
+setting and which property failed validation, and how it failed validation.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="NMConnection"><type>NMConnection</type></link> to verify
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>error</parameter>&nbsp;:</term>
+<listitem><simpara> location to store error, or <link linkend="NULL:CAPS"><literal>NULL</literal></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if the connection is valid, <link linkend="FALSE:CAPS"><literal>FALSE</literal></link> if it is not
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-need-secrets" role="function"/>nm_connection_need_secrets ()</title>
+<indexterm><primary>nm_connection_need_secrets</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_connection_need_secrets          (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="GPtrArray">GPtrArray</link> **hints);</programlisting>
+<para>
+Returns the name of the first setting object in the connection which would
+need secrets to make a successful connection.  The returned hints are only
+intended as a guide to what secrets may be required, because in some
+circumstances, there is no way to conclusively determine exactly which
+secrets are needed.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>hints</parameter>&nbsp;:</term>
+<listitem><simpara> the address of a pointer to a <link linkend="GPtrArray"><type>GPtrArray</type></link>, initialized to NULL, which
+on return points to an allocated <link linkend="GPtrArray"><type>GPtrArray</type></link> containing the property names of
+secrets of the <link linkend="NMSetting"><type>NMSetting</type></link> which may be required; the caller owns the array
+and must free the each array element with <link linkend="g-free"><function>g_free()</function></link>, as well as the array
+itself with <link linkend="g-ptr-array-free"><function>g_ptr_array_free()</function></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the setting name of the <link linkend="NMSetting"><type>NMSetting</type></link> object which has invalid or
+missing secrets
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-clear-secrets" role="function"/>nm_connection_clear_secrets ()</title>
+<indexterm><primary>nm_connection_clear_secrets</primary></indexterm><programlisting><link linkend="void">void</link>                nm_connection_clear_secrets         (<link linkend="NMConnection">NMConnection</link> *connection);</programlisting>
+<para>
+Clears and frees any secrets that may be stored in the connection, to avoid
+keeping secret data in memory when not needed.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-update-secrets" role="function"/>nm_connection_update_secrets ()</title>
+<indexterm><primary>nm_connection_update_secrets</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_connection_update_secrets        (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         const <link linkend="char">char</link> *setting_name,
+                                                         <link linkend="GHashTable">GHashTable</link> *secrets,
+                                                         <link linkend="GError">GError</link> **error);</programlisting>
+<para>
+Update the specified setting's secrets, given a hash table of secrets
+intended for that setting (deserialized from D-Bus for example).</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>setting_name</parameter>&nbsp;:</term>
+<listitem><simpara> the setting object name to which the secrets apply
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>secrets</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="GHashTable"><type>GHashTable</type></link> mapping string:<link linkend="GValue"><type>GValue</type></link> of setting property names and
+secrets
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>error</parameter>&nbsp;:</term>
+<listitem><simpara> location to store error, or <link linkend="NULL:CAPS"><literal>NULL</literal></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if the secrets were successfully updated and the connection
+is valid, <link linkend="FALSE:CAPS"><literal>FALSE</literal></link> on failure or if the setting was never added to the connection
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-set-scope" role="function"/>nm_connection_set_scope ()</title>
+<indexterm><primary>nm_connection_set_scope</primary></indexterm><programlisting><link linkend="void">void</link>                nm_connection_set_scope             (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="NMConnectionScope">NMConnectionScope</link> scope);</programlisting>
+<para>
+Sets the scope of the connection.  This property is not serialized, and is
+only for the reference of the caller.  A connection may have no scope
+(internal, temporary connections), "system" scope (provided by the system
+settings service), or "user" scope, provided by a user settings service.  The
+creator of the <link linkend="NMConnection"><type>NMConnection</type></link> object is responsible for setting the
+connection's scope if needed.  Sets the <link linkend="NMConnection--scope"><type>"scope"</type></link> property.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>scope</parameter>&nbsp;:</term>
+<listitem><simpara> the scope of the connection
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-get-scope" role="function"/>nm_connection_get_scope ()</title>
+<indexterm><primary>nm_connection_get_scope</primary></indexterm><programlisting><link linkend="NMConnectionScope">NMConnectionScope</link>   nm_connection_get_scope             (<link linkend="NMConnection">NMConnection</link> *connection);</programlisting>
+<para>
+Returns the connection scope.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the scope of the connection, previously set by a call to
+<link linkend="nm-connection-set-scope"><function>nm_connection_set_scope()</function></link>.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-set-path" role="function"/>nm_connection_set_path ()</title>
+<indexterm><primary>nm_connection_set_path</primary></indexterm><programlisting><link linkend="void">void</link>                nm_connection_set_path              (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         const <link linkend="char">char</link> *path);</programlisting>
+<para>
+Sets the D-Bus path of the connection.  This property is not serialized, and
+is only for the reference of the caller.  Sets the <link linkend="NMConnection--path"><type>"path"</type></link>
+property.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>path</parameter>&nbsp;:</term>
+<listitem><simpara> the D-Bus path of the connection as given by the settings service
+which provides the connection
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-get-path" role="function"/>nm_connection_get_path ()</title>
+<indexterm><primary>nm_connection_get_path</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_connection_get_path              (<link linkend="NMConnection">NMConnection</link> *connection);</programlisting>
+<para>
+Returns the connection's D-Bus path.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the D-Bus path of the connection, previously set by a call to
+<link linkend="nm-connection-set-path"><function>nm_connection_set_path()</function></link>.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-for-each-setting-value" role="function"/>nm_connection_for_each_setting_value ()</title>
+<indexterm><primary>nm_connection_for_each_setting_value</primary></indexterm><programlisting><link linkend="void">void</link>                nm_connection_for_each_setting_value
+                                                        (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="NMSettingValueIterFn">NMSettingValueIterFn</link> func,
+                                                         <link linkend="gpointer">gpointer</link> user_data);</programlisting>
+<para>
+Iterates over the properties of each <link linkend="NMSetting"><type>NMSetting</type></link> object in the <link linkend="NMConnection"><type>NMConnection</type></link>,
+calling the supplied user function for each property.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>func</parameter>&nbsp;:</term>
+<listitem><simpara> user-supplied function called for each setting's property
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<listitem><simpara> user data passed to <parameter>func</parameter> at each invocation
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-to-hash" role="function"/>nm_connection_to_hash ()</title>
+<indexterm><primary>nm_connection_to_hash</primary></indexterm><programlisting><link linkend="GHashTable">GHashTable</link>*         nm_connection_to_hash               (<link linkend="NMConnection">NMConnection</link> *connection);</programlisting>
+<para>
+Converts the <link linkend="NMConnection"><type>NMConnection</type></link> into a <link linkend="GHashTable"><type>GHashTable</type></link> describing the connection,
+suitable for marshalling over D-Bus or serializing.  The hash table mapping
+is string:<link linkend="GHashTable"><type>GHashTable</type></link> with each element in the returned hash representing
+a <link linkend="NMSetting"><type>NMSetting</type></link> object.  The keys are setting object names, and the values
+are <link linkend="GHashTables"><type>GHashTables</type></link> mapping string:GValue, each of which represents the
+properties of the <link linkend="NMSetting"><type>NMSetting</type></link> object.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a new <link linkend="GHashTable"><type>GHashTable</type></link> describing the connection, its settings, and
+each setting's properties.  The caller owns the hash table and must unref
+the hash table with <link linkend="g-hash-table-unref"><function>g_hash_table_unref()</function></link> when it is no longer needed.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-dump" role="function"/>nm_connection_dump ()</title>
+<indexterm><primary>nm_connection_dump</primary></indexterm><programlisting><link linkend="void">void</link>                nm_connection_dump                  (<link linkend="NMConnection">NMConnection</link> *connection);</programlisting>
+<para>
+Print the connection to stdout.  For debugging purposes ONLY, should NOT
+be used for serialization of the connection or machine-parsed in any way. The
+output format is not guaranteed to be stable and may change at any time.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="NMConnection"><type>NMConnection</type></link>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-create-setting" role="function"/>nm_connection_create_setting ()</title>
+<indexterm><primary>nm_connection_create_setting</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link>*          nm_connection_create_setting        (const <link linkend="char">char</link> *name);</programlisting>
+<para>
+Create a new <link linkend="NMSetting"><type>NMSetting</type></link> object of the desired type, given a setting name.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>name</parameter>&nbsp;:</term>
+<listitem><simpara> a setting name
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the new setting object, or NULL if the setting name was unknown
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-lookup-setting-type" role="function"/>nm_connection_lookup_setting_type ()</title>
+<indexterm><primary>nm_connection_lookup_setting_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_connection_lookup_setting_type   (const <link linkend="char">char</link> *name);</programlisting>
+<para>
+Returns the <link linkend="GType"><type>GType</type></link> of the setting's class for a given setting name.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>name</parameter>&nbsp;:</term>
+<listitem><simpara> a setting name
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the <link linkend="GType"><type>GType</type></link> of the setting's class
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-connection-lookup-setting-type-by-quark" role="function"/>nm_connection_lookup_setting_type_by_quark ()</title>
+<indexterm><primary>nm_connection_lookup_setting_type_by_quark</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_connection_lookup_setting_type_by_quark
+                                                        (<link linkend="GQuark">GQuark</link> error_quark);</programlisting>
+<para>
+Returns the <link linkend="GType"><type>GType</type></link> of the setting's class for a given setting error quark.
+Useful for figuring out which setting a returned error is for.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>error_quark</parameter>&nbsp;:</term>
+<listitem><simpara> a setting error quark
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the <link linkend="GType"><type>GType</type></link> of the setting's class
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+<refsect1 role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2><title><anchor id="NMConnection--path"/>The <literal>&quot;path&quot;</literal> property</title>
+<indexterm><primary>NMConnection:path</primary></indexterm><programlisting>  &quot;path&quot;                     <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>
+The connection's D-Bus path, used only by the calling process as a record
+of the D-Bus path of the connection as provided by a settings service.</para>
+<para>
+
+</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMConnection--scope"/>The <literal>&quot;scope&quot;</literal> property</title>
+<indexterm><primary>NMConnection:scope</primary></indexterm><programlisting>  &quot;scope&quot;                    <link linkend="guint">guint</link>                 : Read / Write</programlisting>
+<para>
+The connection's scope, used only by the calling process as a record
+of which settings service the connection is provided by.  One of the
+NM_CONNECTION_SCOPE_* defines.</para>
+<para>
+
+</para><para>Allowed values: &lt;= 2</para>
+<para>Default value: 0</para>
+</refsect2>
+
+</refsect1>
+
+<refsect1 role="signals">
+<title role="signals.title">Signal Details</title>
+<refsect2><title><anchor id="NMConnection-secrets-updated"/>The <literal>&quot;secrets-updated&quot;</literal> signal</title>
+<indexterm><primary>NMConnection::secrets-updated</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NMConnection">NMConnection</link> *connection,
+                                                        <link linkend="gchar">gchar</link>        *setting_name,
+                                                        <link linkend="gpointer">gpointer</link>      user_data)         : Run First</programlisting>
+<para>
+The ::secrets-updated signal is emitted when the secrets of a setting
+have been changed.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> the object on which the signal is emitted
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>setting_name</parameter>&nbsp;:</term>
+<listitem><simpara> the setting name of the <link linkend="NMSetting"><type>NMSetting</type></link> for which secrets were
+updated
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+</refsect1>
+
+
+
+
+<refsect1><refsect2 /><refsect2 /></refsect1>
+</refentry>

@@ -1,0 +1,918 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>NMSettingWireless</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="libnm-util Reference Manual">
+<link rel="up" href="ch01.html" title="[Insert title here]">
+<link rel="prev" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">
+<link rel="next" href="NMConnection.html" title="NMConnection">
+<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="[Insert title here]">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="NMSettingWirelessSecurity.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">libnm-util Reference Manual</th>
+<td><a accesskey="n" href="NMConnection.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2661908" class="shortcut">Top</a>
+                  &#160;|&#160;
+                  <a href="#id2728345" class="shortcut">Description</a>
+                  &#160;|&#160;
+                  <a href="#id2728211" class="shortcut">Object Hierarchy</a>
+                  &#160;|&#160;
+                  <a href="#id2728242" class="shortcut">Properties</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="NMSettingWireless"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2>
+<a name="id2661908"></a><span class="refentrytitle">NMSettingWireless</span>
+</h2>
+<p>NMSettingWireless</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<pre class="synopsis">
+
+
+
+#define             <a class="link" href="NMSettingWireless.html#NM-SETTING-WIRELESS-SETTING-NAME:CAPS">NM_SETTING_WIRELESS_SETTING_NAME</a>
+enum                <a class="link" href="NMSettingWireless.html#NMSettingWirelessError">NMSettingWirelessError</a>;
+#define             <a class="link" href="NMSettingWireless.html#NM-TYPE-SETTING-WIRELESS-ERROR:CAPS">NM_TYPE_SETTING_WIRELESS_ERROR</a>
+#define             <a class="link" href="NMSettingWireless.html#NM-SETTING-WIRELESS-ERROR:CAPS">NM_SETTING_WIRELESS_ERROR</a>
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+>GQuark</a>              <a class="link" href="NMSettingWireless.html#nm-setting-wireless-error-quark">nm_setting_wireless_error_quark</a>     (void);
+#define             <a class="link" href="NMSettingWireless.html#NM-SETTING-WIRELESS-SSID:CAPS">NM_SETTING_WIRELESS_SSID</a>
+#define             <a class="link" href="NMSettingWireless.html#NM-SETTING-WIRELESS-MODE:CAPS">NM_SETTING_WIRELESS_MODE</a>
+#define             <a class="link" href="NMSettingWireless.html#NM-SETTING-WIRELESS-BAND:CAPS">NM_SETTING_WIRELESS_BAND</a>
+#define             <a class="link" href="NMSettingWireless.html#NM-SETTING-WIRELESS-CHANNEL:CAPS">NM_SETTING_WIRELESS_CHANNEL</a>
+#define             <a class="link" href="NMSettingWireless.html#NM-SETTING-WIRELESS-BSSID:CAPS">NM_SETTING_WIRELESS_BSSID</a>
+#define             <a class="link" href="NMSettingWireless.html#NM-SETTING-WIRELESS-RATE:CAPS">NM_SETTING_WIRELESS_RATE</a>
+#define             <a class="link" href="NMSettingWireless.html#NM-SETTING-WIRELESS-TX-POWER:CAPS">NM_SETTING_WIRELESS_TX_POWER</a>
+#define             <a class="link" href="NMSettingWireless.html#NM-SETTING-WIRELESS-MAC-ADDRESS:CAPS">NM_SETTING_WIRELESS_MAC_ADDRESS</a>
+#define             <a class="link" href="NMSettingWireless.html#NM-SETTING-WIRELESS-MTU:CAPS">NM_SETTING_WIRELESS_MTU</a>
+#define             <a class="link" href="NMSettingWireless.html#NM-SETTING-WIRELESS-SEEN-BSSIDS:CAPS">NM_SETTING_WIRELESS_SEEN_BSSIDS</a>
+#define             <a class="link" href="NMSettingWireless.html#NM-SETTING-WIRELESS-SEC:CAPS">NM_SETTING_WIRELESS_SEC</a>
+                    <a class="link" href="NMSettingWireless.html#NMSettingWireless-struct">NMSettingWireless</a>;
+<a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a>               <a class="link" href="NMSettingWireless.html#nm-setting-wireless-get-type">nm_setting_wireless_get_type</a>        (void);
+<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          <a class="link" href="NMSettingWireless.html#nm-setting-wireless-new">nm_setting_wireless_new</a>             (void);
+const <a
+href="/usr/share/gtk-doc/html/glib/glib-Byte-Arrays.html#GByteArray"
+>GByteArray</a>*   <a class="link" href="NMSettingWireless.html#nm-setting-wireless-get-ssid">nm_setting_wireless_get_ssid</a>        (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);
+const char*         <a class="link" href="NMSettingWireless.html#nm-setting-wireless-get-mode">nm_setting_wireless_get_mode</a>        (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);
+const char*         <a class="link" href="NMSettingWireless.html#nm-setting-wireless-get-band">nm_setting_wireless_get_band</a>        (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             <a class="link" href="NMSettingWireless.html#nm-setting-wireless-get-channel">nm_setting_wireless_get_channel</a>     (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);
+const <a
+href="/usr/share/gtk-doc/html/glib/glib-Byte-Arrays.html#GByteArray"
+>GByteArray</a>*   <a class="link" href="NMSettingWireless.html#nm-setting-wireless-get-bssid">nm_setting_wireless_get_bssid</a>       (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             <a class="link" href="NMSettingWireless.html#nm-setting-wireless-get-rate">nm_setting_wireless_get_rate</a>        (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             <a class="link" href="NMSettingWireless.html#nm-setting-wireless-get-tx-power">nm_setting_wireless_get_tx_power</a>    (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);
+const <a
+href="/usr/share/gtk-doc/html/glib/glib-Byte-Arrays.html#GByteArray"
+>GByteArray</a>*   <a class="link" href="NMSettingWireless.html#nm-setting-wireless-get-mac-address">nm_setting_wireless_get_mac_address</a> (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             <a class="link" href="NMSettingWireless.html#nm-setting-wireless-get-mtu">nm_setting_wireless_get_mtu</a>         (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);
+const char*         <a class="link" href="NMSettingWireless.html#nm-setting-wireless-get-security">nm_setting_wireless_get_security</a>    (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMSettingWireless.html#nm-setting-wireless-add-seen-bssid">nm_setting_wireless_add_seen_bssid</a>  (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting,
+                                                         const char *bssid);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             <a class="link" href="NMSettingWireless.html#nm-setting-wireless-get-num-seen-bssids">nm_setting_wireless_get_num_seen_bssids</a>
+                                                        (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);
+const char*         <a class="link" href="NMSettingWireless.html#nm-setting-wireless-get-seen-bssid">nm_setting_wireless_get_seen_bssid</a>  (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a> i);
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMSettingWireless.html#nm-setting-wireless-ap-security-compatible">nm_setting_wireless_ap_security_compatible</a>
+                                                        (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *s_wireless,
+                                                         <a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *s_wireless_sec,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a> ap_flags,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a> ap_wpa,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a> ap_rsn,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a> ap_mode);
+
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2728211"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+
+  <a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
+   +----<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>
+         +----NMSettingWireless
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2728242"></a><h2>Properties</h2>
+<pre class="synopsis">
+
+  "<a class="link" href="NMSettingWireless.html#NMSettingWireless--band">band</a>"                     <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write
+  "<a class="link" href="NMSettingWireless.html#NMSettingWireless--channel">channel</a>"                  <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct
+  "<a class="link" href="NMSettingWireless.html#NMSettingWireless--mode">mode</a>"                     <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write
+  "<a class="link" href="NMSettingWireless.html#NMSettingWireless--mtu">mtu</a>"                      <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct
+  "<a class="link" href="NMSettingWireless.html#NMSettingWireless--rate">rate</a>"                     <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct
+  "<a class="link" href="NMSettingWireless.html#NMSettingWireless--security">security</a>"                 <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write
+  "<a class="link" href="NMSettingWireless.html#NMSettingWireless--tx-power">tx-power</a>"                 <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2728345"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2728361"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2728372"></a><h3>
+<a name="NM-SETTING-WIRELESS-SETTING-NAME:CAPS"></a>NM_SETTING_WIRELESS_SETTING_NAME</h3>
+<a class="indexterm" name="id2728384"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SETTING_NAME "802-11-wireless"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2728400"></a><h3>
+<a name="NMSettingWirelessError"></a>enum NMSettingWirelessError</h3>
+<a class="indexterm" name="id2728412"></a><pre class="programlisting">typedef enum
+{
+	NM_SETTING_WIRELESS_ERROR_UNKNOWN = 0,
+	NM_SETTING_WIRELESS_ERROR_INVALID_PROPERTY,
+	NM_SETTING_WIRELESS_ERROR_MISSING_PROPERTY,
+	NM_SETTING_WIRELESS_ERROR_MISSING_SECURITY_SETTING,
+	NM_SETTING_WIRELESS_ERROR_CHANNEL_REQUIRES_BAND
+} NMSettingWirelessError;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2728431"></a><h3>
+<a name="NM-TYPE-SETTING-WIRELESS-ERROR:CAPS"></a>NM_TYPE_SETTING_WIRELESS_ERROR</h3>
+<a class="indexterm" name="id2728445"></a><pre class="programlisting">#define NM_TYPE_SETTING_WIRELESS_ERROR (nm_setting_wireless_error_get_type ()) 
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2728462"></a><h3>
+<a name="NM-SETTING-WIRELESS-ERROR:CAPS"></a>NM_SETTING_WIRELESS_ERROR</h3>
+<a class="indexterm" name="id2728475"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_ERROR nm_setting_wireless_error_quark ()
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2728491"></a><h3>
+<a name="nm-setting-wireless-error-quark"></a>nm_setting_wireless_error_quark ()</h3>
+<a class="indexterm" name="id2728504"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+>GQuark</a>              nm_setting_wireless_error_quark     (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2734517"></a><h3>
+<a name="NM-SETTING-WIRELESS-SSID:CAPS"></a>NM_SETTING_WIRELESS_SSID</h3>
+<a class="indexterm" name="id2734527"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SSID        "ssid"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2734542"></a><h3>
+<a name="NM-SETTING-WIRELESS-MODE:CAPS"></a>NM_SETTING_WIRELESS_MODE</h3>
+<a class="indexterm" name="id2734552"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_MODE        "mode"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2734566"></a><h3>
+<a name="NM-SETTING-WIRELESS-BAND:CAPS"></a>NM_SETTING_WIRELESS_BAND</h3>
+<a class="indexterm" name="id2734578"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_BAND        "band"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2734592"></a><h3>
+<a name="NM-SETTING-WIRELESS-CHANNEL:CAPS"></a>NM_SETTING_WIRELESS_CHANNEL</h3>
+<a class="indexterm" name="id2734604"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_CHANNEL     "channel"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2734619"></a><h3>
+<a name="NM-SETTING-WIRELESS-BSSID:CAPS"></a>NM_SETTING_WIRELESS_BSSID</h3>
+<a class="indexterm" name="id2734631"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_BSSID       "bssid"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2734645"></a><h3>
+<a name="NM-SETTING-WIRELESS-RATE:CAPS"></a>NM_SETTING_WIRELESS_RATE</h3>
+<a class="indexterm" name="id2734657"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_RATE        "rate"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2734672"></a><h3>
+<a name="NM-SETTING-WIRELESS-TX-POWER:CAPS"></a>NM_SETTING_WIRELESS_TX_POWER</h3>
+<a class="indexterm" name="id2734683"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_TX_POWER    "tx-power"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2734698"></a><h3>
+<a name="NM-SETTING-WIRELESS-MAC-ADDRESS:CAPS"></a>NM_SETTING_WIRELESS_MAC_ADDRESS</h3>
+<a class="indexterm" name="id2734710"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_MAC_ADDRESS "mac-address"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2734725"></a><h3>
+<a name="NM-SETTING-WIRELESS-MTU:CAPS"></a>NM_SETTING_WIRELESS_MTU</h3>
+<a class="indexterm" name="id2734737"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_MTU         "mtu"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2734752"></a><h3>
+<a name="NM-SETTING-WIRELESS-SEEN-BSSIDS:CAPS"></a>NM_SETTING_WIRELESS_SEEN_BSSIDS</h3>
+<a class="indexterm" name="id2734763"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SEEN_BSSIDS "seen-bssids"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2734778"></a><h3>
+<a name="NM-SETTING-WIRELESS-SEC:CAPS"></a>NM_SETTING_WIRELESS_SEC</h3>
+<a class="indexterm" name="id2734791"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SEC         "security"
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2734805"></a><h3>
+<a name="NMSettingWireless-struct"></a>NMSettingWireless</h3>
+<a class="indexterm" name="id2734816"></a><pre class="programlisting">typedef struct _NMSettingWireless NMSettingWireless;</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2734830"></a><h3>
+<a name="nm-setting-wireless-get-type"></a>nm_setting_wireless_get_type ()</h3>
+<a class="indexterm" name="id2734842"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+>GType</a>               nm_setting_wireless_get_type        (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2734875"></a><h3>
+<a name="nm-setting-wireless-new"></a>nm_setting_wireless_new ()</h3>
+<a class="indexterm" name="id2734886"></a><pre class="programlisting"><a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          nm_setting_wireless_new             (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2734918"></a><h3>
+<a name="nm-setting-wireless-get-ssid"></a>nm_setting_wireless_get_ssid ()</h3>
+<a class="indexterm" name="id2734931"></a><pre class="programlisting">const <a
+href="/usr/share/gtk-doc/html/glib/glib-Byte-Arrays.html#GByteArray"
+>GByteArray</a>*   nm_setting_wireless_get_ssid        (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2734982"></a><h3>
+<a name="nm-setting-wireless-get-mode"></a>nm_setting_wireless_get_mode ()</h3>
+<a class="indexterm" name="id2734994"></a><pre class="programlisting">const char*         nm_setting_wireless_get_mode        (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2735046"></a><h3>
+<a name="nm-setting-wireless-get-band"></a>nm_setting_wireless_get_band ()</h3>
+<a class="indexterm" name="id2735058"></a><pre class="programlisting">const char*         nm_setting_wireless_get_band        (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2735110"></a><h3>
+<a name="nm-setting-wireless-get-channel"></a>nm_setting_wireless_get_channel ()</h3>
+<a class="indexterm" name="id2735123"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_setting_wireless_get_channel     (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2735174"></a><h3>
+<a name="nm-setting-wireless-get-bssid"></a>nm_setting_wireless_get_bssid ()</h3>
+<a class="indexterm" name="id2735186"></a><pre class="programlisting">const <a
+href="/usr/share/gtk-doc/html/glib/glib-Byte-Arrays.html#GByteArray"
+>GByteArray</a>*   nm_setting_wireless_get_bssid       (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2735238"></a><h3>
+<a name="nm-setting-wireless-get-rate"></a>nm_setting_wireless_get_rate ()</h3>
+<a class="indexterm" name="id2735250"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_setting_wireless_get_rate        (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2735301"></a><h3>
+<a name="nm-setting-wireless-get-tx-power"></a>nm_setting_wireless_get_tx_power ()</h3>
+<a class="indexterm" name="id2735314"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_setting_wireless_get_tx_power    (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2735365"></a><h3>
+<a name="nm-setting-wireless-get-mac-address"></a>nm_setting_wireless_get_mac_address ()</h3>
+<a class="indexterm" name="id2735378"></a><pre class="programlisting">const <a
+href="/usr/share/gtk-doc/html/glib/glib-Byte-Arrays.html#GByteArray"
+>GByteArray</a>*   nm_setting_wireless_get_mac_address (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2735429"></a><h3>
+<a name="nm-setting-wireless-get-mtu"></a>nm_setting_wireless_get_mtu ()</h3>
+<a class="indexterm" name="id2735440"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_setting_wireless_get_mtu         (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2735490"></a><h3>
+<a name="nm-setting-wireless-get-security"></a>nm_setting_wireless_get_security ()</h3>
+<a class="indexterm" name="id2735503"></a><pre class="programlisting">const char*         nm_setting_wireless_get_security    (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2735555"></a><h3>
+<a name="nm-setting-wireless-add-seen-bssid"></a>nm_setting_wireless_add_seen_bssid ()</h3>
+<a class="indexterm" name="id2735568"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_wireless_add_seen_bssid  (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting,
+                                                         const char *bssid);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>bssid</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2735638"></a><h3>
+<a name="nm-setting-wireless-get-num-seen-bssids"></a>nm_setting_wireless_get_num_seen_bssids ()</h3>
+<a class="indexterm" name="id2735650"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_setting_wireless_get_num_seen_bssids
+                                                        (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2735702"></a><h3>
+<a name="nm-setting-wireless-get-seen-bssid"></a>nm_setting_wireless_get_seen_bssid ()</h3>
+<a class="indexterm" name="id2735716"></a><pre class="programlisting">const char*         nm_setting_wireless_get_seen_bssid  (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *setting,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a> i);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>i</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2735786"></a><h3>
+<a name="nm-setting-wireless-ap-security-compatible"></a>nm_setting_wireless_ap_security_compatible ()</h3>
+<a class="indexterm" name="id2735800"></a><pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_wireless_ap_security_compatible
+                                                        (<a class="link" href="NMSettingWireless.html" title="NMSettingWireless">NMSettingWireless</a> *s_wireless,
+                                                         <a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *s_wireless_sec,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a> ap_flags,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a> ap_wpa,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a> ap_rsn,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+>guint32</a> ap_mode);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s_wireless</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s_wireless_sec</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ap_flags</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ap_wpa</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ap_rsn</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ap_mode</code></em>&#160;:</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2735948"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="id2735957"></a><h3>
+<a name="NMSettingWireless--band"></a>The <code class="literal">"band"</code> property</h3>
+<a class="indexterm" name="id2735970"></a><pre class="programlisting">  "band"                     <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write</pre>
+<p>Band.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2735993"></a><h3>
+<a name="NMSettingWireless--channel"></a>The <code class="literal">"channel"</code> property</h3>
+<a class="indexterm" name="id2736005"></a><pre class="programlisting">  "channel"                  <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct</pre>
+<p>Channel.</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2736029"></a><h3>
+<a name="NMSettingWireless--mode"></a>The <code class="literal">"mode"</code> property</h3>
+<a class="indexterm" name="id2736041"></a><pre class="programlisting">  "mode"                     <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write</pre>
+<p>Mode.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2736064"></a><h3>
+<a name="NMSettingWireless--mtu"></a>The <code class="literal">"mtu"</code> property</h3>
+<a class="indexterm" name="id2736076"></a><pre class="programlisting">  "mtu"                      <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct</pre>
+<p>MTU.</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2736100"></a><h3>
+<a name="NMSettingWireless--rate"></a>The <code class="literal">"rate"</code> property</h3>
+<a class="indexterm" name="id2736112"></a><pre class="programlisting">  "rate"                     <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct</pre>
+<p>Rate.</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2736136"></a><h3>
+<a name="NMSettingWireless--security"></a>The <code class="literal">"security"</code> property</h3>
+<a class="indexterm" name="id2736148"></a><pre class="programlisting">  "security"                 <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
+>gchararray</a>            : Read / Write</pre>
+<p>Security.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2736171"></a><h3>
+<a name="NMSettingWireless--tx-power"></a>The <code class="literal">"tx-power"</code> property</h3>
+<a class="indexterm" name="id2736184"></a><pre class="programlisting">  "tx-power"                 <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct</pre>
+<p>TX Power.</p>
+<p>Default value: 0</p>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="id2736208"></a><div class="refsect2" lang="en"><a name="id2736209"></a></div>
+<hr>
+<div class="refsect2" lang="en"><a name="id2736210"></a></div>
+</div>
+</div>
+</body>
+</html>

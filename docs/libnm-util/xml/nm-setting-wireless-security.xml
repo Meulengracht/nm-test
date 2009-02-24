@@ -1,0 +1,753 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="NMSettingWirelessSecurity">
+<refmeta>
+<refentrytitle role="top_of_page">NMSettingWirelessSecurity</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNM-UTIL Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>NMSettingWirelessSecurity</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+
+
+#define             <link linkend="NM-SETTING-WIRELESS-SECURITY-SETTING-NAME:CAPS">NM_SETTING_WIRELESS_SECURITY_SETTING_NAME</link>
+enum                <link linkend="NMSettingWirelessSecurityError">NMSettingWirelessSecurityError</link>;
+#define             <link linkend="NM-TYPE-SETTING-WIRELESS-SECURITY-ERROR:CAPS">NM_TYPE_SETTING_WIRELESS_SECURITY_ERROR</link>
+#define             <link linkend="NM-SETTING-WIRELESS-SECURITY-ERROR:CAPS">NM_SETTING_WIRELESS_SECURITY_ERROR</link>
+<link linkend="GQuark">GQuark</link>              <link linkend="nm-setting-wireless-security-error-quark">nm_setting_wireless_security_error_quark</link>
+                                                        (void);
+#define             <link linkend="NM-SETTING-WIRELESS-SECURITY-KEY-MGMT:CAPS">NM_SETTING_WIRELESS_SECURITY_KEY_MGMT</link>
+#define             <link linkend="NM-SETTING-WIRELESS-SECURITY-WEP-TX-KEYIDX:CAPS">NM_SETTING_WIRELESS_SECURITY_WEP_TX_KEYIDX</link>
+#define             <link linkend="NM-SETTING-WIRELESS-SECURITY-AUTH-ALG:CAPS">NM_SETTING_WIRELESS_SECURITY_AUTH_ALG</link>
+#define             <link linkend="NM-SETTING-WIRELESS-SECURITY-PROTO:CAPS">NM_SETTING_WIRELESS_SECURITY_PROTO</link>
+#define             <link linkend="NM-SETTING-WIRELESS-SECURITY-PAIRWISE:CAPS">NM_SETTING_WIRELESS_SECURITY_PAIRWISE</link>
+#define             <link linkend="NM-SETTING-WIRELESS-SECURITY-GROUP:CAPS">NM_SETTING_WIRELESS_SECURITY_GROUP</link>
+#define             <link linkend="NM-SETTING-WIRELESS-SECURITY-LEAP-USERNAME:CAPS">NM_SETTING_WIRELESS_SECURITY_LEAP_USERNAME</link>
+#define             <link linkend="NM-SETTING-WIRELESS-SECURITY-WEP-KEY0:CAPS">NM_SETTING_WIRELESS_SECURITY_WEP_KEY0</link>
+#define             <link linkend="NM-SETTING-WIRELESS-SECURITY-WEP-KEY1:CAPS">NM_SETTING_WIRELESS_SECURITY_WEP_KEY1</link>
+#define             <link linkend="NM-SETTING-WIRELESS-SECURITY-WEP-KEY2:CAPS">NM_SETTING_WIRELESS_SECURITY_WEP_KEY2</link>
+#define             <link linkend="NM-SETTING-WIRELESS-SECURITY-WEP-KEY3:CAPS">NM_SETTING_WIRELESS_SECURITY_WEP_KEY3</link>
+#define             <link linkend="NM-SETTING-WIRELESS-SECURITY-PSK:CAPS">NM_SETTING_WIRELESS_SECURITY_PSK</link>
+#define             <link linkend="NM-SETTING-WIRELESS-SECURITY-LEAP-PASSWORD:CAPS">NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD</link>
+                    <link linkend="NMSettingWirelessSecurity-struct">NMSettingWirelessSecurity</link>;
+<link linkend="GType">GType</link>               <link linkend="nm-setting-wireless-security-get-type">nm_setting_wireless_security_get_type</link>
+                                                        (void);
+<link linkend="NMSetting">NMSetting</link>*          <link linkend="nm-setting-wireless-security-new">nm_setting_wireless_security_new</link>    (void);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-wireless-security-get-key-mgmt">nm_setting_wireless_security_get_key_mgmt</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);
+<link linkend="guint32">guint32</link>             <link linkend="nm-setting-wireless-security-get-num-protos">nm_setting_wireless_security_get_num_protos</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-wireless-security-get-proto">nm_setting_wireless_security_get_proto</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-wireless-security-add-proto">nm_setting_wireless_security_add_proto</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         const <link linkend="char">char</link> *proto);
+<link linkend="void">void</link>                <link linkend="nm-setting-wireless-security-remove-proto">nm_setting_wireless_security_remove_proto</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);
+<link linkend="void">void</link>                <link linkend="nm-setting-wireless-security-clear-protos">nm_setting_wireless_security_clear_protos</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);
+<link linkend="guint32">guint32</link>             <link linkend="nm-setting-wireless-security-get-num-pairwise">nm_setting_wireless_security_get_num_pairwise</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-wireless-security-get-pairwise">nm_setting_wireless_security_get_pairwise</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-wireless-security-add-pairwise">nm_setting_wireless_security_add_pairwise</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         const <link linkend="char">char</link> *pairwise);
+<link linkend="void">void</link>                <link linkend="nm-setting-wireless-security-remove-pairwise">nm_setting_wireless_security_remove_pairwise</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);
+<link linkend="void">void</link>                <link linkend="nm-setting-wireless-security-clear-pairwise">nm_setting_wireless_security_clear_pairwise</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);
+<link linkend="guint32">guint32</link>             <link linkend="nm-setting-wireless-security-get-num-groups">nm_setting_wireless_security_get_num_groups</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-wireless-security-get-group">nm_setting_wireless_security_get_group</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-wireless-security-add-group">nm_setting_wireless_security_add_group</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         const <link linkend="char">char</link> *group);
+<link linkend="void">void</link>                <link linkend="nm-setting-wireless-security-remove-group">nm_setting_wireless_security_remove_group</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);
+<link linkend="void">void</link>                <link linkend="nm-setting-wireless-security-clear-groups">nm_setting_wireless_security_clear_groups</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-wireless-security-get-psk">nm_setting_wireless_security_get_psk</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-wireless-security-get-leap-username">nm_setting_wireless_security_get_leap_username</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-wireless-security-get-leap-password">nm_setting_wireless_security_get_leap_password</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-wireless-security-get-wep-key">nm_setting_wireless_security_get_wep_key</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         <link linkend="guint32">guint32</link> idx);
+<link linkend="void">void</link>                <link linkend="nm-setting-wireless-security-set-wep-key">nm_setting_wireless_security_set_wep_key</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         <link linkend="guint32">guint32</link> idx,
+                                                         const <link linkend="char">char</link> *key);
+<link linkend="guint32">guint32</link>             <link linkend="nm-setting-wireless-security-get-wep-tx-keyidx">nm_setting_wireless_security_get_wep_tx_keyidx</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);
+const <link linkend="char">char</link>*         <link linkend="nm-setting-wireless-security-get-auth-alg">nm_setting_wireless_security_get_auth_alg</link>
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+
+  <link linkend="GObject">GObject</link>
+   +----<link linkend="NMSetting">NMSetting</link>
+         +----NMSettingWirelessSecurity
+</synopsis>
+
+</refsect1>
+
+
+
+
+
+<refsect1 role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+
+  &quot;<link linkend="NMSettingWirelessSecurity--auth-alg">auth-alg</link>&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingWirelessSecurity--key-mgmt">key-mgmt</link>&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingWirelessSecurity--leap-password">leap-password</link>&quot;            <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingWirelessSecurity--leap-username">leap-username</link>&quot;            <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingWirelessSecurity--psk">psk</link>&quot;                      <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingWirelessSecurity--wep-key0">wep-key0</link>&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingWirelessSecurity--wep-key1">wep-key1</link>&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingWirelessSecurity--wep-key2">wep-key2</link>&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingWirelessSecurity--wep-key3">wep-key3</link>&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingWirelessSecurity--wep-tx-keyidx">wep-tx-keyidx</link>&quot;            <link linkend="guint">guint</link>                 : Read / Write / Construct
+</synopsis>
+</refsect1>
+
+
+
+<refsect1 role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 role="details">
+<title role="details.title">Details</title>
+<refsect2>
+<title><anchor id="NM-SETTING-WIRELESS-SECURITY-SETTING-NAME:CAPS" role="macro"/>NM_SETTING_WIRELESS_SECURITY_SETTING_NAME</title>
+<indexterm><primary>NM_SETTING_WIRELESS_SECURITY_SETTING_NAME</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SECURITY_SETTING_NAME "802-11-wireless-security"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMSettingWirelessSecurityError" role="enum"/>enum NMSettingWirelessSecurityError</title>
+<indexterm><primary>NMSettingWirelessSecurityError</primary></indexterm><programlisting>typedef enum
+{
+	NM_SETTING_WIRELESS_SECURITY_ERROR_UNKNOWN = 0,
+	NM_SETTING_WIRELESS_SECURITY_ERROR_INVALID_PROPERTY,
+	NM_SETTING_WIRELESS_SECURITY_ERROR_MISSING_PROPERTY,
+	NM_SETTING_WIRELESS_SECURITY_ERROR_MISSING_802_1X_SETTING,
+	NM_SETTING_WIRELESS_SECURITY_ERROR_LEAP_REQUIRES_802_1X,
+	NM_SETTING_WIRELESS_SECURITY_ERROR_LEAP_REQUIRES_USERNAME,
+	NM_SETTING_WIRELESS_SECURITY_ERROR_SHARED_KEY_REQUIRES_WEP
+} NMSettingWirelessSecurityError;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-TYPE-SETTING-WIRELESS-SECURITY-ERROR:CAPS" role="macro"/>NM_TYPE_SETTING_WIRELESS_SECURITY_ERROR</title>
+<indexterm><primary>NM_TYPE_SETTING_WIRELESS_SECURITY_ERROR</primary></indexterm><programlisting>#define NM_TYPE_SETTING_WIRELESS_SECURITY_ERROR (nm_setting_wireless_security_error_get_type ()) 
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-WIRELESS-SECURITY-ERROR:CAPS" role="macro"/>NM_SETTING_WIRELESS_SECURITY_ERROR</title>
+<indexterm><primary>NM_SETTING_WIRELESS_SECURITY_ERROR</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SECURITY_ERROR nm_setting_wireless_security_error_quark ()
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-error-quark" role="function"/>nm_setting_wireless_security_error_quark ()</title>
+<indexterm><primary>nm_setting_wireless_security_error_quark</primary></indexterm><programlisting><link linkend="GQuark">GQuark</link>              nm_setting_wireless_security_error_quark
+                                                        (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-WIRELESS-SECURITY-KEY-MGMT:CAPS" role="macro"/>NM_SETTING_WIRELESS_SECURITY_KEY_MGMT</title>
+<indexterm><primary>NM_SETTING_WIRELESS_SECURITY_KEY_MGMT</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SECURITY_KEY_MGMT "key-mgmt"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-WIRELESS-SECURITY-WEP-TX-KEYIDX:CAPS" role="macro"/>NM_SETTING_WIRELESS_SECURITY_WEP_TX_KEYIDX</title>
+<indexterm><primary>NM_SETTING_WIRELESS_SECURITY_WEP_TX_KEYIDX</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SECURITY_WEP_TX_KEYIDX "wep-tx-keyidx"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-WIRELESS-SECURITY-AUTH-ALG:CAPS" role="macro"/>NM_SETTING_WIRELESS_SECURITY_AUTH_ALG</title>
+<indexterm><primary>NM_SETTING_WIRELESS_SECURITY_AUTH_ALG</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SECURITY_AUTH_ALG "auth-alg"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-WIRELESS-SECURITY-PROTO:CAPS" role="macro"/>NM_SETTING_WIRELESS_SECURITY_PROTO</title>
+<indexterm><primary>NM_SETTING_WIRELESS_SECURITY_PROTO</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SECURITY_PROTO "proto"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-WIRELESS-SECURITY-PAIRWISE:CAPS" role="macro"/>NM_SETTING_WIRELESS_SECURITY_PAIRWISE</title>
+<indexterm><primary>NM_SETTING_WIRELESS_SECURITY_PAIRWISE</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SECURITY_PAIRWISE "pairwise"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-WIRELESS-SECURITY-GROUP:CAPS" role="macro"/>NM_SETTING_WIRELESS_SECURITY_GROUP</title>
+<indexterm><primary>NM_SETTING_WIRELESS_SECURITY_GROUP</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SECURITY_GROUP "group"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-WIRELESS-SECURITY-LEAP-USERNAME:CAPS" role="macro"/>NM_SETTING_WIRELESS_SECURITY_LEAP_USERNAME</title>
+<indexterm><primary>NM_SETTING_WIRELESS_SECURITY_LEAP_USERNAME</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SECURITY_LEAP_USERNAME "leap-username"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-WIRELESS-SECURITY-WEP-KEY0:CAPS" role="macro"/>NM_SETTING_WIRELESS_SECURITY_WEP_KEY0</title>
+<indexterm><primary>NM_SETTING_WIRELESS_SECURITY_WEP_KEY0</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SECURITY_WEP_KEY0 "wep-key0"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-WIRELESS-SECURITY-WEP-KEY1:CAPS" role="macro"/>NM_SETTING_WIRELESS_SECURITY_WEP_KEY1</title>
+<indexterm><primary>NM_SETTING_WIRELESS_SECURITY_WEP_KEY1</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SECURITY_WEP_KEY1 "wep-key1"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-WIRELESS-SECURITY-WEP-KEY2:CAPS" role="macro"/>NM_SETTING_WIRELESS_SECURITY_WEP_KEY2</title>
+<indexterm><primary>NM_SETTING_WIRELESS_SECURITY_WEP_KEY2</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SECURITY_WEP_KEY2 "wep-key2"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-WIRELESS-SECURITY-WEP-KEY3:CAPS" role="macro"/>NM_SETTING_WIRELESS_SECURITY_WEP_KEY3</title>
+<indexterm><primary>NM_SETTING_WIRELESS_SECURITY_WEP_KEY3</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SECURITY_WEP_KEY3 "wep-key3"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-WIRELESS-SECURITY-PSK:CAPS" role="macro"/>NM_SETTING_WIRELESS_SECURITY_PSK</title>
+<indexterm><primary>NM_SETTING_WIRELESS_SECURITY_PSK</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SECURITY_PSK "psk"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-SETTING-WIRELESS-SECURITY-LEAP-PASSWORD:CAPS" role="macro"/>NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD</title>
+<indexterm><primary>NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD "leap-password"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMSettingWirelessSecurity-struct" role="struct"/>NMSettingWirelessSecurity</title>
+<indexterm><primary>NMSettingWirelessSecurity</primary></indexterm><programlisting>typedef struct _NMSettingWirelessSecurity NMSettingWirelessSecurity;</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-get-type" role="function"/>nm_setting_wireless_security_get_type ()</title>
+<indexterm><primary>nm_setting_wireless_security_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_setting_wireless_security_get_type
+                                                        (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-new" role="function"/>nm_setting_wireless_security_new ()</title>
+<indexterm><primary>nm_setting_wireless_security_new</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link>*          nm_setting_wireless_security_new    (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-get-key-mgmt" role="function"/>nm_setting_wireless_security_get_key_mgmt ()</title>
+<indexterm><primary>nm_setting_wireless_security_get_key_mgmt</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_wireless_security_get_key_mgmt
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-get-num-protos" role="function"/>nm_setting_wireless_security_get_num_protos ()</title>
+<indexterm><primary>nm_setting_wireless_security_get_num_protos</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_wireless_security_get_num_protos
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-get-proto" role="function"/>nm_setting_wireless_security_get_proto ()</title>
+<indexterm><primary>nm_setting_wireless_security_get_proto</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_wireless_security_get_proto
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-add-proto" role="function"/>nm_setting_wireless_security_add_proto ()</title>
+<indexterm><primary>nm_setting_wireless_security_add_proto</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_wireless_security_add_proto
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         const <link linkend="char">char</link> *proto);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>proto</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-remove-proto" role="function"/>nm_setting_wireless_security_remove_proto ()</title>
+<indexterm><primary>nm_setting_wireless_security_remove_proto</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_wireless_security_remove_proto
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-clear-protos" role="function"/>nm_setting_wireless_security_clear_protos ()</title>
+<indexterm><primary>nm_setting_wireless_security_clear_protos</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_wireless_security_clear_protos
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-get-num-pairwise" role="function"/>nm_setting_wireless_security_get_num_pairwise ()</title>
+<indexterm><primary>nm_setting_wireless_security_get_num_pairwise</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_wireless_security_get_num_pairwise
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-get-pairwise" role="function"/>nm_setting_wireless_security_get_pairwise ()</title>
+<indexterm><primary>nm_setting_wireless_security_get_pairwise</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_wireless_security_get_pairwise
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-add-pairwise" role="function"/>nm_setting_wireless_security_add_pairwise ()</title>
+<indexterm><primary>nm_setting_wireless_security_add_pairwise</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_wireless_security_add_pairwise
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         const <link linkend="char">char</link> *pairwise);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>pairwise</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-remove-pairwise" role="function"/>nm_setting_wireless_security_remove_pairwise ()</title>
+<indexterm><primary>nm_setting_wireless_security_remove_pairwise</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_wireless_security_remove_pairwise
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-clear-pairwise" role="function"/>nm_setting_wireless_security_clear_pairwise ()</title>
+<indexterm><primary>nm_setting_wireless_security_clear_pairwise</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_wireless_security_clear_pairwise
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-get-num-groups" role="function"/>nm_setting_wireless_security_get_num_groups ()</title>
+<indexterm><primary>nm_setting_wireless_security_get_num_groups</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_wireless_security_get_num_groups
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-get-group" role="function"/>nm_setting_wireless_security_get_group ()</title>
+<indexterm><primary>nm_setting_wireless_security_get_group</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_wireless_security_get_group
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-add-group" role="function"/>nm_setting_wireless_security_add_group ()</title>
+<indexterm><primary>nm_setting_wireless_security_add_group</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_wireless_security_add_group
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         const <link linkend="char">char</link> *group);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>group</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-remove-group" role="function"/>nm_setting_wireless_security_remove_group ()</title>
+<indexterm><primary>nm_setting_wireless_security_remove_group</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_wireless_security_remove_group
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-clear-groups" role="function"/>nm_setting_wireless_security_clear_groups ()</title>
+<indexterm><primary>nm_setting_wireless_security_clear_groups</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_wireless_security_clear_groups
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-get-psk" role="function"/>nm_setting_wireless_security_get_psk ()</title>
+<indexterm><primary>nm_setting_wireless_security_get_psk</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_wireless_security_get_psk
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-get-leap-username" role="function"/>nm_setting_wireless_security_get_leap_username ()</title>
+<indexterm><primary>nm_setting_wireless_security_get_leap_username</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_wireless_security_get_leap_username
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-get-leap-password" role="function"/>nm_setting_wireless_security_get_leap_password ()</title>
+<indexterm><primary>nm_setting_wireless_security_get_leap_password</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_wireless_security_get_leap_password
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-get-wep-key" role="function"/>nm_setting_wireless_security_get_wep_key ()</title>
+<indexterm><primary>nm_setting_wireless_security_get_wep_key</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_wireless_security_get_wep_key
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         <link linkend="guint32">guint32</link> idx);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>idx</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-set-wep-key" role="function"/>nm_setting_wireless_security_set_wep_key ()</title>
+<indexterm><primary>nm_setting_wireless_security_set_wep_key</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_wireless_security_set_wep_key
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting,
+                                                         <link linkend="guint32">guint32</link> idx,
+                                                         const <link linkend="char">char</link> *key);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>idx</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>key</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-get-wep-tx-keyidx" role="function"/>nm_setting_wireless_security_get_wep_tx_keyidx ()</title>
+<indexterm><primary>nm_setting_wireless_security_get_wep_tx_keyidx</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_wireless_security_get_wep_tx_keyidx
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-setting-wireless-security-get-auth-alg" role="function"/>nm_setting_wireless_security_get_auth_alg ()</title>
+<indexterm><primary>nm_setting_wireless_security_get_auth_alg</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_wireless_security_get_auth_alg
+                                                        (<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *setting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+<refsect1 role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2><title><anchor id="NMSettingWirelessSecurity--auth-alg"/>The <literal>&quot;auth-alg&quot;</literal> property</title>
+<indexterm><primary>NMSettingWirelessSecurity:auth-alg</primary></indexterm><programlisting>  &quot;auth-alg&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>AuthAlg.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingWirelessSecurity--key-mgmt"/>The <literal>&quot;key-mgmt&quot;</literal> property</title>
+<indexterm><primary>NMSettingWirelessSecurity:key-mgmt</primary></indexterm><programlisting>  &quot;key-mgmt&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>Key management.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingWirelessSecurity--leap-password"/>The <literal>&quot;leap-password&quot;</literal> property</title>
+<indexterm><primary>NMSettingWirelessSecurity:leap-password</primary></indexterm><programlisting>  &quot;leap-password&quot;            <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>LEAP Password.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingWirelessSecurity--leap-username"/>The <literal>&quot;leap-username&quot;</literal> property</title>
+<indexterm><primary>NMSettingWirelessSecurity:leap-username</primary></indexterm><programlisting>  &quot;leap-username&quot;            <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>LEAP Username.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingWirelessSecurity--psk"/>The <literal>&quot;psk&quot;</literal> property</title>
+<indexterm><primary>NMSettingWirelessSecurity:psk</primary></indexterm><programlisting>  &quot;psk&quot;                      <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>PSK.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingWirelessSecurity--wep-key0"/>The <literal>&quot;wep-key0&quot;</literal> property</title>
+<indexterm><primary>NMSettingWirelessSecurity:wep-key0</primary></indexterm><programlisting>  &quot;wep-key0&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>WEP key0.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingWirelessSecurity--wep-key1"/>The <literal>&quot;wep-key1&quot;</literal> property</title>
+<indexterm><primary>NMSettingWirelessSecurity:wep-key1</primary></indexterm><programlisting>  &quot;wep-key1&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>WEP key1.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingWirelessSecurity--wep-key2"/>The <literal>&quot;wep-key2&quot;</literal> property</title>
+<indexterm><primary>NMSettingWirelessSecurity:wep-key2</primary></indexterm><programlisting>  &quot;wep-key2&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>WEP key2.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingWirelessSecurity--wep-key3"/>The <literal>&quot;wep-key3&quot;</literal> property</title>
+<indexterm><primary>NMSettingWirelessSecurity:wep-key3</primary></indexterm><programlisting>  &quot;wep-key3&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<para>WEP key3.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMSettingWirelessSecurity--wep-tx-keyidx"/>The <literal>&quot;wep-tx-keyidx&quot;</literal> property</title>
+<indexterm><primary>NMSettingWirelessSecurity:wep-tx-keyidx</primary></indexterm><programlisting>  &quot;wep-tx-keyidx&quot;            <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
+<para>WEP TX key index.</para><para>Allowed values: &lt;= 3</para>
+<para>Default value: 0</para>
+</refsect2>
+
+</refsect1>
+
+
+
+
+
+<refsect1><refsect2 /><refsect2 /></refsect1>
+</refentry>

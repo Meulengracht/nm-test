@@ -1,0 +1,392 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="NMAccessPoint">
+<refmeta>
+<refentrytitle role="top_of_page">NMAccessPoint</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNM-GLIB Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>NMAccessPoint</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+
+
+#define             <link linkend="NM-ACCESS-POINT-FLAGS:CAPS">NM_ACCESS_POINT_FLAGS</link>
+#define             <link linkend="NM-ACCESS-POINT-WPA-FLAGS:CAPS">NM_ACCESS_POINT_WPA_FLAGS</link>
+#define             <link linkend="NM-ACCESS-POINT-RSN-FLAGS:CAPS">NM_ACCESS_POINT_RSN_FLAGS</link>
+#define             <link linkend="NM-ACCESS-POINT-SSID:CAPS">NM_ACCESS_POINT_SSID</link>
+#define             <link linkend="NM-ACCESS-POINT-FREQUENCY:CAPS">NM_ACCESS_POINT_FREQUENCY</link>
+#define             <link linkend="NM-ACCESS-POINT-HW-ADDRESS:CAPS">NM_ACCESS_POINT_HW_ADDRESS</link>
+#define             <link linkend="NM-ACCESS-POINT-MODE:CAPS">NM_ACCESS_POINT_MODE</link>
+#define             <link linkend="NM-ACCESS-POINT-MAX-BITRATE:CAPS">NM_ACCESS_POINT_MAX_BITRATE</link>
+#define             <link linkend="NM-ACCESS-POINT-STRENGTH:CAPS">NM_ACCESS_POINT_STRENGTH</link>
+                    <link linkend="NMAccessPoint-struct">NMAccessPoint</link>;
+<link linkend="GObject">GObject</link>*            <link linkend="nm-access-point-new">nm_access_point_new</link>                 (<link linkend="DBusGConnection">DBusGConnection</link> *connection,
+                                                         const <link linkend="char">char</link> *path);
+<link linkend="guint32">guint32</link>             <link linkend="nm-access-point-get-flags">nm_access_point_get_flags</link>           (<link linkend="NMAccessPoint">NMAccessPoint</link> *ap);
+<link linkend="guint32">guint32</link>             <link linkend="nm-access-point-get-wpa-flags">nm_access_point_get_wpa_flags</link>       (<link linkend="NMAccessPoint">NMAccessPoint</link> *ap);
+<link linkend="guint32">guint32</link>             <link linkend="nm-access-point-get-rsn-flags">nm_access_point_get_rsn_flags</link>       (<link linkend="NMAccessPoint">NMAccessPoint</link> *ap);
+const <link linkend="GByteArray">GByteArray</link>*   <link linkend="nm-access-point-get-ssid">nm_access_point_get_ssid</link>            (<link linkend="NMAccessPoint">NMAccessPoint</link> *ap);
+<link linkend="guint32">guint32</link>             <link linkend="nm-access-point-get-frequency">nm_access_point_get_frequency</link>       (<link linkend="NMAccessPoint">NMAccessPoint</link> *ap);
+const <link linkend="char">char</link>*         <link linkend="nm-access-point-get-hw-address">nm_access_point_get_hw_address</link>      (<link linkend="NMAccessPoint">NMAccessPoint</link> *ap);
+<link linkend="NM80211Mode">NM80211Mode</link>         <link linkend="nm-access-point-get-mode">nm_access_point_get_mode</link>            (<link linkend="NMAccessPoint">NMAccessPoint</link> *ap);
+<link linkend="guint32">guint32</link>             <link linkend="nm-access-point-get-max-bitrate">nm_access_point_get_max_bitrate</link>     (<link linkend="NMAccessPoint">NMAccessPoint</link> *ap);
+<link linkend="guint8">guint8</link>              <link linkend="nm-access-point-get-strength">nm_access_point_get_strength</link>        (<link linkend="NMAccessPoint">NMAccessPoint</link> *ap);
+
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+
+  <link linkend="GObject">GObject</link>
+   +----<link linkend="NMObject">NMObject</link>
+         +----NMAccessPoint
+</synopsis>
+
+</refsect1>
+
+
+
+
+
+<refsect1 role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+
+  &quot;<link linkend="NMAccessPoint--flags">flags</link>&quot;                    <link linkend="guint">guint</link>                 : Read
+  &quot;<link linkend="NMAccessPoint--frequency">frequency</link>&quot;                <link linkend="guint">guint</link>                 : Read
+  &quot;<link linkend="NMAccessPoint--hw-address">hw-address</link>&quot;               <link linkend="gchararray">gchararray</link>            : Read
+  &quot;<link linkend="NMAccessPoint--max-bitrate">max-bitrate</link>&quot;              <link linkend="guint">guint</link>                 : Read
+  &quot;<link linkend="NMAccessPoint--mode">mode</link>&quot;                     <link linkend="guint">guint</link>                 : Read
+  &quot;<link linkend="NMAccessPoint--rsn-flags">rsn-flags</link>&quot;                <link linkend="guint">guint</link>                 : Read
+  &quot;<link linkend="NMAccessPoint--ssid">ssid</link>&quot;                     <link linkend="nm-ssid">nm-ssid</link>               : Read
+  &quot;<link linkend="NMAccessPoint--strength">strength</link>&quot;                 <link linkend="guchar">guchar</link>                : Read
+  &quot;<link linkend="NMAccessPoint--wpa-flags">wpa-flags</link>&quot;                <link linkend="guint">guint</link>                 : Read
+</synopsis>
+</refsect1>
+
+
+
+<refsect1 role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 role="details">
+<title role="details.title">Details</title>
+<refsect2>
+<title><anchor id="NM-ACCESS-POINT-FLAGS:CAPS" role="macro"/>NM_ACCESS_POINT_FLAGS</title>
+<indexterm><primary>NM_ACCESS_POINT_FLAGS</primary></indexterm><programlisting>#define NM_ACCESS_POINT_FLAGS      "flags"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-ACCESS-POINT-WPA-FLAGS:CAPS" role="macro"/>NM_ACCESS_POINT_WPA_FLAGS</title>
+<indexterm><primary>NM_ACCESS_POINT_WPA_FLAGS</primary></indexterm><programlisting>#define NM_ACCESS_POINT_WPA_FLAGS  "wpa-flags"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-ACCESS-POINT-RSN-FLAGS:CAPS" role="macro"/>NM_ACCESS_POINT_RSN_FLAGS</title>
+<indexterm><primary>NM_ACCESS_POINT_RSN_FLAGS</primary></indexterm><programlisting>#define NM_ACCESS_POINT_RSN_FLAGS  "rsn-flags"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-ACCESS-POINT-SSID:CAPS" role="macro"/>NM_ACCESS_POINT_SSID</title>
+<indexterm><primary>NM_ACCESS_POINT_SSID</primary></indexterm><programlisting>#define NM_ACCESS_POINT_SSID       "ssid"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-ACCESS-POINT-FREQUENCY:CAPS" role="macro"/>NM_ACCESS_POINT_FREQUENCY</title>
+<indexterm><primary>NM_ACCESS_POINT_FREQUENCY</primary></indexterm><programlisting>#define NM_ACCESS_POINT_FREQUENCY  "frequency"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-ACCESS-POINT-HW-ADDRESS:CAPS" role="macro"/>NM_ACCESS_POINT_HW_ADDRESS</title>
+<indexterm><primary>NM_ACCESS_POINT_HW_ADDRESS</primary></indexterm><programlisting>#define NM_ACCESS_POINT_HW_ADDRESS "hw-address"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-ACCESS-POINT-MODE:CAPS" role="macro"/>NM_ACCESS_POINT_MODE</title>
+<indexterm><primary>NM_ACCESS_POINT_MODE</primary></indexterm><programlisting>#define NM_ACCESS_POINT_MODE       "mode"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-ACCESS-POINT-MAX-BITRATE:CAPS" role="macro"/>NM_ACCESS_POINT_MAX_BITRATE</title>
+<indexterm><primary>NM_ACCESS_POINT_MAX_BITRATE</primary></indexterm><programlisting>#define NM_ACCESS_POINT_MAX_BITRATE   "max-bitrate"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NM-ACCESS-POINT-STRENGTH:CAPS" role="macro"/>NM_ACCESS_POINT_STRENGTH</title>
+<indexterm><primary>NM_ACCESS_POINT_STRENGTH</primary></indexterm><programlisting>#define NM_ACCESS_POINT_STRENGTH   "strength"
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="NMAccessPoint-struct" role="struct"/>NMAccessPoint</title>
+<indexterm><primary>NMAccessPoint</primary></indexterm><programlisting>typedef struct _NMAccessPoint NMAccessPoint;</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2>
+<title><anchor id="nm-access-point-new" role="function"/>nm_access_point_new ()</title>
+<indexterm><primary>nm_access_point_new</primary></indexterm><programlisting><link linkend="GObject">GObject</link>*            nm_access_point_new                 (<link linkend="DBusGConnection">DBusGConnection</link> *connection,
+                                                         const <link linkend="char">char</link> *path);</programlisting>
+<para>
+Creates a new <link linkend="NMAccessPoint"><type>NMAccessPoint</type></link>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<listitem><simpara> the <link linkend="DBusGConnection"><type>DBusGConnection</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>path</parameter>&nbsp;:</term>
+<listitem><simpara> the DBusobject path of the access point
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a new access point
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-access-point-get-flags" role="function"/>nm_access_point_get_flags ()</title>
+<indexterm><primary>nm_access_point_get_flags</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_access_point_get_flags           (<link linkend="NMAccessPoint">NMAccessPoint</link> *ap);</programlisting>
+<para>
+Gets the flags of the access point</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ap</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMAccessPoint"><type>NMAccessPoint</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the flags
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-access-point-get-wpa-flags" role="function"/>nm_access_point_get_wpa_flags ()</title>
+<indexterm><primary>nm_access_point_get_wpa_flags</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_access_point_get_wpa_flags       (<link linkend="NMAccessPoint">NMAccessPoint</link> *ap);</programlisting>
+<para>
+Gets the WPA flags of the access point.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ap</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMAccessPoint"><type>NMAccessPoint</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the WPA flags
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-access-point-get-rsn-flags" role="function"/>nm_access_point_get_rsn_flags ()</title>
+<indexterm><primary>nm_access_point_get_rsn_flags</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_access_point_get_rsn_flags       (<link linkend="NMAccessPoint">NMAccessPoint</link> *ap);</programlisting>
+<para>
+Gets the RSN flags of the access point.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ap</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMAccessPoint"><type>NMAccessPoint</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the RSN flags
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-access-point-get-ssid" role="function"/>nm_access_point_get_ssid ()</title>
+<indexterm><primary>nm_access_point_get_ssid</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link>*   nm_access_point_get_ssid            (<link linkend="NMAccessPoint">NMAccessPoint</link> *ap);</programlisting>
+<para>
+Gets the SSID of the access point.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ap</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMAccessPoint"><type>NMAccessPoint</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the <link linkend="GByteArray"><type>GByteArray</type></link> containing the SSID. This is the internal copy used by the
+access point, and must not be modified.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-access-point-get-frequency" role="function"/>nm_access_point_get_frequency ()</title>
+<indexterm><primary>nm_access_point_get_frequency</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_access_point_get_frequency       (<link linkend="NMAccessPoint">NMAccessPoint</link> *ap);</programlisting>
+<para>
+Gets the frequency of the access point.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ap</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMAccessPoint"><type>NMAccessPoint</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the frequency
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-access-point-get-hw-address" role="function"/>nm_access_point_get_hw_address ()</title>
+<indexterm><primary>nm_access_point_get_hw_address</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_access_point_get_hw_address      (<link linkend="NMAccessPoint">NMAccessPoint</link> *ap);</programlisting>
+<para>
+Gets the hardware (MAC) address of the access point.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ap</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMAccessPoint"><type>NMAccessPoint</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the hardware address of the access point. This is the internal string used by the
+access point and must not be modified.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-access-point-get-mode" role="function"/>nm_access_point_get_mode ()</title>
+<indexterm><primary>nm_access_point_get_mode</primary></indexterm><programlisting><link linkend="NM80211Mode">NM80211Mode</link>         nm_access_point_get_mode            (<link linkend="NMAccessPoint">NMAccessPoint</link> *ap);</programlisting>
+<para>
+Gets the mode of the access point.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ap</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMAccessPoint"><type>NMAccessPoint</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the mode
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-access-point-get-max-bitrate" role="function"/>nm_access_point_get_max_bitrate ()</title>
+<indexterm><primary>nm_access_point_get_max_bitrate</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_access_point_get_max_bitrate     (<link linkend="NMAccessPoint">NMAccessPoint</link> *ap);</programlisting>
+<para>
+Gets the maximum bit rate of the access point.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ap</parameter>&nbsp;:</term>
+<listitem><simpara> a <link linkend="NMAccessPoint"><type>NMAccessPoint</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the maximum bit rate
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="nm-access-point-get-strength" role="function"/>nm_access_point_get_strength ()</title>
+<indexterm><primary>nm_access_point_get_strength</primary></indexterm><programlisting><link linkend="guint8">guint8</link>              nm_access_point_get_strength        (<link linkend="NMAccessPoint">NMAccessPoint</link> *ap);</programlisting>
+<para>
+Gets the current signal strength of the access point.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ap</parameter>&nbsp;:</term>
+<listitem><simpara> 
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the signal strength
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+<refsect1 role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2><title><anchor id="NMAccessPoint--flags"/>The <literal>&quot;flags&quot;</literal> property</title>
+<indexterm><primary>NMAccessPoint:flags</primary></indexterm><programlisting>  &quot;flags&quot;                    <link linkend="guint">guint</link>                 : Read</programlisting>
+<para>
+The flags of the access point.</para>
+<para>
+
+</para><para>Allowed values: &lt;= 1</para>
+<para>Default value: 0</para>
+</refsect2>
+<refsect2><title><anchor id="NMAccessPoint--frequency"/>The <literal>&quot;frequency&quot;</literal> property</title>
+<indexterm><primary>NMAccessPoint:frequency</primary></indexterm><programlisting>  &quot;frequency&quot;                <link linkend="guint">guint</link>                 : Read</programlisting>
+<para>
+The frequency of the access point.</para>
+<para>
+
+</para><para>Allowed values: &lt;= 10000</para>
+<para>Default value: 0</para>
+</refsect2>
+<refsect2><title><anchor id="NMAccessPoint--hw-address"/>The <literal>&quot;hw-address&quot;</literal> property</title>
+<indexterm><primary>NMAccessPoint:hw-address</primary></indexterm><programlisting>  &quot;hw-address&quot;               <link linkend="gchararray">gchararray</link>            : Read</programlisting>
+<para>
+The hardware address of the access point.</para>
+<para>
+
+</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2><title><anchor id="NMAccessPoint--max-bitrate"/>The <literal>&quot;max-bitrate&quot;</literal> property</title>
+<indexterm><primary>NMAccessPoint:max-bitrate</primary></indexterm><programlisting>  &quot;max-bitrate&quot;              <link linkend="guint">guint</link>                 : Read</programlisting>
+<para>
+The maximum bit rate of the access point.</para>
+<para>
+
+</para><para>Default value: 0</para>
+</refsect2>
+<refsect2><title><anchor id="NMAccessPoint--mode"/>The <literal>&quot;mode&quot;</literal> property</title>
+<indexterm><primary>NMAccessPoint:mode</primary></indexterm><programlisting>  &quot;mode&quot;                     <link linkend="guint">guint</link>                 : Read</programlisting>
+<para>
+The mode of the access point.</para>
+<para>
+
+</para><para>Allowed values: [1,2]</para>
+<para>Default value: 2</para>
+</refsect2>
+<refsect2><title><anchor id="NMAccessPoint--rsn-flags"/>The <literal>&quot;rsn-flags&quot;</literal> property</title>
+<indexterm><primary>NMAccessPoint:rsn-flags</primary></indexterm><programlisting>  &quot;rsn-flags&quot;                <link linkend="guint">guint</link>                 : Read</programlisting>
+<para>
+The RSN flags of the access point.</para>
+<para>
+
+</para><para>Default value: 0</para>
+</refsect2>
+<refsect2><title><anchor id="NMAccessPoint--ssid"/>The <literal>&quot;ssid&quot;</literal> property</title>
+<indexterm><primary>NMAccessPoint:ssid</primary></indexterm><programlisting>  &quot;ssid&quot;                     <link linkend="nm-ssid">nm-ssid</link>               : Read</programlisting>
+<para>
+The SSID of the access point.</para>
+<para>
+
+</para></refsect2>
+<refsect2><title><anchor id="NMAccessPoint--strength"/>The <literal>&quot;strength&quot;</literal> property</title>
+<indexterm><primary>NMAccessPoint:strength</primary></indexterm><programlisting>  &quot;strength&quot;                 <link linkend="guchar">guchar</link>                : Read</programlisting>
+<para>
+The current signal strength of the access point.</para>
+<para>
+
+</para><para>Default value: 0</para>
+</refsect2>
+<refsect2><title><anchor id="NMAccessPoint--wpa-flags"/>The <literal>&quot;wpa-flags&quot;</literal> property</title>
+<indexterm><primary>NMAccessPoint:wpa-flags</primary></indexterm><programlisting>  &quot;wpa-flags&quot;                <link linkend="guint">guint</link>                 : Read</programlisting>
+<para>
+The WPA flags of the access point.</para>
+<para>
+
+</para><para>Default value: 0</para>
+</refsect2>
+
+</refsect1>
+
+
+
+
+
+<refsect1><refsect2 /><refsect2 /></refsect1>
+</refentry>

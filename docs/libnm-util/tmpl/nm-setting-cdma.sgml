@@ -1,0 +1,143 @@
+<!-- ##### SECTION Title ##### -->
+NMSettingCdma
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### MACRO NM_SETTING_CDMA_SETTING_NAME ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### ENUM NMSettingCdmaError ##### -->
+<para>
+
+</para>
+
+@NM_SETTING_CDMA_ERROR_UNKNOWN: 
+@NM_SETTING_CDMA_ERROR_INVALID_PROPERTY: 
+@NM_SETTING_CDMA_ERROR_MISSING_PROPERTY: 
+@NM_SETTING_CDMA_ERROR_MISSING_SERIAL_SETTING: 
+
+<!-- ##### MACRO NM_TYPE_SETTING_CDMA_ERROR ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_SETTING_CDMA_ERROR ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION nm_setting_cdma_error_quark ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### MACRO NM_SETTING_CDMA_NUMBER ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_SETTING_CDMA_USERNAME ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_SETTING_CDMA_PASSWORD ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### STRUCT NMSettingCdma ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingCdma:number ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSettingCdma:password ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSettingCdma:username ##### -->
+<para>
+
+</para>
+
+<!-- ##### FUNCTION nm_setting_cdma_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_setting_cdma_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_setting_cdma_get_number ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_setting_cdma_get_username ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_setting_cdma_get_password ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+

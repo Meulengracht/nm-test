@@ -1,52 +1,86 @@
-/* nm-vpn-manager.h - handle VPN connections within NetworkManager's framework 
- *
- * Copyright (C) 2005 Dan Williams
+/* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
+/* NetworkManager -- Network link manager
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2, or (at your option)
- * any later version.
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.  
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Copyright (C) 2005 - 2008 Red Hat, Inc.
+ * Copyright (C) 2006 - 2008 Novell, Inc.
  */
+
 #ifndef NM_VPN_MANAGER_H
 #define NM_VPN_MANAGER_H
 
-#include <dbus/dbus.h>
-#include "NetworkManagerMain.h"
+#include <glib.h>
+#include <glib-object.h>
 #include "nm-vpn-connection.h"
-#include "nm-vpn-service.h"
+#include "nm-activation-request.h"
+
+#define NM_TYPE_VPN_MANAGER            (nm_vpn_manager_get_type ())
+#define NM_VPN_MANAGER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), NM_TYPE_VPN_MANAGER, NMVPNManager))
+#define NM_VPN_MANAGER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), NM_TYPE_VPN_MANAGER, NMVPNManagerClass))
+#define NM_IS_VPN_MANAGER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), NM_TYPE_VPN_MANAGER))
+#define NM_IS_VPN_MANAGER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), NM_TYPE_VPN_MANAGER))
+#define NM_VPN_MANAGER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), NM_TYPE_VPN_MANAGER, NMVPNManagerClass))
+
+typedef enum
+{
+	NM_VPN_MANAGER_ERROR_DEVICE_NOT_ACTIVE = 0,
+	NM_VPN_MANAGER_ERROR_CONNECTION_INVALID,
+	NM_VPN_MANAGER_ERROR_SERVICE_INVALID,
+	NM_VPN_MANAGER_ERROR_SERVICE_START_FAILED,
+} NMVPNManagerError;
+
+#define NM_VPN_MANAGER_ERROR (nm_vpn_manager_error_quark ())
+#define NM_TYPE_VPN_MANAGER_ERROR (nm_vpn_manager_error_get_type ()) 
+
+GQuark nm_vpn_manager_error_quark (void);
+GType nm_vpn_manager_error_get_type (void);
 
 
-NMVPNManager *		nm_vpn_manager_new						(NMData *app_data);
-NMVPNConnection *	nm_vpn_manager_add_connection				(NMVPNManager *manager, const char *name, const char *service_name, const char *user_name);
-void				nm_vpn_manager_remove_connection			(NMVPNManager *manager, NMVPNConnection *vpn);
-void				nm_vpn_manager_clear_connections			(NMVPNManager *manager);
-char	**			nm_vpn_manager_get_connection_names		(NMVPNManager *manager);
-void				nm_vpn_manager_dispose					(NMVPNManager *manager);
+typedef struct {
+	GObject parent;
+} NMVPNManager;
 
-NMVPNActRequest *	nm_vpn_manager_get_vpn_act_request			(NMVPNManager *manager);
+typedef struct {
+	GObjectClass parent;
 
-void				nm_vpn_manager_activate_vpn_connection		(NMVPNManager *manager, NMVPNConnection *vpn, char **password_items,
-										int password_count, char **data_items, int data_count,
-										char **user_routes, int user_routes_count );
-void				nm_vpn_manager_deactivate_vpn_connection	(NMVPNManager *manager, NMDevice *dev);
+	/* Signals */
+	void (*connection_deactivated) (NMVPNManager *manager,
+	                                NMVPNConnection *connection,
+	                                NMVPNConnectionState state,
+	                                NMVPNConnectionStateReason reason);
+} NMVPNManagerClass;
 
-NMVPNConnection *	nm_vpn_manager_find_connection_by_name		(NMVPNManager *manager, const char *con_name);
-NMVPNService *		nm_vpn_manager_find_service_by_name		(NMVPNManager *manager, const char *service_name);
+GType nm_vpn_manager_get_type (void);
 
-gboolean			nm_vpn_manager_process_signal				(NMVPNManager *manager, DBusMessage *signal);
-gboolean			nm_vpn_manager_process_name_owner_changed	(NMVPNManager *manager, const char *service, const char *old_owner, const char *new_owner);
+NMVPNManager *nm_vpn_manager_get (void);
 
-void				nm_vpn_manager_schedule_vpn_activation_failed(NMVPNManager *manager, NMVPNActRequest *req);
-void				nm_vpn_manager_schedule_vpn_connection_died	(NMVPNManager *manager, NMVPNActRequest *req);
+const char *nm_vpn_manager_activate_connection (NMVPNManager *manager,
+                                                NMConnection *connection,
+                                                NMActRequest *act_request,
+                                                NMDevice *device,
+                                                GError **error);
 
-#endif  /* NM_VPN_MANAGER_H */
+gboolean nm_vpn_manager_deactivate_connection (NMVPNManager *manager,
+                                               const char *path,
+                                               NMVPNConnectionStateReason reason);
+
+void nm_vpn_manager_add_active_connections (NMVPNManager *manager,
+                                            NMConnection *filter,
+                                            GPtrArray *list);
+
+GSList *nm_vpn_manager_get_active_connections (NMVPNManager *manager);
+
+#endif /* NM_VPN_VPN_MANAGER_H */

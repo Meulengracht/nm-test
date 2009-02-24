@@ -1,6 +1,5 @@
+/* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
 /* NetworkManager -- Network link manager
- *
- * Dan Williams <dcbw@redhat.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,18 +11,18 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * (C) Copyright 2006 Red Hat, Inc.
+ * Copyright (C) 2006 - 2008 Red Hat, Inc.
+ * Copyright (C) 2006 - 2008 Novell, Inc.
  */
 
 #include <syslog.h>
 #include <execinfo.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <signal.h>
 #include <unistd.h>
 #include <errno.h>
 #include <sys/wait.h>
@@ -31,7 +30,6 @@
 
 #include "nm-logging.h"
 #include "nm-utils.h"
-#include "NetworkManagerMain.h"
 
 static void
 fallback_get_backtrace (void)
@@ -87,7 +85,7 @@ crashlogger_get_backtrace (void)
 }
 
 
-static void
+void
 nm_logging_backtrace (void)
 {
 	struct stat s;
@@ -145,93 +143,11 @@ nm_log_handler (const gchar *		log_domain,
 }
 
 
-static void
-nm_signal_handler (int signo)
-{
-	static int in_fatal = 0;
-	int ignore;
-
-	/* avoid loops */
-	if (in_fatal > 0)
-		return;
-	++in_fatal;
-
-	switch (signo)
-	{
-		case SIGSEGV:
-		case SIGBUS:
-		case SIGILL:
-		case SIGABRT:
-			nm_warning ("Caught signal %d.  Generating backtrace...", signo);
-			nm_logging_backtrace ();
-			exit (1);
-			break;
-
-		case SIGFPE:
-		case SIGPIPE:
-			/* let the fatal signals interrupt us */
-			--in_fatal;
-
-			nm_warning ("Caught signal %d, shutting down abnormally.  Generating backtrace...", signo);
-			nm_logging_backtrace ();
-			ignore = write (nm_get_sigterm_pipe (), "X", 1);
-			break;
-
-		case SIGINT:
-		case SIGTERM:
-			/* let the fatal signals interrupt us */
-			--in_fatal;
-
-			nm_warning ("Caught signal %d, shutting down normally.", signo);
-			ignore = write (nm_get_sigterm_pipe (), "X", 1);
-			break;
-
-		case SIGHUP:
-			--in_fatal;
-			/* FIXME:
-			 * Reread config stuff like system config files, VPN service files, etc
-			 */
-			break;
-
-		case SIGUSR1:
-			--in_fatal;
-			/* FIXME:
-			 * Play with log levels or something
-			 */
-			break;
-
-		default:
-			signal (signo, nm_signal_handler);
-			break;
-	}
-}
-
-static void
-setup_signals (void)
-{
-	struct sigaction action;
-	sigset_t mask;
-
-	sigemptyset (&mask);
-	action.sa_handler = nm_signal_handler;
-	action.sa_mask = mask;
-	action.sa_flags = 0;
-	sigaction (SIGTERM,  &action, NULL);
-	sigaction (SIGINT,  &action, NULL);
-	sigaction (SIGILL,  &action, NULL);
-	sigaction (SIGBUS,  &action, NULL);
-	sigaction (SIGFPE,  &action, NULL);
-	sigaction (SIGHUP,  &action, NULL);
-	sigaction (SIGSEGV, &action, NULL);
-	sigaction (SIGABRT, &action, NULL);
-	sigaction (SIGUSR1,  &action, NULL);
-}
-
 void
 nm_logging_setup (gboolean become_daemon)
 {
 	if (become_daemon)
-		openlog (G_LOG_DOMAIN, LOG_CONS, LOG_DAEMON);
+		openlog (G_LOG_DOMAIN, 0, LOG_DAEMON);
 	else
 		openlog (G_LOG_DOMAIN, LOG_CONS | LOG_PERROR, LOG_USER);
 
@@ -239,8 +155,6 @@ nm_logging_setup (gboolean become_daemon)
 				    G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION,
 				    nm_log_handler,
 				    NULL);
-
-	setup_signals ();
 }
 
 void

@@ -1,6 +1,5 @@
+/* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
 /* NetworkManager -- Network link manager
- *
- * Dan Williams <dcbw@redhat.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,82 +11,66 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * (C) Copyright 2004 Red Hat, Inc.
+ * Copyright (C) 2004 - 2008 Red Hat, Inc.
+ * Copyright (C) 2005 - 2008 Novell, Inc.
  */
 
 #ifndef NETWORK_MANAGER_SYSTEM_H
 #define NETWORK_MANAGER_SYSTEM_H
 
+#include <netlink/route/rtnl.h>
+#include <netlink/route/route.h>
+
 #include <glib.h>
 #include "nm-device.h"
 #include "nm-ip4-config.h"
-#include "nm-named-manager.h"
-
-struct NMData;
 
 /* Prototypes for system/distribution dependent functions,
  * implemented in the backend files in backends/ directory
  */
 
-void			nm_system_init (void);
-gboolean		nm_system_device_has_active_routes			(NMDevice *dev);
+void			nm_system_device_flush_ip4_routes				(NMDevice *dev);
+void			nm_system_device_flush_ip4_routes_with_iface	(const char *iface);
 
-int			nm_system_get_rtnl_index_from_iface		(const char *iface);
-char *		nm_system_get_iface_from_rtnl_index		(int rtnl_index);
+gboolean		nm_system_replace_default_ip4_route   (const char *iface,
+                                                       guint32 gw,
+                                                       guint32 mss);
 
-void			nm_system_device_flush_routes				(NMDevice *dev);
-void			nm_system_device_flush_routes_with_iface	(const char *iface);
+gboolean		nm_system_replace_default_ip4_route_vpn (const char *iface,
+                                                         guint32 ext_gw,
+                                                         guint32 int_gw,
+                                                         guint32 mss,
+                                                         const char *parent_iface,
+                                                         guint32 parent_mss);
 
-void			nm_system_device_add_default_route_via_device(NMDevice *dev);
-void			nm_system_device_add_default_route_via_device_with_iface(const char *iface);
+struct rtnl_route *nm_system_add_ip4_vpn_gateway_route (NMDevice *parent_device, NMIP4Config *vpn_config);
 
-void			nm_system_device_add_route_via_device_with_iface (const char *iface, const char *route);
 
-void			nm_system_device_flush_addresses			(NMDevice *dev);
-void			nm_system_device_flush_addresses_with_iface	(const char *iface);
+void			nm_system_device_flush_ip4_addresses			(NMDevice *dev);
+void			nm_system_device_flush_ip4_addresses_with_iface	(const char *iface);
 
 void			nm_system_enable_loopback				(void);
-void			nm_system_flush_loopback_routes			(void);
-void			nm_system_delete_default_route			(void);
-void			nm_system_flush_arp_cache				(void);
-void			nm_system_kill_all_dhcp_daemons			(void);
 void			nm_system_update_dns					(void);
-void			nm_system_restart_mdns_responder			(void);
-void			nm_system_device_add_ip6_link_address 		(NMDevice *dev);
 
-void *		nm_system_device_get_system_config			(NMDevice *dev, struct NMData *data);
-void			nm_system_device_free_system_config		(NMDevice *dev, void *system_config_data);
-NMIP4Config *	nm_system_device_new_ip4_system_config		(NMDevice *dev);
+gboolean		nm_system_apply_ip4_config              (const char *iface,
+                                                         NMIP4Config *config,
+                                                         int priority,
+                                                         NMIP4ConfigCompareFlags flags);
 
-gboolean		nm_system_device_get_use_dhcp				(NMDevice *dev);
+gboolean		nm_system_device_set_up_down				(NMDevice *dev,
+                                                             gboolean up,
+                                                             gboolean *no_firmware);
+gboolean		nm_system_device_set_up_down_with_iface		(const char *iface,
+                                                             gboolean up,
+                                                             gboolean *no_firmware);
 
-gboolean		nm_system_device_get_disabled				(NMDevice *dev);
+gboolean        nm_system_device_is_up (NMDevice *device);
+gboolean        nm_system_device_is_up_with_iface (const char *iface);
 
-gboolean		nm_system_device_set_from_ip4_config		(NMDevice *dev);
-gboolean		nm_system_vpn_device_set_from_ip4_config	(NMNamedManager *named, NMDevice *active_device, const char *iface, NMIP4Config *config, char **routes, int num_routes);
-gboolean		nm_system_vpn_device_unset_from_ip4_config	(NMNamedManager *named, NMDevice *active_device, const char *iface, NMIP4Config *config);
-
-gboolean		nm_system_device_set_up_down				(NMDevice *dev, gboolean up);
-gboolean		nm_system_device_set_up_down_with_iface		(const char *iface, gboolean up);
-
-gboolean		nm_system_device_update_resolv_conf		(void *data, int len, const char *domain_name);
-
-GSList *		nm_system_get_dialup_config (void);
-void			nm_system_deactivate_all_dialup (GSList *list);
-gboolean		nm_system_activate_dialup (GSList *list, const char *dialup);
-gboolean		nm_system_deactivate_dialup (GSList *list, const char *dialup);
-
-void			nm_system_set_hostname (NMIP4Config *config);
-void			nm_system_activate_nis (NMIP4Config *config);
-void			nm_system_shutdown_nis (void);
-
-void			nm_system_set_mtu (NMDevice *dev);
-guint32		nm_system_get_mtu (NMDevice *dev);
-
-gboolean		nm_system_should_modify_resolv_conf (void);
+gboolean		nm_system_device_set_mtu (const char *iface, guint32 mtu);
 
 #endif
