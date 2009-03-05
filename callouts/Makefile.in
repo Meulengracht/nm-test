@@ -35,6 +35,7 @@ build_triplet = @build@
 host_triplet = @host@
 libexec_PROGRAMS = nm-dhcp-client.action$(EXEEXT) \
 	nm-dispatcher.action$(EXEEXT) nm-avahi-autoipd.action$(EXEEXT)
+udev_PROGRAMS = nm-modem-probe$(EXEEXT)
 subdir = callouts
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -44,10 +45,12 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
-am__installdirs = "$(DESTDIR)$(libexecdir)" \
-	"$(DESTDIR)$(dbusactivationdir)" "$(DESTDIR)$(dbusservicedir)"
+am__installdirs = "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(udevdir)" \
+	"$(DESTDIR)$(dbusactivationdir)" "$(DESTDIR)$(dbusservicedir)" \
+	"$(DESTDIR)$(udevrulesdir)"
 libexecPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
-PROGRAMS = $(libexec_PROGRAMS)
+udevPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
+PROGRAMS = $(libexec_PROGRAMS) $(udev_PROGRAMS)
 am_nm_avahi_autoipd_action_OBJECTS =  \
 	nm_avahi_autoipd_action-nm-avahi-autoipd-action.$(OBJEXT)
 nm_avahi_autoipd_action_OBJECTS =  \
@@ -66,6 +69,9 @@ nm_dispatcher_action_OBJECTS = $(am_nm_dispatcher_action_OBJECTS)
 nm_dispatcher_action_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(top_builddir)/libnm-glib/libnm_glib.la \
 	$(top_builddir)/libnm-util/libnm-util.la
+am_nm_modem_probe_OBJECTS = nm_modem_probe-nm-modem-probe.$(OBJEXT)
+nm_modem_probe_OBJECTS = $(am_nm_modem_probe_OBJECTS)
+nm_modem_probe_DEPENDENCIES = $(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -80,10 +86,10 @@ LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	$(LDFLAGS) -o $@
 SOURCES = $(nm_avahi_autoipd_action_SOURCES) \
 	$(nm_dhcp_client_action_SOURCES) \
-	$(nm_dispatcher_action_SOURCES)
+	$(nm_dispatcher_action_SOURCES) $(nm_modem_probe_SOURCES)
 DIST_SOURCES = $(nm_avahi_autoipd_action_SOURCES) \
 	$(nm_dhcp_client_action_SOURCES) \
-	$(nm_dispatcher_action_SOURCES)
+	$(nm_dispatcher_action_SOURCES) $(nm_modem_probe_SOURCES)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -92,7 +98,8 @@ am__vpath_adj = case $$p in \
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
 dbusactivationDATA_INSTALL = $(INSTALL_DATA)
 dbusserviceDATA_INSTALL = $(INSTALL_DATA)
-DATA = $(dbusactivation_DATA) $(dbusservice_DATA)
+udevrulesDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(dbusactivation_DATA) $(dbusservice_DATA) $(udevrules_DATA)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -227,6 +234,7 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 SYSTEM_CA_PATH = @SYSTEM_CA_PATH@
+UDEV_BASE_DIR = @UDEV_BASE_DIR@
 USE_NLS = @USE_NLS@
 UUID_CFLAGS = @UUID_CFLAGS@
 UUID_LIBS = @UUID_LIBS@
@@ -340,6 +348,12 @@ nm_dispatcher_action_LDADD = \
 	$(top_builddir)/libnm-glib/libnm_glib.la \
 	$(top_builddir)/libnm-util/libnm-util.la
 
+udevdir = $(UDEV_BASE_DIR)
+nm_modem_probe_SOURCES = nm-modem-probe.c
+nm_modem_probe_CPPFLAGS = $(GLIB_CFLAGS)
+nm_modem_probe_LDADD = $(GLIB_LIBS)
+udevrulesdir = $(UDEV_BASE_DIR)/rules.d
+udevrules_DATA = 77-nm-probe-modem-capabilities.rules
 dbusactivationdir = $(datadir)/dbus-1/system-services
 dbusactivation_in_files = org.freedesktop.nm_dispatcher.service.in
 dbusactivation_DATA = $(dbusactivation_in_files:.service.in=.service)
@@ -355,7 +369,8 @@ CLEANFILES = $(BUILT_SOURCES) $(dbusactivation_DATA)
 EXTRA_DIST = \
 	$(dbusservice_DATA) \
 	$(dbusactivation_in_files) \
-	nm-dispatcher.xml
+	nm-dispatcher.xml \
+	$(udevrules_DATA)
 
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -419,6 +434,34 @@ clean-libexecPROGRAMS:
 	  echo " rm -f $$p $$f"; \
 	  rm -f $$p $$f ; \
 	done
+install-udevPROGRAMS: $(udev_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	test -z "$(udevdir)" || $(MKDIR_P) "$(DESTDIR)$(udevdir)"
+	@list='$(udev_PROGRAMS)'; for p in $$list; do \
+	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
+	  if test -f $$p \
+	     || test -f $$p1 \
+	  ; then \
+	    f=`echo "$$p1" | sed 's,^.*/,,;$(transform);s/$$/$(EXEEXT)/'`; \
+	   echo " $(INSTALL_PROGRAM_ENV) $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(udevPROGRAMS_INSTALL) '$$p' '$(DESTDIR)$(udevdir)/$$f'"; \
+	   $(INSTALL_PROGRAM_ENV) $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(udevPROGRAMS_INSTALL) "$$p" "$(DESTDIR)$(udevdir)/$$f" || exit 1; \
+	  else :; fi; \
+	done
+
+uninstall-udevPROGRAMS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(udev_PROGRAMS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's,^.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/'`; \
+	  echo " rm -f '$(DESTDIR)$(udevdir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(udevdir)/$$f"; \
+	done
+
+clean-udevPROGRAMS:
+	@list='$(udev_PROGRAMS)'; for p in $$list; do \
+	  f=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
+	  echo " rm -f $$p $$f"; \
+	  rm -f $$p $$f ; \
+	done
 nm-avahi-autoipd.action$(EXEEXT): $(nm_avahi_autoipd_action_OBJECTS) $(nm_avahi_autoipd_action_DEPENDENCIES) 
 	@rm -f nm-avahi-autoipd.action$(EXEEXT)
 	$(LINK) $(nm_avahi_autoipd_action_OBJECTS) $(nm_avahi_autoipd_action_LDADD) $(LIBS)
@@ -428,6 +471,9 @@ nm-dhcp-client.action$(EXEEXT): $(nm_dhcp_client_action_OBJECTS) $(nm_dhcp_clien
 nm-dispatcher.action$(EXEEXT): $(nm_dispatcher_action_OBJECTS) $(nm_dispatcher_action_DEPENDENCIES) 
 	@rm -f nm-dispatcher.action$(EXEEXT)
 	$(LINK) $(nm_dispatcher_action_OBJECTS) $(nm_dispatcher_action_LDADD) $(LIBS)
+nm-modem-probe$(EXEEXT): $(nm_modem_probe_OBJECTS) $(nm_modem_probe_DEPENDENCIES) 
+	@rm -f nm-modem-probe$(EXEEXT)
+	$(LINK) $(nm_modem_probe_OBJECTS) $(nm_modem_probe_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -438,6 +484,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nm_avahi_autoipd_action-nm-avahi-autoipd-action.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nm_dhcp_client_action-nm-dhcp-client-action.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nm_dispatcher_action-nm-dispatcher-action.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nm_modem_probe-nm-modem-probe.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -505,6 +552,20 @@ nm_dispatcher_action-nm-dispatcher-action.obj: nm-dispatcher-action.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(nm_dispatcher_action_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o nm_dispatcher_action-nm-dispatcher-action.obj `if test -f 'nm-dispatcher-action.c'; then $(CYGPATH_W) 'nm-dispatcher-action.c'; else $(CYGPATH_W) '$(srcdir)/nm-dispatcher-action.c'; fi`
 
+nm_modem_probe-nm-modem-probe.o: nm-modem-probe.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(nm_modem_probe_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT nm_modem_probe-nm-modem-probe.o -MD -MP -MF $(DEPDIR)/nm_modem_probe-nm-modem-probe.Tpo -c -o nm_modem_probe-nm-modem-probe.o `test -f 'nm-modem-probe.c' || echo '$(srcdir)/'`nm-modem-probe.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/nm_modem_probe-nm-modem-probe.Tpo $(DEPDIR)/nm_modem_probe-nm-modem-probe.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='nm-modem-probe.c' object='nm_modem_probe-nm-modem-probe.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(nm_modem_probe_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o nm_modem_probe-nm-modem-probe.o `test -f 'nm-modem-probe.c' || echo '$(srcdir)/'`nm-modem-probe.c
+
+nm_modem_probe-nm-modem-probe.obj: nm-modem-probe.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(nm_modem_probe_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT nm_modem_probe-nm-modem-probe.obj -MD -MP -MF $(DEPDIR)/nm_modem_probe-nm-modem-probe.Tpo -c -o nm_modem_probe-nm-modem-probe.obj `if test -f 'nm-modem-probe.c'; then $(CYGPATH_W) 'nm-modem-probe.c'; else $(CYGPATH_W) '$(srcdir)/nm-modem-probe.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/nm_modem_probe-nm-modem-probe.Tpo $(DEPDIR)/nm_modem_probe-nm-modem-probe.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='nm-modem-probe.c' object='nm_modem_probe-nm-modem-probe.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(nm_modem_probe_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o nm_modem_probe-nm-modem-probe.obj `if test -f 'nm-modem-probe.c'; then $(CYGPATH_W) 'nm-modem-probe.c'; else $(CYGPATH_W) '$(srcdir)/nm-modem-probe.c'; fi`
+
 mostlyclean-libtool:
 	-rm -f *.lo
 
@@ -543,6 +604,23 @@ uninstall-dbusserviceDATA:
 	  f=$(am__strip_dir) \
 	  echo " rm -f '$(DESTDIR)$(dbusservicedir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(dbusservicedir)/$$f"; \
+	done
+install-udevrulesDATA: $(udevrules_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(udevrulesdir)" || $(MKDIR_P) "$(DESTDIR)$(udevrulesdir)"
+	@list='$(udevrules_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(udevrulesDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(udevrulesdir)/$$f'"; \
+	  $(udevrulesDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(udevrulesdir)/$$f"; \
+	done
+
+uninstall-udevrulesDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(udevrules_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(udevrulesdir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(udevrulesdir)/$$f"; \
 	done
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
@@ -623,7 +701,7 @@ check: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) check-am
 all-am: Makefile $(PROGRAMS) $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(dbusactivationdir)" "$(DESTDIR)$(dbusservicedir)"; do \
+	for dir in "$(DESTDIR)$(libexecdir)" "$(DESTDIR)$(udevdir)" "$(DESTDIR)$(dbusactivationdir)" "$(DESTDIR)$(dbusservicedir)" "$(DESTDIR)$(udevrulesdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: $(BUILT_SOURCES)
@@ -656,7 +734,7 @@ maintainer-clean-generic:
 clean: clean-am
 
 clean-am: clean-generic clean-libexecPROGRAMS clean-libtool \
-	mostlyclean-am
+	clean-udevPROGRAMS mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -674,7 +752,8 @@ info: info-am
 
 info-am:
 
-install-data-am: install-dbusactivationDATA install-dbusserviceDATA
+install-data-am: install-dbusactivationDATA install-dbusserviceDATA \
+	install-udevPROGRAMS install-udevrulesDATA
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
 
@@ -713,26 +792,29 @@ ps: ps-am
 ps-am:
 
 uninstall-am: uninstall-dbusactivationDATA uninstall-dbusserviceDATA \
-	uninstall-libexecPROGRAMS
+	uninstall-libexecPROGRAMS uninstall-udevPROGRAMS \
+	uninstall-udevrulesDATA
 
 .MAKE: install-am install-data-am install-strip
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
-	clean-libexecPROGRAMS clean-libtool ctags distclean \
-	distclean-compile distclean-generic distclean-libtool \
-	distclean-tags distdir dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am \
-	install-data-hook install-dbusactivationDATA \
+	clean-libexecPROGRAMS clean-libtool clean-udevPROGRAMS ctags \
+	distclean distclean-compile distclean-generic \
+	distclean-libtool distclean-tags distdir dvi dvi-am html \
+	html-am info info-am install install-am install-data \
+	install-data-am install-data-hook install-dbusactivationDATA \
 	install-dbusserviceDATA install-dvi install-dvi-am \
 	install-exec install-exec-am install-html install-html-am \
 	install-info install-info-am install-libexecPROGRAMS \
 	install-man install-pdf install-pdf-am install-ps \
-	install-ps-am install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool pdf pdf-am ps ps-am tags uninstall \
-	uninstall-am uninstall-dbusactivationDATA \
-	uninstall-dbusserviceDATA uninstall-libexecPROGRAMS
+	install-ps-am install-strip install-udevPROGRAMS \
+	install-udevrulesDATA installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am tags uninstall uninstall-am \
+	uninstall-dbusactivationDATA uninstall-dbusserviceDATA \
+	uninstall-libexecPROGRAMS uninstall-udevPROGRAMS \
+	uninstall-udevrulesDATA
 
 
 nm-dispatcher-glue.h: nm-dispatcher.xml

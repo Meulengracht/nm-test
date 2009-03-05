@@ -47,9 +47,9 @@ am_test_keyfile_OBJECTS = test_keyfile-test-keyfile.$(OBJEXT)
 test_keyfile_OBJECTS = $(am_test_keyfile_OBJECTS)
 am__DEPENDENCIES_1 =
 test_keyfile_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+	$(top_builddir)/system-settings/plugins/keyfile/io/libkeyfile-io.la \
 	$(top_builddir)/libnm-glib/libnm_glib.la \
-	$(top_builddir)/libnm-util/libnm-util.la \
-	$(top_builddir)/system-settings/plugins/keyfile/io/libkeyfile-io.la
+	$(top_builddir)/libnm-util/libnm-util.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -208,6 +208,7 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 SYSTEM_CA_PATH = @SYSTEM_CA_PATH@
+UDEV_BASE_DIR = @UDEV_BASE_DIR@
 USE_NLS = @USE_NLS@
 UUID_CFLAGS = @UUID_CFLAGS@
 UUID_LIBS = @UUID_LIBS@
@@ -282,9 +283,9 @@ test_keyfile_CPPFLAGS = \
 
 test_keyfile_LDADD = \
 	$(DBUS_LIBS) \
+	$(top_builddir)/system-settings/plugins/keyfile/io/libkeyfile-io.la \
 	$(top_builddir)/libnm-glib/libnm_glib.la \
-	$(top_builddir)/libnm-util/libnm-util.la \
-	$(top_builddir)/system-settings/plugins/keyfile/io/libkeyfile-io.la
+	$(top_builddir)/libnm-util/libnm-util.la
 
 all: all-recursive
 

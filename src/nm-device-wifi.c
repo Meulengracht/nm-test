@@ -15,7 +15,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Copyright (C) 2005 - 2008 Red Hat, Inc.
+ * Copyright (C) 2005 - 2009 Red Hat, Inc.
  * Copyright (C) 2006 - 2008 Novell, Inc.
  */
 
@@ -731,67 +731,140 @@ get_active_ap (NMDeviceWifi *self,
                gboolean match_hidden)
 {
 	NMDeviceWifiPrivate *priv = NM_DEVICE_WIFI_GET_PRIVATE (self);
+	const char *iface = nm_device_get_iface (NM_DEVICE (self));
 	struct ether_addr bssid;
 	const GByteArray *ssid;
 	GSList *iter;
 	int i = 0;
+	gboolean ap_debug = getenv ("NM_ACTIVE_AP_DEBUG") ? TRUE : FALSE;
 
 	nm_device_wifi_get_bssid (self, &bssid);
+	if (G_UNLIKELY (ap_debug)) {
+		nm_debug ("(%s) BSSID: %02x:%02x:%02x:%02x:%02x:%02x",
+		          iface,
+		          bssid.ether_addr_octet[0], bssid.ether_addr_octet[1],
+		          bssid.ether_addr_octet[2], bssid.ether_addr_octet[3],
+		          bssid.ether_addr_octet[4], bssid.ether_addr_octet[5]);
+	}
 	if (!nm_ethernet_address_is_valid (&bssid))
 		return NULL;
 
 	ssid = nm_device_wifi_get_ssid (self);
+	if G_UNLIKELY (ap_debug) {
+		nm_debug ("(%s) SSID: %s%s%s",
+		          iface,
+		          ssid ? "'" : "",
+		          ssid ? nm_utils_escape_ssid (ssid->data, ssid->len) : "(none)",
+		          ssid ? "'" : "");
+	}
 
 	/* When matching hidden APs, do a second pass that ignores the SSID check,
 	 * because NM might not yet know the SSID of the hidden AP in the scan list
 	 * and therefore it won't get matched the first time around.
 	 */
 	while (i++ < (match_hidden ? 2 : 1)) {
+		if G_UNLIKELY (ap_debug)
+			nm_debug ("  Pass #%d %s", i, i > 1 ? "(ignoring SSID)" : "");
+
 		/* Find this SSID + BSSID in the device's AP list */
 		for (iter = priv->ap_list; iter; iter = g_slist_next (iter)) {
 			NMAccessPoint *ap = NM_AP (iter->data);
 			const struct ether_addr	*ap_bssid = nm_ap_get_address (ap);
 			const GByteArray *ap_ssid = nm_ap_get_ssid (ap);
+			NM80211Mode devmode, apmode;
+			guint32 devfreq, apfreq;
 
-			if (ignore_ap && (ap == ignore_ap))
-				continue;
+			if G_UNLIKELY (ap_debug) {
+				nm_debug ("    AP: %s%s%s  %02x:%02x:%02x:%02x:%02x:%02x",
+				          ap_ssid ? "'" : "",
+				          ap_ssid ? nm_utils_escape_ssid (ap_ssid->data, ap_ssid->len) : "(none)",
+				          ap_ssid ? "'" : "",
+				          ap_bssid->ether_addr_octet[0], ap_bssid->ether_addr_octet[1],
+				          ap_bssid->ether_addr_octet[2], ap_bssid->ether_addr_octet[3],
+				          ap_bssid->ether_addr_octet[4], ap_bssid->ether_addr_octet[5]);
+			}
 
-			if (memcmp (bssid.ether_addr_octet, ap_bssid->ether_addr_octet, ETH_ALEN))
+			if (ignore_ap && (ap == ignore_ap)) {
+				if G_UNLIKELY (ap_debug)
+					nm_debug ("      ignored");
 				continue;
+			}
 
-		    if ((i == 0) && !nm_utils_same_ssid (ssid, ap_ssid, TRUE))
+			if (memcmp (bssid.ether_addr_octet, ap_bssid->ether_addr_octet, ETH_ALEN)) {
+				if G_UNLIKELY (ap_debug)
+					nm_debug ("      BSSID mismatch");
 				continue;
+			}
 
-			if (nm_device_wifi_get_mode (self) != nm_ap_get_mode (ap))
+			if ((i == 0) && !nm_utils_same_ssid (ssid, ap_ssid, TRUE)) {
+				if G_UNLIKELY (ap_debug)
+					nm_debug ("      SSID mismatch");
 				continue;
+			}
 
-			if (nm_device_wifi_get_frequency (self) != nm_ap_get_freq (ap))
+			devmode = nm_device_wifi_get_mode (self);
+			apmode = nm_ap_get_mode (ap);
+			if (devmode != apmode) {
+				if G_UNLIKELY (ap_debug) {
+					nm_debug ("      mode mismatch (device %d, ap %d)",
+					          devmode, apmode);
+				}
 				continue;
+			}
+
+			devfreq = nm_device_wifi_get_frequency (self);
+			apfreq = nm_ap_get_freq (ap);
+			if (devfreq != apfreq) {
+				if G_UNLIKELY (ap_debug) {
+					nm_debug ("      frequency mismatch (device %u, ap %u)",
+					          devfreq, apfreq);
+				}
+				continue;
+			}
 
 			// FIXME: handle security settings here too
+			if G_UNLIKELY (ap_debug)
+				nm_debug ("      matched");
 			return ap;
 		}
 	}
 
+	if G_UNLIKELY (ap_debug)
+		nm_debug ("  No matching AP found.");
 	return NULL;
 }
 
 static void
 set_current_ap (NMDeviceWifi *self, NMAccessPoint *new_ap)
 {
-	NMDeviceWifiPrivate *priv = NM_DEVICE_WIFI_GET_PRIVATE (self);
+	NMDeviceWifiPrivate *priv;
 	char *old_path = NULL;
+	NMAccessPoint *old_ap;
 
 	g_return_if_fail (NM_IS_DEVICE_WIFI (self));
 
-	if (priv->current_ap) {
-		old_path = g_strdup (nm_ap_get_dbus_path (priv->current_ap));
-		g_object_unref (priv->current_ap);
+	priv = NM_DEVICE_WIFI_GET_PRIVATE (self);
+	old_ap = priv->current_ap;
+
+	if (old_ap) {
+		old_path = g_strdup (nm_ap_get_dbus_path (old_ap));
 		priv->current_ap = NULL;
 	}
 
-	if (new_ap)
+	if (new_ap) {
 		priv->current_ap = g_object_ref (new_ap);
+
+		/* Move the current AP to the front of the scan list.  Since we
+		 * do a lot of searches looking for the current AP, it saves
+		 * time to have it in front.
+		 */
+		priv->ap_list = g_slist_remove (priv->ap_list, new_ap);
+		priv->ap_list = g_slist_prepend (priv->ap_list, new_ap);
+	}
+
+	/* Unref old AP here to ensure object lives if new_ap == old_ap */
+	if (old_ap)
+		g_object_unref (old_ap);
 
 	/* Only notify if it's really changed */
 	if (   (!old_path && new_ap)
@@ -808,6 +881,24 @@ periodic_update (NMDeviceWifi *self)
 	NMDeviceWifiPrivate *priv = NM_DEVICE_WIFI_GET_PRIVATE (self);
 	NMAccessPoint *new_ap;
 	guint32 new_rate;
+
+	/* In IBSS mode, most newer firmware/drivers do "BSS coalescing" where
+	 * multiple IBSS stations using the same SSID will eventually switch to
+	 * using the same BSSID to avoid network segmentation.  When this happens,
+	 * the card's reported BSSID will change, but the the new BSS may not
+	 * be in the scan list, since scanning isn't done in ad-hoc mode for
+	 * various reasons.  So pull the BSSID from the card and update the
+	 * current AP with it, if the current AP is adhoc.
+	 */
+	if (priv->current_ap && (nm_ap_get_mode (priv->current_ap) == NM_802_11_MODE_ADHOC)) {
+		struct ether_addr bssid = { {0x0, 0x0, 0x0, 0x0, 0x0, 0x0} };
+
+		nm_device_wifi_get_bssid (self, &bssid);
+		/* 0x02 is the first byte of IBSS BSSIDs */
+		if (   (bssid.ether_addr_octet[0] == 0x02)
+		    && nm_ethernet_address_is_valid (&bssid))
+			nm_ap_set_address (priv->current_ap, &bssid);
+	}
 
 	new_ap = get_active_ap (self, NULL, FALSE);
 	if (new_ap)
@@ -951,13 +1042,28 @@ real_take_down (NMDevice *dev)
 static void
 real_deactivate_quickly (NMDevice *dev)
 {
-	NMDeviceWifi *	self = NM_DEVICE_WIFI (dev);
+	NMDeviceWifi *self = NM_DEVICE_WIFI (dev);
 	NMDeviceWifiPrivate *priv = NM_DEVICE_WIFI_GET_PRIVATE (self);
+	NMAccessPoint *orig_ap = nm_device_wifi_get_activation_ap (self);
 
 	cleanup_association_attempt (self, TRUE);
 
 	set_current_ap (self, NULL);
 	priv->rate = 0;
+
+	/* If the AP is 'fake', i.e. it wasn't actually found from
+	 * a scan but the user tried to connect to it manually (maybe it
+	 * was non-broadcasting or something) get rid of it, because 'fake'
+	 * APs should only live for as long as we're connected to them.  Fixes
+	 * a bug where user-created Ad-Hoc APs are never removed from the scan
+	 * list, because scanning is disabled while in Ad-Hoc mode (for stability),
+	 * and thus the AP culling never happens. (bgo #569241)
+	 */
+	if (orig_ap && nm_ap_get_fake (orig_ap)) {
+		access_point_removed (self, orig_ap);
+		priv->ap_list = g_slist_remove (priv->ap_list, orig_ap);
+		g_object_unref (orig_ap);
+	}
 
 	/* Clean up stuff, don't leave the card associated */
 	nm_device_wifi_set_ssid (self, NULL);
@@ -1900,7 +2006,7 @@ merge_scanned_ap (NMDeviceWifi *self,
 		/* New entry in the list */
 		// FIXME: figure out if reference counts are correct here for AP objects
 		g_object_ref (merge_ap);
-		priv->ap_list = g_slist_append (priv->ap_list, merge_ap);
+		priv->ap_list = g_slist_prepend (priv->ap_list, merge_ap);
 		nm_ap_export_to_dbus (merge_ap);
 		g_signal_emit (self, signals[ACCESS_POINT_ADDED], 0, merge_ap);
 	}
@@ -2784,7 +2890,7 @@ real_act_stage1_prepare (NMDevice *dev, NMDeviceStateReason *reason)
 				break;
 		}
 
-		priv->ap_list = g_slist_append (priv->ap_list, ap);
+		priv->ap_list = g_slist_prepend (priv->ap_list, ap);
 		nm_ap_export_to_dbus (ap);
 		g_signal_emit (self, signals[ACCESS_POINT_ADDED], 0, ap);
 	}
@@ -3055,18 +3161,23 @@ activation_success_handler (NMDevice *dev)
 
 	ap = nm_device_wifi_get_activation_ap (self);
 
-	/* If the activate AP was fake, it probably won't have a BSSID at all.
-	 * But if activation was successful, the card will know the BSSID.  Grab
-	 * the BSSID off the card and fill in the BSSID of the activation AP.
+	/* If the AP isn't fake, it was found in the scan list and all its
+	 * details are known.
 	 */
 	if (!nm_ap_get_fake (ap))
 		goto done;
 
+	/* If the activate AP was fake, it probably won't have a BSSID at all.
+	 * But if activation was successful, the card will know the BSSID.  Grab
+	 * the BSSID off the card and fill in the BSSID of the activation AP.
+	 */
 	nm_device_wifi_get_bssid (self, &bssid);
 	if (!nm_ethernet_address_is_valid (nm_ap_get_address (ap)))
 		nm_ap_set_address (ap, &bssid);
 	if (!nm_ap_get_freq (ap))
 		nm_ap_set_freq (ap, nm_device_wifi_get_frequency (self));
+	if (!nm_ap_get_max_bitrate (ap) && nm_ap_get_user_created (ap))
+		nm_ap_set_max_bitrate (ap, nm_device_wifi_get_bitrate (self));
 
 	tmp_ap = get_active_ap (self, ap, TRUE);
 	if (tmp_ap) {
