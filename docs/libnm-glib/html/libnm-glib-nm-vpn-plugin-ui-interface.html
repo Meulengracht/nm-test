@@ -21,16 +21,16 @@
 <th width="100%" align="center">libnm-glib Reference Manual</th>
 <td><a accesskey="n" href="libnm-glib-libnm-glib.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#id3057350" class="shortcut">Top</a>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2850980" class="shortcut">Top</a>
                   &#160;|&#160;
-                  <a href="#id3079692" class="shortcut">Description</a></nobr></td></tr>
+                  <a href="#id2873322" class="shortcut">Description</a></nobr></td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="libnm-glib-nm-vpn-plugin-ui-interface"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
 <h2>
-<a name="id3057350"></a><span class="refentrytitle">nm-vpn-plugin-ui-interface</span>
+<a name="id2850980"></a><span class="refentrytitle">nm-vpn-plugin-ui-interface</span>
 </h2>
 <p>nm-vpn-plugin-ui-interface</p>
 </td>
@@ -138,17 +138,17 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id3079692"></a><h2>Description</h2>
+<a name="id2873322"></a><h2>Description</h2>
 <p>
 
 </p>
 </div>
 <div class="refsect1" lang="en">
-<a name="id3079708"></a><h2>Details</h2>
+<a name="id2873338"></a><h2>Details</h2>
 <div class="refsect2" lang="en">
-<a name="id3079718"></a><h3>
+<a name="id2873348"></a><h3>
 <a name="NMVpnPluginUiInterface"></a>NMVpnPluginUiInterface</h3>
-<a class="indexterm" name="id3079730"></a><pre class="programlisting">typedef struct {
+<a class="indexterm" name="id2873360"></a><pre class="programlisting">typedef struct {
 	GTypeInterface g_iface;
 
 	/* Plugin's factory function that returns a GObject that implements
@@ -198,9 +198,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3079779"></a><h3>
+<a name="id2873409"></a><h3>
 <a name="NMVpnPluginUiWidgetInterface"></a>NMVpnPluginUiWidgetInterface</h3>
-<a class="indexterm" name="id3079792"></a><pre class="programlisting">typedef struct {
+<a class="indexterm" name="id2873422"></a><pre class="programlisting">typedef struct {
 	GTypeInterface g_iface;
 
 	/* Return the GtkWidget for the VPN's UI */
@@ -237,9 +237,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3079832"></a><h3>
+<a name="id2873462"></a><h3>
 <a name="NMVpnPluginUiFactory"></a>NMVpnPluginUiFactory ()</h3>
-<a class="indexterm" name="id3079843"></a><pre class="programlisting"><a class="link" href="libnm-glib-nm-vpn-plugin-ui-interface.html#NMVpnPluginUiInterface">NMVpnPluginUiInterface</a>* (*NMVpnPluginUiFactory)         (<a
+<a class="indexterm" name="id2873473"></a><pre class="programlisting"><a class="link" href="libnm-glib-nm-vpn-plugin-ui-interface.html#NMVpnPluginUiInterface">NMVpnPluginUiInterface</a>* (*NMVpnPluginUiFactory)         (<a
 href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 >GError</a> **error);</pre>
 <p>
@@ -265,9 +265,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3079898"></a><h3>
+<a name="id2873528"></a><h3>
 <a name="nm-vpn-plugin-ui-factory"></a>nm_vpn_plugin_ui_factory ()</h3>
-<a class="indexterm" name="id3079910"></a><pre class="programlisting"><a class="link" href="libnm-glib-nm-vpn-plugin-ui-interface.html#NMVpnPluginUiInterface">NMVpnPluginUiInterface</a>* nm_vpn_plugin_ui_factory        (<a
+<a class="indexterm" name="id2873540"></a><pre class="programlisting"><a class="link" href="libnm-glib-nm-vpn-plugin-ui-interface.html#NMVpnPluginUiInterface">NMVpnPluginUiInterface</a>* nm_vpn_plugin_ui_factory        (<a
 href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 >GError</a> **error);</pre>
 <p>
@@ -293,9 +293,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3089120"></a><h3>
+<a name="id2882750"></a><h3>
 <a name="NM-VPN-PLUGIN-UI-INTERFACE-GET-INTERFACE:CAPS"></a>NM_VPN_PLUGIN_UI_INTERFACE_GET_INTERFACE()</h3>
-<a class="indexterm" name="id3089134"></a><pre class="programlisting">#define NM_VPN_PLUGIN_UI_INTERFACE_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), NM_TYPE_VPN_PLUGIN_UI_INTERFACE, NMVpnPluginUiInterface))
+<a class="indexterm" name="id2882763"></a><pre class="programlisting">#define NM_VPN_PLUGIN_UI_INTERFACE_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), NM_TYPE_VPN_PLUGIN_UI_INTERFACE, NMVpnPluginUiInterface))
 </pre>
 <p>
 
@@ -313,9 +313,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3089171"></a><h3>
+<a name="id2882801"></a><h3>
 <a name="NM-VPN-PLUGIN-UI-CAPABILITY-NONE:CAPS"></a>NM_VPN_PLUGIN_UI_CAPABILITY_NONE</h3>
-<a class="indexterm" name="id3089185"></a><pre class="programlisting">#define NM_VPN_PLUGIN_UI_CAPABILITY_NONE     0x00
+<a class="indexterm" name="id2882815"></a><pre class="programlisting">#define NM_VPN_PLUGIN_UI_CAPABILITY_NONE     0x00
 </pre>
 <p>
 
@@ -323,9 +323,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3089202"></a><h3>
+<a name="id2882832"></a><h3>
 <a name="NM-VPN-PLUGIN-UI-CAPABILITY-IMPORT:CAPS"></a>NM_VPN_PLUGIN_UI_CAPABILITY_IMPORT</h3>
-<a class="indexterm" name="id3089215"></a><pre class="programlisting">#define NM_VPN_PLUGIN_UI_CAPABILITY_IMPORT   0x01
+<a class="indexterm" name="id2882845"></a><pre class="programlisting">#define NM_VPN_PLUGIN_UI_CAPABILITY_IMPORT   0x01
 </pre>
 <p>
 
@@ -333,9 +333,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3089232"></a><h3>
+<a name="id2882862"></a><h3>
 <a name="NM-VPN-PLUGIN-UI-CAPABILITY-EXPORT:CAPS"></a>NM_VPN_PLUGIN_UI_CAPABILITY_EXPORT</h3>
-<a class="indexterm" name="id3089246"></a><pre class="programlisting">#define NM_VPN_PLUGIN_UI_CAPABILITY_EXPORT   0x02
+<a class="indexterm" name="id2882875"></a><pre class="programlisting">#define NM_VPN_PLUGIN_UI_CAPABILITY_EXPORT   0x02
 </pre>
 <p>
 
@@ -343,9 +343,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3089262"></a><h3>
+<a name="id2882892"></a><h3>
 <a name="NM-VPN-PLUGIN-UI-INTERFACE-NAME:CAPS"></a>NM_VPN_PLUGIN_UI_INTERFACE_NAME</h3>
-<a class="indexterm" name="id3089276"></a><pre class="programlisting">#define NM_VPN_PLUGIN_UI_INTERFACE_NAME "name"
+<a class="indexterm" name="id2882906"></a><pre class="programlisting">#define NM_VPN_PLUGIN_UI_INTERFACE_NAME "name"
 </pre>
 <p>
 
@@ -353,9 +353,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3089292"></a><h3>
+<a name="id2882922"></a><h3>
 <a name="NM-VPN-PLUGIN-UI-INTERFACE-DESC:CAPS"></a>NM_VPN_PLUGIN_UI_INTERFACE_DESC</h3>
-<a class="indexterm" name="id3089306"></a><pre class="programlisting">#define NM_VPN_PLUGIN_UI_INTERFACE_DESC "desc"
+<a class="indexterm" name="id2882936"></a><pre class="programlisting">#define NM_VPN_PLUGIN_UI_INTERFACE_DESC "desc"
 </pre>
 <p>
 
@@ -363,9 +363,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3089322"></a><h3>
+<a name="id2882952"></a><h3>
 <a name="NM-VPN-PLUGIN-UI-INTERFACE-SERVICE:CAPS"></a>NM_VPN_PLUGIN_UI_INTERFACE_SERVICE</h3>
-<a class="indexterm" name="id3089336"></a><pre class="programlisting">#define NM_VPN_PLUGIN_UI_INTERFACE_SERVICE "service"
+<a class="indexterm" name="id2882966"></a><pre class="programlisting">#define NM_VPN_PLUGIN_UI_INTERFACE_SERVICE "service"
 </pre>
 <p>
 
@@ -373,9 +373,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3089353"></a><h3>
+<a name="id2882983"></a><h3>
 <a name="NMVpnPluginUiInterfaceProp"></a>enum NMVpnPluginUiInterfaceProp</h3>
-<a class="indexterm" name="id3089365"></a><pre class="programlisting">typedef enum {
+<a class="indexterm" name="id2882994"></a><pre class="programlisting">typedef enum {
 	NM_VPN_PLUGIN_UI_INTERFACE_PROP_FIRST = 0x1000,
 
 	NM_VPN_PLUGIN_UI_INTERFACE_PROP_NAME = NM_VPN_PLUGIN_UI_INTERFACE_PROP_FIRST,
@@ -389,9 +389,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3089384"></a><h3>
+<a name="id2883014"></a><h3>
 <a name="nm-vpn-plugin-ui-interface-ui-factory"></a>nm_vpn_plugin_ui_interface_ui_factory ()</h3>
-<a class="indexterm" name="id3089397"></a><pre class="programlisting"><a class="link" href="libnm-glib-nm-vpn-plugin-ui-interface.html#NMVpnPluginUiWidgetInterface">NMVpnPluginUiWidgetInterface</a>* nm_vpn_plugin_ui_interface_ui_factory
+<a class="indexterm" name="id2883027"></a><pre class="programlisting"><a class="link" href="libnm-glib-nm-vpn-plugin-ui-interface.html#NMVpnPluginUiWidgetInterface">NMVpnPluginUiWidgetInterface</a>* nm_vpn_plugin_ui_interface_ui_factory
                                                         (<a class="link" href="libnm-glib-nm-vpn-plugin-ui-interface.html#NMVpnPluginUiInterface">NMVpnPluginUiInterface</a> *iface,
                                                          <a
 href="http://[SERVER]/libnm-util/NMConnection.html"
@@ -432,9 +432,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3089498"></a><h3>
+<a name="id2883128"></a><h3>
 <a name="nm-vpn-plugin-ui-interface-get-capabilities"></a>nm_vpn_plugin_ui_interface_get_capabilities ()</h3>
-<a class="indexterm" name="id3089512"></a><pre class="programlisting"><a
+<a class="indexterm" name="id2883142"></a><pre class="programlisting"><a
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 >guint32</a>             nm_vpn_plugin_ui_interface_get_capabilities
                                                         (<a class="link" href="libnm-glib-nm-vpn-plugin-ui-interface.html#NMVpnPluginUiInterface">NMVpnPluginUiInterface</a> *iface);</pre>
@@ -461,9 +461,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3089569"></a><h3>
+<a name="id2883199"></a><h3>
 <a name="nm-vpn-plugin-ui-interface-import"></a>nm_vpn_plugin_ui_interface_import ()</h3>
-<a class="indexterm" name="id3089583"></a><pre class="programlisting"><a
+<a class="indexterm" name="id2883213"></a><pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMConnection.html"
 >NMConnection</a>*       nm_vpn_plugin_ui_interface_import   (<a class="link" href="libnm-glib-nm-vpn-plugin-ui-interface.html#NMVpnPluginUiInterface">NMVpnPluginUiInterface</a> *iface,
                                                          const char *path,
@@ -503,9 +503,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3089682"></a><h3>
+<a name="id2883312"></a><h3>
 <a name="nm-vpn-plugin-ui-interface-export"></a>nm_vpn_plugin_ui_interface_export ()</h3>
-<a class="indexterm" name="id3089696"></a><pre class="programlisting"><a
+<a class="indexterm" name="id2883326"></a><pre class="programlisting"><a
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            nm_vpn_plugin_ui_interface_export   (<a class="link" href="libnm-glib-nm-vpn-plugin-ui-interface.html#NMVpnPluginUiInterface">NMVpnPluginUiInterface</a> *iface,
                                                          const char *path,
@@ -553,9 +553,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3089816"></a><h3>
+<a name="id2883445"></a><h3>
 <a name="nm-vpn-plugin-ui-interface-get-suggested-name"></a>nm_vpn_plugin_ui_interface_get_suggested_name ()</h3>
-<a class="indexterm" name="id3089830"></a><pre class="programlisting">char*               nm_vpn_plugin_ui_interface_get_suggested_name
+<a class="indexterm" name="id2883459"></a><pre class="programlisting">char*               nm_vpn_plugin_ui_interface_get_suggested_name
                                                         (<a class="link" href="libnm-glib-nm-vpn-plugin-ui-interface.html#NMVpnPluginUiInterface">NMVpnPluginUiInterface</a> *iface,
                                                          <a
 href="http://[SERVER]/libnm-util/NMConnection.html"
@@ -588,9 +588,9 @@ href="http://[SERVER]/libnm-util/NMConnection.html"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3089909"></a><h3>
+<a name="id2883539"></a><h3>
 <a name="nm-vpn-plugin-ui-interface-delete-connection"></a>nm_vpn_plugin_ui_interface_delete_connection ()</h3>
-<a class="indexterm" name="id3089923"></a><pre class="programlisting"><a
+<a class="indexterm" name="id2883553"></a><pre class="programlisting"><a
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            nm_vpn_plugin_ui_interface_delete_connection
                                                         (<a class="link" href="libnm-glib-nm-vpn-plugin-ui-interface.html#NMVpnPluginUiInterface">NMVpnPluginUiInterface</a> *iface,
@@ -633,9 +633,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3090024"></a><h3>
+<a name="id2883653"></a><h3>
 <a name="NM-TYPE-VPN-PLUGIN-UI-WIDGET-INTERFACE:CAPS"></a>NM_TYPE_VPN_PLUGIN_UI_WIDGET_INTERFACE</h3>
-<a class="indexterm" name="id3090037"></a><pre class="programlisting">#define NM_TYPE_VPN_PLUGIN_UI_WIDGET_INTERFACE      (nm_vpn_plugin_ui_widget_interface_get_type ())
+<a class="indexterm" name="id2883667"></a><pre class="programlisting">#define NM_TYPE_VPN_PLUGIN_UI_WIDGET_INTERFACE      (nm_vpn_plugin_ui_widget_interface_get_type ())
 </pre>
 <p>
 
@@ -643,9 +643,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3090055"></a><h3>
+<a name="id2883685"></a><h3>
 <a name="NM-VPN-PLUGIN-UI-WIDGET-INTERFACE:CAPS"></a>NM_VPN_PLUGIN_UI_WIDGET_INTERFACE()</h3>
-<a class="indexterm" name="id3090069"></a><pre class="programlisting">#define NM_VPN_PLUGIN_UI_WIDGET_INTERFACE(obj)      (G_TYPE_CHECK_INSTANCE_CAST ((obj), NM_TYPE_VPN_PLUGIN_UI_WIDGET_INTERFACE, NMVpnPluginUiWidgetInterface))
+<a class="indexterm" name="id2883699"></a><pre class="programlisting">#define NM_VPN_PLUGIN_UI_WIDGET_INTERFACE(obj)      (G_TYPE_CHECK_INSTANCE_CAST ((obj), NM_TYPE_VPN_PLUGIN_UI_WIDGET_INTERFACE, NMVpnPluginUiWidgetInterface))
 </pre>
 <p>
 
@@ -663,9 +663,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3090107"></a><h3>
+<a name="id2883736"></a><h3>
 <a name="NM-IS-VPN-PLUGIN-UI-WIDGET-INTERFACE:CAPS"></a>NM_IS_VPN_PLUGIN_UI_WIDGET_INTERFACE()</h3>
-<a class="indexterm" name="id3090119"></a><pre class="programlisting">#define NM_IS_VPN_PLUGIN_UI_WIDGET_INTERFACE(obj)   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), NM_TYPE_VPN_PLUGIN_UI_WIDGET_INTERFACE))
+<a class="indexterm" name="id2883749"></a><pre class="programlisting">#define NM_IS_VPN_PLUGIN_UI_WIDGET_INTERFACE(obj)   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), NM_TYPE_VPN_PLUGIN_UI_WIDGET_INTERFACE))
 </pre>
 <p>
 
@@ -683,9 +683,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3090156"></a><h3>
+<a name="id2883786"></a><h3>
 <a name="NM-VPN-PLUGIN-UI-WIDGET-INTERFACE-GET-INTERFACE:CAPS"></a>NM_VPN_PLUGIN_UI_WIDGET_INTERFACE_GET_INTERFACE()</h3>
-<a class="indexterm" name="id3090171"></a><pre class="programlisting">#define NM_VPN_PLUGIN_UI_WIDGET_INTERFACE_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), NM_TYPE_VPN_PLUGIN_UI_WIDGET_INTERFACE, NMVpnPluginUiWidgetInterface))
+<a class="indexterm" name="id2883801"></a><pre class="programlisting">#define NM_VPN_PLUGIN_UI_WIDGET_INTERFACE_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), NM_TYPE_VPN_PLUGIN_UI_WIDGET_INTERFACE, NMVpnPluginUiWidgetInterface))
 </pre>
 <p>
 
@@ -703,9 +703,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3090209"></a><h3>
+<a name="id2883838"></a><h3>
 <a name="nm-vpn-plugin-ui-widget-interface-get-type"></a>nm_vpn_plugin_ui_widget_interface_get_type ()</h3>
-<a class="indexterm" name="id3090223"></a><pre class="programlisting"><a
+<a class="indexterm" name="id2883853"></a><pre class="programlisting"><a
 href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
 >GType</a>               nm_vpn_plugin_ui_widget_interface_get_type
                                                         (void);</pre>
@@ -725,9 +725,9 @@ href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3090260"></a><h3>
+<a name="id2883890"></a><h3>
 <a name="nm-vpn-plugin-ui-widget-interface-get-widget"></a>nm_vpn_plugin_ui_widget_interface_get_widget ()</h3>
-<a class="indexterm" name="id3090274"></a><pre class="programlisting"><a
+<a class="indexterm" name="id2883904"></a><pre class="programlisting"><a
 href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>*            nm_vpn_plugin_ui_widget_interface_get_widget
                                                         (<a class="link" href="libnm-glib-nm-vpn-plugin-ui-interface.html#NMVpnPluginUiWidgetInterface">NMVpnPluginUiWidgetInterface</a> *iface);</pre>
@@ -754,9 +754,9 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3090333"></a><h3>
+<a name="id2883963"></a><h3>
 <a name="nm-vpn-plugin-ui-widget-interface-update-connection"></a>nm_vpn_plugin_ui_widget_interface_update_connection ()</h3>
-<a class="indexterm" name="id3090348"></a><pre class="programlisting"><a
+<a class="indexterm" name="id2883977"></a><pre class="programlisting"><a
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            nm_vpn_plugin_ui_widget_interface_update_connection
                                                         (<a class="link" href="libnm-glib-nm-vpn-plugin-ui-interface.html#NMVpnPluginUiWidgetInterface">NMVpnPluginUiWidgetInterface</a> *iface,
@@ -799,9 +799,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3090450"></a><h3>
+<a name="id2884079"></a><h3>
 <a name="nm-vpn-plugin-ui-widget-interface-save-secrets"></a>nm_vpn_plugin_ui_widget_interface_save_secrets ()</h3>
-<a class="indexterm" name="id3090464"></a><pre class="programlisting"><a
+<a class="indexterm" name="id2884093"></a><pre class="programlisting"><a
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            nm_vpn_plugin_ui_widget_interface_save_secrets
                                                         (<a class="link" href="libnm-glib-nm-vpn-plugin-ui-interface.html#NMVpnPluginUiWidgetInterface">NMVpnPluginUiWidgetInterface</a> *iface,
@@ -844,9 +844,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
 </div>
 </div>
 <div class="refsect1" lang="en">
-<a name="id3090567"></a><div class="refsect2" lang="en"><a name="id3090568"></a></div>
+<a name="id2884197"></a><div class="refsect2" lang="en"><a name="id2884198"></a></div>
 <hr>
-<div class="refsect2" lang="en"><a name="id3090569"></a></div>
+<div class="refsect2" lang="en"><a name="id2884199"></a></div>
 </div>
 </div>
 </body>

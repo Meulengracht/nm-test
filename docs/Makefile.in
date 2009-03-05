@@ -186,6 +186,7 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 SYSTEM_CA_PATH = @SYSTEM_CA_PATH@
+UDEV_BASE_DIR = @UDEV_BASE_DIR@
 USE_NLS = @USE_NLS@
 UUID_CFLAGS = @UUID_CFLAGS@
 UUID_LIBS = @UUID_LIBS@
@@ -571,8 +572,9 @@ uninstall-am:
 
 
 @WITH_DOCS_TRUE@spec.html: $(XMLS) $(OTHER_FILES)
-@WITH_DOCS_TRUE@	@install -d docs
 @WITH_DOCS_TRUE@	$(XSLTPROC) $(top_srcdir)/tools/doc-generator.xsl $(top_srcdir)/introspection/all.xml > $@
+
+@WITH_DOCS_TRUE@all: $(GENERATED_FILES)
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

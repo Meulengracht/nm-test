@@ -87,17 +87,6 @@ typedef struct {
 } SCPluginIfcfgPrivate;
 
 
-GQuark
-ifcfg_plugin_error_quark (void)
-{
-	static GQuark error_quark = 0;
-
-	if (G_UNLIKELY (error_quark == 0))
-		error_quark = g_quark_from_static_string ("ifcfg-plugin-error-quark");
-
-	return error_quark;
-}
-
 static void
 check_unmanaged (gpointer key, gpointer data, gpointer user_data)
 {
@@ -497,8 +486,17 @@ plugin_get_hostname (SCPluginIfcfg *plugin)
 		return FALSE;
 	}
 
-	hostname = svGetValue (network, "HOSTNAME");
+	hostname = svGetValue (network, "HOSTNAME", FALSE);
 	svCloseFile (network);
+
+	/* Ignore a hostname of 'localhost' or 'localhost.localdomain' to preserve
+	 * 'network' service behavior.
+	 */
+	if (hostname && (!strcmp (hostname, "localhost") || !strcmp (hostname, "localhost.localdomain"))) {
+		g_free (hostname);
+		hostname = NULL;
+	}
+
 	return hostname;
 }
 

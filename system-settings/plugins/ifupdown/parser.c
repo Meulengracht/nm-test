@@ -153,9 +153,20 @@ update_wireless_setting_from_if_block(NMConnection *connection,
 			const gchar* newkey = map_by_mapping(mapping, curr->key+wireless_l);
 			PLUGIN_PRINT ("SCPlugin-Ifupdown", "wireless setting key: %s='%s'",
 					    newkey, curr->data);
-			g_object_set(wireless_setting,
+			if(newkey && !strcmp("ssid", newkey)) {
+				GByteArray *ssid;
+				gint len = strlen(curr->data);
+
+				ssid = g_byte_array_sized_new (len);
+				g_byte_array_append (ssid, (const guint8 *) curr->data, len);
+				g_object_set (wireless_setting, NM_SETTING_WIRELESS_SSID, ssid, NULL);
+				g_byte_array_free (ssid, TRUE);
+				PLUGIN_PRINT("SCPlugin-Ifupdown", "setting wireless ssid = %d", len);
+			} else {
+				g_object_set(wireless_setting,
 					   newkey, curr->data,
 					   NULL);
+			}
 		} else if(strlen(curr->key) > wpa_l &&
 				!strncmp("wpa-", curr->key, wpa_l)) {
 			const gchar* newkey = map_by_mapping(mapping, curr->key+wpa_l);
@@ -184,6 +195,32 @@ update_wireless_setting_from_if_block(NMConnection *connection,
 
 typedef gchar* (*IfupdownStrDupeFunc) (gpointer value, gpointer data);
 typedef gpointer (*IfupdownStrToTypeFunc) (const gchar* value);
+
+static char*
+normalize_dupe_wireless_key (gpointer value, gpointer data) {
+	char* valuec = value;
+	char* endc = valuec + strlen (valuec);
+	char* delim = valuec;
+	char* next = delim;
+	char* result = malloc (strlen (valuec) + 1);
+	char* result_cur = result;
+
+	while (*delim && (next = strchr (delim, '-')) != NULL) {
+		if (next == delim) {
+			delim++;
+			continue;
+		}
+		strncpy (result_cur, delim, next - delim);
+		result_cur += next - delim;
+		delim = next + 1;
+	}
+	if (*delim && strlen (valuec) > GPOINTER_TO_UINT(delim - valuec)) {
+		strncpy (result_cur, delim, endc - delim);
+		result_cur += endc - delim;
+	}
+	*result_cur = '\0';
+	return result;
+}
 
 static char*
 normalize_dupe (gpointer value, gpointer data) {
@@ -264,9 +301,9 @@ update_wireless_security_setting_from_if_block(NMConnection *connection,
 	const gchar* value = ifparser_getkey (block, "inet");
 	struct _Mapping mapping[] = {
 		{"psk", "psk"},
-		{"identity", "identity"},
-		{"password", "password"},
-		{"key", "key"},
+		{"identity", "leap-username"},
+		{"password", "leap-password"},
+		{"key", "wep-key0"},
 		{"key-mgmt", "key-mgmt"},
 		{"group", "group"},
 		{"pairwise", "pairwise"},
@@ -284,16 +321,16 @@ update_wireless_security_setting_from_if_block(NMConnection *connection,
 		{"psk", normalize_psk},
 		{"identity", normalize_dupe},
 		{"password", normalize_dupe},
-		{"key", normalize_dupe},
+		{"key", normalize_dupe_wireless_key},
 		{"key-mgmt", normalize_tolower},
 		{"group", normalize_tolower},
 		{"pairwise", normalize_tolower},
 		{"proto", normalize_tolower},
 		{"pin", normalize_dupe},
-		{"wep-key0", normalize_dupe},
-		{"wep-key1", normalize_dupe},
-		{"wep-key2", normalize_dupe},
-		{"wep-key3", normalize_dupe},
+		{"wep-key0", normalize_dupe_wireless_key},
+		{"wep-key1", normalize_dupe_wireless_key},
+		{"wep-key2", normalize_dupe_wireless_key},
+		{"wep-key3", normalize_dupe_wireless_key},
 		{"wep-tx-keyidx", normalize_dupe},
 		{ NULL, NULL}
 	};
@@ -383,7 +420,7 @@ update_wireless_security_setting_from_if_block(NMConnection *connection,
 					    property_value
 #else // DEBUG_SECRETS
 					    !strcmp("key", newkey) ||
-					    !strcmp("password", newkey) ||
+					    !strcmp("leap-password", newkey) ||
 					    !strcmp("pin", newkey) ||
 					    !strcmp("psk", newkey) ||
 					    !strcmp("wep-key0", newkey) ||

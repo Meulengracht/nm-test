@@ -56,6 +56,7 @@ am_nm_system_settings_OBJECTS =  \
 	nm_system_settings-nm-system-config-interface.$(OBJEXT) \
 	nm_system_settings-nm-system-config-hal-manager.$(OBJEXT) \
 	nm_system_settings-nm-sysconfig-connection.$(OBJEXT) \
+	nm_system_settings-nm-default-wired-connection.$(OBJEXT) \
 	nm_system_settings-sha1.$(OBJEXT)
 nm_system_settings_OBJECTS = $(am_nm_system_settings_OBJECTS)
 am__DEPENDENCIES_1 =
@@ -224,6 +225,7 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 SYSTEM_CA_PATH = @SYSTEM_CA_PATH@
+UDEV_BASE_DIR = @UDEV_BASE_DIR@
 USE_NLS = @USE_NLS@
 UUID_CFLAGS = @UUID_CFLAGS@
 UUID_LIBS = @UUID_LIBS@
@@ -305,6 +307,8 @@ nm_system_settings_SOURCES = \
 	nm-system-config-hal-manager.h \
 	nm-sysconfig-connection.c \
 	nm-sysconfig-connection.h \
+	nm-default-wired-connection.c \
+	nm-default-wired-connection.h \
 	sha1.c \
 	sha1.h
 
@@ -427,6 +431,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nm_system_settings-dbus-settings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nm_system_settings-main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nm_system_settings-nm-default-wired-connection.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nm_system_settings-nm-inotify-helper.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nm_system_settings-nm-polkit-helpers.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nm_system_settings-nm-sysconfig-connection.Po@am__quote@
@@ -570,6 +575,20 @@ nm_system_settings-nm-sysconfig-connection.obj: nm-sysconfig-connection.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='nm-sysconfig-connection.c' object='nm_system_settings-nm-sysconfig-connection.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(nm_system_settings_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o nm_system_settings-nm-sysconfig-connection.obj `if test -f 'nm-sysconfig-connection.c'; then $(CYGPATH_W) 'nm-sysconfig-connection.c'; else $(CYGPATH_W) '$(srcdir)/nm-sysconfig-connection.c'; fi`
+
+nm_system_settings-nm-default-wired-connection.o: nm-default-wired-connection.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(nm_system_settings_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT nm_system_settings-nm-default-wired-connection.o -MD -MP -MF $(DEPDIR)/nm_system_settings-nm-default-wired-connection.Tpo -c -o nm_system_settings-nm-default-wired-connection.o `test -f 'nm-default-wired-connection.c' || echo '$(srcdir)/'`nm-default-wired-connection.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/nm_system_settings-nm-default-wired-connection.Tpo $(DEPDIR)/nm_system_settings-nm-default-wired-connection.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='nm-default-wired-connection.c' object='nm_system_settings-nm-default-wired-connection.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(nm_system_settings_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o nm_system_settings-nm-default-wired-connection.o `test -f 'nm-default-wired-connection.c' || echo '$(srcdir)/'`nm-default-wired-connection.c
+
+nm_system_settings-nm-default-wired-connection.obj: nm-default-wired-connection.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(nm_system_settings_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT nm_system_settings-nm-default-wired-connection.obj -MD -MP -MF $(DEPDIR)/nm_system_settings-nm-default-wired-connection.Tpo -c -o nm_system_settings-nm-default-wired-connection.obj `if test -f 'nm-default-wired-connection.c'; then $(CYGPATH_W) 'nm-default-wired-connection.c'; else $(CYGPATH_W) '$(srcdir)/nm-default-wired-connection.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/nm_system_settings-nm-default-wired-connection.Tpo $(DEPDIR)/nm_system_settings-nm-default-wired-connection.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='nm-default-wired-connection.c' object='nm_system_settings-nm-default-wired-connection.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(nm_system_settings_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o nm_system_settings-nm-default-wired-connection.obj `if test -f 'nm-default-wired-connection.c'; then $(CYGPATH_W) 'nm-default-wired-connection.c'; else $(CYGPATH_W) '$(srcdir)/nm-default-wired-connection.c'; fi`
 
 nm_system_settings-sha1.o: sha1.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(nm_system_settings_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT nm_system_settings-sha1.o -MD -MP -MF $(DEPDIR)/nm_system_settings-sha1.Tpo -c -o nm_system_settings-sha1.o `test -f 'sha1.c' || echo '$(srcdir)/'`sha1.c
