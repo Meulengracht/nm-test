@@ -1,6 +1,6 @@
 AC_PREREQ(2.52)
 
-AC_INIT(NetworkManager, 0.7.0.99, dcbw@redhat.com, NetworkManager)
+AC_INIT(NetworkManager, 0.7.1, dcbw@redhat.com, NetworkManager)
 AM_INIT_AUTOMAKE([1.9 subdir-objects tar-ustar no-dist-gzip dist-bzip2])
 AM_MAINTAINER_MODE
 
@@ -363,7 +363,6 @@ fi
 AC_SUBST(DHCP_CLIENT)
 
 # resolvconf support
-AC_ARG_WITH(crypto, AC_HELP_STRING([--with-crypto=nss | gnutls], [Cryptography library to use for certificate and key operations]),ac_crypto=$withval, ac_crypto=nss)
 AC_ARG_WITH([resolvconf],
 	    AS_HELP_STRING([--with-resolvconf=yes|no|path], [Enable resolvconf support]),
 	    with_resolvconf="$withval",with_resolvconf=no)

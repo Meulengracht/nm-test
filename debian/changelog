@@ -1,3 +1,36 @@
+network-manager (0.7.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Use set -e instead of #!/bin/sh -e for all maintainer scripts.
+  * debian/patches/04-struct_termios.patch
+    - Fix FTBFS on alpha by using the POSIX.1 struct termios interface instead
+      of the obsolete struct termio ioctl interface. (Closes: #524161)
+
+ -- Michael Biebl <biebl@debian.org>  Fri, 17 Apr 2009 00:47:03 +0200
+
+network-manager (0.7.0.100-1) unstable; urgency=low
+
+  * New upstream release (0.7.1 rc4).
+  * debian/network-manager.install
+    - Install modem prober udev rules file into /lib/udev/rules.d.
+  * debian/network-manager.preinst
+    - Remove obsolete conffile
+      /etc/udev/rules.d/77-nm-probe-modem-capabilities.rules.
+    - Move the old pid file from /var/run/NetworkManager to /var/run on
+      upgrades so the daemon can be stopped correctly in postinst and the
+      obsolete run directory is removed automatically.
+  * debian/network-manager.dirs
+    - Do no longer install the /var/run/NetworkManager directory.
+  * debian/network-manager.init
+    - Store the NetworkManager pid file directly in /var/run.
+  * debian/control
+    - Bump Standards-Version to 3.8.1. See the changes above wrt the /var/run
+      directory.
+  * debian/patches/02-dbus_access_network_manager.patch
+    - Remove haldaemon section, obsolete.
+
+ -- Michael Biebl <biebl@debian.org>  Wed, 08 Apr 2009 07:06:19 +0200
+
 network-manager (0.7.0.99-1) unstable; urgency=low
 
   * New upstream release (0.7.1 rc3).
