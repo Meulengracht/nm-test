@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  * Copyright (C) 2007 - 2008 Novell, Inc.
- * Copyright (C) 2007 - 2008 Red Hat, Inc.
+ * Copyright (C) 2007 - 2009 Red Hat, Inc.
  */
 
 #include <netinet/ether.h>
@@ -1160,6 +1160,37 @@ nm_manager_get_device_by_udi (NMManager *manager, const char *udi)
 	return NULL;
 }
 
+static GSList *
+nm_manager_get_devices_by_originating_device (NMManager *manager, const char *od)
+{
+	GSList *iter, *devs = NULL;
+
+	for (iter = NM_MANAGER_GET_PRIVATE (manager)->devices; iter; iter = iter->next) {
+		const char *candidate_od = g_object_get_data (G_OBJECT (iter->data), ORIGDEV_TAG);
+
+		if (candidate_od && !strcmp (candidate_od, od))
+			devs = g_slist_append (devs, G_OBJECT (iter->data));
+	}
+	return devs;
+}
+
+static const char *
+nm_manager_get_originating_device (NMDevice *device)
+{
+	g_return_val_if_fail (device != NULL, NULL);
+
+	return (const char *) g_object_get_data (G_OBJECT (device), ORIGDEV_TAG);
+}
+
+static void
+nm_manager_set_originating_device (NMDevice *device, const char *originating_device)
+{
+	g_return_if_fail (device != NULL);
+	g_return_if_fail (originating_device != NULL);
+
+	g_object_set_data_full (G_OBJECT (device), ORIGDEV_TAG, g_strdup (originating_device), g_free);
+}
+
 static gboolean
 nm_manager_udi_is_managed (NMManager *self, const char *udi)
 {
@@ -1426,12 +1457,10 @@ static void
 sync_devices (NMManager *self)
 {
 	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (self);
-	GSList *devices;
-	GSList *iter;
+	GSList *keep = NULL, *gone = NULL, *iter;
 
-	/* Remove devices which are no longer known to HAL */
-	devices = g_slist_copy (priv->devices);
-	for (iter = devices; iter; iter = iter->next) {
+	/* Keep devices still known to HAL; get rid of ones HAL no longer knows about */
+	for (iter = priv->devices; iter; iter = iter->next) {
 		NMDevice *device = NM_DEVICE (iter->data);
 		const char *udi = nm_device_get_udi (device);
 
@@ -1440,15 +1469,19 @@ sync_devices (NMManager *self)
 				nm_device_set_managed (device, TRUE, NM_DEVICE_STATE_REASON_NOW_MANAGED);
 			else
 				nm_device_set_managed (device, FALSE, NM_DEVICE_STATE_REASON_NOW_UNMANAGED);
-		} else {
-			priv->devices = g_slist_delete_link (priv->devices, iter);
-			remove_one_device (self, device);
-		}
+			keep = g_slist_append (keep, device);
+		} else
+			gone = g_slist_append (gone, device);
 	}
+	g_slist_free (priv->devices);
+	priv->devices = keep;
 
-	g_slist_free (devices);
+	/* Dispose of devices no longer present */
+	for (iter = gone; iter; iter = g_slist_next (iter))
+		remove_one_device (self, NM_DEVICE (iter->data));
+	g_slist_free (gone);
 
-	/* Get any new ones */
+	/* Ask HAL for new devices */
 	nm_hal_manager_query_devices (priv->hal_mgr);
 }
 
@@ -1669,9 +1702,27 @@ hal_manager_udi_added_cb (NMHalManager *hal_mgr,
 	if (nm_manager_get_device_by_udi (self, udi))
 		return;
 
+	/* Ignore multiple ports for serial devices */
+	if (general_type == NM_TYPE_SERIAL_DEVICE) {
+		GSList *devices, *iter;
+
+		devices = nm_manager_get_devices_by_originating_device (self, originating_device);
+		for (iter = devices; iter; iter = g_slist_next (iter)) {
+			NMDevice *candidate = NM_DEVICE (iter->data);
+
+			if (candidate && NM_IS_SERIAL_DEVICE (candidate)) {
+				g_slist_free (devices);
+				return;
+			}
+		}
+		g_slist_free (devices);
+	}
+
 	device = creator_fn (hal_mgr, udi, originating_device, nm_manager_udi_is_managed (self, udi));
 	if (!device)
 		return;
+
+	nm_manager_set_originating_device (NM_DEVICE (device), originating_device);
 
 	priv->devices = g_slist_append (priv->devices, device);
 
@@ -1720,19 +1771,35 @@ hal_manager_udi_removed_cb (NMHalManager *manager,
 {
 	NMManager *self = NM_MANAGER (user_data);
 	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (self);
-	GSList *iter;
+	GSList *keep = NULL, *gone = NULL, *iter;
 
 	g_return_if_fail (udi != NULL);
 
+	/* Unfortunately, udev >= 139 sometimes sends remove events that don't
+	 * match up with the add event for a device, which means HAL doesn't
+	 * emit the remove event for the same device (fdo #20703).  But it's a
+	 * good bet that if an NMDevice's originating device got removed, then
+	 * the NMDevice itself got removed as well.
+	 */
 	for (iter = priv->devices; iter; iter = iter->next) {
 		NMDevice *device = NM_DEVICE (iter->data);
+		const char *origdev = nm_manager_get_originating_device (device);
 
-		if (!strcmp (nm_device_get_udi (device), udi)) {
-			priv->devices = g_slist_delete_link (priv->devices, iter);
-			remove_one_device (self, device);
-			break;
-		}
+		if (   !strcmp (nm_device_get_udi (device), udi)
+		    || (origdev && !strcmp (udi, origdev)))
+			gone = g_slist_prepend (gone, device);
+		else
+			keep = g_slist_append (keep, device);
 	}
+	g_slist_free (priv->devices);
+	priv->devices = keep;
+
+	/* Kill devices to be removed; have to call remove_one_device() *after*
+	 * the device is no longer a member of the device list.
+	 */
+	for (iter = gone; iter; iter = g_slist_next (iter))
+		remove_one_device (self, NM_DEVICE (iter->data));
+	g_slist_free (gone);
 }
 
 static void
