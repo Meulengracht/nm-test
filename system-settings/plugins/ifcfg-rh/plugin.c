@@ -48,8 +48,7 @@
 #include "nm-ifcfg-connection.h"
 #include "nm-inotify-helper.h"
 #include "shvar.h"
-
-#define IFCFG_DIR SYSCONFDIR"/sysconfig/network-scripts/"
+#include "writer.h"
 
 static void system_config_interface_init (NMSystemConfigInterface *system_config_interface_class);
 
@@ -199,16 +198,16 @@ read_one_connection (SCPluginIfcfg *plugin, const char *filename)
 }
 
 static gboolean
-check_suffix (const char *basename, const char *tag)
+check_suffix (const char *base, const char *tag)
 {
 	int len, tag_len;
 
-	g_return_val_if_fail (basename != NULL, TRUE);
+	g_return_val_if_fail (base != NULL, TRUE);
 	g_return_val_if_fail (tag != NULL, TRUE);
 
-	len = strlen (basename);
+	len = strlen (base);
 	tag_len = strlen (tag);
-	if ((len > tag_len) && !strcasecmp (basename + len - tag_len, tag))
+	if ((len > tag_len) && !strcasecmp (base + len - tag_len, tag))
 		return TRUE;
 	return FALSE;
 }
@@ -216,22 +215,23 @@ check_suffix (const char *basename, const char *tag)
 static gboolean
 should_ignore_file (const char *filename)
 {
-	char *basename;
+	char *base;
 	gboolean ignore = TRUE;
 
 	g_return_val_if_fail (filename != NULL, TRUE);
 
-	basename = g_path_get_basename (filename);
-	g_return_val_if_fail (basename != NULL, TRUE);
+	base = g_path_get_basename (filename);
+	g_return_val_if_fail (base != NULL, TRUE);
 
-	if (   !strncmp (basename, IFCFG_TAG, strlen (IFCFG_TAG))
-		&& !check_suffix (basename, BAK_TAG)
-		&& !check_suffix (basename, TILDE_TAG)
-		&& !check_suffix (basename, ORIG_TAG)
-		&& !check_suffix (basename, REJ_TAG))
+	if (   !strncmp (base, IFCFG_TAG, strlen (IFCFG_TAG))
+		&& !check_suffix (base, BAK_TAG)
+		&& !check_suffix (base, TILDE_TAG)
+		&& !check_suffix (base, ORIG_TAG)
+		&& !check_suffix (base, REJ_TAG)
+		&& !check_suffix (base, RPMNEW_TAG))
 		ignore = FALSE;
 
-	g_free (basename);
+	g_free (base);
 	return ignore;
 }
 
@@ -294,9 +294,9 @@ connection_changed_handler (SCPluginIfcfg *plugin,
 		/* errors reading connection; remove it */
 		if (!ignore_error) {
 			PLUGIN_WARN (IFCFG_PLUGIN_NAME, "    error: %s",
-			             error->message ? error->message : "(unknown)");
+			             (error && error->message) ? error->message : "(unknown)");
 		}
-		g_error_free (error);
+		g_clear_error (&error);
 
 		PLUGIN_PRINT (IFCFG_PLUGIN_NAME, "removed %s.", path);
 		*do_remove = TRUE;
@@ -337,7 +337,11 @@ connection_changed_handler (SCPluginIfcfg *plugin,
 		/* Only update if different */
 		if (!nm_connection_compare (new_wrapped, old_wrapped, NM_SETTING_COMPARE_FLAG_EXACT)) {
 			settings = nm_connection_to_hash (new_wrapped);
-			nm_exported_connection_update (NM_EXPORTED_CONNECTION (connection), settings, NULL);
+			if (!nm_ifcfg_connection_update (connection, settings, &error)) {
+				PLUGIN_WARN (IFCFG_PLUGIN_NAME, "    error updating: %s",
+				             (error && error->message) ? error->message : "(unknown)");
+				g_clear_error (&error);
+			}
 			g_hash_table_destroy (settings);
 		}
 
@@ -435,7 +439,7 @@ setup_ifcfg_monitoring (SCPluginIfcfg *plugin)
 
 	priv->connections = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, g_object_unref);
 
-	file = g_file_new_for_path (IFCFG_DIR);
+	file = g_file_new_for_path (IFCFG_DIR "/");
 	monitor = g_file_monitor_directory (file, G_FILE_MONITOR_NONE, NULL, NULL);
 	g_object_unref (file);
 
@@ -470,6 +474,14 @@ get_connections (NMSystemConfigInterface *config)
 	g_hash_table_foreach (priv->connections, hash_to_slist, &list);
 
 	return list;
+}
+
+static gboolean
+add_connection (NMSystemConfigInterface *config,
+                NMConnection *connection,
+                GError **error)
+{
+	return writer_new_connection (connection, IFCFG_DIR, NULL, error);
 }
 
 #define SC_NETWORK_FILE SYSCONFDIR"/sysconfig/network"
@@ -515,7 +527,7 @@ plugin_set_hostname (SCPluginIfcfg *plugin, const char *hostname)
 		return FALSE;
 	}
 
-	svSetValue (network, "HOSTNAME", hostname);
+	svSetValue (network, "HOSTNAME", hostname, FALSE);
 	svWriteFile (network, 0644);
 	svCloseFile (network);
 
@@ -633,7 +645,7 @@ get_property (GObject *object, guint prop_id,
 		g_value_set_string (value, IFCFG_PLUGIN_INFO);
 		break;
 	case NM_SYSTEM_CONFIG_INTERFACE_PROP_CAPABILITIES:
-		g_value_set_uint (value, NM_SYSTEM_CONFIG_INTERFACE_CAP_MODIFY_HOSTNAME);
+		g_value_set_uint (value, NM_SYSTEM_CONFIG_INTERFACE_CAP_MODIFY_CONNECTIONS | NM_SYSTEM_CONFIG_INTERFACE_CAP_MODIFY_HOSTNAME);
 		break;
 	case NM_SYSTEM_CONFIG_INTERFACE_PROP_HOSTNAME:
 		g_value_set_string (value, priv->hostname);
@@ -697,6 +709,7 @@ system_config_interface_init (NMSystemConfigInterface *system_config_interface_c
 {
 	/* interface implementation */
 	system_config_interface_class->get_connections = get_connections;
+	system_config_interface_class->add_connection = add_connection;
 	system_config_interface_class->get_unmanaged_devices = get_unmanaged_devices;
 	system_config_interface_class->init = init;
 }

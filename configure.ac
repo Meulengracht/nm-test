@@ -1,10 +1,15 @@
 AC_PREREQ(2.52)
 
-AC_INIT(NetworkManager, 0.7.1, dcbw@redhat.com, NetworkManager)
+AC_INIT(NetworkManager, 0.7.2, dcbw@redhat.com, NetworkManager)
 AM_INIT_AUTOMAKE([1.9 subdir-objects tar-ustar no-dist-gzip dist-bzip2])
 AM_MAINTAINER_MODE
 
-AC_CONFIG_HEADERS(config.h)
+AC_CONFIG_MACRO_DIR([m4])
+
+AC_CONFIG_HEADERS([config.h])
+
+dnl Define _GNU_SOURCE for various things like strcasestr()
+AC_GNU_SOURCE
 
 dnl
 dnl Require programs
@@ -62,7 +67,7 @@ AM_GLIB_GNU_GETTEXT
 dnl
 dnl Documentation
 dnl
-AC_ARG_WITH(docs, AC_HELP_STRING([--with-docs], [Build NetworkManager documentation]))
+AC_ARG_WITH(docs, AS_HELP_STRING([--with-docs], [Build NetworkManager documentation]))
 AM_CONDITIONAL(WITH_DOCS, test "x$with_docs" = "xyes")
 case $with_docs in
     yes)
@@ -172,6 +177,11 @@ if test "$ac_have_iwevgenie" = no; then
 	AC_MSG_ERROR(wireless-tools library and development headers >= 28pre9 not installed or not functional)
 fi
 
+dnl
+dnl Checks for libm - needed for pow()
+dnl
+LT_LIB_M
+
 PKG_CHECK_MODULES(DBUS, dbus-1 >= 1.1 dbus-glib-1 >= 0.75)
 AC_SUBST(DBUS_CFLAGS)
 AC_SUBST(DBUS_LIBS)
@@ -243,7 +253,7 @@ AC_SUBST(POLKIT_CFLAGS)
 
 AC_PATH_PROG([POLKIT_POLICY_FILE_VALIDATE], [polkit-policy-file-validate], [false])
 
-AC_ARG_WITH(crypto, AC_HELP_STRING([--with-crypto=nss | gnutls], [Cryptography library to use for certificate and key operations]),ac_crypto=$withval, ac_crypto=nss)
+AC_ARG_WITH(crypto, AS_HELP_STRING([--with-crypto=nss | gnutls], [Cryptography library to use for certificate and key operations]),ac_crypto=$withval, ac_crypto=nss)
 
 with_nss=no
 with_gnutls=no
@@ -430,41 +440,14 @@ else
 fi
 AC_SUBST(UDEV_BASE_DIR)
 
-AC_ARG_ENABLE(more-warnings,
-AS_HELP_STRING([--enable-more-warnings], [Maximum compiler warnings]), set_more_warnings="$enableval",set_more_warnings=yes)
-AC_MSG_CHECKING(for more warnings, including -Werror)
-if test "$GCC" = "yes" -a "$set_more_warnings" != "no"; then
-	AC_MSG_RESULT(yes)
-	CFLAGS="-Wall -Werror -std=gnu89 $CFLAGS"
-
-	for option in -Wshadow -Wmissing-declarations -Wmissing-prototypes \
-		      -Wdeclaration-after-statement -Wstrict-prototypes \
-		      -Wfloat-equal -Wno-unused-parameter -Wno-sign-compare \
-		      -fno-strict-aliasing; do
-		SAVE_CFLAGS="$CFLAGS"
-		CFLAGS="$CFLAGS $option"
-		AC_MSG_CHECKING([whether gcc understands $option])
-		AC_TRY_COMPILE([], [],
-			has_option=yes,
-			has_option=no,)
-		if test $has_option = no; then
-			CFLAGS="$SAVE_CFLAGS"
-		fi
-		AC_MSG_RESULT($has_option)
-		unset has_option
-		unset SAVE_CFLAGS
-	done
-	unset option
-else
-	AC_MSG_RESULT(no)
-fi
+NM_COMPILER_WARNINGS
 
 GTK_DOC_CHECK(1.0)
 
 dnl
 dnl Tests
 dnl
-AC_ARG_WITH(tests, AC_HELP_STRING([--with-tests], [Build NetworkManager tests]))
+AC_ARG_WITH(tests, AS_HELP_STRING([--with-tests], [Build NetworkManager tests]))
 AM_CONDITIONAL(WITH_TESTS, test "x$with_tests" = "xyes")
 case $with_tests in
     yes)
@@ -486,6 +469,7 @@ src/named-manager/Makefile
 src/vpn-manager/Makefile
 src/dhcp-manager/Makefile
 src/supplicant-manager/Makefile
+src/supplicant-manager/tests/Makefile
 src/ppp-manager/Makefile
 src/dnsmasq-manager/Makefile
 src/backends/Makefile

@@ -2,7 +2,6 @@
 <!DOCTYPE policyconfig PUBLIC
  "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
  "http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
-
 <policyconfig>
 
   <vendor>NetworkManager</vendor>
@@ -11,7 +10,17 @@
 
   <action id="org.freedesktop.network-manager-settings.system.modify">
     <description>Modify system connections</description>
+    <description xml:lang="as">প্ৰণালীৰ সংযোগ পৰিবৰ্তন কৰক</description>
+    <description xml:lang="bn_IN">সিস্টেমের সংযোগ পরিবর্তন করুন</description>
+    <description xml:lang="gu">સિસ્ટમ જોડાણોને બદલો</description>
+    <description xml:lang="kn">ವ್ಯವಸ್ಥೆಯ ಸಂಪರ್ಕಗಳನ್ನು ಮಾರ್ಪಡಿಸು</description>
+    <description xml:lang="te">సిస్టమ్ అనుసంధానములను సవరించుము</description>
     <message>System policy prevents modification of system settings</message>
+    <message xml:lang="as">প্ৰণালীত ব্যৱহৃত নিয়ম-নীতিৰ বিধিনিষেধৰ কাৰণে প্ৰণালীৰ বৈশিষ্ট্য পৰিবৰ্তন কৰা সম্ভৱ নহয়</message>
+    <message xml:lang="bn_IN">সিস্টেমে ব্যবহৃত নিয়ম-নীতির বিধিনিষেধের কারণে সিস্টেমের বৈশিষ্ট্য পরিবর্তন করা সম্ভব নয়</message>
+    <message xml:lang="gu">સિસ્ટમ પોલિસી એ સિસ્ટમ સુયોજનોનાં બદલાવને અટકાવે છે</message>
+    <message xml:lang="kn">ವ್ಯವಸ್ಥೆಯ ಸಂಪರ್ಕಗಳನ್ನು ಮಾರ್ಪಡಿಸದಂತೆ ವ್ಯವಸ್ಥೆಯ ನಿಯಮಗಳು ತಡೆಯುತ್ತಿವೆ</message>
+    <message xml:lang="te">సిస్టమ్ అమరికలు సవరించుటకు సిస్టమ్ పాలసి నిరోధిస్తుంది</message>
     <defaults>
       <allow_inactive>no</allow_inactive>
       <allow_active>auth_admin_keep_always</allow_active>

@@ -1,0 +1,1417 @@
+<!-- ##### SECTION ./tmpl/nm-setting-bluetooth.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-bluetooth.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-bluetooth.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-bluetooth.sgml:Stability_Level ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-bluetooth.sgml:Title ##### -->
+NMSettingBluetooth
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-ip6-config.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-ip6-config.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-ip6-config.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-ip6-config.sgml:Stability_Level ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-ip6-config.sgml:Title ##### -->
+NMSettingIP6Config
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-olpc-mesh.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-olpc-mesh.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-olpc-mesh.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-olpc-mesh.sgml:Stability_Level ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-olpc-mesh.sgml:Title ##### -->
+NMSettingOlpcMesh
+
+
+<!-- ##### TYPEDEF NMIP6Address ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### TYPEDEF NMIP6Route ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSetting8021x:ca-cert-path ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSetting8021x:client-cert-path ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSetting8021x:phase2-ca-cert-path ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSetting8021x:phase2-client-cert-path ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSetting8021x:phase2-private-key-path ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSetting8021x:private-key-path ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ENUM NMSetting8021xCKFormat ##### -->
+<para>
+
+</para>
+
+@NM_SETTING_802_1X_CK_FORMAT_UNKNOWN: 
+@NM_SETTING_802_1X_CK_FORMAT_X509: 
+@NM_SETTING_802_1X_CK_FORMAT_RAW_KEY: 
+@NM_SETTING_802_1X_CK_FORMAT_PKCS12: 
+
+<!-- ##### ENUM NMSetting8021xCKScheme ##### -->
+<para>
+
+</para>
+
+@NM_SETTING_802_1X_CK_SCHEME_UNKNOWN: 
+@NM_SETTING_802_1X_CK_SCHEME_BLOB: 
+@NM_SETTING_802_1X_CK_SCHEME_PATH: 
+
+<!-- ##### STRUCT NMSettingBluetooth ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingBluetooth:bdaddr ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingBluetooth:type ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ENUM NMSettingBluetoothError ##### -->
+<para>
+
+</para>
+
+@NM_SETTING_BLUETOOTH_ERROR_UNKNOWN: 
+@NM_SETTING_BLUETOOTH_ERROR_INVALID_PROPERTY: 
+@NM_SETTING_BLUETOOTH_ERROR_MISSING_PROPERTY: 
+@NM_SETTING_BLUETOOTH_ERROR_TYPE_SETTING_NOT_FOUND: 
+
+<!-- ##### ARG NMSettingGsm:allowed-bands ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ENUM NMSettingGsmNetworkBand ##### -->
+<para>
+
+</para>
+
+@NM_SETTING_GSM_BAND_UNKNOWN: 
+@NM_SETTING_GSM_BAND_ANY: 
+@NM_SETTING_GSM_BAND_EGSM: 
+@NM_SETTING_GSM_BAND_DCS: 
+@NM_SETTING_GSM_BAND_PCS: 
+@NM_SETTING_GSM_BAND_G850: 
+@NM_SETTING_GSM_BAND_U2100: 
+@NM_SETTING_GSM_BAND_U1800: 
+@NM_SETTING_GSM_BAND_U17IV: 
+@NM_SETTING_GSM_BAND_U800: 
+@NM_SETTING_GSM_BAND_U850: 
+@NM_SETTING_GSM_BAND_U900: 
+@NM_SETTING_GSM_BAND_U17IX: 
+
+<!-- ##### ENUM NMSettingGsmNetworkMode ##### -->
+<para>
+
+</para>
+
+@NM_SETTING_GSM_NETWORK_ANY: 
+@NM_SETTING_GSM_NETWORK_UMTS_HSPA: 
+@NM_SETTING_GSM_NETWORK_GPRS_EDGE: 
+@NM_SETTING_GSM_NETWORK_PREFER_UMTS_HSPA: 
+@NM_SETTING_GSM_NETWORK_PREFER_GPRS_EDGE: 
+
+<!-- ##### ENUM NMSettingGsmNetworkType ##### -->
+<para>
+
+</para>
+
+@NM_SETTING_GSM_NETWORK_TYPE_ANY: 
+@NM_SETTING_GSM_NETWORK_TYPE_UMTS_HSPA: 
+@NM_SETTING_GSM_NETWORK_TYPE_GPRS_EDGE: 
+@NM_SETTING_GSM_NETWORK_TYPE_PREFER_UMTS_HSPA: 
+@NM_SETTING_GSM_NETWORK_TYPE_PREFER_GPRS_EDGE: 
+
+<!-- ##### ARG NMSettingIP4Config:dhcp-send-hostname ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT NMSettingIP6Config ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingIP6Config:addresses ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingIP6Config:dns ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingIP6Config:dns-search ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingIP6Config:ignore-auto-dns ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingIP6Config:ignore-auto-routes ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingIP6Config:method ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingIP6Config:never-default ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingIP6Config:routes ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ENUM NMSettingIP6ConfigError ##### -->
+<para>
+
+</para>
+
+@NM_SETTING_IP6_CONFIG_ERROR_UNKNOWN: 
+@NM_SETTING_IP6_CONFIG_ERROR_INVALID_PROPERTY: 
+@NM_SETTING_IP6_CONFIG_ERROR_MISSING_PROPERTY: 
+@NM_SETTING_IP6_CONFIG_ERROR_NOT_ALLOWED_FOR_METHOD: 
+
+<!-- ##### STRUCT NMSettingOlpcMesh ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingOlpcMesh:channel ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingOlpcMesh:dhcp-anycast-address ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingOlpcMesh:ssid ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ENUM NMSettingOlpcMeshError ##### -->
+<para>
+
+</para>
+
+@NM_SETTING_OLPC_MESH_ERROR_UNKNOWN: 
+@NM_SETTING_OLPC_MESH_ERROR_INVALID_PROPERTY: 
+@NM_SETTING_OLPC_MESH_ERROR_MISSING_PROPERTY: 
+
+<!-- ##### MACRO NM_GSM_NETWORK_ANY ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_GSM_NETWORK_GPRS_EDGE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_GSM_NETWORK_PREFER_GPRS_EDGE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_GSM_NETWORK_PREFER_UMTS_HSPA ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_GSM_NETWORK_UMTS_HSPA ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_802_1X_CA_CERT_PATH ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_802_1X_CLIENT_CERT_PATH ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_802_1X_PHASE2_CA_CERT_PATH ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_802_1X_PHASE2_CLIENT_CERT_PATH ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PATH ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_802_1X_PRIVATE_KEY_PATH ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_BLUETOOTH_BDADDR ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_BLUETOOTH_ERROR ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_BLUETOOTH_SETTING_NAME ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_BLUETOOTH_TYPE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_BLUETOOTH_TYPE_DUN ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_BLUETOOTH_TYPE_PANU ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_GSM_ALLOWED_BANDS ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_IP4_CONFIG_DHCP_SEND_HOSTNAME ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_IP6_CONFIG_ADDRESSES ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_IP6_CONFIG_DNS ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_IP6_CONFIG_DNS_SEARCH ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_IP6_CONFIG_ERROR ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_IP6_CONFIG_IGNORE_AUTO_DNS ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_IP6_CONFIG_IGNORE_AUTO_ROUTES ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_IP6_CONFIG_METHOD ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_IP6_CONFIG_METHOD_AUTO ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_IP6_CONFIG_METHOD_IGNORE ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_IP6_CONFIG_METHOD_LINK_LOCAL ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_IP6_CONFIG_METHOD_MANUAL ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_IP6_CONFIG_METHOD_SHARED ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_IP6_CONFIG_NEVER_DEFAULT ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_IP6_CONFIG_ROUTES ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_IP6_CONFIG_SETTING_NAME ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_OLPC_MESH_CHANNEL ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_OLPC_MESH_DHCP_ANYCAST_ADDRESS ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_OLPC_MESH_ERROR ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_OLPC_MESH_SETTING_NAME ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_OLPC_MESH_SSID ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_TYPE_SETTING_BLUETOOTH_ERROR ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_TYPE_SETTING_IP6_CONFIG_ERROR ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_TYPE_SETTING_OLPC_MESH_ERROR ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION nm_ip6_address_compare ##### -->
+<para>
+
+</para>
+
+@address: 
+@other: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_ip6_address_dup ##### -->
+<para>
+
+</para>
+
+@source: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_ip6_address_get_address ##### -->
+<para>
+
+</para>
+
+@address: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_ip6_address_get_prefix ##### -->
+<para>
+
+</para>
+
+@address: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_ip6_address_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION nm_ip6_address_ref ##### -->
+<para>
+
+</para>
+
+@address: 
+
+<!-- ##### FUNCTION nm_ip6_address_set_address ##### -->
+<para>
+
+</para>
+
+@address: 
+@addr: 
+
+<!-- ##### FUNCTION nm_ip6_address_set_prefix ##### -->
+<para>
+
+</para>
+
+@address: 
+@prefix: 
+
+<!-- ##### FUNCTION nm_ip6_address_unref ##### -->
+<para>
+
+</para>
+
+@address: 
+
+<!-- ##### FUNCTION nm_ip6_route_compare ##### -->
+<para>
+
+</para>
+
+@route: 
+@other: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_ip6_route_dup ##### -->
+<para>
+
+</para>
+
+@route: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_ip6_route_get_dest ##### -->
+<para>
+
+</para>
+
+@route: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_ip6_route_get_metric ##### -->
+<para>
+
+</para>
+
+@route: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_ip6_route_get_next_hop ##### -->
+<para>
+
+</para>
+
+@route: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_ip6_route_get_prefix ##### -->
+<para>
+
+</para>
+
+@route: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_ip6_route_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION nm_ip6_route_ref ##### -->
+<para>
+
+</para>
+
+@route: 
+
+<!-- ##### FUNCTION nm_ip6_route_set_dest ##### -->
+<para>
+
+</para>
+
+@route: 
+@dest: 
+
+<!-- ##### FUNCTION nm_ip6_route_set_metric ##### -->
+<para>
+
+</para>
+
+@route: 
+@metric: 
+
+<!-- ##### FUNCTION nm_ip6_route_set_next_hop ##### -->
+<para>
+
+</para>
+
+@route: 
+@next_hop: 
+
+<!-- ##### FUNCTION nm_ip6_route_set_prefix ##### -->
+<para>
+
+</para>
+
+@route: 
+@prefix: 
+
+<!-- ##### FUNCTION nm_ip6_route_unref ##### -->
+<para>
+
+</para>
+
+@route: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_ca_cert_blob ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_ca_cert_path ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_ca_cert_scheme ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_client_cert_blob ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_client_cert_path ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_client_cert_scheme ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_phase2_ca_cert_blob ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_phase2_ca_cert_path ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_phase2_ca_cert_scheme ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_phase2_client_cert_blob ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_phase2_client_cert_path ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_phase2_client_cert_scheme ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_phase2_private_key_blob ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_phase2_private_key_format ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_phase2_private_key_path ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_phase2_private_key_scheme ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_private_key_blob ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_private_key_format ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_private_key_path ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_get_private_key_scheme ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_set_ca_cert ##### -->
+<para>
+
+</para>
+
+@setting: 
+@value: 
+@scheme: 
+@out_format: 
+@error: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_set_ca_cert_path ##### -->
+<para>
+
+</para>
+
+@setting: 
+@path_to_cert: 
+@out_ck_type: 
+@error: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_set_client_cert ##### -->
+<para>
+
+</para>
+
+@setting: 
+@value: 
+@scheme: 
+@out_format: 
+@error: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_set_client_cert_path ##### -->
+<para>
+
+</para>
+
+@setting: 
+@path_to_cert: 
+@out_ck_type: 
+@error: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_set_phase2_ca_cert ##### -->
+<para>
+
+</para>
+
+@setting: 
+@value: 
+@scheme: 
+@out_format: 
+@error: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_set_phase2_ca_cert_path ##### -->
+<para>
+
+</para>
+
+@setting: 
+@path_to_cert: 
+@out_ck_type: 
+@error: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_set_phase2_client_cert ##### -->
+<para>
+
+</para>
+
+@setting: 
+@value: 
+@scheme: 
+@out_format: 
+@error: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_set_phase2_client_cert_path ##### -->
+<para>
+
+</para>
+
+@setting: 
+@path_to_cert: 
+@out_ck_type: 
+@error: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_set_phase2_private_key ##### -->
+<para>
+
+</para>
+
+@setting: 
+@value: 
+@password: 
+@scheme: 
+@out_format: 
+@error: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_set_phase2_private_key_path ##### -->
+<para>
+
+</para>
+
+@setting: 
+@path_to_file: 
+@password: 
+@out_ck_type: 
+@error: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_set_private_key ##### -->
+<para>
+
+</para>
+
+@setting: 
+@value: 
+@password: 
+@scheme: 
+@out_format: 
+@error: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_802_1x_set_private_key_path ##### -->
+<para>
+
+</para>
+
+@setting: 
+@path_to_file: 
+@password: 
+@out_ck_type: 
+@error: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_bluetooth_error_quark ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_bluetooth_get_bdaddr ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_bluetooth_get_connection_type ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_bluetooth_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_bluetooth_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_gsm_get_allowed_bands ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip4_config_get_dhcp_send_hostname ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_add_address ##### -->
+<para>
+
+</para>
+
+@setting: 
+@address: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_add_dns ##### -->
+<para>
+
+</para>
+
+@setting: 
+@dns: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_add_dns_search ##### -->
+<para>
+
+</para>
+
+@setting: 
+@dns_search: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_add_route ##### -->
+<para>
+
+</para>
+
+@setting: 
+@route: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_clear_addresses ##### -->
+<para>
+
+</para>
+
+@setting: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_clear_dns ##### -->
+<para>
+
+</para>
+
+@setting: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_clear_dns_searches ##### -->
+<para>
+
+</para>
+
+@setting: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_clear_routes ##### -->
+<para>
+
+</para>
+
+@setting: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_error_quark ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_get_address ##### -->
+<para>
+
+</para>
+
+@setting: 
+@i: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_get_dns ##### -->
+<para>
+
+</para>
+
+@setting: 
+@i: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_get_dns_search ##### -->
+<para>
+
+</para>
+
+@setting: 
+@i: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_get_ignore_auto_dns ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_get_ignore_auto_routes ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_get_method ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_get_never_default ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_get_num_addresses ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_get_num_dns ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_get_num_dns_searches ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_get_num_routes ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_get_route ##### -->
+<para>
+
+</para>
+
+@setting: 
+@i: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_remove_address ##### -->
+<para>
+
+</para>
+
+@setting: 
+@i: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_remove_dns ##### -->
+<para>
+
+</para>
+
+@setting: 
+@i: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_remove_dns_search ##### -->
+<para>
+
+</para>
+
+@setting: 
+@i: 
+
+<!-- ##### FUNCTION nm_setting_ip6_config_remove_route ##### -->
+<para>
+
+</para>
+
+@setting: 
+@i: 
+
+<!-- ##### FUNCTION nm_setting_olpc_mesh_error_quark ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_olpc_mesh_get_channel ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_olpc_mesh_get_dhcp_anycast_address ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_olpc_mesh_get_ssid ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_olpc_mesh_get_type ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_olpc_mesh_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION nm_utils_ip6_addresses_from_gvalue ##### -->
+<para>
+
+</para>
+
+@value: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_utils_ip6_addresses_to_gvalue ##### -->
+<para>
+
+</para>
+
+@list: 
+@value: 
+
+<!-- ##### FUNCTION nm_utils_ip6_dns_from_gvalue ##### -->
+<para>
+
+</para>
+
+@value: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_utils_ip6_dns_to_gvalue ##### -->
+<para>
+
+</para>
+
+@list: 
+@value: 
+
+<!-- ##### FUNCTION nm_utils_ip6_routes_from_gvalue ##### -->
+<para>
+
+</para>
+
+@value: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_utils_ip6_routes_to_gvalue ##### -->
+<para>
+
+</para>
+
+@list: 
+@value: 
+
+<!-- ##### FUNCTION nm_utils_rsa_key_encrypt ##### -->
+<para>
+
+</para>
+
+@data: 
+@in_password: 
+@out_password: 
+@error: 
+@Returns: 
+

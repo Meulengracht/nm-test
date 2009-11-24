@@ -89,6 +89,16 @@ NMSettingVPN
 </para>
 
 
+<!-- ##### ARG NMSettingVPN:data ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSettingVPN:secrets ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG NMSettingVPN:service-type ##### -->
 <para>
 

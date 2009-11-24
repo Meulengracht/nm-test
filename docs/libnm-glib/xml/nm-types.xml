@@ -3,7 +3,7 @@
                "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
 <refentry id="libnm-glib-nm-types">
 <refmeta>
-<refentrytitle role="top_of_page">nm-types</refentrytitle>
+<refentrytitle role="top_of_page" id="libnm-glib-nm-types.top_of_page">nm-types</refentrytitle>
 <manvolnum>3</manvolnum>
 <refmiscinfo>LIBNM-GLIB Library</refmiscinfo>
 </refmeta>
@@ -11,23 +11,19 @@
 <refnamediv>
 <refname>nm-types</refname>
 <refpurpose></refpurpose>
-<!--[<xref linkend="desc" endterm="desc.title"/>]-->
 </refnamediv>
 
-<refsynopsisdiv role="synopsis">
+<refsynopsisdiv id="libnm-glib-nm-types.synopsis" role="synopsis">
 <title role="synopsis.title">Synopsis</title>
 
 <synopsis>
-
-
-
-#define             <link linkend="NM-TYPE-SSID:CAPS">NM_TYPE_SSID</link>
+#define             <link linkend="NM-TYPE-SSID--CAPS">NM_TYPE_SSID</link>
 <link linkend="GType">GType</link>               <link linkend="nm-ssid-get-type">nm_ssid_get_type</link>                    (void);
-#define             <link linkend="NM-TYPE-UINT-ARRAY:CAPS">NM_TYPE_UINT_ARRAY</link>
+#define             <link linkend="NM-TYPE-UINT-ARRAY--CAPS">NM_TYPE_UINT_ARRAY</link>
 <link linkend="GType">GType</link>               <link linkend="nm-uint-array-get-type">nm_uint_array_get_type</link>              (void);
-#define             <link linkend="NM-TYPE-STRING-ARRAY:CAPS">NM_TYPE_STRING_ARRAY</link>
+#define             <link linkend="NM-TYPE-STRING-ARRAY--CAPS">NM_TYPE_STRING_ARRAY</link>
 <link linkend="GType">GType</link>               <link linkend="nm-string-array-get-type">nm_string_array_get_type</link>            (void);
-#define             <link linkend="NM-TYPE-OBJECT-ARRAY:CAPS">NM_TYPE_OBJECT_ARRAY</link>
+#define             <link linkend="NM-TYPE-OBJECT-ARRAY--CAPS">NM_TYPE_OBJECT_ARRAY</link>
 <link linkend="GType">GType</link>               <link linkend="nm-object-array-get-type">nm_object_array_get_type</link>            (void);
 </synopsis>
 </refsynopsisdiv>
@@ -40,85 +36,68 @@
 
 
 
-<refsect1 role="desc">
+<refsect1 id="libnm-glib-nm-types.description" role="desc">
 <title role="desc.title">Description</title>
 <para>
-
 </para>
 </refsect1>
 
-<refsect1 role="details">
+<refsect1 id="libnm-glib-nm-types.details" role="details">
 <title role="details.title">Details</title>
-<refsect2>
-<title><anchor id="NM-TYPE-SSID:CAPS" role="macro"/>NM_TYPE_SSID</title>
-<indexterm><primary>NM_TYPE_SSID</primary></indexterm><programlisting>#define NM_TYPE_SSID  (nm_ssid_get_type ())
+<refsect2 id="NM-TYPE-SSID--CAPS" role="macro">
+<title>NM_TYPE_SSID</title>
+<indexterm zone="NM-TYPE-SSID--CAPS"><primary sortas="NM_TYPE_SSID">NM_TYPE_SSID</primary></indexterm><programlisting>#define NM_TYPE_SSID  (nm_ssid_get_type ())
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="nm-ssid-get-type" role="function"/>nm_ssid_get_type ()</title>
-<indexterm><primary>nm_ssid_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_ssid_get_type                    (void);</programlisting>
+<refsect2 id="nm-ssid-get-type" role="function">
+<title>nm_ssid_get_type ()</title>
+<indexterm zone="nm-ssid-get-type"><primary sortas="nm_ssid_get_type">nm_ssid_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_ssid_get_type                    (void);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="NM-TYPE-UINT-ARRAY:CAPS" role="macro"/>NM_TYPE_UINT_ARRAY</title>
-<indexterm><primary>NM_TYPE_UINT_ARRAY</primary></indexterm><programlisting>#define NM_TYPE_UINT_ARRAY  (nm_uint_array_get_type ())
+<refsect2 id="NM-TYPE-UINT-ARRAY--CAPS" role="macro">
+<title>NM_TYPE_UINT_ARRAY</title>
+<indexterm zone="NM-TYPE-UINT-ARRAY--CAPS"><primary sortas="NM_TYPE_UINT_ARRAY">NM_TYPE_UINT_ARRAY</primary></indexterm><programlisting>#define NM_TYPE_UINT_ARRAY  (nm_uint_array_get_type ())
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="nm-uint-array-get-type" role="function"/>nm_uint_array_get_type ()</title>
-<indexterm><primary>nm_uint_array_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_uint_array_get_type              (void);</programlisting>
+<refsect2 id="nm-uint-array-get-type" role="function">
+<title>nm_uint_array_get_type ()</title>
+<indexterm zone="nm-uint-array-get-type"><primary sortas="nm_uint_array_get_type">nm_uint_array_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_uint_array_get_type              (void);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="NM-TYPE-STRING-ARRAY:CAPS" role="macro"/>NM_TYPE_STRING_ARRAY</title>
-<indexterm><primary>NM_TYPE_STRING_ARRAY</primary></indexterm><programlisting>#define NM_TYPE_STRING_ARRAY  (nm_string_array_get_type ())
+<refsect2 id="NM-TYPE-STRING-ARRAY--CAPS" role="macro">
+<title>NM_TYPE_STRING_ARRAY</title>
+<indexterm zone="NM-TYPE-STRING-ARRAY--CAPS"><primary sortas="NM_TYPE_STRING_ARRAY">NM_TYPE_STRING_ARRAY</primary></indexterm><programlisting>#define NM_TYPE_STRING_ARRAY  (nm_string_array_get_type ())
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="nm-string-array-get-type" role="function"/>nm_string_array_get_type ()</title>
-<indexterm><primary>nm_string_array_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_string_array_get_type            (void);</programlisting>
+<refsect2 id="nm-string-array-get-type" role="function">
+<title>nm_string_array_get_type ()</title>
+<indexterm zone="nm-string-array-get-type"><primary sortas="nm_string_array_get_type">nm_string_array_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_string_array_get_type            (void);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="NM-TYPE-OBJECT-ARRAY:CAPS" role="macro"/>NM_TYPE_OBJECT_ARRAY</title>
-<indexterm><primary>NM_TYPE_OBJECT_ARRAY</primary></indexterm><programlisting>#define NM_TYPE_OBJECT_ARRAY  (nm_object_array_get_type ())
+<refsect2 id="NM-TYPE-OBJECT-ARRAY--CAPS" role="macro">
+<title>NM_TYPE_OBJECT_ARRAY</title>
+<indexterm zone="NM-TYPE-OBJECT-ARRAY--CAPS"><primary sortas="NM_TYPE_OBJECT_ARRAY">NM_TYPE_OBJECT_ARRAY</primary></indexterm><programlisting>#define NM_TYPE_OBJECT_ARRAY  (nm_object_array_get_type ())
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="nm-object-array-get-type" role="function"/>nm_object_array_get_type ()</title>
-<indexterm><primary>nm_object_array_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_object_array_get_type            (void);</programlisting>
+<refsect2 id="nm-object-array-get-type" role="function">
+<title>nm_object_array_get_type ()</title>
+<indexterm zone="nm-object-array-get-type"><primary sortas="nm_object_array_get_type">nm_object_array_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_object_array_get_type            (void);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
 
@@ -127,6 +106,4 @@
 
 
 
-
-<refsect1><refsect2 /><refsect2 /></refsect1>
 </refentry>

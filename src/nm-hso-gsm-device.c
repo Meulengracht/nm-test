@@ -42,13 +42,26 @@ G_DEFINE_TYPE (NMHsoGsmDevice, nm_hso_gsm_device, NM_TYPE_GSM_DEVICE)
 
 extern const DBusGObjectInfo dbus_glib_nm_gsm_device_object_info;
 
+static void do_hso_auth (NMHsoGsmDevice *device);
+
 #define GSM_CID "gsm-cid"
 #define HSO_CALL_STARTED "call-started"
 #define HSO_SECRETS_TRIES "gsm-secrets-tries"
 
+const char *hso_auth_commands[] = {
+	"AT$QCPDPP",
+	/* GI0322 (AT&T Quicksilver) firmware doesn't implement $QCPDPP,
+	 * but instead _OPDPP using the same format.
+	 */
+	"AT_OPDPP",
+	NULL
+};
+
 typedef struct {
 	char *netdev_iface;
 	NMIP4Config *pending_ip4_config;
+
+	guint auth_idx;
 } NMHsoGsmDevicePrivate;
 
 enum {
@@ -129,6 +142,7 @@ hso_call_done (NMSerialDevice *device,
 
 	switch (reply_index) {
 	case 0:
+	case 1:
 		nm_info ("Connected, Woo!");
 		success = TRUE;
 
@@ -153,13 +167,13 @@ hso_clear_done (NMSerialDevice *device,
                 const char *reply,
                 gpointer user_data)
 {
-	const char *responses[] = { "_OWANCALL: ", "ERROR", NULL };
+	const char *responses[] = { "_OWANCALL: 1,1", "_OWANCALL: 1, 1", "ERROR", NULL };
 	guint cid = GPOINTER_TO_UINT (user_data);
 	char *command;
 
 	/* Try to connect */
 	command = g_strdup_printf ("AT_OWANCALL=%d,1,1", cid);
-	modem_wait_for_reply (NM_GSM_DEVICE (device), command, 10, responses, responses, hso_call_done, NULL);
+	modem_wait_for_reply (NM_GSM_DEVICE (device), command, 15, responses, responses, hso_call_done, NULL);
 	g_free (command);
 }
 
@@ -169,9 +183,11 @@ hso_auth_done (NMSerialDevice *device,
                const char *reply,
                gpointer user_data)
 {
-	gboolean success = FALSE;
+	NMHsoGsmDevice *self = NM_HSO_GSM_DEVICE (device);
+	NMHsoGsmDevicePrivate *priv = NM_HSO_GSM_DEVICE_GET_PRIVATE (self);
 	const char *responses[] = { "_OWANCALL: ", "ERROR", "NO CARRIER", NULL };
 	guint cid = GPOINTER_TO_UINT (user_data);
+	gboolean success = FALSE;
 	char *command;
 
 	switch (reply_index) {
@@ -179,25 +195,43 @@ hso_auth_done (NMSerialDevice *device,
 		nm_info ("Authentication successful!");
 		success = TRUE;
 		break;
+	case 1:
+	case 2:
+		priv->auth_idx++;
+		if (hso_auth_commands[priv->auth_idx]) {
+			nm_info ("Attempting alternate authentication (%s)...",
+			         hso_auth_commands[priv->auth_idx]);
+			do_hso_auth (self);
+			return;
+		} else {
+			/* Ignore failure; a user/password isn't really required anyway,
+			 * but if $QCPDPP or _OPDPP is used, hso devices reject blank
+			 * values with ERROR.
+			 */
+			success = TRUE;
+		}
+		break;
 	default:
-		nm_warning ("Authentication failed");
 		break;
 	}
 
-	if (!success) {
-		nm_device_state_changed (NM_DEVICE (device), NM_DEVICE_STATE_FAILED, NM_DEVICE_STATE_REASON_MODEM_DIAL_FAILED);
-		return;
-	}
+	priv->auth_idx = 0;
 
-	/* Kill any existing connection */
-	command = g_strdup_printf ("AT_OWANCALL=%d,0,1", cid);
-	modem_wait_for_reply (NM_GSM_DEVICE (device), command, 5, responses, responses, hso_clear_done, GUINT_TO_POINTER (cid));
-	g_free (command);
+	if (success) {
+		/* Kill any existing connection */
+		command = g_strdup_printf ("AT_OWANCALL=%d,0,1", cid);
+		modem_wait_for_reply (NM_GSM_DEVICE (device), command, 5, responses, responses, hso_clear_done, GUINT_TO_POINTER (cid));
+		g_free (command);
+	} else {
+		nm_warning ("Authentication failed");
+		nm_device_state_changed (NM_DEVICE (device), NM_DEVICE_STATE_FAILED, NM_DEVICE_STATE_REASON_MODEM_DIAL_FAILED);
+	}
 }
 
 static void
 do_hso_auth (NMHsoGsmDevice *device)
 {
+	NMHsoGsmDevicePrivate *priv = NM_HSO_GSM_DEVICE_GET_PRIVATE (device);
 	NMSettingGsm *s_gsm;
 	NMActRequest *req;
 	const char *responses[] = { "OK", "ERROR", "ERR", NULL };
@@ -216,10 +250,16 @@ do_hso_auth (NMHsoGsmDevice *device)
 	gsm_username = nm_setting_gsm_get_username (s_gsm);
 	gsm_password = nm_setting_gsm_get_password (s_gsm);
 
-	command = g_strdup_printf ("AT$QCPDPP=%d,1,\"%s\",\"%s\"",
-	                           cid,
-	                           gsm_password ? gsm_password : "",
-	                           gsm_username ? gsm_username : "");
+	if (!gsm_username && !gsm_password)
+		command = g_strdup_printf ("%s=%d,0", hso_auth_commands[priv->auth_idx], cid);
+	else {
+		command = g_strdup_printf ("%s=%d,1,\"%s\",\"%s\"",
+		                           hso_auth_commands[priv->auth_idx],
+		                           cid,
+		                           gsm_password ? gsm_password : "",
+		                           gsm_username ? gsm_username : "");
+	}
+
 	modem_wait_for_reply (NM_GSM_DEVICE (device), command, 5, responses, responses, hso_auth_done, GUINT_TO_POINTER (cid));
 	g_free (command);
 }
@@ -227,6 +267,7 @@ do_hso_auth (NMHsoGsmDevice *device)
 static NMActStageReturn
 real_act_stage2_config (NMDevice *device, NMDeviceStateReason *reason)
 {
+	NMHsoGsmDevicePrivate *priv = NM_HSO_GSM_DEVICE_GET_PRIVATE (device);
 	NMActRequest *req;
 	NMConnection *connection;
 	const char *setting_name;
@@ -241,6 +282,7 @@ real_act_stage2_config (NMDevice *device, NMDeviceStateReason *reason)
 
 	setting_name = nm_connection_need_secrets (connection, &hints);
 	if (!setting_name) {
+		priv->auth_idx = 0;
 		do_hso_auth (NM_HSO_GSM_DEVICE (device));
 		return NM_ACT_STAGE_RETURN_POSTPONE;
 	}
@@ -434,6 +476,8 @@ real_deactivate_quickly (NMDevice *device)
 	NMConnection *connection;
 	guint cid, call_started;
 	char *command;
+
+	priv->auth_idx = 0;
 
 	if (priv->pending_ip4_config) {
 		g_object_unref (priv->pending_ip4_config);

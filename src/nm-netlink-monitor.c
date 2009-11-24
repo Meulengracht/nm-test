@@ -227,6 +227,11 @@ out:
 static int
 netlink_event_input (struct nl_msg *msg, void *arg)
 {
+	struct nlmsghdr *hdr = nlmsg_hdr (msg);
+
+	if (hdr->nlmsg_pid != 0)
+		return NL_STOP;
+
 	nl_msg_parse (msg, &netlink_object_message_handler, arg);
 
 	/* Stop processing messages */
@@ -399,8 +404,18 @@ deferred_emit_carrier_state (gpointer user_data)
 
 	priv->request_status_id = 0;
 
-	/* Emit each device's new state */
-	nl_cache_foreach_filter (priv->nlh_link_cache, NULL, netlink_object_message_handler, monitor);
+	/* Update the link cache with latest state, and if there are no errors
+	 * emit the link states for all the interfaces in the cache.
+	 */
+	if (nl_cache_refill (priv->nlh, priv->nlh_link_cache))
+		nm_warning ("error updating link cache: %s", nl_geterror ());
+	else {
+		nl_cache_foreach_filter (priv->nlh_link_cache,
+		                         NULL,
+		                         netlink_object_message_handler,
+		                         monitor);
+	}
+
 	return FALSE;
 }
 
@@ -414,15 +429,6 @@ nm_netlink_monitor_request_status (NMNetlinkMonitor  *monitor,
 
 	priv = NM_NETLINK_MONITOR_GET_PRIVATE (monitor);
 	g_return_val_if_fail (priv->event_id > 0, FALSE);
-
-	/* Update the link cache with latest state */
-	if (nl_cache_refill (priv->nlh, priv->nlh_link_cache)) {
-		g_set_error (error, NM_NETLINK_MONITOR_ERROR,
-		             NM_NETLINK_MONITOR_ERROR_LINK_CACHE_UPDATE,
-		             _("error updating link cache: %s"),
-		             nl_geterror ());
-		return FALSE;
-	}
 
 	/* Schedule the carrier state emission */
 	if (!priv->request_status_id)

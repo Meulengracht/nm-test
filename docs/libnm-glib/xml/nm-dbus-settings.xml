@@ -3,7 +3,7 @@
                "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
 <refentry id="libnm-glib-NMDBusSettings">
 <refmeta>
-<refentrytitle role="top_of_page">NMDBusSettings</refentrytitle>
+<refentrytitle role="top_of_page" id="libnm-glib-NMDBusSettings.top_of_page">NMDBusSettings</refentrytitle>
 <manvolnum>3</manvolnum>
 <refmiscinfo>LIBNM-GLIB Library</refmiscinfo>
 </refmeta>
@@ -11,24 +11,12 @@
 <refnamediv>
 <refname>NMDBusSettings</refname>
 <refpurpose></refpurpose>
-<!--[<xref linkend="desc" endterm="desc.title"/>]-->
 </refnamediv>
 
-<refsynopsisdiv role="synopsis">
+<refsynopsisdiv id="libnm-glib-NMDBusSettings.synopsis" role="synopsis">
 <title role="synopsis.title">Synopsis</title>
 
 <synopsis>
-
-
-
-#define             <link linkend="NM-DBUS-SETTINGS-DBUS-CONNECTION:CAPS">NM_DBUS_SETTINGS_DBUS_CONNECTION</link>
-#define             <link linkend="NM-DBUS-SETTINGS-SCOPE:CAPS">NM_DBUS_SETTINGS_SCOPE</link>
-                    <link linkend="NMDBusSettings">NMDBusSettings</link>;
-<link linkend="NMDBusSettings">NMDBusSettings</link>*     <link linkend="nm-dbus-settings-new">nm_dbus_settings_new</link>                (<link linkend="DBusGConnection">DBusGConnection</link> *dbus_connection);
-<link linkend="NMDBusConnection">NMDBusConnection</link>*   <link linkend="nm-dbus-settings-get-connection-by-path">nm_dbus_settings_get_connection_by_path</link>
-                                                        (<link linkend="NMDBusSettings">NMDBusSettings</link> *self,
-                                                         const <link linkend="char">char</link> *path);
-
 </synopsis>
 </refsynopsisdiv>
 
@@ -40,77 +28,18 @@
 
 
 
-<refsect1 role="desc">
+<refsect1 id="libnm-glib-NMDBusSettings.description" role="desc">
 <title role="desc.title">Description</title>
 <para>
-
 </para>
 </refsect1>
 
-<refsect1 role="details">
+<refsect1 id="libnm-glib-NMDBusSettings.details" role="details">
 <title role="details.title">Details</title>
-<refsect2>
-<title><anchor id="NM-DBUS-SETTINGS-DBUS-CONNECTION:CAPS" role="macro"/>NM_DBUS_SETTINGS_DBUS_CONNECTION</title>
-<indexterm><primary>NM_DBUS_SETTINGS_DBUS_CONNECTION</primary></indexterm><programlisting>#define NM_DBUS_SETTINGS_DBUS_CONNECTION "dbus-connection"
-</programlisting>
-<para>
-
-</para></refsect2>
-<refsect2>
-<title><anchor id="NM-DBUS-SETTINGS-SCOPE:CAPS" role="macro"/>NM_DBUS_SETTINGS_SCOPE</title>
-<indexterm><primary>NM_DBUS_SETTINGS_SCOPE</primary></indexterm><programlisting>#define NM_DBUS_SETTINGS_SCOPE           "scope"
-</programlisting>
-<para>
-
-</para></refsect2>
-<refsect2>
-<title><anchor id="NMDBusSettings" role="struct"/>NMDBusSettings</title>
-<indexterm><primary>NMDBusSettings</primary></indexterm><programlisting>typedef struct {
-	NMSettings parent;
-} NMDBusSettings;
-</programlisting>
-<para>
-
-</para></refsect2>
-<refsect2>
-<title><anchor id="nm-dbus-settings-new" role="function"/>nm_dbus_settings_new ()</title>
-<indexterm><primary>nm_dbus_settings_new</primary></indexterm><programlisting><link linkend="NMDBusSettings">NMDBusSettings</link>*     nm_dbus_settings_new                (<link linkend="DBusGConnection">DBusGConnection</link> *dbus_connection);</programlisting>
-<para>
-
-</para><variablelist role="params">
-<varlistentry><term><parameter>dbus_connection</parameter>&nbsp;:</term>
-<listitem><simpara>
-</simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
-</simpara></listitem></varlistentry>
-</variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-dbus-settings-get-connection-by-path" role="function"/>nm_dbus_settings_get_connection_by_path ()</title>
-<indexterm><primary>nm_dbus_settings_get_connection_by_path</primary></indexterm><programlisting><link linkend="NMDBusConnection">NMDBusConnection</link>*   nm_dbus_settings_get_connection_by_path
-                                                        (<link linkend="NMDBusSettings">NMDBusSettings</link> *self,
-                                                         const <link linkend="char">char</link> *path);</programlisting>
-<para>
-
-</para><variablelist role="params">
-<varlistentry><term><parameter>self</parameter>&nbsp;:</term>
-<listitem><simpara>
-</simpara></listitem></varlistentry>
-<varlistentry><term><parameter>path</parameter>&nbsp;:</term>
-<listitem><simpara>
-</simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
-</simpara></listitem></varlistentry>
-</variablelist></refsect2>
 
 </refsect1>
 
 
 
 
-
-<refsect1><refsect2 /><refsect2 /></refsect1>
 </refentry>

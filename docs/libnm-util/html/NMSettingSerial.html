@@ -1,138 +1,190 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>NMSettingSerial</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="libnm-util Reference Manual">
-<link rel="up" href="ch01.html" title="[Insert title here]">
-<link rel="prev" href="NMSettingPPP.html" title="NMSettingPPP">
-<link rel="next" href="NMSettingPPPOE.html" title="NMSettingPPPOE">
-<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<meta name="generator" content="DocBook XSL Stylesheets V1.74.3">
+<link rel="home" href="index.html" title="libnm-util Reference Manual">
+<link rel="up" href="ch01.html" title="libnm-util API Reference">
+<link rel="prev" href="NMSettingBluetooth.html" title="NMSettingBluetooth">
+<link rel="next" href="NMSettingCdma.html" title="NMSettingCdma">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
-<link rel="chapter" href="ch01.html" title="[Insert title here]">
+<link rel="chapter" href="ch01.html" title="libnm-util API Reference">
+<link rel="chapter" href="object-tree.html" title="Object Hierarchy">
+<link rel="index" href="api-index-full.html" title="API Index">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
 <tr valign="middle">
-<td><a accesskey="p" href="NMSettingPPP.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="NMSettingBluetooth.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">libnm-util Reference Manual</th>
-<td><a accesskey="n" href="NMSettingPPPOE.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="NMSettingCdma.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2968993" class="shortcut">Top</a>
-                  &#160;|&#160;
-                  <a href="#id2922224" class="shortcut">Description</a>
-                  &#160;|&#160;
-                  <a href="#id2922114" class="shortcut">Object Hierarchy</a>
-                  &#160;|&#160;
-                  <a href="#id2922144" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#NMSettingSerial.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#NMSettingSerial.description" class="shortcut">Description</a>
+                 | 
+                <a href="#NMSettingSerial.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#NMSettingSerial.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="NMSettingSerial"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
-<h2>
-<a name="id2968993"></a><span class="refentrytitle">NMSettingSerial</span>
-</h2>
+<h2><span class="refentrytitle"><a name="NMSettingSerial.top_of_page"></a>NMSettingSerial</span></h2>
 <p>NMSettingSerial</p>
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
 <div class="refsynopsisdiv">
-<h2>Synopsis</h2>
+<a name="NMSettingSerial.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
-
-
-
-#define             <a class="link" href="NMSettingSerial.html#NM-SETTING-SERIAL-SETTING-NAME:CAPS">NM_SETTING_SERIAL_SETTING_NAME</a>
-enum                <a class="link" href="NMSettingSerial.html#NMSettingSerialError">NMSettingSerialError</a>;
-#define             <a class="link" href="NMSettingSerial.html#NM-TYPE-SETTING-SERIAL-ERROR:CAPS">NM_TYPE_SETTING_SERIAL_ERROR</a>
-#define             <a class="link" href="NMSettingSerial.html#NM-SETTING-SERIAL-ERROR:CAPS">NM_SETTING_SERIAL_ERROR</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#NM-SETTING-SERIAL-SETTING-NAME--CAPS"
+>NM_SETTING_SERIAL_SETTING_NAME</a>
+enum                <a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#NMSettingSerialError"
+>NMSettingSerialError</a>;
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#NM-TYPE-SETTING-SERIAL-ERROR--CAPS"
+>NM_TYPE_SETTING_SERIAL_ERROR</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#NM-SETTING-SERIAL-ERROR--CAPS"
+>NM_SETTING_SERIAL_ERROR</a>
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
->GQuark</a>              <a class="link" href="NMSettingSerial.html#nm-setting-serial-error-quark">nm_setting_serial_error_quark</a>       (void);
-#define             <a class="link" href="NMSettingSerial.html#NM-SETTING-SERIAL-BAUD:CAPS">NM_SETTING_SERIAL_BAUD</a>
-#define             <a class="link" href="NMSettingSerial.html#NM-SETTING-SERIAL-BITS:CAPS">NM_SETTING_SERIAL_BITS</a>
-#define             <a class="link" href="NMSettingSerial.html#NM-SETTING-SERIAL-PARITY:CAPS">NM_SETTING_SERIAL_PARITY</a>
-#define             <a class="link" href="NMSettingSerial.html#NM-SETTING-SERIAL-STOPBITS:CAPS">NM_SETTING_SERIAL_STOPBITS</a>
-#define             <a class="link" href="NMSettingSerial.html#NM-SETTING-SERIAL-SEND-DELAY:CAPS">NM_SETTING_SERIAL_SEND_DELAY</a>
-                    <a class="link" href="NMSettingSerial.html#NMSettingSerial-struct">NMSettingSerial</a>;
+href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
+>GQuark</a>              <a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#nm-setting-serial-error-quark"
+>nm_setting_serial_error_quark</a>       (void);
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#NM-SETTING-SERIAL-BAUD--CAPS"
+>NM_SETTING_SERIAL_BAUD</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#NM-SETTING-SERIAL-BITS--CAPS"
+>NM_SETTING_SERIAL_BITS</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#NM-SETTING-SERIAL-PARITY--CAPS"
+>NM_SETTING_SERIAL_PARITY</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#NM-SETTING-SERIAL-STOPBITS--CAPS"
+>NM_SETTING_SERIAL_STOPBITS</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#NM-SETTING-SERIAL-SEND-DELAY--CAPS"
+>NM_SETTING_SERIAL_SEND_DELAY</a>
+                    <a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#NMSettingSerial-struct"
+>NMSettingSerial</a>;
 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
->GType</a>               <a class="link" href="NMSettingSerial.html#nm-setting-serial-get-type">nm_setting_serial_get_type</a>          (void);
-<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          <a class="link" href="NMSettingSerial.html#nm-setting-serial-new">nm_setting_serial_new</a>               (void);
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"
+>GType</a>               <a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#nm-setting-serial-get-type"
+>nm_setting_serial_get_type</a>          (void);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
->guint</a>               <a class="link" href="NMSettingSerial.html#nm-setting-serial-get-baud">nm_setting_serial_get_baud</a>          (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);
+href="http://[SERVER]/libnm-util/NMSetting.html"
+>NMSetting</a> *         <a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#nm-setting-serial-new"
+>nm_setting_serial_new</a>               (void);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
->guint</a>               <a class="link" href="NMSettingSerial.html#nm-setting-serial-get-bits">nm_setting_serial_get_bits</a>          (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);
-char                <a class="link" href="NMSettingSerial.html#nm-setting-serial-get-parity">nm_setting_serial_get_parity</a>        (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
+>guint</a>               <a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#nm-setting-serial-get-baud"
+>nm_setting_serial_get_baud</a>          (<a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html"
+>NMSettingSerial</a> *setting);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
->guint</a>               <a class="link" href="NMSettingSerial.html#nm-setting-serial-get-stopbits">nm_setting_serial_get_stopbits</a>      (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
+>guint</a>               <a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#nm-setting-serial-get-bits"
+>nm_setting_serial_get_bits</a>          (<a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html"
+>NMSettingSerial</a> *setting);
+char                <a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#nm-setting-serial-get-parity"
+>nm_setting_serial_get_parity</a>        (<a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html"
+>NMSettingSerial</a> *setting);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
->guint64</a>             <a class="link" href="NMSettingSerial.html#nm-setting-serial-get-send-delay">nm_setting_serial_get_send_delay</a>    (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);
-
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
+>guint</a>               <a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#nm-setting-serial-get-stopbits"
+>nm_setting_serial_get_stopbits</a>      (<a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html"
+>NMSettingSerial</a> *setting);
+<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"
+>guint64</a>             <a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#nm-setting-serial-get-send-delay"
+>nm_setting_serial_get_send_delay</a>    (<a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html"
+>NMSettingSerial</a> *setting);
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2922114"></a><h2>Object Hierarchy</h2>
+<a name="NMSettingSerial.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>
+   +----<a
+href="http://[SERVER]/libnm-util/NMSetting.html"
+>NMSetting</a>
          +----NMSettingSerial
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2922144"></a><h2>Properties</h2>
+<a name="NMSettingSerial.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-
-  "<a class="link" href="NMSettingSerial.html#NMSettingSerial--baud">baud</a>"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#NMSettingSerial--baud"
+>baud</a>"                     <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write / Construct
-  "<a class="link" href="NMSettingSerial.html#NMSettingSerial--bits">bits</a>"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#NMSettingSerial--bits"
+>bits</a>"                     <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write / Construct
-  "<a class="link" href="NMSettingSerial.html#NMSettingSerial--parity">parity</a>"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#NMSettingSerial--parity"
+>parity</a>"                   <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
 >gchar</a>                 : Read / Write / Construct
-  "<a class="link" href="NMSettingSerial.html#NMSettingSerial--send-delay">send-delay</a>"               <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#NMSettingSerial--send-delay"
+>send-delay</a>"               <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write / Construct
-  "<a class="link" href="NMSettingSerial.html#NMSettingSerial--stopbits">stopbits</a>"                 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html#NMSettingSerial--stopbits"
+>stopbits</a>"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write / Construct
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2922224"></a><h2>Description</h2>
+<a name="NMSettingSerial.description"></a><h2>Description</h2>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2922240"></a><h2>Details</h2>
+<a name="NMSettingSerial.details"></a><h2>Details</h2>
 <div class="refsect2" lang="en">
-<a name="id2922251"></a><h3>
-<a name="NM-SETTING-SERIAL-SETTING-NAME:CAPS"></a>NM_SETTING_SERIAL_SETTING_NAME</h3>
-<a class="indexterm" name="id2922264"></a><pre class="programlisting">#define NM_SETTING_SERIAL_SETTING_NAME "serial"
+<a name="NM-SETTING-SERIAL-SETTING-NAME--CAPS"></a><h3>NM_SETTING_SERIAL_SETTING_NAME</h3>
+<pre class="programlisting">#define NM_SETTING_SERIAL_SETTING_NAME "serial"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2922281"></a><h3>
-<a name="NMSettingSerialError"></a>enum NMSettingSerialError</h3>
-<a class="indexterm" name="id2922292"></a><pre class="programlisting">typedef enum
+<a name="NMSettingSerialError"></a><h3>enum NMSettingSerialError</h3>
+<pre class="programlisting">typedef enum
 {
 	NM_SETTING_SERIAL_ERROR_UNKNOWN = 0,
 	NM_SETTING_SERIAL_ERROR_INVALID_PROPERTY,
@@ -141,172 +193,143 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 } NMSettingSerialError;
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2922310"></a><h3>
-<a name="NM-TYPE-SETTING-SERIAL-ERROR:CAPS"></a>NM_TYPE_SETTING_SERIAL_ERROR</h3>
-<a class="indexterm" name="id2922324"></a><pre class="programlisting">#define NM_TYPE_SETTING_SERIAL_ERROR (nm_setting_serial_error_get_type ()) 
+<a name="NM-TYPE-SETTING-SERIAL-ERROR--CAPS"></a><h3>NM_TYPE_SETTING_SERIAL_ERROR</h3>
+<pre class="programlisting">#define NM_TYPE_SETTING_SERIAL_ERROR (nm_setting_serial_error_get_type ()) 
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2922341"></a><h3>
-<a name="NM-SETTING-SERIAL-ERROR:CAPS"></a>NM_SETTING_SERIAL_ERROR</h3>
-<a class="indexterm" name="id2922354"></a><pre class="programlisting">#define NM_SETTING_SERIAL_ERROR nm_setting_serial_error_quark ()
+<a name="NM-SETTING-SERIAL-ERROR--CAPS"></a><h3>NM_SETTING_SERIAL_ERROR</h3>
+<pre class="programlisting">#define NM_SETTING_SERIAL_ERROR nm_setting_serial_error_quark ()
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2922369"></a><h3>
-<a name="nm-setting-serial-error-quark"></a>nm_setting_serial_error_quark ()</h3>
-<a class="indexterm" name="id2922382"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+<a name="nm-setting-serial-error-quark"></a><h3>nm_setting_serial_error_quark ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 >GQuark</a>              nm_setting_serial_error_quark       (void);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2996228"></a><h3>
-<a name="NM-SETTING-SERIAL-BAUD:CAPS"></a>NM_SETTING_SERIAL_BAUD</h3>
-<a class="indexterm" name="id2996239"></a><pre class="programlisting">#define NM_SETTING_SERIAL_BAUD "baud"
+<a name="NM-SETTING-SERIAL-BAUD--CAPS"></a><h3>NM_SETTING_SERIAL_BAUD</h3>
+<pre class="programlisting">#define NM_SETTING_SERIAL_BAUD "baud"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2996254"></a><h3>
-<a name="NM-SETTING-SERIAL-BITS:CAPS"></a>NM_SETTING_SERIAL_BITS</h3>
-<a class="indexterm" name="id2996265"></a><pre class="programlisting">#define NM_SETTING_SERIAL_BITS "bits"
+<a name="NM-SETTING-SERIAL-BITS--CAPS"></a><h3>NM_SETTING_SERIAL_BITS</h3>
+<pre class="programlisting">#define NM_SETTING_SERIAL_BITS "bits"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2996280"></a><h3>
-<a name="NM-SETTING-SERIAL-PARITY:CAPS"></a>NM_SETTING_SERIAL_PARITY</h3>
-<a class="indexterm" name="id2996294"></a><pre class="programlisting">#define NM_SETTING_SERIAL_PARITY "parity"
+<a name="NM-SETTING-SERIAL-PARITY--CAPS"></a><h3>NM_SETTING_SERIAL_PARITY</h3>
+<pre class="programlisting">#define NM_SETTING_SERIAL_PARITY "parity"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2996309"></a><h3>
-<a name="NM-SETTING-SERIAL-STOPBITS:CAPS"></a>NM_SETTING_SERIAL_STOPBITS</h3>
-<a class="indexterm" name="id2996321"></a><pre class="programlisting">#define NM_SETTING_SERIAL_STOPBITS "stopbits"
+<a name="NM-SETTING-SERIAL-STOPBITS--CAPS"></a><h3>NM_SETTING_SERIAL_STOPBITS</h3>
+<pre class="programlisting">#define NM_SETTING_SERIAL_STOPBITS "stopbits"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2996337"></a><h3>
-<a name="NM-SETTING-SERIAL-SEND-DELAY:CAPS"></a>NM_SETTING_SERIAL_SEND_DELAY</h3>
-<a class="indexterm" name="id2996350"></a><pre class="programlisting">#define NM_SETTING_SERIAL_SEND_DELAY "send-delay"
+<a name="NM-SETTING-SERIAL-SEND-DELAY--CAPS"></a><h3>NM_SETTING_SERIAL_SEND_DELAY</h3>
+<pre class="programlisting">#define NM_SETTING_SERIAL_SEND_DELAY "send-delay"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2996366"></a><h3>
-<a name="NMSettingSerial-struct"></a>NMSettingSerial</h3>
-<a class="indexterm" name="id2996378"></a><pre class="programlisting">typedef struct _NMSettingSerial NMSettingSerial;</pre>
+<a name="NMSettingSerial-struct"></a><h3>NMSettingSerial</h3>
+<pre class="programlisting">typedef struct _NMSettingSerial NMSettingSerial;</pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2996394"></a><h3>
-<a name="nm-setting-serial-get-type"></a>nm_setting_serial_get_type ()</h3>
-<a class="indexterm" name="id2996406"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+<a name="nm-setting-serial-get-type"></a><h3>nm_setting_serial_get_type ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"
 >GType</a>               nm_setting_serial_get_type          (void);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2996442"></a><h3>
-<a name="nm-setting-serial-new"></a>nm_setting_serial_new ()</h3>
-<a class="indexterm" name="id2996454"></a><pre class="programlisting"><a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          nm_setting_serial_new               (void);</pre>
+<a name="nm-setting-serial-new"></a><h3>nm_setting_serial_new ()</h3>
+<pre class="programlisting"><a
+href="http://[SERVER]/libnm-util/NMSetting.html"
+>NMSetting</a> *         nm_setting_serial_new               (void);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2996490"></a><h3>
-<a name="nm-setting-serial-get-baud"></a>nm_setting_serial_get_baud ()</h3>
-<a class="indexterm" name="id2996502"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
->guint</a>               nm_setting_serial_get_baud          (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);</pre>
+<a name="nm-setting-serial-get-baud"></a><h3>nm_setting_serial_get_baud ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
+>guint</a>               nm_setting_serial_get_baud          (<a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html"
+>NMSettingSerial</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -314,27 +337,25 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2996558"></a><h3>
-<a name="nm-setting-serial-get-bits"></a>nm_setting_serial_get_bits ()</h3>
-<a class="indexterm" name="id2996570"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
->guint</a>               nm_setting_serial_get_bits          (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);</pre>
+<a name="nm-setting-serial-get-bits"></a><h3>nm_setting_serial_get_bits ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
+>guint</a>               nm_setting_serial_get_bits          (<a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html"
+>NMSettingSerial</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -342,25 +363,23 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2996627"></a><h3>
-<a name="nm-setting-serial-get-parity"></a>nm_setting_serial_get_parity ()</h3>
-<a class="indexterm" name="id2996640"></a><pre class="programlisting">char                nm_setting_serial_get_parity        (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);</pre>
+<a name="nm-setting-serial-get-parity"></a><h3>nm_setting_serial_get_parity ()</h3>
+<pre class="programlisting">char                nm_setting_serial_get_parity        (<a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html"
+>NMSettingSerial</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -368,27 +387,25 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2996697"></a><h3>
-<a name="nm-setting-serial-get-stopbits"></a>nm_setting_serial_get_stopbits ()</h3>
-<a class="indexterm" name="id2996711"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
->guint</a>               nm_setting_serial_get_stopbits      (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);</pre>
+<a name="nm-setting-serial-get-stopbits"></a><h3>nm_setting_serial_get_stopbits ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
+>guint</a>               nm_setting_serial_get_stopbits      (<a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html"
+>NMSettingSerial</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -396,27 +413,25 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2996768"></a><h3>
-<a name="nm-setting-serial-get-send-delay"></a>nm_setting_serial_get_send_delay ()</h3>
-<a class="indexterm" name="id2996781"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
->guint64</a>             nm_setting_serial_get_send_delay    (<a class="link" href="NMSettingSerial.html" title="NMSettingSerial">NMSettingSerial</a> *setting);</pre>
+<a name="nm-setting-serial-get-send-delay"></a><h3>nm_setting_serial_get_send_delay ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"
+>guint64</a>             nm_setting_serial_get_send_delay    (<a
+href="http://[SERVER]/libnm-util/NMSettingSerial.html"
+>NMSettingSerial</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -424,65 +439,77 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 </div>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2990979"></a><h2>Property Details</h2>
+<a name="NMSettingSerial.property-details"></a><h2>Property Details</h2>
 <div class="refsect2" lang="en">
-<a name="id2990990"></a><h3>
-<a name="NMSettingSerial--baud"></a>The <code class="literal">"baud"</code> property</h3>
-<a class="indexterm" name="id2991004"></a><pre class="programlisting">  "baud"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+<a name="NMSettingSerial--baud"></a><h3>The <code class="literal">"baud"</code> property</h3>
+<pre class="programlisting">  "baud"                     <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write / Construct</pre>
-<p>Baud rate.</p>
+<p>
+Speed to use for communication over the serial port.  Note that this value
+usually has no effect for mobile broadband modems as they generally
+ignore speed settings and use the highest available speed.</p>
+<p>
+</p>
 <p>Default value: 57600</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2991029"></a><h3>
-<a name="NMSettingSerial--bits"></a>The <code class="literal">"bits"</code> property</h3>
-<a class="indexterm" name="id2991043"></a><pre class="programlisting">  "bits"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+<a name="NMSettingSerial--bits"></a><h3>The <code class="literal">"bits"</code> property</h3>
+<pre class="programlisting">  "bits"                     <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write / Construct</pre>
-<p>Bits.</p>
+<p>
+Byte-width of the serial communication.</p>
+<p>
+</p>
 <p>Allowed values: [5,8]</p>
 <p>Default value: 8</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2991071"></a><h3>
-<a name="NMSettingSerial--parity"></a>The <code class="literal">"parity"</code> property</h3>
-<a class="indexterm" name="id2991085"></a><pre class="programlisting">  "parity"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+<a name="NMSettingSerial--parity"></a><h3>The <code class="literal">"parity"</code> property</h3>
+<pre class="programlisting">  "parity"                   <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
 >gchar</a>                 : Read / Write / Construct</pre>
-<p>Parity.</p>
+<p>
+Parity setting of the serial port.  Either 'E' for even parity, 'o' for
+odd parity, or 'n' for no parity.</p>
+<p>
+</p>
 <p>Allowed values: [69,111]</p>
 <p>Default value: 110</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2991114"></a><h3>
-<a name="NMSettingSerial--send-delay"></a>The <code class="literal">"send-delay"</code> property</h3>
-<a class="indexterm" name="id2991128"></a><pre class="programlisting">  "send-delay"               <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+<a name="NMSettingSerial--send-delay"></a><h3>The <code class="literal">"send-delay"</code> property</h3>
+<pre class="programlisting">  "send-delay"               <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write / Construct</pre>
-<p>Send delay.</p>
+<p>
+Time to delay between each byte sent to the modem, in microseconds.</p>
+<p>
+</p>
 <p>Default value: 0</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2991153"></a><h3>
-<a name="NMSettingSerial--stopbits"></a>The <code class="literal">"stopbits"</code> property</h3>
-<a class="indexterm" name="id2991167"></a><pre class="programlisting">  "stopbits"                 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+<a name="NMSettingSerial--stopbits"></a><h3>The <code class="literal">"stopbits"</code> property</h3>
+<pre class="programlisting">  "stopbits"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write / Construct</pre>
-<p>Stopbits.</p>
+<p>
+Number of stop bits for communication on the serial port.  Either 1 or 2.
+The 1 in '8n1' for example.</p>
+<p>
+</p>
 <p>Allowed values: [1,2]</p>
 <p>Default value: 1</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
-<a name="id2991197"></a><div class="refsect2" lang="en"><a name="id2991198"></a></div>
+</div>
+<div class="footer">
 <hr>
-<div class="refsect2" lang="en"><a name="id2991200"></a></div>
-</div>
-</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

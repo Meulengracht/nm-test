@@ -1,14 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>NMDevice</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="libnm-glib Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.74.3">
+<link rel="home" href="index.html" title="libnm-glib Reference Manual">
 <link rel="up" href="ch01.html" title="[Insert title here]">
 <link rel="prev" href="NMGsmDevice.html" title="NMGsmDevice">
 <link rel="next" href="NMIP4Config.html" title="NMIP4Config">
-<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="[Insert title here]">
 </head>
@@ -21,73 +21,68 @@
 <th width="100%" align="center">libnm-glib Reference Manual</th>
 <td><a accesskey="n" href="NMIP4Config.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2854007" class="shortcut">Top</a>
-                  &#160;|&#160;
-                  <a href="#id2863652" class="shortcut">Description</a>
-                  &#160;|&#160;
-                  <a href="#id2842794" class="shortcut">Object Hierarchy</a>
-                  &#160;|&#160;
-                  <a href="#id2842843" class="shortcut">Properties</a>
-                  &#160;|&#160;
-                  <a href="#id2863627" class="shortcut">Signals</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#NMDevice.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#NMDevice.description" class="shortcut">Description</a>
+                 | 
+                <a href="#NMDevice.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#NMDevice.properties" class="shortcut">Properties</a>
+                 | 
+                <a href="#NMDevice.signals" class="shortcut">Signals</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="NMDevice"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
-<h2>
-<a name="id2854007"></a><span class="refentrytitle">NMDevice</span>
-</h2>
+<h2><span class="refentrytitle"><a name="NMDevice.top_of_page"></a>NMDevice</span></h2>
 <p>NMDevice</p>
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
 <div class="refsynopsisdiv">
-<h2>Synopsis</h2>
+<a name="NMDevice.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
-
-
-
-#define             <a class="link" href="NMDevice.html#NM-DEVICE-UDI:CAPS">NM_DEVICE_UDI</a>
-#define             <a class="link" href="NMDevice.html#NM-DEVICE-INTERFACE:CAPS">NM_DEVICE_INTERFACE</a>
-#define             <a class="link" href="NMDevice.html#NM-DEVICE-DRIVER:CAPS">NM_DEVICE_DRIVER</a>
-#define             <a class="link" href="NMDevice.html#NM-DEVICE-CAPABILITIES:CAPS">NM_DEVICE_CAPABILITIES</a>
-#define             <a class="link" href="NMDevice.html#NM-DEVICE-MANAGED:CAPS">NM_DEVICE_MANAGED</a>
-#define             <a class="link" href="NMDevice.html#NM-DEVICE-IP4-CONFIG:CAPS">NM_DEVICE_IP4_CONFIG</a>
-#define             <a class="link" href="NMDevice.html#NM-DEVICE-DHCP4-CONFIG:CAPS">NM_DEVICE_DHCP4_CONFIG</a>
-#define             <a class="link" href="NMDevice.html#NM-DEVICE-STATE:CAPS">NM_DEVICE_STATE</a>
-#define             <a class="link" href="NMDevice.html#NM-DEVICE-VENDOR:CAPS">NM_DEVICE_VENDOR</a>
-#define             <a class="link" href="NMDevice.html#NM-DEVICE-PRODUCT:CAPS">NM_DEVICE_PRODUCT</a>
-                    <a class="link" href="NMDevice.html#NMDevice-struct">NMDevice</a>;
+#define             <a class="link" href="NMDevice.html#NM-DEVICE-UDI--CAPS" title="NM_DEVICE_UDI">NM_DEVICE_UDI</a>
+#define             <a class="link" href="NMDevice.html#NM-DEVICE-INTERFACE--CAPS" title="NM_DEVICE_INTERFACE">NM_DEVICE_INTERFACE</a>
+#define             <a class="link" href="NMDevice.html#NM-DEVICE-DRIVER--CAPS" title="NM_DEVICE_DRIVER">NM_DEVICE_DRIVER</a>
+#define             <a class="link" href="NMDevice.html#NM-DEVICE-CAPABILITIES--CAPS" title="NM_DEVICE_CAPABILITIES">NM_DEVICE_CAPABILITIES</a>
+#define             <a class="link" href="NMDevice.html#NM-DEVICE-MANAGED--CAPS" title="NM_DEVICE_MANAGED">NM_DEVICE_MANAGED</a>
+#define             <a class="link" href="NMDevice.html#NM-DEVICE-IP4-CONFIG--CAPS" title="NM_DEVICE_IP4_CONFIG">NM_DEVICE_IP4_CONFIG</a>
+#define             <a class="link" href="NMDevice.html#NM-DEVICE-DHCP4-CONFIG--CAPS" title="NM_DEVICE_DHCP4_CONFIG">NM_DEVICE_DHCP4_CONFIG</a>
+#define             <a class="link" href="NMDevice.html#NM-DEVICE-STATE--CAPS" title="NM_DEVICE_STATE">NM_DEVICE_STATE</a>
+#define             <a class="link" href="NMDevice.html#NM-DEVICE-VENDOR--CAPS" title="NM_DEVICE_VENDOR">NM_DEVICE_VENDOR</a>
+#define             <a class="link" href="NMDevice.html#NM-DEVICE-PRODUCT--CAPS" title="NM_DEVICE_PRODUCT">NM_DEVICE_PRODUCT</a>
+                    <a class="link" href="NMDevice.html#NMDevice-struct" title="NMDevice">NMDevice</a>;
 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
->GObject</a>*            <a class="link" href="NMDevice.html#nm-device-new">nm_device_new</a>                       (<a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a> *           <a class="link" href="NMDevice.html#nm-device-new" title="nm_device_new ()">nm_device_new</a>                       (<a
 href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
 >DBusGConnection</a> *connection,
                                                          const char *path);
-const char*         <a class="link" href="NMDevice.html#nm-device-get-iface">nm_device_get_iface</a>                 (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
-const char*         <a class="link" href="NMDevice.html#nm-device-get-udi">nm_device_get_udi</a>                   (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
-const char*         <a class="link" href="NMDevice.html#nm-device-get-driver">nm_device_get_driver</a>                (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
+const char *        <a class="link" href="NMDevice.html#nm-device-get-iface" title="nm_device_get_iface ()">nm_device_get_iface</a>                 (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
+const char *        <a class="link" href="NMDevice.html#nm-device-get-udi" title="nm_device_get_udi ()">nm_device_get_udi</a>                   (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
+const char *        <a class="link" href="NMDevice.html#nm-device-get-driver" title="nm_device_get_driver ()">nm_device_get_driver</a>                (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             <a class="link" href="NMDevice.html#nm-device-get-capabilities">nm_device_get_capabilities</a>          (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             <a class="link" href="NMDevice.html#nm-device-get-capabilities" title="nm_device_get_capabilities ()">nm_device_get_capabilities</a>          (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="NMDevice.html#nm-device-get-managed">nm_device_get_managed</a>               (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
-<a class="link" href="NMIP4Config.html" title="NMIP4Config">NMIP4Config</a>*        <a class="link" href="NMDevice.html#nm-device-get-ip4-config">nm_device_get_ip4_config</a>            (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
-<a class="link" href="NMDHCP4Config.html" title="NMDHCP4Config">NMDHCP4Config</a>*      <a class="link" href="NMDevice.html#nm-device-get-dhcp4-config">nm_device_get_dhcp4_config</a>          (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
-NMDeviceState       <a class="link" href="NMDevice.html#nm-device-get-state">nm_device_get_state</a>                 (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
-const char*         <a class="link" href="NMDevice.html#nm-device-get-product">nm_device_get_product</a>               (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
-const char*         <a class="link" href="NMDevice.html#nm-device-get-vendor">nm_device_get_vendor</a>                (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
-
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a class="link" href="NMDevice.html#nm-device-get-managed" title="nm_device_get_managed ()">nm_device_get_managed</a>               (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
+<a class="link" href="NMIP4Config.html" title="NMIP4Config">NMIP4Config</a> *       <a class="link" href="NMDevice.html#nm-device-get-ip4-config" title="nm_device_get_ip4_config ()">nm_device_get_ip4_config</a>            (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
+<a class="link" href="NMDHCP4Config.html" title="NMDHCP4Config">NMDHCP4Config</a> *     <a class="link" href="NMDevice.html#nm-device-get-dhcp4-config" title="nm_device_get_dhcp4_config ()">nm_device_get_dhcp4_config</a>          (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
+NMDeviceState       <a class="link" href="NMDevice.html#nm-device-get-state" title="nm_device_get_state ()">nm_device_get_state</a>                 (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
+const char *        <a class="link" href="NMDevice.html#nm-device-get-product" title="nm_device_get_product ()">nm_device_get_product</a>               (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
+const char *        <a class="link" href="NMDevice.html#nm-device-get-vendor" title="nm_device_get_vendor ()">nm_device_get_vendor</a>                (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2842794"></a><h2>Object Hierarchy</h2>
+<a name="NMDevice.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a class="link" href="NMObject.html" title="NMObject">NMObject</a>
          +----NMDevice
@@ -97,192 +92,165 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2842843"></a><h2>Properties</h2>
+<a name="NMDevice.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-
-  "<a class="link" href="NMDevice.html#NMDevice--capabilities">capabilities</a>"             <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+  "<a class="link" href="NMDevice.html#NMDevice--capabilities" title='The "capabilities" property'>capabilities</a>"             <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a>                 : Read
-  "<a class="link" href="NMDevice.html#NMDevice--dhcp4-config">dhcp4-config</a>"             <a class="link" href="NMDHCP4Config.html" title="NMDHCP4Config">NMDHCP4Config</a>         : Read
-  "<a class="link" href="NMDevice.html#NMDevice--driver">driver</a>"                   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read
-  "<a class="link" href="NMDevice.html#NMDevice--interface">interface</a>"                <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read
-  "<a class="link" href="NMDevice.html#NMDevice--ip4-config">ip4-config</a>"               <a class="link" href="NMIP4Config.html" title="NMIP4Config">NMIP4Config</a>           : Read
-  "<a class="link" href="NMDevice.html#NMDevice--managed">managed</a>"                  <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+  "<a class="link" href="NMDevice.html#NMDevice--dhcp4-config" title='The "dhcp4-config" property'>dhcp4-config</a>"             <a class="link" href="NMDHCP4Config.html" title="NMDHCP4Config">NMDHCP4Config</a>*        : Read
+  "<a class="link" href="NMDevice.html#NMDevice--driver" title='The "driver" property'>driver</a>"                   <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read
+  "<a class="link" href="NMDevice.html#NMDevice--interface" title='The "interface" property'>interface</a>"                <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read
+  "<a class="link" href="NMDevice.html#NMDevice--ip4-config" title='The "ip4-config" property'>ip4-config</a>"               <a class="link" href="NMIP4Config.html" title="NMIP4Config">NMIP4Config</a>*          : Read
+  "<a class="link" href="NMDevice.html#NMDevice--managed" title='The "managed" property'>managed</a>"                  <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read
-  "<a class="link" href="NMDevice.html#NMDevice--product">product</a>"                  <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read
-  "<a class="link" href="NMDevice.html#NMDevice--state">state</a>"                    <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+  "<a class="link" href="NMDevice.html#NMDevice--product" title='The "product" property'>product</a>"                  <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read
+  "<a class="link" href="NMDevice.html#NMDevice--state" title='The "state" property'>state</a>"                    <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a>                 : Read
-  "<a class="link" href="NMDevice.html#NMDevice--udi">udi</a>"                      <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read
-  "<a class="link" href="NMDevice.html#NMDevice--vendor">vendor</a>"                   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read
+  "<a class="link" href="NMDevice.html#NMDevice--udi" title='The "udi" property'>udi</a>"                      <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read
+  "<a class="link" href="NMDevice.html#NMDevice--vendor" title='The "vendor" property'>vendor</a>"                   <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2863627"></a><h2>Signals</h2>
+<a name="NMDevice.signals"></a><h2>Signals</h2>
 <pre class="synopsis">
-
-  "<a class="link" href="NMDevice.html#NMDevice-state-changed">state-changed</a>"                                  : Run First
+  "<a class="link" href="NMDevice.html#NMDevice-state-changed" title='The "state-changed" signal'>state-changed</a>"                                  : Run First
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2863652"></a><h2>Description</h2>
+<a name="NMDevice.description"></a><h2>Description</h2>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2863668"></a><h2>Details</h2>
+<a name="NMDevice.details"></a><h2>Details</h2>
 <div class="refsect2" lang="en">
-<a name="id2863678"></a><h3>
-<a name="NM-DEVICE-UDI:CAPS"></a>NM_DEVICE_UDI</h3>
-<a class="indexterm" name="id2863691"></a><pre class="programlisting">#define NM_DEVICE_UDI "udi"
+<a name="NM-DEVICE-UDI--CAPS"></a><h3>NM_DEVICE_UDI</h3>
+<pre class="programlisting">#define NM_DEVICE_UDI "udi"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2863706"></a><h3>
-<a name="NM-DEVICE-INTERFACE:CAPS"></a>NM_DEVICE_INTERFACE</h3>
-<a class="indexterm" name="id2863718"></a><pre class="programlisting">#define NM_DEVICE_INTERFACE "interface"
+<a name="NM-DEVICE-INTERFACE--CAPS"></a><h3>NM_DEVICE_INTERFACE</h3>
+<pre class="programlisting">#define NM_DEVICE_INTERFACE "interface"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2863733"></a><h3>
-<a name="NM-DEVICE-DRIVER:CAPS"></a>NM_DEVICE_DRIVER</h3>
-<a class="indexterm" name="id2863745"></a><pre class="programlisting">#define NM_DEVICE_DRIVER "driver"
+<a name="NM-DEVICE-DRIVER--CAPS"></a><h3>NM_DEVICE_DRIVER</h3>
+<pre class="programlisting">#define NM_DEVICE_DRIVER "driver"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2863760"></a><h3>
-<a name="NM-DEVICE-CAPABILITIES:CAPS"></a>NM_DEVICE_CAPABILITIES</h3>
-<a class="indexterm" name="id2863772"></a><pre class="programlisting">#define NM_DEVICE_CAPABILITIES "capabilities"
+<a name="NM-DEVICE-CAPABILITIES--CAPS"></a><h3>NM_DEVICE_CAPABILITIES</h3>
+<pre class="programlisting">#define NM_DEVICE_CAPABILITIES "capabilities"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2863788"></a><h3>
-<a name="NM-DEVICE-MANAGED:CAPS"></a>NM_DEVICE_MANAGED</h3>
-<a class="indexterm" name="id2863799"></a><pre class="programlisting">#define NM_DEVICE_MANAGED "managed"
+<a name="NM-DEVICE-MANAGED--CAPS"></a><h3>NM_DEVICE_MANAGED</h3>
+<pre class="programlisting">#define NM_DEVICE_MANAGED "managed"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2863815"></a><h3>
-<a name="NM-DEVICE-IP4-CONFIG:CAPS"></a>NM_DEVICE_IP4_CONFIG</h3>
-<a class="indexterm" name="id2865884"></a><pre class="programlisting">#define NM_DEVICE_IP4_CONFIG "ip4-config"
+<a name="NM-DEVICE-IP4-CONFIG--CAPS"></a><h3>NM_DEVICE_IP4_CONFIG</h3>
+<pre class="programlisting">#define NM_DEVICE_IP4_CONFIG "ip4-config"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2865900"></a><h3>
-<a name="NM-DEVICE-DHCP4-CONFIG:CAPS"></a>NM_DEVICE_DHCP4_CONFIG</h3>
-<a class="indexterm" name="id2865911"></a><pre class="programlisting">#define NM_DEVICE_DHCP4_CONFIG "dhcp4-config"
+<a name="NM-DEVICE-DHCP4-CONFIG--CAPS"></a><h3>NM_DEVICE_DHCP4_CONFIG</h3>
+<pre class="programlisting">#define NM_DEVICE_DHCP4_CONFIG "dhcp4-config"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2865927"></a><h3>
-<a name="NM-DEVICE-STATE:CAPS"></a>NM_DEVICE_STATE</h3>
-<a class="indexterm" name="id2865938"></a><pre class="programlisting">#define NM_DEVICE_STATE "state"
+<a name="NM-DEVICE-STATE--CAPS"></a><h3>NM_DEVICE_STATE</h3>
+<pre class="programlisting">#define NM_DEVICE_STATE "state"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2865954"></a><h3>
-<a name="NM-DEVICE-VENDOR:CAPS"></a>NM_DEVICE_VENDOR</h3>
-<a class="indexterm" name="id2865965"></a><pre class="programlisting">#define NM_DEVICE_VENDOR "vendor"
+<a name="NM-DEVICE-VENDOR--CAPS"></a><h3>NM_DEVICE_VENDOR</h3>
+<pre class="programlisting">#define NM_DEVICE_VENDOR "vendor"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2865981"></a><h3>
-<a name="NM-DEVICE-PRODUCT:CAPS"></a>NM_DEVICE_PRODUCT</h3>
-<a class="indexterm" name="id2865992"></a><pre class="programlisting">#define NM_DEVICE_PRODUCT "product"
+<a name="NM-DEVICE-PRODUCT--CAPS"></a><h3>NM_DEVICE_PRODUCT</h3>
+<pre class="programlisting">#define NM_DEVICE_PRODUCT "product"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2866008"></a><h3>
-<a name="NMDevice-struct"></a>NMDevice</h3>
-<a class="indexterm" name="id2866021"></a><pre class="programlisting">typedef struct _NMDevice NMDevice;</pre>
+<a name="NMDevice-struct"></a><h3>NMDevice</h3>
+<pre class="programlisting">typedef struct _NMDevice NMDevice;</pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2866036"></a><h3>
-<a name="nm-device-new"></a>nm_device_new ()</h3>
-<a class="indexterm" name="id2866048"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
->GObject</a>*            nm_device_new                       (<a
+<a name="nm-device-new"></a><h3>nm_device_new ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a> *           nm_device_new                       (<a
 href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
 >DBusGConnection</a> *connection,
                                                          const char *path);</pre>
 <p>
 Creates a new <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>connection</code></em> :</span></p></td>
 <td> the <a
 href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
 ><span class="type">DBusGConnection</span></a>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>path</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>path</code></em> :</span></p></td>
 <td> the DBus object path of the device
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> a new device
 </td>
 </tr>
@@ -291,24 +259,22 @@ href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConn
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2866144"></a><h3>
-<a name="nm-device-get-iface"></a>nm_device_get_iface ()</h3>
-<a class="indexterm" name="id2866157"></a><pre class="programlisting">const char*         nm_device_get_iface                 (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);</pre>
+<a name="nm-device-get-iface"></a><h3>nm_device_get_iface ()</h3>
+<pre class="programlisting">const char *        nm_device_get_iface                 (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);</pre>
 <p>
 Gets the interface name of the <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>device</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>device</code></em> :</span></p></td>
 <td> a <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the interface of the device. This is the internal string used by the
 device, and must not be modified.
 </td>
@@ -318,24 +284,22 @@ device, and must not be modified.
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2866234"></a><h3>
-<a name="nm-device-get-udi"></a>nm_device_get_udi ()</h3>
-<a class="indexterm" name="id2866247"></a><pre class="programlisting">const char*         nm_device_get_udi                   (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);</pre>
+<a name="nm-device-get-udi"></a><h3>nm_device_get_udi ()</h3>
+<pre class="programlisting">const char *        nm_device_get_udi                   (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);</pre>
 <p>
 Gets the HAL UDI of the <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>device</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>device</code></em> :</span></p></td>
 <td> a <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the HAL UDI of the device. This is the internal string used by the
 device, and must not be modified.
 </td>
@@ -345,24 +309,22 @@ device, and must not be modified.
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2866324"></a><h3>
-<a name="nm-device-get-driver"></a>nm_device_get_driver ()</h3>
-<a class="indexterm" name="id2866335"></a><pre class="programlisting">const char*         nm_device_get_driver                (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);</pre>
+<a name="nm-device-get-driver"></a><h3>nm_device_get_driver ()</h3>
+<pre class="programlisting">const char *        nm_device_get_driver                (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);</pre>
 <p>
 Gets the driver of the <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>device</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>device</code></em> :</span></p></td>
 <td> a <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the driver of the device. This is the internal string used by the
 device, and must not be modified.
 </td>
@@ -372,26 +334,24 @@ device, and must not be modified.
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2866412"></a><h3>
-<a name="nm-device-get-capabilities"></a>nm_device_get_capabilities ()</h3>
-<a class="indexterm" name="id2866423"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+<a name="nm-device-get-capabilities"></a><h3>nm_device_get_capabilities ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a>             nm_device_get_capabilities          (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);</pre>
 <p>
 Gets the device' capabilities.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>device</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>device</code></em> :</span></p></td>
 <td> a <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the capabilities
 </td>
 </tr>
@@ -400,28 +360,26 @@ Gets the device' capabilities.</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2866491"></a><h3>
-<a name="nm-device-get-managed"></a>nm_device_get_managed ()</h3>
-<a class="indexterm" name="id2866502"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+<a name="nm-device-get-managed"></a><h3>nm_device_get_managed ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
 >gboolean</a>            nm_device_get_managed               (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);</pre>
 <p>
 Whether the <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a> is managed by NetworkManager.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>device</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>device</code></em> :</span></p></td>
 <td> a <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"
+href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a> if the device is managed by NetworkManager
 </td>
 </tr>
@@ -430,26 +388,24 @@ href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2866587"></a><h3>
-<a name="nm-device-get-ip4-config"></a>nm_device_get_ip4_config ()</h3>
-<a class="indexterm" name="id2866598"></a><pre class="programlisting"><a class="link" href="NMIP4Config.html" title="NMIP4Config">NMIP4Config</a>*        nm_device_get_ip4_config            (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);</pre>
+<a name="nm-device-get-ip4-config"></a><h3>nm_device_get_ip4_config ()</h3>
+<pre class="programlisting"><a class="link" href="NMIP4Config.html" title="NMIP4Config">NMIP4Config</a> *       nm_device_get_ip4_config            (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);</pre>
 <p>
 Gets the current <a class="link" href="NMIP4Config.html" title="NMIP4Config"><span class="type">NMIP4Config</span></a> associated with the <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>device</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>device</code></em> :</span></p></td>
 <td> a <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the <a class="link" href="NMIP4Config.html" title="NMIP4Config"><span class="type">NMIP4Config</span></a> or <a
-href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"
+href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a> if the device is not activated.
 </td>
 </tr>
@@ -458,26 +414,24 @@ href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2866696"></a><h3>
-<a name="nm-device-get-dhcp4-config"></a>nm_device_get_dhcp4_config ()</h3>
-<a class="indexterm" name="id2866708"></a><pre class="programlisting"><a class="link" href="NMDHCP4Config.html" title="NMDHCP4Config">NMDHCP4Config</a>*      nm_device_get_dhcp4_config          (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);</pre>
+<a name="nm-device-get-dhcp4-config"></a><h3>nm_device_get_dhcp4_config ()</h3>
+<pre class="programlisting"><a class="link" href="NMDHCP4Config.html" title="NMDHCP4Config">NMDHCP4Config</a> *     nm_device_get_dhcp4_config          (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);</pre>
 <p>
 Gets the current <a class="link" href="NMDHCP4Config.html" title="NMDHCP4Config"><span class="type">NMDHCP4Config</span></a> associated with the <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>device</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>device</code></em> :</span></p></td>
 <td> a <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the <span class="type">NMDHCPConfig</span> or <a
-href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"
+href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a> if the device is not activated or not
 using DHCP.
 </td>
@@ -487,24 +441,22 @@ using DHCP.
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2866807"></a><h3>
-<a name="nm-device-get-state"></a>nm_device_get_state ()</h3>
-<a class="indexterm" name="id2866819"></a><pre class="programlisting">NMDeviceState       nm_device_get_state                 (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);</pre>
+<a name="nm-device-get-state"></a><h3>nm_device_get_state ()</h3>
+<pre class="programlisting">NMDeviceState       nm_device_get_state                 (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);</pre>
 <p>
 Gets the current <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a> state.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>device</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>device</code></em> :</span></p></td>
 <td> a <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the current device state
 </td>
 </tr>
@@ -513,24 +465,22 @@ Gets the current <a class="link" href="NMDevice.html" title="NMDevice"><span cla
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2866893"></a><h3>
-<a name="nm-device-get-product"></a>nm_device_get_product ()</h3>
-<a class="indexterm" name="id2866905"></a><pre class="programlisting">const char*         nm_device_get_product               (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);</pre>
+<a name="nm-device-get-product"></a><h3>nm_device_get_product ()</h3>
+<pre class="programlisting">const char *        nm_device_get_product               (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);</pre>
 <p>
 Gets the product string of the <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>device</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>device</code></em> :</span></p></td>
 <td> a <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the product name of the device. This is the internal string used by the
 device, and must not be modified.
 </td>
@@ -540,24 +490,22 @@ device, and must not be modified.
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2866982"></a><h3>
-<a name="nm-device-get-vendor"></a>nm_device_get_vendor ()</h3>
-<a class="indexterm" name="id2866993"></a><pre class="programlisting">const char*         nm_device_get_vendor                (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);</pre>
+<a name="nm-device-get-vendor"></a><h3>nm_device_get_vendor ()</h3>
+<pre class="programlisting">const char *        nm_device_get_vendor                (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device);</pre>
 <p>
 Gets the vendor string of the <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>device</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>device</code></em> :</span></p></td>
 <td> a <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the vendor name of the device. This is the internal string used by the
 device, and must not be modified.
 </td>
@@ -567,190 +515,166 @@ device, and must not be modified.
 </div>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2867072"></a><h2>Property Details</h2>
+<a name="NMDevice.property-details"></a><h2>Property Details</h2>
 <div class="refsect2" lang="en">
-<a name="id2867083"></a><h3>
-<a name="NMDevice--capabilities"></a>The <code class="literal">"capabilities"</code> property</h3>
-<a class="indexterm" name="id2867097"></a><pre class="programlisting">  "capabilities"             <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+<a name="NMDevice--capabilities"></a><h3>The <code class="literal">"capabilities"</code> property</h3>
+<pre class="programlisting">  "capabilities"             <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a>                 : Read</pre>
 <p>
 The capabilities of the device.</p>
 <p>
-
 </p>
 <p>Default value: 0</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2867126"></a><h3>
-<a name="NMDevice--dhcp4-config"></a>The <code class="literal">"dhcp4-config"</code> property</h3>
-<a class="indexterm" name="id2867140"></a><pre class="programlisting">  "dhcp4-config"             <a class="link" href="NMDHCP4Config.html" title="NMDHCP4Config">NMDHCP4Config</a>         : Read</pre>
+<a name="NMDevice--dhcp4-config"></a><h3>The <code class="literal">"dhcp4-config"</code> property</h3>
+<pre class="programlisting">  "dhcp4-config"             <a class="link" href="NMDHCP4Config.html" title="NMDHCP4Config">NMDHCP4Config</a>*        : Read</pre>
 <p>
 The <a class="link" href="NMDHCP4Config.html" title="NMDHCP4Config"><span class="type">NMDHCP4Config</span></a> of the device.</p>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2867174"></a><h3>
-<a name="NMDevice--driver"></a>The <code class="literal">"driver"</code> property</h3>
-<a class="indexterm" name="id2867189"></a><pre class="programlisting">  "driver"                   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read</pre>
+<a name="NMDevice--driver"></a><h3>The <code class="literal">"driver"</code> property</h3>
+<pre class="programlisting">  "driver"                   <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read</pre>
 <p>
 The driver of the device.</p>
 <p>
-
 </p>
 <p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2867218"></a><h3>
-<a name="NMDevice--interface"></a>The <code class="literal">"interface"</code> property</h3>
-<a class="indexterm" name="id2867233"></a><pre class="programlisting">  "interface"                <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read</pre>
+<a name="NMDevice--interface"></a><h3>The <code class="literal">"interface"</code> property</h3>
+<pre class="programlisting">  "interface"                <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read</pre>
 <p>
 The interface of the device.</p>
 <p>
-
 </p>
 <p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2867263"></a><h3>
-<a name="NMDevice--ip4-config"></a>The <code class="literal">"ip4-config"</code> property</h3>
-<a class="indexterm" name="id2867277"></a><pre class="programlisting">  "ip4-config"               <a class="link" href="NMIP4Config.html" title="NMIP4Config">NMIP4Config</a>           : Read</pre>
+<a name="NMDevice--ip4-config"></a><h3>The <code class="literal">"ip4-config"</code> property</h3>
+<pre class="programlisting">  "ip4-config"               <a class="link" href="NMIP4Config.html" title="NMIP4Config">NMIP4Config</a>*          : Read</pre>
 <p>
 The <a class="link" href="NMIP4Config.html" title="NMIP4Config"><span class="type">NMIP4Config</span></a> of the device.</p>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2867310"></a><h3>
-<a name="NMDevice--managed"></a>The <code class="literal">"managed"</code> property</h3>
-<a class="indexterm" name="id2867325"></a><pre class="programlisting">  "managed"                  <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+<a name="NMDevice--managed"></a><h3>The <code class="literal">"managed"</code> property</h3>
+<pre class="programlisting">  "managed"                  <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read</pre>
 <p>
 Whether the device is managed by NetworkManager.</p>
 <p>
-
 </p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2867354"></a><h3>
-<a name="NMDevice--product"></a>The <code class="literal">"product"</code> property</h3>
-<a class="indexterm" name="id2867369"></a><pre class="programlisting">  "product"                  <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read</pre>
+<a name="NMDevice--product"></a><h3>The <code class="literal">"product"</code> property</h3>
+<pre class="programlisting">  "product"                  <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read</pre>
 <p>
 The product string of the device.</p>
 <p>
-
 </p>
 <p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2867399"></a><h3>
-<a name="NMDevice--state"></a>The <code class="literal">"state"</code> property</h3>
-<a class="indexterm" name="id2867414"></a><pre class="programlisting">  "state"                    <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+<a name="NMDevice--state"></a><h3>The <code class="literal">"state"</code> property</h3>
+<pre class="programlisting">  "state"                    <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a>                 : Read</pre>
 <p>
 The state of the device.</p>
 <p>
-
 </p>
 <p>Default value: 0</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2867443"></a><h3>
-<a name="NMDevice--udi"></a>The <code class="literal">"udi"</code> property</h3>
-<a class="indexterm" name="id2867458"></a><pre class="programlisting">  "udi"                      <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read</pre>
+<a name="NMDevice--udi"></a><h3>The <code class="literal">"udi"</code> property</h3>
+<pre class="programlisting">  "udi"                      <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read</pre>
 <p>
 The HAL UDI of the device.</p>
 <p>
-
 </p>
 <p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2867487"></a><h3>
-<a name="NMDevice--vendor"></a>The <code class="literal">"vendor"</code> property</h3>
-<a class="indexterm" name="id2867502"></a><pre class="programlisting">  "vendor"                   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read</pre>
+<a name="NMDevice--vendor"></a><h3>The <code class="literal">"vendor"</code> property</h3>
+<pre class="programlisting">  "vendor"                   <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read</pre>
 <p>
 The vendor string of the device.</p>
 <p>
-
 </p>
 <p>Default value: NULL</p>
 </div>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2867534"></a><h2>Signal Details</h2>
+<a name="NMDevice.signal-details"></a><h2>Signal Details</h2>
 <div class="refsect2" lang="en">
-<a name="id2867545"></a><h3>
-<a name="NMDevice-state-changed"></a>The <code class="literal">"state-changed"</code> signal</h3>
-<a class="indexterm" name="id2867559"></a><pre class="programlisting">void                user_function                      (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device,
+<a name="NMDevice-state-changed"></a><h3>The <code class="literal">"state-changed"</code> signal</h3>
+<pre class="programlisting">void                user_function                      (<a class="link" href="NMDevice.html" title="NMDevice">NMDevice</a> *device,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a>     state,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a>     arg2,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a>     arg3,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"
 >gpointer</a>  user_data)      : Run First</pre>
 <p>
 Notifies the state change of a <a class="link" href="NMDevice.html" title="NMDevice"><span class="type">NMDevice</span></a>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>device</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>device</code></em> :</span></p></td>
 <td> the client that received the signal
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>state</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>state</code></em> :</span></p></td>
 <td> the new state of the device
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>user_data</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
 <td>user data set when the signal handler was connected.</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
-<a name="id2867675"></a><div class="refsect2" lang="en"><a name="id2867676"></a></div>
+</div>
+<div class="footer">
 <hr>
-<div class="refsect2" lang="en"><a name="id2867677"></a></div>
-</div>
-</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

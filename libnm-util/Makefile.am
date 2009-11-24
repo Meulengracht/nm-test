@@ -8,7 +8,6 @@ libnm_util_la_CPPFLAGS = \
 	$(GLIB_CFLAGS) \
 	$(DBUS_CFLAGS) \
 	$(UUID_CFLAGS) \
-	-DDBUS_API_SUBJECT_TO_CHANGE \
 	-DG_DISABLE_DEPRECATED
 
 libnm_util_include_HEADERS = 		\
@@ -55,7 +54,7 @@ libnm_util_la_SOURCES=			\
 libnm_util_la_LIBADD = $(GLIB_LIBS) $(DBUS_LIBS) $(UUID_LIBS)
 
 libnm_util_la_LDFLAGS = -Wl,--version-script=$(srcdir)/libnm-util.ver \
-	-version-info "1:0:0"
+	-version-info "2:0:1"
 
 if WITH_GNUTLS
 libnm_util_la_SOURCES += crypto_gnutls.c

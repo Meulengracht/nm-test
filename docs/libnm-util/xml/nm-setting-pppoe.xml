@@ -1,9 +1,6 @@
-<?xml version="1.0"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
 <refentry id="NMSettingPPPOE">
 <refmeta>
-<refentrytitle role="top_of_page">NMSettingPPPOE</refentrytitle>
+<refentrytitle role="top_of_page" id="NMSettingPPPOE.top_of_page">NMSettingPPPOE</refentrytitle>
 <manvolnum>3</manvolnum>
 <refmiscinfo>LIBNM-UTIL Library</refmiscinfo>
 </refmeta>
@@ -11,80 +8,70 @@
 <refnamediv>
 <refname>NMSettingPPPOE</refname>
 <refpurpose></refpurpose>
-<!--[<xref linkend="desc" endterm="desc.title"/>]-->
 </refnamediv>
 
-<refsynopsisdiv role="synopsis">
+<refsynopsisdiv id="NMSettingPPPOE.synopsis" role="synopsis">
 <title role="synopsis.title">Synopsis</title>
 
 <synopsis>
-
-
-
-#define             <link linkend="NM-SETTING-PPPOE-SETTING-NAME:CAPS">NM_SETTING_PPPOE_SETTING_NAME</link>
+#define             <link linkend="NM-SETTING-PPPOE-SETTING-NAME--CAPS">NM_SETTING_PPPOE_SETTING_NAME</link>
 enum                <link linkend="NMSettingPPPOEError">NMSettingPPPOEError</link>;
-#define             <link linkend="NM-TYPE-SETTING-PPPOE-ERROR:CAPS">NM_TYPE_SETTING_PPPOE_ERROR</link>
-#define             <link linkend="NM-SETTING-PPPOE-ERROR:CAPS">NM_SETTING_PPPOE_ERROR</link>
+#define             <link linkend="NM-TYPE-SETTING-PPPOE-ERROR--CAPS">NM_TYPE_SETTING_PPPOE_ERROR</link>
+#define             <link linkend="NM-SETTING-PPPOE-ERROR--CAPS">NM_SETTING_PPPOE_ERROR</link>
 <link linkend="GQuark">GQuark</link>              <link linkend="nm-setting-pppoe-error-quark">nm_setting_pppoe_error_quark</link>        (void);
-#define             <link linkend="NM-SETTING-PPPOE-SERVICE:CAPS">NM_SETTING_PPPOE_SERVICE</link>
-#define             <link linkend="NM-SETTING-PPPOE-USERNAME:CAPS">NM_SETTING_PPPOE_USERNAME</link>
-#define             <link linkend="NM-SETTING-PPPOE-PASSWORD:CAPS">NM_SETTING_PPPOE_PASSWORD</link>
+#define             <link linkend="NM-SETTING-PPPOE-SERVICE--CAPS">NM_SETTING_PPPOE_SERVICE</link>
+#define             <link linkend="NM-SETTING-PPPOE-USERNAME--CAPS">NM_SETTING_PPPOE_USERNAME</link>
+#define             <link linkend="NM-SETTING-PPPOE-PASSWORD--CAPS">NM_SETTING_PPPOE_PASSWORD</link>
                     <link linkend="NMSettingPPPOE-struct">NMSettingPPPOE</link>;
 <link linkend="GType">GType</link>               <link linkend="nm-setting-pppoe-get-type">nm_setting_pppoe_get_type</link>           (void);
-<link linkend="NMSetting">NMSetting</link>*          <link linkend="nm-setting-pppoe-new">nm_setting_pppoe_new</link>                (void);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-pppoe-get-service">nm_setting_pppoe_get_service</link>        (<link linkend="NMSettingPPPOE">NMSettingPPPOE</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-pppoe-get-username">nm_setting_pppoe_get_username</link>       (<link linkend="NMSettingPPPOE">NMSettingPPPOE</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-pppoe-get-password">nm_setting_pppoe_get_password</link>       (<link linkend="NMSettingPPPOE">NMSettingPPPOE</link> *setting);
-
+<link linkend="NMSetting">NMSetting</link> *         <link linkend="nm-setting-pppoe-new">nm_setting_pppoe_new</link>                (void);
+const <link linkend="char">char</link> *        <link linkend="nm-setting-pppoe-get-service">nm_setting_pppoe_get_service</link>        (<link linkend="NMSettingPPPOE">NMSettingPPPOE</link> *setting);
+const <link linkend="char">char</link> *        <link linkend="nm-setting-pppoe-get-username">nm_setting_pppoe_get_username</link>       (<link linkend="NMSettingPPPOE">NMSettingPPPOE</link> *setting);
+const <link linkend="char">char</link> *        <link linkend="nm-setting-pppoe-get-password">nm_setting_pppoe_get_password</link>       (<link linkend="NMSettingPPPOE">NMSettingPPPOE</link> *setting);
 </synopsis>
 </refsynopsisdiv>
 
-<refsect1 role="object_hierarchy">
+<refsect1 id="NMSettingPPPOE.object-hierarchy" role="object_hierarchy">
 <title role="object_hierarchy.title">Object Hierarchy</title>
 <synopsis>
-
   <link linkend="GObject">GObject</link>
    +----<link linkend="NMSetting">NMSetting</link>
          +----NMSettingPPPOE
 </synopsis>
-
 </refsect1>
 
 
 
 
 
-<refsect1 role="properties">
+<refsect1 id="NMSettingPPPOE.properties" role="properties">
 <title role="properties.title">Properties</title>
 <synopsis>
-
-  &quot;<link linkend="NMSettingPPPOE--password">password</link>&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write
-  &quot;<link linkend="NMSettingPPPOE--service">service</link>&quot;                  <link linkend="gchararray">gchararray</link>            : Read / Write
-  &quot;<link linkend="NMSettingPPPOE--username">username</link>&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingPPPOE--password">password</link>&quot;                 <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NMSettingPPPOE--service">service</link>&quot;                  <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NMSettingPPPOE--username">username</link>&quot;                 <link linkend="gchar">gchar</link>*                : Read / Write
 </synopsis>
 </refsect1>
 
 
 
-<refsect1 role="desc">
+<refsect1 id="NMSettingPPPOE.description" role="desc">
 <title role="desc.title">Description</title>
 <para>
-
 </para>
 </refsect1>
 
-<refsect1 role="details">
+<refsect1 id="NMSettingPPPOE.details" role="details">
 <title role="details.title">Details</title>
-<refsect2>
-<title><anchor id="NM-SETTING-PPPOE-SETTING-NAME:CAPS" role="macro"/>NM_SETTING_PPPOE_SETTING_NAME</title>
-<indexterm><primary>NM_SETTING_PPPOE_SETTING_NAME</primary></indexterm><programlisting>#define NM_SETTING_PPPOE_SETTING_NAME "pppoe"
+<refsect2 id="NM-SETTING-PPPOE-SETTING-NAME--CAPS" role="macro">
+<title>NM_SETTING_PPPOE_SETTING_NAME</title>
+<indexterm zone="NM-SETTING-PPPOE-SETTING-NAME--CAPS"><primary sortas="NM_SETTING_PPPOE_SETTING_NAME">NM_SETTING_PPPOE_SETTING_NAME</primary></indexterm><programlisting>#define NM_SETTING_PPPOE_SETTING_NAME "pppoe"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NMSettingPPPOEError" role="enum"/>enum NMSettingPPPOEError</title>
-<indexterm><primary>NMSettingPPPOEError</primary></indexterm><programlisting>typedef enum
+<refsect2 id="NMSettingPPPOEError" role="enum">
+<title>enum NMSettingPPPOEError</title>
+<indexterm zone="NMSettingPPPOEError"><primary sortas="NMSettingPPPOEError">NMSettingPPPOEError</primary></indexterm><programlisting>typedef enum
 {
 	NM_SETTING_PPPOE_ERROR_UNKNOWN = 0,
 	NM_SETTING_PPPOE_ERROR_INVALID_PROPERTY,
@@ -93,146 +80,130 @@ const <link linkend="char">char</link>*         <link linkend="nm-setting-pppoe-
 } NMSettingPPPOEError;
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-TYPE-SETTING-PPPOE-ERROR:CAPS" role="macro"/>NM_TYPE_SETTING_PPPOE_ERROR</title>
-<indexterm><primary>NM_TYPE_SETTING_PPPOE_ERROR</primary></indexterm><programlisting>#define NM_TYPE_SETTING_PPPOE_ERROR (nm_setting_pppoe_error_get_type ()) 
+<refsect2 id="NM-TYPE-SETTING-PPPOE-ERROR--CAPS" role="macro">
+<title>NM_TYPE_SETTING_PPPOE_ERROR</title>
+<indexterm zone="NM-TYPE-SETTING-PPPOE-ERROR--CAPS"><primary sortas="NM_TYPE_SETTING_PPPOE_ERROR">NM_TYPE_SETTING_PPPOE_ERROR</primary></indexterm><programlisting>#define NM_TYPE_SETTING_PPPOE_ERROR (nm_setting_pppoe_error_get_type ()) 
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-PPPOE-ERROR:CAPS" role="macro"/>NM_SETTING_PPPOE_ERROR</title>
-<indexterm><primary>NM_SETTING_PPPOE_ERROR</primary></indexterm><programlisting>#define NM_SETTING_PPPOE_ERROR nm_setting_pppoe_error_quark ()
+<refsect2 id="NM-SETTING-PPPOE-ERROR--CAPS" role="macro">
+<title>NM_SETTING_PPPOE_ERROR</title>
+<indexterm zone="NM-SETTING-PPPOE-ERROR--CAPS"><primary sortas="NM_SETTING_PPPOE_ERROR">NM_SETTING_PPPOE_ERROR</primary></indexterm><programlisting>#define NM_SETTING_PPPOE_ERROR nm_setting_pppoe_error_quark ()
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-pppoe-error-quark" role="function"/>nm_setting_pppoe_error_quark ()</title>
-<indexterm><primary>nm_setting_pppoe_error_quark</primary></indexterm><programlisting><link linkend="GQuark">GQuark</link>              nm_setting_pppoe_error_quark        (void);</programlisting>
+<refsect2 id="nm-setting-pppoe-error-quark" role="function">
+<title>nm_setting_pppoe_error_quark ()</title>
+<indexterm zone="nm-setting-pppoe-error-quark"><primary sortas="nm_setting_pppoe_error_quark">nm_setting_pppoe_error_quark</primary></indexterm><programlisting><link linkend="GQuark">GQuark</link>              nm_setting_pppoe_error_quark        (void);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-PPPOE-SERVICE:CAPS" role="macro"/>NM_SETTING_PPPOE_SERVICE</title>
-<indexterm><primary>NM_SETTING_PPPOE_SERVICE</primary></indexterm><programlisting>#define NM_SETTING_PPPOE_SERVICE  "service"
+<refsect2 id="NM-SETTING-PPPOE-SERVICE--CAPS" role="macro">
+<title>NM_SETTING_PPPOE_SERVICE</title>
+<indexterm zone="NM-SETTING-PPPOE-SERVICE--CAPS"><primary sortas="NM_SETTING_PPPOE_SERVICE">NM_SETTING_PPPOE_SERVICE</primary></indexterm><programlisting>#define NM_SETTING_PPPOE_SERVICE  "service"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-PPPOE-USERNAME:CAPS" role="macro"/>NM_SETTING_PPPOE_USERNAME</title>
-<indexterm><primary>NM_SETTING_PPPOE_USERNAME</primary></indexterm><programlisting>#define NM_SETTING_PPPOE_USERNAME "username"
+<refsect2 id="NM-SETTING-PPPOE-USERNAME--CAPS" role="macro">
+<title>NM_SETTING_PPPOE_USERNAME</title>
+<indexterm zone="NM-SETTING-PPPOE-USERNAME--CAPS"><primary sortas="NM_SETTING_PPPOE_USERNAME">NM_SETTING_PPPOE_USERNAME</primary></indexterm><programlisting>#define NM_SETTING_PPPOE_USERNAME "username"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-PPPOE-PASSWORD:CAPS" role="macro"/>NM_SETTING_PPPOE_PASSWORD</title>
-<indexterm><primary>NM_SETTING_PPPOE_PASSWORD</primary></indexterm><programlisting>#define NM_SETTING_PPPOE_PASSWORD "password"
+<refsect2 id="NM-SETTING-PPPOE-PASSWORD--CAPS" role="macro">
+<title>NM_SETTING_PPPOE_PASSWORD</title>
+<indexterm zone="NM-SETTING-PPPOE-PASSWORD--CAPS"><primary sortas="NM_SETTING_PPPOE_PASSWORD">NM_SETTING_PPPOE_PASSWORD</primary></indexterm><programlisting>#define NM_SETTING_PPPOE_PASSWORD "password"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NMSettingPPPOE-struct" role="struct"/>NMSettingPPPOE</title>
-<indexterm><primary>NMSettingPPPOE</primary></indexterm><programlisting>typedef struct _NMSettingPPPOE NMSettingPPPOE;</programlisting>
+<refsect2 id="NMSettingPPPOE-struct" role="struct">
+<title>NMSettingPPPOE</title>
+<indexterm zone="NMSettingPPPOE-struct"><primary sortas="NMSettingPPPOE">NMSettingPPPOE</primary></indexterm><programlisting>typedef struct _NMSettingPPPOE NMSettingPPPOE;</programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-pppoe-get-type" role="function"/>nm_setting_pppoe_get_type ()</title>
-<indexterm><primary>nm_setting_pppoe_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_setting_pppoe_get_type           (void);</programlisting>
+<refsect2 id="nm-setting-pppoe-get-type" role="function">
+<title>nm_setting_pppoe_get_type ()</title>
+<indexterm zone="nm-setting-pppoe-get-type"><primary sortas="nm_setting_pppoe_get_type">nm_setting_pppoe_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_setting_pppoe_get_type           (void);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-pppoe-new" role="function"/>nm_setting_pppoe_new ()</title>
-<indexterm><primary>nm_setting_pppoe_new</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link>*          nm_setting_pppoe_new                (void);</programlisting>
+<refsect2 id="nm-setting-pppoe-new" role="function">
+<title>nm_setting_pppoe_new ()</title>
+<indexterm zone="nm-setting-pppoe-new"><primary sortas="nm_setting_pppoe_new">nm_setting_pppoe_new</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link> *         nm_setting_pppoe_new                (void);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-pppoe-get-service" role="function"/>nm_setting_pppoe_get_service ()</title>
-<indexterm><primary>nm_setting_pppoe_get_service</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_pppoe_get_service        (<link linkend="NMSettingPPPOE">NMSettingPPPOE</link> *setting);</programlisting>
+<refsect2 id="nm-setting-pppoe-get-service" role="function">
+<title>nm_setting_pppoe_get_service ()</title>
+<indexterm zone="nm-setting-pppoe-get-service"><primary sortas="nm_setting_pppoe_get_service">nm_setting_pppoe_get_service</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_pppoe_get_service        (<link linkend="NMSettingPPPOE">NMSettingPPPOE</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-pppoe-get-username" role="function"/>nm_setting_pppoe_get_username ()</title>
-<indexterm><primary>nm_setting_pppoe_get_username</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_pppoe_get_username       (<link linkend="NMSettingPPPOE">NMSettingPPPOE</link> *setting);</programlisting>
+<refsect2 id="nm-setting-pppoe-get-username" role="function">
+<title>nm_setting_pppoe_get_username ()</title>
+<indexterm zone="nm-setting-pppoe-get-username"><primary sortas="nm_setting_pppoe_get_username">nm_setting_pppoe_get_username</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_pppoe_get_username       (<link linkend="NMSettingPPPOE">NMSettingPPPOE</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-pppoe-get-password" role="function"/>nm_setting_pppoe_get_password ()</title>
-<indexterm><primary>nm_setting_pppoe_get_password</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_pppoe_get_password       (<link linkend="NMSettingPPPOE">NMSettingPPPOE</link> *setting);</programlisting>
+<refsect2 id="nm-setting-pppoe-get-password" role="function">
+<title>nm_setting_pppoe_get_password ()</title>
+<indexterm zone="nm-setting-pppoe-get-password"><primary sortas="nm_setting_pppoe_get_password">nm_setting_pppoe_get_password</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_pppoe_get_password       (<link linkend="NMSettingPPPOE">NMSettingPPPOE</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
 
 </refsect1>
-<refsect1 role="property_details">
+<refsect1 id="NMSettingPPPOE.property-details" role="property_details">
 <title role="property_details.title">Property Details</title>
-<refsect2><title><anchor id="NMSettingPPPOE--password"/>The <literal>&quot;password&quot;</literal> property</title>
-<indexterm><primary>NMSettingPPPOE:password</primary></indexterm><programlisting>  &quot;password&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
-<para>Password.</para><para>Default value: NULL</para>
+<refsect2 id="NMSettingPPPOE--password" role="property"><title>The <literal>&quot;password&quot;</literal> property</title>
+<indexterm zone="NMSettingPPPOE--password"><primary sortas="NMSettingPPPOE:password">NMSettingPPPOE:password</primary></indexterm><programlisting>  &quot;password&quot;                 <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+Password used to authenticate with the PPPoE service.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
-<refsect2><title><anchor id="NMSettingPPPOE--service"/>The <literal>&quot;service&quot;</literal> property</title>
-<indexterm><primary>NMSettingPPPOE:service</primary></indexterm><programlisting>  &quot;service&quot;                  <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
-<para>Service.</para><para>Default value: NULL</para>
+<refsect2 id="NMSettingPPPOE--service" role="property"><title>The <literal>&quot;service&quot;</literal> property</title>
+<indexterm zone="NMSettingPPPOE--service"><primary sortas="NMSettingPPPOE:service">NMSettingPPPOE:service</primary></indexterm><programlisting>  &quot;service&quot;                  <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+If specified, instruct PPPoE to only initiate sessions with access
+concentrators that provide the specified serivce.  For most providers,
+this should be left blank.  It is only required if there are multiple
+access concentrators or a specific service is known to be required.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
-<refsect2><title><anchor id="NMSettingPPPOE--username"/>The <literal>&quot;username&quot;</literal> property</title>
-<indexterm><primary>NMSettingPPPOE:username</primary></indexterm><programlisting>  &quot;username&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
-<para>Username.</para><para>Default value: NULL</para>
+<refsect2 id="NMSettingPPPOE--username" role="property"><title>The <literal>&quot;username&quot;</literal> property</title>
+<indexterm zone="NMSettingPPPOE--username"><primary sortas="NMSettingPPPOE:username">NMSettingPPPOE:username</primary></indexterm><programlisting>  &quot;username&quot;                 <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+Username used to authenticate with the PPPoE service.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
-
 </refsect1>
 
 
 
 
-
-<refsect1><refsect2 /><refsect2 /></refsect1>
 </refentry>

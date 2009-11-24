@@ -230,7 +230,22 @@ NMSetting8021x
 
 </para>
 
+<!-- ##### ARG NMSetting8021x:ca-cert ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG NMSetting8021x:ca-path ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSetting8021x:client-cert ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSetting8021x:eap ##### -->
 <para>
 
 </para>
@@ -270,12 +285,32 @@ NMSetting8021x
 
 </para>
 
+<!-- ##### ARG NMSetting8021x:phase2-ca-cert ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG NMSetting8021x:phase2-ca-path ##### -->
 <para>
 
 </para>
 
+<!-- ##### ARG NMSetting8021x:phase2-client-cert ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSetting8021x:phase2-private-key ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG NMSetting8021x:phase2-private-key-password ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSetting8021x:private-key ##### -->
 <para>
 
 </para>

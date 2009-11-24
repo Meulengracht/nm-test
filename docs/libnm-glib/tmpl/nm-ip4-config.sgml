@@ -88,6 +88,13 @@ NMIP4Config
 
 
 
+<!-- ##### MACRO NM_IP4_CONFIG_WINS_SERVERS ##### -->
+<para>
+
+</para>
+
+
+
 <!-- ##### FUNCTION nm_ip4_config_new ##### -->
 <para>
 
@@ -135,6 +142,15 @@ NMIP4Config
 
 
 <!-- ##### FUNCTION nm_ip4_config_get_routes ##### -->
+<para>
+
+</para>
+
+@config: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_ip4_config_get_wins_servers ##### -->
 <para>
 
 </para>

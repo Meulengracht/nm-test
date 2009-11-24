@@ -3,7 +3,7 @@
                "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
 <refentry id="NMClient">
 <refmeta>
-<refentrytitle role="top_of_page">NMClient</refentrytitle>
+<refentrytitle role="top_of_page" id="NMClient.top_of_page">NMClient</refentrytitle>
 <manvolnum>3</manvolnum>
 <refmiscinfo>LIBNM-GLIB Library</refmiscinfo>
 </refmeta>
@@ -11,25 +11,21 @@
 <refnamediv>
 <refname>NMClient</refname>
 <refpurpose></refpurpose>
-<!--[<xref linkend="desc" endterm="desc.title"/>]-->
 </refnamediv>
 
-<refsynopsisdiv role="synopsis">
+<refsynopsisdiv id="NMClient.synopsis" role="synopsis">
 <title role="synopsis.title">Synopsis</title>
 
 <synopsis>
-
-
-
-#define             <link linkend="NM-CLIENT-STATE:CAPS">NM_CLIENT_STATE</link>
-#define             <link linkend="NM-CLIENT-MANAGER-RUNNING:CAPS">NM_CLIENT_MANAGER_RUNNING</link>
-#define             <link linkend="NM-CLIENT-WIRELESS-ENABLED:CAPS">NM_CLIENT_WIRELESS_ENABLED</link>
-#define             <link linkend="NM-CLIENT-WIRELESS-HARDWARE-ENABLED:CAPS">NM_CLIENT_WIRELESS_HARDWARE_ENABLED</link>
-#define             <link linkend="NM-CLIENT-ACTIVE-CONNECTIONS:CAPS">NM_CLIENT_ACTIVE_CONNECTIONS</link>
+#define             <link linkend="NM-CLIENT-STATE--CAPS">NM_CLIENT_STATE</link>
+#define             <link linkend="NM-CLIENT-MANAGER-RUNNING--CAPS">NM_CLIENT_MANAGER_RUNNING</link>
+#define             <link linkend="NM-CLIENT-WIRELESS-ENABLED--CAPS">NM_CLIENT_WIRELESS_ENABLED</link>
+#define             <link linkend="NM-CLIENT-WIRELESS-HARDWARE-ENABLED--CAPS">NM_CLIENT_WIRELESS_HARDWARE_ENABLED</link>
+#define             <link linkend="NM-CLIENT-ACTIVE-CONNECTIONS--CAPS">NM_CLIENT_ACTIVE_CONNECTIONS</link>
                     <link linkend="NMClient-struct">NMClient</link>;
-<link linkend="NMClient">NMClient</link>*           <link linkend="nm-client-new">nm_client_new</link>                       (void);
-const <link linkend="GPtrArray">GPtrArray</link>*    <link linkend="nm-client-get-devices">nm_client_get_devices</link>               (<link linkend="NMClient">NMClient</link> *client);
-<link linkend="NMDevice">NMDevice</link>*           <link linkend="nm-client-get-device-by-path">nm_client_get_device_by_path</link>        (<link linkend="NMClient">NMClient</link> *client,
+<link linkend="NMClient">NMClient</link> *          <link linkend="nm-client-new">nm_client_new</link>                       (void);
+const <link linkend="GPtrArray">GPtrArray</link> *   <link linkend="nm-client-get-devices">nm_client_get_devices</link>               (<link linkend="NMClient">NMClient</link> *client);
+<link linkend="NMDevice">NMDevice</link> *          <link linkend="nm-client-get-device-by-path">nm_client_get_device_by_path</link>        (<link linkend="NMClient">NMClient</link> *client,
                                                          const <link linkend="char">char</link> *object_path);
 <link linkend="void">void</link>                (<link linkend="NMClientActivateDeviceFn">*NMClientActivateDeviceFn</link>)         (<link linkend="gpointer">gpointer</link> user_data,
                                                          const <link linkend="char">char</link> *object_path,
@@ -50,33 +46,29 @@ const <link linkend="GPtrArray">GPtrArray</link>*    <link linkend="nm-client-ge
                                                         (<link linkend="NMClient">NMClient</link> *client);
 <link linkend="NMState">NMState</link>             <link linkend="nm-client-get-state">nm_client_get_state</link>                 (<link linkend="NMClient">NMClient</link> *client);
 <link linkend="gboolean">gboolean</link>            <link linkend="nm-client-get-manager-running">nm_client_get_manager_running</link>       (<link linkend="NMClient">NMClient</link> *client);
-const <link linkend="GPtrArray">GPtrArray</link>*    <link linkend="nm-client-get-active-connections">nm_client_get_active_connections</link>    (<link linkend="NMClient">NMClient</link> *client);
+const <link linkend="GPtrArray">GPtrArray</link> *   <link linkend="nm-client-get-active-connections">nm_client_get_active_connections</link>    (<link linkend="NMClient">NMClient</link> *client);
 <link linkend="void">void</link>                <link linkend="nm-client-sleep">nm_client_sleep</link>                     (<link linkend="NMClient">NMClient</link> *client,
                                                          <link linkend="gboolean">gboolean</link> sleep);
-
 </synopsis>
 </refsynopsisdiv>
 
-<refsect1 role="object_hierarchy">
+<refsect1 id="NMClient.object-hierarchy" role="object_hierarchy">
 <title role="object_hierarchy.title">Object Hierarchy</title>
 <synopsis>
-
   <link linkend="GObject">GObject</link>
    +----<link linkend="NMObject">NMObject</link>
          +----NMClient
 </synopsis>
-
 </refsect1>
 
 
 
 
 
-<refsect1 role="properties">
+<refsect1 id="NMClient.properties" role="properties">
 <title role="properties.title">Properties</title>
 <synopsis>
-
-  &quot;<link linkend="NMClient--active-connections">active-connections</link>&quot;       <link linkend="nm-object-array">nm-object-array</link>       : Read
+  &quot;<link linkend="NMClient--active-connections">active-connections</link>&quot;       <link linkend="nm-object-array*">nm-object-array*</link>      : Read
   &quot;<link linkend="NMClient--manager-running">manager-running</link>&quot;          <link linkend="gboolean">gboolean</link>              : Read
   &quot;<link linkend="NMClient--state">state</link>&quot;                    <link linkend="guint">guint</link>                 : Read
   &quot;<link linkend="NMClient--wireless-enabled">wireless-enabled</link>&quot;         <link linkend="gboolean">gboolean</link>              : Read / Write
@@ -84,133 +76,119 @@ const <link linkend="GPtrArray">GPtrArray</link>*    <link linkend="nm-client-ge
 </synopsis>
 </refsect1>
 
-<refsect1 role="signal_proto">
+<refsect1 id="NMClient.signals" role="signal_proto">
 <title role="signal_proto.title">Signals</title>
 <synopsis>
-
   &quot;<link linkend="NMClient-device-added">device-added</link>&quot;                                   : Run First
   &quot;<link linkend="NMClient-device-removed">device-removed</link>&quot;                                 : Run First
 </synopsis>
 </refsect1>
 
 
-<refsect1 role="desc">
+<refsect1 id="NMClient.description" role="desc">
 <title role="desc.title">Description</title>
 <para>
-
 </para>
 </refsect1>
 
-<refsect1 role="details">
+<refsect1 id="NMClient.details" role="details">
 <title role="details.title">Details</title>
-<refsect2>
-<title><anchor id="NM-CLIENT-STATE:CAPS" role="macro"/>NM_CLIENT_STATE</title>
-<indexterm><primary>NM_CLIENT_STATE</primary></indexterm><programlisting>#define NM_CLIENT_STATE "state"
+<refsect2 id="NM-CLIENT-STATE--CAPS" role="macro">
+<title>NM_CLIENT_STATE</title>
+<indexterm zone="NM-CLIENT-STATE--CAPS"><primary sortas="NM_CLIENT_STATE">NM_CLIENT_STATE</primary></indexterm><programlisting>#define NM_CLIENT_STATE "state"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-CLIENT-MANAGER-RUNNING:CAPS" role="macro"/>NM_CLIENT_MANAGER_RUNNING</title>
-<indexterm><primary>NM_CLIENT_MANAGER_RUNNING</primary></indexterm><programlisting>#define NM_CLIENT_MANAGER_RUNNING "manager-running"
+<refsect2 id="NM-CLIENT-MANAGER-RUNNING--CAPS" role="macro">
+<title>NM_CLIENT_MANAGER_RUNNING</title>
+<indexterm zone="NM-CLIENT-MANAGER-RUNNING--CAPS"><primary sortas="NM_CLIENT_MANAGER_RUNNING">NM_CLIENT_MANAGER_RUNNING</primary></indexterm><programlisting>#define NM_CLIENT_MANAGER_RUNNING "manager-running"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-CLIENT-WIRELESS-ENABLED:CAPS" role="macro"/>NM_CLIENT_WIRELESS_ENABLED</title>
-<indexterm><primary>NM_CLIENT_WIRELESS_ENABLED</primary></indexterm><programlisting>#define NM_CLIENT_WIRELESS_ENABLED "wireless-enabled"
+<refsect2 id="NM-CLIENT-WIRELESS-ENABLED--CAPS" role="macro">
+<title>NM_CLIENT_WIRELESS_ENABLED</title>
+<indexterm zone="NM-CLIENT-WIRELESS-ENABLED--CAPS"><primary sortas="NM_CLIENT_WIRELESS_ENABLED">NM_CLIENT_WIRELESS_ENABLED</primary></indexterm><programlisting>#define NM_CLIENT_WIRELESS_ENABLED "wireless-enabled"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-CLIENT-WIRELESS-HARDWARE-ENABLED:CAPS" role="macro"/>NM_CLIENT_WIRELESS_HARDWARE_ENABLED</title>
-<indexterm><primary>NM_CLIENT_WIRELESS_HARDWARE_ENABLED</primary></indexterm><programlisting>#define NM_CLIENT_WIRELESS_HARDWARE_ENABLED "wireless-hardware-enabled"
+<refsect2 id="NM-CLIENT-WIRELESS-HARDWARE-ENABLED--CAPS" role="macro">
+<title>NM_CLIENT_WIRELESS_HARDWARE_ENABLED</title>
+<indexterm zone="NM-CLIENT-WIRELESS-HARDWARE-ENABLED--CAPS"><primary sortas="NM_CLIENT_WIRELESS_HARDWARE_ENABLED">NM_CLIENT_WIRELESS_HARDWARE_ENABLED</primary></indexterm><programlisting>#define NM_CLIENT_WIRELESS_HARDWARE_ENABLED "wireless-hardware-enabled"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-CLIENT-ACTIVE-CONNECTIONS:CAPS" role="macro"/>NM_CLIENT_ACTIVE_CONNECTIONS</title>
-<indexterm><primary>NM_CLIENT_ACTIVE_CONNECTIONS</primary></indexterm><programlisting>#define NM_CLIENT_ACTIVE_CONNECTIONS "active-connections"
+<refsect2 id="NM-CLIENT-ACTIVE-CONNECTIONS--CAPS" role="macro">
+<title>NM_CLIENT_ACTIVE_CONNECTIONS</title>
+<indexterm zone="NM-CLIENT-ACTIVE-CONNECTIONS--CAPS"><primary sortas="NM_CLIENT_ACTIVE_CONNECTIONS">NM_CLIENT_ACTIVE_CONNECTIONS</primary></indexterm><programlisting>#define NM_CLIENT_ACTIVE_CONNECTIONS "active-connections"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NMClient-struct" role="struct"/>NMClient</title>
-<indexterm><primary>NMClient</primary></indexterm><programlisting>typedef struct _NMClient NMClient;</programlisting>
+<refsect2 id="NMClient-struct" role="struct">
+<title>NMClient</title>
+<indexterm zone="NMClient-struct"><primary sortas="NMClient">NMClient</primary></indexterm><programlisting>typedef struct _NMClient NMClient;</programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="nm-client-new" role="function"/>nm_client_new ()</title>
-<indexterm><primary>nm_client_new</primary></indexterm><programlisting><link linkend="NMClient">NMClient</link>*           nm_client_new                       (void);</programlisting>
+<refsect2 id="nm-client-new" role="function">
+<title>nm_client_new ()</title>
+<indexterm zone="nm-client-new"><primary sortas="nm_client_new">nm_client_new</primary></indexterm><programlisting><link linkend="NMClient">NMClient</link> *          nm_client_new                       (void);</programlisting>
 <para>
 Creates a new <link linkend="NMClient"><type>NMClient</type></link>.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a new <link linkend="NMClient"><type>NMClient</type></link>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> a new <link linkend="NMClient"><type>NMClient</type></link>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-client-get-devices" role="function"/>nm_client_get_devices ()</title>
-<indexterm><primary>nm_client_get_devices</primary></indexterm><programlisting>const <link linkend="GPtrArray">GPtrArray</link>*    nm_client_get_devices               (<link linkend="NMClient">NMClient</link> *client);</programlisting>
+<refsect2 id="nm-client-get-devices" role="function">
+<title>nm_client_get_devices ()</title>
+<indexterm zone="nm-client-get-devices"><primary sortas="nm_client_get_devices">nm_client_get_devices</primary></indexterm><programlisting>const <link linkend="GPtrArray">GPtrArray</link> *   nm_client_get_devices               (<link linkend="NMClient">NMClient</link> *client);</programlisting>
 <para>
 Gets all the detected devices.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>client</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>client</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMClient"><type>NMClient</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a <link linkend="GPtrArray"><type>GPtrArray</type></link> containing all the <link linkend="NMDevice"><type>NMDevice</type></link><!-- -->s.
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> a <link linkend="GPtrArray"><type>GPtrArray</type></link> containing all the <link linkend="NMDevice"><type>NMDevice</type></link><!-- -->s.
 The returned array is owned by the client and should not be modified.
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-client-get-device-by-path" role="function"/>nm_client_get_device_by_path ()</title>
-<indexterm><primary>nm_client_get_device_by_path</primary></indexterm><programlisting><link linkend="NMDevice">NMDevice</link>*           nm_client_get_device_by_path        (<link linkend="NMClient">NMClient</link> *client,
+<refsect2 id="nm-client-get-device-by-path" role="function">
+<title>nm_client_get_device_by_path ()</title>
+<indexterm zone="nm-client-get-device-by-path"><primary sortas="nm_client_get_device_by_path">nm_client_get_device_by_path</primary></indexterm><programlisting><link linkend="NMDevice">NMDevice</link> *          nm_client_get_device_by_path        (<link linkend="NMClient">NMClient</link> *client,
                                                          const <link linkend="char">char</link> *object_path);</programlisting>
 <para>
 Gets a <link linkend="NMDevice"><type>NMDevice</type></link> from a <link linkend="NMClient"><type>NMClient</type></link>.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>client</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>client</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMClient"><type>NMClient</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>object_path</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>object_path</parameter>&#160;:</term>
 <listitem><simpara> the object path to search for
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the <link linkend="NMDevice"><type>NMDevice</type></link> for the given <parameter>object_path</parameter> or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if none is found.
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the <link linkend="NMDevice"><type>NMDevice</type></link> for the given <parameter>object_path</parameter> or <link linkend="NULL--CAPS"><literal>NULL</literal></link> if none is found.
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="NMClientActivateDeviceFn" role="function"/>NMClientActivateDeviceFn ()</title>
-<indexterm><primary>NMClientActivateDeviceFn</primary></indexterm><programlisting><link linkend="void">void</link>                (*NMClientActivateDeviceFn)         (<link linkend="gpointer">gpointer</link> user_data,
+<refsect2 id="NMClientActivateDeviceFn" role="function">
+<title>NMClientActivateDeviceFn ()</title>
+<indexterm zone="NMClientActivateDeviceFn"><primary sortas="NMClientActivateDeviceFn">NMClientActivateDeviceFn</primary></indexterm><programlisting><link linkend="void">void</link>                (*NMClientActivateDeviceFn)         (<link linkend="gpointer">gpointer</link> user_data,
                                                          const <link linkend="char">char</link> *object_path,
                                                          <link linkend="GError">GError</link> *error);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>object_path</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>object_path</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>error</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>error</parameter>&#160;:</term>
 <listitem><simpara>
-
-
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-client-activate-connection" role="function"/>nm_client_activate_connection ()</title>
-<indexterm><primary>nm_client_activate_connection</primary></indexterm><programlisting><link linkend="void">void</link>                nm_client_activate_connection       (<link linkend="NMClient">NMClient</link> *client,
+<refsect2 id="nm-client-activate-connection" role="function">
+<title>nm_client_activate_connection ()</title>
+<indexterm zone="nm-client-activate-connection"><primary sortas="nm_client_activate_connection">nm_client_activate_connection</primary></indexterm><programlisting><link linkend="void">void</link>                nm_client_activate_connection       (<link linkend="NMClient">NMClient</link> *client,
                                                          const <link linkend="char">char</link> *service_name,
                                                          const <link linkend="char">char</link> *connection_path,
                                                          <link linkend="NMDevice">NMDevice</link> *device,
@@ -220,224 +198,209 @@ Gets a <link linkend="NMDevice"><type>NMDevice</type></link> from a <link linken
 <para>
 Activates a connection with the given <link linkend="NMDevice"><type>NMDevice</type></link>.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>client</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>client</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMClient"><type>NMClient</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>service_name</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>service_name</parameter>&#160;:</term>
 <listitem><simpara> the connection's service name
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>connection_path</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>connection_path</parameter>&#160;:</term>
 <listitem><simpara> the connection's DBus path
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>device</parameter>&#160;:</term>
 <listitem><simpara> the <link linkend="NMDevice"><type>NMDevice</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>specific_object</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>specific_object</parameter>&#160;:</term>
 <listitem><simpara> the device specific object (currently used only for
 activating wireless devices and should be the <link linkend="NMAccessPoint"><type>NMAccessPoint</type></link><!-- -->'s path.
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>callback</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>callback</parameter>&#160;:</term>
 <listitem><simpara> the function to call when the call is done
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
 <listitem><simpara> user data to pass to the callback function
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-client-deactivate-connection" role="function"/>nm_client_deactivate_connection ()</title>
-<indexterm><primary>nm_client_deactivate_connection</primary></indexterm><programlisting><link linkend="void">void</link>                nm_client_deactivate_connection     (<link linkend="NMClient">NMClient</link> *client,
+<refsect2 id="nm-client-deactivate-connection" role="function">
+<title>nm_client_deactivate_connection ()</title>
+<indexterm zone="nm-client-deactivate-connection"><primary sortas="nm_client_deactivate_connection">nm_client_deactivate_connection</primary></indexterm><programlisting><link linkend="void">void</link>                nm_client_deactivate_connection     (<link linkend="NMClient">NMClient</link> *client,
                                                          <link linkend="NMActiveConnection">NMActiveConnection</link> *active);</programlisting>
 <para>
 Deactivates an active <link linkend="NMActiveConnection"><type>NMActiveConnection</type></link>.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>client</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>client</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMClient"><type>NMClient</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>active</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>active</parameter>&#160;:</term>
 <listitem><simpara> the <link linkend="NMActiveConnection"><type>NMActiveConnection</type></link> to deactivate
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-client-wireless-get-enabled" role="function"/>nm_client_wireless_get_enabled ()</title>
-<indexterm><primary>nm_client_wireless_get_enabled</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_client_wireless_get_enabled      (<link linkend="NMClient">NMClient</link> *client);</programlisting>
+<refsect2 id="nm-client-wireless-get-enabled" role="function">
+<title>nm_client_wireless_get_enabled ()</title>
+<indexterm zone="nm-client-wireless-get-enabled"><primary sortas="nm_client_wireless_get_enabled">nm_client_wireless_get_enabled</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_client_wireless_get_enabled      (<link linkend="NMClient">NMClient</link> *client);</programlisting>
 <para>
 Determines whether the wireless is enabled.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>client</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>client</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMClient"><type>NMClient</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if wireless is enabled
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> if wireless is enabled
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-client-wireless-set-enabled" role="function"/>nm_client_wireless_set_enabled ()</title>
-<indexterm><primary>nm_client_wireless_set_enabled</primary></indexterm><programlisting><link linkend="void">void</link>                nm_client_wireless_set_enabled      (<link linkend="NMClient">NMClient</link> *client,
+<refsect2 id="nm-client-wireless-set-enabled" role="function">
+<title>nm_client_wireless_set_enabled ()</title>
+<indexterm zone="nm-client-wireless-set-enabled"><primary sortas="nm_client_wireless_set_enabled">nm_client_wireless_set_enabled</primary></indexterm><programlisting><link linkend="void">void</link>                nm_client_wireless_set_enabled      (<link linkend="NMClient">NMClient</link> *client,
                                                          <link linkend="gboolean">gboolean</link> enabled);</programlisting>
 <para>
 Enables or disables wireless devices.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>client</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>client</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMClient"><type>NMClient</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>enabled</parameter>&nbsp;:</term>
-<listitem><simpara> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> to enable wireless
+<varlistentry><term><parameter>enabled</parameter>&#160;:</term>
+<listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> to enable wireless
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-client-wireless-hardware-get-enabled" role="function"/>nm_client_wireless_hardware_get_enabled ()</title>
-<indexterm><primary>nm_client_wireless_hardware_get_enabled</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_client_wireless_hardware_get_enabled
+<refsect2 id="nm-client-wireless-hardware-get-enabled" role="function">
+<title>nm_client_wireless_hardware_get_enabled ()</title>
+<indexterm zone="nm-client-wireless-hardware-get-enabled"><primary sortas="nm_client_wireless_hardware_get_enabled">nm_client_wireless_hardware_get_enabled</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_client_wireless_hardware_get_enabled
                                                         (<link linkend="NMClient">NMClient</link> *client);</programlisting>
 <para>
 Determines whether the wireless hardware is enabled.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>client</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>client</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMClient"><type>NMClient</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if the wireless hardware is enabled
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> if the wireless hardware is enabled
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-client-get-state" role="function"/>nm_client_get_state ()</title>
-<indexterm><primary>nm_client_get_state</primary></indexterm><programlisting><link linkend="NMState">NMState</link>             nm_client_get_state                 (<link linkend="NMClient">NMClient</link> *client);</programlisting>
+<refsect2 id="nm-client-get-state" role="function">
+<title>nm_client_get_state ()</title>
+<indexterm zone="nm-client-get-state"><primary sortas="nm_client_get_state">nm_client_get_state</primary></indexterm><programlisting><link linkend="NMState">NMState</link>             nm_client_get_state                 (<link linkend="NMClient">NMClient</link> *client);</programlisting>
 <para>
 Gets the current daemon state.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>client</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>client</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMClient"><type>NMClient</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the current <link linkend="NMState"><literal>NMState</literal></link>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the current <link linkend="NMState"><literal>NMState</literal></link>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-client-get-manager-running" role="function"/>nm_client_get_manager_running ()</title>
-<indexterm><primary>nm_client_get_manager_running</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_client_get_manager_running       (<link linkend="NMClient">NMClient</link> *client);</programlisting>
+<refsect2 id="nm-client-get-manager-running" role="function">
+<title>nm_client_get_manager_running ()</title>
+<indexterm zone="nm-client-get-manager-running"><primary sortas="nm_client_get_manager_running">nm_client_get_manager_running</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_client_get_manager_running       (<link linkend="NMClient">NMClient</link> *client);</programlisting>
 <para>
 Determines whether the daemon is running.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>client</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>client</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMClient"><type>NMClient</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if the daemon is running
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> if the daemon is running
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-client-get-active-connections" role="function"/>nm_client_get_active_connections ()</title>
-<indexterm><primary>nm_client_get_active_connections</primary></indexterm><programlisting>const <link linkend="GPtrArray">GPtrArray</link>*    nm_client_get_active_connections    (<link linkend="NMClient">NMClient</link> *client);</programlisting>
+<refsect2 id="nm-client-get-active-connections" role="function">
+<title>nm_client_get_active_connections ()</title>
+<indexterm zone="nm-client-get-active-connections"><primary sortas="nm_client_get_active_connections">nm_client_get_active_connections</primary></indexterm><programlisting>const <link linkend="GPtrArray">GPtrArray</link> *   nm_client_get_active_connections    (<link linkend="NMClient">NMClient</link> *client);</programlisting>
 <para>
 Gets the active connections.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>client</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>client</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMClient"><type>NMClient</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a <link linkend="GPtrArray"><type>GPtrArray</type></link> containing all the active <link linkend="NMActiveConnection"><type>NMActiveConnection</type></link><!-- -->s.
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> a <link linkend="GPtrArray"><type>GPtrArray</type></link> containing all the active <link linkend="NMActiveConnection"><type>NMActiveConnection</type></link><!-- -->s.
 The returned array is owned by the client and should not be modified.
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-client-sleep" role="function"/>nm_client_sleep ()</title>
-<indexterm><primary>nm_client_sleep</primary></indexterm><programlisting><link linkend="void">void</link>                nm_client_sleep                     (<link linkend="NMClient">NMClient</link> *client,
+<refsect2 id="nm-client-sleep" role="function">
+<title>nm_client_sleep ()</title>
+<indexterm zone="nm-client-sleep"><primary sortas="nm_client_sleep">nm_client_sleep</primary></indexterm><programlisting><link linkend="void">void</link>                nm_client_sleep                     (<link linkend="NMClient">NMClient</link> *client,
                                                          <link linkend="gboolean">gboolean</link> sleep);</programlisting>
 <para>
 Enables or disables networking. When the daemon is put to sleep, it'll deactivate and disable
 all the active devices.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>client</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>client</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMClient"><type>NMClient</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>sleep</parameter>&nbsp;:</term>
-<listitem><simpara> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> to put the daemon to sleep
+<varlistentry><term><parameter>sleep</parameter>&#160;:</term>
+<listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> to put the daemon to sleep
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
 
 </refsect1>
-<refsect1 role="property_details">
+<refsect1 id="NMClient.property-details" role="property_details">
 <title role="property_details.title">Property Details</title>
-<refsect2><title><anchor id="NMClient--active-connections"/>The <literal>&quot;active-connections&quot;</literal> property</title>
-<indexterm><primary>NMClient:active-connections</primary></indexterm><programlisting>  &quot;active-connections&quot;       <link linkend="nm-object-array">nm-object-array</link>       : Read</programlisting>
+<refsect2 id="NMClient--active-connections" role="property"><title>The <literal>&quot;active-connections&quot;</literal> property</title>
+<indexterm zone="NMClient--active-connections"><primary sortas="NMClient:active-connections">NMClient:active-connections</primary></indexterm><programlisting>  &quot;active-connections&quot;       <link linkend="nm-object-array*">nm-object-array*</link>      : Read</programlisting>
 <para>Active connections.</para></refsect2>
-<refsect2><title><anchor id="NMClient--manager-running"/>The <literal>&quot;manager-running&quot;</literal> property</title>
-<indexterm><primary>NMClient:manager-running</primary></indexterm><programlisting>  &quot;manager-running&quot;          <link linkend="gboolean">gboolean</link>              : Read</programlisting>
+<refsect2 id="NMClient--manager-running" role="property"><title>The <literal>&quot;manager-running&quot;</literal> property</title>
+<indexterm zone="NMClient--manager-running"><primary sortas="NMClient:manager-running">NMClient:manager-running</primary></indexterm><programlisting>  &quot;manager-running&quot;          <link linkend="gboolean">gboolean</link>              : Read</programlisting>
 <para>Whether NetworkManager is running.</para><para>Default value: FALSE</para>
 </refsect2>
-<refsect2><title><anchor id="NMClient--state"/>The <literal>&quot;state&quot;</literal> property</title>
-<indexterm><primary>NMClient:state</primary></indexterm><programlisting>  &quot;state&quot;                    <link linkend="guint">guint</link>                 : Read</programlisting>
+<refsect2 id="NMClient--state" role="property"><title>The <literal>&quot;state&quot;</literal> property</title>
+<indexterm zone="NMClient--state"><primary sortas="NMClient:state">NMClient:state</primary></indexterm><programlisting>  &quot;state&quot;                    <link linkend="guint">guint</link>                 : Read</programlisting>
 <para>
 The current daemon state.</para>
 <para>
-
 </para><para>Allowed values: &lt;= 4</para>
 <para>Default value: 0</para>
 </refsect2>
-<refsect2><title><anchor id="NMClient--wireless-enabled"/>The <literal>&quot;wireless-enabled&quot;</literal> property</title>
-<indexterm><primary>NMClient:wireless-enabled</primary></indexterm><programlisting>  &quot;wireless-enabled&quot;         <link linkend="gboolean">gboolean</link>              : Read / Write</programlisting>
+<refsect2 id="NMClient--wireless-enabled" role="property"><title>The <literal>&quot;wireless-enabled&quot;</literal> property</title>
+<indexterm zone="NMClient--wireless-enabled"><primary sortas="NMClient:wireless-enabled">NMClient:wireless-enabled</primary></indexterm><programlisting>  &quot;wireless-enabled&quot;         <link linkend="gboolean">gboolean</link>              : Read / Write</programlisting>
 <para>Is wireless enabled.</para><para>Default value: TRUE</para>
 </refsect2>
-<refsect2><title><anchor id="NMClient--wireless-hardware-enabled"/>The <literal>&quot;wireless-hardware-enabled&quot;</literal> property</title>
-<indexterm><primary>NMClient:wireless-hardware-enabled</primary></indexterm><programlisting>  &quot;wireless-hardware-enabled&quot; <link linkend="gboolean">gboolean</link>              : Read</programlisting>
+<refsect2 id="NMClient--wireless-hardware-enabled" role="property"><title>The <literal>&quot;wireless-hardware-enabled&quot;</literal> property</title>
+<indexterm zone="NMClient--wireless-hardware-enabled"><primary sortas="NMClient:wireless-hardware-enabled">NMClient:wireless-hardware-enabled</primary></indexterm><programlisting>  &quot;wireless-hardware-enabled&quot; <link linkend="gboolean">gboolean</link>              : Read</programlisting>
 <para>Is wireless hardware enabled.</para><para>Default value: TRUE</para>
 </refsect2>
-
 </refsect1>
 
-<refsect1 role="signals">
+<refsect1 id="NMClient.signal-details" role="signals">
 <title role="signals.title">Signal Details</title>
-<refsect2><title><anchor id="NMClient-device-added"/>The <literal>&quot;device-added&quot;</literal> signal</title>
-<indexterm><primary>NMClient::device-added</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NMClient">NMClient</link> *client,
+<refsect2 id="NMClient-device-added" role="signal"><title>The <literal>&quot;device-added&quot;</literal> signal</title>
+<indexterm zone="NMClient-device-added"><primary sortas="NMClient::device-added">NMClient::device-added</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NMClient">NMClient</link> *client,
                                                         <link linkend="GObject">GObject</link>  *device,
                                                         <link linkend="gpointer">gpointer</link>  user_data)      : Run First</programlisting>
 <para>
 Notifies that a <link linkend="NMDevice"><type>NMDevice</type></link> is added.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>client</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>client</parameter>&#160;:</term>
 <listitem><simpara> the client that received the signal
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>device</parameter>&#160;:</term>
 <listitem><simpara> the new device
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
 <listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
-</variablelist></refsect2><refsect2><title><anchor id="NMClient-device-removed"/>The <literal>&quot;device-removed&quot;</literal> signal</title>
-<indexterm><primary>NMClient::device-removed</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NMClient">NMClient</link> *widget,
+</variablelist></refsect2><refsect2 id="NMClient-device-removed" role="signal"><title>The <literal>&quot;device-removed&quot;</literal> signal</title>
+<indexterm zone="NMClient-device-removed"><primary sortas="NMClient::device-removed">NMClient::device-removed</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NMClient">NMClient</link> *widget,
                                                         <link linkend="GObject">GObject</link>  *device,
                                                         <link linkend="gpointer">gpointer</link>  user_data)      : Run First</programlisting>
 <para>
 Notifies that a <link linkend="NMDevice"><type>NMDevice</type></link> is removed.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>widget</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>widget</parameter>&#160;:</term>
 <listitem><simpara> the client that received the signal
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>device</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>device</parameter>&#160;:</term>
 <listitem><simpara> the removed device
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
 <listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
 </variablelist></refsect2>
 </refsect1>
 
 
 
-
-<refsect1><refsect2 /><refsect2 /></refsect1>
 </refentry>

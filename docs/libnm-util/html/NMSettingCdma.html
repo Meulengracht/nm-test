@@ -1,120 +1,156 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>NMSettingCdma</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="libnm-util Reference Manual">
-<link rel="up" href="ch01.html" title="[Insert title here]">
-<link rel="prev" href="NMSetting.html" title="NMSetting">
-<link rel="next" href="NMSettingWired.html" title="NMSettingWired">
-<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<meta name="generator" content="DocBook XSL Stylesheets V1.74.3">
+<link rel="home" href="index.html" title="libnm-util Reference Manual">
+<link rel="up" href="ch01.html" title="libnm-util API Reference">
+<link rel="prev" href="NMSettingSerial.html" title="NMSettingSerial">
+<link rel="next" href="NMSettingGsm.html" title="NMSettingGsm">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
-<link rel="chapter" href="ch01.html" title="[Insert title here]">
+<link rel="chapter" href="ch01.html" title="libnm-util API Reference">
+<link rel="chapter" href="object-tree.html" title="Object Hierarchy">
+<link rel="index" href="api-index-full.html" title="API Index">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
 <tr valign="middle">
-<td><a accesskey="p" href="NMSetting.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="NMSettingSerial.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">libnm-util Reference Manual</th>
-<td><a accesskey="n" href="NMSettingWired.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="NMSettingGsm.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2985752" class="shortcut">Top</a>
-                  &#160;|&#160;
-                  <a href="#id3003947" class="shortcut">Description</a>
-                  &#160;|&#160;
-                  <a href="#id3003862" class="shortcut">Object Hierarchy</a>
-                  &#160;|&#160;
-                  <a href="#id3003893" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#NMSettingCdma.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#NMSettingCdma.description" class="shortcut">Description</a>
+                 | 
+                <a href="#NMSettingCdma.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#NMSettingCdma.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="NMSettingCdma"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
-<h2>
-<a name="id2985752"></a><span class="refentrytitle">NMSettingCdma</span>
-</h2>
+<h2><span class="refentrytitle"><a name="NMSettingCdma.top_of_page"></a>NMSettingCdma</span></h2>
 <p>NMSettingCdma</p>
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
 <div class="refsynopsisdiv">
-<h2>Synopsis</h2>
+<a name="NMSettingCdma.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
-
-
-
-#define             <a class="link" href="NMSettingCdma.html#NM-SETTING-CDMA-SETTING-NAME:CAPS">NM_SETTING_CDMA_SETTING_NAME</a>
-enum                <a class="link" href="NMSettingCdma.html#NMSettingCdmaError">NMSettingCdmaError</a>;
-#define             <a class="link" href="NMSettingCdma.html#NM-TYPE-SETTING-CDMA-ERROR:CAPS">NM_TYPE_SETTING_CDMA_ERROR</a>
-#define             <a class="link" href="NMSettingCdma.html#NM-SETTING-CDMA-ERROR:CAPS">NM_SETTING_CDMA_ERROR</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html#NM-SETTING-CDMA-SETTING-NAME--CAPS"
+>NM_SETTING_CDMA_SETTING_NAME</a>
+enum                <a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html#NMSettingCdmaError"
+>NMSettingCdmaError</a>;
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html#NM-TYPE-SETTING-CDMA-ERROR--CAPS"
+>NM_TYPE_SETTING_CDMA_ERROR</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html#NM-SETTING-CDMA-ERROR--CAPS"
+>NM_SETTING_CDMA_ERROR</a>
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
->GQuark</a>              <a class="link" href="NMSettingCdma.html#nm-setting-cdma-error-quark">nm_setting_cdma_error_quark</a>         (void);
-#define             <a class="link" href="NMSettingCdma.html#NM-SETTING-CDMA-NUMBER:CAPS">NM_SETTING_CDMA_NUMBER</a>
-#define             <a class="link" href="NMSettingCdma.html#NM-SETTING-CDMA-USERNAME:CAPS">NM_SETTING_CDMA_USERNAME</a>
-#define             <a class="link" href="NMSettingCdma.html#NM-SETTING-CDMA-PASSWORD:CAPS">NM_SETTING_CDMA_PASSWORD</a>
-                    <a class="link" href="NMSettingCdma.html#NMSettingCdma-struct">NMSettingCdma</a>;
+href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
+>GQuark</a>              <a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html#nm-setting-cdma-error-quark"
+>nm_setting_cdma_error_quark</a>         (void);
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html#NM-SETTING-CDMA-NUMBER--CAPS"
+>NM_SETTING_CDMA_NUMBER</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html#NM-SETTING-CDMA-USERNAME--CAPS"
+>NM_SETTING_CDMA_USERNAME</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html#NM-SETTING-CDMA-PASSWORD--CAPS"
+>NM_SETTING_CDMA_PASSWORD</a>
+                    <a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html#NMSettingCdma-struct"
+>NMSettingCdma</a>;
 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
->GType</a>               <a class="link" href="NMSettingCdma.html#nm-setting-cdma-get-type">nm_setting_cdma_get_type</a>            (void);
-<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          <a class="link" href="NMSettingCdma.html#nm-setting-cdma-new">nm_setting_cdma_new</a>                 (void);
-const char*         <a class="link" href="NMSettingCdma.html#nm-setting-cdma-get-number">nm_setting_cdma_get_number</a>          (<a class="link" href="NMSettingCdma.html" title="NMSettingCdma">NMSettingCdma</a> *setting);
-const char*         <a class="link" href="NMSettingCdma.html#nm-setting-cdma-get-username">nm_setting_cdma_get_username</a>        (<a class="link" href="NMSettingCdma.html" title="NMSettingCdma">NMSettingCdma</a> *setting);
-const char*         <a class="link" href="NMSettingCdma.html#nm-setting-cdma-get-password">nm_setting_cdma_get_password</a>        (<a class="link" href="NMSettingCdma.html" title="NMSettingCdma">NMSettingCdma</a> *setting);
-
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"
+>GType</a>               <a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html#nm-setting-cdma-get-type"
+>nm_setting_cdma_get_type</a>            (void);
+<a
+href="http://[SERVER]/libnm-util/NMSetting.html"
+>NMSetting</a> *         <a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html#nm-setting-cdma-new"
+>nm_setting_cdma_new</a>                 (void);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html#nm-setting-cdma-get-number"
+>nm_setting_cdma_get_number</a>          (<a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html"
+>NMSettingCdma</a> *setting);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html#nm-setting-cdma-get-username"
+>nm_setting_cdma_get_username</a>        (<a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html"
+>NMSettingCdma</a> *setting);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html#nm-setting-cdma-get-password"
+>nm_setting_cdma_get_password</a>        (<a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html"
+>NMSettingCdma</a> *setting);
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id3003862"></a><h2>Object Hierarchy</h2>
+<a name="NMSettingCdma.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>
+   +----<a
+href="http://[SERVER]/libnm-util/NMSetting.html"
+>NMSetting</a>
          +----NMSettingCdma
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id3003893"></a><h2>Properties</h2>
+<a name="NMSettingCdma.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-
-  "<a class="link" href="NMSettingCdma.html#NMSettingCdma--number">number</a>"                   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write
-  "<a class="link" href="NMSettingCdma.html#NMSettingCdma--password">password</a>"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write
-  "<a class="link" href="NMSettingCdma.html#NMSettingCdma--username">username</a>"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html#NMSettingCdma--number"
+>number</a>"                   <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html#NMSettingCdma--password"
+>password</a>"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html#NMSettingCdma--username"
+>username</a>"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id3003947"></a><h2>Description</h2>
+<a name="NMSettingCdma.description"></a><h2>Description</h2>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
-<a name="id3007816"></a><h2>Details</h2>
+<a name="NMSettingCdma.details"></a><h2>Details</h2>
 <div class="refsect2" lang="en">
-<a name="id3007827"></a><h3>
-<a name="NM-SETTING-CDMA-SETTING-NAME:CAPS"></a>NM_SETTING_CDMA_SETTING_NAME</h3>
-<a class="indexterm" name="id3007840"></a><pre class="programlisting">#define NM_SETTING_CDMA_SETTING_NAME "cdma"
+<a name="NM-SETTING-CDMA-SETTING-NAME--CAPS"></a><h3>NM_SETTING_CDMA_SETTING_NAME</h3>
+<pre class="programlisting">#define NM_SETTING_CDMA_SETTING_NAME "cdma"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3007857"></a><h3>
-<a name="NMSettingCdmaError"></a>enum NMSettingCdmaError</h3>
-<a class="indexterm" name="id3007869"></a><pre class="programlisting">typedef enum
+<a name="NMSettingCdmaError"></a><h3>enum NMSettingCdmaError</h3>
+<pre class="programlisting">typedef enum
 {
 	NM_SETTING_CDMA_ERROR_UNKNOWN = 0,
 	NM_SETTING_CDMA_ERROR_INVALID_PROPERTY,
@@ -123,150 +159,125 @@ href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types
 } NMSettingCdmaError;
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3007888"></a><h3>
-<a name="NM-TYPE-SETTING-CDMA-ERROR:CAPS"></a>NM_TYPE_SETTING_CDMA_ERROR</h3>
-<a class="indexterm" name="id3007901"></a><pre class="programlisting">#define NM_TYPE_SETTING_CDMA_ERROR (nm_setting_cdma_error_get_type ()) 
+<a name="NM-TYPE-SETTING-CDMA-ERROR--CAPS"></a><h3>NM_TYPE_SETTING_CDMA_ERROR</h3>
+<pre class="programlisting">#define NM_TYPE_SETTING_CDMA_ERROR (nm_setting_cdma_error_get_type ()) 
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3007917"></a><h3>
-<a name="NM-SETTING-CDMA-ERROR:CAPS"></a>NM_SETTING_CDMA_ERROR</h3>
-<a class="indexterm" name="id3007928"></a><pre class="programlisting">#define NM_SETTING_CDMA_ERROR nm_setting_cdma_error_quark ()
+<a name="NM-SETTING-CDMA-ERROR--CAPS"></a><h3>NM_SETTING_CDMA_ERROR</h3>
+<pre class="programlisting">#define NM_SETTING_CDMA_ERROR nm_setting_cdma_error_quark ()
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3007944"></a><h3>
-<a name="nm-setting-cdma-error-quark"></a>nm_setting_cdma_error_quark ()</h3>
-<a class="indexterm" name="id3007955"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+<a name="nm-setting-cdma-error-quark"></a><h3>nm_setting_cdma_error_quark ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 >GQuark</a>              nm_setting_cdma_error_quark         (void);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3007991"></a><h3>
-<a name="NM-SETTING-CDMA-NUMBER:CAPS"></a>NM_SETTING_CDMA_NUMBER</h3>
-<a class="indexterm" name="id3008002"></a><pre class="programlisting">#define NM_SETTING_CDMA_NUMBER       "number"
+<a name="NM-SETTING-CDMA-NUMBER--CAPS"></a><h3>NM_SETTING_CDMA_NUMBER</h3>
+<pre class="programlisting">#define NM_SETTING_CDMA_NUMBER       "number"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3008018"></a><h3>
-<a name="NM-SETTING-CDMA-USERNAME:CAPS"></a>NM_SETTING_CDMA_USERNAME</h3>
-<a class="indexterm" name="id3008031"></a><pre class="programlisting">#define NM_SETTING_CDMA_USERNAME     "username"
+<a name="NM-SETTING-CDMA-USERNAME--CAPS"></a><h3>NM_SETTING_CDMA_USERNAME</h3>
+<pre class="programlisting">#define NM_SETTING_CDMA_USERNAME     "username"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3008047"></a><h3>
-<a name="NM-SETTING-CDMA-PASSWORD:CAPS"></a>NM_SETTING_CDMA_PASSWORD</h3>
-<a class="indexterm" name="id3008060"></a><pre class="programlisting">#define NM_SETTING_CDMA_PASSWORD     "password"
+<a name="NM-SETTING-CDMA-PASSWORD--CAPS"></a><h3>NM_SETTING_CDMA_PASSWORD</h3>
+<pre class="programlisting">#define NM_SETTING_CDMA_PASSWORD     "password"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3008076"></a><h3>
-<a name="NMSettingCdma-struct"></a>NMSettingCdma</h3>
-<a class="indexterm" name="id3008087"></a><pre class="programlisting">typedef struct _NMSettingCdma NMSettingCdma;</pre>
+<a name="NMSettingCdma-struct"></a><h3>NMSettingCdma</h3>
+<pre class="programlisting">typedef struct _NMSettingCdma NMSettingCdma;</pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3008104"></a><h3>
-<a name="nm-setting-cdma-get-type"></a>nm_setting_cdma_get_type ()</h3>
-<a class="indexterm" name="id3008115"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+<a name="nm-setting-cdma-get-type"></a><h3>nm_setting_cdma_get_type ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"
 >GType</a>               nm_setting_cdma_get_type            (void);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3007332"></a><h3>
-<a name="nm-setting-cdma-new"></a>nm_setting_cdma_new ()</h3>
-<a class="indexterm" name="id3007345"></a><pre class="programlisting"><a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          nm_setting_cdma_new                 (void);</pre>
+<a name="nm-setting-cdma-new"></a><h3>nm_setting_cdma_new ()</h3>
+<pre class="programlisting"><a
+href="http://[SERVER]/libnm-util/NMSetting.html"
+>NMSetting</a> *         nm_setting_cdma_new                 (void);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3007381"></a><h3>
-<a name="nm-setting-cdma-get-number"></a>nm_setting_cdma_get_number ()</h3>
-<a class="indexterm" name="id3007392"></a><pre class="programlisting">const char*         nm_setting_cdma_get_number          (<a class="link" href="NMSettingCdma.html" title="NMSettingCdma">NMSettingCdma</a> *setting);</pre>
+<a name="nm-setting-cdma-get-number"></a><h3>nm_setting_cdma_get_number ()</h3>
+<pre class="programlisting">const char *        nm_setting_cdma_get_number          (<a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html"
+>NMSettingCdma</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -274,25 +285,23 @@ href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3007450"></a><h3>
-<a name="nm-setting-cdma-get-username"></a>nm_setting_cdma_get_username ()</h3>
-<a class="indexterm" name="id3007463"></a><pre class="programlisting">const char*         nm_setting_cdma_get_username        (<a class="link" href="NMSettingCdma.html" title="NMSettingCdma">NMSettingCdma</a> *setting);</pre>
+<a name="nm-setting-cdma-get-username"></a><h3>nm_setting_cdma_get_username ()</h3>
+<pre class="programlisting">const char *        nm_setting_cdma_get_username        (<a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html"
+>NMSettingCdma</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -300,25 +309,23 @@ href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3007522"></a><h3>
-<a name="nm-setting-cdma-get-password"></a>nm_setting_cdma_get_password ()</h3>
-<a class="indexterm" name="id3007535"></a><pre class="programlisting">const char*         nm_setting_cdma_get_password        (<a class="link" href="NMSettingCdma.html" title="NMSettingCdma">NMSettingCdma</a> *setting);</pre>
+<a name="nm-setting-cdma-get-password"></a><h3>nm_setting_cdma_get_password ()</h3>
+<pre class="programlisting">const char *        nm_setting_cdma_get_password        (<a
+href="http://[SERVER]/libnm-util/NMSettingCdma.html"
+>NMSettingCdma</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -326,42 +333,37 @@ href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
 </div>
 </div>
 <div class="refsect1" lang="en">
-<a name="id3007595"></a><h2>Property Details</h2>
+<a name="NMSettingCdma.property-details"></a><h2>Property Details</h2>
 <div class="refsect2" lang="en">
-<a name="id3007605"></a><h3>
-<a name="NMSettingCdma--number"></a>The <code class="literal">"number"</code> property</h3>
-<a class="indexterm" name="id3007619"></a><pre class="programlisting">  "number"                   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write</pre>
-<p>Number.</p>
+<a name="NMSettingCdma--number"></a><h3>The <code class="literal">"number"</code> property</h3>
+<pre class="programlisting">  "number"                   <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>Number to dial when establishing a PPP data session with the CDMA-based mobile broadband network.  If not specified, the default number (#777) is used when required.</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3007645"></a><h3>
-<a name="NMSettingCdma--password"></a>The <code class="literal">"password"</code> property</h3>
-<a class="indexterm" name="id3007658"></a><pre class="programlisting">  "password"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write</pre>
-<p>Password.</p>
+<a name="NMSettingCdma--password"></a><h3>The <code class="literal">"password"</code> property</h3>
+<pre class="programlisting">  "password"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>Password used to authenticate with the network, if required.  Note that many providers do not require a password or accept any password.</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3007684"></a><h3>
-<a name="NMSettingCdma--username"></a>The <code class="literal">"username"</code> property</h3>
-<a class="indexterm" name="id3007698"></a><pre class="programlisting">  "username"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write</pre>
-<p>Username.</p>
+<a name="NMSettingCdma--username"></a><h3>The <code class="literal">"username"</code> property</h3>
+<pre class="programlisting">  "username"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>Username used to authenticate with the network, if required.  Note that many providers do not require a username or accept any username.</p>
 <p>Default value: NULL</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
-<a name="id3007724"></a><div class="refsect2" lang="en"><a name="id3007725"></a></div>
+</div>
+<div class="footer">
 <hr>
-<div class="refsect2" lang="en"><a name="id3007726"></a></div>
-</div>
-</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

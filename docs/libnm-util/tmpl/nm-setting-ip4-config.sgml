@@ -384,12 +384,27 @@ NMSettingIP4Config
 </para>
 
 
+<!-- ##### ARG NMSettingIP4Config:addresses ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG NMSettingIP4Config:dhcp-client-id ##### -->
 <para>
 
 </para>
 
 <!-- ##### ARG NMSettingIP4Config:dhcp-hostname ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSettingIP4Config:dns ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSettingIP4Config:dns-search ##### -->
 <para>
 
 </para>
@@ -410,6 +425,11 @@ NMSettingIP4Config
 </para>
 
 <!-- ##### ARG NMSettingIP4Config:never-default ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSettingIP4Config:routes ##### -->
 <para>
 
 </para>

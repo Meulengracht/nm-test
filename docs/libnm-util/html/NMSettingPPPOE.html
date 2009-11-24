@@ -1,120 +1,156 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>NMSettingPPPOE</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="libnm-util Reference Manual">
-<link rel="up" href="ch01.html" title="[Insert title here]">
-<link rel="prev" href="NMSettingSerial.html" title="NMSettingSerial">
+<meta name="generator" content="DocBook XSL Stylesheets V1.74.3">
+<link rel="home" href="index.html" title="libnm-util Reference Manual">
+<link rel="up" href="ch01.html" title="libnm-util API Reference">
+<link rel="prev" href="NMSettingPPP.html" title="NMSettingPPP">
 <link rel="next" href="NMSettingVPN.html" title="NMSettingVPN">
-<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
-<link rel="chapter" href="ch01.html" title="[Insert title here]">
+<link rel="chapter" href="ch01.html" title="libnm-util API Reference">
+<link rel="chapter" href="object-tree.html" title="Object Hierarchy">
+<link rel="index" href="api-index-full.html" title="API Index">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
 <tr valign="middle">
-<td><a accesskey="p" href="NMSettingSerial.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="NMSettingPPP.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">libnm-util Reference Manual</th>
 <td><a accesskey="n" href="NMSettingVPN.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2981842" class="shortcut">Top</a>
-                  &#160;|&#160;
-                  <a href="#id2996843" class="shortcut">Description</a>
-                  &#160;|&#160;
-                  <a href="#id2991747" class="shortcut">Object Hierarchy</a>
-                  &#160;|&#160;
-                  <a href="#id2996789" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#NMSettingPPPOE.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#NMSettingPPPOE.description" class="shortcut">Description</a>
+                 | 
+                <a href="#NMSettingPPPOE.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#NMSettingPPPOE.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="NMSettingPPPOE"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
-<h2>
-<a name="id2981842"></a><span class="refentrytitle">NMSettingPPPOE</span>
-</h2>
+<h2><span class="refentrytitle"><a name="NMSettingPPPOE.top_of_page"></a>NMSettingPPPOE</span></h2>
 <p>NMSettingPPPOE</p>
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
 <div class="refsynopsisdiv">
-<h2>Synopsis</h2>
+<a name="NMSettingPPPOE.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
-
-
-
-#define             <a class="link" href="NMSettingPPPOE.html#NM-SETTING-PPPOE-SETTING-NAME:CAPS">NM_SETTING_PPPOE_SETTING_NAME</a>
-enum                <a class="link" href="NMSettingPPPOE.html#NMSettingPPPOEError">NMSettingPPPOEError</a>;
-#define             <a class="link" href="NMSettingPPPOE.html#NM-TYPE-SETTING-PPPOE-ERROR:CAPS">NM_TYPE_SETTING_PPPOE_ERROR</a>
-#define             <a class="link" href="NMSettingPPPOE.html#NM-SETTING-PPPOE-ERROR:CAPS">NM_SETTING_PPPOE_ERROR</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html#NM-SETTING-PPPOE-SETTING-NAME--CAPS"
+>NM_SETTING_PPPOE_SETTING_NAME</a>
+enum                <a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html#NMSettingPPPOEError"
+>NMSettingPPPOEError</a>;
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html#NM-TYPE-SETTING-PPPOE-ERROR--CAPS"
+>NM_TYPE_SETTING_PPPOE_ERROR</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html#NM-SETTING-PPPOE-ERROR--CAPS"
+>NM_SETTING_PPPOE_ERROR</a>
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
->GQuark</a>              <a class="link" href="NMSettingPPPOE.html#nm-setting-pppoe-error-quark">nm_setting_pppoe_error_quark</a>        (void);
-#define             <a class="link" href="NMSettingPPPOE.html#NM-SETTING-PPPOE-SERVICE:CAPS">NM_SETTING_PPPOE_SERVICE</a>
-#define             <a class="link" href="NMSettingPPPOE.html#NM-SETTING-PPPOE-USERNAME:CAPS">NM_SETTING_PPPOE_USERNAME</a>
-#define             <a class="link" href="NMSettingPPPOE.html#NM-SETTING-PPPOE-PASSWORD:CAPS">NM_SETTING_PPPOE_PASSWORD</a>
-                    <a class="link" href="NMSettingPPPOE.html#NMSettingPPPOE-struct">NMSettingPPPOE</a>;
+href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
+>GQuark</a>              <a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html#nm-setting-pppoe-error-quark"
+>nm_setting_pppoe_error_quark</a>        (void);
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html#NM-SETTING-PPPOE-SERVICE--CAPS"
+>NM_SETTING_PPPOE_SERVICE</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html#NM-SETTING-PPPOE-USERNAME--CAPS"
+>NM_SETTING_PPPOE_USERNAME</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html#NM-SETTING-PPPOE-PASSWORD--CAPS"
+>NM_SETTING_PPPOE_PASSWORD</a>
+                    <a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html#NMSettingPPPOE-struct"
+>NMSettingPPPOE</a>;
 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
->GType</a>               <a class="link" href="NMSettingPPPOE.html#nm-setting-pppoe-get-type">nm_setting_pppoe_get_type</a>           (void);
-<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          <a class="link" href="NMSettingPPPOE.html#nm-setting-pppoe-new">nm_setting_pppoe_new</a>                (void);
-const char*         <a class="link" href="NMSettingPPPOE.html#nm-setting-pppoe-get-service">nm_setting_pppoe_get_service</a>        (<a class="link" href="NMSettingPPPOE.html" title="NMSettingPPPOE">NMSettingPPPOE</a> *setting);
-const char*         <a class="link" href="NMSettingPPPOE.html#nm-setting-pppoe-get-username">nm_setting_pppoe_get_username</a>       (<a class="link" href="NMSettingPPPOE.html" title="NMSettingPPPOE">NMSettingPPPOE</a> *setting);
-const char*         <a class="link" href="NMSettingPPPOE.html#nm-setting-pppoe-get-password">nm_setting_pppoe_get_password</a>       (<a class="link" href="NMSettingPPPOE.html" title="NMSettingPPPOE">NMSettingPPPOE</a> *setting);
-
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"
+>GType</a>               <a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html#nm-setting-pppoe-get-type"
+>nm_setting_pppoe_get_type</a>           (void);
+<a
+href="http://[SERVER]/libnm-util/NMSetting.html"
+>NMSetting</a> *         <a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html#nm-setting-pppoe-new"
+>nm_setting_pppoe_new</a>                (void);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html#nm-setting-pppoe-get-service"
+>nm_setting_pppoe_get_service</a>        (<a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html"
+>NMSettingPPPOE</a> *setting);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html#nm-setting-pppoe-get-username"
+>nm_setting_pppoe_get_username</a>       (<a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html"
+>NMSettingPPPOE</a> *setting);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html#nm-setting-pppoe-get-password"
+>nm_setting_pppoe_get_password</a>       (<a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html"
+>NMSettingPPPOE</a> *setting);
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2991747"></a><h2>Object Hierarchy</h2>
+<a name="NMSettingPPPOE.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>
+   +----<a
+href="http://[SERVER]/libnm-util/NMSetting.html"
+>NMSetting</a>
          +----NMSettingPPPOE
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2996789"></a><h2>Properties</h2>
+<a name="NMSettingPPPOE.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-
-  "<a class="link" href="NMSettingPPPOE.html#NMSettingPPPOE--password">password</a>"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write
-  "<a class="link" href="NMSettingPPPOE.html#NMSettingPPPOE--service">service</a>"                  <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write
-  "<a class="link" href="NMSettingPPPOE.html#NMSettingPPPOE--username">username</a>"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html#NMSettingPPPOE--password"
+>password</a>"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html#NMSettingPPPOE--service"
+>service</a>"                  <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html#NMSettingPPPOE--username"
+>username</a>"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2996843"></a><h2>Description</h2>
+<a name="NMSettingPPPOE.description"></a><h2>Description</h2>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2996858"></a><h2>Details</h2>
+<a name="NMSettingPPPOE.details"></a><h2>Details</h2>
 <div class="refsect2" lang="en">
-<a name="id2996869"></a><h3>
-<a name="NM-SETTING-PPPOE-SETTING-NAME:CAPS"></a>NM_SETTING_PPPOE_SETTING_NAME</h3>
-<a class="indexterm" name="id2996882"></a><pre class="programlisting">#define NM_SETTING_PPPOE_SETTING_NAME "pppoe"
+<a name="NM-SETTING-PPPOE-SETTING-NAME--CAPS"></a><h3>NM_SETTING_PPPOE_SETTING_NAME</h3>
+<pre class="programlisting">#define NM_SETTING_PPPOE_SETTING_NAME "pppoe"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2996899"></a><h3>
-<a name="NMSettingPPPOEError"></a>enum NMSettingPPPOEError</h3>
-<a class="indexterm" name="id2996912"></a><pre class="programlisting">typedef enum
+<a name="NMSettingPPPOEError"></a><h3>enum NMSettingPPPOEError</h3>
+<pre class="programlisting">typedef enum
 {
 	NM_SETTING_PPPOE_ERROR_UNKNOWN = 0,
 	NM_SETTING_PPPOE_ERROR_INVALID_PROPERTY,
@@ -123,150 +159,125 @@ href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types
 } NMSettingPPPOEError;
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2921573"></a><h3>
-<a name="NM-TYPE-SETTING-PPPOE-ERROR:CAPS"></a>NM_TYPE_SETTING_PPPOE_ERROR</h3>
-<a class="indexterm" name="id2921586"></a><pre class="programlisting">#define NM_TYPE_SETTING_PPPOE_ERROR (nm_setting_pppoe_error_get_type ()) 
+<a name="NM-TYPE-SETTING-PPPOE-ERROR--CAPS"></a><h3>NM_TYPE_SETTING_PPPOE_ERROR</h3>
+<pre class="programlisting">#define NM_TYPE_SETTING_PPPOE_ERROR (nm_setting_pppoe_error_get_type ()) 
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2921603"></a><h3>
-<a name="NM-SETTING-PPPOE-ERROR:CAPS"></a>NM_SETTING_PPPOE_ERROR</h3>
-<a class="indexterm" name="id2921614"></a><pre class="programlisting">#define NM_SETTING_PPPOE_ERROR nm_setting_pppoe_error_quark ()
+<a name="NM-SETTING-PPPOE-ERROR--CAPS"></a><h3>NM_SETTING_PPPOE_ERROR</h3>
+<pre class="programlisting">#define NM_SETTING_PPPOE_ERROR nm_setting_pppoe_error_quark ()
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2921629"></a><h3>
-<a name="nm-setting-pppoe-error-quark"></a>nm_setting_pppoe_error_quark ()</h3>
-<a class="indexterm" name="id2921641"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+<a name="nm-setting-pppoe-error-quark"></a><h3>nm_setting_pppoe_error_quark ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 >GQuark</a>              nm_setting_pppoe_error_quark        (void);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2921678"></a><h3>
-<a name="NM-SETTING-PPPOE-SERVICE:CAPS"></a>NM_SETTING_PPPOE_SERVICE</h3>
-<a class="indexterm" name="id2921691"></a><pre class="programlisting">#define NM_SETTING_PPPOE_SERVICE  "service"
+<a name="NM-SETTING-PPPOE-SERVICE--CAPS"></a><h3>NM_SETTING_PPPOE_SERVICE</h3>
+<pre class="programlisting">#define NM_SETTING_PPPOE_SERVICE  "service"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2921707"></a><h3>
-<a name="NM-SETTING-PPPOE-USERNAME:CAPS"></a>NM_SETTING_PPPOE_USERNAME</h3>
-<a class="indexterm" name="id2921720"></a><pre class="programlisting">#define NM_SETTING_PPPOE_USERNAME "username"
+<a name="NM-SETTING-PPPOE-USERNAME--CAPS"></a><h3>NM_SETTING_PPPOE_USERNAME</h3>
+<pre class="programlisting">#define NM_SETTING_PPPOE_USERNAME "username"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2921736"></a><h3>
-<a name="NM-SETTING-PPPOE-PASSWORD:CAPS"></a>NM_SETTING_PPPOE_PASSWORD</h3>
-<a class="indexterm" name="id2921748"></a><pre class="programlisting">#define NM_SETTING_PPPOE_PASSWORD "password"
+<a name="NM-SETTING-PPPOE-PASSWORD--CAPS"></a><h3>NM_SETTING_PPPOE_PASSWORD</h3>
+<pre class="programlisting">#define NM_SETTING_PPPOE_PASSWORD "password"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2921764"></a><h3>
-<a name="NMSettingPPPOE-struct"></a>NMSettingPPPOE</h3>
-<a class="indexterm" name="id2921776"></a><pre class="programlisting">typedef struct _NMSettingPPPOE NMSettingPPPOE;</pre>
+<a name="NMSettingPPPOE-struct"></a><h3>NMSettingPPPOE</h3>
+<pre class="programlisting">typedef struct _NMSettingPPPOE NMSettingPPPOE;</pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2921792"></a><h3>
-<a name="nm-setting-pppoe-get-type"></a>nm_setting_pppoe_get_type ()</h3>
-<a class="indexterm" name="id2921804"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+<a name="nm-setting-pppoe-get-type"></a><h3>nm_setting_pppoe_get_type ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"
 >GType</a>               nm_setting_pppoe_get_type           (void);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2921840"></a><h3>
-<a name="nm-setting-pppoe-new"></a>nm_setting_pppoe_new ()</h3>
-<a class="indexterm" name="id2921851"></a><pre class="programlisting"><a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          nm_setting_pppoe_new                (void);</pre>
+<a name="nm-setting-pppoe-new"></a><h3>nm_setting_pppoe_new ()</h3>
+<pre class="programlisting"><a
+href="http://[SERVER]/libnm-util/NMSetting.html"
+>NMSetting</a> *         nm_setting_pppoe_new                (void);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2921887"></a><h3>
-<a name="nm-setting-pppoe-get-service"></a>nm_setting_pppoe_get_service ()</h3>
-<a class="indexterm" name="id2921900"></a><pre class="programlisting">const char*         nm_setting_pppoe_get_service        (<a class="link" href="NMSettingPPPOE.html" title="NMSettingPPPOE">NMSettingPPPOE</a> *setting);</pre>
+<a name="nm-setting-pppoe-get-service"></a><h3>nm_setting_pppoe_get_service ()</h3>
+<pre class="programlisting">const char *        nm_setting_pppoe_get_service        (<a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html"
+>NMSettingPPPOE</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -274,25 +285,23 @@ href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2921959"></a><h3>
-<a name="nm-setting-pppoe-get-username"></a>nm_setting_pppoe_get_username ()</h3>
-<a class="indexterm" name="id2921972"></a><pre class="programlisting">const char*         nm_setting_pppoe_get_username       (<a class="link" href="NMSettingPPPOE.html" title="NMSettingPPPOE">NMSettingPPPOE</a> *setting);</pre>
+<a name="nm-setting-pppoe-get-username"></a><h3>nm_setting_pppoe_get_username ()</h3>
+<pre class="programlisting">const char *        nm_setting_pppoe_get_username       (<a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html"
+>NMSettingPPPOE</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -300,25 +309,23 @@ href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2999118"></a><h3>
-<a name="nm-setting-pppoe-get-password"></a>nm_setting_pppoe_get_password ()</h3>
-<a class="indexterm" name="id2999132"></a><pre class="programlisting">const char*         nm_setting_pppoe_get_password       (<a class="link" href="NMSettingPPPOE.html" title="NMSettingPPPOE">NMSettingPPPOE</a> *setting);</pre>
+<a name="nm-setting-pppoe-get-password"></a><h3>nm_setting_pppoe_get_password ()</h3>
+<pre class="programlisting">const char *        nm_setting_pppoe_get_password       (<a
+href="http://[SERVER]/libnm-util/NMSettingPPPOE.html"
+>NMSettingPPPOE</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -326,42 +333,49 @@ href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
 </div>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2999191"></a><h2>Property Details</h2>
+<a name="NMSettingPPPOE.property-details"></a><h2>Property Details</h2>
 <div class="refsect2" lang="en">
-<a name="id2999202"></a><h3>
-<a name="NMSettingPPPOE--password"></a>The <code class="literal">"password"</code> property</h3>
-<a class="indexterm" name="id2999216"></a><pre class="programlisting">  "password"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write</pre>
-<p>Password.</p>
+<a name="NMSettingPPPOE--password"></a><h3>The <code class="literal">"password"</code> property</h3>
+<pre class="programlisting">  "password"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>
+Password used to authenticate with the PPPoE service.</p>
+<p>
+</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2999241"></a><h3>
-<a name="NMSettingPPPOE--service"></a>The <code class="literal">"service"</code> property</h3>
-<a class="indexterm" name="id2999255"></a><pre class="programlisting">  "service"                  <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write</pre>
-<p>Service.</p>
+<a name="NMSettingPPPOE--service"></a><h3>The <code class="literal">"service"</code> property</h3>
+<pre class="programlisting">  "service"                  <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>
+If specified, instruct PPPoE to only initiate sessions with access
+concentrators that provide the specified serivce.  For most providers,
+this should be left blank.  It is only required if there are multiple
+access concentrators or a specific service is known to be required.</p>
+<p>
+</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2999280"></a><h3>
-<a name="NMSettingPPPOE--username"></a>The <code class="literal">"username"</code> property</h3>
-<a class="indexterm" name="id2999294"></a><pre class="programlisting">  "username"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write</pre>
-<p>Username.</p>
+<a name="NMSettingPPPOE--username"></a><h3>The <code class="literal">"username"</code> property</h3>
+<pre class="programlisting">  "username"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>
+Username used to authenticate with the PPPoE service.</p>
+<p>
+</p>
 <p>Default value: NULL</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
-<a name="id2999321"></a><div class="refsect2" lang="en"><a name="id2999322"></a></div>
+</div>
+<div class="footer">
 <hr>
-<div class="refsect2" lang="en"><a name="id2999323"></a></div>
-</div>
-</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

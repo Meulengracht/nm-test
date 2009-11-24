@@ -1,14 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>NMObject</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="libnm-glib Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.74.3">
+<link rel="home" href="index.html" title="libnm-glib Reference Manual">
 <link rel="up" href="ch01.html" title="[Insert title here]">
 <link rel="prev" href="NMIP4Config.html" title="NMIP4Config">
 <link rel="next" href="libnm-glib-NMSettings.html" title="NMSettings">
-<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="[Insert title here]">
 </head>
@@ -21,47 +21,42 @@
 <th width="100%" align="center">libnm-glib Reference Manual</th>
 <td><a accesskey="n" href="libnm-glib-NMSettings.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2848484" class="shortcut">Top</a>
-                  &#160;|&#160;
-                  <a href="#id2869107" class="shortcut">Description</a>
-                  &#160;|&#160;
-                  <a href="#id2826927" class="shortcut">Object Hierarchy</a>
-                  &#160;|&#160;
-                  <a href="#id2827407" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#NMObject.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#NMObject.description" class="shortcut">Description</a>
+                 | 
+                <a href="#NMObject.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#NMObject.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="NMObject"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
-<h2>
-<a name="id2848484"></a><span class="refentrytitle">NMObject</span>
-</h2>
+<h2><span class="refentrytitle"><a name="NMObject.top_of_page"></a>NMObject</span></h2>
 <p>NMObject</p>
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
 <div class="refsynopsisdiv">
-<h2>Synopsis</h2>
+<a name="NMObject.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
-
-
-
-#define             <a class="link" href="NMObject.html#NM-OBJECT-DBUS-CONNECTION:CAPS">NM_OBJECT_DBUS_CONNECTION</a>
-#define             <a class="link" href="NMObject.html#NM-OBJECT-DBUS-PATH:CAPS">NM_OBJECT_DBUS_PATH</a>
-                    <a class="link" href="NMObject.html#NMObject-struct">NMObject</a>;
+#define             <a class="link" href="NMObject.html#NM-OBJECT-DBUS-CONNECTION--CAPS" title="NM_OBJECT_DBUS_CONNECTION">NM_OBJECT_DBUS_CONNECTION</a>
+#define             <a class="link" href="NMObject.html#NM-OBJECT-DBUS-PATH--CAPS" title="NM_OBJECT_DBUS_PATH">NM_OBJECT_DBUS_PATH</a>
+                    <a class="link" href="NMObject.html#NMObject-struct" title="NMObject">NMObject</a>;
 <a
 href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
->DBusGConnection</a>*    <a class="link" href="NMObject.html#nm-object-get-connection">nm_object_get_connection</a>            (<a class="link" href="NMObject.html" title="NMObject">NMObject</a> *object);
-const char*         <a class="link" href="NMObject.html#nm-object-get-path">nm_object_get_path</a>                  (<a class="link" href="NMObject.html" title="NMObject">NMObject</a> *object);
-
+>DBusGConnection</a> *   <a class="link" href="NMObject.html#nm-object-get-connection" title="nm_object_get_connection ()">nm_object_get_connection</a>            (<a class="link" href="NMObject.html" title="NMObject">NMObject</a> *object);
+const char *        <a class="link" href="NMObject.html#nm-object-get-path" title="nm_object_get_path ()">nm_object_get_path</a>                  (<a class="link" href="NMObject.html" title="NMObject">NMObject</a> *object);
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2826927"></a><h2>Object Hierarchy</h2>
+<a name="NMObject.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----NMObject
          +----<a class="link" href="NMClient.html" title="NMClient">NMClient</a>
@@ -73,75 +68,65 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2827407"></a><h2>Properties</h2>
+<a name="NMObject.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-
-  "<a class="link" href="NMObject.html#NMObject--dbus-connection">dbus-connection</a>"          <a
+  "<a class="link" href="NMObject.html#NMObject--dbus-connection" title='The "dbus-connection" property'>dbus-connection</a>"          <a
 href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
->DBusGConnection</a>       : Read / Write / Construct Only
-  "<a class="link" href="NMObject.html#NMObject--dbus-path">dbus-path</a>"                <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write / Construct Only
+>DBusGConnection</a>*      : Read / Write / Construct Only
+  "<a class="link" href="NMObject.html#NMObject--dbus-path" title='The "dbus-path" property'>dbus-path</a>"                <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write / Construct Only
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2869107"></a><h2>Description</h2>
+<a name="NMObject.description"></a><h2>Description</h2>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2869123"></a><h2>Details</h2>
+<a name="NMObject.details"></a><h2>Details</h2>
 <div class="refsect2" lang="en">
-<a name="id2869134"></a><h3>
-<a name="NM-OBJECT-DBUS-CONNECTION:CAPS"></a>NM_OBJECT_DBUS_CONNECTION</h3>
-<a class="indexterm" name="id2869145"></a><pre class="programlisting">#define NM_OBJECT_DBUS_CONNECTION "dbus-connection"
+<a name="NM-OBJECT-DBUS-CONNECTION--CAPS"></a><h3>NM_OBJECT_DBUS_CONNECTION</h3>
+<pre class="programlisting">#define NM_OBJECT_DBUS_CONNECTION "dbus-connection"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2869161"></a><h3>
-<a name="NM-OBJECT-DBUS-PATH:CAPS"></a>NM_OBJECT_DBUS_PATH</h3>
-<a class="indexterm" name="id2869172"></a><pre class="programlisting">#define NM_OBJECT_DBUS_PATH "dbus-path"
+<a name="NM-OBJECT-DBUS-PATH--CAPS"></a><h3>NM_OBJECT_DBUS_PATH</h3>
+<pre class="programlisting">#define NM_OBJECT_DBUS_PATH "dbus-path"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2869188"></a><h3>
-<a name="NMObject-struct"></a>NMObject</h3>
-<a class="indexterm" name="id2869201"></a><pre class="programlisting">typedef struct _NMObject NMObject;</pre>
+<a name="NMObject-struct"></a><h3>NMObject</h3>
+<pre class="programlisting">typedef struct _NMObject NMObject;</pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2869216"></a><h3>
-<a name="nm-object-get-connection"></a>nm_object_get_connection ()</h3>
-<a class="indexterm" name="id2832319"></a><pre class="programlisting"><a
+<a name="nm-object-get-connection"></a><h3>nm_object_get_connection ()</h3>
+<pre class="programlisting"><a
 href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
->DBusGConnection</a>*    nm_object_get_connection            (<a class="link" href="NMObject.html" title="NMObject">NMObject</a> *object);</pre>
+>DBusGConnection</a> *   nm_object_get_connection            (<a class="link" href="NMObject.html" title="NMObject">NMObject</a> *object);</pre>
 <p>
 Gets the <a class="link" href="NMObject.html" title="NMObject"><span class="type">NMObject</span></a>'s DBusGConnection.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>object</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>object</code></em> :</span></p></td>
 <td> a <a class="link" href="NMObject.html" title="NMObject"><span class="type">NMObject</span></a>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the connection
 </td>
 </tr>
@@ -150,24 +135,22 @@ Gets the <a class="link" href="NMObject.html" title="NMObject"><span class="type
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2832393"></a><h3>
-<a name="nm-object-get-path"></a>nm_object_get_path ()</h3>
-<a class="indexterm" name="id2832405"></a><pre class="programlisting">const char*         nm_object_get_path                  (<a class="link" href="NMObject.html" title="NMObject">NMObject</a> *object);</pre>
+<a name="nm-object-get-path"></a><h3>nm_object_get_path ()</h3>
+<pre class="programlisting">const char *        nm_object_get_path                  (<a class="link" href="NMObject.html" title="NMObject">NMObject</a> *object);</pre>
 <p>
 Gets the DBus path of the <a class="link" href="NMObject.html" title="NMObject"><span class="type">NMObject</span></a>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>object</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>object</code></em> :</span></p></td>
 <td> a <a class="link" href="NMObject.html" title="NMObject"><span class="type">NMObject</span></a>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the object's path. This is the internal string used by the
 device, and must not be modified.
 </td>
@@ -177,31 +160,27 @@ device, and must not be modified.
 </div>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2833390"></a><h2>Property Details</h2>
+<a name="NMObject.property-details"></a><h2>Property Details</h2>
 <div class="refsect2" lang="en">
-<a name="id2833400"></a><h3>
-<a name="NMObject--dbus-connection"></a>The <code class="literal">"dbus-connection"</code> property</h3>
-<a class="indexterm" name="id2833414"></a><pre class="programlisting">  "dbus-connection"          <a
+<a name="NMObject--dbus-connection"></a><h3>The <code class="literal">"dbus-connection"</code> property</h3>
+<pre class="programlisting">  "dbus-connection"          <a
 href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
->DBusGConnection</a>       : Read / Write / Construct Only</pre>
+>DBusGConnection</a>*      : Read / Write / Construct Only</pre>
 <p>Connection.</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2833435"></a><h3>
-<a name="NMObject--dbus-path"></a>The <code class="literal">"dbus-path"</code> property</h3>
-<a class="indexterm" name="id2833450"></a><pre class="programlisting">  "dbus-path"                <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write / Construct Only</pre>
+<a name="NMObject--dbus-path"></a><h3>The <code class="literal">"dbus-path"</code> property</h3>
+<pre class="programlisting">  "dbus-path"                <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write / Construct Only</pre>
 <p>DBus Object Path.</p>
 <p>Default value: NULL</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
-<a name="id2833476"></a><div class="refsect2" lang="en"><a name="id2833477"></a></div>
+</div>
+<div class="footer">
 <hr>
-<div class="refsect2" lang="en"><a name="id2833478"></a></div>
-</div>
-</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

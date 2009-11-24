@@ -1,9 +1,6 @@
-<?xml version="1.0"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
 <refentry id="NMSettingWireless">
 <refmeta>
-<refentrytitle role="top_of_page">NMSettingWireless</refentrytitle>
+<refentrytitle role="top_of_page" id="NMSettingWireless.top_of_page">NMSettingWireless</refentrytitle>
 <manvolnum>3</manvolnum>
 <refmiscinfo>LIBNM-UTIL Library</refmiscinfo>
 </refmeta>
@@ -11,50 +8,46 @@
 <refnamediv>
 <refname>NMSettingWireless</refname>
 <refpurpose></refpurpose>
-<!--[<xref linkend="desc" endterm="desc.title"/>]-->
 </refnamediv>
 
-<refsynopsisdiv role="synopsis">
+<refsynopsisdiv id="NMSettingWireless.synopsis" role="synopsis">
 <title role="synopsis.title">Synopsis</title>
 
 <synopsis>
-
-
-
-#define             <link linkend="NM-SETTING-WIRELESS-SETTING-NAME:CAPS">NM_SETTING_WIRELESS_SETTING_NAME</link>
+#define             <link linkend="NM-SETTING-WIRELESS-SETTING-NAME--CAPS">NM_SETTING_WIRELESS_SETTING_NAME</link>
 enum                <link linkend="NMSettingWirelessError">NMSettingWirelessError</link>;
-#define             <link linkend="NM-TYPE-SETTING-WIRELESS-ERROR:CAPS">NM_TYPE_SETTING_WIRELESS_ERROR</link>
-#define             <link linkend="NM-SETTING-WIRELESS-ERROR:CAPS">NM_SETTING_WIRELESS_ERROR</link>
+#define             <link linkend="NM-TYPE-SETTING-WIRELESS-ERROR--CAPS">NM_TYPE_SETTING_WIRELESS_ERROR</link>
+#define             <link linkend="NM-SETTING-WIRELESS-ERROR--CAPS">NM_SETTING_WIRELESS_ERROR</link>
 <link linkend="GQuark">GQuark</link>              <link linkend="nm-setting-wireless-error-quark">nm_setting_wireless_error_quark</link>     (void);
-#define             <link linkend="NM-SETTING-WIRELESS-SSID:CAPS">NM_SETTING_WIRELESS_SSID</link>
-#define             <link linkend="NM-SETTING-WIRELESS-MODE:CAPS">NM_SETTING_WIRELESS_MODE</link>
-#define             <link linkend="NM-SETTING-WIRELESS-BAND:CAPS">NM_SETTING_WIRELESS_BAND</link>
-#define             <link linkend="NM-SETTING-WIRELESS-CHANNEL:CAPS">NM_SETTING_WIRELESS_CHANNEL</link>
-#define             <link linkend="NM-SETTING-WIRELESS-BSSID:CAPS">NM_SETTING_WIRELESS_BSSID</link>
-#define             <link linkend="NM-SETTING-WIRELESS-RATE:CAPS">NM_SETTING_WIRELESS_RATE</link>
-#define             <link linkend="NM-SETTING-WIRELESS-TX-POWER:CAPS">NM_SETTING_WIRELESS_TX_POWER</link>
-#define             <link linkend="NM-SETTING-WIRELESS-MAC-ADDRESS:CAPS">NM_SETTING_WIRELESS_MAC_ADDRESS</link>
-#define             <link linkend="NM-SETTING-WIRELESS-MTU:CAPS">NM_SETTING_WIRELESS_MTU</link>
-#define             <link linkend="NM-SETTING-WIRELESS-SEEN-BSSIDS:CAPS">NM_SETTING_WIRELESS_SEEN_BSSIDS</link>
-#define             <link linkend="NM-SETTING-WIRELESS-SEC:CAPS">NM_SETTING_WIRELESS_SEC</link>
+#define             <link linkend="NM-SETTING-WIRELESS-SSID--CAPS">NM_SETTING_WIRELESS_SSID</link>
+#define             <link linkend="NM-SETTING-WIRELESS-MODE--CAPS">NM_SETTING_WIRELESS_MODE</link>
+#define             <link linkend="NM-SETTING-WIRELESS-BAND--CAPS">NM_SETTING_WIRELESS_BAND</link>
+#define             <link linkend="NM-SETTING-WIRELESS-CHANNEL--CAPS">NM_SETTING_WIRELESS_CHANNEL</link>
+#define             <link linkend="NM-SETTING-WIRELESS-BSSID--CAPS">NM_SETTING_WIRELESS_BSSID</link>
+#define             <link linkend="NM-SETTING-WIRELESS-RATE--CAPS">NM_SETTING_WIRELESS_RATE</link>
+#define             <link linkend="NM-SETTING-WIRELESS-TX-POWER--CAPS">NM_SETTING_WIRELESS_TX_POWER</link>
+#define             <link linkend="NM-SETTING-WIRELESS-MAC-ADDRESS--CAPS">NM_SETTING_WIRELESS_MAC_ADDRESS</link>
+#define             <link linkend="NM-SETTING-WIRELESS-MTU--CAPS">NM_SETTING_WIRELESS_MTU</link>
+#define             <link linkend="NM-SETTING-WIRELESS-SEEN-BSSIDS--CAPS">NM_SETTING_WIRELESS_SEEN_BSSIDS</link>
+#define             <link linkend="NM-SETTING-WIRELESS-SEC--CAPS">NM_SETTING_WIRELESS_SEC</link>
                     <link linkend="NMSettingWireless-struct">NMSettingWireless</link>;
 <link linkend="GType">GType</link>               <link linkend="nm-setting-wireless-get-type">nm_setting_wireless_get_type</link>        (void);
-<link linkend="NMSetting">NMSetting</link>*          <link linkend="nm-setting-wireless-new">nm_setting_wireless_new</link>             (void);
-const <link linkend="GByteArray">GByteArray</link>*   <link linkend="nm-setting-wireless-get-ssid">nm_setting_wireless_get_ssid</link>        (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-wireless-get-mode">nm_setting_wireless_get_mode</link>        (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-wireless-get-band">nm_setting_wireless_get_band</link>        (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);
+<link linkend="NMSetting">NMSetting</link> *         <link linkend="nm-setting-wireless-new">nm_setting_wireless_new</link>             (void);
+const <link linkend="GByteArray">GByteArray</link> *  <link linkend="nm-setting-wireless-get-ssid">nm_setting_wireless_get_ssid</link>        (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);
+const <link linkend="char">char</link> *        <link linkend="nm-setting-wireless-get-mode">nm_setting_wireless_get_mode</link>        (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);
+const <link linkend="char">char</link> *        <link linkend="nm-setting-wireless-get-band">nm_setting_wireless_get_band</link>        (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);
 <link linkend="guint32">guint32</link>             <link linkend="nm-setting-wireless-get-channel">nm_setting_wireless_get_channel</link>     (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);
-const <link linkend="GByteArray">GByteArray</link>*   <link linkend="nm-setting-wireless-get-bssid">nm_setting_wireless_get_bssid</link>       (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);
+const <link linkend="GByteArray">GByteArray</link> *  <link linkend="nm-setting-wireless-get-bssid">nm_setting_wireless_get_bssid</link>       (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);
 <link linkend="guint32">guint32</link>             <link linkend="nm-setting-wireless-get-rate">nm_setting_wireless_get_rate</link>        (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);
 <link linkend="guint32">guint32</link>             <link linkend="nm-setting-wireless-get-tx-power">nm_setting_wireless_get_tx_power</link>    (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);
-const <link linkend="GByteArray">GByteArray</link>*   <link linkend="nm-setting-wireless-get-mac-address">nm_setting_wireless_get_mac_address</link> (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);
+const <link linkend="GByteArray">GByteArray</link> *  <link linkend="nm-setting-wireless-get-mac-address">nm_setting_wireless_get_mac_address</link> (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);
 <link linkend="guint32">guint32</link>             <link linkend="nm-setting-wireless-get-mtu">nm_setting_wireless_get_mtu</link>         (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-wireless-get-security">nm_setting_wireless_get_security</link>    (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);
+const <link linkend="char">char</link> *        <link linkend="nm-setting-wireless-get-security">nm_setting_wireless_get_security</link>    (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);
 <link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-wireless-add-seen-bssid">nm_setting_wireless_add_seen_bssid</link>  (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting,
                                                          const <link linkend="char">char</link> *bssid);
 <link linkend="guint32">guint32</link>             <link linkend="nm-setting-wireless-get-num-seen-bssids">nm_setting_wireless_get_num_seen_bssids</link>
                                                         (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-wireless-get-seen-bssid">nm_setting_wireless_get_seen_bssid</link>  (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting,
+const <link linkend="char">char</link> *        <link linkend="nm-setting-wireless-get-seen-bssid">nm_setting_wireless_get_seen_bssid</link>  (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting,
                                                          <link linkend="guint32">guint32</link> i);
 <link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-wireless-ap-security-compatible">nm_setting_wireless_ap_security_compatible</link>
                                                         (<link linkend="NMSettingWireless">NMSettingWireless</link> *s_wireless,
@@ -63,60 +56,58 @@ const <link linkend="char">char</link>*         <link linkend="nm-setting-wirele
                                                          <link linkend="guint32">guint32</link> ap_wpa,
                                                          <link linkend="guint32">guint32</link> ap_rsn,
                                                          <link linkend="guint32">guint32</link> ap_mode);
-
 </synopsis>
 </refsynopsisdiv>
 
-<refsect1 role="object_hierarchy">
+<refsect1 id="NMSettingWireless.object-hierarchy" role="object_hierarchy">
 <title role="object_hierarchy.title">Object Hierarchy</title>
 <synopsis>
-
   <link linkend="GObject">GObject</link>
    +----<link linkend="NMSetting">NMSetting</link>
          +----NMSettingWireless
 </synopsis>
-
 </refsect1>
 
 
 
 
 
-<refsect1 role="properties">
+<refsect1 id="NMSettingWireless.properties" role="properties">
 <title role="properties.title">Properties</title>
 <synopsis>
-
-  &quot;<link linkend="NMSettingWireless--band">band</link>&quot;                     <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingWireless--band">band</link>&quot;                     <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NMSettingWireless--bssid">bssid</link>&quot;                    <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write
   &quot;<link linkend="NMSettingWireless--channel">channel</link>&quot;                  <link linkend="guint">guint</link>                 : Read / Write / Construct
-  &quot;<link linkend="NMSettingWireless--mode">mode</link>&quot;                     <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingWireless--mac-address">mac-address</link>&quot;              <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write
+  &quot;<link linkend="NMSettingWireless--mode">mode</link>&quot;                     <link linkend="gchar">gchar</link>*                : Read / Write
   &quot;<link linkend="NMSettingWireless--mtu">mtu</link>&quot;                      <link linkend="guint">guint</link>                 : Read / Write / Construct
   &quot;<link linkend="NMSettingWireless--rate">rate</link>&quot;                     <link linkend="guint">guint</link>                 : Read / Write / Construct
-  &quot;<link linkend="NMSettingWireless--security">security</link>&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSettingWireless--security">security</link>&quot;                 <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NMSettingWireless--seen-bssids">seen-bssids</link>&quot;              <link linkend="GSList-gchararray-">GSList_gchararray_</link>*   : Read / Write
+  &quot;<link linkend="NMSettingWireless--ssid">ssid</link>&quot;                     <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write
   &quot;<link linkend="NMSettingWireless--tx-power">tx-power</link>&quot;                 <link linkend="guint">guint</link>                 : Read / Write / Construct
 </synopsis>
 </refsect1>
 
 
 
-<refsect1 role="desc">
+<refsect1 id="NMSettingWireless.description" role="desc">
 <title role="desc.title">Description</title>
 <para>
-
 </para>
 </refsect1>
 
-<refsect1 role="details">
+<refsect1 id="NMSettingWireless.details" role="details">
 <title role="details.title">Details</title>
-<refsect2>
-<title><anchor id="NM-SETTING-WIRELESS-SETTING-NAME:CAPS" role="macro"/>NM_SETTING_WIRELESS_SETTING_NAME</title>
-<indexterm><primary>NM_SETTING_WIRELESS_SETTING_NAME</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SETTING_NAME "802-11-wireless"
+<refsect2 id="NM-SETTING-WIRELESS-SETTING-NAME--CAPS" role="macro">
+<title>NM_SETTING_WIRELESS_SETTING_NAME</title>
+<indexterm zone="NM-SETTING-WIRELESS-SETTING-NAME--CAPS"><primary sortas="NM_SETTING_WIRELESS_SETTING_NAME">NM_SETTING_WIRELESS_SETTING_NAME</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SETTING_NAME "802-11-wireless"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NMSettingWirelessError" role="enum"/>enum NMSettingWirelessError</title>
-<indexterm><primary>NMSettingWirelessError</primary></indexterm><programlisting>typedef enum
+<refsect2 id="NMSettingWirelessError" role="enum">
+<title>enum NMSettingWirelessError</title>
+<indexterm zone="NMSettingWirelessError"><primary sortas="NMSettingWirelessError">NMSettingWirelessError</primary></indexterm><programlisting>typedef enum
 {
 	NM_SETTING_WIRELESS_ERROR_UNKNOWN = 0,
 	NM_SETTING_WIRELESS_ERROR_INVALID_PROPERTY,
@@ -126,332 +117,269 @@ const <link linkend="char">char</link>*         <link linkend="nm-setting-wirele
 } NMSettingWirelessError;
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-TYPE-SETTING-WIRELESS-ERROR:CAPS" role="macro"/>NM_TYPE_SETTING_WIRELESS_ERROR</title>
-<indexterm><primary>NM_TYPE_SETTING_WIRELESS_ERROR</primary></indexterm><programlisting>#define NM_TYPE_SETTING_WIRELESS_ERROR (nm_setting_wireless_error_get_type ()) 
+<refsect2 id="NM-TYPE-SETTING-WIRELESS-ERROR--CAPS" role="macro">
+<title>NM_TYPE_SETTING_WIRELESS_ERROR</title>
+<indexterm zone="NM-TYPE-SETTING-WIRELESS-ERROR--CAPS"><primary sortas="NM_TYPE_SETTING_WIRELESS_ERROR">NM_TYPE_SETTING_WIRELESS_ERROR</primary></indexterm><programlisting>#define NM_TYPE_SETTING_WIRELESS_ERROR (nm_setting_wireless_error_get_type ()) 
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-WIRELESS-ERROR:CAPS" role="macro"/>NM_SETTING_WIRELESS_ERROR</title>
-<indexterm><primary>NM_SETTING_WIRELESS_ERROR</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_ERROR nm_setting_wireless_error_quark ()
+<refsect2 id="NM-SETTING-WIRELESS-ERROR--CAPS" role="macro">
+<title>NM_SETTING_WIRELESS_ERROR</title>
+<indexterm zone="NM-SETTING-WIRELESS-ERROR--CAPS"><primary sortas="NM_SETTING_WIRELESS_ERROR">NM_SETTING_WIRELESS_ERROR</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_ERROR nm_setting_wireless_error_quark ()
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-wireless-error-quark" role="function"/>nm_setting_wireless_error_quark ()</title>
-<indexterm><primary>nm_setting_wireless_error_quark</primary></indexterm><programlisting><link linkend="GQuark">GQuark</link>              nm_setting_wireless_error_quark     (void);</programlisting>
+<refsect2 id="nm-setting-wireless-error-quark" role="function">
+<title>nm_setting_wireless_error_quark ()</title>
+<indexterm zone="nm-setting-wireless-error-quark"><primary sortas="nm_setting_wireless_error_quark">nm_setting_wireless_error_quark</primary></indexterm><programlisting><link linkend="GQuark">GQuark</link>              nm_setting_wireless_error_quark     (void);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-WIRELESS-SSID:CAPS" role="macro"/>NM_SETTING_WIRELESS_SSID</title>
-<indexterm><primary>NM_SETTING_WIRELESS_SSID</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SSID        "ssid"
+<refsect2 id="NM-SETTING-WIRELESS-SSID--CAPS" role="macro">
+<title>NM_SETTING_WIRELESS_SSID</title>
+<indexterm zone="NM-SETTING-WIRELESS-SSID--CAPS"><primary sortas="NM_SETTING_WIRELESS_SSID">NM_SETTING_WIRELESS_SSID</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SSID        "ssid"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-WIRELESS-MODE:CAPS" role="macro"/>NM_SETTING_WIRELESS_MODE</title>
-<indexterm><primary>NM_SETTING_WIRELESS_MODE</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_MODE        "mode"
+<refsect2 id="NM-SETTING-WIRELESS-MODE--CAPS" role="macro">
+<title>NM_SETTING_WIRELESS_MODE</title>
+<indexterm zone="NM-SETTING-WIRELESS-MODE--CAPS"><primary sortas="NM_SETTING_WIRELESS_MODE">NM_SETTING_WIRELESS_MODE</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_MODE        "mode"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-WIRELESS-BAND:CAPS" role="macro"/>NM_SETTING_WIRELESS_BAND</title>
-<indexterm><primary>NM_SETTING_WIRELESS_BAND</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_BAND        "band"
+<refsect2 id="NM-SETTING-WIRELESS-BAND--CAPS" role="macro">
+<title>NM_SETTING_WIRELESS_BAND</title>
+<indexterm zone="NM-SETTING-WIRELESS-BAND--CAPS"><primary sortas="NM_SETTING_WIRELESS_BAND">NM_SETTING_WIRELESS_BAND</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_BAND        "band"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-WIRELESS-CHANNEL:CAPS" role="macro"/>NM_SETTING_WIRELESS_CHANNEL</title>
-<indexterm><primary>NM_SETTING_WIRELESS_CHANNEL</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_CHANNEL     "channel"
+<refsect2 id="NM-SETTING-WIRELESS-CHANNEL--CAPS" role="macro">
+<title>NM_SETTING_WIRELESS_CHANNEL</title>
+<indexterm zone="NM-SETTING-WIRELESS-CHANNEL--CAPS"><primary sortas="NM_SETTING_WIRELESS_CHANNEL">NM_SETTING_WIRELESS_CHANNEL</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_CHANNEL     "channel"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-WIRELESS-BSSID:CAPS" role="macro"/>NM_SETTING_WIRELESS_BSSID</title>
-<indexterm><primary>NM_SETTING_WIRELESS_BSSID</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_BSSID       "bssid"
+<refsect2 id="NM-SETTING-WIRELESS-BSSID--CAPS" role="macro">
+<title>NM_SETTING_WIRELESS_BSSID</title>
+<indexterm zone="NM-SETTING-WIRELESS-BSSID--CAPS"><primary sortas="NM_SETTING_WIRELESS_BSSID">NM_SETTING_WIRELESS_BSSID</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_BSSID       "bssid"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-WIRELESS-RATE:CAPS" role="macro"/>NM_SETTING_WIRELESS_RATE</title>
-<indexterm><primary>NM_SETTING_WIRELESS_RATE</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_RATE        "rate"
+<refsect2 id="NM-SETTING-WIRELESS-RATE--CAPS" role="macro">
+<title>NM_SETTING_WIRELESS_RATE</title>
+<indexterm zone="NM-SETTING-WIRELESS-RATE--CAPS"><primary sortas="NM_SETTING_WIRELESS_RATE">NM_SETTING_WIRELESS_RATE</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_RATE        "rate"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-WIRELESS-TX-POWER:CAPS" role="macro"/>NM_SETTING_WIRELESS_TX_POWER</title>
-<indexterm><primary>NM_SETTING_WIRELESS_TX_POWER</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_TX_POWER    "tx-power"
+<refsect2 id="NM-SETTING-WIRELESS-TX-POWER--CAPS" role="macro">
+<title>NM_SETTING_WIRELESS_TX_POWER</title>
+<indexterm zone="NM-SETTING-WIRELESS-TX-POWER--CAPS"><primary sortas="NM_SETTING_WIRELESS_TX_POWER">NM_SETTING_WIRELESS_TX_POWER</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_TX_POWER    "tx-power"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-WIRELESS-MAC-ADDRESS:CAPS" role="macro"/>NM_SETTING_WIRELESS_MAC_ADDRESS</title>
-<indexterm><primary>NM_SETTING_WIRELESS_MAC_ADDRESS</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_MAC_ADDRESS "mac-address"
+<refsect2 id="NM-SETTING-WIRELESS-MAC-ADDRESS--CAPS" role="macro">
+<title>NM_SETTING_WIRELESS_MAC_ADDRESS</title>
+<indexterm zone="NM-SETTING-WIRELESS-MAC-ADDRESS--CAPS"><primary sortas="NM_SETTING_WIRELESS_MAC_ADDRESS">NM_SETTING_WIRELESS_MAC_ADDRESS</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_MAC_ADDRESS "mac-address"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-WIRELESS-MTU:CAPS" role="macro"/>NM_SETTING_WIRELESS_MTU</title>
-<indexterm><primary>NM_SETTING_WIRELESS_MTU</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_MTU         "mtu"
+<refsect2 id="NM-SETTING-WIRELESS-MTU--CAPS" role="macro">
+<title>NM_SETTING_WIRELESS_MTU</title>
+<indexterm zone="NM-SETTING-WIRELESS-MTU--CAPS"><primary sortas="NM_SETTING_WIRELESS_MTU">NM_SETTING_WIRELESS_MTU</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_MTU         "mtu"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-WIRELESS-SEEN-BSSIDS:CAPS" role="macro"/>NM_SETTING_WIRELESS_SEEN_BSSIDS</title>
-<indexterm><primary>NM_SETTING_WIRELESS_SEEN_BSSIDS</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SEEN_BSSIDS "seen-bssids"
+<refsect2 id="NM-SETTING-WIRELESS-SEEN-BSSIDS--CAPS" role="macro">
+<title>NM_SETTING_WIRELESS_SEEN_BSSIDS</title>
+<indexterm zone="NM-SETTING-WIRELESS-SEEN-BSSIDS--CAPS"><primary sortas="NM_SETTING_WIRELESS_SEEN_BSSIDS">NM_SETTING_WIRELESS_SEEN_BSSIDS</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SEEN_BSSIDS "seen-bssids"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-WIRELESS-SEC:CAPS" role="macro"/>NM_SETTING_WIRELESS_SEC</title>
-<indexterm><primary>NM_SETTING_WIRELESS_SEC</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SEC         "security"
+<refsect2 id="NM-SETTING-WIRELESS-SEC--CAPS" role="macro">
+<title>NM_SETTING_WIRELESS_SEC</title>
+<indexterm zone="NM-SETTING-WIRELESS-SEC--CAPS"><primary sortas="NM_SETTING_WIRELESS_SEC">NM_SETTING_WIRELESS_SEC</primary></indexterm><programlisting>#define NM_SETTING_WIRELESS_SEC         "security"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NMSettingWireless-struct" role="struct"/>NMSettingWireless</title>
-<indexterm><primary>NMSettingWireless</primary></indexterm><programlisting>typedef struct _NMSettingWireless NMSettingWireless;</programlisting>
+<refsect2 id="NMSettingWireless-struct" role="struct">
+<title>NMSettingWireless</title>
+<indexterm zone="NMSettingWireless-struct"><primary sortas="NMSettingWireless">NMSettingWireless</primary></indexterm><programlisting>typedef struct _NMSettingWireless NMSettingWireless;</programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-wireless-get-type" role="function"/>nm_setting_wireless_get_type ()</title>
-<indexterm><primary>nm_setting_wireless_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_setting_wireless_get_type        (void);</programlisting>
+<refsect2 id="nm-setting-wireless-get-type" role="function">
+<title>nm_setting_wireless_get_type ()</title>
+<indexterm zone="nm-setting-wireless-get-type"><primary sortas="nm_setting_wireless_get_type">nm_setting_wireless_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_setting_wireless_get_type        (void);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-wireless-new" role="function"/>nm_setting_wireless_new ()</title>
-<indexterm><primary>nm_setting_wireless_new</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link>*          nm_setting_wireless_new             (void);</programlisting>
+<refsect2 id="nm-setting-wireless-new" role="function">
+<title>nm_setting_wireless_new ()</title>
+<indexterm zone="nm-setting-wireless-new"><primary sortas="nm_setting_wireless_new">nm_setting_wireless_new</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link> *         nm_setting_wireless_new             (void);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-wireless-get-ssid" role="function"/>nm_setting_wireless_get_ssid ()</title>
-<indexterm><primary>nm_setting_wireless_get_ssid</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link>*   nm_setting_wireless_get_ssid        (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
+<refsect2 id="nm-setting-wireless-get-ssid" role="function">
+<title>nm_setting_wireless_get_ssid ()</title>
+<indexterm zone="nm-setting-wireless-get-ssid"><primary sortas="nm_setting_wireless_get_ssid">nm_setting_wireless_get_ssid</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link> *  nm_setting_wireless_get_ssid        (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-wireless-get-mode" role="function"/>nm_setting_wireless_get_mode ()</title>
-<indexterm><primary>nm_setting_wireless_get_mode</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_wireless_get_mode        (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
+<refsect2 id="nm-setting-wireless-get-mode" role="function">
+<title>nm_setting_wireless_get_mode ()</title>
+<indexterm zone="nm-setting-wireless-get-mode"><primary sortas="nm_setting_wireless_get_mode">nm_setting_wireless_get_mode</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_wireless_get_mode        (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-wireless-get-band" role="function"/>nm_setting_wireless_get_band ()</title>
-<indexterm><primary>nm_setting_wireless_get_band</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_wireless_get_band        (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
+<refsect2 id="nm-setting-wireless-get-band" role="function">
+<title>nm_setting_wireless_get_band ()</title>
+<indexterm zone="nm-setting-wireless-get-band"><primary sortas="nm_setting_wireless_get_band">nm_setting_wireless_get_band</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_wireless_get_band        (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-wireless-get-channel" role="function"/>nm_setting_wireless_get_channel ()</title>
-<indexterm><primary>nm_setting_wireless_get_channel</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_wireless_get_channel     (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
+<refsect2 id="nm-setting-wireless-get-channel" role="function">
+<title>nm_setting_wireless_get_channel ()</title>
+<indexterm zone="nm-setting-wireless-get-channel"><primary sortas="nm_setting_wireless_get_channel">nm_setting_wireless_get_channel</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_wireless_get_channel     (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-wireless-get-bssid" role="function"/>nm_setting_wireless_get_bssid ()</title>
-<indexterm><primary>nm_setting_wireless_get_bssid</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link>*   nm_setting_wireless_get_bssid       (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
+<refsect2 id="nm-setting-wireless-get-bssid" role="function">
+<title>nm_setting_wireless_get_bssid ()</title>
+<indexterm zone="nm-setting-wireless-get-bssid"><primary sortas="nm_setting_wireless_get_bssid">nm_setting_wireless_get_bssid</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link> *  nm_setting_wireless_get_bssid       (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-wireless-get-rate" role="function"/>nm_setting_wireless_get_rate ()</title>
-<indexterm><primary>nm_setting_wireless_get_rate</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_wireless_get_rate        (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
+<refsect2 id="nm-setting-wireless-get-rate" role="function">
+<title>nm_setting_wireless_get_rate ()</title>
+<indexterm zone="nm-setting-wireless-get-rate"><primary sortas="nm_setting_wireless_get_rate">nm_setting_wireless_get_rate</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_wireless_get_rate        (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-wireless-get-tx-power" role="function"/>nm_setting_wireless_get_tx_power ()</title>
-<indexterm><primary>nm_setting_wireless_get_tx_power</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_wireless_get_tx_power    (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
+<refsect2 id="nm-setting-wireless-get-tx-power" role="function">
+<title>nm_setting_wireless_get_tx_power ()</title>
+<indexterm zone="nm-setting-wireless-get-tx-power"><primary sortas="nm_setting_wireless_get_tx_power">nm_setting_wireless_get_tx_power</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_wireless_get_tx_power    (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-wireless-get-mac-address" role="function"/>nm_setting_wireless_get_mac_address ()</title>
-<indexterm><primary>nm_setting_wireless_get_mac_address</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link>*   nm_setting_wireless_get_mac_address (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
+<refsect2 id="nm-setting-wireless-get-mac-address" role="function">
+<title>nm_setting_wireless_get_mac_address ()</title>
+<indexterm zone="nm-setting-wireless-get-mac-address"><primary sortas="nm_setting_wireless_get_mac_address">nm_setting_wireless_get_mac_address</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link> *  nm_setting_wireless_get_mac_address (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-wireless-get-mtu" role="function"/>nm_setting_wireless_get_mtu ()</title>
-<indexterm><primary>nm_setting_wireless_get_mtu</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_wireless_get_mtu         (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
+<refsect2 id="nm-setting-wireless-get-mtu" role="function">
+<title>nm_setting_wireless_get_mtu ()</title>
+<indexterm zone="nm-setting-wireless-get-mtu"><primary sortas="nm_setting_wireless_get_mtu">nm_setting_wireless_get_mtu</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_wireless_get_mtu         (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-wireless-get-security" role="function"/>nm_setting_wireless_get_security ()</title>
-<indexterm><primary>nm_setting_wireless_get_security</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_wireless_get_security    (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
+<refsect2 id="nm-setting-wireless-get-security" role="function">
+<title>nm_setting_wireless_get_security ()</title>
+<indexterm zone="nm-setting-wireless-get-security"><primary sortas="nm_setting_wireless_get_security">nm_setting_wireless_get_security</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_wireless_get_security    (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-wireless-add-seen-bssid" role="function"/>nm_setting_wireless_add_seen_bssid ()</title>
-<indexterm><primary>nm_setting_wireless_add_seen_bssid</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_wireless_add_seen_bssid  (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting,
+<refsect2 id="nm-setting-wireless-add-seen-bssid" role="function">
+<title>nm_setting_wireless_add_seen_bssid ()</title>
+<indexterm zone="nm-setting-wireless-add-seen-bssid"><primary sortas="nm_setting_wireless_add_seen_bssid">nm_setting_wireless_add_seen_bssid</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_wireless_add_seen_bssid  (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting,
                                                          const <link linkend="char">char</link> *bssid);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>bssid</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>bssid</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-wireless-get-num-seen-bssids" role="function"/>nm_setting_wireless_get_num_seen_bssids ()</title>
-<indexterm><primary>nm_setting_wireless_get_num_seen_bssids</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_wireless_get_num_seen_bssids
+<refsect2 id="nm-setting-wireless-get-num-seen-bssids" role="function">
+<title>nm_setting_wireless_get_num_seen_bssids ()</title>
+<indexterm zone="nm-setting-wireless-get-num-seen-bssids"><primary sortas="nm_setting_wireless_get_num_seen_bssids">nm_setting_wireless_get_num_seen_bssids</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_wireless_get_num_seen_bssids
                                                         (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-wireless-get-seen-bssid" role="function"/>nm_setting_wireless_get_seen_bssid ()</title>
-<indexterm><primary>nm_setting_wireless_get_seen_bssid</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_wireless_get_seen_bssid  (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting,
+<refsect2 id="nm-setting-wireless-get-seen-bssid" role="function">
+<title>nm_setting_wireless_get_seen_bssid ()</title>
+<indexterm zone="nm-setting-wireless-get-seen-bssid"><primary sortas="nm_setting_wireless_get_seen_bssid">nm_setting_wireless_get_seen_bssid</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_wireless_get_seen_bssid  (<link linkend="NMSettingWireless">NMSettingWireless</link> *setting,
                                                          <link linkend="guint32">guint32</link> i);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>i</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>i</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-wireless-ap-security-compatible" role="function"/>nm_setting_wireless_ap_security_compatible ()</title>
-<indexterm><primary>nm_setting_wireless_ap_security_compatible</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_wireless_ap_security_compatible
+<refsect2 id="nm-setting-wireless-ap-security-compatible" role="function">
+<title>nm_setting_wireless_ap_security_compatible ()</title>
+<indexterm zone="nm-setting-wireless-ap-security-compatible"><primary sortas="nm_setting_wireless_ap_security_compatible">nm_setting_wireless_ap_security_compatible</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_wireless_ap_security_compatible
                                                         (<link linkend="NMSettingWireless">NMSettingWireless</link> *s_wireless,
                                                          <link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link> *s_wireless_sec,
                                                          <link linkend="guint32">guint32</link> ap_flags,
@@ -459,69 +387,136 @@ const <link linkend="char">char</link>*         <link linkend="nm-setting-wirele
                                                          <link linkend="guint32">guint32</link> ap_rsn,
                                                          <link linkend="guint32">guint32</link> ap_mode);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>s_wireless</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>s_wireless</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>s_wireless_sec</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>s_wireless_sec</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>ap_flags</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>ap_flags</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>ap_wpa</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>ap_wpa</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>ap_rsn</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>ap_rsn</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>ap_mode</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>ap_mode</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
 
 </refsect1>
-<refsect1 role="property_details">
+<refsect1 id="NMSettingWireless.property-details" role="property_details">
 <title role="property_details.title">Property Details</title>
-<refsect2><title><anchor id="NMSettingWireless--band"/>The <literal>&quot;band&quot;</literal> property</title>
-<indexterm><primary>NMSettingWireless:band</primary></indexterm><programlisting>  &quot;band&quot;                     <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
-<para>Band.</para><para>Default value: NULL</para>
+<refsect2 id="NMSettingWireless--band" role="property"><title>The <literal>&quot;band&quot;</literal> property</title>
+<indexterm zone="NMSettingWireless--band"><primary sortas="NMSettingWireless:band">NMSettingWireless:band</primary></indexterm><programlisting>  &quot;band&quot;                     <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+802.11 frequency band of the network.  One of 'a' for 5GHz 802.11a or
+'bg' for 2.4GHz 802.11.  This will lock associations to the WiFi network
+to the specific band, i.e. if 'a' is specified, the device will not
+associate with the same network in the 2.4GHz band even if the network's
+settings are compatible.  This setting depends on specific driver
+capability and may not work with all drivers.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
-<refsect2><title><anchor id="NMSettingWireless--channel"/>The <literal>&quot;channel&quot;</literal> property</title>
-<indexterm><primary>NMSettingWireless:channel</primary></indexterm><programlisting>  &quot;channel&quot;                  <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
-<para>Channel.</para><para>Default value: 0</para>
+<refsect2 id="NMSettingWireless--bssid" role="property"><title>The <literal>&quot;bssid&quot;</literal> property</title>
+<indexterm zone="NMSettingWireless--bssid"><primary sortas="NMSettingWireless:bssid">NMSettingWireless:bssid</primary></indexterm><programlisting>  &quot;bssid&quot;                    <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write</programlisting>
+<para>
+If specified, directs the device to only associate with the given access
+point.  This capability is highly driver dependent and not supported by
+all devices.  Note: this property does not control the BSSID used when
+creating an Ad-Hoc network and is unlikely to in the future.</para>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingWireless--channel" role="property"><title>The <literal>&quot;channel&quot;</literal> property</title>
+<indexterm zone="NMSettingWireless--channel"><primary sortas="NMSettingWireless:channel">NMSettingWireless:channel</primary></indexterm><programlisting>  &quot;channel&quot;                  <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
+<para>
+Wireless channel to use for the WiFi connection.  The device will only
+join (or create for Ad-Hoc networks) a WiFi network on the specified
+channel.  Because channel numbers overlap between bands, this property
+also requires the 'band' property to be set.</para>
+<para>
+</para><para>Default value: 0</para>
 </refsect2>
-<refsect2><title><anchor id="NMSettingWireless--mode"/>The <literal>&quot;mode&quot;</literal> property</title>
-<indexterm><primary>NMSettingWireless:mode</primary></indexterm><programlisting>  &quot;mode&quot;                     <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
-<para>Mode.</para><para>Default value: NULL</para>
+<refsect2 id="NMSettingWireless--mac-address" role="property"><title>The <literal>&quot;mac-address&quot;</literal> property</title>
+<indexterm zone="NMSettingWireless--mac-address"><primary sortas="NMSettingWireless:mac-address">NMSettingWireless:mac-address</primary></indexterm><programlisting>  &quot;mac-address&quot;              <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write</programlisting>
+<para>
+If specified, this connection will only apply to the WiFi device
+whose MAC address matches. This property does not change the MAC address
+of the device (known as MAC spoofing).</para>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingWireless--mode" role="property"><title>The <literal>&quot;mode&quot;</literal> property</title>
+<indexterm zone="NMSettingWireless--mode"><primary sortas="NMSettingWireless:mode">NMSettingWireless:mode</primary></indexterm><programlisting>  &quot;mode&quot;                     <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+WiFi network mode; one of 'infrastructure' or 'adhoc'.  If blank,
+infrastructure is assumed.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
-<refsect2><title><anchor id="NMSettingWireless--mtu"/>The <literal>&quot;mtu&quot;</literal> property</title>
-<indexterm><primary>NMSettingWireless:mtu</primary></indexterm><programlisting>  &quot;mtu&quot;                      <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
-<para>MTU.</para><para>Default value: 0</para>
+<refsect2 id="NMSettingWireless--mtu" role="property"><title>The <literal>&quot;mtu&quot;</literal> property</title>
+<indexterm zone="NMSettingWireless--mtu"><primary sortas="NMSettingWireless:mtu">NMSettingWireless:mtu</primary></indexterm><programlisting>  &quot;mtu&quot;                      <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
+<para>
+If non-zero, only transmit packets of the specified size or smaller,
+breaking larger packets up into multiple Ethernet frames.</para>
+<para>
+</para><para>Default value: 0</para>
 </refsect2>
-<refsect2><title><anchor id="NMSettingWireless--rate"/>The <literal>&quot;rate&quot;</literal> property</title>
-<indexterm><primary>NMSettingWireless:rate</primary></indexterm><programlisting>  &quot;rate&quot;                     <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
-<para>Rate.</para><para>Default value: 0</para>
+<refsect2 id="NMSettingWireless--rate" role="property"><title>The <literal>&quot;rate&quot;</literal> property</title>
+<indexterm zone="NMSettingWireless--rate"><primary sortas="NMSettingWireless:rate">NMSettingWireless:rate</primary></indexterm><programlisting>  &quot;rate&quot;                     <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
+<para>
+If non-zero, directs the device to only use the specified bitrate for
+communication with the access point.  Units are in Kb/s, ie 5500 = 5.5
+Mbit/s.  This property is highly driver dependent and not all devices
+support setting a static bitrate.</para>
+<para>
+</para><para>Default value: 0</para>
 </refsect2>
-<refsect2><title><anchor id="NMSettingWireless--security"/>The <literal>&quot;security&quot;</literal> property</title>
-<indexterm><primary>NMSettingWireless:security</primary></indexterm><programlisting>  &quot;security&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
-<para>Security.</para><para>Default value: NULL</para>
+<refsect2 id="NMSettingWireless--security" role="property"><title>The <literal>&quot;security&quot;</literal> property</title>
+<indexterm zone="NMSettingWireless--security"><primary sortas="NMSettingWireless:security">NMSettingWireless:security</primary></indexterm><programlisting>  &quot;security&quot;                 <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+If the wireless connection has any security restrictions, like 802.1x,
+WEP, or WPA, set this property to '802-11-wireless-security' and ensure
+the connection contains a valid 802-11-wireless-security setting.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
-<refsect2><title><anchor id="NMSettingWireless--tx-power"/>The <literal>&quot;tx-power&quot;</literal> property</title>
-<indexterm><primary>NMSettingWireless:tx-power</primary></indexterm><programlisting>  &quot;tx-power&quot;                 <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
-<para>TX Power.</para><para>Default value: 0</para>
+<refsect2 id="NMSettingWireless--seen-bssids" role="property"><title>The <literal>&quot;seen-bssids&quot;</literal> property</title>
+<indexterm zone="NMSettingWireless--seen-bssids"><primary sortas="NMSettingWireless:seen-bssids">NMSettingWireless:seen-bssids</primary></indexterm><programlisting>  &quot;seen-bssids&quot;              <link linkend="GSList-gchararray-">GSList_gchararray_</link>*   : Read / Write</programlisting>
+<para>
+A list of BSSIDs (each BSSID formatted as a MAC address like
+'00:11:22:33:44:55') that have been detected as part of the WiFI network.
+The settings service will usually populate this property by periodically
+asking NetworkManager what the device's current AP is while connected
+to the network (or monitoring the device's 'active-ap' property) and
+adding the current AP'sBSSID to this list.  This list helps NetworkManager
+find hidden APs by matching up scan results with the BSSIDs in this list.</para>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingWireless--ssid" role="property"><title>The <literal>&quot;ssid&quot;</literal> property</title>
+<indexterm zone="NMSettingWireless--ssid"><primary sortas="NMSettingWireless:ssid">NMSettingWireless:ssid</primary></indexterm><programlisting>  &quot;ssid&quot;                     <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write</programlisting>
+<para>
+SSID of the WiFi network.</para>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingWireless--tx-power" role="property"><title>The <literal>&quot;tx-power&quot;</literal> property</title>
+<indexterm zone="NMSettingWireless--tx-power"><primary sortas="NMSettingWireless:tx-power">NMSettingWireless:tx-power</primary></indexterm><programlisting>  &quot;tx-power&quot;                 <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
+<para>
+If non-zero, directs the device to use the specified transmit power.
+Units are dBm.  This property is highly driver dependent and not all
+devices support setting a static transmit power.</para>
+<para>
+</para><para>Default value: 0</para>
 </refsect2>
-
 </refsect1>
 
 
 
 
-
-<refsect1><refsect2 /><refsect2 /></refsect1>
 </refentry>
