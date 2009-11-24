@@ -113,6 +113,11 @@ NMSettingWired
 
 </para>
 
+<!-- ##### ARG NMSettingWired:mac-address ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG NMSettingWired:mtu ##### -->
 <para>
 

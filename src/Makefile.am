@@ -155,7 +155,6 @@ NetworkManager_CPPFLAGS = \
 	$(OPENSSL_CFLAGS) \
 	$(LIBNL_CFLAGS) \
 	$(LIBUDEV_CFLAGS) \
-	-DDBUS_API_SUBJECT_TO_CHANGE \
 	-DG_DISABLE_DEPRECATED \
 	-DBINDIR=\"$(bindir)\" \
 	-DSBINDIR=\"$(sbindir)\" \
@@ -173,6 +172,7 @@ NetworkManager_LDADD = \
 	$(HAL_LIBS) \
 	$(LIBNL_LIBS) \
 	$(LIBUDEV_LIBS) \
+	$(LIBM) \
 	$(top_builddir)/marshallers/libmarshallers.la \
 	./named-manager/libnamed-manager.la \
 	./vpn-manager/libvpn-manager.la \

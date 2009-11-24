@@ -93,6 +93,7 @@ typedef struct {
 	char *wep_key3;
 	char *psk;
 	char *leap_password;
+	NMWepKeyType wep_key_type;
 } NMSettingWirelessSecurityPrivate;
 
 enum {
@@ -110,6 +111,7 @@ enum {
 	PROP_WEP_KEY3,
 	PROP_PSK,
 	PROP_LEAP_PASSWORD,
+	PROP_WEP_KEY_TYPE,
 
 	LAST_PROP
 };
@@ -425,8 +427,16 @@ nm_setting_wireless_security_get_auth_alg (NMSettingWirelessSecurity *setting)
 	return NM_SETTING_WIRELESS_SECURITY_GET_PRIVATE (setting)->auth_alg;
 }
 
+NMWepKeyType
+nm_setting_wireless_security_get_wep_key_type (NMSettingWirelessSecurity *setting)
+{
+	g_return_val_if_fail (NM_IS_SETTING_WIRELESS_SECURITY (setting), 0);
+
+	return NM_SETTING_WIRELESS_SECURITY_GET_PRIVATE (setting)->wep_key_type;
+}
+
 static gboolean
-verify_wep_key (const char *key)
+verify_wep_key (const char *key, NMWepKeyType wep_type)
 {
 	int keylen, i;
 
@@ -434,11 +444,24 @@ verify_wep_key (const char *key)
 		return FALSE;
 
 	keylen = strlen (key);
-	if (keylen != 10 && keylen != 26)
-		return FALSE;
+	if (wep_type == NM_WEP_KEY_TYPE_KEY || NM_WEP_KEY_TYPE_UNKNOWN) {
+		if (keylen == 10 || keylen == 26) {
+			/* Hex key */
+			for (i = 0; i < keylen; i++) {
+				if (!isxdigit (key[i]))
+					return FALSE;
+			}
+		} else if (keylen == 5 || keylen == 13) {
+			/* ASCII key */
+			for (i = 0; i < keylen; i++) {
+				if (!isascii (key[i]))
+					return FALSE;
+			}
+		} else
+			return FALSE;
 
-	for (i = 0; i < keylen; i++) {
-		if (!isxdigit (key[i]))
+	} else if (wep_type == NM_WEP_KEY_TYPE_PASSPHRASE) {
+		if (!keylen || keylen > 64)
 			return FALSE;
 	}
 
@@ -454,12 +477,15 @@ verify_wpa_psk (const char *psk)
 		return FALSE;
 
 	psklen = strlen (psk);
-	if (psklen != 64)
+	if (psklen < 8 || psklen > 64)
 		return FALSE;
 
-	for (i = 0; i < psklen; i++) {
-		if (!isxdigit (psk[i]))
-			return FALSE;
+	if (psklen == 64) {
+		/* Hex PSK */
+		for (i = 0; i < psklen; i++) {
+			if (!isxdigit (psk[i]))
+				return FALSE;
+		}
 	}
 
 	return TRUE;
@@ -483,19 +509,19 @@ need_secrets (NMSetting *setting)
 
 	/* Static WEP */
 	if (strcmp (priv->key_mgmt, "none") == 0) {
-		if ((priv->wep_tx_keyidx == 0) && !verify_wep_key (priv->wep_key0)) {
+		if ((priv->wep_tx_keyidx == 0) && !verify_wep_key (priv->wep_key0, priv->wep_key_type)) {
 			g_ptr_array_add (secrets, NM_SETTING_WIRELESS_SECURITY_WEP_KEY0);
 			return secrets;
 		}
-		if ((priv->wep_tx_keyidx == 1) && !verify_wep_key (priv->wep_key1)) {
+		if ((priv->wep_tx_keyidx == 1) && !verify_wep_key (priv->wep_key1, priv->wep_key_type)) {
 			g_ptr_array_add (secrets, NM_SETTING_WIRELESS_SECURITY_WEP_KEY1);
 			return secrets;
 		}
-		if ((priv->wep_tx_keyidx == 2) && !verify_wep_key (priv->wep_key2)) {
+		if ((priv->wep_tx_keyidx == 2) && !verify_wep_key (priv->wep_key2, priv->wep_key_type)) {
 			g_ptr_array_add (secrets, NM_SETTING_WIRELESS_SECURITY_WEP_KEY2);
 			return secrets;
 		}
-		if ((priv->wep_tx_keyidx == 3) && !verify_wep_key (priv->wep_key3)) {
+		if ((priv->wep_tx_keyidx == 3) && !verify_wep_key (priv->wep_key3, priv->wep_key_type)) {
 			g_ptr_array_add (secrets, NM_SETTING_WIRELESS_SECURITY_WEP_KEY3);
 			return secrets;
 		}
@@ -627,28 +653,36 @@ verify (NMSetting *setting, GSList *all_settings, GError **error)
 		return FALSE;
 	}
 
-	if (priv->wep_key0 && !strlen (priv->wep_key0)) {
+	if (priv->wep_key_type > NM_WEP_KEY_TYPE_LAST) {
+		g_set_error (error,
+		             NM_SETTING_WIRELESS_SECURITY_ERROR,
+		             NM_SETTING_WIRELESS_SECURITY_ERROR_INVALID_PROPERTY,
+		             NM_SETTING_WIRELESS_SECURITY_WEP_KEY_TYPE);
+		return FALSE;
+	}
+
+	if (priv->wep_key0 && !verify_wep_key (priv->wep_key0, priv->wep_key_type)) {
 		g_set_error (error,
 		             NM_SETTING_WIRELESS_SECURITY_ERROR,
 		             NM_SETTING_WIRELESS_SECURITY_ERROR_INVALID_PROPERTY,
 		             NM_SETTING_WIRELESS_SECURITY_WEP_KEY0);
 		return FALSE;
 	}
-	if (priv->wep_key1 && !strlen (priv->wep_key1)) {
+	if (priv->wep_key1 && !verify_wep_key (priv->wep_key1, priv->wep_key_type)) {
 		g_set_error (error,
 		             NM_SETTING_WIRELESS_SECURITY_ERROR,
 		             NM_SETTING_WIRELESS_SECURITY_ERROR_INVALID_PROPERTY,
 		             NM_SETTING_WIRELESS_SECURITY_WEP_KEY1);
 		return FALSE;
 	}
-	if (priv->wep_key2 && !strlen (priv->wep_key2)) {
+	if (priv->wep_key2 && !verify_wep_key (priv->wep_key2, priv->wep_key_type)) {
 		g_set_error (error,
 		             NM_SETTING_WIRELESS_SECURITY_ERROR,
 		             NM_SETTING_WIRELESS_SECURITY_ERROR_INVALID_PROPERTY,
 		             NM_SETTING_WIRELESS_SECURITY_WEP_KEY2);
 		return FALSE;
 	}
-	if (priv->wep_key3 && !strlen (priv->wep_key3)) {
+	if (priv->wep_key3 && !verify_wep_key (priv->wep_key3, priv->wep_key_type)) {
 		g_set_error (error,
 		             NM_SETTING_WIRELESS_SECURITY_ERROR,
 		             NM_SETTING_WIRELESS_SECURITY_ERROR_INVALID_PROPERTY,
@@ -664,7 +698,7 @@ verify (NMSetting *setting, GSList *all_settings, GError **error)
 		return FALSE;
 	}
 
-	if (priv->psk && !strlen (priv->psk)) {
+	if (priv->psk && !verify_wpa_psk (priv->psk)) {
 		g_set_error (error,
 		             NM_SETTING_WIRELESS_SECURITY_ERROR,
 		             NM_SETTING_WIRELESS_SECURITY_ERROR_INVALID_PROPERTY,
@@ -825,6 +859,9 @@ set_property (GObject *object, guint prop_id,
 		g_free (priv->leap_password);
 		priv->leap_password = g_value_dup_string (value);
 		break;
+	case PROP_WEP_KEY_TYPE:
+		priv->wep_key_type = g_value_get_uint (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
@@ -878,6 +915,9 @@ get_property (GObject *object, guint prop_id,
 	case PROP_LEAP_PASSWORD:
 		g_value_set_string (value, priv->leap_password);
 		break;
+	case PROP_WEP_KEY_TYPE:
+		g_value_set_uint (value, priv->wep_key_type);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
@@ -901,107 +941,268 @@ nm_setting_wireless_security_class_init (NMSettingWirelessSecurityClass *setting
 	parent_class->need_secrets   = need_secrets;
 
 	/* Properties */
+	/**
+	 * NMSettingWirelessSecurity:key-mgmt:
+	 *
+	 * Key management used for the connection.  One of 'none' (WEP), 'ieee8021x'
+	 * (Dynamic WEP), 'wpa-none' (Ad-Hoc WPA-PSK), 'wpa-psk' (infrastructure
+	 * WPA-PSK), or 'wpa-eap' (WPA-Enterprise).  This property must be set for
+	 * any WiFi connection that uses security.
+	 **/
 	g_object_class_install_property
 		(object_class, PROP_KEY_MGMT,
 		 g_param_spec_string (NM_SETTING_WIRELESS_SECURITY_KEY_MGMT,
 						  "Key management",
-						  "Key management",
+						  "Key management used for the connection.  One of "
+						  "'none' (WEP), 'ieee8021x' (Dynamic WEP), 'wpa-none' "
+						  "(WPA-PSK Ad-Hoc), 'wpa-psk' (infrastructure WPA-PSK), "
+						  "or 'wpa-eap' (WPA-Enterprise).  This property must "
+						  "be set for any WiFi connection that uses security.",
 						  NULL,
 						  G_PARAM_READWRITE | NM_SETTING_PARAM_SERIALIZE | NM_SETTING_PARAM_REQUIRED));
 
+	/**
+	 * NMSettingWirelessSecurity:wep-tx-keyidx:
+	 *
+	 * When static WEP is used (ie, key-mgmt = 'none') and a non-default WEP key
+	 * index is used by the AP, put that WEP key index here.  Valid values are 0
+	 * (default key) through 3.  Note that some consumer access points (like the
+	 * Linksys WRT54G) number the keys 1 - 4.
+	 **/
 	g_object_class_install_property
 		(object_class, PROP_WEP_TX_KEYIDX,
 		 g_param_spec_uint (NM_SETTING_WIRELESS_SECURITY_WEP_TX_KEYIDX,
 						"WEP TX key index",
-						"WEP TX key index",
+						"When static WEP is used (ie, key-mgmt = 'none') and a "
+						"non-default WEP key index is used by the AP, put that "
+						"WEP key index here.  Valid values are 0 (default key) "
+						"through 3.  Note that some consumer access points "
+						"(like the Linksys WRT54G) number the keys 1 - 4.",
 						0, 3, 0,
 						G_PARAM_READWRITE | G_PARAM_CONSTRUCT | NM_SETTING_PARAM_SERIALIZE));
 
+	/**
+	 * NMSettingWirelessSecurity:auth-alg:
+	 *
+	 * When WEP is used (ie, key-mgmt = 'none' or 'ieee8021x') indicate the
+	 * 802.11 authentication algorithm required by the AP here.  One of 'open'
+	 * for Open System, 'shared' for Shared Key, or 'leap' for Cisco LEAP.
+	 * When using Cisco LEAP (ie, key-mgmt = 'ieee8021x' and auth-alg = 'leap')
+	 * the 'leap-username' and 'leap-password' properties must be specified.
+	 **/
 	g_object_class_install_property
 		(object_class, PROP_AUTH_ALG,
 		 g_param_spec_string (NM_SETTING_WIRELESS_SECURITY_AUTH_ALG,
 						  "AuthAlg",
-						  "AuthAlg",
+						  "When WEP is used (ie, key-mgmt = 'none' or "
+						  "'ieee8021x') indicate the 802.11 authentication "
+						  "algorithm required by the AP here.  One of 'open' for "
+						  "Open System, 'shared' for Shared Key, or 'leap' for "
+						  "Cisco LEAP.  When using Cisco LEAP (ie, key-mgmt = "
+						  "'ieee8021x' and auth-alg = 'leap') the 'leap-username' "
+						  "and 'leap-password' properties must be specified.",
 						  NULL,
 						  G_PARAM_READWRITE | NM_SETTING_PARAM_SERIALIZE));
 
+	/**
+	 * NMSettingWirelessSecurity:proto:
+	 *
+	 * List of strings specifying the allowed WPA protocol versions to use.
+	 * Each element may be one 'wpa' (allow WPA) or 'rsn' (allow WPA2/RSN).  If
+	 * not specified, both WPA and RSN connections are allowed.
+	 **/
 	g_object_class_install_property
 		(object_class, PROP_PROTO,
 		 _nm_param_spec_specialized (NM_SETTING_WIRELESS_SECURITY_PROTO,
 							   "Proto",
-							   "Proto",
+							   "List of strings specifying the allowed WPA "
+							   "protocol versions to use.  Each element may be "
+							   "one 'wpa' (allow WPA) or 'rsn' (allow "
+							   "WPA2/RSN).  If not specified, both WPA and RSN "
+							   "connections are allowed.",
 							   DBUS_TYPE_G_LIST_OF_STRING,
 							   G_PARAM_READWRITE | NM_SETTING_PARAM_SERIALIZE));
 
+	/**
+	 * NMSettingWirelessSecurity:pairwise:
+	 *
+	 * If specified, will only connect to WPA networks that provide the
+	 * specified pairwise encryption capabilities.  Each element may be one of
+	 * 'wep40', 'wep104', 'tkip', or 'ccmp'.
+	 **/
 	g_object_class_install_property
 		(object_class, PROP_PAIRWISE,
 		 _nm_param_spec_specialized (NM_SETTING_WIRELESS_SECURITY_PAIRWISE,
 							   "Pairwise",
-							   "Pairwise",
+							   "If specified, will only connect to WPA networks "
+							   "that provide the specified pairwise encryption "
+							   "capabilities.  Each element may be one of 'wep40', "
+							   "'wep104', 'tkip', or 'ccmp'.",
 							   DBUS_TYPE_G_LIST_OF_STRING,
 							   G_PARAM_READWRITE | NM_SETTING_PARAM_SERIALIZE));
 
+	/**
+	 * NMSettingWirelessSecurity:group:
+	 *
+	 * If specified, will only connect to WPA networks that provide the
+	 * specified group/multicast encryption capabilities.  Each element may be
+	 * one of 'wep40', 'wep104', 'tkip', or 'ccmp'.
+	 **/
 	g_object_class_install_property
 		(object_class, PROP_GROUP,
 		 _nm_param_spec_specialized (NM_SETTING_WIRELESS_SECURITY_GROUP,
 							   "Group",
-							   "Group",
+							   "If specified, will only connect to WPA networks "
+							   "that provide the specified group/multicast "
+							   "encryption capabilities.  Each element may be "
+							   "one of 'wep40', 'wep104', 'tkip', or 'ccmp'.",
 							   DBUS_TYPE_G_LIST_OF_STRING,
 							   G_PARAM_READWRITE | NM_SETTING_PARAM_SERIALIZE));
 
+	/**
+	 * NMSettingWirelessSecurity:leap-username:
+	 *
+	 * The login username for legacy LEAP connections (ie, key-mgmt =
+	 * 'ieee8021x' and auth-alg = 'leap').
+	 **/
 	g_object_class_install_property
 		(object_class, PROP_LEAP_USERNAME,
 		 g_param_spec_string (NM_SETTING_WIRELESS_SECURITY_LEAP_USERNAME,
 						  "LEAP Username",
-						  "LEAP Username",
+						  "The login username for legacy LEAP connections "
+						  "(ie, key-mgmt = 'ieee8021x' and auth-alg = 'leap').",
 						  NULL,
 						  G_PARAM_READWRITE | NM_SETTING_PARAM_SERIALIZE));
 
+	/**
+	 * NMSettingWirelessSecurity:wep-key0:
+	 *
+	 * Index 0 WEP key.  This is the WEP key used in most networks.  See the
+	 * 'wep-key-type' property for a description of how this key is interpreted.
+	 **/
 	g_object_class_install_property
 		(object_class, PROP_WEP_KEY0,
 		 g_param_spec_string (NM_SETTING_WIRELESS_SECURITY_WEP_KEY0,
 						  "WEP key0",
-						  "WEP key0",
+						  "Index 0 WEP key.  This is the WEP key used in most "
+						  "networks.  See the 'wep-key-type' property for a "
+						  "description of how this key is interpreted.",
 						  NULL,
 						  G_PARAM_READWRITE | NM_SETTING_PARAM_SERIALIZE | NM_SETTING_PARAM_SECRET));
 
+	/**
+	 * NMSettingWirelessSecurity:wep-key1:
+	 *
+	 * Index 1 WEP key.  This WEP index is not used by most networks.  See the
+	 * 'wep-key-type' property for a description of how this key is interpreted.
+	 **/
 	g_object_class_install_property
 		(object_class, PROP_WEP_KEY1,
 		 g_param_spec_string (NM_SETTING_WIRELESS_SECURITY_WEP_KEY1,
 						  "WEP key1",
-						  "WEP key1",
+						  "Index 1 WEP key.  This WEP index is not used by most "
+						  "networks.  See the 'wep-key-type' property for a "
+						  "description of how this key is interpreted.",
 						  NULL,
 						  G_PARAM_READWRITE | NM_SETTING_PARAM_SERIALIZE | NM_SETTING_PARAM_SECRET));
 
+	/**
+	 * NMSettingWirelessSecurity:wep-key2:
+	 *
+	 * Index 2 WEP key.  This WEP index is not used by most networks.  See the
+	 * 'wep-key-type' property for a description of how this key is interpreted.
+	 **/
 	g_object_class_install_property
 		(object_class, PROP_WEP_KEY2,
 		 g_param_spec_string (NM_SETTING_WIRELESS_SECURITY_WEP_KEY2,
 						  "WEP key2",
-						  "WEP key2",
+						  "Index 2 WEP key.  This WEP index is not used by most "
+						  "networks.  See the 'wep-key-type' property for a "
+						  "description of how this key is interpreted.",
 						  NULL,
 						  G_PARAM_READWRITE | NM_SETTING_PARAM_SERIALIZE | NM_SETTING_PARAM_SECRET));
 
+	/**
+	 * NMSettingWirelessSecurity:wep-key3:
+	 *
+	 * Index 3 WEP key.  This WEP index is not used by most networks.  See the
+	 * 'wep-key-type' property for a description of how this key is interpreted.
+	 **/
 	g_object_class_install_property
 		(object_class, PROP_WEP_KEY3,
 		 g_param_spec_string (NM_SETTING_WIRELESS_SECURITY_WEP_KEY3,
 						  "WEP key3",
-						  "WEP key3",
+						  "Index 3 WEP key.  This WEP index is not used by most "
+						  "networks.  See the 'wep-key-type' property for a "
+						  "description of how this key is interpreted.",
 						  NULL,
 						  G_PARAM_READWRITE | NM_SETTING_PARAM_SERIALIZE | NM_SETTING_PARAM_SECRET));
 
+	/**
+	 * NMSettingWirelessSecurity:psk:
+	 *
+	 * Pre-Shared-Key for WPA networks.  If the key is 64-characters long, it
+	 * must contain only hexadecimal characters and is interpreted as a
+	 * hexadecimal WPA key.  Otherwise, the key must be between 8 and 63 ASCII
+	 * characters (as specified in the 802.11i standard) and is interpreted as
+	 * a WPA passphrase, and is hashed to derive the actual WPA-PSK used when
+	 * connecting to the WiFi network.
+	 **/
 	g_object_class_install_property
 		(object_class, PROP_PSK,
 		 g_param_spec_string (NM_SETTING_WIRELESS_SECURITY_PSK,
 						  "PSK",
-						  "PSK",
+						  "Pre-Shared-Key for WPA networks.  If the key is "
+						  "64-characters long, it must contain only hexadecimal "
+						  "characters and is interpreted as a hexadecimal WPA "
+						  "key.  Otherwise, the key must be between 8 and 63 "
+						  "ASCII characters (as specified in the 802.11i standard) "
+						  "and is interpreted as a WPA passphrase, and is hashed "
+						  "to derive the actual WPA-PSK used when connecting to "
+						  "the WiFi network.",
 						  NULL,
 						  G_PARAM_READWRITE | NM_SETTING_PARAM_SERIALIZE | NM_SETTING_PARAM_SECRET));
 
+	/**
+	 * NMSettingWirelessSecurity:leap-password:
+	 *
+	 * The login password for legacy LEAP connections (ie, key-mgmt =
+	 * 'ieee8021x' and auth-alg = 'leap').
+	 **/
 	g_object_class_install_property
 		(object_class, PROP_LEAP_PASSWORD,
 		 g_param_spec_string (NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD,
 						  "LEAP Password",
-						  "LEAP Password",
+						  "The login password for legacy LEAP connections "
+						  "(ie, key-mgmt = 'ieee8021x' and auth-alg = 'leap').",
 						  NULL,
 						  G_PARAM_READWRITE | NM_SETTING_PARAM_SERIALIZE | NM_SETTING_PARAM_SECRET));
+
+	/**
+	 * NMSettingWirelessSecurity:wep-key-type:
+	 *
+	 * Controls the interpretation of WEP keys.  Allowed values are 1 (interpret
+	 * WEP keys as hexadecimal or ASCII keys) or 2 (interpret WEP keys as WEP
+	 * Passphrases).  If set to 1 and the keys are hexadecimal, they must be
+	 * either 10 or 26 characters in length.  If set to 1 and the keys are
+	 * ASCII keys, they must be either 5 or 13 characters in length.  If set to
+	 * 2, the passphrase is hashed using the de-facto MD5 method to derive the
+	 * actual WEP key.
+	 **/
+	g_object_class_install_property
+		(object_class, PROP_WEP_KEY_TYPE,
+		 g_param_spec_uint (NM_SETTING_WIRELESS_SECURITY_WEP_KEY_TYPE,
+						"WEP Key Type",
+						"Controls the interpretation of WEP keys.  Allowed values "
+						"are 1 (interpret WEP keys as hexadecimal or ASCII keys) "
+						"or 2 (interpret WEP keys as WEP Passphrases).  If set to "
+						"1 and the keys are hexadecimal, they must be either 10 or "
+						"26 characters in length.  If set to 1 and the keys are "
+						"ASCII keys, they must be either 5 or 13 characters in "
+						"length.  If set to 2, the passphrase is hashed using "
+						" the de-facto MD5 method to derive the actual WEP key.",
+						NM_WEP_KEY_TYPE_UNKNOWN,
+						NM_WEP_KEY_TYPE_LAST,
+						NM_WEP_KEY_TYPE_UNKNOWN,
+						G_PARAM_READWRITE | G_PARAM_CONSTRUCT | NM_SETTING_PARAM_SERIALIZE));
 }

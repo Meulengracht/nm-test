@@ -1,9 +1,6 @@
-<?xml version="1.0"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
 <refentry id="NMSetting">
 <refmeta>
-<refentrytitle role="top_of_page">NMSetting</refentrytitle>
+<refentrytitle role="top_of_page" id="NMSetting.top_of_page">NMSetting</refentrytitle>
 <manvolnum>3</manvolnum>
 <refmiscinfo>LIBNM-UTIL Library</refmiscinfo>
 </refmeta>
@@ -11,26 +8,24 @@
 <refnamediv>
 <refname>NMSetting</refname>
 <refpurpose>Describes related configuration information</refpurpose>
-<!--[<xref linkend="desc" endterm="desc.title"/>]-->
 </refnamediv>
 
-<refsynopsisdiv role="synopsis">
+<refsynopsisdiv id="NMSetting.synopsis" role="synopsis">
 <title role="synopsis.title">Synopsis</title>
 
 <synopsis>
 
 #include &lt;nm-setting.h&gt;
 
-
 enum                <link linkend="NMSettingError">NMSettingError</link>;
-#define             <link linkend="NM-TYPE-SETTING-ERROR:CAPS">NM_TYPE_SETTING_ERROR</link>
-#define             <link linkend="NM-SETTING-ERROR:CAPS">NM_SETTING_ERROR</link>
+#define             <link linkend="NM-TYPE-SETTING-ERROR--CAPS">NM_TYPE_SETTING_ERROR</link>
+#define             <link linkend="NM-SETTING-ERROR--CAPS">NM_SETTING_ERROR</link>
 <link linkend="GQuark">GQuark</link>              <link linkend="nm-setting-error-quark">nm_setting_error_quark</link>              (void);
-#define             <link linkend="NM-SETTING-PARAM-SERIALIZE:CAPS">NM_SETTING_PARAM_SERIALIZE</link>
-#define             <link linkend="NM-SETTING-PARAM-REQUIRED:CAPS">NM_SETTING_PARAM_REQUIRED</link>
-#define             <link linkend="NM-SETTING-PARAM-SECRET:CAPS">NM_SETTING_PARAM_SECRET</link>
-#define             <link linkend="NM-SETTING-PARAM-FUZZY-IGNORE:CAPS">NM_SETTING_PARAM_FUZZY_IGNORE</link>
-#define             <link linkend="NM-SETTING-NAME:CAPS">NM_SETTING_NAME</link>
+#define             <link linkend="NM-SETTING-PARAM-SERIALIZE--CAPS">NM_SETTING_PARAM_SERIALIZE</link>
+#define             <link linkend="NM-SETTING-PARAM-REQUIRED--CAPS">NM_SETTING_PARAM_REQUIRED</link>
+#define             <link linkend="NM-SETTING-PARAM-SECRET--CAPS">NM_SETTING_PARAM_SECRET</link>
+#define             <link linkend="NM-SETTING-PARAM-FUZZY-IGNORE--CAPS">NM_SETTING_PARAM_FUZZY_IGNORE</link>
+#define             <link linkend="NM-SETTING-NAME--CAPS">NM_SETTING_NAME</link>
                     <link linkend="NMSetting-struct">NMSetting</link>;
 <link linkend="void">void</link>                (<link linkend="NMSettingValueIterFn">*NMSettingValueIterFn</link>)             (<link linkend="NMSetting">NMSetting</link> *setting,
                                                          const <link linkend="char">char</link> *key,
@@ -38,11 +33,11 @@ enum                <link linkend="NMSettingError">NMSettingError</link>;
                                                          <link linkend="GParamFlags">GParamFlags</link> flags,
                                                          <link linkend="gpointer">gpointer</link> user_data);
 <link linkend="GType">GType</link>               <link linkend="nm-setting-get-type">nm_setting_get_type</link>                 (void);
-<link linkend="GHashTable">GHashTable</link>*         <link linkend="nm-setting-to-hash">nm_setting_to_hash</link>                  (<link linkend="NMSetting">NMSetting</link> *setting);
-<link linkend="NMSetting">NMSetting</link>*          <link linkend="nm-setting-new-from-hash">nm_setting_new_from_hash</link>            (<link linkend="GType">GType</link> setting_type,
+<link linkend="GHashTable">GHashTable</link> *        <link linkend="nm-setting-to-hash">nm_setting_to_hash</link>                  (<link linkend="NMSetting">NMSetting</link> *setting);
+<link linkend="NMSetting">NMSetting</link> *         <link linkend="nm-setting-new-from-hash">nm_setting_new_from_hash</link>            (<link linkend="GType">GType</link> setting_type,
                                                          <link linkend="GHashTable">GHashTable</link> *hash);
-<link linkend="NMSetting">NMSetting</link>*          <link linkend="nm-setting-duplicate">nm_setting_duplicate</link>                (<link linkend="NMSetting">NMSetting</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-get-name">nm_setting_get_name</link>                 (<link linkend="NMSetting">NMSetting</link> *setting);
+<link linkend="NMSetting">NMSetting</link> *         <link linkend="nm-setting-duplicate">nm_setting_duplicate</link>                (<link linkend="NMSetting">NMSetting</link> *setting);
+const <link linkend="char">char</link> *        <link linkend="nm-setting-get-name">nm_setting_get_name</link>                 (<link linkend="NMSetting">NMSetting</link> *setting);
 <link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-verify">nm_setting_verify</link>                   (<link linkend="NMSetting">NMSetting</link> *setting,
                                                          <link linkend="GSList">GSList</link> *all_settings,
                                                          <link linkend="GError">GError</link> **error);
@@ -53,53 +48,49 @@ enum                <link linkend="NMSettingCompareFlags">NMSettingCompareFlags<
 <link linkend="void">void</link>                <link linkend="nm-setting-enumerate-values">nm_setting_enumerate_values</link>         (<link linkend="NMSetting">NMSetting</link> *setting,
                                                          <link linkend="NMSettingValueIterFn">NMSettingValueIterFn</link> func,
                                                          <link linkend="gpointer">gpointer</link> user_data);
-<link linkend="char">char</link>*               <link linkend="nm-setting-to-string">nm_setting_to_string</link>                (<link linkend="NMSetting">NMSetting</link> *setting);
+<link linkend="char">char</link> *              <link linkend="nm-setting-to-string">nm_setting_to_string</link>                (<link linkend="NMSetting">NMSetting</link> *setting);
 <link linkend="void">void</link>                <link linkend="nm-setting-clear-secrets">nm_setting_clear_secrets</link>            (<link linkend="NMSetting">NMSetting</link> *setting);
-<link linkend="GPtrArray">GPtrArray</link>*          <link linkend="nm-setting-need-secrets">nm_setting_need_secrets</link>             (<link linkend="NMSetting">NMSetting</link> *setting);
+<link linkend="GPtrArray">GPtrArray</link> *         <link linkend="nm-setting-need-secrets">nm_setting_need_secrets</link>             (<link linkend="NMSetting">NMSetting</link> *setting);
 <link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-update-secrets">nm_setting_update_secrets</link>           (<link linkend="NMSetting">NMSetting</link> *setting,
                                                          <link linkend="GHashTable">GHashTable</link> *secrets,
                                                          <link linkend="GError">GError</link> **error);
-
 </synopsis>
 </refsynopsisdiv>
 
-<refsect1 role="object_hierarchy">
+<refsect1 id="NMSetting.object-hierarchy" role="object_hierarchy">
 <title role="object_hierarchy.title">Object Hierarchy</title>
 <synopsis>
-
   <link linkend="GObject">GObject</link>
    +----NMSetting
+         +----<link linkend="NMSettingGsm">NMSettingGsm</link>
          +----<link linkend="NMSetting8021x">NMSetting8021x</link>
          +----<link linkend="NMSettingCdma">NMSettingCdma</link>
-         +----<link linkend="NMSettingConnection">NMSettingConnection</link>
-         +----<link linkend="NMSettingGsm">NMSettingGsm</link>
+         +----<link linkend="NMSettingSerial">NMSettingSerial</link>
+         +----<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link>
          +----<link linkend="NMSettingIP4Config">NMSettingIP4Config</link>
+         +----<link linkend="NMSettingWired">NMSettingWired</link>
+         +----<link linkend="NMSettingConnection">NMSettingConnection</link>
          +----<link linkend="NMSettingPPP">NMSettingPPP</link>
          +----<link linkend="NMSettingPPPOE">NMSettingPPPOE</link>
-         +----<link linkend="NMSettingSerial">NMSettingSerial</link>
          +----<link linkend="NMSettingVPN">NMSettingVPN</link>
-         +----<link linkend="NMSettingWired">NMSettingWired</link>
          +----<link linkend="NMSettingWireless">NMSettingWireless</link>
-         +----<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link>
 </synopsis>
-
 </refsect1>
 
 
 
 
 
-<refsect1 role="properties">
+<refsect1 id="NMSetting.properties" role="properties">
 <title role="properties.title">Properties</title>
 <synopsis>
-
-  &quot;<link linkend="NMSetting--name">name</link>&quot;                     <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSetting--name">name</link>&quot;                     <link linkend="gchar">gchar</link>*                : Read / Write
 </synopsis>
 </refsect1>
 
 
 
-<refsect1 role="desc">
+<refsect1 id="NMSetting.description" role="desc">
 <title role="desc.title">Description</title>
 <para>
 Each <link linkend="NMSetting"><type>NMSetting</type></link> contains properties that describe configuration that applies
@@ -109,15 +100,14 @@ make up an <link linkend="NMConnection"><type>NMConnection</type></link>. Each p
 a number of allowed values.  See each <link linkend="NMSetting"><type>NMSetting</type></link> subclass for a description
 of properties and allowed values.</para>
 <para>
-
 </para>
 </refsect1>
 
-<refsect1 role="details">
+<refsect1 id="NMSetting.details" role="details">
 <title role="details.title">Details</title>
-<refsect2>
-<title><anchor id="NMSettingError" role="enum"/>enum NMSettingError</title>
-<indexterm><primary>NMSettingError</primary></indexterm><programlisting>typedef enum
+<refsect2 id="NMSettingError" role="enum">
+<title>enum NMSettingError</title>
+<indexterm zone="NMSettingError"><primary sortas="NMSettingError">NMSettingError</primary></indexterm><programlisting>typedef enum
 {
 	NM_SETTING_ERROR_UNKNOWN = 0,
 	NM_SETTING_ERROR_PROPERTY_NOT_FOUND,
@@ -128,160 +118,143 @@ of properties and allowed values.</para>
 <para>
 Describes errors that may result from operations involving a <link linkend="NMSetting"><type>NMSetting</type></link>.</para>
 <para>
-
 </para><variablelist role="enum">
-<varlistentry>
-<term><anchor id="NM-SETTING-ERROR-UNKNOWN:CAPS" role="constant"/><literal>NM_SETTING_ERROR_UNKNOWN</literal></term>
+<varlistentry id="NM-SETTING-ERROR-UNKNOWN--CAPS" role="constant">
+<term><literal>NM_SETTING_ERROR_UNKNOWN</literal></term>
 <listitem><simpara> unknown or unclassified error
 </simpara></listitem>
 </varlistentry>
-<varlistentry>
-<term><anchor id="NM-SETTING-ERROR-PROPERTY-NOT-FOUND:CAPS" role="constant"/><literal>NM_SETTING_ERROR_PROPERTY_NOT_FOUND</literal></term>
+<varlistentry id="NM-SETTING-ERROR-PROPERTY-NOT-FOUND--CAPS" role="constant">
+<term><literal>NM_SETTING_ERROR_PROPERTY_NOT_FOUND</literal></term>
 <listitem><simpara> a property required by the operation
   was not found; for example, an attempt to update an invalid secret
 </simpara></listitem>
 </varlistentry>
-<varlistentry>
-<term><anchor id="NM-SETTING-ERROR-PROPERTY-NOT-SECRET:CAPS" role="constant"/><literal>NM_SETTING_ERROR_PROPERTY_NOT_SECRET</literal></term>
+<varlistentry id="NM-SETTING-ERROR-PROPERTY-NOT-SECRET--CAPS" role="constant">
+<term><literal>NM_SETTING_ERROR_PROPERTY_NOT_SECRET</literal></term>
 <listitem><simpara> an operation which requires a secret
   was attempted on a non-secret property
 </simpara></listitem>
 </varlistentry>
-<varlistentry>
-<term><anchor id="NM-SETTING-ERROR-PROPERTY-TYPE-MISMATCH:CAPS" role="constant"/><literal>NM_SETTING_ERROR_PROPERTY_TYPE_MISMATCH</literal></term>
+<varlistentry id="NM-SETTING-ERROR-PROPERTY-TYPE-MISMATCH--CAPS" role="constant">
+<term><literal>NM_SETTING_ERROR_PROPERTY_TYPE_MISMATCH</literal></term>
 <listitem><simpara> the operation requires a property
   of a specific type, or the value couldn't be transformed to the same type
   as the property being acted upon
 </simpara></listitem>
 </varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="NM-TYPE-SETTING-ERROR:CAPS" role="macro"/>NM_TYPE_SETTING_ERROR</title>
-<indexterm><primary>NM_TYPE_SETTING_ERROR</primary></indexterm><programlisting>#define NM_TYPE_SETTING_ERROR (nm_setting_error_get_type ()) 
+<refsect2 id="NM-TYPE-SETTING-ERROR--CAPS" role="macro">
+<title>NM_TYPE_SETTING_ERROR</title>
+<indexterm zone="NM-TYPE-SETTING-ERROR--CAPS"><primary sortas="NM_TYPE_SETTING_ERROR">NM_TYPE_SETTING_ERROR</primary></indexterm><programlisting>#define NM_TYPE_SETTING_ERROR (nm_setting_error_get_type ()) 
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-ERROR:CAPS" role="macro"/>NM_SETTING_ERROR</title>
-<indexterm><primary>NM_SETTING_ERROR</primary></indexterm><programlisting>#define NM_SETTING_ERROR nm_setting_error_quark ()
+<refsect2 id="NM-SETTING-ERROR--CAPS" role="macro">
+<title>NM_SETTING_ERROR</title>
+<indexterm zone="NM-SETTING-ERROR--CAPS"><primary sortas="NM_SETTING_ERROR">NM_SETTING_ERROR</primary></indexterm><programlisting>#define NM_SETTING_ERROR nm_setting_error_quark ()
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-error-quark" role="function"/>nm_setting_error_quark ()</title>
-<indexterm><primary>nm_setting_error_quark</primary></indexterm><programlisting><link linkend="GQuark">GQuark</link>              nm_setting_error_quark              (void);</programlisting>
+<refsect2 id="nm-setting-error-quark" role="function">
+<title>nm_setting_error_quark ()</title>
+<indexterm zone="nm-setting-error-quark"><primary sortas="nm_setting_error_quark">nm_setting_error_quark</primary></indexterm><programlisting><link linkend="GQuark">GQuark</link>              nm_setting_error_quark              (void);</programlisting>
 <para>
 Registers an error quark for <link linkend="NMSetting"><type>NMSetting</type></link> if necessary.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the error quark used for NMSetting errors.
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the error quark used for NMSetting errors.
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-PARAM-SERIALIZE:CAPS" role="macro"/>NM_SETTING_PARAM_SERIALIZE</title>
-<indexterm><primary>NM_SETTING_PARAM_SERIALIZE</primary></indexterm><programlisting>#define NM_SETTING_PARAM_SERIALIZE    (1 &lt;&lt; (0 + G_PARAM_USER_SHIFT))
+<refsect2 id="NM-SETTING-PARAM-SERIALIZE--CAPS" role="macro">
+<title>NM_SETTING_PARAM_SERIALIZE</title>
+<indexterm zone="NM-SETTING-PARAM-SERIALIZE--CAPS"><primary sortas="NM_SETTING_PARAM_SERIALIZE">NM_SETTING_PARAM_SERIALIZE</primary></indexterm><programlisting>#define NM_SETTING_PARAM_SERIALIZE    (1 &lt;&lt; (0 + G_PARAM_USER_SHIFT))
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-PARAM-REQUIRED:CAPS" role="macro"/>NM_SETTING_PARAM_REQUIRED</title>
-<indexterm><primary>NM_SETTING_PARAM_REQUIRED</primary></indexterm><programlisting>#define NM_SETTING_PARAM_REQUIRED     (1 &lt;&lt; (1 + G_PARAM_USER_SHIFT))
+<refsect2 id="NM-SETTING-PARAM-REQUIRED--CAPS" role="macro">
+<title>NM_SETTING_PARAM_REQUIRED</title>
+<indexterm zone="NM-SETTING-PARAM-REQUIRED--CAPS"><primary sortas="NM_SETTING_PARAM_REQUIRED">NM_SETTING_PARAM_REQUIRED</primary></indexterm><programlisting>#define NM_SETTING_PARAM_REQUIRED     (1 &lt;&lt; (1 + G_PARAM_USER_SHIFT))
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-PARAM-SECRET:CAPS" role="macro"/>NM_SETTING_PARAM_SECRET</title>
-<indexterm><primary>NM_SETTING_PARAM_SECRET</primary></indexterm><programlisting>#define NM_SETTING_PARAM_SECRET       (1 &lt;&lt; (2 + G_PARAM_USER_SHIFT))
+<refsect2 id="NM-SETTING-PARAM-SECRET--CAPS" role="macro">
+<title>NM_SETTING_PARAM_SECRET</title>
+<indexterm zone="NM-SETTING-PARAM-SECRET--CAPS"><primary sortas="NM_SETTING_PARAM_SECRET">NM_SETTING_PARAM_SECRET</primary></indexterm><programlisting>#define NM_SETTING_PARAM_SECRET       (1 &lt;&lt; (2 + G_PARAM_USER_SHIFT))
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-PARAM-FUZZY-IGNORE:CAPS" role="macro"/>NM_SETTING_PARAM_FUZZY_IGNORE</title>
-<indexterm><primary>NM_SETTING_PARAM_FUZZY_IGNORE</primary></indexterm><programlisting>#define NM_SETTING_PARAM_FUZZY_IGNORE (1 &lt;&lt; (3 + G_PARAM_USER_SHIFT))
+<refsect2 id="NM-SETTING-PARAM-FUZZY-IGNORE--CAPS" role="macro">
+<title>NM_SETTING_PARAM_FUZZY_IGNORE</title>
+<indexterm zone="NM-SETTING-PARAM-FUZZY-IGNORE--CAPS"><primary sortas="NM_SETTING_PARAM_FUZZY_IGNORE">NM_SETTING_PARAM_FUZZY_IGNORE</primary></indexterm><programlisting>#define NM_SETTING_PARAM_FUZZY_IGNORE (1 &lt;&lt; (3 + G_PARAM_USER_SHIFT))
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-NAME:CAPS" role="macro"/>NM_SETTING_NAME</title>
-<indexterm><primary>NM_SETTING_NAME</primary></indexterm><programlisting>#define NM_SETTING_NAME "name"
+<refsect2 id="NM-SETTING-NAME--CAPS" role="macro">
+<title>NM_SETTING_NAME</title>
+<indexterm zone="NM-SETTING-NAME--CAPS"><primary sortas="NM_SETTING_NAME">NM_SETTING_NAME</primary></indexterm><programlisting>#define NM_SETTING_NAME "name"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NMSetting-struct" role="struct"/>NMSetting</title>
-<indexterm><primary>NMSetting</primary></indexterm><programlisting>typedef struct _NMSetting NMSetting;</programlisting>
+<refsect2 id="NMSetting-struct" role="struct">
+<title>NMSetting</title>
+<indexterm zone="NMSetting-struct"><primary sortas="NMSetting">NMSetting</primary></indexterm><programlisting>typedef struct _NMSetting NMSetting;</programlisting>
 <para>
 The NMSetting struct contains only private data.
 It should only be accessed through the functions described below.</para>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NMSettingValueIterFn" role="function"/>NMSettingValueIterFn ()</title>
-<indexterm><primary>NMSettingValueIterFn</primary></indexterm><programlisting><link linkend="void">void</link>                (*NMSettingValueIterFn)             (<link linkend="NMSetting">NMSetting</link> *setting,
+<refsect2 id="NMSettingValueIterFn" role="function">
+<title>NMSettingValueIterFn ()</title>
+<indexterm zone="NMSettingValueIterFn"><primary sortas="NMSettingValueIterFn">NMSettingValueIterFn</primary></indexterm><programlisting><link linkend="void">void</link>                (*NMSettingValueIterFn)             (<link linkend="NMSetting">NMSetting</link> *setting,
                                                          const <link linkend="char">char</link> *key,
                                                          const <link linkend="GValue">GValue</link> *value,
                                                          <link linkend="GParamFlags">GParamFlags</link> flags,
                                                          <link linkend="gpointer">gpointer</link> user_data);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>key</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>key</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>value</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>flags</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>flags</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
 <listitem><simpara>
-
-
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-get-type" role="function"/>nm_setting_get_type ()</title>
-<indexterm><primary>nm_setting_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_setting_get_type                 (void);</programlisting>
+<refsect2 id="nm-setting-get-type" role="function">
+<title>nm_setting_get_type ()</title>
+<indexterm zone="nm-setting-get-type"><primary sortas="nm_setting_get_type">nm_setting_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_setting_get_type                 (void);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-to-hash" role="function"/>nm_setting_to_hash ()</title>
-<indexterm><primary>nm_setting_to_hash</primary></indexterm><programlisting><link linkend="GHashTable">GHashTable</link>*         nm_setting_to_hash                  (<link linkend="NMSetting">NMSetting</link> *setting);</programlisting>
+<refsect2 id="nm-setting-to-hash" role="function">
+<title>nm_setting_to_hash ()</title>
+<indexterm zone="nm-setting-to-hash"><primary sortas="nm_setting_to_hash">nm_setting_to_hash</primary></indexterm><programlisting><link linkend="GHashTable">GHashTable</link> *        nm_setting_to_hash                  (<link linkend="NMSetting">NMSetting</link> *setting);</programlisting>
 <para>
 Converts the <link linkend="NMSetting"><type>NMSetting</type></link> into a <link linkend="GHashTable"><type>GHashTable</type></link> mapping each setting property
 name to a GValue describing that property, suitable for marshalling over
 D-Bus or serializing.  The mapping is string:GValue.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara> the <link linkend="NMSetting"><type>NMSetting</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a new <link linkend="GHashTable"><type>GHashTable</type></link> describing the setting's properties
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> a new <link linkend="GHashTable"><type>GHashTable</type></link> describing the setting's properties
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-new-from-hash" role="function"/>nm_setting_new_from_hash ()</title>
-<indexterm><primary>nm_setting_new_from_hash</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link>*          nm_setting_new_from_hash            (<link linkend="GType">GType</link> setting_type,
+<refsect2 id="nm-setting-new-from-hash" role="function">
+<title>nm_setting_new_from_hash ()</title>
+<indexterm zone="nm-setting-new-from-hash"><primary sortas="nm_setting_new_from_hash">nm_setting_new_from_hash</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link> *         nm_setting_new_from_hash            (<link linkend="GType">GType</link> setting_type,
                                                          <link linkend="GHashTable">GHashTable</link> *hash);</programlisting>
 <para>
 Creates a new <link linkend="NMSetting"><type>NMSetting</type></link> object and populates that object with the properties
@@ -291,52 +264,49 @@ are strongly typed, thus the GValue type of the hash value must be correct.
 See the documentation on each <link linkend="NMSetting"><type>NMSetting</type></link> object subclass for the correct
 property names and value types.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting_type</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting_type</parameter>&#160;:</term>
 <listitem><simpara> the <link linkend="NMSetting"><type>NMSetting</type></link> type which the hash contains properties for
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>hash</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>hash</parameter>&#160;:</term>
 <listitem><simpara> the <link linkend="GHashTable"><type>GHashTable</type></link> containing a string:GValue mapping of properties
 that apply to the setting
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a new <link linkend="NMSetting"><type>NMSetting</type></link> object populated with the properties from the
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> a new <link linkend="NMSetting"><type>NMSetting</type></link> object populated with the properties from the
 hash table, or NULL on failure
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-duplicate" role="function"/>nm_setting_duplicate ()</title>
-<indexterm><primary>nm_setting_duplicate</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link>*          nm_setting_duplicate                (<link linkend="NMSetting">NMSetting</link> *setting);</programlisting>
+<refsect2 id="nm-setting-duplicate" role="function">
+<title>nm_setting_duplicate ()</title>
+<indexterm zone="nm-setting-duplicate"><primary sortas="nm_setting_duplicate">nm_setting_duplicate</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link> *         nm_setting_duplicate                (<link linkend="NMSetting">NMSetting</link> *setting);</programlisting>
 <para>
 Duplicates a <link linkend="NMSetting"><type>NMSetting</type></link>.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara> the <link linkend="NMSetting"><type>NMSetting</type></link> to duplicate
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a new <link linkend="NMSetting"><type>NMSetting</type></link> containing the same properties and values as the
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> a new <link linkend="NMSetting"><type>NMSetting</type></link> containing the same properties and values as the
 source <link linkend="NMSetting"><type>NMSetting</type></link>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-get-name" role="function"/>nm_setting_get_name ()</title>
-<indexterm><primary>nm_setting_get_name</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_get_name                 (<link linkend="NMSetting">NMSetting</link> *setting);</programlisting>
+<refsect2 id="nm-setting-get-name" role="function">
+<title>nm_setting_get_name ()</title>
+<indexterm zone="nm-setting-get-name"><primary sortas="nm_setting_get_name">nm_setting_get_name</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_get_name                 (<link linkend="NMSetting">NMSetting</link> *setting);</programlisting>
 <para>
 Returns the type name of the <link linkend="NMSetting"><type>NMSetting</type></link> object</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara> the <link linkend="NMSetting"><type>NMSetting</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a string containing the type name of the <link linkend="NMSetting"><type>NMSetting</type></link> object,
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> a string containing the type name of the <link linkend="NMSetting"><type>NMSetting</type></link> object,
 like 'ppp' or 'wireless' or 'wired'.
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-verify" role="function"/>nm_setting_verify ()</title>
-<indexterm><primary>nm_setting_verify</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_verify                   (<link linkend="NMSetting">NMSetting</link> *setting,
+<refsect2 id="nm-setting-verify" role="function">
+<title>nm_setting_verify ()</title>
+<indexterm zone="nm-setting-verify"><primary sortas="nm_setting_verify">nm_setting_verify</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_verify                   (<link linkend="NMSetting">NMSetting</link> *setting,
                                                          <link linkend="GSList">GSList</link> *all_settings,
                                                          <link linkend="GError">GError</link> **error);</programlisting>
 <para>
@@ -345,24 +315,23 @@ some are dependent on other values (hence the need for <parameter>all_settings</
 returned <link linkend="GError"><type>GError</type></link> contains information about which property of the setting
 failed validation, and in what way that property failed validation.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara> the <link linkend="NMSetting"><type>NMSetting</type></link> to verify
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>all_settings</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>all_settings</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="GSList"><type>GSList</type></link> of all settings in the connection from which <parameter>setting</parameter>
 came
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>error</parameter>&nbsp;:</term>
-<listitem><simpara> location to store error, or <link linkend="NULL:CAPS"><literal>NULL</literal></link>
+<varlistentry><term><parameter>error</parameter>&#160;:</term>
+<listitem><simpara> location to store error, or <link linkend="NULL--CAPS"><literal>NULL</literal></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if the setting is valid, <link linkend="FALSE:CAPS"><literal>FALSE</literal></link> if it is not
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> if the setting is valid, <link linkend="FALSE--CAPS"><literal>FALSE</literal></link> if it is not
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="NMSettingCompareFlags" role="enum"/>enum NMSettingCompareFlags</title>
-<indexterm><primary>NMSettingCompareFlags</primary></indexterm><programlisting>typedef enum {
+<refsect2 id="NMSettingCompareFlags" role="enum">
+<title>enum NMSettingCompareFlags</title>
+<indexterm zone="NMSettingCompareFlags"><primary sortas="NMSettingCompareFlags">NMSettingCompareFlags</primary></indexterm><programlisting>typedef enum {
 	NM_SETTING_COMPARE_FLAG_EXACT = 0x00000000,
 	NM_SETTING_COMPARE_FLAG_FUZZY = 0x00000001,
 	NM_SETTING_COMPARE_FLAG_IGNORE_ID = 0x00000002,
@@ -373,34 +342,33 @@ came
 These flags modify the comparison behavior when comparing two settings or
 two connections.</para>
 <para>
-
 </para><variablelist role="enum">
-<varlistentry>
-<term><anchor id="NM-SETTING-COMPARE-FLAG-EXACT:CAPS" role="constant"/><literal>NM_SETTING_COMPARE_FLAG_EXACT</literal></term>
+<varlistentry id="NM-SETTING-COMPARE-FLAG-EXACT--CAPS" role="constant">
+<term><literal>NM_SETTING_COMPARE_FLAG_EXACT</literal></term>
 <listitem><simpara> match all properties exactly
 </simpara></listitem>
 </varlistentry>
-<varlistentry>
-<term><anchor id="NM-SETTING-COMPARE-FLAG-FUZZY:CAPS" role="constant"/><literal>NM_SETTING_COMPARE_FLAG_FUZZY</literal></term>
+<varlistentry id="NM-SETTING-COMPARE-FLAG-FUZZY--CAPS" role="constant">
+<term><literal>NM_SETTING_COMPARE_FLAG_FUZZY</literal></term>
 <listitem><simpara> match only important attributes, like SSID,
   type, security settings, etc.  Does not match, for example, connection ID
   or UUID.
 </simpara></listitem>
 </varlistentry>
-<varlistentry>
-<term><anchor id="NM-SETTING-COMPARE-FLAG-IGNORE-ID:CAPS" role="constant"/><literal>NM_SETTING_COMPARE_FLAG_IGNORE_ID</literal></term>
+<varlistentry id="NM-SETTING-COMPARE-FLAG-IGNORE-ID--CAPS" role="constant">
+<term><literal>NM_SETTING_COMPARE_FLAG_IGNORE_ID</literal></term>
 <listitem><simpara> ignore the connection's ID
 </simpara></listitem>
 </varlistentry>
-<varlistentry>
-<term><anchor id="NM-SETTING-COMPARE-FLAG-IGNORE-SECRETS:CAPS" role="constant"/><literal>NM_SETTING_COMPARE_FLAG_IGNORE_SECRETS</literal></term>
+<varlistentry id="NM-SETTING-COMPARE-FLAG-IGNORE-SECRETS--CAPS" role="constant">
+<term><literal>NM_SETTING_COMPARE_FLAG_IGNORE_SECRETS</literal></term>
 <listitem><simpara> ignore secrets
 </simpara></listitem>
 </varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-compare" role="function"/>nm_setting_compare ()</title>
-<indexterm><primary>nm_setting_compare</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_compare                  (<link linkend="NMSetting">NMSetting</link> *a,
+<refsect2 id="nm-setting-compare" role="function">
+<title>nm_setting_compare ()</title>
+<indexterm zone="nm-setting-compare"><primary sortas="nm_setting_compare">nm_setting_compare</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_compare                  (<link linkend="NMSetting">NMSetting</link> *a,
                                                          <link linkend="NMSetting">NMSetting</link> *b,
                                                          <link linkend="NMSettingCompareFlags">NMSettingCompareFlags</link> flags);</programlisting>
 <para>
@@ -408,138 +376,128 @@ Compares two <link linkend="NMSetting"><type>NMSetting</type></link> objects for
 modified by a set of flags.  See the documentation for <link linkend="NMSettingCompareFlags"><type>NMSettingCompareFlags</type></link>
 for a description of each flag's behavior.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>a</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>a</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMSetting"><type>NMSetting</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>b</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>b</parameter>&#160;:</term>
 <listitem><simpara> a second <link linkend="NMSetting"><type>NMSetting</type></link> to compare with the first
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>flags</parameter>&nbsp;:</term>
-<listitem><simpara> compare flags, e.g. <link linkend="NM-SETTING-COMPARE-FLAG-EXACT:CAPS"><literal>NM_SETTING_COMPARE_FLAG_EXACT</literal></link>
+<varlistentry><term><parameter>flags</parameter>&#160;:</term>
+<listitem><simpara> compare flags, e.g. <link linkend="NM-SETTING-COMPARE-FLAG-EXACT--CAPS"><literal>NM_SETTING_COMPARE_FLAG_EXACT</literal></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if the comparison succeeds, <link linkend="FALSE:CAPS"><literal>FALSE</literal></link> if it does not
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> if the comparison succeeds, <link linkend="FALSE--CAPS"><literal>FALSE</literal></link> if it does not
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-enumerate-values" role="function"/>nm_setting_enumerate_values ()</title>
-<indexterm><primary>nm_setting_enumerate_values</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_enumerate_values         (<link linkend="NMSetting">NMSetting</link> *setting,
+<refsect2 id="nm-setting-enumerate-values" role="function">
+<title>nm_setting_enumerate_values ()</title>
+<indexterm zone="nm-setting-enumerate-values"><primary sortas="nm_setting_enumerate_values">nm_setting_enumerate_values</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_enumerate_values         (<link linkend="NMSetting">NMSetting</link> *setting,
                                                          <link linkend="NMSettingValueIterFn">NMSettingValueIterFn</link> func,
                                                          <link linkend="gpointer">gpointer</link> user_data);</programlisting>
 <para>
 Iterates over each property of the <link linkend="NMSetting"><type>NMSetting</type></link> object, calling the supplied
 user function for each property.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara> the <link linkend="NMSetting"><type>NMSetting</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>func</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>func</parameter>&#160;:</term>
 <listitem><simpara> user-supplied function called for each property of the setting
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
 <listitem><simpara> user data passed to <parameter>func</parameter> at each invocation
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-to-string" role="function"/>nm_setting_to_string ()</title>
-<indexterm><primary>nm_setting_to_string</primary></indexterm><programlisting><link linkend="char">char</link>*               nm_setting_to_string                (<link linkend="NMSetting">NMSetting</link> *setting);</programlisting>
+<refsect2 id="nm-setting-to-string" role="function">
+<title>nm_setting_to_string ()</title>
+<indexterm zone="nm-setting-to-string"><primary sortas="nm_setting_to_string">nm_setting_to_string</primary></indexterm><programlisting><link linkend="char">char</link> *              nm_setting_to_string                (<link linkend="NMSetting">NMSetting</link> *setting);</programlisting>
 <para>
 Convert the setting into a string.  For debugging purposes ONLY, should NOT
 be used for serialization of the setting, or machine-parsed in any way. The
 output format is not guaranteed to be stable and may change at any time.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara> the <link linkend="NMSetting"><type>NMSetting</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> an allocated string containing a textual representation of the
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> an allocated string containing a textual representation of the
 setting's properties and values (including secrets!), which the caller should
 free with <link linkend="g-free"><function>g_free()</function></link>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-clear-secrets" role="function"/>nm_setting_clear_secrets ()</title>
-<indexterm><primary>nm_setting_clear_secrets</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_clear_secrets            (<link linkend="NMSetting">NMSetting</link> *setting);</programlisting>
+<refsect2 id="nm-setting-clear-secrets" role="function">
+<title>nm_setting_clear_secrets ()</title>
+<indexterm zone="nm-setting-clear-secrets"><primary sortas="nm_setting_clear_secrets">nm_setting_clear_secrets</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_clear_secrets            (<link linkend="NMSetting">NMSetting</link> *setting);</programlisting>
 <para>
 Resets and clears any secrets in the setting.  Secrets should be added to the
 setting only when needed, and cleared immediately after use to prevent
 leakage of information.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara> the <link linkend="NMSetting"><type>NMSetting</type></link>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-need-secrets" role="function"/>nm_setting_need_secrets ()</title>
-<indexterm><primary>nm_setting_need_secrets</primary></indexterm><programlisting><link linkend="GPtrArray">GPtrArray</link>*          nm_setting_need_secrets             (<link linkend="NMSetting">NMSetting</link> *setting);</programlisting>
+<refsect2 id="nm-setting-need-secrets" role="function">
+<title>nm_setting_need_secrets ()</title>
+<indexterm zone="nm-setting-need-secrets"><primary sortas="nm_setting_need_secrets">nm_setting_need_secrets</primary></indexterm><programlisting><link linkend="GPtrArray">GPtrArray</link> *         nm_setting_need_secrets             (<link linkend="NMSetting">NMSetting</link> *setting);</programlisting>
 <para>
 Returns an array of property names for each secret which may be required
 to make a successful connection.  The returned hints are only intended as a
 guide to what secrets may be required, because in some circumstances, there
 is no way to conclusively determine exactly which secrets are needed.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara> the <link linkend="NMSetting"><type>NMSetting</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a <link linkend="GPtrArray"><type>GPtrArray</type></link> containing the property names of secrets of the
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> a <link linkend="GPtrArray"><type>GPtrArray</type></link> containing the property names of secrets of the
 <link linkend="NMSetting"><type>NMSetting</type></link> which may be required; the caller owns the array
 and must free the each array element with <link linkend="g-free"><function>g_free()</function></link>, as well as the array
 itself with <link linkend="g-ptr-array-free"><function>g_ptr_array_free()</function></link>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-update-secrets" role="function"/>nm_setting_update_secrets ()</title>
-<indexterm><primary>nm_setting_update_secrets</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_update_secrets           (<link linkend="NMSetting">NMSetting</link> *setting,
+<refsect2 id="nm-setting-update-secrets" role="function">
+<title>nm_setting_update_secrets ()</title>
+<indexterm zone="nm-setting-update-secrets"><primary sortas="nm_setting_update_secrets">nm_setting_update_secrets</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_update_secrets           (<link linkend="NMSetting">NMSetting</link> *setting,
                                                          <link linkend="GHashTable">GHashTable</link> *secrets,
                                                          <link linkend="GError">GError</link> **error);</programlisting>
 <para>
 Update the setting's secrets, given a hash table of secrets intended for that
 setting (deserialized from D-Bus for example).</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara> the <link linkend="NMSetting"><type>NMSetting</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>secrets</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>secrets</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="GHashTable"><type>GHashTable</type></link> mapping string:<link linkend="GValue"><type>GValue</type></link> of setting property names and
 secrets
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>error</parameter>&nbsp;:</term>
-<listitem><simpara> location to store error, or <link linkend="NULL:CAPS"><literal>NULL</literal></link>
+<varlistentry><term><parameter>error</parameter>&#160;:</term>
+<listitem><simpara> location to store error, or <link linkend="NULL--CAPS"><literal>NULL</literal></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if the secrets were successfully updated and the connection
-is valid, <link linkend="FALSE:CAPS"><literal>FALSE</literal></link> on failure or if the setting was never added to the connection
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> if the secrets were successfully updated and the connection
+is valid, <link linkend="FALSE--CAPS"><literal>FALSE</literal></link> on failure or if the setting was never added to the connection
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
 
 </refsect1>
-<refsect1 role="property_details">
+<refsect1 id="NMSetting.property-details" role="property_details">
 <title role="property_details.title">Property Details</title>
-<refsect2><title><anchor id="NMSetting--name"/>The <literal>&quot;name&quot;</literal> property</title>
-<indexterm><primary>NMSetting:name</primary></indexterm><programlisting>  &quot;name&quot;                     <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
+<refsect2 id="NMSetting--name" role="property"><title>The <literal>&quot;name&quot;</literal> property</title>
+<indexterm zone="NMSetting--name"><primary sortas="NMSetting:name">NMSetting:name</primary></indexterm><programlisting>  &quot;name&quot;                     <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
 <para>
 The setting's name, which uniquely identifies the setting within the
 connection.  Each setting type has a name unique to that type, for
 example 'ppp' or 'wireless' or 'wired'.</para>
 <para>
-
 </para><para>Default value: NULL</para>
 </refsect2>
-
 </refsect1>
 
 
 
 
-
-<refsect1><refsect2 /><refsect2 /></refsect1>
 </refentry>

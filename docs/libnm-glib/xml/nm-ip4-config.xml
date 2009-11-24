@@ -3,7 +3,7 @@
                "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
 <refentry id="NMIP4Config">
 <refmeta>
-<refentrytitle role="top_of_page">NMIP4Config</refentrytitle>
+<refentrytitle role="top_of_page" id="NMIP4Config.top_of_page">NMIP4Config</refentrytitle>
 <manvolnum>3</manvolnum>
 <refmiscinfo>LIBNM-GLIB Library</refmiscinfo>
 </refmeta>
@@ -11,258 +11,250 @@
 <refnamediv>
 <refname>NMIP4Config</refname>
 <refpurpose></refpurpose>
-<!--[<xref linkend="desc" endterm="desc.title"/>]-->
 </refnamediv>
 
-<refsynopsisdiv role="synopsis">
+<refsynopsisdiv id="NMIP4Config.synopsis" role="synopsis">
 <title role="synopsis.title">Synopsis</title>
 
 <synopsis>
-
-
-
                     <link linkend="NMIP4Config-struct">NMIP4Config</link>;
-#define             <link linkend="NM-IP4-CONFIG-ADDRESSES:CAPS">NM_IP4_CONFIG_ADDRESSES</link>
-#define             <link linkend="NM-IP4-CONFIG-HOSTNAME:CAPS">NM_IP4_CONFIG_HOSTNAME</link>
-#define             <link linkend="NM-IP4-CONFIG-NAMESERVERS:CAPS">NM_IP4_CONFIG_NAMESERVERS</link>
-#define             <link linkend="NM-IP4-CONFIG-DOMAINS:CAPS">NM_IP4_CONFIG_DOMAINS</link>
-#define             <link linkend="NM-IP4-CONFIG-ROUTES:CAPS">NM_IP4_CONFIG_ROUTES</link>
-<link linkend="GObject">GObject</link>*            <link linkend="nm-ip4-config-new">nm_ip4_config_new</link>                   (<link linkend="DBusGConnection">DBusGConnection</link> *connection,
+#define             <link linkend="NM-IP4-CONFIG-ADDRESSES--CAPS">NM_IP4_CONFIG_ADDRESSES</link>
+#define             <link linkend="NM-IP4-CONFIG-HOSTNAME--CAPS">NM_IP4_CONFIG_HOSTNAME</link>
+#define             <link linkend="NM-IP4-CONFIG-NAMESERVERS--CAPS">NM_IP4_CONFIG_NAMESERVERS</link>
+#define             <link linkend="NM-IP4-CONFIG-DOMAINS--CAPS">NM_IP4_CONFIG_DOMAINS</link>
+#define             <link linkend="NM-IP4-CONFIG-ROUTES--CAPS">NM_IP4_CONFIG_ROUTES</link>
+#define             <link linkend="NM-IP4-CONFIG-WINS-SERVERS--CAPS">NM_IP4_CONFIG_WINS_SERVERS</link>
+<link linkend="GObject">GObject</link> *           <link linkend="nm-ip4-config-new">nm_ip4_config_new</link>                   (<link linkend="DBusGConnection">DBusGConnection</link> *connection,
                                                          const <link linkend="char">char</link> *object_path);
-const <link linkend="GSList">GSList</link>*       <link linkend="nm-ip4-config-get-addresses">nm_ip4_config_get_addresses</link>         (<link linkend="NMIP4Config">NMIP4Config</link> *config);
-const <link linkend="char">char</link>*         <link linkend="nm-ip4-config-get-hostname">nm_ip4_config_get_hostname</link>          (<link linkend="NMIP4Config">NMIP4Config</link> *config);
-const <link linkend="GArray">GArray</link>*       <link linkend="nm-ip4-config-get-nameservers">nm_ip4_config_get_nameservers</link>       (<link linkend="NMIP4Config">NMIP4Config</link> *config);
-const <link linkend="GPtrArray">GPtrArray</link>*    <link linkend="nm-ip4-config-get-domains">nm_ip4_config_get_domains</link>           (<link linkend="NMIP4Config">NMIP4Config</link> *config);
-const <link linkend="GSList">GSList</link>*       <link linkend="nm-ip4-config-get-routes">nm_ip4_config_get_routes</link>            (<link linkend="NMIP4Config">NMIP4Config</link> *config);
-
+const <link linkend="GSList">GSList</link> *      <link linkend="nm-ip4-config-get-addresses">nm_ip4_config_get_addresses</link>         (<link linkend="NMIP4Config">NMIP4Config</link> *config);
+const <link linkend="char">char</link> *        <link linkend="nm-ip4-config-get-hostname">nm_ip4_config_get_hostname</link>          (<link linkend="NMIP4Config">NMIP4Config</link> *config);
+const <link linkend="GArray">GArray</link> *      <link linkend="nm-ip4-config-get-nameservers">nm_ip4_config_get_nameservers</link>       (<link linkend="NMIP4Config">NMIP4Config</link> *config);
+const <link linkend="GPtrArray">GPtrArray</link> *   <link linkend="nm-ip4-config-get-domains">nm_ip4_config_get_domains</link>           (<link linkend="NMIP4Config">NMIP4Config</link> *config);
+const <link linkend="GSList">GSList</link> *      <link linkend="nm-ip4-config-get-routes">nm_ip4_config_get_routes</link>            (<link linkend="NMIP4Config">NMIP4Config</link> *config);
+const <link linkend="GArray">GArray</link> *      <link linkend="nm-ip4-config-get-wins-servers">nm_ip4_config_get_wins_servers</link>      (<link linkend="NMIP4Config">NMIP4Config</link> *config);
 </synopsis>
 </refsynopsisdiv>
 
-<refsect1 role="object_hierarchy">
+<refsect1 id="NMIP4Config.object-hierarchy" role="object_hierarchy">
 <title role="object_hierarchy.title">Object Hierarchy</title>
 <synopsis>
-
   <link linkend="GObject">GObject</link>
    +----<link linkend="NMObject">NMObject</link>
          +----NMIP4Config
 </synopsis>
-
 </refsect1>
 
 
 
 
 
-<refsect1 role="properties">
+<refsect1 id="NMIP4Config.properties" role="properties">
 <title role="properties.title">Properties</title>
 <synopsis>
-
   &quot;<link linkend="NMIP4Config--addresses">addresses</link>&quot;                <link linkend="gpointer">gpointer</link>              : Read
-  &quot;<link linkend="NMIP4Config--domains">domains</link>&quot;                  <link linkend="nm-string-array">nm-string-array</link>       : Read
-  &quot;<link linkend="NMIP4Config--hostname">hostname</link>&quot;                 <link linkend="gchararray">gchararray</link>            : Read
-  &quot;<link linkend="NMIP4Config--nameservers">nameservers</link>&quot;              <link linkend="nm-uint-array">nm-uint-array</link>         : Read
+  &quot;<link linkend="NMIP4Config--domains">domains</link>&quot;                  <link linkend="nm-string-array*">nm-string-array*</link>      : Read
+  &quot;<link linkend="NMIP4Config--hostname">hostname</link>&quot;                 <link linkend="gchar">gchar</link>*                : Read
+  &quot;<link linkend="NMIP4Config--nameservers">nameservers</link>&quot;              <link linkend="nm-uint-array*">nm-uint-array*</link>        : Read
   &quot;<link linkend="NMIP4Config--routes">routes</link>&quot;                   <link linkend="gpointer">gpointer</link>              : Read
-  &quot;<link linkend="NMIP4Config--wins-servers">wins-servers</link>&quot;             <link linkend="nm-uint-array">nm-uint-array</link>         : Read
+  &quot;<link linkend="NMIP4Config--wins-servers">wins-servers</link>&quot;             <link linkend="nm-uint-array*">nm-uint-array*</link>        : Read
 </synopsis>
 </refsect1>
 
 
 
-<refsect1 role="desc">
+<refsect1 id="NMIP4Config.description" role="desc">
 <title role="desc.title">Description</title>
 <para>
-
 </para>
 </refsect1>
 
-<refsect1 role="details">
+<refsect1 id="NMIP4Config.details" role="details">
 <title role="details.title">Details</title>
-<refsect2>
-<title><anchor id="NMIP4Config-struct" role="struct"/>NMIP4Config</title>
-<indexterm><primary>NMIP4Config</primary></indexterm><programlisting>typedef struct _NMIP4Config NMIP4Config;</programlisting>
+<refsect2 id="NMIP4Config-struct" role="struct">
+<title>NMIP4Config</title>
+<indexterm zone="NMIP4Config-struct"><primary sortas="NMIP4Config">NMIP4Config</primary></indexterm><programlisting>typedef struct _NMIP4Config NMIP4Config;</programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-IP4-CONFIG-ADDRESSES:CAPS" role="macro"/>NM_IP4_CONFIG_ADDRESSES</title>
-<indexterm><primary>NM_IP4_CONFIG_ADDRESSES</primary></indexterm><programlisting>#define NM_IP4_CONFIG_ADDRESSES "addresses"
+<refsect2 id="NM-IP4-CONFIG-ADDRESSES--CAPS" role="macro">
+<title>NM_IP4_CONFIG_ADDRESSES</title>
+<indexterm zone="NM-IP4-CONFIG-ADDRESSES--CAPS"><primary sortas="NM_IP4_CONFIG_ADDRESSES">NM_IP4_CONFIG_ADDRESSES</primary></indexterm><programlisting>#define NM_IP4_CONFIG_ADDRESSES "addresses"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-IP4-CONFIG-HOSTNAME:CAPS" role="macro"/>NM_IP4_CONFIG_HOSTNAME</title>
-<indexterm><primary>NM_IP4_CONFIG_HOSTNAME</primary></indexterm><programlisting>#define NM_IP4_CONFIG_HOSTNAME "hostname" /* DEPRECATED */
+<refsect2 id="NM-IP4-CONFIG-HOSTNAME--CAPS" role="macro">
+<title>NM_IP4_CONFIG_HOSTNAME</title>
+<indexterm zone="NM-IP4-CONFIG-HOSTNAME--CAPS"><primary sortas="NM_IP4_CONFIG_HOSTNAME">NM_IP4_CONFIG_HOSTNAME</primary></indexterm><programlisting>#define NM_IP4_CONFIG_HOSTNAME "hostname" /* DEPRECATED */
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-IP4-CONFIG-NAMESERVERS:CAPS" role="macro"/>NM_IP4_CONFIG_NAMESERVERS</title>
-<indexterm><primary>NM_IP4_CONFIG_NAMESERVERS</primary></indexterm><programlisting>#define NM_IP4_CONFIG_NAMESERVERS "nameservers"
+<refsect2 id="NM-IP4-CONFIG-NAMESERVERS--CAPS" role="macro">
+<title>NM_IP4_CONFIG_NAMESERVERS</title>
+<indexterm zone="NM-IP4-CONFIG-NAMESERVERS--CAPS"><primary sortas="NM_IP4_CONFIG_NAMESERVERS">NM_IP4_CONFIG_NAMESERVERS</primary></indexterm><programlisting>#define NM_IP4_CONFIG_NAMESERVERS "nameservers"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-IP4-CONFIG-DOMAINS:CAPS" role="macro"/>NM_IP4_CONFIG_DOMAINS</title>
-<indexterm><primary>NM_IP4_CONFIG_DOMAINS</primary></indexterm><programlisting>#define NM_IP4_CONFIG_DOMAINS "domains"
+<refsect2 id="NM-IP4-CONFIG-DOMAINS--CAPS" role="macro">
+<title>NM_IP4_CONFIG_DOMAINS</title>
+<indexterm zone="NM-IP4-CONFIG-DOMAINS--CAPS"><primary sortas="NM_IP4_CONFIG_DOMAINS">NM_IP4_CONFIG_DOMAINS</primary></indexterm><programlisting>#define NM_IP4_CONFIG_DOMAINS "domains"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-IP4-CONFIG-ROUTES:CAPS" role="macro"/>NM_IP4_CONFIG_ROUTES</title>
-<indexterm><primary>NM_IP4_CONFIG_ROUTES</primary></indexterm><programlisting>#define NM_IP4_CONFIG_ROUTES "routes"
+<refsect2 id="NM-IP4-CONFIG-ROUTES--CAPS" role="macro">
+<title>NM_IP4_CONFIG_ROUTES</title>
+<indexterm zone="NM-IP4-CONFIG-ROUTES--CAPS"><primary sortas="NM_IP4_CONFIG_ROUTES">NM_IP4_CONFIG_ROUTES</primary></indexterm><programlisting>#define NM_IP4_CONFIG_ROUTES "routes"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="nm-ip4-config-new" role="function"/>nm_ip4_config_new ()</title>
-<indexterm><primary>nm_ip4_config_new</primary></indexterm><programlisting><link linkend="GObject">GObject</link>*            nm_ip4_config_new                   (<link linkend="DBusGConnection">DBusGConnection</link> *connection,
+<refsect2 id="NM-IP4-CONFIG-WINS-SERVERS--CAPS" role="macro">
+<title>NM_IP4_CONFIG_WINS_SERVERS</title>
+<indexterm zone="NM-IP4-CONFIG-WINS-SERVERS--CAPS"><primary sortas="NM_IP4_CONFIG_WINS_SERVERS">NM_IP4_CONFIG_WINS_SERVERS</primary></indexterm><programlisting>#define NM_IP4_CONFIG_WINS_SERVERS "wins-servers"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="nm-ip4-config-new" role="function">
+<title>nm_ip4_config_new ()</title>
+<indexterm zone="nm-ip4-config-new"><primary sortas="nm_ip4_config_new">nm_ip4_config_new</primary></indexterm><programlisting><link linkend="GObject">GObject</link> *           nm_ip4_config_new                   (<link linkend="DBusGConnection">DBusGConnection</link> *connection,
                                                          const <link linkend="char">char</link> *object_path);</programlisting>
 <para>
 Creates a new <link linkend="NMIP4Config"><type>NMIP4Config</type></link>.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>connection</parameter>&#160;:</term>
 <listitem><simpara> the <link linkend="DBusGConnection"><type>DBusGConnection</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>object_path</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>object_path</parameter>&#160;:</term>
 <listitem><simpara> the DBus object path of the device
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a new IP4 configuration
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> a new IP4 configuration
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-ip4-config-get-addresses" role="function"/>nm_ip4_config_get_addresses ()</title>
-<indexterm><primary>nm_ip4_config_get_addresses</primary></indexterm><programlisting>const <link linkend="GSList">GSList</link>*       nm_ip4_config_get_addresses         (<link linkend="NMIP4Config">NMIP4Config</link> *config);</programlisting>
+<refsect2 id="nm-ip4-config-get-addresses" role="function">
+<title>nm_ip4_config_get_addresses ()</title>
+<indexterm zone="nm-ip4-config-get-addresses"><primary sortas="nm_ip4_config_get_addresses">nm_ip4_config_get_addresses</primary></indexterm><programlisting>const <link linkend="GSList">GSList</link> *      nm_ip4_config_get_addresses         (<link linkend="NMIP4Config">NMIP4Config</link> *config);</programlisting>
 <para>
 Gets the IP4 addresses (containing the address, prefix, and gateway).</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>config</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>config</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMIP4Config"><type>NMIP4Config</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the <link linkend="GSList"><type>GSList</type></link> containing <link linkend="NMSettingIP4Address"><type>NMSettingIP4Address</type></link><!-- -->es. This is the internal copy
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the <link linkend="GSList"><type>GSList</type></link> containing <link linkend="NMSettingIP4Address"><type>NMSettingIP4Address</type></link><!-- -->es. This is the internal copy
 used by the configuration and must not be modified.
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-ip4-config-get-hostname" role="function"/>nm_ip4_config_get_hostname ()</title>
-<indexterm><primary>nm_ip4_config_get_hostname</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_ip4_config_get_hostname          (<link linkend="NMIP4Config">NMIP4Config</link> *config);</programlisting>
+<refsect2 id="nm-ip4-config-get-hostname" role="function">
+<title>nm_ip4_config_get_hostname ()</title>
+<indexterm zone="nm-ip4-config-get-hostname"><primary sortas="nm_ip4_config_get_hostname">nm_ip4_config_get_hostname</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_ip4_config_get_hostname          (<link linkend="NMIP4Config">NMIP4Config</link> *config);</programlisting>
 <para>
 DEPRECATED.  Don't use.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>config</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>config</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMIP4Config"><type>NMIP4Config</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> NULL
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> NULL
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-ip4-config-get-nameservers" role="function"/>nm_ip4_config_get_nameservers ()</title>
-<indexterm><primary>nm_ip4_config_get_nameservers</primary></indexterm><programlisting>const <link linkend="GArray">GArray</link>*       nm_ip4_config_get_nameservers       (<link linkend="NMIP4Config">NMIP4Config</link> *config);</programlisting>
+<refsect2 id="nm-ip4-config-get-nameservers" role="function">
+<title>nm_ip4_config_get_nameservers ()</title>
+<indexterm zone="nm-ip4-config-get-nameservers"><primary sortas="nm_ip4_config_get_nameservers">nm_ip4_config_get_nameservers</primary></indexterm><programlisting>const <link linkend="GArray">GArray</link> *      nm_ip4_config_get_nameservers       (<link linkend="NMIP4Config">NMIP4Config</link> *config);</programlisting>
 <para>
 Gets the domain name servers (DNS).</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>config</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>config</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMIP4Config"><type>NMIP4Config</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the <link linkend="GArray"><type>GArray</type></link> containing <link linkend="guint32"><literal>guint32</literal></link><!-- -->s. This is the internal copy used by the
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the <link linkend="GArray"><type>GArray</type></link> containing <link linkend="guint32"><literal>guint32</literal></link><!-- -->s. This is the internal copy used by the
 configuration and must not be modified.
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-ip4-config-get-domains" role="function"/>nm_ip4_config_get_domains ()</title>
-<indexterm><primary>nm_ip4_config_get_domains</primary></indexterm><programlisting>const <link linkend="GPtrArray">GPtrArray</link>*    nm_ip4_config_get_domains           (<link linkend="NMIP4Config">NMIP4Config</link> *config);</programlisting>
+<refsect2 id="nm-ip4-config-get-domains" role="function">
+<title>nm_ip4_config_get_domains ()</title>
+<indexterm zone="nm-ip4-config-get-domains"><primary sortas="nm_ip4_config_get_domains">nm_ip4_config_get_domains</primary></indexterm><programlisting>const <link linkend="GPtrArray">GPtrArray</link> *   nm_ip4_config_get_domains           (<link linkend="NMIP4Config">NMIP4Config</link> *config);</programlisting>
 <para>
 Gets the domain names.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>config</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>config</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMIP4Config"><type>NMIP4Config</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the <link linkend="GPtrArray"><type>GPtrArray</type></link> containing domains as strings. This is the 
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the <link linkend="GPtrArray"><type>GPtrArray</type></link> containing domains as strings. This is the 
 internal copy used by the configuration, and must not be modified.
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-ip4-config-get-routes" role="function"/>nm_ip4_config_get_routes ()</title>
-<indexterm><primary>nm_ip4_config_get_routes</primary></indexterm><programlisting>const <link linkend="GSList">GSList</link>*       nm_ip4_config_get_routes            (<link linkend="NMIP4Config">NMIP4Config</link> *config);</programlisting>
+<refsect2 id="nm-ip4-config-get-routes" role="function">
+<title>nm_ip4_config_get_routes ()</title>
+<indexterm zone="nm-ip4-config-get-routes"><primary sortas="nm_ip4_config_get_routes">nm_ip4_config_get_routes</primary></indexterm><programlisting>const <link linkend="GSList">GSList</link> *      nm_ip4_config_get_routes            (<link linkend="NMIP4Config">NMIP4Config</link> *config);</programlisting>
 <para>
 Gets the routes.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>config</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>config</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMIP4Config"><type>NMIP4Config</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the <link linkend="GSList"><type>GSList</type></link> containing <link linkend="NMSettingIP4Route"><type>NMSettingIP4Route</type></link><!-- -->s. This is the 
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the <link linkend="GSList"><type>GSList</type></link> containing <link linkend="NMSettingIP4Route"><type>NMSettingIP4Route</type></link><!-- -->s. This is the 
 internal copy used by the configuration, and must not be modified.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip4-config-get-wins-servers" role="function">
+<title>nm_ip4_config_get_wins_servers ()</title>
+<indexterm zone="nm-ip4-config-get-wins-servers"><primary sortas="nm_ip4_config_get_wins_servers">nm_ip4_config_get_wins_servers</primary></indexterm><programlisting>const <link linkend="GArray">GArray</link> *      nm_ip4_config_get_wins_servers      (<link linkend="NMIP4Config">NMIP4Config</link> *config);</programlisting>
+<para>
+Gets the Windows Internet Name Service servers (WINS).</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>config</parameter>&#160;:</term>
+<listitem><simpara> a <link linkend="NMIP4Config"><type>NMIP4Config</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the <link linkend="GArray"><type>GArray</type></link> containing <link linkend="guint32"><literal>guint32</literal></link><!-- -->s. This is the internal copy used by the
+configuration and must not be modified.
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
 
 </refsect1>
-<refsect1 role="property_details">
+<refsect1 id="NMIP4Config.property-details" role="property_details">
 <title role="property_details.title">Property Details</title>
-<refsect2><title><anchor id="NMIP4Config--addresses"/>The <literal>&quot;addresses&quot;</literal> property</title>
-<indexterm><primary>NMIP4Config:addresses</primary></indexterm><programlisting>  &quot;addresses&quot;                <link linkend="gpointer">gpointer</link>              : Read</programlisting>
+<refsect2 id="NMIP4Config--addresses" role="property"><title>The <literal>&quot;addresses&quot;</literal> property</title>
+<indexterm zone="NMIP4Config--addresses"><primary sortas="NMIP4Config:addresses">NMIP4Config:addresses</primary></indexterm><programlisting>  &quot;addresses&quot;                <link linkend="gpointer">gpointer</link>              : Read</programlisting>
 <para>
 The <link linkend="GPtrArray"><type>GPtrArray</type></link> containing <link linkend="NMSettingIP4Address"><type>NMSettingIP4Address</type></link><!-- -->es of the configuration.</para>
 <para>
-
 </para></refsect2>
-<refsect2><title><anchor id="NMIP4Config--domains"/>The <literal>&quot;domains&quot;</literal> property</title>
-<indexterm><primary>NMIP4Config:domains</primary></indexterm><programlisting>  &quot;domains&quot;                  <link linkend="nm-string-array">nm-string-array</link>       : Read</programlisting>
+<refsect2 id="NMIP4Config--domains" role="property"><title>The <literal>&quot;domains&quot;</literal> property</title>
+<indexterm zone="NMIP4Config--domains"><primary sortas="NMIP4Config:domains">NMIP4Config:domains</primary></indexterm><programlisting>  &quot;domains&quot;                  <link linkend="nm-string-array*">nm-string-array*</link>      : Read</programlisting>
 <para>
 The <link linkend="GPtrArray"><type>GPtrArray</type></link> containing domain strings of the configuration.</para>
 <para>
-
 </para></refsect2>
-<refsect2><title><anchor id="NMIP4Config--hostname"/>The <literal>&quot;hostname&quot;</literal> property</title>
-<indexterm><primary>NMIP4Config:hostname</primary></indexterm><programlisting>  &quot;hostname&quot;                 <link linkend="gchararray">gchararray</link>            : Read</programlisting>
+<refsect2 id="NMIP4Config--hostname" role="property"><title>The <literal>&quot;hostname&quot;</literal> property</title>
+<indexterm zone="NMIP4Config--hostname"><primary sortas="NMIP4Config:hostname">NMIP4Config:hostname</primary></indexterm><programlisting>  &quot;hostname&quot;                 <link linkend="gchar">gchar</link>*                : Read</programlisting>
 <para>
 DEPRECATED.  Don't use.</para>
 <para>
-
 </para><para>Default value: NULL</para>
 </refsect2>
-<refsect2><title><anchor id="NMIP4Config--nameservers"/>The <literal>&quot;nameservers&quot;</literal> property</title>
-<indexterm><primary>NMIP4Config:nameservers</primary></indexterm><programlisting>  &quot;nameservers&quot;              <link linkend="nm-uint-array">nm-uint-array</link>         : Read</programlisting>
+<refsect2 id="NMIP4Config--nameservers" role="property"><title>The <literal>&quot;nameservers&quot;</literal> property</title>
+<indexterm zone="NMIP4Config--nameservers"><primary sortas="NMIP4Config:nameservers">NMIP4Config:nameservers</primary></indexterm><programlisting>  &quot;nameservers&quot;              <link linkend="nm-uint-array*">nm-uint-array*</link>        : Read</programlisting>
 <para>
 The <link linkend="GArray"><type>GArray</type></link> containing name servers (<link linkend="guint32"><literal>guint32</literal></link><!-- -->es) of the configuration.</para>
 <para>
-
 </para></refsect2>
-<refsect2><title><anchor id="NMIP4Config--routes"/>The <literal>&quot;routes&quot;</literal> property</title>
-<indexterm><primary>NMIP4Config:routes</primary></indexterm><programlisting>  &quot;routes&quot;                   <link linkend="gpointer">gpointer</link>              : Read</programlisting>
+<refsect2 id="NMIP4Config--routes" role="property"><title>The <literal>&quot;routes&quot;</literal> property</title>
+<indexterm zone="NMIP4Config--routes"><primary sortas="NMIP4Config:routes">NMIP4Config:routes</primary></indexterm><programlisting>  &quot;routes&quot;                   <link linkend="gpointer">gpointer</link>              : Read</programlisting>
 <para>
 The <link linkend="GPtrArray"><type>GPtrArray</type></link> containing <link linkend="NMSettingIP4Route"><type>NMSettingIP4Route</type></link><!-- -->s of the configuration.</para>
 <para>
-
 </para></refsect2>
-<refsect2><title><anchor id="NMIP4Config--wins-servers"/>The <literal>&quot;wins-servers&quot;</literal> property</title>
-<indexterm><primary>NMIP4Config:wins-servers</primary></indexterm><programlisting>  &quot;wins-servers&quot;             <link linkend="nm-uint-array">nm-uint-array</link>         : Read</programlisting>
+<refsect2 id="NMIP4Config--wins-servers" role="property"><title>The <literal>&quot;wins-servers&quot;</literal> property</title>
+<indexterm zone="NMIP4Config--wins-servers"><primary sortas="NMIP4Config:wins-servers">NMIP4Config:wins-servers</primary></indexterm><programlisting>  &quot;wins-servers&quot;             <link linkend="nm-uint-array*">nm-uint-array*</link>        : Read</programlisting>
 <para>
 The <link linkend="GArray"><type>GArray</type></link> containing WINS servers (<link linkend="guint32"><literal>guint32</literal></link><!-- -->es) of the configuration.</para>
 <para>
-
 </para></refsect2>
-
 </refsect1>
 
 
 
 
-
-<refsect1><refsect2 /><refsect2 /></refsect1>
 </refentry>

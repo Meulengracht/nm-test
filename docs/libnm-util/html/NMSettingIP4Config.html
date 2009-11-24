@@ -1,16 +1,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>NMSettingIP4Config</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="libnm-util Reference Manual">
-<link rel="up" href="ch01.html" title="[Insert title here]">
+<meta name="generator" content="DocBook XSL Stylesheets V1.74.3">
+<link rel="home" href="index.html" title="libnm-util Reference Manual">
+<link rel="up" href="ch01.html" title="libnm-util API Reference">
 <link rel="prev" href="NMSetting8021x.html" title="NMSetting8021x">
 <link rel="next" href="NMSettingPPP.html" title="NMSettingPPP">
-<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
-<link rel="chapter" href="ch01.html" title="[Insert title here]">
+<link rel="chapter" href="ch01.html" title="libnm-util API Reference">
+<link rel="chapter" href="object-tree.html" title="Object Hierarchy">
+<link rel="index" href="api-index-full.html" title="API Index">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
@@ -21,278 +23,560 @@
 <th width="100%" align="center">libnm-util Reference Manual</th>
 <td><a accesskey="n" href="NMSettingPPP.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2972900" class="shortcut">Top</a>
-                  &#160;|&#160;
-                  <a href="#id2989601" class="shortcut">Description</a>
-                  &#160;|&#160;
-                  <a href="#id2989475" class="shortcut">Object Hierarchy</a>
-                  &#160;|&#160;
-                  <a href="#id2989505" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#NMSettingIP4Config.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#NMSettingIP4Config.description" class="shortcut">Description</a>
+                 | 
+                <a href="#NMSettingIP4Config.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#NMSettingIP4Config.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="NMSettingIP4Config"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
-<h2>
-<a name="id2972900"></a><span class="refentrytitle">NMSettingIP4Config</span>
-</h2>
+<h2><span class="refentrytitle"><a name="NMSettingIP4Config.top_of_page"></a>NMSettingIP4Config</span></h2>
 <p>NMSettingIP4Config</p>
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
 <div class="refsynopsisdiv">
-<h2>Synopsis</h2>
+<a name="NMSettingIP4Config.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
-
-
-
-#define             <a class="link" href="NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-SETTING-NAME:CAPS">NM_SETTING_IP4_CONFIG_SETTING_NAME</a>
-enum                <a class="link" href="NMSettingIP4Config.html#NMSettingIP4ConfigError">NMSettingIP4ConfigError</a>;
-#define             <a class="link" href="NMSettingIP4Config.html#NM-TYPE-SETTING-IP4-CONFIG-ERROR:CAPS">NM_TYPE_SETTING_IP4_CONFIG_ERROR</a>
-#define             <a class="link" href="NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-ERROR:CAPS">NM_SETTING_IP4_CONFIG_ERROR</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-SETTING-NAME--CAPS"
+>NM_SETTING_IP4_CONFIG_SETTING_NAME</a>
+enum                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4ConfigError"
+>NMSettingIP4ConfigError</a>;
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-TYPE-SETTING-IP4-CONFIG-ERROR--CAPS"
+>NM_TYPE_SETTING_IP4_CONFIG_ERROR</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-ERROR--CAPS"
+>NM_SETTING_IP4_CONFIG_ERROR</a>
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
->GQuark</a>              <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-error-quark">nm_setting_ip4_config_error_quark</a>   (void);
-#define             <a class="link" href="NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-METHOD:CAPS">NM_SETTING_IP4_CONFIG_METHOD</a>
-#define             <a class="link" href="NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-DNS:CAPS">NM_SETTING_IP4_CONFIG_DNS</a>
-#define             <a class="link" href="NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-DNS-SEARCH:CAPS">NM_SETTING_IP4_CONFIG_DNS_SEARCH</a>
-#define             <a class="link" href="NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-ADDRESSES:CAPS">NM_SETTING_IP4_CONFIG_ADDRESSES</a>
-#define             <a class="link" href="NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-ROUTES:CAPS">NM_SETTING_IP4_CONFIG_ROUTES</a>
-#define             <a class="link" href="NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-IGNORE-AUTO-ROUTES:CAPS">NM_SETTING_IP4_CONFIG_IGNORE_AUTO_ROUTES</a>
-#define             <a class="link" href="NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-IGNORE-AUTO-DNS:CAPS">NM_SETTING_IP4_CONFIG_IGNORE_AUTO_DNS</a>
-#define             <a class="link" href="NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-DHCP-CLIENT-ID:CAPS">NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID</a>
-#define             <a class="link" href="NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-DHCP-HOSTNAME:CAPS">NM_SETTING_IP4_CONFIG_DHCP_HOSTNAME</a>
-#define             <a class="link" href="NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-NEVER-DEFAULT:CAPS">NM_SETTING_IP4_CONFIG_NEVER_DEFAULT</a>
-#define             <a class="link" href="NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-METHOD-AUTO:CAPS">NM_SETTING_IP4_CONFIG_METHOD_AUTO</a>
-#define             <a class="link" href="NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-METHOD-LINK-LOCAL:CAPS">NM_SETTING_IP4_CONFIG_METHOD_LINK_LOCAL</a>
-#define             <a class="link" href="NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-METHOD-MANUAL:CAPS">NM_SETTING_IP4_CONFIG_METHOD_MANUAL</a>
-#define             <a class="link" href="NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-METHOD-SHARED:CAPS">NM_SETTING_IP4_CONFIG_METHOD_SHARED</a>
-typedef             <a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a>;
-<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a>*       <a class="link" href="NMSettingIP4Config.html#nm-ip4-address-new">nm_ip4_address_new</a>                  (void);
-<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a>*       <a class="link" href="NMSettingIP4Config.html#nm-ip4-address-dup">nm_ip4_address_dup</a>                  (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *source);
-void                <a class="link" href="NMSettingIP4Config.html#nm-ip4-address-ref">nm_ip4_address_ref</a>                  (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address);
-void                <a class="link" href="NMSettingIP4Config.html#nm-ip4-address-unref">nm_ip4_address_unref</a>                (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address);
+href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
+>GQuark</a>              <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-error-quark"
+>nm_setting_ip4_config_error_quark</a>   (void);
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-METHOD--CAPS"
+>NM_SETTING_IP4_CONFIG_METHOD</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-DNS--CAPS"
+>NM_SETTING_IP4_CONFIG_DNS</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-DNS-SEARCH--CAPS"
+>NM_SETTING_IP4_CONFIG_DNS_SEARCH</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-ADDRESSES--CAPS"
+>NM_SETTING_IP4_CONFIG_ADDRESSES</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-ROUTES--CAPS"
+>NM_SETTING_IP4_CONFIG_ROUTES</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-IGNORE-AUTO-ROUTES--CAPS"
+>NM_SETTING_IP4_CONFIG_IGNORE_AUTO_ROUTES</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-IGNORE-AUTO-DNS--CAPS"
+>NM_SETTING_IP4_CONFIG_IGNORE_AUTO_DNS</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-DHCP-CLIENT-ID--CAPS"
+>NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-DHCP-HOSTNAME--CAPS"
+>NM_SETTING_IP4_CONFIG_DHCP_HOSTNAME</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-NEVER-DEFAULT--CAPS"
+>NM_SETTING_IP4_CONFIG_NEVER_DEFAULT</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-METHOD-AUTO--CAPS"
+>NM_SETTING_IP4_CONFIG_METHOD_AUTO</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-METHOD-LINK-LOCAL--CAPS"
+>NM_SETTING_IP4_CONFIG_METHOD_LINK_LOCAL</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-METHOD-MANUAL--CAPS"
+>NM_SETTING_IP4_CONFIG_METHOD_MANUAL</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-METHOD-SHARED--CAPS"
+>NM_SETTING_IP4_CONFIG_METHOD_SHARED</a>
+typedef             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a>;
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="NMSettingIP4Config.html#nm-ip4-address-compare">nm_ip4_address_compare</a>              (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address,
-                                                         <a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *other);
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *      <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-address-new"
+>nm_ip4_address_new</a>                  (void);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             <a class="link" href="NMSettingIP4Config.html#nm-ip4-address-get-address">nm_ip4_address_get_address</a>          (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address);
-void                <a class="link" href="NMSettingIP4Config.html#nm-ip4-address-set-address">nm_ip4_address_set_address</a>          (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address,
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *      <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-address-dup"
+>nm_ip4_address_dup</a>                  (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *source);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-address-ref"
+>nm_ip4_address_ref</a>                  (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-address-unref"
+>nm_ip4_address_unref</a>                (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address);
+<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-address-compare"
+>nm_ip4_address_compare</a>              (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *other);
+<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-address-get-address"
+>nm_ip4_address_get_address</a>          (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-address-set-address"
+>nm_ip4_address_set_address</a>          (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address,
+                                                         <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> addr);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             <a class="link" href="NMSettingIP4Config.html#nm-ip4-address-get-prefix">nm_ip4_address_get_prefix</a>           (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address);
-void                <a class="link" href="NMSettingIP4Config.html#nm-ip4-address-set-prefix">nm_ip4_address_set_prefix</a>           (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address,
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-address-get-prefix"
+>nm_ip4_address_get_prefix</a>           (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-address-set-prefix"
+>nm_ip4_address_set_prefix</a>           (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> prefix);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             <a class="link" href="NMSettingIP4Config.html#nm-ip4-address-get-gateway">nm_ip4_address_get_gateway</a>          (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address);
-void                <a class="link" href="NMSettingIP4Config.html#nm-ip4-address-set-gateway">nm_ip4_address_set_gateway</a>          (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address,
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-address-get-gateway"
+>nm_ip4_address_get_gateway</a>          (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-address-set-gateway"
+>nm_ip4_address_set_gateway</a>          (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> gateway);
-typedef             <a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a>;
-<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a>*         <a class="link" href="NMSettingIP4Config.html#nm-ip4-route-new">nm_ip4_route_new</a>                    (void);
-<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a>*         <a class="link" href="NMSettingIP4Config.html#nm-ip4-route-dup">nm_ip4_route_dup</a>                    (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route);
-void                <a class="link" href="NMSettingIP4Config.html#nm-ip4-route-ref">nm_ip4_route_ref</a>                    (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route);
-void                <a class="link" href="NMSettingIP4Config.html#nm-ip4-route-unref">nm_ip4_route_unref</a>                  (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route);
+typedef             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a>;
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="NMSettingIP4Config.html#nm-ip4-route-compare">nm_ip4_route_compare</a>                (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route,
-                                                         <a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *other);
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *        <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-route-new"
+>nm_ip4_route_new</a>                    (void);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             <a class="link" href="NMSettingIP4Config.html#nm-ip4-route-get-dest">nm_ip4_route_get_dest</a>               (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route);
-void                <a class="link" href="NMSettingIP4Config.html#nm-ip4-route-set-dest">nm_ip4_route_set_dest</a>               (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route,
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *        <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-route-dup"
+>nm_ip4_route_dup</a>                    (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-route-ref"
+>nm_ip4_route_ref</a>                    (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-route-unref"
+>nm_ip4_route_unref</a>                  (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route);
+<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-route-compare"
+>nm_ip4_route_compare</a>                (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *other);
+<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-route-get-dest"
+>nm_ip4_route_get_dest</a>               (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-route-set-dest"
+>nm_ip4_route_set_dest</a>               (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route,
+                                                         <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> dest);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             <a class="link" href="NMSettingIP4Config.html#nm-ip4-route-get-prefix">nm_ip4_route_get_prefix</a>             (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route);
-void                <a class="link" href="NMSettingIP4Config.html#nm-ip4-route-set-prefix">nm_ip4_route_set_prefix</a>             (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route,
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-route-get-prefix"
+>nm_ip4_route_get_prefix</a>             (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-route-set-prefix"
+>nm_ip4_route_set_prefix</a>             (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> prefix);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             <a class="link" href="NMSettingIP4Config.html#nm-ip4-route-get-next-hop">nm_ip4_route_get_next_hop</a>           (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route);
-void                <a class="link" href="NMSettingIP4Config.html#nm-ip4-route-set-next-hop">nm_ip4_route_set_next_hop</a>           (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route,
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-route-get-next-hop"
+>nm_ip4_route_get_next_hop</a>           (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-route-set-next-hop"
+>nm_ip4_route_set_next_hop</a>           (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> next_hop);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             <a class="link" href="NMSettingIP4Config.html#nm-ip4-route-get-metric">nm_ip4_route_get_metric</a>             (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route);
-void                <a class="link" href="NMSettingIP4Config.html#nm-ip4-route-set-metric">nm_ip4_route_set_metric</a>             (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route,
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-route-get-metric"
+>nm_ip4_route_get_metric</a>             (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-ip4-route-set-metric"
+>nm_ip4_route_set_metric</a>             (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> metric);
-                    <a class="link" href="NMSettingIP4Config.html#NMSettingIP4Config-struct">NMSettingIP4Config</a>;
+                    <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config-struct"
+>NMSettingIP4Config</a>;
 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
->GType</a>               <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-get-type">nm_setting_ip4_config_get_type</a>      (void);
-<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-new">nm_setting_ip4_config_new</a>           (void);
-const char*         <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-get-method">nm_setting_ip4_config_get_method</a>    (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"
+>GType</a>               <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-get-type"
+>nm_setting_ip4_config_get_type</a>      (void);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-get-num-dns">nm_setting_ip4_config_get_num_dns</a>   (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);
+href="http://[SERVER]/libnm-util/NMSetting.html"
+>NMSetting</a> *         <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-new"
+>nm_setting_ip4_config_new</a>           (void);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-get-method"
+>nm_setting_ip4_config_get_method</a>    (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-get-dns">nm_setting_ip4_config_get_dns</a>       (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-get-num-dns"
+>nm_setting_ip4_config_get_num_dns</a>   (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);
+<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-get-dns"
+>nm_setting_ip4_config_get_dns</a>       (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-add-dns">nm_setting_ip4_config_add_dns</a>       (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-add-dns"
+>nm_setting_ip4_config_add_dns</a>       (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> dns);
-void                <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-remove-dns">nm_setting_ip4_config_remove_dns</a>    (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-remove-dns"
+>nm_setting_ip4_config_remove_dns</a>    (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);
-void                <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-clear-dns">nm_setting_ip4_config_clear_dns</a>     (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-clear-dns"
+>nm_setting_ip4_config_clear_dns</a>     (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-get-num-dns-searches">nm_setting_ip4_config_get_num_dns_searches</a>
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);
-const char*         <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-get-dns-search">nm_setting_ip4_config_get_dns_search</a>
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-get-num-dns-searches"
+>nm_setting_ip4_config_get_num_dns_searches</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-get-dns-search"
+>nm_setting_ip4_config_get_dns_search</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-add-dns-search">nm_setting_ip4_config_add_dns_search</a>
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-add-dns-search"
+>nm_setting_ip4_config_add_dns_search</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          const char *dns_search);
-void                <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-remove-dns-search">nm_setting_ip4_config_remove_dns_search</a>
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-remove-dns-search"
+>nm_setting_ip4_config_remove_dns_search</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);
-void                <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-clear-dns-searches">nm_setting_ip4_config_clear_dns_searches</a>
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-clear-dns-searches"
+>nm_setting_ip4_config_clear_dns_searches</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-get-num-addresses">nm_setting_ip4_config_get_num_addresses</a>
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);
-<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a>*       <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-get-address">nm_setting_ip4_config_get_address</a>   (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-get-num-addresses"
+>nm_setting_ip4_config_get_num_addresses</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);
+<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *      <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-get-address"
+>nm_setting_ip4_config_get_address</a>   (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-add-address">nm_setting_ip4_config_add_address</a>   (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
-                                                         <a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address);
-void                <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-remove-address">nm_setting_ip4_config_remove_address</a>
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-add-address"
+>nm_setting_ip4_config_add_address</a>   (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a> i);
-void                <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-clear-addresses">nm_setting_ip4_config_clear_addresses</a>
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);
-<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-get-num-routes">nm_setting_ip4_config_get_num_routes</a>
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);
-<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a>*         <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-get-route">nm_setting_ip4_config_get_route</a>     (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-remove-address"
+>nm_setting_ip4_config_remove_address</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-clear-addresses"
+>nm_setting_ip4_config_clear_addresses</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-add-route">nm_setting_ip4_config_add_route</a>     (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
-                                                         <a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route);
-void                <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-remove-route">nm_setting_ip4_config_remove_route</a>  (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-get-num-routes"
+>nm_setting_ip4_config_get_num_routes</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);
+<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *        <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-get-route"
+>nm_setting_ip4_config_get_route</a>     (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);
-void                <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-clear-routes">nm_setting_ip4_config_clear_routes</a>  (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-get-ignore-auto-routes">nm_setting_ip4_config_get_ignore_auto_routes</a>
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-add-route"
+>nm_setting_ip4_config_add_route</a>     (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
+                                                         <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-remove-route"
+>nm_setting_ip4_config_remove_route</a>  (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
+                                                         <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a> i);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-clear-routes"
+>nm_setting_ip4_config_clear_routes</a>  (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-get-ignore-auto-dns">nm_setting_ip4_config_get_ignore_auto_dns</a>
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);
-const char*         <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-get-dhcp-client-id">nm_setting_ip4_config_get_dhcp_client_id</a>
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);
-const char*         <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-get-dhcp-hostname">nm_setting_ip4_config_get_dhcp_hostname</a>
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-get-ignore-auto-routes"
+>nm_setting_ip4_config_get_ignore_auto_routes</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="NMSettingIP4Config.html#nm-setting-ip4-config-get-never-default">nm_setting_ip4_config_get_never_default</a>
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);
-
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-get-ignore-auto-dns"
+>nm_setting_ip4_config_get_ignore_auto_dns</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-get-dhcp-client-id"
+>nm_setting_ip4_config_get_dhcp_client_id</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-get-dhcp-hostname"
+>nm_setting_ip4_config_get_dhcp_hostname</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);
+<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-get-never-default"
+>nm_setting_ip4_config_get_never_default</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2989475"></a><h2>Object Hierarchy</h2>
+<a name="NMSettingIP4Config.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>
+   +----<a
+href="http://[SERVER]/libnm-util/NMSetting.html"
+>NMSetting</a>
          +----NMSettingIP4Config
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2989505"></a><h2>Properties</h2>
+<a name="NMSettingIP4Config.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-
-  "<a class="link" href="NMSettingIP4Config.html#NMSettingIP4Config--dhcp-client-id">dhcp-client-id</a>"           <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write
-  "<a class="link" href="NMSettingIP4Config.html#NMSettingIP4Config--dhcp-hostname">dhcp-hostname</a>"            <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write
-  "<a class="link" href="NMSettingIP4Config.html#NMSettingIP4Config--ignore-auto-dns">ignore-auto-dns</a>"          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--addresses"
+>addresses</a>"                GPtrArray_GArray_guint__*  : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--dhcp-client-id"
+>dhcp-client-id</a>"           <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--dhcp-hostname"
+>dhcp-hostname</a>"            <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--dns"
+>dns</a>"                      GArray_guint_*        : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--dns-search"
+>dns-search</a>"               GSList_gchararray_*   : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--ignore-auto-dns"
+>ignore-auto-dns</a>"          <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write / Construct
-  "<a class="link" href="NMSettingIP4Config.html#NMSettingIP4Config--ignore-auto-routes">ignore-auto-routes</a>"       <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--ignore-auto-routes"
+>ignore-auto-routes</a>"       <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write / Construct
-  "<a class="link" href="NMSettingIP4Config.html#NMSettingIP4Config--method">method</a>"                   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write
-  "<a class="link" href="NMSettingIP4Config.html#NMSettingIP4Config--never-default">never-default</a>"            <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--method"
+>method</a>"                   <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--never-default"
+>never-default</a>"            <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write / Construct
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--routes"
+>routes</a>"                   GPtrArray_GArray_guint__*  : Read / Write
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2989601"></a><h2>Description</h2>
+<a name="NMSettingIP4Config.description"></a><h2>Description</h2>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2989617"></a><h2>Details</h2>
+<a name="NMSettingIP4Config.details"></a><h2>Details</h2>
 <div class="refsect2" lang="en">
-<a name="id2989628"></a><h3>
-<a name="NM-SETTING-IP4-CONFIG-SETTING-NAME:CAPS"></a>NM_SETTING_IP4_CONFIG_SETTING_NAME</h3>
-<a class="indexterm" name="id2989642"></a><pre class="programlisting">#define NM_SETTING_IP4_CONFIG_SETTING_NAME "ipv4"
+<a name="NM-SETTING-IP4-CONFIG-SETTING-NAME--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_SETTING_NAME</h3>
+<pre class="programlisting">#define NM_SETTING_IP4_CONFIG_SETTING_NAME "ipv4"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2989659"></a><h3>
-<a name="NMSettingIP4ConfigError"></a>enum NMSettingIP4ConfigError</h3>
-<a class="indexterm" name="id2989671"></a><pre class="programlisting">typedef enum
+<a name="NMSettingIP4ConfigError"></a><h3>enum NMSettingIP4ConfigError</h3>
+<pre class="programlisting">typedef enum
 {
 	NM_SETTING_IP4_CONFIG_ERROR_UNKNOWN = 0,
 	NM_SETTING_IP4_CONFIG_ERROR_INVALID_PROPERTY,
@@ -301,240 +585,199 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 } NMSettingIP4ConfigError;
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2989690"></a><h3>
-<a name="NM-TYPE-SETTING-IP4-CONFIG-ERROR:CAPS"></a>NM_TYPE_SETTING_IP4_CONFIG_ERROR</h3>
-<a class="indexterm" name="id2989703"></a><pre class="programlisting">#define NM_TYPE_SETTING_IP4_CONFIG_ERROR (nm_setting_ip4_config_error_get_type ()) 
+<a name="NM-TYPE-SETTING-IP4-CONFIG-ERROR--CAPS"></a><h3>NM_TYPE_SETTING_IP4_CONFIG_ERROR</h3>
+<pre class="programlisting">#define NM_TYPE_SETTING_IP4_CONFIG_ERROR (nm_setting_ip4_config_error_get_type ()) 
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2989721"></a><h3>
-<a name="NM-SETTING-IP4-CONFIG-ERROR:CAPS"></a>NM_SETTING_IP4_CONFIG_ERROR</h3>
-<a class="indexterm" name="id2989734"></a><pre class="programlisting">#define NM_SETTING_IP4_CONFIG_ERROR nm_setting_ip4_config_error_quark ()
+<a name="NM-SETTING-IP4-CONFIG-ERROR--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_ERROR</h3>
+<pre class="programlisting">#define NM_SETTING_IP4_CONFIG_ERROR nm_setting_ip4_config_error_quark ()
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2989750"></a><h3>
-<a name="nm-setting-ip4-config-error-quark"></a>nm_setting_ip4_config_error_quark ()</h3>
-<a class="indexterm" name="id2989763"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+<a name="nm-setting-ip4-config-error-quark"></a><h3>nm_setting_ip4_config_error_quark ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 >GQuark</a>              nm_setting_ip4_config_error_quark   (void);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2989799"></a><h3>
-<a name="NM-SETTING-IP4-CONFIG-METHOD:CAPS"></a>NM_SETTING_IP4_CONFIG_METHOD</h3>
-<a class="indexterm" name="id2989812"></a><pre class="programlisting">#define NM_SETTING_IP4_CONFIG_METHOD             "method"
+<a name="NM-SETTING-IP4-CONFIG-METHOD--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_METHOD</h3>
+<pre class="programlisting">#define NM_SETTING_IP4_CONFIG_METHOD             "method"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2989829"></a><h3>
-<a name="NM-SETTING-IP4-CONFIG-DNS:CAPS"></a>NM_SETTING_IP4_CONFIG_DNS</h3>
-<a class="indexterm" name="id2989842"></a><pre class="programlisting">#define NM_SETTING_IP4_CONFIG_DNS                "dns"
+<a name="NM-SETTING-IP4-CONFIG-DNS--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_DNS</h3>
+<pre class="programlisting">#define NM_SETTING_IP4_CONFIG_DNS                "dns"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2989858"></a><h3>
-<a name="NM-SETTING-IP4-CONFIG-DNS-SEARCH:CAPS"></a>NM_SETTING_IP4_CONFIG_DNS_SEARCH</h3>
-<a class="indexterm" name="id2989872"></a><pre class="programlisting">#define NM_SETTING_IP4_CONFIG_DNS_SEARCH         "dns-search"
+<a name="NM-SETTING-IP4-CONFIG-DNS-SEARCH--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_DNS_SEARCH</h3>
+<pre class="programlisting">#define NM_SETTING_IP4_CONFIG_DNS_SEARCH         "dns-search"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2989889"></a><h3>
-<a name="NM-SETTING-IP4-CONFIG-ADDRESSES:CAPS"></a>NM_SETTING_IP4_CONFIG_ADDRESSES</h3>
-<a class="indexterm" name="id2989902"></a><pre class="programlisting">#define NM_SETTING_IP4_CONFIG_ADDRESSES          "addresses"
+<a name="NM-SETTING-IP4-CONFIG-ADDRESSES--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_ADDRESSES</h3>
+<pre class="programlisting">#define NM_SETTING_IP4_CONFIG_ADDRESSES          "addresses"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2989919"></a><h3>
-<a name="NM-SETTING-IP4-CONFIG-ROUTES:CAPS"></a>NM_SETTING_IP4_CONFIG_ROUTES</h3>
-<a class="indexterm" name="id2989932"></a><pre class="programlisting">#define NM_SETTING_IP4_CONFIG_ROUTES             "routes"
+<a name="NM-SETTING-IP4-CONFIG-ROUTES--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_ROUTES</h3>
+<pre class="programlisting">#define NM_SETTING_IP4_CONFIG_ROUTES             "routes"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2989949"></a><h3>
-<a name="NM-SETTING-IP4-CONFIG-IGNORE-AUTO-ROUTES:CAPS"></a>NM_SETTING_IP4_CONFIG_IGNORE_AUTO_ROUTES</h3>
-<a class="indexterm" name="id2989962"></a><pre class="programlisting">#define NM_SETTING_IP4_CONFIG_IGNORE_AUTO_ROUTES "ignore-auto-routes"
+<a name="NM-SETTING-IP4-CONFIG-IGNORE-AUTO-ROUTES--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_IGNORE_AUTO_ROUTES</h3>
+<pre class="programlisting">#define NM_SETTING_IP4_CONFIG_IGNORE_AUTO_ROUTES "ignore-auto-routes"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2989979"></a><h3>
-<a name="NM-SETTING-IP4-CONFIG-IGNORE-AUTO-DNS:CAPS"></a>NM_SETTING_IP4_CONFIG_IGNORE_AUTO_DNS</h3>
-<a class="indexterm" name="id2989993"></a><pre class="programlisting">#define NM_SETTING_IP4_CONFIG_IGNORE_AUTO_DNS    "ignore-auto-dns"
+<a name="NM-SETTING-IP4-CONFIG-IGNORE-AUTO-DNS--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_IGNORE_AUTO_DNS</h3>
+<pre class="programlisting">#define NM_SETTING_IP4_CONFIG_IGNORE_AUTO_DNS    "ignore-auto-dns"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2990010"></a><h3>
-<a name="NM-SETTING-IP4-CONFIG-DHCP-CLIENT-ID:CAPS"></a>NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID</h3>
-<a class="indexterm" name="id2990024"></a><pre class="programlisting">#define NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID     "dhcp-client-id"
+<a name="NM-SETTING-IP4-CONFIG-DHCP-CLIENT-ID--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID</h3>
+<pre class="programlisting">#define NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID     "dhcp-client-id"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2990041"></a><h3>
-<a name="NM-SETTING-IP4-CONFIG-DHCP-HOSTNAME:CAPS"></a>NM_SETTING_IP4_CONFIG_DHCP_HOSTNAME</h3>
-<a class="indexterm" name="id2990055"></a><pre class="programlisting">#define NM_SETTING_IP4_CONFIG_DHCP_HOSTNAME      "dhcp-hostname"
+<a name="NM-SETTING-IP4-CONFIG-DHCP-HOSTNAME--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_DHCP_HOSTNAME</h3>
+<pre class="programlisting">#define NM_SETTING_IP4_CONFIG_DHCP_HOSTNAME      "dhcp-hostname"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2990072"></a><h3>
-<a name="NM-SETTING-IP4-CONFIG-NEVER-DEFAULT:CAPS"></a>NM_SETTING_IP4_CONFIG_NEVER_DEFAULT</h3>
-<a class="indexterm" name="id2990085"></a><pre class="programlisting">#define NM_SETTING_IP4_CONFIG_NEVER_DEFAULT      "never-default"
+<a name="NM-SETTING-IP4-CONFIG-NEVER-DEFAULT--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_NEVER_DEFAULT</h3>
+<pre class="programlisting">#define NM_SETTING_IP4_CONFIG_NEVER_DEFAULT      "never-default"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2990102"></a><h3>
-<a name="NM-SETTING-IP4-CONFIG-METHOD-AUTO:CAPS"></a>NM_SETTING_IP4_CONFIG_METHOD_AUTO</h3>
-<a class="indexterm" name="id2990116"></a><pre class="programlisting">#define NM_SETTING_IP4_CONFIG_METHOD_AUTO       "auto"
+<a name="NM-SETTING-IP4-CONFIG-METHOD-AUTO--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_METHOD_AUTO</h3>
+<pre class="programlisting">#define NM_SETTING_IP4_CONFIG_METHOD_AUTO       "auto"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2990133"></a><h3>
-<a name="NM-SETTING-IP4-CONFIG-METHOD-LINK-LOCAL:CAPS"></a>NM_SETTING_IP4_CONFIG_METHOD_LINK_LOCAL</h3>
-<a class="indexterm" name="id2990146"></a><pre class="programlisting">#define NM_SETTING_IP4_CONFIG_METHOD_LINK_LOCAL "link-local"
+<a name="NM-SETTING-IP4-CONFIG-METHOD-LINK-LOCAL--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_METHOD_LINK_LOCAL</h3>
+<pre class="programlisting">#define NM_SETTING_IP4_CONFIG_METHOD_LINK_LOCAL "link-local"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2990163"></a><h3>
-<a name="NM-SETTING-IP4-CONFIG-METHOD-MANUAL:CAPS"></a>NM_SETTING_IP4_CONFIG_METHOD_MANUAL</h3>
-<a class="indexterm" name="id2990177"></a><pre class="programlisting">#define NM_SETTING_IP4_CONFIG_METHOD_MANUAL     "manual"
+<a name="NM-SETTING-IP4-CONFIG-METHOD-MANUAL--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_METHOD_MANUAL</h3>
+<pre class="programlisting">#define NM_SETTING_IP4_CONFIG_METHOD_MANUAL     "manual"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2990194"></a><h3>
-<a name="NM-SETTING-IP4-CONFIG-METHOD-SHARED:CAPS"></a>NM_SETTING_IP4_CONFIG_METHOD_SHARED</h3>
-<a class="indexterm" name="id2990207"></a><pre class="programlisting">#define NM_SETTING_IP4_CONFIG_METHOD_SHARED     "shared"
+<a name="NM-SETTING-IP4-CONFIG-METHOD-SHARED--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_METHOD_SHARED</h3>
+<pre class="programlisting">#define NM_SETTING_IP4_CONFIG_METHOD_SHARED     "shared"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2990224"></a><h3>
-<a name="NMIP4Address"></a>NMIP4Address</h3>
-<a class="indexterm" name="id2990236"></a><pre class="programlisting">typedef struct NMIP4Address NMIP4Address;
+<a name="NMIP4Address"></a><h3>NMIP4Address</h3>
+<pre class="programlisting">typedef struct NMIP4Address NMIP4Address;
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2990252"></a><h3>
-<a name="nm-ip4-address-new"></a>nm_ip4_address_new ()</h3>
-<a class="indexterm" name="id2990264"></a><pre class="programlisting"><a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a>*       nm_ip4_address_new                  (void);</pre>
+<a name="nm-ip4-address-new"></a><h3>nm_ip4_address_new ()</h3>
+<pre class="programlisting"><a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *      nm_ip4_address_new                  (void);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2990301"></a><h3>
-<a name="nm-ip4-address-dup"></a>nm_ip4_address_dup ()</h3>
-<a class="indexterm" name="id2990313"></a><pre class="programlisting"><a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a>*       nm_ip4_address_dup                  (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *source);</pre>
+<a name="nm-ip4-address-dup"></a><h3>nm_ip4_address_dup ()</h3>
+<pre class="programlisting"><a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *      nm_ip4_address_dup                  (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *source);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>source</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>source</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -542,128 +785,120 @@ href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2990370"></a><h3>
-<a name="nm-ip4-address-ref"></a>nm_ip4_address_ref ()</h3>
-<a class="indexterm" name="id2990382"></a><pre class="programlisting">void                nm_ip4_address_ref                  (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address);</pre>
+<a name="nm-ip4-address-ref"></a><h3>nm_ip4_address_ref ()</h3>
+<pre class="programlisting">void                nm_ip4_address_ref                  (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>address</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>address</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2990428"></a><h3>
-<a name="nm-ip4-address-unref"></a>nm_ip4_address_unref ()</h3>
-<a class="indexterm" name="id2990439"></a><pre class="programlisting">void                nm_ip4_address_unref                (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address);</pre>
+<a name="nm-ip4-address-unref"></a><h3>nm_ip4_address_unref ()</h3>
+<pre class="programlisting">void                nm_ip4_address_unref                (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>address</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>address</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2990485"></a><h3>
-<a name="nm-ip4-address-compare"></a>nm_ip4_address_compare ()</h3>
-<a class="indexterm" name="id2990497"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            nm_ip4_address_compare              (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address,
-                                                         <a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *other);</pre>
-<p>
-
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>address</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>other</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
-<td>
-
-
-</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2990575"></a><h3>
-<a name="nm-ip4-address-get-address"></a>nm_ip4_address_get_address ()</h3>
-<a class="indexterm" name="id2990587"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             nm_ip4_address_get_address          (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address);</pre>
-<p>
-
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>address</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
-<td>
-
-
-</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2990643"></a><h3>
-<a name="nm-ip4-address-set-address"></a>nm_ip4_address_set_address ()</h3>
-<a class="indexterm" name="id2990655"></a><pre class="programlisting">void                nm_ip4_address_set_address          (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address,
+<a name="nm-ip4-address-compare"></a><h3>nm_ip4_address_compare ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_ip4_address_compare              (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *other);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>other</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="nm-ip4-address-get-address"></a><h3>nm_ip4_address_get_address ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_ip4_address_get_address          (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="nm-ip4-address-set-address"></a><h3>nm_ip4_address_set_address ()</h3>
+<pre class="programlisting">void                nm_ip4_address_set_address          (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address,
+                                                         <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> addr);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>address</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>address</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>addr</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>addr</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -671,27 +906,25 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2990722"></a><h3>
-<a name="nm-ip4-address-get-prefix"></a>nm_ip4_address_get_prefix ()</h3>
-<a class="indexterm" name="id2990734"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             nm_ip4_address_get_prefix           (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address);</pre>
+<a name="nm-ip4-address-get-prefix"></a><h3>nm_ip4_address_get_prefix ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_ip4_address_get_prefix           (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>address</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>address</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -699,28 +932,26 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2990791"></a><h3>
-<a name="nm-ip4-address-set-prefix"></a>nm_ip4_address_set_prefix ()</h3>
-<a class="indexterm" name="id2990803"></a><pre class="programlisting">void                nm_ip4_address_set_prefix           (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address,
+<a name="nm-ip4-address-set-prefix"></a><h3>nm_ip4_address_set_prefix ()</h3>
+<pre class="programlisting">void                nm_ip4_address_set_prefix           (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> prefix);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>address</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>address</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>prefix</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>prefix</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -728,27 +959,25 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2990870"></a><h3>
-<a name="nm-ip4-address-get-gateway"></a>nm_ip4_address_get_gateway ()</h3>
-<a class="indexterm" name="id2990882"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             nm_ip4_address_get_gateway          (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address);</pre>
+<a name="nm-ip4-address-get-gateway"></a><h3>nm_ip4_address_get_gateway ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_ip4_address_get_gateway          (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>address</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>address</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -756,28 +985,26 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2999982"></a><h3>
-<a name="nm-ip4-address-set-gateway"></a>nm_ip4_address_set_gateway ()</h3>
-<a class="indexterm" name="id2999993"></a><pre class="programlisting">void                nm_ip4_address_set_gateway          (<a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address,
+<a name="nm-ip4-address-set-gateway"></a><h3>nm_ip4_address_set_gateway ()</h3>
+<pre class="programlisting">void                nm_ip4_address_set_gateway          (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> gateway);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>address</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>address</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>gateway</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>gateway</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -785,54 +1012,50 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3000053"></a><h3>
-<a name="NMIP4Route"></a>NMIP4Route</h3>
-<a class="indexterm" name="id3000063"></a><pre class="programlisting">typedef struct NMIP4Route NMIP4Route;
+<a name="NMIP4Route"></a><h3>NMIP4Route</h3>
+<pre class="programlisting">typedef struct NMIP4Route NMIP4Route;
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3000077"></a><h3>
-<a name="nm-ip4-route-new"></a>nm_ip4_route_new ()</h3>
-<a class="indexterm" name="id3000088"></a><pre class="programlisting"><a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a>*         nm_ip4_route_new                    (void);</pre>
+<a name="nm-ip4-route-new"></a><h3>nm_ip4_route_new ()</h3>
+<pre class="programlisting"><a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *        nm_ip4_route_new                    (void);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3000120"></a><h3>
-<a name="nm-ip4-route-dup"></a>nm_ip4_route_dup ()</h3>
-<a class="indexterm" name="id3000131"></a><pre class="programlisting"><a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a>*         nm_ip4_route_dup                    (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route);</pre>
+<a name="nm-ip4-route-dup"></a><h3>nm_ip4_route_dup ()</h3>
+<pre class="programlisting"><a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *        nm_ip4_route_dup                    (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>route</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>route</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -840,128 +1063,120 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3000181"></a><h3>
-<a name="nm-ip4-route-ref"></a>nm_ip4_route_ref ()</h3>
-<a class="indexterm" name="id3000191"></a><pre class="programlisting">void                nm_ip4_route_ref                    (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route);</pre>
+<a name="nm-ip4-route-ref"></a><h3>nm_ip4_route_ref ()</h3>
+<pre class="programlisting">void                nm_ip4_route_ref                    (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>route</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>route</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3000232"></a><h3>
-<a name="nm-ip4-route-unref"></a>nm_ip4_route_unref ()</h3>
-<a class="indexterm" name="id3000243"></a><pre class="programlisting">void                nm_ip4_route_unref                  (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route);</pre>
+<a name="nm-ip4-route-unref"></a><h3>nm_ip4_route_unref ()</h3>
+<pre class="programlisting">void                nm_ip4_route_unref                  (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>route</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>route</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3000283"></a><h3>
-<a name="nm-ip4-route-compare"></a>nm_ip4_route_compare ()</h3>
-<a class="indexterm" name="id3000294"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            nm_ip4_route_compare                (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route,
-                                                         <a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *other);</pre>
-<p>
-
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>route</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>other</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
-<td>
-
-
-</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id3000363"></a><h3>
-<a name="nm-ip4-route-get-dest"></a>nm_ip4_route_get_dest ()</h3>
-<a class="indexterm" name="id3000374"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             nm_ip4_route_get_dest               (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route);</pre>
-<p>
-
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>route</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
-<td>
-
-
-</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id3000424"></a><h3>
-<a name="nm-ip4-route-set-dest"></a>nm_ip4_route_set_dest ()</h3>
-<a class="indexterm" name="id3000434"></a><pre class="programlisting">void                nm_ip4_route_set_dest               (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route,
+<a name="nm-ip4-route-compare"></a><h3>nm_ip4_route_compare ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_ip4_route_compare                (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *other);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>route</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>other</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="nm-ip4-route-get-dest"></a><h3>nm_ip4_route_get_dest ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_ip4_route_get_dest               (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>route</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="nm-ip4-route-set-dest"></a><h3>nm_ip4_route_set_dest ()</h3>
+<pre class="programlisting">void                nm_ip4_route_set_dest               (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route,
+                                                         <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> dest);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>route</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>route</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>dest</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>dest</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -969,27 +1184,25 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3000494"></a><h3>
-<a name="nm-ip4-route-get-prefix"></a>nm_ip4_route_get_prefix ()</h3>
-<a class="indexterm" name="id3000504"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             nm_ip4_route_get_prefix             (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route);</pre>
+<a name="nm-ip4-route-get-prefix"></a><h3>nm_ip4_route_get_prefix ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_ip4_route_get_prefix             (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>route</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>route</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -997,28 +1210,26 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3000555"></a><h3>
-<a name="nm-ip4-route-set-prefix"></a>nm_ip4_route_set_prefix ()</h3>
-<a class="indexterm" name="id3000565"></a><pre class="programlisting">void                nm_ip4_route_set_prefix             (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route,
+<a name="nm-ip4-route-set-prefix"></a><h3>nm_ip4_route_set_prefix ()</h3>
+<pre class="programlisting">void                nm_ip4_route_set_prefix             (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> prefix);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>route</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>route</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>prefix</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>prefix</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1026,27 +1237,25 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3000625"></a><h3>
-<a name="nm-ip4-route-get-next-hop"></a>nm_ip4_route_get_next_hop ()</h3>
-<a class="indexterm" name="id3000636"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             nm_ip4_route_get_next_hop           (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route);</pre>
+<a name="nm-ip4-route-get-next-hop"></a><h3>nm_ip4_route_get_next_hop ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_ip4_route_get_next_hop           (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>route</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>route</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1054,28 +1263,26 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3000686"></a><h3>
-<a name="nm-ip4-route-set-next-hop"></a>nm_ip4_route_set_next_hop ()</h3>
-<a class="indexterm" name="id3000697"></a><pre class="programlisting">void                nm_ip4_route_set_next_hop           (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route,
+<a name="nm-ip4-route-set-next-hop"></a><h3>nm_ip4_route_set_next_hop ()</h3>
+<pre class="programlisting">void                nm_ip4_route_set_next_hop           (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> next_hop);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>route</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>route</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>next_hop</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>next_hop</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1083,27 +1290,25 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3000757"></a><h3>
-<a name="nm-ip4-route-get-metric"></a>nm_ip4_route_get_metric ()</h3>
-<a class="indexterm" name="id3000768"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             nm_ip4_route_get_metric             (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route);</pre>
+<a name="nm-ip4-route-get-metric"></a><h3>nm_ip4_route_get_metric ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_ip4_route_get_metric             (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>route</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>route</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1111,28 +1316,26 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3000818"></a><h3>
-<a name="nm-ip4-route-set-metric"></a>nm_ip4_route_set_metric ()</h3>
-<a class="indexterm" name="id3000828"></a><pre class="programlisting">void                nm_ip4_route_set_metric             (<a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route,
+<a name="nm-ip4-route-set-metric"></a><h3>nm_ip4_route_set_metric ()</h3>
+<pre class="programlisting">void                nm_ip4_route_set_metric             (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> metric);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>route</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>route</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>metric</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>metric</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1140,74 +1343,64 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3000888"></a><h3>
-<a name="NMSettingIP4Config-struct"></a>NMSettingIP4Config</h3>
-<a class="indexterm" name="id3000899"></a><pre class="programlisting">typedef struct _NMSettingIP4Config NMSettingIP4Config;</pre>
+<a name="NMSettingIP4Config-struct"></a><h3>NMSettingIP4Config</h3>
+<pre class="programlisting">typedef struct _NMSettingIP4Config NMSettingIP4Config;</pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3000913"></a><h3>
-<a name="nm-setting-ip4-config-get-type"></a>nm_setting_ip4_config_get_type ()</h3>
-<a class="indexterm" name="id3000926"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+<a name="nm-setting-ip4-config-get-type"></a><h3>nm_setting_ip4_config_get_type ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"
 >GType</a>               nm_setting_ip4_config_get_type      (void);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3000959"></a><h3>
-<a name="nm-setting-ip4-config-new"></a>nm_setting_ip4_config_new ()</h3>
-<a class="indexterm" name="id3000970"></a><pre class="programlisting"><a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          nm_setting_ip4_config_new           (void);</pre>
+<a name="nm-setting-ip4-config-new"></a><h3>nm_setting_ip4_config_new ()</h3>
+<pre class="programlisting"><a
+href="http://[SERVER]/libnm-util/NMSetting.html"
+>NMSetting</a> *         nm_setting_ip4_config_new           (void);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3001002"></a><h3>
-<a name="nm-setting-ip4-config-get-method"></a>nm_setting_ip4_config_get_method ()</h3>
-<a class="indexterm" name="id3001015"></a><pre class="programlisting">const char*         nm_setting_ip4_config_get_method    (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);</pre>
+<a name="nm-setting-ip4-config-get-method"></a><h3>nm_setting_ip4_config_get_method ()</h3>
+<pre class="programlisting">const char *        nm_setting_ip4_config_get_method    (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1215,27 +1408,25 @@ href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3001067"></a><h3>
-<a name="nm-setting-ip4-config-get-num-dns"></a>nm_setting_ip4_config_get_num_dns ()</h3>
-<a class="indexterm" name="id3001080"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             nm_setting_ip4_config_get_num_dns   (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);</pre>
+<a name="nm-setting-ip4-config-get-num-dns"></a><h3>nm_setting_ip4_config_get_num_dns ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_setting_ip4_config_get_num_dns   (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1243,35 +1434,33 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3001130"></a><h3>
-<a name="nm-setting-ip4-config-get-dns"></a>nm_setting_ip4_config_get_dns ()</h3>
-<a class="indexterm" name="id3001143"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             nm_setting_ip4_config_get_dns       (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+<a name="nm-setting-ip4-config-get-dns"></a><h3>nm_setting_ip4_config_get_dns ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             nm_setting_ip4_config_get_dns       (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>i</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1279,35 +1468,33 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3001213"></a><h3>
-<a name="nm-setting-ip4-config-add-dns"></a>nm_setting_ip4_config_add_dns ()</h3>
-<a class="indexterm" name="id3001225"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            nm_setting_ip4_config_add_dns       (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+<a name="nm-setting-ip4-config-add-dns"></a><h3>nm_setting_ip4_config_add_dns ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_ip4_config_add_dns       (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> dns);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>dns</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>dns</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1315,28 +1502,26 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3001295"></a><h3>
-<a name="nm-setting-ip4-config-remove-dns"></a>nm_setting_ip4_config_remove_dns ()</h3>
-<a class="indexterm" name="id3001308"></a><pre class="programlisting">void                nm_setting_ip4_config_remove_dns    (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+<a name="nm-setting-ip4-config-remove-dns"></a><h3>nm_setting_ip4_config_remove_dns ()</h3>
+<pre class="programlisting">void                nm_setting_ip4_config_remove_dns    (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>i</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1344,47 +1529,43 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3001368"></a><h3>
-<a name="nm-setting-ip4-config-clear-dns"></a>nm_setting_ip4_config_clear_dns ()</h3>
-<a class="indexterm" name="id3001381"></a><pre class="programlisting">void                nm_setting_ip4_config_clear_dns     (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);</pre>
+<a name="nm-setting-ip4-config-clear-dns"></a><h3>nm_setting_ip4_config_clear_dns ()</h3>
+<pre class="programlisting">void                nm_setting_ip4_config_clear_dns     (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3001422"></a><h3>
-<a name="nm-setting-ip4-config-get-num-dns-searches"></a>nm_setting_ip4_config_get_num_dns_searches ()</h3>
-<a class="indexterm" name="id3001436"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+<a name="nm-setting-ip4-config-get-num-dns-searches"></a><h3>nm_setting_ip4_config_get_num_dns_searches ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a>             nm_setting_ip4_config_get_num_dns_searches
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);</pre>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1392,34 +1573,32 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3001487"></a><h3>
-<a name="nm-setting-ip4-config-get-dns-search"></a>nm_setting_ip4_config_get_dns_search ()</h3>
-<a class="indexterm" name="id3001500"></a><pre class="programlisting">const char*         nm_setting_ip4_config_get_dns_search
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+<a name="nm-setting-ip4-config-get-dns-search"></a><h3>nm_setting_ip4_config_get_dns_search ()</h3>
+<pre class="programlisting">const char *        nm_setting_ip4_config_get_dns_search
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>i</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1427,34 +1606,32 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3001572"></a><h3>
-<a name="nm-setting-ip4-config-add-dns-search"></a>nm_setting_ip4_config_add_dns_search ()</h3>
-<a class="indexterm" name="id3001585"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+<a name="nm-setting-ip4-config-add-dns-search"></a><h3>nm_setting_ip4_config_add_dns_search ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
 >gboolean</a>            nm_setting_ip4_config_add_dns_search
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          const char *dns_search);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>dns_search</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>dns_search</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1462,29 +1639,27 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3001656"></a><h3>
-<a name="nm-setting-ip4-config-remove-dns-search"></a>nm_setting_ip4_config_remove_dns_search ()</h3>
-<a class="indexterm" name="id3001669"></a><pre class="programlisting">void                nm_setting_ip4_config_remove_dns_search
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+<a name="nm-setting-ip4-config-remove-dns-search"></a><h3>nm_setting_ip4_config_remove_dns_search ()</h3>
+<pre class="programlisting">void                nm_setting_ip4_config_remove_dns_search
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>i</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1492,48 +1667,44 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3001731"></a><h3>
-<a name="nm-setting-ip4-config-clear-dns-searches"></a>nm_setting_ip4_config_clear_dns_searches ()</h3>
-<a class="indexterm" name="id3001744"></a><pre class="programlisting">void                nm_setting_ip4_config_clear_dns_searches
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);</pre>
+<a name="nm-setting-ip4-config-clear-dns-searches"></a><h3>nm_setting_ip4_config_clear_dns_searches ()</h3>
+<pre class="programlisting">void                nm_setting_ip4_config_clear_dns_searches
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3001786"></a><h3>
-<a name="nm-setting-ip4-config-get-num-addresses"></a>nm_setting_ip4_config_get_num_addresses ()</h3>
-<a class="indexterm" name="id3001799"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+<a name="nm-setting-ip4-config-get-num-addresses"></a><h3>nm_setting_ip4_config_get_num_addresses ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a>             nm_setting_ip4_config_get_num_addresses
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);</pre>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1541,33 +1712,33 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3001851"></a><h3>
-<a name="nm-setting-ip4-config-get-address"></a>nm_setting_ip4_config_get_address ()</h3>
-<a class="indexterm" name="id3001864"></a><pre class="programlisting"><a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a>*       nm_setting_ip4_config_get_address   (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+<a name="nm-setting-ip4-config-get-address"></a><h3>nm_setting_ip4_config_get_address ()</h3>
+<pre class="programlisting"><a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *      nm_setting_ip4_config_get_address   (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>i</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1575,63 +1746,61 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3001934"></a><h3>
-<a name="nm-setting-ip4-config-add-address"></a>nm_setting_ip4_config_add_address ()</h3>
-<a class="indexterm" name="id3001947"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            nm_setting_ip4_config_add_address   (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
-                                                         <a class="link" href="NMSettingIP4Config.html#NMIP4Address">NMIP4Address</a> *address);</pre>
-<p>
-
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>address</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
-<td>
-
-
-</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id3002017"></a><h3>
-<a name="nm-setting-ip4-config-remove-address"></a>nm_setting_ip4_config_remove_address ()</h3>
-<a class="indexterm" name="id3002029"></a><pre class="programlisting">void                nm_setting_ip4_config_remove_address
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+<a name="nm-setting-ip4-config-add-address"></a><h3>nm_setting_ip4_config_add_address ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_ip4_config_add_address   (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
+>NMIP4Address</a> *address);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>address</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="nm-setting-ip4-config-remove-address"></a><h3>nm_setting_ip4_config_remove_address ()</h3>
+<pre class="programlisting">void                nm_setting_ip4_config_remove_address
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
+                                                         <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>i</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1639,48 +1808,44 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3002091"></a><h3>
-<a name="nm-setting-ip4-config-clear-addresses"></a>nm_setting_ip4_config_clear_addresses ()</h3>
-<a class="indexterm" name="id3002104"></a><pre class="programlisting">void                nm_setting_ip4_config_clear_addresses
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);</pre>
+<a name="nm-setting-ip4-config-clear-addresses"></a><h3>nm_setting_ip4_config_clear_addresses ()</h3>
+<pre class="programlisting">void                nm_setting_ip4_config_clear_addresses
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3002146"></a><h3>
-<a name="nm-setting-ip4-config-get-num-routes"></a>nm_setting_ip4_config_get_num_routes ()</h3>
-<a class="indexterm" name="id3002159"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+<a name="nm-setting-ip4-config-get-num-routes"></a><h3>nm_setting_ip4_config_get_num_routes ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a>             nm_setting_ip4_config_get_num_routes
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);</pre>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1688,33 +1853,33 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3002211"></a><h3>
-<a name="nm-setting-ip4-config-get-route"></a>nm_setting_ip4_config_get_route ()</h3>
-<a class="indexterm" name="id3002224"></a><pre class="programlisting"><a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a>*         nm_setting_ip4_config_get_route     (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+<a name="nm-setting-ip4-config-get-route"></a><h3>nm_setting_ip4_config_get_route ()</h3>
+<pre class="programlisting"><a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *        nm_setting_ip4_config_get_route     (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>i</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1722,62 +1887,60 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3002294"></a><h3>
-<a name="nm-setting-ip4-config-add-route"></a>nm_setting_ip4_config_add_route ()</h3>
-<a class="indexterm" name="id3002306"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            nm_setting_ip4_config_add_route     (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
-                                                         <a class="link" href="NMSettingIP4Config.html#NMIP4Route">NMIP4Route</a> *route);</pre>
-<p>
-
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>route</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
-<td>
-
-
-</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id3002376"></a><h3>
-<a name="nm-setting-ip4-config-remove-route"></a>nm_setting_ip4_config_remove_route ()</h3>
-<a class="indexterm" name="id3002390"></a><pre class="programlisting">void                nm_setting_ip4_config_remove_route  (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting,
+<a name="nm-setting-ip4-config-add-route"></a><h3>nm_setting_ip4_config_add_route ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_ip4_config_add_route     (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
+>NMIP4Route</a> *route);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>route</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="nm-setting-ip4-config-remove-route"></a><h3>nm_setting_ip4_config_remove_route ()</h3>
+<pre class="programlisting">void                nm_setting_ip4_config_remove_route  (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting,
+                                                         <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>i</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1785,47 +1948,43 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3002450"></a><h3>
-<a name="nm-setting-ip4-config-clear-routes"></a>nm_setting_ip4_config_clear_routes ()</h3>
-<a class="indexterm" name="id3002463"></a><pre class="programlisting">void                nm_setting_ip4_config_clear_routes  (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);</pre>
+<a name="nm-setting-ip4-config-clear-routes"></a><h3>nm_setting_ip4_config_clear_routes ()</h3>
+<pre class="programlisting">void                nm_setting_ip4_config_clear_routes  (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3002504"></a><h3>
-<a name="nm-setting-ip4-config-get-ignore-auto-routes"></a>nm_setting_ip4_config_get_ignore_auto_routes ()</h3>
-<a class="indexterm" name="id3002517"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+<a name="nm-setting-ip4-config-get-ignore-auto-routes"></a><h3>nm_setting_ip4_config_get_ignore_auto_routes ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
 >gboolean</a>            nm_setting_ip4_config_get_ignore_auto_routes
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);</pre>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1833,28 +1992,26 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3002569"></a><h3>
-<a name="nm-setting-ip4-config-get-ignore-auto-dns"></a>nm_setting_ip4_config_get_ignore_auto_dns ()</h3>
-<a class="indexterm" name="id3002583"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+<a name="nm-setting-ip4-config-get-ignore-auto-dns"></a><h3>nm_setting_ip4_config_get_ignore_auto_dns ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
 >gboolean</a>            nm_setting_ip4_config_get_ignore_auto_dns
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);</pre>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1862,26 +2019,24 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3002634"></a><h3>
-<a name="nm-setting-ip4-config-get-dhcp-client-id"></a>nm_setting_ip4_config_get_dhcp_client_id ()</h3>
-<a class="indexterm" name="id3002647"></a><pre class="programlisting">const char*         nm_setting_ip4_config_get_dhcp_client_id
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);</pre>
+<a name="nm-setting-ip4-config-get-dhcp-client-id"></a><h3>nm_setting_ip4_config_get_dhcp_client_id ()</h3>
+<pre class="programlisting">const char *        nm_setting_ip4_config_get_dhcp_client_id
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1889,26 +2044,24 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3002700"></a><h3>
-<a name="nm-setting-ip4-config-get-dhcp-hostname"></a>nm_setting_ip4_config_get_dhcp_hostname ()</h3>
-<a class="indexterm" name="id3002713"></a><pre class="programlisting">const char*         nm_setting_ip4_config_get_dhcp_hostname
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);</pre>
+<a name="nm-setting-ip4-config-get-dhcp-hostname"></a><h3>nm_setting_ip4_config_get_dhcp_hostname ()</h3>
+<pre class="programlisting">const char *        nm_setting_ip4_config_get_dhcp_hostname
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1916,28 +2069,26 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3002766"></a><h3>
-<a name="nm-setting-ip4-config-get-never-default"></a>nm_setting_ip4_config_get_never_default ()</h3>
-<a class="indexterm" name="id3002779"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+<a name="nm-setting-ip4-config-get-never-default"></a><h3>nm_setting_ip4_config_get_never_default ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
 >gboolean</a>            nm_setting_ip4_config_get_never_default
-                                                        (<a class="link" href="NMSettingIP4Config.html" title="NMSettingIP4Config">NMSettingIP4Config</a> *setting);</pre>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1945,72 +2096,166 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 </div>
 </div>
 <div class="refsect1" lang="en">
-<a name="id3002832"></a><h2>Property Details</h2>
+<a name="NMSettingIP4Config.property-details"></a><h2>Property Details</h2>
 <div class="refsect2" lang="en">
-<a name="id3002841"></a><h3>
-<a name="NMSettingIP4Config--dhcp-client-id"></a>The <code class="literal">"dhcp-client-id"</code> property</h3>
-<a class="indexterm" name="id3002856"></a><pre class="programlisting">  "dhcp-client-id"           <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write</pre>
-<p>DHCP Client ID.</p>
+<a name="NMSettingIP4Config--addresses"></a><h3>The <code class="literal">"addresses"</code> property</h3>
+<pre class="programlisting">  "addresses"                GPtrArray_GArray_guint__*  : Read / Write</pre>
+<p>
+Array of IPv4 address structures.  Each IPv4 address structure is
+composed of 3 32-bit values; the first being the IPv4 address (network
+byte order), the second the prefix (1 - 32), and last the IPv4 gateway
+(network byte order). The gateway may be left as 0 if no gateway exists
+for that subnet.  For the 'auto' method, given IP addresses are appended
+to those returned by automatic configuration.  Addresses cannot be used
+with the 'shared' or 'link-local' methods as the interface is
+automatically assigned an address with these methods.</p>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="NMSettingIP4Config--dhcp-client-id"></a><h3>The <code class="literal">"dhcp-client-id"</code> property</h3>
+<pre class="programlisting">  "dhcp-client-id"           <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>
+A string sent to the DHCP server to identify the local machine which the
+DHCP server may use to cusomize the DHCP lease and options.</p>
+<p>
+</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3002878"></a><h3>
-<a name="NMSettingIP4Config--dhcp-hostname"></a>The <code class="literal">"dhcp-hostname"</code> property</h3>
-<a class="indexterm" name="id3002893"></a><pre class="programlisting">  "dhcp-hostname"            <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write</pre>
-<p>DHCP Hostname.</p>
+<a name="NMSettingIP4Config--dhcp-hostname"></a><h3>The <code class="literal">"dhcp-hostname"</code> property</h3>
+<pre class="programlisting">  "dhcp-hostname"            <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>
+A hostname to be sent to the DHCP server when acquiring a lease. Some
+DHCP servers use this hostname to update DNS databases, essentially
+providing a static hostname for the computer.</p>
+<p>
+</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3002916"></a><h3>
-<a name="NMSettingIP4Config--ignore-auto-dns"></a>The <code class="literal">"ignore-auto-dns"</code> property</h3>
-<a class="indexterm" name="id3002930"></a><pre class="programlisting">  "ignore-auto-dns"          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+<a name="NMSettingIP4Config--dns"></a><h3>The <code class="literal">"dns"</code> property</h3>
+<pre class="programlisting">  "dns"                      GArray_guint_*        : Read / Write</pre>
+<p>
+List of DNS servers (network byte order).  For the 'auto' method, these
+DNS servers are appended to those (if any) returned by automatic
+configuration.  DNS servers cannot be used with the 'shared' or
+'link-local' methods as there is no usptream network.  In all other
+methods, these DNS servers are used as the only DNS servers for this
+connection.</p>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="NMSettingIP4Config--dns-search"></a><h3>The <code class="literal">"dns-search"</code> property</h3>
+<pre class="programlisting">  "dns-search"               GSList_gchararray_*   : Read / Write</pre>
+<p>
+List of DNS search domains.  For the 'auto' method, these search domains
+are appended to those returned by automatic configuration. Search domains
+cannot be used with the 'shared' or 'link-local' methods as there is no
+upstream network.  In all other methods, these search domains are used
+as the only search domains for this connection.</p>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="NMSettingIP4Config--ignore-auto-dns"></a><h3>The <code class="literal">"ignore-auto-dns"</code> property</h3>
+<pre class="programlisting">  "ignore-auto-dns"          <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write / Construct</pre>
-<p>Ignore automatic DNS.</p>
+<p>
+When the method is set to 'auto' and this property to TRUE, automatically
+configured nameservers and search domains are ignored and only namservers
+and search domains specified in <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--dns"
+><span class="type">"dns"</span></a> and
+<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--dns-search"
+><span class="type">"dns-search"</span></a>, if any, are used.</p>
+<p>
+</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3002954"></a><h3>
-<a name="NMSettingIP4Config--ignore-auto-routes"></a>The <code class="literal">"ignore-auto-routes"</code> property</h3>
-<a class="indexterm" name="id3002969"></a><pre class="programlisting">  "ignore-auto-routes"       <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+<a name="NMSettingIP4Config--ignore-auto-routes"></a><h3>The <code class="literal">"ignore-auto-routes"</code> property</h3>
+<pre class="programlisting">  "ignore-auto-routes"       <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write / Construct</pre>
-<p>Ignore automatic routes.</p>
+<p>
+When the method is set to 'auto' and this property to TRUE, automatically
+configured routes are ignored and only routes specified in
+<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--routes"
+><span class="type">"routes"</span></a>, if any, are used.</p>
+<p>
+</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3002992"></a><h3>
-<a name="NMSettingIP4Config--method"></a>The <code class="literal">"method"</code> property</h3>
-<a class="indexterm" name="id3003005"></a><pre class="programlisting">  "method"                   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write</pre>
-<p>IP configuration method.</p>
+<a name="NMSettingIP4Config--method"></a><h3>The <code class="literal">"method"</code> property</h3>
+<pre class="programlisting">  "method"                   <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>
+IPv4 configuration method.  If 'auto' is specified then the appropriate
+automatic method (DHCP, PPP, etc) is used for the interface and most
+other properties can be left unset.  If 'link-local' is specified, then a
+link-local address in the 169.254/16 range will be assigned to the
+interface.  If 'manual' is specified, static IP addressing is used and at
+least one IP address must be given in the 'addresses' property.  If
+'shared' is specified (indicating that this connection will provide
+network access to other computers) then the interface is assigned an
+address in the 10.42.x.1/24 range and a DHCP and forwarding DNS server
+are started, and the interface is NAT-ed to the current default network
+connection.  This property must be set.</p>
+<p>
+</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3003027"></a><h3>
-<a name="NMSettingIP4Config--never-default"></a>The <code class="literal">"never-default"</code> property</h3>
-<a class="indexterm" name="id3003042"></a><pre class="programlisting">  "never-default"            <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+<a name="NMSettingIP4Config--never-default"></a><h3>The <code class="literal">"never-default"</code> property</h3>
+<pre class="programlisting">  "never-default"            <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write / Construct</pre>
-<p>Never make this connection the default IPv4 connection.</p>
+<p>
+If TRUE, this connection will never be the default IPv4 connection,
+meaning it will never be assigned the default route by NetworkManager.</p>
+<p>
+</p>
 <p>Default value: FALSE</p>
 </div>
-</div>
-<div class="refsect1" lang="en">
-<a name="id3003067"></a><div class="refsect2" lang="en"><a name="id3003068"></a></div>
 <hr>
-<div class="refsect2" lang="en"><a name="id3003070"></a></div>
+<div class="refsect2" lang="en">
+<a name="NMSettingIP4Config--routes"></a><h3>The <code class="literal">"routes"</code> property</h3>
+<pre class="programlisting">  "routes"                   GPtrArray_GArray_guint__*  : Read / Write</pre>
+<p>
+Array of IPv4 route structures.  Each IPv4 route structure is composed
+of 4 32-bit values; the first being the destination IPv4 network or
+address (network byte order), the second the destination network or
+address prefix (1 - 32), the third being the next-hop (network byte
+order) if any, and the fourth being the route metric. For the 'auto'
+method, given IP routes are appended to those returned by automatic
+configuration.  Routes cannot be used with the 'shared' or 'link-local'
+methods because there is no upstream network.</p>
+<p>
+</p>
 </div>
 </div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

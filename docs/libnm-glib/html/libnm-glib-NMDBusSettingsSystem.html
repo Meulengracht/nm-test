@@ -1,14 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>NMDBusSettingsSystem</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="libnm-glib Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.74.3">
+<link rel="home" href="index.html" title="libnm-glib Reference Manual">
 <link rel="up" href="ch01.html" title="[Insert title here]">
 <link rel="prev" href="libnm-glib-NMVPNPlugin.html" title="NMVPNPlugin">
 <link rel="next" href="NMActiveConnection.html" title="NMActiveConnection">
-<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="[Insert title here]">
 </head>
@@ -21,321 +21,37 @@
 <th width="100%" align="center">libnm-glib Reference Manual</th>
 <td><a accesskey="n" href="NMActiveConnection.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2832826" class="shortcut">Top</a>
-                  &#160;|&#160;
-                  <a href="#id2828678" class="shortcut">Description</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libnm-glib-NMDBusSettingsSystem.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#libnm-glib-NMDBusSettingsSystem.description" class="shortcut">Description</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="libnm-glib-NMDBusSettingsSystem"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
-<h2>
-<a name="id2832826"></a><span class="refentrytitle">NMDBusSettingsSystem</span>
-</h2>
+<h2><span class="refentrytitle"><a name="libnm-glib-NMDBusSettingsSystem.top_of_page"></a>NMDBusSettingsSystem</span></h2>
 <p>NMDBusSettingsSystem</p>
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
 <div class="refsynopsisdiv">
-<h2>Synopsis</h2>
+<a name="libnm-glib-NMDBusSettingsSystem.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
-
-
-
-#define             <a class="link" href="libnm-glib-NMDBusSettingsSystem.html#NM-DBUS-SETTINGS-SYSTEM-UNMANAGED-DEVICES:CAPS">NM_DBUS_SETTINGS_SYSTEM_UNMANAGED_DEVICES</a>
-#define             <a class="link" href="libnm-glib-NMDBusSettingsSystem.html#NM-DBUS-SETTINGS-SYSTEM-HOSTNAME:CAPS">NM_DBUS_SETTINGS_SYSTEM_HOSTNAME</a>
-#define             <a class="link" href="libnm-glib-NMDBusSettingsSystem.html#NM-DBUS-SETTINGS-SYSTEM-CAN-MODIFY:CAPS">NM_DBUS_SETTINGS_SYSTEM_CAN_MODIFY</a>
-                    <a class="link" href="libnm-glib-NMDBusSettingsSystem.html#NMDBusSettingsSystem">NMDBusSettingsSystem</a>;
-<a class="link" href="libnm-glib-NMDBusSettingsSystem.html#NMDBusSettingsSystem">NMDBusSettingsSystem</a>* <a class="link" href="libnm-glib-NMDBusSettingsSystem.html#nm-dbus-settings-system-new">nm_dbus_settings_system_new</a>       (<a
-href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
->DBusGConnection</a> *dbus_connection);
-<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="libnm-glib-NMDBusSettingsSystem.html#nm-dbus-settings-system-add-connection">nm_dbus_settings_system_add_connection</a>
-                                                        (<a class="link" href="libnm-glib-NMDBusSettingsSystem.html#NMDBusSettingsSystem">NMDBusSettingsSystem</a> *self,
-                                                         <a
-href="http://[SERVER]/libnm-util/NMConnection.html"
->NMConnection</a> *connection,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
->GError</a> **err);
-<a
-href="/usr/share/gtk-doc/html/glib/glib-Singly-Linked-Lists.html#GSList"
->GSList</a>*             <a class="link" href="libnm-glib-NMDBusSettingsSystem.html#nm-dbus-settings-system-get-unmanaged-devices">nm_dbus_settings_system_get_unmanaged_devices</a>
-                                                        (<a class="link" href="libnm-glib-NMDBusSettingsSystem.html#NMDBusSettingsSystem">NMDBusSettingsSystem</a> *self);
-const char*         <a class="link" href="libnm-glib-NMDBusSettingsSystem.html#nm-dbus-settings-system-get-hostname">nm_dbus_settings_system_get_hostname</a>
-                                                        (<a class="link" href="libnm-glib-NMDBusSettingsSystem.html#NMDBusSettingsSystem">NMDBusSettingsSystem</a> *self);
-<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="libnm-glib-NMDBusSettingsSystem.html#nm-dbus-settings-system-save-hostname">nm_dbus_settings_system_save_hostname</a>
-                                                        (<a class="link" href="libnm-glib-NMDBusSettingsSystem.html#NMDBusSettingsSystem">NMDBusSettingsSystem</a> *self,
-                                                         const char *hostname,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
->GError</a> **err);
-<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="libnm-glib-NMDBusSettingsSystem.html#nm-dbus-settings-system-get-can-modify">nm_dbus_settings_system_get_can_modify</a>
-                                                        (<a class="link" href="libnm-glib-NMDBusSettingsSystem.html#NMDBusSettingsSystem">NMDBusSettingsSystem</a> *self);
-
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2828678"></a><h2>Description</h2>
+<a name="libnm-glib-NMDBusSettingsSystem.description"></a><h2>Description</h2>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2828693"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
-<a name="id2828704"></a><h3>
-<a name="NM-DBUS-SETTINGS-SYSTEM-UNMANAGED-DEVICES:CAPS"></a>NM_DBUS_SETTINGS_SYSTEM_UNMANAGED_DEVICES</h3>
-<a class="indexterm" name="id2871643"></a><pre class="programlisting">#define NM_DBUS_SETTINGS_SYSTEM_UNMANAGED_DEVICES "unmanaged-devices"
-</pre>
-<p>
-
-</p>
+<a name="libnm-glib-NMDBusSettingsSystem.details"></a><h2>Details</h2>
 </div>
+</div>
+<div class="footer">
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2871659"></a><h3>
-<a name="NM-DBUS-SETTINGS-SYSTEM-HOSTNAME:CAPS"></a>NM_DBUS_SETTINGS_SYSTEM_HOSTNAME</h3>
-<a class="indexterm" name="id2871670"></a><pre class="programlisting">#define NM_DBUS_SETTINGS_SYSTEM_HOSTNAME "hostname"
-</pre>
-<p>
-
-</p>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2871686"></a><h3>
-<a name="NM-DBUS-SETTINGS-SYSTEM-CAN-MODIFY:CAPS"></a>NM_DBUS_SETTINGS_SYSTEM_CAN_MODIFY</h3>
-<a class="indexterm" name="id2871698"></a><pre class="programlisting">#define NM_DBUS_SETTINGS_SYSTEM_CAN_MODIFY "can-modify"
-</pre>
-<p>
-
-</p>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2871714"></a><h3>
-<a name="NMDBusSettingsSystem"></a>NMDBusSettingsSystem</h3>
-<a class="indexterm" name="id2871725"></a><pre class="programlisting">typedef struct {
-	NMDBusSettings parent;
-} NMDBusSettingsSystem;
-</pre>
-<p>
-
-</p>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2871741"></a><h3>
-<a name="nm-dbus-settings-system-new"></a>nm_dbus_settings_system_new ()</h3>
-<a class="indexterm" name="id2871752"></a><pre class="programlisting"><a class="link" href="libnm-glib-NMDBusSettingsSystem.html#NMDBusSettingsSystem">NMDBusSettingsSystem</a>* nm_dbus_settings_system_new       (<a
-href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConnection"
->DBusGConnection</a> *dbus_connection);</pre>
-<p>
-
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>dbus_connection</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
-<td>
-
-
-</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2829438"></a><h3>
-<a name="nm-dbus-settings-system-add-connection"></a>nm_dbus_settings_system_add_connection ()</h3>
-<a class="indexterm" name="id2829450"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            nm_dbus_settings_system_add_connection
-                                                        (<a class="link" href="libnm-glib-NMDBusSettingsSystem.html#NMDBusSettingsSystem">NMDBusSettingsSystem</a> *self,
-                                                         <a
-href="http://[SERVER]/libnm-util/NMConnection.html"
->NMConnection</a> *connection,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
->GError</a> **err);</pre>
-<p>
-
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>self</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>connection</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
-<td>
-
-
-</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2829550"></a><h3>
-<a name="nm-dbus-settings-system-get-unmanaged-devices"></a>nm_dbus_settings_system_get_unmanaged_devices ()</h3>
-<a class="indexterm" name="id2829564"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Singly-Linked-Lists.html#GSList"
->GSList</a>*             nm_dbus_settings_system_get_unmanaged_devices
-                                                        (<a class="link" href="libnm-glib-NMDBusSettingsSystem.html#NMDBusSettingsSystem">NMDBusSettingsSystem</a> *self);</pre>
-<p>
-
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>self</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
-<td>
-
-
-</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2827952"></a><h3>
-<a name="nm-dbus-settings-system-get-hostname"></a>nm_dbus_settings_system_get_hostname ()</h3>
-<a class="indexterm" name="id2827966"></a><pre class="programlisting">const char*         nm_dbus_settings_system_get_hostname
-                                                        (<a class="link" href="libnm-glib-NMDBusSettingsSystem.html#NMDBusSettingsSystem">NMDBusSettingsSystem</a> *self);</pre>
-<p>
-
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>self</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
-<td>
-
-
-</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2828024"></a><h3>
-<a name="nm-dbus-settings-system-save-hostname"></a>nm_dbus_settings_system_save_hostname ()</h3>
-<a class="indexterm" name="id2828038"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            nm_dbus_settings_system_save_hostname
-                                                        (<a class="link" href="libnm-glib-NMDBusSettingsSystem.html#NMDBusSettingsSystem">NMDBusSettingsSystem</a> *self,
-                                                         const char *hostname,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
->GError</a> **err);</pre>
-<p>
-
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>self</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>hostname</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>err</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
-<td>
-
-
-</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2828138"></a><h3>
-<a name="nm-dbus-settings-system-get-can-modify"></a>nm_dbus_settings_system_get_can_modify ()</h3>
-<a class="indexterm" name="id2828152"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            nm_dbus_settings_system_get_can_modify
-                                                        (<a class="link" href="libnm-glib-NMDBusSettingsSystem.html#NMDBusSettingsSystem">NMDBusSettingsSystem</a> *self);</pre>
-<p>
-
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>self</code></em>&#160;:</span></p></td>
-<td>
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
-<td>
-
-
-</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-</div>
-<div class="refsect1" lang="en">
-<a name="id2875422"></a><div class="refsect2" lang="en"><a name="id2875423"></a></div>
-<hr>
-<div class="refsect2" lang="en"><a name="id2875424"></a></div>
-</div>
-</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

@@ -1,94 +1,90 @@
-<?xml version="1.0"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
 <refentry id="NMSetting8021x">
 <refmeta>
-<refentrytitle role="top_of_page">NMSetting8021x</refentrytitle>
+<refentrytitle role="top_of_page" id="NMSetting8021x.top_of_page">NMSetting8021x</refentrytitle>
 <manvolnum>3</manvolnum>
 <refmiscinfo>LIBNM-UTIL Library</refmiscinfo>
 </refmeta>
 
 <refnamediv>
 <refname>NMSetting8021x</refname>
-<refpurpose></refpurpose>
-<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+<refpurpose>Describes 802.1x-authenticated connection properties</refpurpose>
 </refnamediv>
 
-<refsynopsisdiv role="synopsis">
+<refsynopsisdiv id="NMSetting8021x.synopsis" role="synopsis">
 <title role="synopsis.title">Synopsis</title>
 
 <synopsis>
 
-
+#include &lt;nm-setting-8021x.h&gt;
 
 enum                <link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link>;
-#define             <link linkend="NM-SETTING-802-1X-SETTING-NAME:CAPS">NM_SETTING_802_1X_SETTING_NAME</link>
+#define             <link linkend="NM-SETTING-802-1X-SETTING-NAME--CAPS">NM_SETTING_802_1X_SETTING_NAME</link>
 enum                <link linkend="NMSetting8021xError">NMSetting8021xError</link>;
-#define             <link linkend="NM-TYPE-SETTING-802-1X-ERROR:CAPS">NM_TYPE_SETTING_802_1X_ERROR</link>
-#define             <link linkend="NM-SETTING-802-1X-ERROR:CAPS">NM_SETTING_802_1X_ERROR</link>
+#define             <link linkend="NM-TYPE-SETTING-802-1X-ERROR--CAPS">NM_TYPE_SETTING_802_1X_ERROR</link>
+#define             <link linkend="NM-SETTING-802-1X-ERROR--CAPS">NM_SETTING_802_1X_ERROR</link>
 <link linkend="GQuark">GQuark</link>              <link linkend="nm-setting-802-1x-error-quark">nm_setting_802_1x_error_quark</link>       (void);
-#define             <link linkend="NM-SETTING-802-1X-EAP:CAPS">NM_SETTING_802_1X_EAP</link>
-#define             <link linkend="NM-SETTING-802-1X-IDENTITY:CAPS">NM_SETTING_802_1X_IDENTITY</link>
-#define             <link linkend="NM-SETTING-802-1X-ANONYMOUS-IDENTITY:CAPS">NM_SETTING_802_1X_ANONYMOUS_IDENTITY</link>
-#define             <link linkend="NM-SETTING-802-1X-CA-CERT:CAPS">NM_SETTING_802_1X_CA_CERT</link>
-#define             <link linkend="NM-SETTING-802-1X-CA-PATH:CAPS">NM_SETTING_802_1X_CA_PATH</link>
-#define             <link linkend="NM-SETTING-802-1X-CLIENT-CERT:CAPS">NM_SETTING_802_1X_CLIENT_CERT</link>
-#define             <link linkend="NM-SETTING-802-1X-PHASE1-PEAPVER:CAPS">NM_SETTING_802_1X_PHASE1_PEAPVER</link>
-#define             <link linkend="NM-SETTING-802-1X-PHASE1-PEAPLABEL:CAPS">NM_SETTING_802_1X_PHASE1_PEAPLABEL</link>
-#define             <link linkend="NM-SETTING-802-1X-PHASE1-FAST-PROVISIONING:CAPS">NM_SETTING_802_1X_PHASE1_FAST_PROVISIONING</link>
-#define             <link linkend="NM-SETTING-802-1X-PHASE2-AUTH:CAPS">NM_SETTING_802_1X_PHASE2_AUTH</link>
-#define             <link linkend="NM-SETTING-802-1X-PHASE2-AUTHEAP:CAPS">NM_SETTING_802_1X_PHASE2_AUTHEAP</link>
-#define             <link linkend="NM-SETTING-802-1X-PHASE2-CA-CERT:CAPS">NM_SETTING_802_1X_PHASE2_CA_CERT</link>
-#define             <link linkend="NM-SETTING-802-1X-PHASE2-CA-PATH:CAPS">NM_SETTING_802_1X_PHASE2_CA_PATH</link>
-#define             <link linkend="NM-SETTING-802-1X-PHASE2-CLIENT-CERT:CAPS">NM_SETTING_802_1X_PHASE2_CLIENT_CERT</link>
-#define             <link linkend="NM-SETTING-802-1X-PASSWORD:CAPS">NM_SETTING_802_1X_PASSWORD</link>
-#define             <link linkend="NM-SETTING-802-1X-PRIVATE-KEY:CAPS">NM_SETTING_802_1X_PRIVATE_KEY</link>
-#define             <link linkend="NM-SETTING-802-1X-PRIVATE-KEY-PASSWORD:CAPS">NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD</link>
-#define             <link linkend="NM-SETTING-802-1X-PHASE2-PRIVATE-KEY:CAPS">NM_SETTING_802_1X_PHASE2_PRIVATE_KEY</link>
-#define             <link linkend="NM-SETTING-802-1X-PHASE2-PRIVATE-KEY-PASSWORD:CAPS">NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD</link>
-#define             <link linkend="NM-SETTING-802-1X-PIN:CAPS">NM_SETTING_802_1X_PIN</link>
-#define             <link linkend="NM-SETTING-802-1X-PSK:CAPS">NM_SETTING_802_1X_PSK</link>
-#define             <link linkend="NM-SETTING-802-1X-SYSTEM-CA-CERTS:CAPS">NM_SETTING_802_1X_SYSTEM_CA_CERTS</link>
+#define             <link linkend="NM-SETTING-802-1X-EAP--CAPS">NM_SETTING_802_1X_EAP</link>
+#define             <link linkend="NM-SETTING-802-1X-IDENTITY--CAPS">NM_SETTING_802_1X_IDENTITY</link>
+#define             <link linkend="NM-SETTING-802-1X-ANONYMOUS-IDENTITY--CAPS">NM_SETTING_802_1X_ANONYMOUS_IDENTITY</link>
+#define             <link linkend="NM-SETTING-802-1X-CA-CERT--CAPS">NM_SETTING_802_1X_CA_CERT</link>
+#define             <link linkend="NM-SETTING-802-1X-CA-PATH--CAPS">NM_SETTING_802_1X_CA_PATH</link>
+#define             <link linkend="NM-SETTING-802-1X-CLIENT-CERT--CAPS">NM_SETTING_802_1X_CLIENT_CERT</link>
+#define             <link linkend="NM-SETTING-802-1X-PHASE1-PEAPVER--CAPS">NM_SETTING_802_1X_PHASE1_PEAPVER</link>
+#define             <link linkend="NM-SETTING-802-1X-PHASE1-PEAPLABEL--CAPS">NM_SETTING_802_1X_PHASE1_PEAPLABEL</link>
+#define             <link linkend="NM-SETTING-802-1X-PHASE1-FAST-PROVISIONING--CAPS">NM_SETTING_802_1X_PHASE1_FAST_PROVISIONING</link>
+#define             <link linkend="NM-SETTING-802-1X-PHASE2-AUTH--CAPS">NM_SETTING_802_1X_PHASE2_AUTH</link>
+#define             <link linkend="NM-SETTING-802-1X-PHASE2-AUTHEAP--CAPS">NM_SETTING_802_1X_PHASE2_AUTHEAP</link>
+#define             <link linkend="NM-SETTING-802-1X-PHASE2-CA-CERT--CAPS">NM_SETTING_802_1X_PHASE2_CA_CERT</link>
+#define             <link linkend="NM-SETTING-802-1X-PHASE2-CA-PATH--CAPS">NM_SETTING_802_1X_PHASE2_CA_PATH</link>
+#define             <link linkend="NM-SETTING-802-1X-PHASE2-CLIENT-CERT--CAPS">NM_SETTING_802_1X_PHASE2_CLIENT_CERT</link>
+#define             <link linkend="NM-SETTING-802-1X-PASSWORD--CAPS">NM_SETTING_802_1X_PASSWORD</link>
+#define             <link linkend="NM-SETTING-802-1X-PRIVATE-KEY--CAPS">NM_SETTING_802_1X_PRIVATE_KEY</link>
+#define             <link linkend="NM-SETTING-802-1X-PRIVATE-KEY-PASSWORD--CAPS">NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD</link>
+#define             <link linkend="NM-SETTING-802-1X-PHASE2-PRIVATE-KEY--CAPS">NM_SETTING_802_1X_PHASE2_PRIVATE_KEY</link>
+#define             <link linkend="NM-SETTING-802-1X-PHASE2-PRIVATE-KEY-PASSWORD--CAPS">NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD</link>
+#define             <link linkend="NM-SETTING-802-1X-PIN--CAPS">NM_SETTING_802_1X_PIN</link>
+#define             <link linkend="NM-SETTING-802-1X-PSK--CAPS">NM_SETTING_802_1X_PSK</link>
+#define             <link linkend="NM-SETTING-802-1X-SYSTEM-CA-CERTS--CAPS">NM_SETTING_802_1X_SYSTEM_CA_CERTS</link>
                     <link linkend="NMSetting8021x-struct">NMSetting8021x</link>;
 <link linkend="GType">GType</link>               <link linkend="nm-setting-802-1x-get-type">nm_setting_802_1x_get_type</link>          (void);
-<link linkend="NMSetting">NMSetting</link>*          <link linkend="nm-setting-802-1x-new">nm_setting_802_1x_new</link>               (void);
+<link linkend="NMSetting">NMSetting</link> *         <link linkend="nm-setting-802-1x-new">nm_setting_802_1x_new</link>               (void);
 <link linkend="guint32">guint32</link>             <link linkend="nm-setting-802-1x-get-num-eap-methods">nm_setting_802_1x_get_num_eap_methods</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x-get-eap-method">nm_setting_802_1x_get_eap_method</link>    (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
+const <link linkend="char">char</link> *        <link linkend="nm-setting-802-1x-get-eap-method">nm_setting_802_1x_get_eap_method</link>    (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
                                                          <link linkend="guint32">guint32</link> i);
 <link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-802-1x-add-eap-method">nm_setting_802_1x_add_eap_method</link>    (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
                                                          const <link linkend="char">char</link> *eap);
 <link linkend="void">void</link>                <link linkend="nm-setting-802-1x-remove-eap-method">nm_setting_802_1x_remove_eap_method</link> (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
                                                          <link linkend="guint32">guint32</link> i);
 <link linkend="void">void</link>                <link linkend="nm-setting-802-1x-clear-eap-methods">nm_setting_802_1x_clear_eap_methods</link> (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x-get-identity">nm_setting_802_1x_get_identity</link>      (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x-get-anonymous-identity">nm_setting_802_1x_get_anonymous_identity</link>
+const <link linkend="char">char</link> *        <link linkend="nm-setting-802-1x-get-identity">nm_setting_802_1x_get_identity</link>      (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
+const <link linkend="char">char</link> *        <link linkend="nm-setting-802-1x-get-anonymous-identity">nm_setting_802_1x_get_anonymous_identity</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-const <link linkend="GByteArray">GByteArray</link>*   <link linkend="nm-setting-802-1x-get-ca-cert">nm_setting_802_1x_get_ca_cert</link>       (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x-get-ca-path">nm_setting_802_1x_get_ca_path</link>       (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
+const <link linkend="GByteArray">GByteArray</link> *  <link linkend="nm-setting-802-1x-get-ca-cert">nm_setting_802_1x_get_ca_cert</link>       (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
+const <link linkend="char">char</link> *        <link linkend="nm-setting-802-1x-get-ca-path">nm_setting_802_1x_get_ca_path</link>       (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
 <link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-802-1x-set-ca-cert-from-file">nm_setting_802_1x_set_ca_cert_from_file</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
                                                          const <link linkend="char">char</link> *filename,
                                                          <link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link> *out_ck_type,
                                                          <link linkend="GError">GError</link> **err);
-const <link linkend="GByteArray">GByteArray</link>*   <link linkend="nm-setting-802-1x-get-client-cert">nm_setting_802_1x_get_client_cert</link>   (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
+const <link linkend="GByteArray">GByteArray</link> *  <link linkend="nm-setting-802-1x-get-client-cert">nm_setting_802_1x_get_client_cert</link>   (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
 <link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-802-1x-set-client-cert-from-file">nm_setting_802_1x_set_client_cert_from_file</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
                                                          const <link linkend="char">char</link> *filename,
                                                          <link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link> *out_ck_type,
                                                          <link linkend="GError">GError</link> **err);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x-get-phase1-peapver">nm_setting_802_1x_get_phase1_peapver</link>
+const <link linkend="char">char</link> *        <link linkend="nm-setting-802-1x-get-phase1-peapver">nm_setting_802_1x_get_phase1_peapver</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x-get-phase1-peaplabel">nm_setting_802_1x_get_phase1_peaplabel</link>
+const <link linkend="char">char</link> *        <link linkend="nm-setting-802-1x-get-phase1-peaplabel">nm_setting_802_1x_get_phase1_peaplabel</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x-get-phase1-fast-provisioning">nm_setting_802_1x_get_phase1_fast_provisioning</link>
+const <link linkend="char">char</link> *        <link linkend="nm-setting-802-1x-get-phase1-fast-provisioning">nm_setting_802_1x_get_phase1_fast_provisioning</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x-get-phase2-auth">nm_setting_802_1x_get_phase2_auth</link>   (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x-get-phase2-autheap">nm_setting_802_1x_get_phase2_autheap</link>
+const <link linkend="char">char</link> *        <link linkend="nm-setting-802-1x-get-phase2-auth">nm_setting_802_1x_get_phase2_auth</link>   (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
+const <link linkend="char">char</link> *        <link linkend="nm-setting-802-1x-get-phase2-autheap">nm_setting_802_1x_get_phase2_autheap</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-const <link linkend="GByteArray">GByteArray</link>*   <link linkend="nm-setting-802-1x-get-phase2-ca-cert">nm_setting_802_1x_get_phase2_ca_cert</link>
+const <link linkend="GByteArray">GByteArray</link> *  <link linkend="nm-setting-802-1x-get-phase2-ca-cert">nm_setting_802_1x_get_phase2_ca_cert</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x-get-phase2-ca-path">nm_setting_802_1x_get_phase2_ca_path</link>
+const <link linkend="char">char</link> *        <link linkend="nm-setting-802-1x-get-phase2-ca-path">nm_setting_802_1x_get_phase2_ca_path</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
 <link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-802-1x-set-phase2-ca-cert-from-file">nm_setting_802_1x_set_phase2_ca_cert_from_file</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
@@ -97,18 +93,18 @@ const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x
                                                          <link linkend="GError">GError</link> **err);
 <link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-802-1x-get-system-ca-certs">nm_setting_802_1x_get_system_ca_certs</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-const <link linkend="GByteArray">GByteArray</link>*   <link linkend="nm-setting-802-1x-get-phase2-client-cert">nm_setting_802_1x_get_phase2_client_cert</link>
+const <link linkend="GByteArray">GByteArray</link> *  <link linkend="nm-setting-802-1x-get-phase2-client-cert">nm_setting_802_1x_get_phase2_client_cert</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
 <link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-802-1x-set-phase2-client-cert-from-file">nm_setting_802_1x_set_phase2_client_cert_from_file</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
                                                          const <link linkend="char">char</link> *filename,
                                                          <link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link> *out_ck_type,
                                                          <link linkend="GError">GError</link> **err);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x-get-password">nm_setting_802_1x_get_password</link>      (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x-get-pin">nm_setting_802_1x_get_pin</link>           (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x-get-psk">nm_setting_802_1x_get_psk</link>           (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-const <link linkend="GByteArray">GByteArray</link>*   <link linkend="nm-setting-802-1x-get-private-key">nm_setting_802_1x_get_private_key</link>   (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x-get-private-key-password">nm_setting_802_1x_get_private_key_password</link>
+const <link linkend="char">char</link> *        <link linkend="nm-setting-802-1x-get-password">nm_setting_802_1x_get_password</link>      (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
+const <link linkend="char">char</link> *        <link linkend="nm-setting-802-1x-get-pin">nm_setting_802_1x_get_pin</link>           (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
+const <link linkend="char">char</link> *        <link linkend="nm-setting-802-1x-get-psk">nm_setting_802_1x_get_psk</link>           (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
+const <link linkend="GByteArray">GByteArray</link> *  <link linkend="nm-setting-802-1x-get-private-key">nm_setting_802_1x_get_private_key</link>   (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
+const <link linkend="char">char</link> *        <link linkend="nm-setting-802-1x-get-private-key-password">nm_setting_802_1x_get_private_key_password</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
 <link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-802-1x-set-private-key-from-file">nm_setting_802_1x_set_private_key_from_file</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
@@ -116,11 +112,11 @@ const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x
                                                          const <link linkend="char">char</link> *password,
                                                          <link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link> *out_ck_type,
                                                          <link linkend="GError">GError</link> **err);
-<link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link> <link linkend="nm-setting-802-1x-get-private-key-type">nm_setting_802_1x_get_private_key_type</link>
+<link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link>  <link linkend="nm-setting-802-1x-get-private-key-type">nm_setting_802_1x_get_private_key_type</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-const <link linkend="GByteArray">GByteArray</link>*   <link linkend="nm-setting-802-1x-get-phase2-private-key">nm_setting_802_1x_get_phase2_private_key</link>
+const <link linkend="GByteArray">GByteArray</link> *  <link linkend="nm-setting-802-1x-get-phase2-private-key">nm_setting_802_1x_get_phase2_private_key</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x-get-phase2-private-key-password">nm_setting_802_1x_get_phase2_private_key_password</link>
+const <link linkend="char">char</link> *        <link linkend="nm-setting-802-1x-get-phase2-private-key-password">nm_setting_802_1x_get_phase2_private_key_password</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
 <link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-802-1x-set-phase2-private-key-from-file">nm_setting_802_1x_set_phase2_private_key_from_file</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
@@ -128,61 +124,90 @@ const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x
                                                          const <link linkend="char">char</link> *password,
                                                          <link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link> *out_ck_type,
                                                          <link linkend="GError">GError</link> **err);
-<link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link> <link linkend="nm-setting-802-1x-get-phase2-private-key-type">nm_setting_802_1x_get_phase2_private_key_type</link>
+<link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link>  <link linkend="nm-setting-802-1x-get-phase2-private-key-type">nm_setting_802_1x_get_phase2_private_key_type</link>
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);
-
 </synopsis>
 </refsynopsisdiv>
 
-<refsect1 role="object_hierarchy">
+<refsect1 id="NMSetting8021x.object-hierarchy" role="object_hierarchy">
 <title role="object_hierarchy.title">Object Hierarchy</title>
 <synopsis>
-
   <link linkend="GObject">GObject</link>
    +----<link linkend="NMSetting">NMSetting</link>
          +----NMSetting8021x
 </synopsis>
-
 </refsect1>
 
 
 
 
 
-<refsect1 role="properties">
+<refsect1 id="NMSetting8021x.properties" role="properties">
 <title role="properties.title">Properties</title>
 <synopsis>
-
-  &quot;<link linkend="NMSetting8021x--anonymous-identity">anonymous-identity</link>&quot;       <link linkend="gchararray">gchararray</link>            : Read / Write
-  &quot;<link linkend="NMSetting8021x--ca-path">ca-path</link>&quot;                  <link linkend="gchararray">gchararray</link>            : Read / Write
-  &quot;<link linkend="NMSetting8021x--identity">identity</link>&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write
-  &quot;<link linkend="NMSetting8021x--password">password</link>&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write
-  &quot;<link linkend="NMSetting8021x--phase1-fast-provisioning">phase1-fast-provisioning</link>&quot; <link linkend="gchararray">gchararray</link>            : Read / Write
-  &quot;<link linkend="NMSetting8021x--phase1-peaplabel">phase1-peaplabel</link>&quot;         <link linkend="gchararray">gchararray</link>            : Read / Write
-  &quot;<link linkend="NMSetting8021x--phase1-peapver">phase1-peapver</link>&quot;           <link linkend="gchararray">gchararray</link>            : Read / Write
-  &quot;<link linkend="NMSetting8021x--phase2-auth">phase2-auth</link>&quot;              <link linkend="gchararray">gchararray</link>            : Read / Write
-  &quot;<link linkend="NMSetting8021x--phase2-autheap">phase2-autheap</link>&quot;           <link linkend="gchararray">gchararray</link>            : Read / Write
-  &quot;<link linkend="NMSetting8021x--phase2-ca-path">phase2-ca-path</link>&quot;           <link linkend="gchararray">gchararray</link>            : Read / Write
-  &quot;<link linkend="NMSetting8021x--phase2-private-key-password">phase2-private-key-password</link>&quot; <link linkend="gchararray">gchararray</link>            : Read / Write
-  &quot;<link linkend="NMSetting8021x--private-key-password">private-key-password</link>&quot;     <link linkend="gchararray">gchararray</link>            : Read / Write
+  &quot;<link linkend="NMSetting8021x--anonymous-identity">anonymous-identity</link>&quot;       <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NMSetting8021x--ca-cert">ca-cert</link>&quot;                  <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write
+  &quot;<link linkend="NMSetting8021x--ca-path">ca-path</link>&quot;                  <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NMSetting8021x--client-cert">client-cert</link>&quot;              <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write
+  &quot;<link linkend="NMSetting8021x--eap">eap</link>&quot;                      <link linkend="GSList-gchararray-">GSList_gchararray_</link>*   : Read / Write
+  &quot;<link linkend="NMSetting8021x--identity">identity</link>&quot;                 <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NMSetting8021x--password">password</link>&quot;                 <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NMSetting8021x--phase1-fast-provisioning">phase1-fast-provisioning</link>&quot; <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NMSetting8021x--phase1-peaplabel">phase1-peaplabel</link>&quot;         <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NMSetting8021x--phase1-peapver">phase1-peapver</link>&quot;           <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NMSetting8021x--phase2-auth">phase2-auth</link>&quot;              <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NMSetting8021x--phase2-autheap">phase2-autheap</link>&quot;           <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NMSetting8021x--phase2-ca-cert">phase2-ca-cert</link>&quot;           <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write
+  &quot;<link linkend="NMSetting8021x--phase2-ca-path">phase2-ca-path</link>&quot;           <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NMSetting8021x--phase2-client-cert">phase2-client-cert</link>&quot;       <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write
+  &quot;<link linkend="NMSetting8021x--phase2-private-key">phase2-private-key</link>&quot;       <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write
+  &quot;<link linkend="NMSetting8021x--phase2-private-key-password">phase2-private-key-password</link>&quot; <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NMSetting8021x--private-key">private-key</link>&quot;              <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write
+  &quot;<link linkend="NMSetting8021x--private-key-password">private-key-password</link>&quot;     <link linkend="gchar">gchar</link>*                : Read / Write
   &quot;<link linkend="NMSetting8021x--system-ca-certs">system-ca-certs</link>&quot;          <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
 </synopsis>
 </refsect1>
 
 
 
-<refsect1 role="desc">
+<refsect1 id="NMSetting8021x.description" role="desc">
 <title role="desc.title">Description</title>
 <para>
-
+The <link linkend="NMSetting8021x"><type>NMSetting8021x</type></link> object is a <link linkend="NMSetting"><type>NMSetting</type></link> subclass that describes
+properties necessary for connection to 802.1x-authenticated networks, such as
+WPA and WPA2 Enterprise WiFi networks and wired 802.1x networks.  802.1x
+connections typically use certificates and/or EAP authentication methods to
+securely verify, identify, and authenticate the client to the network itself,
+instead of simply relying on a widely shared static key.
+</para>
+<para>
+It's a good idea to read up on wpa_supplicant configuration before using this
+setting extensively, since most of the options here correspond closely with
+the relevant wpa_supplicant configuration options.
+</para>
+<para>
+Furthermore, to get a good idea of 802.1x, EAP, TLS, TTLS, etc and their
+applications to WiFi and wired networks, you'll want to get copies of the
+following books.
+</para>
+<para>
+ 802.11 Wireless Networks: The Definitive Guide, Second Edition
+      Author: Matthew Gast
+      ISBN: 978-0596100520
+</para>
+<para>
+ Cisco Wireless LAN Security
+      Authors: Krishna Sankar, Sri Sundaralingam, Darrin Miller, and Andrew Balinsky
+      ISBN: 978-1587051548</para>
+<para>
 </para>
 </refsect1>
 
-<refsect1 role="details">
+<refsect1 id="NMSetting8021x.details" role="details">
 <title role="details.title">Details</title>
-<refsect2>
-<title><anchor id="NMSetting8021xCKType" role="enum"/>enum NMSetting8021xCKType</title>
-<indexterm><primary>NMSetting8021xCKType</primary></indexterm><programlisting>typedef enum {
+<refsect2 id="NMSetting8021xCKType" role="enum">
+<title>enum NMSetting8021xCKType</title>
+<indexterm zone="NMSetting8021xCKType"><primary sortas="NMSetting8021xCKType">NMSetting8021xCKType</primary></indexterm><programlisting>typedef enum {
 	NM_SETTING_802_1X_CK_TYPE_UNKNOWN = 0,
 	NM_SETTING_802_1X_CK_TYPE_X509,
 	NM_SETTING_802_1X_CK_TYPE_RAW_KEY,
@@ -190,18 +215,16 @@ const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x
 } NMSetting8021xCKType;
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-SETTING-NAME:CAPS" role="macro"/>NM_SETTING_802_1X_SETTING_NAME</title>
-<indexterm><primary>NM_SETTING_802_1X_SETTING_NAME</primary></indexterm><programlisting>#define NM_SETTING_802_1X_SETTING_NAME "802-1x"
+<refsect2 id="NM-SETTING-802-1X-SETTING-NAME--CAPS" role="macro">
+<title>NM_SETTING_802_1X_SETTING_NAME</title>
+<indexterm zone="NM-SETTING-802-1X-SETTING-NAME--CAPS"><primary sortas="NM_SETTING_802_1X_SETTING_NAME">NM_SETTING_802_1X_SETTING_NAME</primary></indexterm><programlisting>#define NM_SETTING_802_1X_SETTING_NAME "802-1x"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NMSetting8021xError" role="enum"/>enum NMSetting8021xError</title>
-<indexterm><primary>NMSetting8021xError</primary></indexterm><programlisting>typedef enum
+<refsect2 id="NMSetting8021xError" role="enum">
+<title>enum NMSetting8021xError</title>
+<indexterm zone="NMSetting8021xError"><primary sortas="NMSetting8021xError">NMSetting8021xError</primary></indexterm><programlisting>typedef enum
 {
 	NM_SETTING_802_1X_ERROR_UNKNOWN = 0,
 	NM_SETTING_802_1X_ERROR_INVALID_PROPERTY,
@@ -209,862 +232,869 @@ const <link linkend="char">char</link>*         <link linkend="nm-setting-802-1x
 } NMSetting8021xError;
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-TYPE-SETTING-802-1X-ERROR:CAPS" role="macro"/>NM_TYPE_SETTING_802_1X_ERROR</title>
-<indexterm><primary>NM_TYPE_SETTING_802_1X_ERROR</primary></indexterm><programlisting>#define NM_TYPE_SETTING_802_1X_ERROR (nm_setting_802_1x_error_get_type ()) 
+<refsect2 id="NM-TYPE-SETTING-802-1X-ERROR--CAPS" role="macro">
+<title>NM_TYPE_SETTING_802_1X_ERROR</title>
+<indexterm zone="NM-TYPE-SETTING-802-1X-ERROR--CAPS"><primary sortas="NM_TYPE_SETTING_802_1X_ERROR">NM_TYPE_SETTING_802_1X_ERROR</primary></indexterm><programlisting>#define NM_TYPE_SETTING_802_1X_ERROR (nm_setting_802_1x_error_get_type ()) 
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-ERROR:CAPS" role="macro"/>NM_SETTING_802_1X_ERROR</title>
-<indexterm><primary>NM_SETTING_802_1X_ERROR</primary></indexterm><programlisting>#define NM_SETTING_802_1X_ERROR nm_setting_802_1x_error_quark ()
+<refsect2 id="NM-SETTING-802-1X-ERROR--CAPS" role="macro">
+<title>NM_SETTING_802_1X_ERROR</title>
+<indexterm zone="NM-SETTING-802-1X-ERROR--CAPS"><primary sortas="NM_SETTING_802_1X_ERROR">NM_SETTING_802_1X_ERROR</primary></indexterm><programlisting>#define NM_SETTING_802_1X_ERROR nm_setting_802_1x_error_quark ()
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-error-quark" role="function"/>nm_setting_802_1x_error_quark ()</title>
-<indexterm><primary>nm_setting_802_1x_error_quark</primary></indexterm><programlisting><link linkend="GQuark">GQuark</link>              nm_setting_802_1x_error_quark       (void);</programlisting>
+<refsect2 id="nm-setting-802-1x-error-quark" role="function">
+<title>nm_setting_802_1x_error_quark ()</title>
+<indexterm zone="nm-setting-802-1x-error-quark"><primary sortas="nm_setting_802_1x_error_quark">nm_setting_802_1x_error_quark</primary></indexterm><programlisting><link linkend="GQuark">GQuark</link>              nm_setting_802_1x_error_quark       (void);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-EAP:CAPS" role="macro"/>NM_SETTING_802_1X_EAP</title>
-<indexterm><primary>NM_SETTING_802_1X_EAP</primary></indexterm><programlisting>#define NM_SETTING_802_1X_EAP "eap"
+<refsect2 id="NM-SETTING-802-1X-EAP--CAPS" role="macro">
+<title>NM_SETTING_802_1X_EAP</title>
+<indexterm zone="NM-SETTING-802-1X-EAP--CAPS"><primary sortas="NM_SETTING_802_1X_EAP">NM_SETTING_802_1X_EAP</primary></indexterm><programlisting>#define NM_SETTING_802_1X_EAP "eap"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-IDENTITY:CAPS" role="macro"/>NM_SETTING_802_1X_IDENTITY</title>
-<indexterm><primary>NM_SETTING_802_1X_IDENTITY</primary></indexterm><programlisting>#define NM_SETTING_802_1X_IDENTITY "identity"
+<refsect2 id="NM-SETTING-802-1X-IDENTITY--CAPS" role="macro">
+<title>NM_SETTING_802_1X_IDENTITY</title>
+<indexterm zone="NM-SETTING-802-1X-IDENTITY--CAPS"><primary sortas="NM_SETTING_802_1X_IDENTITY">NM_SETTING_802_1X_IDENTITY</primary></indexterm><programlisting>#define NM_SETTING_802_1X_IDENTITY "identity"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-ANONYMOUS-IDENTITY:CAPS" role="macro"/>NM_SETTING_802_1X_ANONYMOUS_IDENTITY</title>
-<indexterm><primary>NM_SETTING_802_1X_ANONYMOUS_IDENTITY</primary></indexterm><programlisting>#define NM_SETTING_802_1X_ANONYMOUS_IDENTITY "anonymous-identity"
+<refsect2 id="NM-SETTING-802-1X-ANONYMOUS-IDENTITY--CAPS" role="macro">
+<title>NM_SETTING_802_1X_ANONYMOUS_IDENTITY</title>
+<indexterm zone="NM-SETTING-802-1X-ANONYMOUS-IDENTITY--CAPS"><primary sortas="NM_SETTING_802_1X_ANONYMOUS_IDENTITY">NM_SETTING_802_1X_ANONYMOUS_IDENTITY</primary></indexterm><programlisting>#define NM_SETTING_802_1X_ANONYMOUS_IDENTITY "anonymous-identity"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-CA-CERT:CAPS" role="macro"/>NM_SETTING_802_1X_CA_CERT</title>
-<indexterm><primary>NM_SETTING_802_1X_CA_CERT</primary></indexterm><programlisting>#define NM_SETTING_802_1X_CA_CERT "ca-cert"
+<refsect2 id="NM-SETTING-802-1X-CA-CERT--CAPS" role="macro">
+<title>NM_SETTING_802_1X_CA_CERT</title>
+<indexterm zone="NM-SETTING-802-1X-CA-CERT--CAPS"><primary sortas="NM_SETTING_802_1X_CA_CERT">NM_SETTING_802_1X_CA_CERT</primary></indexterm><programlisting>#define NM_SETTING_802_1X_CA_CERT "ca-cert"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-CA-PATH:CAPS" role="macro"/>NM_SETTING_802_1X_CA_PATH</title>
-<indexterm><primary>NM_SETTING_802_1X_CA_PATH</primary></indexterm><programlisting>#define NM_SETTING_802_1X_CA_PATH "ca-path"
+<refsect2 id="NM-SETTING-802-1X-CA-PATH--CAPS" role="macro">
+<title>NM_SETTING_802_1X_CA_PATH</title>
+<indexterm zone="NM-SETTING-802-1X-CA-PATH--CAPS"><primary sortas="NM_SETTING_802_1X_CA_PATH">NM_SETTING_802_1X_CA_PATH</primary></indexterm><programlisting>#define NM_SETTING_802_1X_CA_PATH "ca-path"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-CLIENT-CERT:CAPS" role="macro"/>NM_SETTING_802_1X_CLIENT_CERT</title>
-<indexterm><primary>NM_SETTING_802_1X_CLIENT_CERT</primary></indexterm><programlisting>#define NM_SETTING_802_1X_CLIENT_CERT "client-cert"
+<refsect2 id="NM-SETTING-802-1X-CLIENT-CERT--CAPS" role="macro">
+<title>NM_SETTING_802_1X_CLIENT_CERT</title>
+<indexterm zone="NM-SETTING-802-1X-CLIENT-CERT--CAPS"><primary sortas="NM_SETTING_802_1X_CLIENT_CERT">NM_SETTING_802_1X_CLIENT_CERT</primary></indexterm><programlisting>#define NM_SETTING_802_1X_CLIENT_CERT "client-cert"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-PHASE1-PEAPVER:CAPS" role="macro"/>NM_SETTING_802_1X_PHASE1_PEAPVER</title>
-<indexterm><primary>NM_SETTING_802_1X_PHASE1_PEAPVER</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE1_PEAPVER "phase1-peapver"
+<refsect2 id="NM-SETTING-802-1X-PHASE1-PEAPVER--CAPS" role="macro">
+<title>NM_SETTING_802_1X_PHASE1_PEAPVER</title>
+<indexterm zone="NM-SETTING-802-1X-PHASE1-PEAPVER--CAPS"><primary sortas="NM_SETTING_802_1X_PHASE1_PEAPVER">NM_SETTING_802_1X_PHASE1_PEAPVER</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE1_PEAPVER "phase1-peapver"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-PHASE1-PEAPLABEL:CAPS" role="macro"/>NM_SETTING_802_1X_PHASE1_PEAPLABEL</title>
-<indexterm><primary>NM_SETTING_802_1X_PHASE1_PEAPLABEL</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE1_PEAPLABEL "phase1-peaplabel"
+<refsect2 id="NM-SETTING-802-1X-PHASE1-PEAPLABEL--CAPS" role="macro">
+<title>NM_SETTING_802_1X_PHASE1_PEAPLABEL</title>
+<indexterm zone="NM-SETTING-802-1X-PHASE1-PEAPLABEL--CAPS"><primary sortas="NM_SETTING_802_1X_PHASE1_PEAPLABEL">NM_SETTING_802_1X_PHASE1_PEAPLABEL</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE1_PEAPLABEL "phase1-peaplabel"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-PHASE1-FAST-PROVISIONING:CAPS" role="macro"/>NM_SETTING_802_1X_PHASE1_FAST_PROVISIONING</title>
-<indexterm><primary>NM_SETTING_802_1X_PHASE1_FAST_PROVISIONING</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE1_FAST_PROVISIONING "phase1-fast-provisioning"
+<refsect2 id="NM-SETTING-802-1X-PHASE1-FAST-PROVISIONING--CAPS" role="macro">
+<title>NM_SETTING_802_1X_PHASE1_FAST_PROVISIONING</title>
+<indexterm zone="NM-SETTING-802-1X-PHASE1-FAST-PROVISIONING--CAPS"><primary sortas="NM_SETTING_802_1X_PHASE1_FAST_PROVISIONING">NM_SETTING_802_1X_PHASE1_FAST_PROVISIONING</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE1_FAST_PROVISIONING "phase1-fast-provisioning"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-PHASE2-AUTH:CAPS" role="macro"/>NM_SETTING_802_1X_PHASE2_AUTH</title>
-<indexterm><primary>NM_SETTING_802_1X_PHASE2_AUTH</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE2_AUTH "phase2-auth"
+<refsect2 id="NM-SETTING-802-1X-PHASE2-AUTH--CAPS" role="macro">
+<title>NM_SETTING_802_1X_PHASE2_AUTH</title>
+<indexterm zone="NM-SETTING-802-1X-PHASE2-AUTH--CAPS"><primary sortas="NM_SETTING_802_1X_PHASE2_AUTH">NM_SETTING_802_1X_PHASE2_AUTH</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE2_AUTH "phase2-auth"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-PHASE2-AUTHEAP:CAPS" role="macro"/>NM_SETTING_802_1X_PHASE2_AUTHEAP</title>
-<indexterm><primary>NM_SETTING_802_1X_PHASE2_AUTHEAP</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE2_AUTHEAP "phase2-autheap"
+<refsect2 id="NM-SETTING-802-1X-PHASE2-AUTHEAP--CAPS" role="macro">
+<title>NM_SETTING_802_1X_PHASE2_AUTHEAP</title>
+<indexterm zone="NM-SETTING-802-1X-PHASE2-AUTHEAP--CAPS"><primary sortas="NM_SETTING_802_1X_PHASE2_AUTHEAP">NM_SETTING_802_1X_PHASE2_AUTHEAP</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE2_AUTHEAP "phase2-autheap"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-PHASE2-CA-CERT:CAPS" role="macro"/>NM_SETTING_802_1X_PHASE2_CA_CERT</title>
-<indexterm><primary>NM_SETTING_802_1X_PHASE2_CA_CERT</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE2_CA_CERT "phase2-ca-cert"
+<refsect2 id="NM-SETTING-802-1X-PHASE2-CA-CERT--CAPS" role="macro">
+<title>NM_SETTING_802_1X_PHASE2_CA_CERT</title>
+<indexterm zone="NM-SETTING-802-1X-PHASE2-CA-CERT--CAPS"><primary sortas="NM_SETTING_802_1X_PHASE2_CA_CERT">NM_SETTING_802_1X_PHASE2_CA_CERT</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE2_CA_CERT "phase2-ca-cert"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-PHASE2-CA-PATH:CAPS" role="macro"/>NM_SETTING_802_1X_PHASE2_CA_PATH</title>
-<indexterm><primary>NM_SETTING_802_1X_PHASE2_CA_PATH</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE2_CA_PATH "phase2-ca-path"
+<refsect2 id="NM-SETTING-802-1X-PHASE2-CA-PATH--CAPS" role="macro">
+<title>NM_SETTING_802_1X_PHASE2_CA_PATH</title>
+<indexterm zone="NM-SETTING-802-1X-PHASE2-CA-PATH--CAPS"><primary sortas="NM_SETTING_802_1X_PHASE2_CA_PATH">NM_SETTING_802_1X_PHASE2_CA_PATH</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE2_CA_PATH "phase2-ca-path"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-PHASE2-CLIENT-CERT:CAPS" role="macro"/>NM_SETTING_802_1X_PHASE2_CLIENT_CERT</title>
-<indexterm><primary>NM_SETTING_802_1X_PHASE2_CLIENT_CERT</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE2_CLIENT_CERT "phase2-client-cert"
+<refsect2 id="NM-SETTING-802-1X-PHASE2-CLIENT-CERT--CAPS" role="macro">
+<title>NM_SETTING_802_1X_PHASE2_CLIENT_CERT</title>
+<indexterm zone="NM-SETTING-802-1X-PHASE2-CLIENT-CERT--CAPS"><primary sortas="NM_SETTING_802_1X_PHASE2_CLIENT_CERT">NM_SETTING_802_1X_PHASE2_CLIENT_CERT</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE2_CLIENT_CERT "phase2-client-cert"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-PASSWORD:CAPS" role="macro"/>NM_SETTING_802_1X_PASSWORD</title>
-<indexterm><primary>NM_SETTING_802_1X_PASSWORD</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PASSWORD "password"
+<refsect2 id="NM-SETTING-802-1X-PASSWORD--CAPS" role="macro">
+<title>NM_SETTING_802_1X_PASSWORD</title>
+<indexterm zone="NM-SETTING-802-1X-PASSWORD--CAPS"><primary sortas="NM_SETTING_802_1X_PASSWORD">NM_SETTING_802_1X_PASSWORD</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PASSWORD "password"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-PRIVATE-KEY:CAPS" role="macro"/>NM_SETTING_802_1X_PRIVATE_KEY</title>
-<indexterm><primary>NM_SETTING_802_1X_PRIVATE_KEY</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PRIVATE_KEY "private-key"
+<refsect2 id="NM-SETTING-802-1X-PRIVATE-KEY--CAPS" role="macro">
+<title>NM_SETTING_802_1X_PRIVATE_KEY</title>
+<indexterm zone="NM-SETTING-802-1X-PRIVATE-KEY--CAPS"><primary sortas="NM_SETTING_802_1X_PRIVATE_KEY">NM_SETTING_802_1X_PRIVATE_KEY</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PRIVATE_KEY "private-key"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-PRIVATE-KEY-PASSWORD:CAPS" role="macro"/>NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD</title>
-<indexterm><primary>NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD "private-key-password"
+<refsect2 id="NM-SETTING-802-1X-PRIVATE-KEY-PASSWORD--CAPS" role="macro">
+<title>NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD</title>
+<indexterm zone="NM-SETTING-802-1X-PRIVATE-KEY-PASSWORD--CAPS"><primary sortas="NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD">NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD "private-key-password"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-PHASE2-PRIVATE-KEY:CAPS" role="macro"/>NM_SETTING_802_1X_PHASE2_PRIVATE_KEY</title>
-<indexterm><primary>NM_SETTING_802_1X_PHASE2_PRIVATE_KEY</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE2_PRIVATE_KEY "phase2-private-key"
+<refsect2 id="NM-SETTING-802-1X-PHASE2-PRIVATE-KEY--CAPS" role="macro">
+<title>NM_SETTING_802_1X_PHASE2_PRIVATE_KEY</title>
+<indexterm zone="NM-SETTING-802-1X-PHASE2-PRIVATE-KEY--CAPS"><primary sortas="NM_SETTING_802_1X_PHASE2_PRIVATE_KEY">NM_SETTING_802_1X_PHASE2_PRIVATE_KEY</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE2_PRIVATE_KEY "phase2-private-key"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-PHASE2-PRIVATE-KEY-PASSWORD:CAPS" role="macro"/>NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD</title>
-<indexterm><primary>NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD "phase2-private-key-password"
+<refsect2 id="NM-SETTING-802-1X-PHASE2-PRIVATE-KEY-PASSWORD--CAPS" role="macro">
+<title>NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD</title>
+<indexterm zone="NM-SETTING-802-1X-PHASE2-PRIVATE-KEY-PASSWORD--CAPS"><primary sortas="NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD">NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD "phase2-private-key-password"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-PIN:CAPS" role="macro"/>NM_SETTING_802_1X_PIN</title>
-<indexterm><primary>NM_SETTING_802_1X_PIN</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PIN "pin"
+<refsect2 id="NM-SETTING-802-1X-PIN--CAPS" role="macro">
+<title>NM_SETTING_802_1X_PIN</title>
+<indexterm zone="NM-SETTING-802-1X-PIN--CAPS"><primary sortas="NM_SETTING_802_1X_PIN">NM_SETTING_802_1X_PIN</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PIN "pin"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-PSK:CAPS" role="macro"/>NM_SETTING_802_1X_PSK</title>
-<indexterm><primary>NM_SETTING_802_1X_PSK</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PSK "psk"
+<refsect2 id="NM-SETTING-802-1X-PSK--CAPS" role="macro">
+<title>NM_SETTING_802_1X_PSK</title>
+<indexterm zone="NM-SETTING-802-1X-PSK--CAPS"><primary sortas="NM_SETTING_802_1X_PSK">NM_SETTING_802_1X_PSK</primary></indexterm><programlisting>#define NM_SETTING_802_1X_PSK "psk"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-SETTING-802-1X-SYSTEM-CA-CERTS:CAPS" role="macro"/>NM_SETTING_802_1X_SYSTEM_CA_CERTS</title>
-<indexterm><primary>NM_SETTING_802_1X_SYSTEM_CA_CERTS</primary></indexterm><programlisting>#define NM_SETTING_802_1X_SYSTEM_CA_CERTS "system-ca-certs"
+<refsect2 id="NM-SETTING-802-1X-SYSTEM-CA-CERTS--CAPS" role="macro">
+<title>NM_SETTING_802_1X_SYSTEM_CA_CERTS</title>
+<indexterm zone="NM-SETTING-802-1X-SYSTEM-CA-CERTS--CAPS"><primary sortas="NM_SETTING_802_1X_SYSTEM_CA_CERTS">NM_SETTING_802_1X_SYSTEM_CA_CERTS</primary></indexterm><programlisting>#define NM_SETTING_802_1X_SYSTEM_CA_CERTS "system-ca-certs"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NMSetting8021x-struct" role="struct"/>NMSetting8021x</title>
-<indexterm><primary>NMSetting8021x</primary></indexterm><programlisting>typedef struct _NMSetting8021x NMSetting8021x;</programlisting>
+<refsect2 id="NMSetting8021x-struct" role="struct">
+<title>NMSetting8021x</title>
+<indexterm zone="NMSetting8021x-struct"><primary sortas="NMSetting8021x">NMSetting8021x</primary></indexterm><programlisting>typedef struct _NMSetting8021x NMSetting8021x;</programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-type" role="function"/>nm_setting_802_1x_get_type ()</title>
-<indexterm><primary>nm_setting_802_1x_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_setting_802_1x_get_type          (void);</programlisting>
+<refsect2 id="nm-setting-802-1x-get-type" role="function">
+<title>nm_setting_802_1x_get_type ()</title>
+<indexterm zone="nm-setting-802-1x-get-type"><primary sortas="nm_setting_802_1x_get_type">nm_setting_802_1x_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_setting_802_1x_get_type          (void);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-new" role="function"/>nm_setting_802_1x_new ()</title>
-<indexterm><primary>nm_setting_802_1x_new</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link>*          nm_setting_802_1x_new               (void);</programlisting>
+<refsect2 id="nm-setting-802-1x-new" role="function">
+<title>nm_setting_802_1x_new ()</title>
+<indexterm zone="nm-setting-802-1x-new"><primary sortas="nm_setting_802_1x_new">nm_setting_802_1x_new</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link> *         nm_setting_802_1x_new               (void);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-num-eap-methods" role="function"/>nm_setting_802_1x_get_num_eap_methods ()</title>
-<indexterm><primary>nm_setting_802_1x_get_num_eap_methods</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_802_1x_get_num_eap_methods
+<refsect2 id="nm-setting-802-1x-get-num-eap-methods" role="function">
+<title>nm_setting_802_1x_get_num_eap_methods ()</title>
+<indexterm zone="nm-setting-802-1x-get-num-eap-methods"><primary sortas="nm_setting_802_1x_get_num_eap_methods">nm_setting_802_1x_get_num_eap_methods</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_802_1x_get_num_eap_methods
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-eap-method" role="function"/>nm_setting_802_1x_get_eap_method ()</title>
-<indexterm><primary>nm_setting_802_1x_get_eap_method</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_802_1x_get_eap_method    (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
+<refsect2 id="nm-setting-802-1x-get-eap-method" role="function">
+<title>nm_setting_802_1x_get_eap_method ()</title>
+<indexterm zone="nm-setting-802-1x-get-eap-method"><primary sortas="nm_setting_802_1x_get_eap_method">nm_setting_802_1x_get_eap_method</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_802_1x_get_eap_method    (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
                                                          <link linkend="guint32">guint32</link> i);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>i</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>i</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-add-eap-method" role="function"/>nm_setting_802_1x_add_eap_method ()</title>
-<indexterm><primary>nm_setting_802_1x_add_eap_method</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_802_1x_add_eap_method    (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
+<refsect2 id="nm-setting-802-1x-add-eap-method" role="function">
+<title>nm_setting_802_1x_add_eap_method ()</title>
+<indexterm zone="nm-setting-802-1x-add-eap-method"><primary sortas="nm_setting_802_1x_add_eap_method">nm_setting_802_1x_add_eap_method</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_802_1x_add_eap_method    (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
                                                          const <link linkend="char">char</link> *eap);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>eap</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>eap</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-remove-eap-method" role="function"/>nm_setting_802_1x_remove_eap_method ()</title>
-<indexterm><primary>nm_setting_802_1x_remove_eap_method</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_802_1x_remove_eap_method (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
+<refsect2 id="nm-setting-802-1x-remove-eap-method" role="function">
+<title>nm_setting_802_1x_remove_eap_method ()</title>
+<indexterm zone="nm-setting-802-1x-remove-eap-method"><primary sortas="nm_setting_802_1x_remove_eap_method">nm_setting_802_1x_remove_eap_method</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_802_1x_remove_eap_method (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
                                                          <link linkend="guint32">guint32</link> i);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>i</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>i</parameter>&#160;:</term>
 <listitem><simpara>
-
-
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-clear-eap-methods" role="function"/>nm_setting_802_1x_clear_eap_methods ()</title>
-<indexterm><primary>nm_setting_802_1x_clear_eap_methods</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_802_1x_clear_eap_methods (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
+<refsect2 id="nm-setting-802-1x-clear-eap-methods" role="function">
+<title>nm_setting_802_1x_clear_eap_methods ()</title>
+<indexterm zone="nm-setting-802-1x-clear-eap-methods"><primary sortas="nm_setting_802_1x_clear_eap_methods">nm_setting_802_1x_clear_eap_methods</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_802_1x_clear_eap_methods (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
-
-
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-identity" role="function"/>nm_setting_802_1x_get_identity ()</title>
-<indexterm><primary>nm_setting_802_1x_get_identity</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_802_1x_get_identity      (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
+<refsect2 id="nm-setting-802-1x-get-identity" role="function">
+<title>nm_setting_802_1x_get_identity ()</title>
+<indexterm zone="nm-setting-802-1x-get-identity"><primary sortas="nm_setting_802_1x_get_identity">nm_setting_802_1x_get_identity</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_802_1x_get_identity      (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-anonymous-identity" role="function"/>nm_setting_802_1x_get_anonymous_identity ()</title>
-<indexterm><primary>nm_setting_802_1x_get_anonymous_identity</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_802_1x_get_anonymous_identity
+<refsect2 id="nm-setting-802-1x-get-anonymous-identity" role="function">
+<title>nm_setting_802_1x_get_anonymous_identity ()</title>
+<indexterm zone="nm-setting-802-1x-get-anonymous-identity"><primary sortas="nm_setting_802_1x_get_anonymous_identity">nm_setting_802_1x_get_anonymous_identity</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_802_1x_get_anonymous_identity
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-ca-cert" role="function"/>nm_setting_802_1x_get_ca_cert ()</title>
-<indexterm><primary>nm_setting_802_1x_get_ca_cert</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link>*   nm_setting_802_1x_get_ca_cert       (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
+<refsect2 id="nm-setting-802-1x-get-ca-cert" role="function">
+<title>nm_setting_802_1x_get_ca_cert ()</title>
+<indexterm zone="nm-setting-802-1x-get-ca-cert"><primary sortas="nm_setting_802_1x_get_ca_cert">nm_setting_802_1x_get_ca_cert</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link> *  nm_setting_802_1x_get_ca_cert       (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-ca-path" role="function"/>nm_setting_802_1x_get_ca_path ()</title>
-<indexterm><primary>nm_setting_802_1x_get_ca_path</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_802_1x_get_ca_path       (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
+<refsect2 id="nm-setting-802-1x-get-ca-path" role="function">
+<title>nm_setting_802_1x_get_ca_path ()</title>
+<indexterm zone="nm-setting-802-1x-get-ca-path"><primary sortas="nm_setting_802_1x_get_ca_path">nm_setting_802_1x_get_ca_path</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_802_1x_get_ca_path       (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-set-ca-cert-from-file" role="function"/>nm_setting_802_1x_set_ca_cert_from_file ()</title>
-<indexterm><primary>nm_setting_802_1x_set_ca_cert_from_file</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_802_1x_set_ca_cert_from_file
+<refsect2 id="nm-setting-802-1x-set-ca-cert-from-file" role="function">
+<title>nm_setting_802_1x_set_ca_cert_from_file ()</title>
+<indexterm zone="nm-setting-802-1x-set-ca-cert-from-file"><primary sortas="nm_setting_802_1x_set_ca_cert_from_file">nm_setting_802_1x_set_ca_cert_from_file</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_802_1x_set_ca_cert_from_file
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
                                                          const <link linkend="char">char</link> *filename,
                                                          <link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link> *out_ck_type,
                                                          <link linkend="GError">GError</link> **err);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>filename</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>filename</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>out_ck_type</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>out_ck_type</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>err</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>err</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-client-cert" role="function"/>nm_setting_802_1x_get_client_cert ()</title>
-<indexterm><primary>nm_setting_802_1x_get_client_cert</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link>*   nm_setting_802_1x_get_client_cert   (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
+<refsect2 id="nm-setting-802-1x-get-client-cert" role="function">
+<title>nm_setting_802_1x_get_client_cert ()</title>
+<indexterm zone="nm-setting-802-1x-get-client-cert"><primary sortas="nm_setting_802_1x_get_client_cert">nm_setting_802_1x_get_client_cert</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link> *  nm_setting_802_1x_get_client_cert   (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-set-client-cert-from-file" role="function"/>nm_setting_802_1x_set_client_cert_from_file ()</title>
-<indexterm><primary>nm_setting_802_1x_set_client_cert_from_file</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_802_1x_set_client_cert_from_file
+<refsect2 id="nm-setting-802-1x-set-client-cert-from-file" role="function">
+<title>nm_setting_802_1x_set_client_cert_from_file ()</title>
+<indexterm zone="nm-setting-802-1x-set-client-cert-from-file"><primary sortas="nm_setting_802_1x_set_client_cert_from_file">nm_setting_802_1x_set_client_cert_from_file</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_802_1x_set_client_cert_from_file
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
                                                          const <link linkend="char">char</link> *filename,
                                                          <link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link> *out_ck_type,
                                                          <link linkend="GError">GError</link> **err);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>filename</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>filename</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>out_ck_type</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>out_ck_type</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>err</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>err</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-phase1-peapver" role="function"/>nm_setting_802_1x_get_phase1_peapver ()</title>
-<indexterm><primary>nm_setting_802_1x_get_phase1_peapver</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_802_1x_get_phase1_peapver
+<refsect2 id="nm-setting-802-1x-get-phase1-peapver" role="function">
+<title>nm_setting_802_1x_get_phase1_peapver ()</title>
+<indexterm zone="nm-setting-802-1x-get-phase1-peapver"><primary sortas="nm_setting_802_1x_get_phase1_peapver">nm_setting_802_1x_get_phase1_peapver</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_802_1x_get_phase1_peapver
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-phase1-peaplabel" role="function"/>nm_setting_802_1x_get_phase1_peaplabel ()</title>
-<indexterm><primary>nm_setting_802_1x_get_phase1_peaplabel</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_802_1x_get_phase1_peaplabel
+<refsect2 id="nm-setting-802-1x-get-phase1-peaplabel" role="function">
+<title>nm_setting_802_1x_get_phase1_peaplabel ()</title>
+<indexterm zone="nm-setting-802-1x-get-phase1-peaplabel"><primary sortas="nm_setting_802_1x_get_phase1_peaplabel">nm_setting_802_1x_get_phase1_peaplabel</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_802_1x_get_phase1_peaplabel
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-phase1-fast-provisioning" role="function"/>nm_setting_802_1x_get_phase1_fast_provisioning ()</title>
-<indexterm><primary>nm_setting_802_1x_get_phase1_fast_provisioning</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_802_1x_get_phase1_fast_provisioning
+<refsect2 id="nm-setting-802-1x-get-phase1-fast-provisioning" role="function">
+<title>nm_setting_802_1x_get_phase1_fast_provisioning ()</title>
+<indexterm zone="nm-setting-802-1x-get-phase1-fast-provisioning"><primary sortas="nm_setting_802_1x_get_phase1_fast_provisioning">nm_setting_802_1x_get_phase1_fast_provisioning</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_802_1x_get_phase1_fast_provisioning
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-phase2-auth" role="function"/>nm_setting_802_1x_get_phase2_auth ()</title>
-<indexterm><primary>nm_setting_802_1x_get_phase2_auth</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_802_1x_get_phase2_auth   (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
+<refsect2 id="nm-setting-802-1x-get-phase2-auth" role="function">
+<title>nm_setting_802_1x_get_phase2_auth ()</title>
+<indexterm zone="nm-setting-802-1x-get-phase2-auth"><primary sortas="nm_setting_802_1x_get_phase2_auth">nm_setting_802_1x_get_phase2_auth</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_802_1x_get_phase2_auth   (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-phase2-autheap" role="function"/>nm_setting_802_1x_get_phase2_autheap ()</title>
-<indexterm><primary>nm_setting_802_1x_get_phase2_autheap</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_802_1x_get_phase2_autheap
+<refsect2 id="nm-setting-802-1x-get-phase2-autheap" role="function">
+<title>nm_setting_802_1x_get_phase2_autheap ()</title>
+<indexterm zone="nm-setting-802-1x-get-phase2-autheap"><primary sortas="nm_setting_802_1x_get_phase2_autheap">nm_setting_802_1x_get_phase2_autheap</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_802_1x_get_phase2_autheap
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-phase2-ca-cert" role="function"/>nm_setting_802_1x_get_phase2_ca_cert ()</title>
-<indexterm><primary>nm_setting_802_1x_get_phase2_ca_cert</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link>*   nm_setting_802_1x_get_phase2_ca_cert
+<refsect2 id="nm-setting-802-1x-get-phase2-ca-cert" role="function">
+<title>nm_setting_802_1x_get_phase2_ca_cert ()</title>
+<indexterm zone="nm-setting-802-1x-get-phase2-ca-cert"><primary sortas="nm_setting_802_1x_get_phase2_ca_cert">nm_setting_802_1x_get_phase2_ca_cert</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link> *  nm_setting_802_1x_get_phase2_ca_cert
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-phase2-ca-path" role="function"/>nm_setting_802_1x_get_phase2_ca_path ()</title>
-<indexterm><primary>nm_setting_802_1x_get_phase2_ca_path</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_802_1x_get_phase2_ca_path
+<refsect2 id="nm-setting-802-1x-get-phase2-ca-path" role="function">
+<title>nm_setting_802_1x_get_phase2_ca_path ()</title>
+<indexterm zone="nm-setting-802-1x-get-phase2-ca-path"><primary sortas="nm_setting_802_1x_get_phase2_ca_path">nm_setting_802_1x_get_phase2_ca_path</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_802_1x_get_phase2_ca_path
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-set-phase2-ca-cert-from-file" role="function"/>nm_setting_802_1x_set_phase2_ca_cert_from_file ()</title>
-<indexterm><primary>nm_setting_802_1x_set_phase2_ca_cert_from_file</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_802_1x_set_phase2_ca_cert_from_file
+<refsect2 id="nm-setting-802-1x-set-phase2-ca-cert-from-file" role="function">
+<title>nm_setting_802_1x_set_phase2_ca_cert_from_file ()</title>
+<indexterm zone="nm-setting-802-1x-set-phase2-ca-cert-from-file"><primary sortas="nm_setting_802_1x_set_phase2_ca_cert_from_file">nm_setting_802_1x_set_phase2_ca_cert_from_file</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_802_1x_set_phase2_ca_cert_from_file
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
                                                          const <link linkend="char">char</link> *filename,
                                                          <link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link> *out_ck_type,
                                                          <link linkend="GError">GError</link> **err);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>filename</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>filename</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>out_ck_type</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>out_ck_type</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>err</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>err</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-system-ca-certs" role="function"/>nm_setting_802_1x_get_system_ca_certs ()</title>
-<indexterm><primary>nm_setting_802_1x_get_system_ca_certs</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_802_1x_get_system_ca_certs
+<refsect2 id="nm-setting-802-1x-get-system-ca-certs" role="function">
+<title>nm_setting_802_1x_get_system_ca_certs ()</title>
+<indexterm zone="nm-setting-802-1x-get-system-ca-certs"><primary sortas="nm_setting_802_1x_get_system_ca_certs">nm_setting_802_1x_get_system_ca_certs</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_802_1x_get_system_ca_certs
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-phase2-client-cert" role="function"/>nm_setting_802_1x_get_phase2_client_cert ()</title>
-<indexterm><primary>nm_setting_802_1x_get_phase2_client_cert</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link>*   nm_setting_802_1x_get_phase2_client_cert
+<refsect2 id="nm-setting-802-1x-get-phase2-client-cert" role="function">
+<title>nm_setting_802_1x_get_phase2_client_cert ()</title>
+<indexterm zone="nm-setting-802-1x-get-phase2-client-cert"><primary sortas="nm_setting_802_1x_get_phase2_client_cert">nm_setting_802_1x_get_phase2_client_cert</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link> *  nm_setting_802_1x_get_phase2_client_cert
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-set-phase2-client-cert-from-file" role="function"/>nm_setting_802_1x_set_phase2_client_cert_from_file ()</title>
-<indexterm><primary>nm_setting_802_1x_set_phase2_client_cert_from_file</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_802_1x_set_phase2_client_cert_from_file
+<refsect2 id="nm-setting-802-1x-set-phase2-client-cert-from-file" role="function">
+<title>nm_setting_802_1x_set_phase2_client_cert_from_file ()</title>
+<indexterm zone="nm-setting-802-1x-set-phase2-client-cert-from-file"><primary sortas="nm_setting_802_1x_set_phase2_client_cert_from_file">nm_setting_802_1x_set_phase2_client_cert_from_file</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_802_1x_set_phase2_client_cert_from_file
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
                                                          const <link linkend="char">char</link> *filename,
                                                          <link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link> *out_ck_type,
                                                          <link linkend="GError">GError</link> **err);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>filename</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>filename</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>out_ck_type</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>out_ck_type</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>err</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>err</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-password" role="function"/>nm_setting_802_1x_get_password ()</title>
-<indexterm><primary>nm_setting_802_1x_get_password</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_802_1x_get_password      (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
+<refsect2 id="nm-setting-802-1x-get-password" role="function">
+<title>nm_setting_802_1x_get_password ()</title>
+<indexterm zone="nm-setting-802-1x-get-password"><primary sortas="nm_setting_802_1x_get_password">nm_setting_802_1x_get_password</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_802_1x_get_password      (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-pin" role="function"/>nm_setting_802_1x_get_pin ()</title>
-<indexterm><primary>nm_setting_802_1x_get_pin</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_802_1x_get_pin           (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
+<refsect2 id="nm-setting-802-1x-get-pin" role="function">
+<title>nm_setting_802_1x_get_pin ()</title>
+<indexterm zone="nm-setting-802-1x-get-pin"><primary sortas="nm_setting_802_1x_get_pin">nm_setting_802_1x_get_pin</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_802_1x_get_pin           (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-psk" role="function"/>nm_setting_802_1x_get_psk ()</title>
-<indexterm><primary>nm_setting_802_1x_get_psk</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_802_1x_get_psk           (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
+<refsect2 id="nm-setting-802-1x-get-psk" role="function">
+<title>nm_setting_802_1x_get_psk ()</title>
+<indexterm zone="nm-setting-802-1x-get-psk"><primary sortas="nm_setting_802_1x_get_psk">nm_setting_802_1x_get_psk</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_802_1x_get_psk           (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-private-key" role="function"/>nm_setting_802_1x_get_private_key ()</title>
-<indexterm><primary>nm_setting_802_1x_get_private_key</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link>*   nm_setting_802_1x_get_private_key   (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
+<refsect2 id="nm-setting-802-1x-get-private-key" role="function">
+<title>nm_setting_802_1x_get_private_key ()</title>
+<indexterm zone="nm-setting-802-1x-get-private-key"><primary sortas="nm_setting_802_1x_get_private_key">nm_setting_802_1x_get_private_key</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link> *  nm_setting_802_1x_get_private_key   (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-private-key-password" role="function"/>nm_setting_802_1x_get_private_key_password ()</title>
-<indexterm><primary>nm_setting_802_1x_get_private_key_password</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_802_1x_get_private_key_password
+<refsect2 id="nm-setting-802-1x-get-private-key-password" role="function">
+<title>nm_setting_802_1x_get_private_key_password ()</title>
+<indexterm zone="nm-setting-802-1x-get-private-key-password"><primary sortas="nm_setting_802_1x_get_private_key_password">nm_setting_802_1x_get_private_key_password</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_802_1x_get_private_key_password
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-set-private-key-from-file" role="function"/>nm_setting_802_1x_set_private_key_from_file ()</title>
-<indexterm><primary>nm_setting_802_1x_set_private_key_from_file</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_802_1x_set_private_key_from_file
+<refsect2 id="nm-setting-802-1x-set-private-key-from-file" role="function">
+<title>nm_setting_802_1x_set_private_key_from_file ()</title>
+<indexterm zone="nm-setting-802-1x-set-private-key-from-file"><primary sortas="nm_setting_802_1x_set_private_key_from_file">nm_setting_802_1x_set_private_key_from_file</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_802_1x_set_private_key_from_file
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
                                                          const <link linkend="char">char</link> *filename,
                                                          const <link linkend="char">char</link> *password,
                                                          <link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link> *out_ck_type,
                                                          <link linkend="GError">GError</link> **err);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>filename</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>filename</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>password</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>password</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>out_ck_type</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>out_ck_type</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>err</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>err</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-private-key-type" role="function"/>nm_setting_802_1x_get_private_key_type ()</title>
-<indexterm><primary>nm_setting_802_1x_get_private_key_type</primary></indexterm><programlisting><link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link> nm_setting_802_1x_get_private_key_type
+<refsect2 id="nm-setting-802-1x-get-private-key-type" role="function">
+<title>nm_setting_802_1x_get_private_key_type ()</title>
+<indexterm zone="nm-setting-802-1x-get-private-key-type"><primary sortas="nm_setting_802_1x_get_private_key_type">nm_setting_802_1x_get_private_key_type</primary></indexterm><programlisting><link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link>  nm_setting_802_1x_get_private_key_type
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-phase2-private-key" role="function"/>nm_setting_802_1x_get_phase2_private_key ()</title>
-<indexterm><primary>nm_setting_802_1x_get_phase2_private_key</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link>*   nm_setting_802_1x_get_phase2_private_key
+<refsect2 id="nm-setting-802-1x-get-phase2-private-key" role="function">
+<title>nm_setting_802_1x_get_phase2_private_key ()</title>
+<indexterm zone="nm-setting-802-1x-get-phase2-private-key"><primary sortas="nm_setting_802_1x_get_phase2_private_key">nm_setting_802_1x_get_phase2_private_key</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link> *  nm_setting_802_1x_get_phase2_private_key
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-phase2-private-key-password" role="function"/>nm_setting_802_1x_get_phase2_private_key_password ()</title>
-<indexterm><primary>nm_setting_802_1x_get_phase2_private_key_password</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_setting_802_1x_get_phase2_private_key_password
+<refsect2 id="nm-setting-802-1x-get-phase2-private-key-password" role="function">
+<title>nm_setting_802_1x_get_phase2_private_key_password ()</title>
+<indexterm zone="nm-setting-802-1x-get-phase2-private-key-password"><primary sortas="nm_setting_802_1x_get_phase2_private_key_password">nm_setting_802_1x_get_phase2_private_key_password</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_802_1x_get_phase2_private_key_password
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-set-phase2-private-key-from-file" role="function"/>nm_setting_802_1x_set_phase2_private_key_from_file ()</title>
-<indexterm><primary>nm_setting_802_1x_set_phase2_private_key_from_file</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_802_1x_set_phase2_private_key_from_file
+<refsect2 id="nm-setting-802-1x-set-phase2-private-key-from-file" role="function">
+<title>nm_setting_802_1x_set_phase2_private_key_from_file ()</title>
+<indexterm zone="nm-setting-802-1x-set-phase2-private-key-from-file"><primary sortas="nm_setting_802_1x_set_phase2_private_key_from_file">nm_setting_802_1x_set_phase2_private_key_from_file</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_802_1x_set_phase2_private_key_from_file
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting,
                                                          const <link linkend="char">char</link> *filename,
                                                          const <link linkend="char">char</link> *password,
                                                          <link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link> *out_ck_type,
                                                          <link linkend="GError">GError</link> **err);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>filename</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>filename</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>password</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>password</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>out_ck_type</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>out_ck_type</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>err</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>err</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-setting-802-1x-get-phase2-private-key-type" role="function"/>nm_setting_802_1x_get_phase2_private_key_type ()</title>
-<indexterm><primary>nm_setting_802_1x_get_phase2_private_key_type</primary></indexterm><programlisting><link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link> nm_setting_802_1x_get_phase2_private_key_type
+<refsect2 id="nm-setting-802-1x-get-phase2-private-key-type" role="function">
+<title>nm_setting_802_1x_get_phase2_private_key_type ()</title>
+<indexterm zone="nm-setting-802-1x-get-phase2-private-key-type"><primary sortas="nm_setting_802_1x_get_phase2_private_key_type">nm_setting_802_1x_get_phase2_private_key_type</primary></indexterm><programlisting><link linkend="NMSetting8021xCKType">NMSetting8021xCKType</link>  nm_setting_802_1x_get_phase2_private_key_type
                                                         (<link linkend="NMSetting8021x">NMSetting8021x</link> *setting);</programlisting>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>setting</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
 <listitem><simpara>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
-
-
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
 
 </refsect1>
-<refsect1 role="property_details">
+<refsect1 id="NMSetting8021x.property-details" role="property_details">
 <title role="property_details.title">Property Details</title>
-<refsect2><title><anchor id="NMSetting8021x--anonymous-identity"/>The <literal>&quot;anonymous-identity&quot;</literal> property</title>
-<indexterm><primary>NMSetting8021x:anonymous-identity</primary></indexterm><programlisting>  &quot;anonymous-identity&quot;       <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
-<para>Anonymous identity.</para><para>Default value: NULL</para>
+<refsect2 id="NMSetting8021x--anonymous-identity" role="property"><title>The <literal>&quot;anonymous-identity&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--anonymous-identity"><primary sortas="NMSetting8021x:anonymous-identity">NMSetting8021x:anonymous-identity</primary></indexterm><programlisting>  &quot;anonymous-identity&quot;       <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+Anonymous identity string for EAP authentication methods.  Used as the
+unencrypted identity with EAP types that support different tunneled
+identity like EAP-TTLS.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
-<refsect2><title><anchor id="NMSetting8021x--ca-path"/>The <literal>&quot;ca-path&quot;</literal> property</title>
-<indexterm><primary>NMSetting8021x:ca-path</primary></indexterm><programlisting>  &quot;ca-path&quot;                  <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
-<para>CA path.</para><para>Default value: NULL</para>
+<refsect2 id="NMSetting8021x--ca-cert" role="property"><title>The <literal>&quot;ca-cert&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--ca-cert"><primary sortas="NMSetting8021x:ca-cert">NMSetting8021x:ca-cert</primary></indexterm><programlisting>  &quot;ca-cert&quot;                  <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write</programlisting>
+<para>
+Contains the CA certificate if used by the EAP method specified in the
+<link linkend="NMSetting8021x--eap"><type>"eap"</type></link> property.  Setting this property directly is
+discouraged; use the <link linkend="nm-setting-802-1x-set-ca-cert-from-file"><function>nm_setting_802_1x_set_ca_cert_from_file()</function></link> function
+instead.</para>
+<para>
+</para></refsect2>
+<refsect2 id="NMSetting8021x--ca-path" role="property"><title>The <literal>&quot;ca-path&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--ca-path"><primary sortas="NMSetting8021x:ca-path">NMSetting8021x:ca-path</primary></indexterm><programlisting>  &quot;ca-path&quot;                  <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+UTF-8 encoded path to a directory containing PEM or DER formatted
+certificates to be added to the verification chain in addition to the
+certificate specified in the <link linkend="NMSetting8021x--ca-cert"><type>"ca-cert"</type></link> property.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
-<refsect2><title><anchor id="NMSetting8021x--identity"/>The <literal>&quot;identity&quot;</literal> property</title>
-<indexterm><primary>NMSetting8021x:identity</primary></indexterm><programlisting>  &quot;identity&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
-<para>Identity.</para><para>Default value: NULL</para>
+<refsect2 id="NMSetting8021x--client-cert" role="property"><title>The <literal>&quot;client-cert&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--client-cert"><primary sortas="NMSetting8021x:client-cert">NMSetting8021x:client-cert</primary></indexterm><programlisting>  &quot;client-cert&quot;              <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write</programlisting>
+<para>
+Contains the client certificate if used by the EAP method specified in
+the <link linkend="NMSetting8021x--eap"><type>"eap"</type></link> property.  Setting this property directly is
+discouraged; use the <link linkend="nm-setting-802-1x-set-client-cert-from-file"><function>nm_setting_802_1x_set_client_cert_from_file()</function></link>
+function instead.</para>
+<para>
+</para></refsect2>
+<refsect2 id="NMSetting8021x--eap" role="property"><title>The <literal>&quot;eap&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--eap"><primary sortas="NMSetting8021x:eap">NMSetting8021x:eap</primary></indexterm><programlisting>  &quot;eap&quot;                      <link linkend="GSList-gchararray-">GSList_gchararray_</link>*   : Read / Write</programlisting>
+<para>
+The allowed EAP method to be used when authenticating to the network with
+802.1x.  Valid methods are: "leap", "md5", "tls", "peap", and "ttls".
+Each method requires different configuration using the properties of this
+object; refer to wpa_supplicant documentation for the allowed combinations.</para>
+<para>
+</para></refsect2>
+<refsect2 id="NMSetting8021x--identity" role="property"><title>The <literal>&quot;identity&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--identity"><primary sortas="NMSetting8021x:identity">NMSetting8021x:identity</primary></indexterm><programlisting>  &quot;identity&quot;                 <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+Identity string for EAP authentication methods.  Often the user's
+user or login name.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
-<refsect2><title><anchor id="NMSetting8021x--password"/>The <literal>&quot;password&quot;</literal> property</title>
-<indexterm><primary>NMSetting8021x:password</primary></indexterm><programlisting>  &quot;password&quot;                 <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
-<para>Password.</para><para>Default value: NULL</para>
+<refsect2 id="NMSetting8021x--password" role="property"><title>The <literal>&quot;password&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--password"><primary sortas="NMSetting8021x:password">NMSetting8021x:password</primary></indexterm><programlisting>  &quot;password&quot;                 <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+Password used for EAP authentication methods.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
-<refsect2><title><anchor id="NMSetting8021x--phase1-fast-provisioning"/>The <literal>&quot;phase1-fast-provisioning&quot;</literal> property</title>
-<indexterm><primary>NMSetting8021x:phase1-fast-provisioning</primary></indexterm><programlisting>  &quot;phase1-fast-provisioning&quot; <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
-<para>Phase1 fast provisioning.</para><para>Default value: NULL</para>
+<refsect2 id="NMSetting8021x--phase1-fast-provisioning" role="property"><title>The <literal>&quot;phase1-fast-provisioning&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--phase1-fast-provisioning"><primary sortas="NMSetting8021x:phase1-fast-provisioning">NMSetting8021x:phase1-fast-provisioning</primary></indexterm><programlisting>  &quot;phase1-fast-provisioning&quot; <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+Enables or disables in-line provisioning of EAP-FAST credentials when
+FAST is specified as the EAP method in the <link linkend="NMSetting8021x--eap"><type>"eap"</type></link> property.
+Recognized values are "0" (disabled), "1" (allow unauthenticated
+provisioning), "2" (allow authenticated provisioning), and "3" (allow
+both authenticated and unauthenticated provisioning).  See the
+wpa_supplicant documentation for more details.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
-<refsect2><title><anchor id="NMSetting8021x--phase1-peaplabel"/>The <literal>&quot;phase1-peaplabel&quot;</literal> property</title>
-<indexterm><primary>NMSetting8021x:phase1-peaplabel</primary></indexterm><programlisting>  &quot;phase1-peaplabel&quot;         <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
-<para>Phase1 PEAP label.</para><para>Default value: NULL</para>
+<refsect2 id="NMSetting8021x--phase1-peaplabel" role="property"><title>The <literal>&quot;phase1-peaplabel&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--phase1-peaplabel"><primary sortas="NMSetting8021x:phase1-peaplabel">NMSetting8021x:phase1-peaplabel</primary></indexterm><programlisting>  &quot;phase1-peaplabel&quot;         <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+Forces use of the new PEAP label during key derivation.  Some RADIUS
+servers may require forcing the new PEAP label to interoperate with
+PEAPv1.  Set to "1" to force use of the new PEAP label.  See the
+wpa_supplicant documentation for more details.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
-<refsect2><title><anchor id="NMSetting8021x--phase1-peapver"/>The <literal>&quot;phase1-peapver&quot;</literal> property</title>
-<indexterm><primary>NMSetting8021x:phase1-peapver</primary></indexterm><programlisting>  &quot;phase1-peapver&quot;           <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
-<para>Phase1 PEAPVER.</para><para>Default value: NULL</para>
+<refsect2 id="NMSetting8021x--phase1-peapver" role="property"><title>The <literal>&quot;phase1-peapver&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--phase1-peapver"><primary sortas="NMSetting8021x:phase1-peapver">NMSetting8021x:phase1-peapver</primary></indexterm><programlisting>  &quot;phase1-peapver&quot;           <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+Forces which PEAP version is used when PEAP is set as the EAP method in
+the <link linkend="NMSetting8021x--eap"><type>"eap"</type></link> property.  When unset, the version reported by
+the server will be used.  Sometimes when using older RADIUS servers, it
+is necessary to force the client to use a particular PEAP version.  To do
+so, this property may be set to "0" or "1" to force that specific PEAP
+version.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
-<refsect2><title><anchor id="NMSetting8021x--phase2-auth"/>The <literal>&quot;phase2-auth&quot;</literal> property</title>
-<indexterm><primary>NMSetting8021x:phase2-auth</primary></indexterm><programlisting>  &quot;phase2-auth&quot;              <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
-<para>Phase2 auth.</para><para>Default value: NULL</para>
+<refsect2 id="NMSetting8021x--phase2-auth" role="property"><title>The <literal>&quot;phase2-auth&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--phase2-auth"><primary sortas="NMSetting8021x:phase2-auth">NMSetting8021x:phase2-auth</primary></indexterm><programlisting>  &quot;phase2-auth&quot;              <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+Specifies the allowed "phase 2" inner non-EAP authentication methods when
+an EAP method that uses an inner TLS tunnel is specified in the
+<link linkend="NMSetting8021x--eap"><type>"eap"</type></link> property.  Recognized non-EAP phase2 methods are
+"pap", "chap", "mschap", "mschapv2", "gtc", "otp", "md5", and "tls".
+Each 'phase 2' inner method requires specific parameters for successful
+authentication; see the wpa_supplicant documentation for more details.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
-<refsect2><title><anchor id="NMSetting8021x--phase2-autheap"/>The <literal>&quot;phase2-autheap&quot;</literal> property</title>
-<indexterm><primary>NMSetting8021x:phase2-autheap</primary></indexterm><programlisting>  &quot;phase2-autheap&quot;           <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
-<para>Phase2 autheap.</para><para>Default value: NULL</para>
+<refsect2 id="NMSetting8021x--phase2-autheap" role="property"><title>The <literal>&quot;phase2-autheap&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--phase2-autheap"><primary sortas="NMSetting8021x:phase2-autheap">NMSetting8021x:phase2-autheap</primary></indexterm><programlisting>  &quot;phase2-autheap&quot;           <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+Specifies the allowed "phase 2" inner EAP-based authentication methods
+when an EAP method that uses an inner TLS tunnel is specified in the
+<link linkend="NMSetting8021x--eap"><type>"eap"</type></link> property.  Recognized EAP-based phase2 methods are
+"md5", "mschapv2", "otp", "gtc", and "tls". Each 'phase 2' inner method
+requires specific parameters for successful authentication; see the
+wpa_supplicant documentation for more details.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
-<refsect2><title><anchor id="NMSetting8021x--phase2-ca-path"/>The <literal>&quot;phase2-ca-path&quot;</literal> property</title>
-<indexterm><primary>NMSetting8021x:phase2-ca-path</primary></indexterm><programlisting>  &quot;phase2-ca-path&quot;           <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
-<para>Phase2 auth CA path.</para><para>Default value: NULL</para>
+<refsect2 id="NMSetting8021x--phase2-ca-cert" role="property"><title>The <literal>&quot;phase2-ca-cert&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--phase2-ca-cert"><primary sortas="NMSetting8021x:phase2-ca-cert">NMSetting8021x:phase2-ca-cert</primary></indexterm><programlisting>  &quot;phase2-ca-cert&quot;           <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write</programlisting>
+<para>
+Contains the CA certificate if used by the EAP method specified in the
+<link linkend="NMSetting8021x--phase2-auth"><type>"phase2-auth"</type></link> or <link linkend="NMSetting8021x--phase2-autheap"><type>"phase2-autheap"</type></link> properties.
+Setting this property directly is discouraged; use the
+<link linkend="nm-setting-802-1x-set-phase2-ca-cert-from-file"><function>nm_setting_802_1x_set_phase2_ca_cert_from_file()</function></link> function instead.</para>
+<para>
+</para></refsect2>
+<refsect2 id="NMSetting8021x--phase2-ca-path" role="property"><title>The <literal>&quot;phase2-ca-path&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--phase2-ca-path"><primary sortas="NMSetting8021x:phase2-ca-path">NMSetting8021x:phase2-ca-path</primary></indexterm><programlisting>  &quot;phase2-ca-path&quot;           <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+UTF-8 encoded path to a directory containing PEM or DER formatted
+certificates to be added to the verification chain in addition to the
+certificate specified in the <link linkend="NMSetting8021x--phase2-ca-cert"><type>"phase2-ca-cert"</type></link> property.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
-<refsect2><title><anchor id="NMSetting8021x--phase2-private-key-password"/>The <literal>&quot;phase2-private-key-password&quot;</literal> property</title>
-<indexterm><primary>NMSetting8021x:phase2-private-key-password</primary></indexterm><programlisting>  &quot;phase2-private-key-password&quot; <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
-<para>Phase2 private key password.</para><para>Default value: NULL</para>
+<refsect2 id="NMSetting8021x--phase2-client-cert" role="property"><title>The <literal>&quot;phase2-client-cert&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--phase2-client-cert"><primary sortas="NMSetting8021x:phase2-client-cert">NMSetting8021x:phase2-client-cert</primary></indexterm><programlisting>  &quot;phase2-client-cert&quot;       <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write</programlisting>
+<para>
+Contains the client certificate if used by the EAP method specified in
+the <link linkend="NMSetting8021x--phase2-auth"><type>"phase2-auth"</type></link> or <link linkend="NMSetting8021x--phase2-autheap"><type>"phase2-autheap"</type></link>
+properties.  Setting this property directly is discouraged; use the
+<link linkend="nm-setting-802-1x-set-phase2-client-cert-from-file"><function>nm_setting_802_1x_set_phase2_client_cert_from_file()</function></link> function instead.</para>
+<para>
+</para></refsect2>
+<refsect2 id="NMSetting8021x--phase2-private-key" role="property"><title>The <literal>&quot;phase2-private-key&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--phase2-private-key"><primary sortas="NMSetting8021x:phase2-private-key">NMSetting8021x:phase2-private-key</primary></indexterm><programlisting>  &quot;phase2-private-key&quot;       <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write</programlisting>
+<para>
+Contains the private key if the <link linkend="NMSetting8021x--phase2-eap"><type>"phase2-eap"</type></link> or
+<link linkend="NMSetting8021x--phase2-autheap"><type>"phase2-autheap"</type></link> properties are set to
+'tls'.  Setting this property directly is discouraged; use the
+<link linkend="nm-setting-802-1x-set-phase2-private-key-from-file"><function>nm_setting_802_1x_set_phase2_private_key_from_file()</function></link> function instead.</para>
+<para>
+</para></refsect2>
+<refsect2 id="NMSetting8021x--phase2-private-key-password" role="property"><title>The <literal>&quot;phase2-private-key-password&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--phase2-private-key-password"><primary sortas="NMSetting8021x:phase2-private-key-password">NMSetting8021x:phase2-private-key-password</primary></indexterm><programlisting>  &quot;phase2-private-key-password&quot; <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+The password used to decrypt the private key specified in
+<link linkend="NMSetting8021x--phase2-private-key"><type>"phase2-private-key"</type></link> if the private key is a PKCS<link linkend="12--CAPS"><type>12</type></link> format
+key.  Setting this property directly is not generally necessary except
+when returning secrets to NetworkManager; it is generally set
+automatically when setting the private key by the
+<link linkend="nm-setting-802-1x-set-phase2-private-key-from-file"><function>nm_setting_802_1x_set_phase2_private_key_from_file()</function></link> function.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
-<refsect2><title><anchor id="NMSetting8021x--private-key-password"/>The <literal>&quot;private-key-password&quot;</literal> property</title>
-<indexterm><primary>NMSetting8021x:private-key-password</primary></indexterm><programlisting>  &quot;private-key-password&quot;     <link linkend="gchararray">gchararray</link>            : Read / Write</programlisting>
-<para>Private key password.</para><para>Default value: NULL</para>
+<refsect2 id="NMSetting8021x--private-key" role="property"><title>The <literal>&quot;private-key&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--private-key"><primary sortas="NMSetting8021x:private-key">NMSetting8021x:private-key</primary></indexterm><programlisting>  &quot;private-key&quot;              <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write</programlisting>
+<para>
+Contains the private key if the <link linkend="NMSetting8021x--eap"><type>"eap"</type></link> property is set to
+'tls'.  Setting this property directly is discouraged; use the
+<link linkend="nm-setting-802-1x-set-private-key-from-file"><function>nm_setting_802_1x_set_private_key_from_file()</function></link> function instead.</para>
+<para>
+</para></refsect2>
+<refsect2 id="NMSetting8021x--private-key-password" role="property"><title>The <literal>&quot;private-key-password&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--private-key-password"><primary sortas="NMSetting8021x:private-key-password">NMSetting8021x:private-key-password</primary></indexterm><programlisting>  &quot;private-key-password&quot;     <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+The password used to decrypt the private key specified in
+<link linkend="NMSetting8021x--private-key"><type>"private-key"</type></link> if the private key is a PKCS<link linkend="12--CAPS"><type>12</type></link> format key.
+Setting this property directly is not generally necessary except when
+returning secrets to NetworkManager; it is generally set automatically
+when setting the private key by the
+<link linkend="nm-setting-802-1x-set-private-key-from-file"><function>nm_setting_802_1x_set_private_key_from_file()</function></link> function.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
-<refsect2><title><anchor id="NMSetting8021x--system-ca-certs"/>The <literal>&quot;system-ca-certs&quot;</literal> property</title>
-<indexterm><primary>NMSetting8021x:system-ca-certs</primary></indexterm><programlisting>  &quot;system-ca-certs&quot;          <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
-<para>Use system CA certificates.</para><para>Default value: FALSE</para>
+<refsect2 id="NMSetting8021x--system-ca-certs" role="property"><title>The <literal>&quot;system-ca-certs&quot;</literal> property</title>
+<indexterm zone="NMSetting8021x--system-ca-certs"><primary sortas="NMSetting8021x:system-ca-certs">NMSetting8021x:system-ca-certs</primary></indexterm><programlisting>  &quot;system-ca-certs&quot;          <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
+<para>
+When TRUE, overrides <link linkend="NMSetting8021x--ca-path"><type>"ca-path"</type></link> and
+<link linkend="NMSetting8021x--phase2-ca-path"><type>"phase2-ca-path"</type></link> properties using the system CA directory
+specified at configure time with the --system-ca-path switch.  The
+certificates in this directory are added to the verification chain in
+addition to any certificates specified by the <link linkend="NMSetting8021x--ca-cert"><type>"ca-cert"</type></link>,
+<link linkend="NMSetting8021x--ca-cert-path"><type>"ca-cert-path"</type></link>, <link linkend="NMSetting8021x--phase2-ca-cert"><type>"phase2-ca-cert"</type></link> and
+<link linkend="NMSetting8021x--phase2-ca-cert-path"><type>"phase2-ca-cert-path"</type></link> properties.</para>
+<para>
+</para><para>Default value: FALSE</para>
 </refsect2>
-
 </refsect1>
 
 
 
 
-
-<refsect1><refsect2 /><refsect2 /></refsect1>
 </refentry>

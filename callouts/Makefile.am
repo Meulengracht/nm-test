@@ -15,7 +15,6 @@ nm_dhcp_client_action_SOURCES = \
 nm_dhcp_client_action_CPPFLAGS = \
 	$(DBUS_CFLAGS) \
 	$(GLIB_CFLAGS) \
-	-DDBUS_API_SUBJECT_TO_CHANGE \
 	-DG_DISABLE_DEPRECATED \
 	-DSYSCONFDIR=\"$(sysconfdir)\" \
 	-DLIBEXECDIR=\"$(libexecdir)\"
@@ -31,7 +30,6 @@ nm_avahi_autoipd_action_SOURCES = \
 nm_avahi_autoipd_action_CPPFLAGS = 		\
 	$(DBUS_CFLAGS)						\
 	$(GLIB_CFLAGS)					\
-	-DDBUS_API_SUBJECT_TO_CHANGE		\
 	-DG_DISABLE_DEPRECATED				\
 	-DSYSCONFDIR=\"$(sysconfdir)\"		\
 	-DLIBEXECDIR=\"$(libexecdir)\"
@@ -51,7 +49,6 @@ nm_dispatcher_action_CPPFLAGS = \
 	-I${top_srcdir}/libnm-util \
 	$(DBUS_CFLAGS) \
 	$(GLIB_CFLAGS) \
-	-DDBUS_API_SUBJECT_TO_CHANGE \
 	-DG_DISABLE_DEPRECATED \
 	-DSYSCONFDIR=\"$(sysconfdir)\" \
 	-DLIBEXECDIR=\"$(libexecdir)\"
@@ -73,7 +70,9 @@ nm_modem_probe_CPPFLAGS = $(GLIB_CFLAGS)
 nm_modem_probe_LDADD = $(GLIB_LIBS)
 
 udevrulesdir = $(UDEV_BASE_DIR)/rules.d
-udevrules_DATA = 77-nm-probe-modem-capabilities.rules
+udevrules_DATA = \
+	77-nm-probe-modem-capabilities.rules \
+	77-nm-zte-port-types.rules
 
 dbusactivationdir = $(datadir)/dbus-1/system-services
 dbusactivation_in_files = org.freedesktop.nm_dispatcher.service.in

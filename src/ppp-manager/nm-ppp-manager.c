@@ -66,7 +66,6 @@ static gboolean impl_ppp_manager_set_ip4_config (NMPPPManager *manager,
 #include "nm-ppp-manager-glue.h"
 
 #define NM_PPPD_PLUGIN PLUGINDIR "/nm-pppd-plugin.so"
-#define NM_PPP_WAIT_PPPD 15 /* 15 seconds */
 #define PPP_MANAGER_SECRET_TRIES "ppp-manager-secret-tries"
 
 typedef struct {
@@ -479,6 +478,42 @@ impl_ppp_manager_set_ip4_config (NMPPPManager *manager,
 
 		for (i = 0; i < dns->len; i++)
 			nm_ip4_config_add_nameserver (config, g_array_index (dns, guint, i));
+
+		/* Work around a PPP bug (#1732) which causes many mobile broadband
+		 * providers to return 10.11.12.13 and 10.11.12.14 for the DNS servers.
+		 * Apparently fixed in ppp-2.4.5 but we've had some reports that this is
+		 * not the case.
+		 *
+		 * http://git.ozlabs.org/?p=ppp.git;a=commitdiff_plain;h=2e09ef6886bbf00bc5a9a641110f801e372ffde6
+		 * http://git.ozlabs.org/?p=ppp.git;a=commitdiff_plain;h=f8191bf07df374f119a07910a79217c7618f113e
+		 */
+
+		if (dns->len == 2) {
+			guint32 bad_dns1 = htonl (0x0A0B0C0D);
+			guint32 good_dns1 = htonl (0x04020201);  /* GTE nameserver */
+			guint32 bad_dns2 = htonl (0x0A0B0C0E);
+			guint32 good_dns2 = htonl (0x04020202);  /* GTE nameserver */
+			gboolean found1 = FALSE, found2 = FALSE;
+
+			for (i = 0; i < dns->len; i++) {
+				guint32 ns = nm_ip4_config_get_nameserver (config, i);
+
+				if (ns == bad_dns1)
+					found1 = TRUE;
+				else if (ns == bad_dns2)
+					found2 = TRUE;
+			}
+
+			/* Be somewhat conservative about substitutions; the "bad" nameservers
+			 * could actually be valid in some cases, so only substitute if ppp
+			 * returns *only* the two bad nameservers.
+			 */
+			if (found1 && found2) {
+				nm_ip4_config_reset_nameservers (config);
+				nm_ip4_config_add_nameserver (config, good_dns1);
+				nm_ip4_config_add_nameserver (config, good_dns2);
+			}
+		}
 	}
 
 	val = (GValue *) g_hash_table_lookup (config_hash, NM_PPP_IP4_CONFIG_WINS);
@@ -879,6 +914,7 @@ gboolean
 nm_ppp_manager_start (NMPPPManager *manager,
                       NMActRequest *req,
                       const char *ppp_name,
+                      guint32 timeout_secs,
                       GError **err)
 {
 	NMPPPManagerPrivate *priv;
@@ -930,7 +966,7 @@ nm_ppp_manager_start (NMPPPManager *manager,
 	nm_debug ("ppp started with pid %d", priv->pid);
 
 	priv->ppp_watch_id = g_child_watch_add (priv->pid, (GChildWatchFunc) ppp_watch_cb, manager);
-	priv->ppp_timeout_handler = g_timeout_add_seconds (NM_PPP_WAIT_PPPD, pppd_timed_out, manager);
+	priv->ppp_timeout_handler = g_timeout_add_seconds (timeout_secs, pppd_timed_out, manager);
 	priv->act_req = g_object_ref (req);
 
  out:

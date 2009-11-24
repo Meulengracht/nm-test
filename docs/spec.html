@@ -134,10 +134,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.</
           The connection to activate the devices with.
         </dd><dt><code>device</code> -
       <code>o</code></dt><dd>
-          The device to be activated.
+          The object path of device to be activated for physical connections.  This parameter is ignored for VPN connections, because the specific_object (if provided) specifies the device to use.
         </dd><dt><code>specific_object</code> -
       <code>o</code></dt><dd>
-          The path of a device-type-specific object this activation should use, for example a WiFi access point.
+          The path of a connection-type-specific object this activation should use. 
+          This parameter is currently ignored for wired and mobile broadband connections,
+          and the value of "/" should be used (ie, no specific object).  For WiFi
+          connections, pass the object path of a specific AP from the card's scan
+          list, or "/" to pick and AP automatically.  For VPN connections, pass
+          the object path of an ActiveConnection object that should serve as the
+          "base" connection (to which the VPN connections lifetime will be tied),
+          or pass "/" and NM will automatically use the current default device.
         </dd></dl></div><div><h4>Returns</h4><dl><dt><code>active_connection</code> -
       <code>o</code></dt><dd>
           The path of the active connection object representing this active connection.
@@ -484,7 +491,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.</
       </dd><dt><code>Speed</code> -
       <code>u</code> -
       <code>(read)</code></dt><dd>
-        Design speed of the device.
+        Design speed of the device, in megabits/second (Mb/s).
       </dd><dt><code>Carrier</code> -
       <code>b</code> -
       <code>(read)</code></dt><dd>
@@ -580,15 +587,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.</
 
   <h1><a name="org.freedesktop.NetworkManager.IP4Config" id="org.freedesktop.NetworkManager.IP4Config"></a>org.freedesktop.NetworkManager.IP4Config</h1><p>Interface has no methods.</p><p>Interface has no signals.</p><h2>Properties:</h2><dl><dt><code>Addresses</code> -
       <code>aau</code> -
-      <code>(read)</code></dt><dd>Tuples of IPv4 address/prefix/gateway.</dd><dt><code>Nameservers</code> -
+      <code>(read)</code></dt><dd>Array of tuples of IPv4 address/prefix/gateway.  All 3
+      elements of each tuple are in network byte order.  Essentially:
+      [(addr, prefix, gateway), (addr, prefix, gateway), ...]
+      </dd><dt><code>Nameservers</code> -
       <code>au</code> -
       <code>(read)</code></dt><dd>The nameservers in use.</dd><dt><code>WinsServers</code> -
       <code>au</code> -
-      <code>(read)</code></dt><dd>The Windows Internet Name Service servers associated with the connection.</dd><dt><code>Domains</code> -
+      <code>(read)</code></dt><dd>The Windows Internet Name Service servers associated with the connection.  Each address is in network byte order.</dd><dt><code>Domains</code> -
       <code>as</code> -
       <code>(read)</code></dt><dd>A list of domains this address belongs to.</dd><dt><code>Routes</code> -
       <code>aau</code> -
-      <code>(read)</code></dt><dd>Tuples of IPv4 route/prefix/next-hop/metric.</dd></dl>
+      <code>(read)</code></dt><dd>Tuples of IPv4 route/prefix/next-hop/metric.  All 4 elements
+      of each tuple are in network byte order.  'route' and 'next hop' are IPv4
+      addresses, while prefix and metric are simple unsigned integers.  Essentially:
+      [(route, prefix, next-hop, metric), (route, prefix, next-hop, metric), ...]
+      </dd></dl>
 
     <h1><a name="org.freedesktop.NetworkManager.DHCP4Config" id="org.freedesktop.NetworkManager.DHCP4Config"></a>org.freedesktop.NetworkManager.DHCP4Config</h1>
             Options and configuration returned by the IPv4 DHCP server.
@@ -719,7 +733,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.</
           The connection is activated.
         </dd></dl>
 
-  <h1><a name="org.freedesktop.NetworkManager.Connection.Active" id="org.freedesktop.NetworkManager.Connection.Active"></a>org.freedesktop.NetworkManager.Connection.Active</h1><p>Interface has no methods.</p><p>Interface has no signals.</p><h2>Properties:</h2><dl><dt><code>ServiceName</code> -
+  <h1><a name="org.freedesktop.NetworkManager.Connection.Active" id="org.freedesktop.NetworkManager.Connection.Active"></a>org.freedesktop.NetworkManager.Connection.Active</h1><p>Interface has no methods.</p><h2>Signals:</h2><div class="signal"><h3><a name="org.freedesktop.NetworkManager.Connection.Active.PropertiesChanged" id="org.freedesktop.NetworkManager.Connection.Active.PropertiesChanged">PropertiesChanged</a> (
+        a{sv}: properties
+        )</h3><div class="docstring"></div><div><h4>Parameters</h4><dl><dt><code>properties</code> -
+      <code>a{sv}</code>
+      (<a xmlns="" href="#type-String_Variant_Map">String_Variant_Map</a>)
+    </dt><dd>
+                A dictionary mapping property names to variant boxed values
+            </dd></dl></div></div><h2>Properties:</h2><dl><dt><code>ServiceName</code> -
       <code>s</code> -
       <code>(read)</code></dt><dd>The D-Bus service name providing this connection.</dd><dt><code>Connection</code> -
       <code>o</code> -
@@ -733,7 +754,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.</
       (<a xmlns="" href="#type-NM_ACTIVE_CONNECTION_STATE">NM_ACTIVE_CONNECTION_STATE</a>)
     </dt><dd>The state of this active connection.</dd><dt><code>Default</code> -
       <code>b</code> -
-      <code>(read)</code></dt><dd>Whether this active connection is the default connection, i.e. whether it currently owns the default route.</dd></dl>
+      <code>(read)</code></dt><dd>Whether this active connection is the default connection, i.e. whether it currently owns the default route.</dd><dt><code>Vpn</code> -
+      <code>b</code> -
+      <code>(read)</code></dt><dd>Whether this active connection is also a VPN connection.</dd></dl>
 
   <h1><a name="org.freedesktop.NetworkManager.VPN.Connection" id="org.freedesktop.NetworkManager.VPN.Connection"></a>org.freedesktop.NetworkManager.VPN.Connection</h1>
       Represents an active connection to a Virtual Private Network.

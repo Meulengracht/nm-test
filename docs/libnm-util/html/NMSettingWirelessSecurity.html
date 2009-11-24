@@ -1,238 +1,416 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>NMSettingWirelessSecurity</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="libnm-util Reference Manual">
-<link rel="up" href="ch01.html" title="[Insert title here]">
-<link rel="prev" href="NMSettingConnection.html" title="NMSettingConnection">
-<link rel="next" href="NMSettingWireless.html" title="NMSettingWireless">
-<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<meta name="generator" content="DocBook XSL Stylesheets V1.74.3">
+<link rel="home" href="index.html" title="libnm-util Reference Manual">
+<link rel="up" href="ch01.html" title="libnm-util API Reference">
+<link rel="prev" href="NMSettingWireless.html" title="NMSettingWireless">
+<link rel="next" href="NMSettingBluetooth.html" title="NMSettingBluetooth">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
-<link rel="chapter" href="ch01.html" title="[Insert title here]">
+<link rel="chapter" href="ch01.html" title="libnm-util API Reference">
+<link rel="chapter" href="object-tree.html" title="Object Hierarchy">
+<link rel="index" href="api-index-full.html" title="API Index">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
 <tr valign="middle">
-<td><a accesskey="p" href="NMSettingConnection.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="NMSettingWireless.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">libnm-util Reference Manual</th>
-<td><a accesskey="n" href="NMSettingWireless.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="NMSettingBluetooth.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2956153" class="shortcut">Top</a>
-                  &#160;|&#160;
-                  <a href="#id3016184" class="shortcut">Description</a>
-                  &#160;|&#160;
-                  <a href="#id3016005" class="shortcut">Object Hierarchy</a>
-                  &#160;|&#160;
-                  <a href="#id3016035" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#NMSettingWirelessSecurity.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#NMSettingWirelessSecurity.description" class="shortcut">Description</a>
+                 | 
+                <a href="#NMSettingWirelessSecurity.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#NMSettingWirelessSecurity.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="NMSettingWirelessSecurity"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
-<h2>
-<a name="id2956153"></a><span class="refentrytitle">NMSettingWirelessSecurity</span>
-</h2>
+<h2><span class="refentrytitle"><a name="NMSettingWirelessSecurity.top_of_page"></a>NMSettingWirelessSecurity</span></h2>
 <p>NMSettingWirelessSecurity</p>
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
 <div class="refsynopsisdiv">
-<h2>Synopsis</h2>
+<a name="NMSettingWirelessSecurity.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
-
-
-
-#define             <a class="link" href="NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-SETTING-NAME:CAPS">NM_SETTING_WIRELESS_SECURITY_SETTING_NAME</a>
-enum                <a class="link" href="NMSettingWirelessSecurity.html#NMSettingWirelessSecurityError">NMSettingWirelessSecurityError</a>;
-#define             <a class="link" href="NMSettingWirelessSecurity.html#NM-TYPE-SETTING-WIRELESS-SECURITY-ERROR:CAPS">NM_TYPE_SETTING_WIRELESS_SECURITY_ERROR</a>
-#define             <a class="link" href="NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-ERROR:CAPS">NM_SETTING_WIRELESS_SECURITY_ERROR</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-SETTING-NAME--CAPS"
+>NM_SETTING_WIRELESS_SECURITY_SETTING_NAME</a>
+enum                <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMSettingWirelessSecurityError"
+>NMSettingWirelessSecurityError</a>;
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NM-TYPE-SETTING-WIRELESS-SECURITY-ERROR--CAPS"
+>NM_TYPE_SETTING_WIRELESS_SECURITY_ERROR</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-ERROR--CAPS"
+>NM_SETTING_WIRELESS_SECURITY_ERROR</a>
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
->GQuark</a>              <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-error-quark">nm_setting_wireless_security_error_quark</a>
+href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
+>GQuark</a>              <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-error-quark"
+>nm_setting_wireless_security_error_quark</a>
                                                         (void);
-#define             <a class="link" href="NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-KEY-MGMT:CAPS">NM_SETTING_WIRELESS_SECURITY_KEY_MGMT</a>
-#define             <a class="link" href="NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-WEP-TX-KEYIDX:CAPS">NM_SETTING_WIRELESS_SECURITY_WEP_TX_KEYIDX</a>
-#define             <a class="link" href="NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-AUTH-ALG:CAPS">NM_SETTING_WIRELESS_SECURITY_AUTH_ALG</a>
-#define             <a class="link" href="NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-PROTO:CAPS">NM_SETTING_WIRELESS_SECURITY_PROTO</a>
-#define             <a class="link" href="NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-PAIRWISE:CAPS">NM_SETTING_WIRELESS_SECURITY_PAIRWISE</a>
-#define             <a class="link" href="NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-GROUP:CAPS">NM_SETTING_WIRELESS_SECURITY_GROUP</a>
-#define             <a class="link" href="NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-LEAP-USERNAME:CAPS">NM_SETTING_WIRELESS_SECURITY_LEAP_USERNAME</a>
-#define             <a class="link" href="NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-WEP-KEY0:CAPS">NM_SETTING_WIRELESS_SECURITY_WEP_KEY0</a>
-#define             <a class="link" href="NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-WEP-KEY1:CAPS">NM_SETTING_WIRELESS_SECURITY_WEP_KEY1</a>
-#define             <a class="link" href="NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-WEP-KEY2:CAPS">NM_SETTING_WIRELESS_SECURITY_WEP_KEY2</a>
-#define             <a class="link" href="NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-WEP-KEY3:CAPS">NM_SETTING_WIRELESS_SECURITY_WEP_KEY3</a>
-#define             <a class="link" href="NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-PSK:CAPS">NM_SETTING_WIRELESS_SECURITY_PSK</a>
-#define             <a class="link" href="NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-LEAP-PASSWORD:CAPS">NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD</a>
-                    <a class="link" href="NMSettingWirelessSecurity.html#NMSettingWirelessSecurity-struct">NMSettingWirelessSecurity</a>;
+enum                <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMWepKeyType"
+>NMWepKeyType</a>;
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-KEY-MGMT--CAPS"
+>NM_SETTING_WIRELESS_SECURITY_KEY_MGMT</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-WEP-TX-KEYIDX--CAPS"
+>NM_SETTING_WIRELESS_SECURITY_WEP_TX_KEYIDX</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-AUTH-ALG--CAPS"
+>NM_SETTING_WIRELESS_SECURITY_AUTH_ALG</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-PROTO--CAPS"
+>NM_SETTING_WIRELESS_SECURITY_PROTO</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-PAIRWISE--CAPS"
+>NM_SETTING_WIRELESS_SECURITY_PAIRWISE</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-GROUP--CAPS"
+>NM_SETTING_WIRELESS_SECURITY_GROUP</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-LEAP-USERNAME--CAPS"
+>NM_SETTING_WIRELESS_SECURITY_LEAP_USERNAME</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-WEP-KEY0--CAPS"
+>NM_SETTING_WIRELESS_SECURITY_WEP_KEY0</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-WEP-KEY1--CAPS"
+>NM_SETTING_WIRELESS_SECURITY_WEP_KEY1</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-WEP-KEY2--CAPS"
+>NM_SETTING_WIRELESS_SECURITY_WEP_KEY2</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-WEP-KEY3--CAPS"
+>NM_SETTING_WIRELESS_SECURITY_WEP_KEY3</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-PSK--CAPS"
+>NM_SETTING_WIRELESS_SECURITY_PSK</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-LEAP-PASSWORD--CAPS"
+>NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NM-SETTING-WIRELESS-SECURITY-WEP-KEY-TYPE--CAPS"
+>NM_SETTING_WIRELESS_SECURITY_WEP_KEY_TYPE</a>
+                    <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMSettingWirelessSecurity-struct"
+>NMSettingWirelessSecurity</a>;
 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
->GType</a>               <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-type">nm_setting_wireless_security_get_type</a>
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"
+>GType</a>               <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-type"
+>nm_setting_wireless_security_get_type</a>
                                                         (void);
-<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-new">nm_setting_wireless_security_new</a>    (void);
-const char*         <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-key-mgmt">nm_setting_wireless_security_get_key_mgmt</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-num-protos">nm_setting_wireless_security_get_num_protos</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);
-const char*         <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-proto">nm_setting_wireless_security_get_proto</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+href="http://[SERVER]/libnm-util/NMSetting.html"
+>NMSetting</a> *         <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-new"
+>nm_setting_wireless_security_new</a>    (void);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-key-mgmt"
+>nm_setting_wireless_security_get_key_mgmt</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);
+<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-num-protos"
+>nm_setting_wireless_security_get_num_protos</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-proto"
+>nm_setting_wireless_security_get_proto</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-add-proto">nm_setting_wireless_security_add_proto</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-add-proto"
+>nm_setting_wireless_security_add_proto</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          const char *proto);
-void                <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-remove-proto">nm_setting_wireless_security_remove_proto</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-remove-proto"
+>nm_setting_wireless_security_remove_proto</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);
-void                <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-clear-protos">nm_setting_wireless_security_clear_protos</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-clear-protos"
+>nm_setting_wireless_security_clear_protos</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-num-pairwise">nm_setting_wireless_security_get_num_pairwise</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);
-const char*         <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-pairwise">nm_setting_wireless_security_get_pairwise</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-num-pairwise"
+>nm_setting_wireless_security_get_num_pairwise</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-pairwise"
+>nm_setting_wireless_security_get_pairwise</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-add-pairwise">nm_setting_wireless_security_add_pairwise</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-add-pairwise"
+>nm_setting_wireless_security_add_pairwise</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          const char *pairwise);
-void                <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-remove-pairwise">nm_setting_wireless_security_remove_pairwise</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-remove-pairwise"
+>nm_setting_wireless_security_remove_pairwise</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);
-void                <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-clear-pairwise">nm_setting_wireless_security_clear_pairwise</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-clear-pairwise"
+>nm_setting_wireless_security_clear_pairwise</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-num-groups">nm_setting_wireless_security_get_num_groups</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);
-const char*         <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-group">nm_setting_wireless_security_get_group</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-num-groups"
+>nm_setting_wireless_security_get_num_groups</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-group"
+>nm_setting_wireless_security_get_group</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-add-group">nm_setting_wireless_security_add_group</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-add-group"
+>nm_setting_wireless_security_add_group</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          const char *group);
-void                <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-remove-group">nm_setting_wireless_security_remove_group</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-remove-group"
+>nm_setting_wireless_security_remove_group</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);
-void                <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-clear-groups">nm_setting_wireless_security_clear_groups</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);
-const char*         <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-psk">nm_setting_wireless_security_get_psk</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);
-const char*         <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-leap-username">nm_setting_wireless_security_get_leap_username</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);
-const char*         <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-leap-password">nm_setting_wireless_security_get_leap_password</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);
-const char*         <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-wep-key">nm_setting_wireless_security_get_wep_key</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-clear-groups"
+>nm_setting_wireless_security_clear_groups</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-psk"
+>nm_setting_wireless_security_get_psk</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-leap-username"
+>nm_setting_wireless_security_get_leap_username</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-leap-password"
+>nm_setting_wireless_security_get_leap_password</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-wep-key"
+>nm_setting_wireless_security_get_wep_key</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> idx);
-void                <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-set-wep-key">nm_setting_wireless_security_set_wep_key</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+void                <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-set-wep-key"
+>nm_setting_wireless_security_set_wep_key</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> idx,
                                                          const char *key);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
->guint32</a>             <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-wep-tx-keyidx">nm_setting_wireless_security_get_wep_tx_keyidx</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);
-const char*         <a class="link" href="NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-auth-alg">nm_setting_wireless_security_get_auth_alg</a>
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);
-
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
+>guint32</a>             <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-wep-tx-keyidx"
+>nm_setting_wireless_security_get_wep_tx_keyidx</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);
+const char *        <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-auth-alg"
+>nm_setting_wireless_security_get_auth_alg</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);
+<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMWepKeyType"
+>NMWepKeyType</a>        <a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#nm-setting-wireless-security-get-wep-key-type"
+>nm_setting_wireless_security_get_wep_key_type</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id3016005"></a><h2>Object Hierarchy</h2>
+<a name="NMSettingWirelessSecurity.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----<a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>
+   +----<a
+href="http://[SERVER]/libnm-util/NMSetting.html"
+>NMSetting</a>
          +----NMSettingWirelessSecurity
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id3016035"></a><h2>Properties</h2>
+<a name="NMSettingWirelessSecurity.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-
-  "<a class="link" href="NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--auth-alg">auth-alg</a>"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write
-  "<a class="link" href="NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--key-mgmt">key-mgmt</a>"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write
-  "<a class="link" href="NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--leap-password">leap-password</a>"            <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write
-  "<a class="link" href="NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--leap-username">leap-username</a>"            <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write
-  "<a class="link" href="NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--psk">psk</a>"                      <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write
-  "<a class="link" href="NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--wep-key0">wep-key0</a>"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write
-  "<a class="link" href="NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--wep-key1">wep-key1</a>"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write
-  "<a class="link" href="NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--wep-key2">wep-key2</a>"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write
-  "<a class="link" href="NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--wep-key3">wep-key3</a>"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write
-  "<a class="link" href="NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--wep-tx-keyidx">wep-tx-keyidx</a>"            <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--auth-alg"
+>auth-alg</a>"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--group"
+>group</a>"                    GSList_gchararray_*   : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--key-mgmt"
+>key-mgmt</a>"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--leap-password"
+>leap-password</a>"            <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--leap-username"
+>leap-username</a>"            <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--pairwise"
+>pairwise</a>"                 GSList_gchararray_*   : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--proto"
+>proto</a>"                    GSList_gchararray_*   : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--psk"
+>psk</a>"                      <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--wep-key-type"
+>wep-key-type</a>"             <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--wep-key0"
+>wep-key0</a>"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--wep-key1"
+>wep-key1</a>"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--wep-key2"
+>wep-key2</a>"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--wep-key3"
+>wep-key3</a>"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMSettingWirelessSecurity--wep-tx-keyidx"
+>wep-tx-keyidx</a>"            <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write / Construct
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id3016184"></a><h2>Description</h2>
+<a name="NMSettingWirelessSecurity.description"></a><h2>Description</h2>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
-<a name="id3016199"></a><h2>Details</h2>
+<a name="NMSettingWirelessSecurity.details"></a><h2>Details</h2>
 <div class="refsect2" lang="en">
-<a name="id3016210"></a><h3>
-<a name="NM-SETTING-WIRELESS-SECURITY-SETTING-NAME:CAPS"></a>NM_SETTING_WIRELESS_SECURITY_SETTING_NAME</h3>
-<a class="indexterm" name="id3016224"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_SETTING_NAME "802-11-wireless-security"
+<a name="NM-SETTING-WIRELESS-SECURITY-SETTING-NAME--CAPS"></a><h3>NM_SETTING_WIRELESS_SECURITY_SETTING_NAME</h3>
+<pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_SETTING_NAME "802-11-wireless-security"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016241"></a><h3>
-<a name="NMSettingWirelessSecurityError"></a>enum NMSettingWirelessSecurityError</h3>
-<a class="indexterm" name="id3016255"></a><pre class="programlisting">typedef enum
+<a name="NMSettingWirelessSecurityError"></a><h3>enum NMSettingWirelessSecurityError</h3>
+<pre class="programlisting">typedef enum
 {
 	NM_SETTING_WIRELESS_SECURITY_ERROR_UNKNOWN = 0,
 	NM_SETTING_WIRELESS_SECURITY_ERROR_INVALID_PROPERTY,
@@ -244,253 +422,230 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 } NMSettingWirelessSecurityError;
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016278"></a><h3>
-<a name="NM-TYPE-SETTING-WIRELESS-SECURITY-ERROR:CAPS"></a>NM_TYPE_SETTING_WIRELESS_SECURITY_ERROR</h3>
-<a class="indexterm" name="id3016292"></a><pre class="programlisting">#define NM_TYPE_SETTING_WIRELESS_SECURITY_ERROR (nm_setting_wireless_security_error_get_type ()) 
+<a name="NM-TYPE-SETTING-WIRELESS-SECURITY-ERROR--CAPS"></a><h3>NM_TYPE_SETTING_WIRELESS_SECURITY_ERROR</h3>
+<pre class="programlisting">#define NM_TYPE_SETTING_WIRELESS_SECURITY_ERROR (nm_setting_wireless_security_error_get_type ()) 
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016309"></a><h3>
-<a name="NM-SETTING-WIRELESS-SECURITY-ERROR:CAPS"></a>NM_SETTING_WIRELESS_SECURITY_ERROR</h3>
-<a class="indexterm" name="id3016324"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_ERROR nm_setting_wireless_security_error_quark ()
+<a name="NM-SETTING-WIRELESS-SECURITY-ERROR--CAPS"></a><h3>NM_SETTING_WIRELESS_SECURITY_ERROR</h3>
+<pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_ERROR nm_setting_wireless_security_error_quark ()
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016341"></a><h3>
-<a name="nm-setting-wireless-security-error-quark"></a>nm_setting_wireless_security_error_quark ()</h3>
-<a class="indexterm" name="id3016354"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"
+<a name="nm-setting-wireless-security-error-quark"></a><h3>nm_setting_wireless_security_error_quark ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 >GQuark</a>              nm_setting_wireless_security_error_quark
                                                         (void);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016392"></a><h3>
-<a name="NM-SETTING-WIRELESS-SECURITY-KEY-MGMT:CAPS"></a>NM_SETTING_WIRELESS_SECURITY_KEY_MGMT</h3>
-<a class="indexterm" name="id3016405"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_KEY_MGMT "key-mgmt"
+<a name="NMWepKeyType"></a><h3>enum NMWepKeyType</h3>
+<pre class="programlisting">typedef enum {
+	NM_WEP_KEY_TYPE_UNKNOWN = 0,
+	NM_WEP_KEY_TYPE_KEY = 1,          /* Hex or ASCII */
+	NM_WEP_KEY_TYPE_PASSPHRASE = 2,   /* 104/128-bit Passphrase */
+
+	NM_WEP_KEY_TYPE_LAST = NM_WEP_KEY_TYPE_PASSPHRASE
+} NMWepKeyType;
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016422"></a><h3>
-<a name="NM-SETTING-WIRELESS-SECURITY-WEP-TX-KEYIDX:CAPS"></a>NM_SETTING_WIRELESS_SECURITY_WEP_TX_KEYIDX</h3>
-<a class="indexterm" name="id3016436"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_WEP_TX_KEYIDX "wep-tx-keyidx"
+<a name="NM-SETTING-WIRELESS-SECURITY-KEY-MGMT--CAPS"></a><h3>NM_SETTING_WIRELESS_SECURITY_KEY_MGMT</h3>
+<pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_KEY_MGMT "key-mgmt"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016453"></a><h3>
-<a name="NM-SETTING-WIRELESS-SECURITY-AUTH-ALG:CAPS"></a>NM_SETTING_WIRELESS_SECURITY_AUTH_ALG</h3>
-<a class="indexterm" name="id3016467"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_AUTH_ALG "auth-alg"
+<a name="NM-SETTING-WIRELESS-SECURITY-WEP-TX-KEYIDX--CAPS"></a><h3>NM_SETTING_WIRELESS_SECURITY_WEP_TX_KEYIDX</h3>
+<pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_WEP_TX_KEYIDX "wep-tx-keyidx"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016484"></a><h3>
-<a name="NM-SETTING-WIRELESS-SECURITY-PROTO:CAPS"></a>NM_SETTING_WIRELESS_SECURITY_PROTO</h3>
-<a class="indexterm" name="id3016498"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_PROTO "proto"
+<a name="NM-SETTING-WIRELESS-SECURITY-AUTH-ALG--CAPS"></a><h3>NM_SETTING_WIRELESS_SECURITY_AUTH_ALG</h3>
+<pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_AUTH_ALG "auth-alg"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016515"></a><h3>
-<a name="NM-SETTING-WIRELESS-SECURITY-PAIRWISE:CAPS"></a>NM_SETTING_WIRELESS_SECURITY_PAIRWISE</h3>
-<a class="indexterm" name="id3016528"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_PAIRWISE "pairwise"
+<a name="NM-SETTING-WIRELESS-SECURITY-PROTO--CAPS"></a><h3>NM_SETTING_WIRELESS_SECURITY_PROTO</h3>
+<pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_PROTO "proto"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016544"></a><h3>
-<a name="NM-SETTING-WIRELESS-SECURITY-GROUP:CAPS"></a>NM_SETTING_WIRELESS_SECURITY_GROUP</h3>
-<a class="indexterm" name="id3016559"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_GROUP "group"
+<a name="NM-SETTING-WIRELESS-SECURITY-PAIRWISE--CAPS"></a><h3>NM_SETTING_WIRELESS_SECURITY_PAIRWISE</h3>
+<pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_PAIRWISE "pairwise"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016575"></a><h3>
-<a name="NM-SETTING-WIRELESS-SECURITY-LEAP-USERNAME:CAPS"></a>NM_SETTING_WIRELESS_SECURITY_LEAP_USERNAME</h3>
-<a class="indexterm" name="id3016588"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_LEAP_USERNAME "leap-username"
+<a name="NM-SETTING-WIRELESS-SECURITY-GROUP--CAPS"></a><h3>NM_SETTING_WIRELESS_SECURITY_GROUP</h3>
+<pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_GROUP "group"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016606"></a><h3>
-<a name="NM-SETTING-WIRELESS-SECURITY-WEP-KEY0:CAPS"></a>NM_SETTING_WIRELESS_SECURITY_WEP_KEY0</h3>
-<a class="indexterm" name="id3016619"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_WEP_KEY0 "wep-key0"
+<a name="NM-SETTING-WIRELESS-SECURITY-LEAP-USERNAME--CAPS"></a><h3>NM_SETTING_WIRELESS_SECURITY_LEAP_USERNAME</h3>
+<pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_LEAP_USERNAME "leap-username"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016636"></a><h3>
-<a name="NM-SETTING-WIRELESS-SECURITY-WEP-KEY1:CAPS"></a>NM_SETTING_WIRELESS_SECURITY_WEP_KEY1</h3>
-<a class="indexterm" name="id3016650"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_WEP_KEY1 "wep-key1"
+<a name="NM-SETTING-WIRELESS-SECURITY-WEP-KEY0--CAPS"></a><h3>NM_SETTING_WIRELESS_SECURITY_WEP_KEY0</h3>
+<pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_WEP_KEY0 "wep-key0"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016667"></a><h3>
-<a name="NM-SETTING-WIRELESS-SECURITY-WEP-KEY2:CAPS"></a>NM_SETTING_WIRELESS_SECURITY_WEP_KEY2</h3>
-<a class="indexterm" name="id3016680"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_WEP_KEY2 "wep-key2"
+<a name="NM-SETTING-WIRELESS-SECURITY-WEP-KEY1--CAPS"></a><h3>NM_SETTING_WIRELESS_SECURITY_WEP_KEY1</h3>
+<pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_WEP_KEY1 "wep-key1"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016697"></a><h3>
-<a name="NM-SETTING-WIRELESS-SECURITY-WEP-KEY3:CAPS"></a>NM_SETTING_WIRELESS_SECURITY_WEP_KEY3</h3>
-<a class="indexterm" name="id3016711"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_WEP_KEY3 "wep-key3"
+<a name="NM-SETTING-WIRELESS-SECURITY-WEP-KEY2--CAPS"></a><h3>NM_SETTING_WIRELESS_SECURITY_WEP_KEY2</h3>
+<pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_WEP_KEY2 "wep-key2"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016728"></a><h3>
-<a name="NM-SETTING-WIRELESS-SECURITY-PSK:CAPS"></a>NM_SETTING_WIRELESS_SECURITY_PSK</h3>
-<a class="indexterm" name="id3016742"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_PSK "psk"
+<a name="NM-SETTING-WIRELESS-SECURITY-WEP-KEY3--CAPS"></a><h3>NM_SETTING_WIRELESS_SECURITY_WEP_KEY3</h3>
+<pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_WEP_KEY3 "wep-key3"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016759"></a><h3>
-<a name="NM-SETTING-WIRELESS-SECURITY-LEAP-PASSWORD:CAPS"></a>NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD</h3>
-<a class="indexterm" name="id3016772"></a><pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD "leap-password"
+<a name="NM-SETTING-WIRELESS-SECURITY-PSK--CAPS"></a><h3>NM_SETTING_WIRELESS_SECURITY_PSK</h3>
+<pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_PSK "psk"
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016789"></a><h3>
-<a name="NMSettingWirelessSecurity-struct"></a>NMSettingWirelessSecurity</h3>
-<a class="indexterm" name="id3016802"></a><pre class="programlisting">typedef struct _NMSettingWirelessSecurity NMSettingWirelessSecurity;</pre>
+<a name="NM-SETTING-WIRELESS-SECURITY-LEAP-PASSWORD--CAPS"></a><h3>NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD</h3>
+<pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD "leap-password"
+</pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016818"></a><h3>
-<a name="nm-setting-wireless-security-get-type"></a>nm_setting_wireless_security_get_type ()</h3>
-<a class="indexterm" name="id3016832"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+<a name="NM-SETTING-WIRELESS-SECURITY-WEP-KEY-TYPE--CAPS"></a><h3>NM_SETTING_WIRELESS_SECURITY_WEP_KEY_TYPE</h3>
+<pre class="programlisting">#define NM_SETTING_WIRELESS_SECURITY_WEP_KEY_TYPE "wep-key-type"
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="NMSettingWirelessSecurity-struct"></a><h3>NMSettingWirelessSecurity</h3>
+<pre class="programlisting">typedef struct _NMSettingWirelessSecurity NMSettingWirelessSecurity;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="nm-setting-wireless-security-get-type"></a><h3>nm_setting_wireless_security_get_type ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"
 >GType</a>               nm_setting_wireless_security_get_type
                                                         (void);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016870"></a><h3>
-<a name="nm-setting-wireless-security-new"></a>nm_setting_wireless_security_new ()</h3>
-<a class="indexterm" name="id3016882"></a><pre class="programlisting"><a class="link" href="NMSetting.html" title="NMSetting">NMSetting</a>*          nm_setting_wireless_security_new    (void);</pre>
+<a name="nm-setting-wireless-security-new"></a><h3>nm_setting_wireless_security_new ()</h3>
+<pre class="programlisting"><a
+href="http://[SERVER]/libnm-util/NMSetting.html"
+>NMSetting</a> *         nm_setting_wireless_security_new    (void);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016919"></a><h3>
-<a name="nm-setting-wireless-security-get-key-mgmt"></a>nm_setting_wireless_security_get_key_mgmt ()</h3>
-<a class="indexterm" name="id3016934"></a><pre class="programlisting">const char*         nm_setting_wireless_security_get_key_mgmt
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);</pre>
+<a name="nm-setting-wireless-security-get-key-mgmt"></a><h3>nm_setting_wireless_security_get_key_mgmt ()</h3>
+<pre class="programlisting">const char *        nm_setting_wireless_security_get_key_mgmt
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -498,28 +653,26 @@ href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3016992"></a><h3>
-<a name="nm-setting-wireless-security-get-num-protos"></a>nm_setting_wireless_security_get_num_protos ()</h3>
-<a class="indexterm" name="id3017006"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+<a name="nm-setting-wireless-security-get-num-protos"></a><h3>nm_setting_wireless_security_get_num_protos ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a>             nm_setting_wireless_security_get_num_protos
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);</pre>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -527,34 +680,32 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3017063"></a><h3>
-<a name="nm-setting-wireless-security-get-proto"></a>nm_setting_wireless_security_get_proto ()</h3>
-<a class="indexterm" name="id3017077"></a><pre class="programlisting">const char*         nm_setting_wireless_security_get_proto
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+<a name="nm-setting-wireless-security-get-proto"></a><h3>nm_setting_wireless_security_get_proto ()</h3>
+<pre class="programlisting">const char *        nm_setting_wireless_security_get_proto
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>i</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -562,34 +713,32 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3017157"></a><h3>
-<a name="nm-setting-wireless-security-add-proto"></a>nm_setting_wireless_security_add_proto ()</h3>
-<a class="indexterm" name="id3017171"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+<a name="nm-setting-wireless-security-add-proto"></a><h3>nm_setting_wireless_security_add_proto ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
 >gboolean</a>            nm_setting_wireless_security_add_proto
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          const char *proto);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>proto</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>proto</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -597,29 +746,27 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3017250"></a><h3>
-<a name="nm-setting-wireless-security-remove-proto"></a>nm_setting_wireless_security_remove_proto ()</h3>
-<a class="indexterm" name="id3017264"></a><pre class="programlisting">void                nm_setting_wireless_security_remove_proto
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+<a name="nm-setting-wireless-security-remove-proto"></a><h3>nm_setting_wireless_security_remove_proto ()</h3>
+<pre class="programlisting">void                nm_setting_wireless_security_remove_proto
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>i</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -627,48 +774,44 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3017332"></a><h3>
-<a name="nm-setting-wireless-security-clear-protos"></a>nm_setting_wireless_security_clear_protos ()</h3>
-<a class="indexterm" name="id3017346"></a><pre class="programlisting">void                nm_setting_wireless_security_clear_protos
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);</pre>
+<a name="nm-setting-wireless-security-clear-protos"></a><h3>nm_setting_wireless_security_clear_protos ()</h3>
+<pre class="programlisting">void                nm_setting_wireless_security_clear_protos
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3017392"></a><h3>
-<a name="nm-setting-wireless-security-get-num-pairwise"></a>nm_setting_wireless_security_get_num_pairwise ()</h3>
-<a class="indexterm" name="id3017406"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+<a name="nm-setting-wireless-security-get-num-pairwise"></a><h3>nm_setting_wireless_security_get_num_pairwise ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a>             nm_setting_wireless_security_get_num_pairwise
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);</pre>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -676,34 +819,32 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3017464"></a><h3>
-<a name="nm-setting-wireless-security-get-pairwise"></a>nm_setting_wireless_security_get_pairwise ()</h3>
-<a class="indexterm" name="id3017479"></a><pre class="programlisting">const char*         nm_setting_wireless_security_get_pairwise
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+<a name="nm-setting-wireless-security-get-pairwise"></a><h3>nm_setting_wireless_security_get_pairwise ()</h3>
+<pre class="programlisting">const char *        nm_setting_wireless_security_get_pairwise
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>i</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -711,34 +852,32 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3017558"></a><h3>
-<a name="nm-setting-wireless-security-add-pairwise"></a>nm_setting_wireless_security_add_pairwise ()</h3>
-<a class="indexterm" name="id3017573"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+<a name="nm-setting-wireless-security-add-pairwise"></a><h3>nm_setting_wireless_security_add_pairwise ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
 >gboolean</a>            nm_setting_wireless_security_add_pairwise
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          const char *pairwise);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>pairwise</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>pairwise</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -746,29 +885,27 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3017651"></a><h3>
-<a name="nm-setting-wireless-security-remove-pairwise"></a>nm_setting_wireless_security_remove_pairwise ()</h3>
-<a class="indexterm" name="id3017665"></a><pre class="programlisting">void                nm_setting_wireless_security_remove_pairwise
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+<a name="nm-setting-wireless-security-remove-pairwise"></a><h3>nm_setting_wireless_security_remove_pairwise ()</h3>
+<pre class="programlisting">void                nm_setting_wireless_security_remove_pairwise
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>i</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -776,48 +913,44 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3017733"></a><h3>
-<a name="nm-setting-wireless-security-clear-pairwise"></a>nm_setting_wireless_security_clear_pairwise ()</h3>
-<a class="indexterm" name="id3017748"></a><pre class="programlisting">void                nm_setting_wireless_security_clear_pairwise
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);</pre>
+<a name="nm-setting-wireless-security-clear-pairwise"></a><h3>nm_setting_wireless_security_clear_pairwise ()</h3>
+<pre class="programlisting">void                nm_setting_wireless_security_clear_pairwise
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3017794"></a><h3>
-<a name="nm-setting-wireless-security-get-num-groups"></a>nm_setting_wireless_security_get_num_groups ()</h3>
-<a class="indexterm" name="id3017809"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+<a name="nm-setting-wireless-security-get-num-groups"></a><h3>nm_setting_wireless_security_get_num_groups ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a>             nm_setting_wireless_security_get_num_groups
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);</pre>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -825,34 +958,32 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3017866"></a><h3>
-<a name="nm-setting-wireless-security-get-group"></a>nm_setting_wireless_security_get_group ()</h3>
-<a class="indexterm" name="id3017879"></a><pre class="programlisting">const char*         nm_setting_wireless_security_get_group
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+<a name="nm-setting-wireless-security-get-group"></a><h3>nm_setting_wireless_security_get_group ()</h3>
+<pre class="programlisting">const char *        nm_setting_wireless_security_get_group
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>i</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -860,34 +991,32 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3017959"></a><h3>
-<a name="nm-setting-wireless-security-add-group"></a>nm_setting_wireless_security_add_group ()</h3>
-<a class="indexterm" name="id3017973"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+<a name="nm-setting-wireless-security-add-group"></a><h3>nm_setting_wireless_security_add_group ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
 >gboolean</a>            nm_setting_wireless_security_add_group
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          const char *group);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>group</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>group</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -895,29 +1024,27 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3020657"></a><h3>
-<a name="nm-setting-wireless-security-remove-group"></a>nm_setting_wireless_security_remove_group ()</h3>
-<a class="indexterm" name="id3020671"></a><pre class="programlisting">void                nm_setting_wireless_security_remove_group
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+<a name="nm-setting-wireless-security-remove-group"></a><h3>nm_setting_wireless_security_remove_group ()</h3>
+<pre class="programlisting">void                nm_setting_wireless_security_remove_group
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> i);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>i</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -925,46 +1052,42 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3020732"></a><h3>
-<a name="nm-setting-wireless-security-clear-groups"></a>nm_setting_wireless_security_clear_groups ()</h3>
-<a class="indexterm" name="id3020746"></a><pre class="programlisting">void                nm_setting_wireless_security_clear_groups
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);</pre>
+<a name="nm-setting-wireless-security-clear-groups"></a><h3>nm_setting_wireless_security_clear_groups ()</h3>
+<pre class="programlisting">void                nm_setting_wireless_security_clear_groups
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3020787"></a><h3>
-<a name="nm-setting-wireless-security-get-psk"></a>nm_setting_wireless_security_get_psk ()</h3>
-<a class="indexterm" name="id3020800"></a><pre class="programlisting">const char*         nm_setting_wireless_security_get_psk
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);</pre>
+<a name="nm-setting-wireless-security-get-psk"></a><h3>nm_setting_wireless_security_get_psk ()</h3>
+<pre class="programlisting">const char *        nm_setting_wireless_security_get_psk
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -972,26 +1095,24 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3020853"></a><h3>
-<a name="nm-setting-wireless-security-get-leap-username"></a>nm_setting_wireless_security_get_leap_username ()</h3>
-<a class="indexterm" name="id3020866"></a><pre class="programlisting">const char*         nm_setting_wireless_security_get_leap_username
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);</pre>
+<a name="nm-setting-wireless-security-get-leap-username"></a><h3>nm_setting_wireless_security_get_leap_username ()</h3>
+<pre class="programlisting">const char *        nm_setting_wireless_security_get_leap_username
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -999,26 +1120,24 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3020920"></a><h3>
-<a name="nm-setting-wireless-security-get-leap-password"></a>nm_setting_wireless_security_get_leap_password ()</h3>
-<a class="indexterm" name="id3020933"></a><pre class="programlisting">const char*         nm_setting_wireless_security_get_leap_password
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);</pre>
+<a name="nm-setting-wireless-security-get-leap-password"></a><h3>nm_setting_wireless_security_get_leap_password ()</h3>
+<pre class="programlisting">const char *        nm_setting_wireless_security_get_leap_password
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1026,34 +1145,32 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3020986"></a><h3>
-<a name="nm-setting-wireless-security-get-wep-key"></a>nm_setting_wireless_security_get_wep_key ()</h3>
-<a class="indexterm" name="id3020999"></a><pre class="programlisting">const char*         nm_setting_wireless_security_get_wep_key
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+<a name="nm-setting-wireless-security-get-wep-key"></a><h3>nm_setting_wireless_security_get_wep_key ()</h3>
+<pre class="programlisting">const char *        nm_setting_wireless_security_get_wep_key
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> idx);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>idx</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>idx</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1061,35 +1178,33 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3021071"></a><h3>
-<a name="nm-setting-wireless-security-set-wep-key"></a>nm_setting_wireless_security_set_wep_key ()</h3>
-<a class="indexterm" name="id3021084"></a><pre class="programlisting">void                nm_setting_wireless_security_set_wep_key
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting,
+<a name="nm-setting-wireless-security-set-wep-key"></a><h3>nm_setting_wireless_security_set_wep_key ()</h3>
+<pre class="programlisting">void                nm_setting_wireless_security_set_wep_key
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> idx,
                                                          const char *key);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>idx</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>idx</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>key</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1097,28 +1212,26 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3021165"></a><h3>
-<a name="nm-setting-wireless-security-get-wep-tx-keyidx"></a>nm_setting_wireless_security_get_wep_tx_keyidx ()</h3>
-<a class="indexterm" name="id3021178"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+<a name="nm-setting-wireless-security-get-wep-tx-keyidx"></a><h3>nm_setting_wireless_security_get_wep_tx_keyidx ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a>             nm_setting_wireless_security_get_wep_tx_keyidx
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);</pre>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -1126,26 +1239,51 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3021231"></a><h3>
-<a name="nm-setting-wireless-security-get-auth-alg"></a>nm_setting_wireless_security_get_auth_alg ()</h3>
-<a class="indexterm" name="id3021244"></a><pre class="programlisting">const char*         nm_setting_wireless_security_get_auth_alg
-                                                        (<a class="link" href="NMSettingWirelessSecurity.html" title="NMSettingWirelessSecurity">NMSettingWirelessSecurity</a> *setting);</pre>
+<a name="nm-setting-wireless-security-get-auth-alg"></a><h3>nm_setting_wireless_security_get_auth_alg ()</h3>
+<pre class="programlisting">const char *        nm_setting_wireless_security_get_auth_alg
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>setting</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="nm-setting-wireless-security-get-wep-key-type"></a><h3>nm_setting_wireless_security_get_wep_key_type ()</h3>
+<pre class="programlisting"><a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html#NMWepKeyType"
+>NMWepKeyType</a>        nm_setting_wireless_security_get_wep_key_type
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
+>NMSettingWirelessSecurity</a> *setting);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
 </td>
 </tr>
 </tbody>
@@ -1153,113 +1291,204 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
 </div>
 </div>
 <div class="refsect1" lang="en">
-<a name="id3021298"></a><h2>Property Details</h2>
+<a name="NMSettingWirelessSecurity.property-details"></a><h2>Property Details</h2>
 <div class="refsect2" lang="en">
-<a name="id3021307"></a><h3>
-<a name="NMSettingWirelessSecurity--auth-alg"></a>The <code class="literal">"auth-alg"</code> property</h3>
-<a class="indexterm" name="id3021322"></a><pre class="programlisting">  "auth-alg"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write</pre>
-<p>AuthAlg.</p>
+<a name="NMSettingWirelessSecurity--auth-alg"></a><h3>The <code class="literal">"auth-alg"</code> property</h3>
+<pre class="programlisting">  "auth-alg"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>
+When WEP is used (ie, key-mgmt = 'none' or 'ieee8021x') indicate the
+802.11 authentication algorithm required by the AP here.  One of 'open'
+for Open System, 'shared' for Shared Key, or 'leap' for Cisco LEAP.
+When using Cisco LEAP (ie, key-mgmt = 'ieee8021x' and auth-alg = 'leap')
+the 'leap-username' and 'leap-password' properties must be specified.</p>
+<p>
+</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3021344"></a><h3>
-<a name="NMSettingWirelessSecurity--key-mgmt"></a>The <code class="literal">"key-mgmt"</code> property</h3>
-<a class="indexterm" name="id3021359"></a><pre class="programlisting">  "key-mgmt"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write</pre>
-<p>Key management.</p>
+<a name="NMSettingWirelessSecurity--group"></a><h3>The <code class="literal">"group"</code> property</h3>
+<pre class="programlisting">  "group"                    GSList_gchararray_*   : Read / Write</pre>
+<p>
+If specified, will only connect to WPA networks that provide the
+specified group/multicast encryption capabilities.  Each element may be
+one of 'wep40', 'wep104', 'tkip', or 'ccmp'.</p>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="NMSettingWirelessSecurity--key-mgmt"></a><h3>The <code class="literal">"key-mgmt"</code> property</h3>
+<pre class="programlisting">  "key-mgmt"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>
+Key management used for the connection.  One of 'none' (WEP), 'ieee8021x'
+(Dynamic WEP), 'wpa-none' (Ad-Hoc WPA-PSK), 'wpa-psk' (infrastructure
+WPA-PSK), or 'wpa-eap' (WPA-Enterprise).  This property must be set for
+any WiFi connection that uses security.</p>
+<p>
+</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3021382"></a><h3>
-<a name="NMSettingWirelessSecurity--leap-password"></a>The <code class="literal">"leap-password"</code> property</h3>
-<a class="indexterm" name="id3021397"></a><pre class="programlisting">  "leap-password"            <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write</pre>
-<p>LEAP Password.</p>
+<a name="NMSettingWirelessSecurity--leap-password"></a><h3>The <code class="literal">"leap-password"</code> property</h3>
+<pre class="programlisting">  "leap-password"            <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>
+The login password for legacy LEAP connections (ie, key-mgmt =
+'ieee8021x' and auth-alg = 'leap').</p>
+<p>
+</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3021419"></a><h3>
-<a name="NMSettingWirelessSecurity--leap-username"></a>The <code class="literal">"leap-username"</code> property</h3>
-<a class="indexterm" name="id3021434"></a><pre class="programlisting">  "leap-username"            <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write</pre>
-<p>LEAP Username.</p>
+<a name="NMSettingWirelessSecurity--leap-username"></a><h3>The <code class="literal">"leap-username"</code> property</h3>
+<pre class="programlisting">  "leap-username"            <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>
+The login username for legacy LEAP connections (ie, key-mgmt =
+'ieee8021x' and auth-alg = 'leap').</p>
+<p>
+</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3021457"></a><h3>
-<a name="NMSettingWirelessSecurity--psk"></a>The <code class="literal">"psk"</code> property</h3>
-<a class="indexterm" name="id3021471"></a><pre class="programlisting">  "psk"                      <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write</pre>
-<p>PSK.</p>
+<a name="NMSettingWirelessSecurity--pairwise"></a><h3>The <code class="literal">"pairwise"</code> property</h3>
+<pre class="programlisting">  "pairwise"                 GSList_gchararray_*   : Read / Write</pre>
+<p>
+If specified, will only connect to WPA networks that provide the
+specified pairwise encryption capabilities.  Each element may be one of
+'wep40', 'wep104', 'tkip', or 'ccmp'.</p>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="NMSettingWirelessSecurity--proto"></a><h3>The <code class="literal">"proto"</code> property</h3>
+<pre class="programlisting">  "proto"                    GSList_gchararray_*   : Read / Write</pre>
+<p>
+List of strings specifying the allowed WPA protocol versions to use.
+Each element may be one 'wpa' (allow WPA) or 'rsn' (allow WPA2/RSN).  If
+not specified, both WPA and RSN connections are allowed.</p>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="NMSettingWirelessSecurity--psk"></a><h3>The <code class="literal">"psk"</code> property</h3>
+<pre class="programlisting">  "psk"                      <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>
+Pre-Shared-Key for WPA networks.  If the key is 64-characters long, it
+must contain only hexadecimal characters and is interpreted as a
+hexadecimal WPA key.  Otherwise, the key must be between 8 and 63 ASCII
+characters (as specified in the 802.11i standard) and is interpreted as
+a WPA passphrase, and is hashed to derive the actual WPA-PSK used when
+connecting to the WiFi network.</p>
+<p>
+</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3021494"></a><h3>
-<a name="NMSettingWirelessSecurity--wep-key0"></a>The <code class="literal">"wep-key0"</code> property</h3>
-<a class="indexterm" name="id3021509"></a><pre class="programlisting">  "wep-key0"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write</pre>
-<p>WEP key0.</p>
-<p>Default value: NULL</p>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id3021531"></a><h3>
-<a name="NMSettingWirelessSecurity--wep-key1"></a>The <code class="literal">"wep-key1"</code> property</h3>
-<a class="indexterm" name="id3021546"></a><pre class="programlisting">  "wep-key1"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write</pre>
-<p>WEP key1.</p>
-<p>Default value: NULL</p>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id3021568"></a><h3>
-<a name="NMSettingWirelessSecurity--wep-key2"></a>The <code class="literal">"wep-key2"</code> property</h3>
-<a class="indexterm" name="id3021583"></a><pre class="programlisting">  "wep-key2"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write</pre>
-<p>WEP key2.</p>
-<p>Default value: NULL</p>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id3021606"></a><h3>
-<a name="NMSettingWirelessSecurity--wep-key3"></a>The <code class="literal">"wep-key3"</code> property</h3>
-<a class="indexterm" name="id3021620"></a><pre class="programlisting">  "wep-key3"                 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Standard-Parameter-and-Value-Types.html#gchararray"
->gchararray</a>            : Read / Write</pre>
-<p>WEP key3.</p>
-<p>Default value: NULL</p>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id3021643"></a><h3>
-<a name="NMSettingWirelessSecurity--wep-tx-keyidx"></a>The <code class="literal">"wep-tx-keyidx"</code> property</h3>
-<a class="indexterm" name="id3021658"></a><pre class="programlisting">  "wep-tx-keyidx"            <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+<a name="NMSettingWirelessSecurity--wep-key-type"></a><h3>The <code class="literal">"wep-key-type"</code> property</h3>
+<pre class="programlisting">  "wep-key-type"             <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write / Construct</pre>
-<p>WEP TX key index.</p>
+<p>
+Controls the interpretation of WEP keys.  Allowed values are 1 (interpret
+WEP keys as hexadecimal or ASCII keys) or 2 (interpret WEP keys as WEP
+Passphrases).  If set to 1 and the keys are hexadecimal, they must be
+either 10 or 26 characters in length.  If set to 1 and the keys are
+ASCII keys, they must be either 5 or 13 characters in length.  If set to
+2, the passphrase is hashed using the de-facto MD5 method to derive the
+actual WEP key.</p>
+<p>
+</p>
+<p>Allowed values: &lt;= 2</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="NMSettingWirelessSecurity--wep-key0"></a><h3>The <code class="literal">"wep-key0"</code> property</h3>
+<pre class="programlisting">  "wep-key0"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>
+Index 0 WEP key.  This is the WEP key used in most networks.  See the
+'wep-key-type' property for a description of how this key is interpreted.</p>
+<p>
+</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="NMSettingWirelessSecurity--wep-key1"></a><h3>The <code class="literal">"wep-key1"</code> property</h3>
+<pre class="programlisting">  "wep-key1"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>
+Index 1 WEP key.  This WEP index is not used by most networks.  See the
+'wep-key-type' property for a description of how this key is interpreted.</p>
+<p>
+</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="NMSettingWirelessSecurity--wep-key2"></a><h3>The <code class="literal">"wep-key2"</code> property</h3>
+<pre class="programlisting">  "wep-key2"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>
+Index 2 WEP key.  This WEP index is not used by most networks.  See the
+'wep-key-type' property for a description of how this key is interpreted.</p>
+<p>
+</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="NMSettingWirelessSecurity--wep-key3"></a><h3>The <code class="literal">"wep-key3"</code> property</h3>
+<pre class="programlisting">  "wep-key3"                 <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>
+Index 3 WEP key.  This WEP index is not used by most networks.  See the
+'wep-key-type' property for a description of how this key is interpreted.</p>
+<p>
+</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="NMSettingWirelessSecurity--wep-tx-keyidx"></a><h3>The <code class="literal">"wep-tx-keyidx"</code> property</h3>
+<pre class="programlisting">  "wep-tx-keyidx"            <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct</pre>
+<p>
+When static WEP is used (ie, key-mgmt = 'none') and a non-default WEP key
+index is used by the AP, put that WEP key index here.  Valid values are 0
+(default key) through 3.  Note that some consumer access points (like the
+Linksys WRT54G) number the keys 1 - 4.</p>
+<p>
+</p>
 <p>Allowed values: &lt;= 3</p>
 <p>Default value: 0</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
-<a name="id3021686"></a><div class="refsect2" lang="en"><a name="id3021687"></a></div>
+</div>
+<div class="footer">
 <hr>
-<div class="refsect2" lang="en"><a name="id3021688"></a></div>
-</div>
-</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

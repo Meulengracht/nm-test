@@ -15,7 +15,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Copyright (C) 2008 Red Hat, Inc.
+ * Copyright (C) 2008 - 2009 Red Hat, Inc.
  */
 
 #include <string.h>
@@ -38,6 +38,7 @@
 #include "nm-ifcfg-connection.h"
 #include "nm-system-config-hal-manager.h"
 #include "reader.h"
+#include "writer.h"
 #include "nm-inotify-helper.h"
 
 G_DEFINE_TYPE (NMIfcfgConnection, nm_ifcfg_connection, NM_TYPE_SYSCONFIG_CONNECTION)
@@ -316,11 +317,27 @@ nm_ifcfg_connection_get_unmanaged (NMIfcfgConnection *self)
 	return NM_IFCFG_CONNECTION_GET_PRIVATE (self)->unmanaged;
 }
 
+gboolean
+nm_ifcfg_connection_update (NMIfcfgConnection *self, GHashTable *new_settings, GError **error)
+{
+	NMExportedConnection *exported = NM_EXPORTED_CONNECTION (self);
+	NMIfcfgConnectionPrivate *priv = NM_IFCFG_CONNECTION_GET_PRIVATE (exported);
+	NMConnection *connection;
+
+	connection = nm_exported_connection_get_connection (exported);
+	if (!nm_connection_replace_settings (connection, new_settings, error))
+		return FALSE;
+
+	return writer_update_connection (connection, IFCFG_DIR, priv->filename, priv->keyfile, error);
+}
+
 static gboolean
 update (NMExportedConnection *exported, GHashTable *new_settings, GError **error)
 {
-//	write_connection (NM_IFCFG_CONNECTION (exported));
-	return TRUE;
+	if (!NM_EXPORTED_CONNECTION_CLASS (nm_ifcfg_connection_parent_class)->update (exported, new_settings, error))
+		return FALSE;
+
+	return nm_ifcfg_connection_update (NM_IFCFG_CONNECTION (exported), new_settings, error);
 }
 
 static gboolean

@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="libnm-glib-NMExportedConnection">
+<refmeta>
+<refentrytitle role="top_of_page" id="libnm-glib-NMExportedConnection.top_of_page">NMExportedConnection</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNM-GLIB Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>NMExportedConnection</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id="libnm-glib-NMExportedConnection.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+                    <link linkend="NMExportedConnection">NMExportedConnection</link>;
+<link linkend="NMExportedConnection">NMExportedConnection</link> * <link linkend="nm-exported-connection-new">nm_exported_connection_new</link>       (<link linkend="NMConnection">NMConnection</link> *wrapped);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="libnm-glib-NMExportedConnection.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+</para>
+</refsect1>
+
+<refsect1 id="libnm-glib-NMExportedConnection.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="NMExportedConnection" role="struct">
+<title>NMExportedConnection</title>
+<indexterm zone="NMExportedConnection"><primary sortas="NMExportedConnection">NMExportedConnection</primary></indexterm><programlisting>typedef struct {
+	GObject parent;
+} NMExportedConnection;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="nm-exported-connection-new" role="function">
+<title>nm_exported_connection_new ()</title>
+<indexterm zone="nm-exported-connection-new"><primary sortas="nm_exported_connection_new">nm_exported_connection_new</primary></indexterm><programlisting><link linkend="NMExportedConnection">NMExportedConnection</link> * nm_exported_connection_new       (<link linkend="NMConnection">NMConnection</link> *wrapped);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>wrapped</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

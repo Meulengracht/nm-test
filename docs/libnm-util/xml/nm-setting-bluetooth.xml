@@ -1,0 +1,195 @@
+<refentry id="NMSettingBluetooth">
+<refmeta>
+<refentrytitle role="top_of_page" id="NMSettingBluetooth.top_of_page">NMSettingBluetooth</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNM-UTIL Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>NMSettingBluetooth</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id="NMSettingBluetooth.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+#define             <link linkend="NM-SETTING-BLUETOOTH-SETTING-NAME--CAPS">NM_SETTING_BLUETOOTH_SETTING_NAME</link>
+enum                <link linkend="NMSettingBluetoothError">NMSettingBluetoothError</link>;
+#define             <link linkend="NM-TYPE-SETTING-BLUETOOTH-ERROR--CAPS">NM_TYPE_SETTING_BLUETOOTH_ERROR</link>
+#define             <link linkend="NM-SETTING-BLUETOOTH-ERROR--CAPS">NM_SETTING_BLUETOOTH_ERROR</link>
+<link linkend="GQuark">GQuark</link>              <link linkend="nm-setting-bluetooth-error-quark">nm_setting_bluetooth_error_quark</link>    (void);
+#define             <link linkend="NM-SETTING-BLUETOOTH-BDADDR--CAPS">NM_SETTING_BLUETOOTH_BDADDR</link>
+#define             <link linkend="NM-SETTING-BLUETOOTH-TYPE--CAPS">NM_SETTING_BLUETOOTH_TYPE</link>
+#define             <link linkend="NM-SETTING-BLUETOOTH-TYPE-DUN--CAPS">NM_SETTING_BLUETOOTH_TYPE_DUN</link>
+#define             <link linkend="NM-SETTING-BLUETOOTH-TYPE-PANU--CAPS">NM_SETTING_BLUETOOTH_TYPE_PANU</link>
+                    <link linkend="NMSettingBluetooth-struct">NMSettingBluetooth</link>;
+<link linkend="GType">GType</link>               <link linkend="nm-setting-bluetooth-get-type">nm_setting_bluetooth_get_type</link>       (void);
+<link linkend="NMSetting">NMSetting</link> *         <link linkend="nm-setting-bluetooth-new">nm_setting_bluetooth_new</link>            (void);
+const <link linkend="GByteArray">GByteArray</link> *  <link linkend="nm-setting-bluetooth-get-bdaddr">nm_setting_bluetooth_get_bdaddr</link>     (<link linkend="NMSettingBluetooth">NMSettingBluetooth</link> *setting);
+const <link linkend="char">char</link> *        <link linkend="nm-setting-bluetooth-get-connection-type">nm_setting_bluetooth_get_connection_type</link>
+                                                        (<link linkend="NMSettingBluetooth">NMSettingBluetooth</link> *setting);
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 id="NMSettingBluetooth.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+  <link linkend="GObject">GObject</link>
+   +----<link linkend="NMSetting">NMSetting</link>
+         +----NMSettingBluetooth
+</synopsis>
+</refsect1>
+
+
+
+
+
+<refsect1 id="NMSettingBluetooth.properties" role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+  &quot;<link linkend="NMSettingBluetooth--bdaddr">bdaddr</link>&quot;                   <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write
+  &quot;<link linkend="NMSettingBluetooth--type">type</link>&quot;                     <link linkend="gchar">gchar</link>*                : Read / Write
+</synopsis>
+</refsect1>
+
+
+
+<refsect1 id="NMSettingBluetooth.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+</para>
+</refsect1>
+
+<refsect1 id="NMSettingBluetooth.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="NM-SETTING-BLUETOOTH-SETTING-NAME--CAPS" role="macro">
+<title>NM_SETTING_BLUETOOTH_SETTING_NAME</title>
+<indexterm zone="NM-SETTING-BLUETOOTH-SETTING-NAME--CAPS"><primary sortas="NM_SETTING_BLUETOOTH_SETTING_NAME">NM_SETTING_BLUETOOTH_SETTING_NAME</primary></indexterm><programlisting>#define NM_SETTING_BLUETOOTH_SETTING_NAME "bluetooth"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingBluetoothError" role="enum">
+<title>enum NMSettingBluetoothError</title>
+<indexterm zone="NMSettingBluetoothError"><primary sortas="NMSettingBluetoothError">NMSettingBluetoothError</primary></indexterm><programlisting>typedef enum
+{
+	NM_SETTING_BLUETOOTH_ERROR_UNKNOWN = 0,
+	NM_SETTING_BLUETOOTH_ERROR_INVALID_PROPERTY,
+	NM_SETTING_BLUETOOTH_ERROR_MISSING_PROPERTY,
+	NM_SETTING_BLUETOOTH_ERROR_TYPE_SETTING_NOT_FOUND,
+} NMSettingBluetoothError;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-TYPE-SETTING-BLUETOOTH-ERROR--CAPS" role="macro">
+<title>NM_TYPE_SETTING_BLUETOOTH_ERROR</title>
+<indexterm zone="NM-TYPE-SETTING-BLUETOOTH-ERROR--CAPS"><primary sortas="NM_TYPE_SETTING_BLUETOOTH_ERROR">NM_TYPE_SETTING_BLUETOOTH_ERROR</primary></indexterm><programlisting>#define NM_TYPE_SETTING_BLUETOOTH_ERROR (nm_setting_bluetooth_error_get_type ()) 
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-BLUETOOTH-ERROR--CAPS" role="macro">
+<title>NM_SETTING_BLUETOOTH_ERROR</title>
+<indexterm zone="NM-SETTING-BLUETOOTH-ERROR--CAPS"><primary sortas="NM_SETTING_BLUETOOTH_ERROR">NM_SETTING_BLUETOOTH_ERROR</primary></indexterm><programlisting>#define NM_SETTING_BLUETOOTH_ERROR nm_setting_bluetooth_error_quark ()
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="nm-setting-bluetooth-error-quark" role="function">
+<title>nm_setting_bluetooth_error_quark ()</title>
+<indexterm zone="nm-setting-bluetooth-error-quark"><primary sortas="nm_setting_bluetooth_error_quark">nm_setting_bluetooth_error_quark</primary></indexterm><programlisting><link linkend="GQuark">GQuark</link>              nm_setting_bluetooth_error_quark    (void);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="NM-SETTING-BLUETOOTH-BDADDR--CAPS" role="macro">
+<title>NM_SETTING_BLUETOOTH_BDADDR</title>
+<indexterm zone="NM-SETTING-BLUETOOTH-BDADDR--CAPS"><primary sortas="NM_SETTING_BLUETOOTH_BDADDR">NM_SETTING_BLUETOOTH_BDADDR</primary></indexterm><programlisting>#define NM_SETTING_BLUETOOTH_BDADDR    "bdaddr"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-BLUETOOTH-TYPE--CAPS" role="macro">
+<title>NM_SETTING_BLUETOOTH_TYPE</title>
+<indexterm zone="NM-SETTING-BLUETOOTH-TYPE--CAPS"><primary sortas="NM_SETTING_BLUETOOTH_TYPE">NM_SETTING_BLUETOOTH_TYPE</primary></indexterm><programlisting>#define NM_SETTING_BLUETOOTH_TYPE      "type"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-BLUETOOTH-TYPE-DUN--CAPS" role="macro">
+<title>NM_SETTING_BLUETOOTH_TYPE_DUN</title>
+<indexterm zone="NM-SETTING-BLUETOOTH-TYPE-DUN--CAPS"><primary sortas="NM_SETTING_BLUETOOTH_TYPE_DUN">NM_SETTING_BLUETOOTH_TYPE_DUN</primary></indexterm><programlisting>#define NM_SETTING_BLUETOOTH_TYPE_DUN  "dun"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-BLUETOOTH-TYPE-PANU--CAPS" role="macro">
+<title>NM_SETTING_BLUETOOTH_TYPE_PANU</title>
+<indexterm zone="NM-SETTING-BLUETOOTH-TYPE-PANU--CAPS"><primary sortas="NM_SETTING_BLUETOOTH_TYPE_PANU">NM_SETTING_BLUETOOTH_TYPE_PANU</primary></indexterm><programlisting>#define NM_SETTING_BLUETOOTH_TYPE_PANU "panu"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingBluetooth-struct" role="struct">
+<title>NMSettingBluetooth</title>
+<indexterm zone="NMSettingBluetooth-struct"><primary sortas="NMSettingBluetooth">NMSettingBluetooth</primary></indexterm><programlisting>typedef struct _NMSettingBluetooth NMSettingBluetooth;</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="nm-setting-bluetooth-get-type" role="function">
+<title>nm_setting_bluetooth_get_type ()</title>
+<indexterm zone="nm-setting-bluetooth-get-type"><primary sortas="nm_setting_bluetooth_get_type">nm_setting_bluetooth_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_setting_bluetooth_get_type       (void);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-bluetooth-new" role="function">
+<title>nm_setting_bluetooth_new ()</title>
+<indexterm zone="nm-setting-bluetooth-new"><primary sortas="nm_setting_bluetooth_new">nm_setting_bluetooth_new</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link> *         nm_setting_bluetooth_new            (void);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-bluetooth-get-bdaddr" role="function">
+<title>nm_setting_bluetooth_get_bdaddr ()</title>
+<indexterm zone="nm-setting-bluetooth-get-bdaddr"><primary sortas="nm_setting_bluetooth_get_bdaddr">nm_setting_bluetooth_get_bdaddr</primary></indexterm><programlisting>const <link linkend="GByteArray">GByteArray</link> *  nm_setting_bluetooth_get_bdaddr     (<link linkend="NMSettingBluetooth">NMSettingBluetooth</link> *setting);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-bluetooth-get-connection-type" role="function">
+<title>nm_setting_bluetooth_get_connection_type ()</title>
+<indexterm zone="nm-setting-bluetooth-get-connection-type"><primary sortas="nm_setting_bluetooth_get_connection_type">nm_setting_bluetooth_get_connection_type</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_bluetooth_get_connection_type
+                                                        (<link linkend="NMSettingBluetooth">NMSettingBluetooth</link> *setting);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+<refsect1 id="NMSettingBluetooth.property-details" role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2 id="NMSettingBluetooth--bdaddr" role="property"><title>The <literal>&quot;bdaddr&quot;</literal> property</title>
+<indexterm zone="NMSettingBluetooth--bdaddr"><primary sortas="NMSettingBluetooth:bdaddr">NMSettingBluetooth:bdaddr</primary></indexterm><programlisting>  &quot;bdaddr&quot;                   <link linkend="GArray-guchar-">GArray_guchar_</link>*       : Read / Write</programlisting>
+<para>
+The Bluetooth address of the device.</para>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingBluetooth--type" role="property"><title>The <literal>&quot;type&quot;</literal> property</title>
+<indexterm zone="NMSettingBluetooth--type"><primary sortas="NMSettingBluetooth:type">NMSettingBluetooth:type</primary></indexterm><programlisting>  &quot;type&quot;                     <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+Either 'dun' for Dial-Up Networking connections (not yet supported) or
+'panu' for Personal Area Networking connections.</para>
+<para>
+</para><para>Default value: NULL</para>
+</refsect2>
+</refsect1>
+
+
+
+
+</refentry>

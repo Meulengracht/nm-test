@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <ctype.h>
 
 #include <config.h>
 
@@ -61,11 +62,12 @@ get_pidfile_for_iface (const char * iface)
 
 
 static char *
-get_leasefile_for_iface (const char * iface)
+get_leasefile_for_iface (const char * iface, const char *uuid)
 {
-	return g_strdup_printf ("%s/%s-%s.%s",
+	return g_strdup_printf ("%s/%s-%s-%s.%s",
 	                        NM_DHCP_MANAGER_LEASE_DIR,
 	                        NM_DHCP_MANAGER_LEASE_FILENAME,
+	                        uuid,
 	                        iface,
 	                        NM_DHCP_MANAGER_LEASE_FILE_EXT);
 }
@@ -74,6 +76,7 @@ get_leasefile_for_iface (const char * iface)
 
 #define DHCP_CLIENT_ID_TAG "send dhcp-client-identifier"
 #define DHCP_CLIENT_ID_FORMAT DHCP_CLIENT_ID_TAG " \"%s\"; # added by NetworkManager"
+#define DHCP_CLIENT_ID_FORMAT_OCTETS DHCP_CLIENT_ID_TAG " %s; # added by NetworkManager"
 
 #define DHCP_HOSTNAME_TAG "send host-name"
 #define DHCP_HOSTNAME_FORMAT DHCP_HOSTNAME_TAG " \"%s\"; # added by NetworkManager"
@@ -132,8 +135,27 @@ merge_dhclient_config (NMDHCPDevice *device,
 		const char *tmp;
 
 		tmp = nm_setting_ip4_config_get_dhcp_client_id (s_ip4);
-		if (tmp)
-			g_string_append_printf (new_contents, DHCP_CLIENT_ID_FORMAT "\n", tmp);
+		if (tmp) {
+			gboolean is_octets = TRUE;
+			const char *p = tmp;
+
+			while (*p) {
+				if (!isxdigit (*p) && (*p != ':')) {
+					is_octets = FALSE;
+					break;
+				}
+				p++;
+			}
+
+			/* If the client ID is just hex digits and : then don't use quotes,
+			 * becuase dhclient expects either a quoted ASCII string, or a byte
+			 * array formated as hex octets separated by :
+			 */
+			if (is_octets)
+				g_string_append_printf (new_contents, DHCP_CLIENT_ID_FORMAT_OCTETS "\n", tmp);
+			else
+				g_string_append_printf (new_contents, DHCP_CLIENT_ID_FORMAT "\n", tmp);
+		}
 
 		tmp = nm_setting_ip4_config_get_dhcp_hostname (s_ip4);
 		if (tmp)
@@ -167,6 +189,8 @@ create_dhclient_config (NMDHCPDevice *device, NMSettingIP4Config *s_ip4)
 	orig = g_strdup (SYSCONFDIR "/dhclient.conf");
 #elif defined(TARGET_DEBIAN)
 	orig = g_strdup (SYSCONFDIR "/dhcp3/dhclient.conf");
+#elif defined(TARGET_GENTOO)
+	orig = g_strdup (SYSCONFDIR "/dhcp/dhclient.conf");
 #else
 	orig = g_strdup_printf (SYSCONFDIR "/dhclient-%s.conf", device->iface);
 #endif
@@ -216,7 +240,9 @@ dhclient_child_setup (gpointer user_data G_GNUC_UNUSED)
 
 
 GPid
-nm_dhcp_client_start (NMDHCPDevice *device, NMSettingIP4Config *s_ip4)
+nm_dhcp_client_start (NMDHCPDevice *device,
+                      const char *uuid,
+                      NMSettingIP4Config *s_ip4)
 {
 	GPtrArray *dhclient_argv = NULL;
 	GPid pid = 0;
@@ -234,7 +260,7 @@ nm_dhcp_client_start (NMDHCPDevice *device, NMSettingIP4Config *s_ip4)
 		goto out;
 	}
 
-	device->lease_file = get_leasefile_for_iface (device->iface);
+	device->lease_file = get_leasefile_for_iface (device->iface, uuid);
 	if (!device->lease_file) {
 		nm_warning ("%s: not enough memory for dhclient options.", device->iface);
 		goto out;

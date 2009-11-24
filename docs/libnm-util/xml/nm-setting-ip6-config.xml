@@ -1,0 +1,961 @@
+<refentry id="NMSettingIP6Config">
+<refmeta>
+<refentrytitle role="top_of_page" id="NMSettingIP6Config.top_of_page">NMSettingIP6Config</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNM-UTIL Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>NMSettingIP6Config</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id="NMSettingIP6Config.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+#define             <link linkend="NM-SETTING-IP6-CONFIG-SETTING-NAME--CAPS">NM_SETTING_IP6_CONFIG_SETTING_NAME</link>
+enum                <link linkend="NMSettingIP6ConfigError">NMSettingIP6ConfigError</link>;
+#define             <link linkend="NM-TYPE-SETTING-IP6-CONFIG-ERROR--CAPS">NM_TYPE_SETTING_IP6_CONFIG_ERROR</link>
+#define             <link linkend="NM-SETTING-IP6-CONFIG-ERROR--CAPS">NM_SETTING_IP6_CONFIG_ERROR</link>
+<link linkend="GQuark">GQuark</link>              <link linkend="nm-setting-ip6-config-error-quark">nm_setting_ip6_config_error_quark</link>   (void);
+#define             <link linkend="NM-SETTING-IP6-CONFIG-METHOD--CAPS">NM_SETTING_IP6_CONFIG_METHOD</link>
+#define             <link linkend="NM-SETTING-IP6-CONFIG-DNS--CAPS">NM_SETTING_IP6_CONFIG_DNS</link>
+#define             <link linkend="NM-SETTING-IP6-CONFIG-DNS-SEARCH--CAPS">NM_SETTING_IP6_CONFIG_DNS_SEARCH</link>
+#define             <link linkend="NM-SETTING-IP6-CONFIG-ADDRESSES--CAPS">NM_SETTING_IP6_CONFIG_ADDRESSES</link>
+#define             <link linkend="NM-SETTING-IP6-CONFIG-ROUTES--CAPS">NM_SETTING_IP6_CONFIG_ROUTES</link>
+#define             <link linkend="NM-SETTING-IP6-CONFIG-IGNORE-AUTO-ROUTES--CAPS">NM_SETTING_IP6_CONFIG_IGNORE_AUTO_ROUTES</link>
+#define             <link linkend="NM-SETTING-IP6-CONFIG-IGNORE-AUTO-DNS--CAPS">NM_SETTING_IP6_CONFIG_IGNORE_AUTO_DNS</link>
+#define             <link linkend="NM-SETTING-IP6-CONFIG-NEVER-DEFAULT--CAPS">NM_SETTING_IP6_CONFIG_NEVER_DEFAULT</link>
+#define             <link linkend="NM-SETTING-IP6-CONFIG-METHOD-IGNORE--CAPS">NM_SETTING_IP6_CONFIG_METHOD_IGNORE</link>
+#define             <link linkend="NM-SETTING-IP6-CONFIG-METHOD-AUTO--CAPS">NM_SETTING_IP6_CONFIG_METHOD_AUTO</link>
+#define             <link linkend="NM-SETTING-IP6-CONFIG-METHOD-LINK-LOCAL--CAPS">NM_SETTING_IP6_CONFIG_METHOD_LINK_LOCAL</link>
+#define             <link linkend="NM-SETTING-IP6-CONFIG-METHOD-MANUAL--CAPS">NM_SETTING_IP6_CONFIG_METHOD_MANUAL</link>
+#define             <link linkend="NM-SETTING-IP6-CONFIG-METHOD-SHARED--CAPS">NM_SETTING_IP6_CONFIG_METHOD_SHARED</link>
+typedef             <link linkend="NMIP6Address">NMIP6Address</link>;
+<link linkend="NMIP6Address">NMIP6Address</link> *      <link linkend="nm-ip6-address-new">nm_ip6_address_new</link>                  (void);
+<link linkend="NMIP6Address">NMIP6Address</link> *      <link linkend="nm-ip6-address-dup">nm_ip6_address_dup</link>                  (<link linkend="NMIP6Address">NMIP6Address</link> *source);
+<link linkend="void">void</link>                <link linkend="nm-ip6-address-ref">nm_ip6_address_ref</link>                  (<link linkend="NMIP6Address">NMIP6Address</link> *address);
+<link linkend="void">void</link>                <link linkend="nm-ip6-address-unref">nm_ip6_address_unref</link>                (<link linkend="NMIP6Address">NMIP6Address</link> *address);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-ip6-address-compare">nm_ip6_address_compare</link>              (<link linkend="NMIP6Address">NMIP6Address</link> *address,
+                                                         <link linkend="NMIP6Address">NMIP6Address</link> *other);
+const struct <link linkend="in6-addr">in6_addr</link> * <link linkend="nm-ip6-address-get-address">nm_ip6_address_get_address</link>      (<link linkend="NMIP6Address">NMIP6Address</link> *address);
+<link linkend="void">void</link>                <link linkend="nm-ip6-address-set-address">nm_ip6_address_set_address</link>          (<link linkend="NMIP6Address">NMIP6Address</link> *address,
+                                                         const <link linkend="struct-in6-addr">struct in6_addr</link> *addr);
+<link linkend="guint32">guint32</link>             <link linkend="nm-ip6-address-get-prefix">nm_ip6_address_get_prefix</link>           (<link linkend="NMIP6Address">NMIP6Address</link> *address);
+<link linkend="void">void</link>                <link linkend="nm-ip6-address-set-prefix">nm_ip6_address_set_prefix</link>           (<link linkend="NMIP6Address">NMIP6Address</link> *address,
+                                                         <link linkend="guint32">guint32</link> prefix);
+typedef             <link linkend="NMIP6Route">NMIP6Route</link>;
+<link linkend="NMIP6Route">NMIP6Route</link> *        <link linkend="nm-ip6-route-new">nm_ip6_route_new</link>                    (void);
+<link linkend="NMIP6Route">NMIP6Route</link> *        <link linkend="nm-ip6-route-dup">nm_ip6_route_dup</link>                    (<link linkend="NMIP6Route">NMIP6Route</link> *route);
+<link linkend="void">void</link>                <link linkend="nm-ip6-route-ref">nm_ip6_route_ref</link>                    (<link linkend="NMIP6Route">NMIP6Route</link> *route);
+<link linkend="void">void</link>                <link linkend="nm-ip6-route-unref">nm_ip6_route_unref</link>                  (<link linkend="NMIP6Route">NMIP6Route</link> *route);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-ip6-route-compare">nm_ip6_route_compare</link>                (<link linkend="NMIP6Route">NMIP6Route</link> *route,
+                                                         <link linkend="NMIP6Route">NMIP6Route</link> *other);
+const struct <link linkend="in6-addr">in6_addr</link> * <link linkend="nm-ip6-route-get-dest">nm_ip6_route_get_dest</link>           (<link linkend="NMIP6Route">NMIP6Route</link> *route);
+<link linkend="void">void</link>                <link linkend="nm-ip6-route-set-dest">nm_ip6_route_set_dest</link>               (<link linkend="NMIP6Route">NMIP6Route</link> *route,
+                                                         const <link linkend="struct-in6-addr">struct in6_addr</link> *dest);
+<link linkend="guint32">guint32</link>             <link linkend="nm-ip6-route-get-prefix">nm_ip6_route_get_prefix</link>             (<link linkend="NMIP6Route">NMIP6Route</link> *route);
+<link linkend="void">void</link>                <link linkend="nm-ip6-route-set-prefix">nm_ip6_route_set_prefix</link>             (<link linkend="NMIP6Route">NMIP6Route</link> *route,
+                                                         <link linkend="guint32">guint32</link> prefix);
+const struct <link linkend="in6-addr">in6_addr</link> * <link linkend="nm-ip6-route-get-next-hop">nm_ip6_route_get_next_hop</link>       (<link linkend="NMIP6Route">NMIP6Route</link> *route);
+<link linkend="void">void</link>                <link linkend="nm-ip6-route-set-next-hop">nm_ip6_route_set_next_hop</link>           (<link linkend="NMIP6Route">NMIP6Route</link> *route,
+                                                         const <link linkend="struct-in6-addr">struct in6_addr</link> *next_hop);
+<link linkend="guint32">guint32</link>             <link linkend="nm-ip6-route-get-metric">nm_ip6_route_get_metric</link>             (<link linkend="NMIP6Route">NMIP6Route</link> *route);
+<link linkend="void">void</link>                <link linkend="nm-ip6-route-set-metric">nm_ip6_route_set_metric</link>             (<link linkend="NMIP6Route">NMIP6Route</link> *route,
+                                                         <link linkend="guint32">guint32</link> metric);
+                    <link linkend="NMSettingIP6Config-struct">NMSettingIP6Config</link>;
+<link linkend="GType">GType</link>               <link linkend="nm-setting-ip6-config-get-type">nm_setting_ip6_config_get_type</link>      (void);
+<link linkend="NMSetting">NMSetting</link> *         <link linkend="nm-setting-ip6-config-new">nm_setting_ip6_config_new</link>           (void);
+const <link linkend="char">char</link> *        <link linkend="nm-setting-ip6-config-get-method">nm_setting_ip6_config_get_method</link>    (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);
+<link linkend="guint32">guint32</link>             <link linkend="nm-setting-ip6-config-get-num-dns">nm_setting_ip6_config_get_num_dns</link>   (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);
+const struct <link linkend="in6-addr">in6_addr</link> * <link linkend="nm-setting-ip6-config-get-dns">nm_setting_ip6_config_get_dns</link>   (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ip6-config-add-dns">nm_setting_ip6_config_add_dns</link>       (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         const <link linkend="struct-in6-addr">struct in6_addr</link> *dns);
+<link linkend="void">void</link>                <link linkend="nm-setting-ip6-config-remove-dns">nm_setting_ip6_config_remove_dns</link>    (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);
+<link linkend="void">void</link>                <link linkend="nm-setting-ip6-config-clear-dns">nm_setting_ip6_config_clear_dns</link>     (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);
+<link linkend="guint32">guint32</link>             <link linkend="nm-setting-ip6-config-get-num-dns-searches">nm_setting_ip6_config_get_num_dns_searches</link>
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);
+const <link linkend="char">char</link> *        <link linkend="nm-setting-ip6-config-get-dns-search">nm_setting_ip6_config_get_dns_search</link>
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ip6-config-add-dns-search">nm_setting_ip6_config_add_dns_search</link>
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         const <link linkend="char">char</link> *dns_search);
+<link linkend="void">void</link>                <link linkend="nm-setting-ip6-config-remove-dns-search">nm_setting_ip6_config_remove_dns_search</link>
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);
+<link linkend="void">void</link>                <link linkend="nm-setting-ip6-config-clear-dns-searches">nm_setting_ip6_config_clear_dns_searches</link>
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);
+<link linkend="guint32">guint32</link>             <link linkend="nm-setting-ip6-config-get-num-addresses">nm_setting_ip6_config_get_num_addresses</link>
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);
+<link linkend="NMIP6Address">NMIP6Address</link> *      <link linkend="nm-setting-ip6-config-get-address">nm_setting_ip6_config_get_address</link>   (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ip6-config-add-address">nm_setting_ip6_config_add_address</link>   (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="NMIP6Address">NMIP6Address</link> *address);
+<link linkend="void">void</link>                <link linkend="nm-setting-ip6-config-remove-address">nm_setting_ip6_config_remove_address</link>
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);
+<link linkend="void">void</link>                <link linkend="nm-setting-ip6-config-clear-addresses">nm_setting_ip6_config_clear_addresses</link>
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);
+<link linkend="guint32">guint32</link>             <link linkend="nm-setting-ip6-config-get-num-routes">nm_setting_ip6_config_get_num_routes</link>
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);
+<link linkend="NMIP6Route">NMIP6Route</link> *        <link linkend="nm-setting-ip6-config-get-route">nm_setting_ip6_config_get_route</link>     (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ip6-config-add-route">nm_setting_ip6_config_add_route</link>     (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="NMIP6Route">NMIP6Route</link> *route);
+<link linkend="void">void</link>                <link linkend="nm-setting-ip6-config-remove-route">nm_setting_ip6_config_remove_route</link>  (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);
+<link linkend="void">void</link>                <link linkend="nm-setting-ip6-config-clear-routes">nm_setting_ip6_config_clear_routes</link>  (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ip6-config-get-ignore-auto-routes">nm_setting_ip6_config_get_ignore_auto_routes</link>
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ip6-config-get-ignore-auto-dns">nm_setting_ip6_config_get_ignore_auto_dns</link>
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ip6-config-get-never-default">nm_setting_ip6_config_get_never_default</link>
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 id="NMSettingIP6Config.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+  <link linkend="GObject">GObject</link>
+   +----<link linkend="NMSetting">NMSetting</link>
+         +----NMSettingIP6Config
+</synopsis>
+</refsect1>
+
+
+
+
+
+<refsect1 id="NMSettingIP6Config.properties" role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+  &quot;<link linkend="NMSettingIP6Config--addresses">addresses</link>&quot;                <link linkend="GPtrArray-GValueArray-GArray-guchar-+guint--*">GPtrArray_GValueArray_GArray_guchar_+guint__*</link>  : Read / Write
+  &quot;<link linkend="NMSettingIP6Config--dns">dns</link>&quot;                      <link linkend="GPtrArray-GArray-guchar--">GPtrArray_GArray_guchar__</link>*  : Read / Write
+  &quot;<link linkend="NMSettingIP6Config--dns-search">dns-search</link>&quot;               <link linkend="GSList-gchararray-">GSList_gchararray_</link>*   : Read / Write
+  &quot;<link linkend="NMSettingIP6Config--ignore-auto-dns">ignore-auto-dns</link>&quot;          <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
+  &quot;<link linkend="NMSettingIP6Config--ignore-auto-routes">ignore-auto-routes</link>&quot;       <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
+  &quot;<link linkend="NMSettingIP6Config--method">method</link>&quot;                   <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NMSettingIP6Config--never-default">never-default</link>&quot;            <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
+  &quot;<link linkend="NMSettingIP6Config--routes">routes</link>&quot;                   <link linkend="GPtrArray-GValueArray-GArray-guchar-+guint+GArray-guchar-+guint--*">GPtrArray_GValueArray_GArray_guchar_+guint+GArray_guchar_+guint__*</link>  : Read / Write
+</synopsis>
+</refsect1>
+
+
+
+<refsect1 id="NMSettingIP6Config.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+</para>
+</refsect1>
+
+<refsect1 id="NMSettingIP6Config.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="NM-SETTING-IP6-CONFIG-SETTING-NAME--CAPS" role="macro">
+<title>NM_SETTING_IP6_CONFIG_SETTING_NAME</title>
+<indexterm zone="NM-SETTING-IP6-CONFIG-SETTING-NAME--CAPS"><primary sortas="NM_SETTING_IP6_CONFIG_SETTING_NAME">NM_SETTING_IP6_CONFIG_SETTING_NAME</primary></indexterm><programlisting>#define NM_SETTING_IP6_CONFIG_SETTING_NAME "ipv6"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingIP6ConfigError" role="enum">
+<title>enum NMSettingIP6ConfigError</title>
+<indexterm zone="NMSettingIP6ConfigError"><primary sortas="NMSettingIP6ConfigError">NMSettingIP6ConfigError</primary></indexterm><programlisting>typedef enum
+{
+	NM_SETTING_IP6_CONFIG_ERROR_UNKNOWN = 0,
+	NM_SETTING_IP6_CONFIG_ERROR_INVALID_PROPERTY,
+	NM_SETTING_IP6_CONFIG_ERROR_MISSING_PROPERTY,
+	NM_SETTING_IP6_CONFIG_ERROR_NOT_ALLOWED_FOR_METHOD
+} NMSettingIP6ConfigError;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-TYPE-SETTING-IP6-CONFIG-ERROR--CAPS" role="macro">
+<title>NM_TYPE_SETTING_IP6_CONFIG_ERROR</title>
+<indexterm zone="NM-TYPE-SETTING-IP6-CONFIG-ERROR--CAPS"><primary sortas="NM_TYPE_SETTING_IP6_CONFIG_ERROR">NM_TYPE_SETTING_IP6_CONFIG_ERROR</primary></indexterm><programlisting>#define NM_TYPE_SETTING_IP6_CONFIG_ERROR (nm_setting_ip6_config_error_get_type ()) 
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-IP6-CONFIG-ERROR--CAPS" role="macro">
+<title>NM_SETTING_IP6_CONFIG_ERROR</title>
+<indexterm zone="NM-SETTING-IP6-CONFIG-ERROR--CAPS"><primary sortas="NM_SETTING_IP6_CONFIG_ERROR">NM_SETTING_IP6_CONFIG_ERROR</primary></indexterm><programlisting>#define NM_SETTING_IP6_CONFIG_ERROR nm_setting_ip6_config_error_quark ()
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="nm-setting-ip6-config-error-quark" role="function">
+<title>nm_setting_ip6_config_error_quark ()</title>
+<indexterm zone="nm-setting-ip6-config-error-quark"><primary sortas="nm_setting_ip6_config_error_quark">nm_setting_ip6_config_error_quark</primary></indexterm><programlisting><link linkend="GQuark">GQuark</link>              nm_setting_ip6_config_error_quark   (void);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="NM-SETTING-IP6-CONFIG-METHOD--CAPS" role="macro">
+<title>NM_SETTING_IP6_CONFIG_METHOD</title>
+<indexterm zone="NM-SETTING-IP6-CONFIG-METHOD--CAPS"><primary sortas="NM_SETTING_IP6_CONFIG_METHOD">NM_SETTING_IP6_CONFIG_METHOD</primary></indexterm><programlisting>#define NM_SETTING_IP6_CONFIG_METHOD             "method"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-IP6-CONFIG-DNS--CAPS" role="macro">
+<title>NM_SETTING_IP6_CONFIG_DNS</title>
+<indexterm zone="NM-SETTING-IP6-CONFIG-DNS--CAPS"><primary sortas="NM_SETTING_IP6_CONFIG_DNS">NM_SETTING_IP6_CONFIG_DNS</primary></indexterm><programlisting>#define NM_SETTING_IP6_CONFIG_DNS                "dns"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-IP6-CONFIG-DNS-SEARCH--CAPS" role="macro">
+<title>NM_SETTING_IP6_CONFIG_DNS_SEARCH</title>
+<indexterm zone="NM-SETTING-IP6-CONFIG-DNS-SEARCH--CAPS"><primary sortas="NM_SETTING_IP6_CONFIG_DNS_SEARCH">NM_SETTING_IP6_CONFIG_DNS_SEARCH</primary></indexterm><programlisting>#define NM_SETTING_IP6_CONFIG_DNS_SEARCH         "dns-search"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-IP6-CONFIG-ADDRESSES--CAPS" role="macro">
+<title>NM_SETTING_IP6_CONFIG_ADDRESSES</title>
+<indexterm zone="NM-SETTING-IP6-CONFIG-ADDRESSES--CAPS"><primary sortas="NM_SETTING_IP6_CONFIG_ADDRESSES">NM_SETTING_IP6_CONFIG_ADDRESSES</primary></indexterm><programlisting>#define NM_SETTING_IP6_CONFIG_ADDRESSES          "addresses"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-IP6-CONFIG-ROUTES--CAPS" role="macro">
+<title>NM_SETTING_IP6_CONFIG_ROUTES</title>
+<indexterm zone="NM-SETTING-IP6-CONFIG-ROUTES--CAPS"><primary sortas="NM_SETTING_IP6_CONFIG_ROUTES">NM_SETTING_IP6_CONFIG_ROUTES</primary></indexterm><programlisting>#define NM_SETTING_IP6_CONFIG_ROUTES             "routes"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-IP6-CONFIG-IGNORE-AUTO-ROUTES--CAPS" role="macro">
+<title>NM_SETTING_IP6_CONFIG_IGNORE_AUTO_ROUTES</title>
+<indexterm zone="NM-SETTING-IP6-CONFIG-IGNORE-AUTO-ROUTES--CAPS"><primary sortas="NM_SETTING_IP6_CONFIG_IGNORE_AUTO_ROUTES">NM_SETTING_IP6_CONFIG_IGNORE_AUTO_ROUTES</primary></indexterm><programlisting>#define NM_SETTING_IP6_CONFIG_IGNORE_AUTO_ROUTES "ignore-auto-routes"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-IP6-CONFIG-IGNORE-AUTO-DNS--CAPS" role="macro">
+<title>NM_SETTING_IP6_CONFIG_IGNORE_AUTO_DNS</title>
+<indexterm zone="NM-SETTING-IP6-CONFIG-IGNORE-AUTO-DNS--CAPS"><primary sortas="NM_SETTING_IP6_CONFIG_IGNORE_AUTO_DNS">NM_SETTING_IP6_CONFIG_IGNORE_AUTO_DNS</primary></indexterm><programlisting>#define NM_SETTING_IP6_CONFIG_IGNORE_AUTO_DNS    "ignore-auto-dns"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-IP6-CONFIG-NEVER-DEFAULT--CAPS" role="macro">
+<title>NM_SETTING_IP6_CONFIG_NEVER_DEFAULT</title>
+<indexterm zone="NM-SETTING-IP6-CONFIG-NEVER-DEFAULT--CAPS"><primary sortas="NM_SETTING_IP6_CONFIG_NEVER_DEFAULT">NM_SETTING_IP6_CONFIG_NEVER_DEFAULT</primary></indexterm><programlisting>#define NM_SETTING_IP6_CONFIG_NEVER_DEFAULT      "never-default"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-IP6-CONFIG-METHOD-IGNORE--CAPS" role="macro">
+<title>NM_SETTING_IP6_CONFIG_METHOD_IGNORE</title>
+<indexterm zone="NM-SETTING-IP6-CONFIG-METHOD-IGNORE--CAPS"><primary sortas="NM_SETTING_IP6_CONFIG_METHOD_IGNORE">NM_SETTING_IP6_CONFIG_METHOD_IGNORE</primary></indexterm><programlisting>#define NM_SETTING_IP6_CONFIG_METHOD_IGNORE     "ignore"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-IP6-CONFIG-METHOD-AUTO--CAPS" role="macro">
+<title>NM_SETTING_IP6_CONFIG_METHOD_AUTO</title>
+<indexterm zone="NM-SETTING-IP6-CONFIG-METHOD-AUTO--CAPS"><primary sortas="NM_SETTING_IP6_CONFIG_METHOD_AUTO">NM_SETTING_IP6_CONFIG_METHOD_AUTO</primary></indexterm><programlisting>#define NM_SETTING_IP6_CONFIG_METHOD_AUTO       "auto"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-IP6-CONFIG-METHOD-LINK-LOCAL--CAPS" role="macro">
+<title>NM_SETTING_IP6_CONFIG_METHOD_LINK_LOCAL</title>
+<indexterm zone="NM-SETTING-IP6-CONFIG-METHOD-LINK-LOCAL--CAPS"><primary sortas="NM_SETTING_IP6_CONFIG_METHOD_LINK_LOCAL">NM_SETTING_IP6_CONFIG_METHOD_LINK_LOCAL</primary></indexterm><programlisting>#define NM_SETTING_IP6_CONFIG_METHOD_LINK_LOCAL "link-local"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-IP6-CONFIG-METHOD-MANUAL--CAPS" role="macro">
+<title>NM_SETTING_IP6_CONFIG_METHOD_MANUAL</title>
+<indexterm zone="NM-SETTING-IP6-CONFIG-METHOD-MANUAL--CAPS"><primary sortas="NM_SETTING_IP6_CONFIG_METHOD_MANUAL">NM_SETTING_IP6_CONFIG_METHOD_MANUAL</primary></indexterm><programlisting>#define NM_SETTING_IP6_CONFIG_METHOD_MANUAL     "manual"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-IP6-CONFIG-METHOD-SHARED--CAPS" role="macro">
+<title>NM_SETTING_IP6_CONFIG_METHOD_SHARED</title>
+<indexterm zone="NM-SETTING-IP6-CONFIG-METHOD-SHARED--CAPS"><primary sortas="NM_SETTING_IP6_CONFIG_METHOD_SHARED">NM_SETTING_IP6_CONFIG_METHOD_SHARED</primary></indexterm><programlisting>#define NM_SETTING_IP6_CONFIG_METHOD_SHARED     "shared"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NMIP6Address" role="typedef">
+<title>NMIP6Address</title>
+<indexterm zone="NMIP6Address"><primary sortas="NMIP6Address">NMIP6Address</primary></indexterm><programlisting>typedef struct NMIP6Address NMIP6Address;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="nm-ip6-address-new" role="function">
+<title>nm_ip6_address_new ()</title>
+<indexterm zone="nm-ip6-address-new"><primary sortas="nm_ip6_address_new">nm_ip6_address_new</primary></indexterm><programlisting><link linkend="NMIP6Address">NMIP6Address</link> *      nm_ip6_address_new                  (void);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-address-dup" role="function">
+<title>nm_ip6_address_dup ()</title>
+<indexterm zone="nm-ip6-address-dup"><primary sortas="nm_ip6_address_dup">nm_ip6_address_dup</primary></indexterm><programlisting><link linkend="NMIP6Address">NMIP6Address</link> *      nm_ip6_address_dup                  (<link linkend="NMIP6Address">NMIP6Address</link> *source);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>source</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-address-ref" role="function">
+<title>nm_ip6_address_ref ()</title>
+<indexterm zone="nm-ip6-address-ref"><primary sortas="nm_ip6_address_ref">nm_ip6_address_ref</primary></indexterm><programlisting><link linkend="void">void</link>                nm_ip6_address_ref                  (<link linkend="NMIP6Address">NMIP6Address</link> *address);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>address</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-address-unref" role="function">
+<title>nm_ip6_address_unref ()</title>
+<indexterm zone="nm-ip6-address-unref"><primary sortas="nm_ip6_address_unref">nm_ip6_address_unref</primary></indexterm><programlisting><link linkend="void">void</link>                nm_ip6_address_unref                (<link linkend="NMIP6Address">NMIP6Address</link> *address);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>address</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-address-compare" role="function">
+<title>nm_ip6_address_compare ()</title>
+<indexterm zone="nm-ip6-address-compare"><primary sortas="nm_ip6_address_compare">nm_ip6_address_compare</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_ip6_address_compare              (<link linkend="NMIP6Address">NMIP6Address</link> *address,
+                                                         <link linkend="NMIP6Address">NMIP6Address</link> *other);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>address</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>other</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-address-get-address" role="function">
+<title>nm_ip6_address_get_address ()</title>
+<indexterm zone="nm-ip6-address-get-address"><primary sortas="nm_ip6_address_get_address">nm_ip6_address_get_address</primary></indexterm><programlisting>const struct <link linkend="in6-addr">in6_addr</link> * nm_ip6_address_get_address      (<link linkend="NMIP6Address">NMIP6Address</link> *address);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>address</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-address-set-address" role="function">
+<title>nm_ip6_address_set_address ()</title>
+<indexterm zone="nm-ip6-address-set-address"><primary sortas="nm_ip6_address_set_address">nm_ip6_address_set_address</primary></indexterm><programlisting><link linkend="void">void</link>                nm_ip6_address_set_address          (<link linkend="NMIP6Address">NMIP6Address</link> *address,
+                                                         const <link linkend="struct-in6-addr">struct in6_addr</link> *addr);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>address</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-address-get-prefix" role="function">
+<title>nm_ip6_address_get_prefix ()</title>
+<indexterm zone="nm-ip6-address-get-prefix"><primary sortas="nm_ip6_address_get_prefix">nm_ip6_address_get_prefix</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_ip6_address_get_prefix           (<link linkend="NMIP6Address">NMIP6Address</link> *address);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>address</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-address-set-prefix" role="function">
+<title>nm_ip6_address_set_prefix ()</title>
+<indexterm zone="nm-ip6-address-set-prefix"><primary sortas="nm_ip6_address_set_prefix">nm_ip6_address_set_prefix</primary></indexterm><programlisting><link linkend="void">void</link>                nm_ip6_address_set_prefix           (<link linkend="NMIP6Address">NMIP6Address</link> *address,
+                                                         <link linkend="guint32">guint32</link> prefix);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>address</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>prefix</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="NMIP6Route" role="typedef">
+<title>NMIP6Route</title>
+<indexterm zone="NMIP6Route"><primary sortas="NMIP6Route">NMIP6Route</primary></indexterm><programlisting>typedef struct NMIP6Route NMIP6Route;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="nm-ip6-route-new" role="function">
+<title>nm_ip6_route_new ()</title>
+<indexterm zone="nm-ip6-route-new"><primary sortas="nm_ip6_route_new">nm_ip6_route_new</primary></indexterm><programlisting><link linkend="NMIP6Route">NMIP6Route</link> *        nm_ip6_route_new                    (void);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-route-dup" role="function">
+<title>nm_ip6_route_dup ()</title>
+<indexterm zone="nm-ip6-route-dup"><primary sortas="nm_ip6_route_dup">nm_ip6_route_dup</primary></indexterm><programlisting><link linkend="NMIP6Route">NMIP6Route</link> *        nm_ip6_route_dup                    (<link linkend="NMIP6Route">NMIP6Route</link> *route);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>route</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-route-ref" role="function">
+<title>nm_ip6_route_ref ()</title>
+<indexterm zone="nm-ip6-route-ref"><primary sortas="nm_ip6_route_ref">nm_ip6_route_ref</primary></indexterm><programlisting><link linkend="void">void</link>                nm_ip6_route_ref                    (<link linkend="NMIP6Route">NMIP6Route</link> *route);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>route</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-route-unref" role="function">
+<title>nm_ip6_route_unref ()</title>
+<indexterm zone="nm-ip6-route-unref"><primary sortas="nm_ip6_route_unref">nm_ip6_route_unref</primary></indexterm><programlisting><link linkend="void">void</link>                nm_ip6_route_unref                  (<link linkend="NMIP6Route">NMIP6Route</link> *route);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>route</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-route-compare" role="function">
+<title>nm_ip6_route_compare ()</title>
+<indexterm zone="nm-ip6-route-compare"><primary sortas="nm_ip6_route_compare">nm_ip6_route_compare</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_ip6_route_compare                (<link linkend="NMIP6Route">NMIP6Route</link> *route,
+                                                         <link linkend="NMIP6Route">NMIP6Route</link> *other);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>route</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>other</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-route-get-dest" role="function">
+<title>nm_ip6_route_get_dest ()</title>
+<indexterm zone="nm-ip6-route-get-dest"><primary sortas="nm_ip6_route_get_dest">nm_ip6_route_get_dest</primary></indexterm><programlisting>const struct <link linkend="in6-addr">in6_addr</link> * nm_ip6_route_get_dest           (<link linkend="NMIP6Route">NMIP6Route</link> *route);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>route</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-route-set-dest" role="function">
+<title>nm_ip6_route_set_dest ()</title>
+<indexterm zone="nm-ip6-route-set-dest"><primary sortas="nm_ip6_route_set_dest">nm_ip6_route_set_dest</primary></indexterm><programlisting><link linkend="void">void</link>                nm_ip6_route_set_dest               (<link linkend="NMIP6Route">NMIP6Route</link> *route,
+                                                         const <link linkend="struct-in6-addr">struct in6_addr</link> *dest);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>route</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>dest</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-route-get-prefix" role="function">
+<title>nm_ip6_route_get_prefix ()</title>
+<indexterm zone="nm-ip6-route-get-prefix"><primary sortas="nm_ip6_route_get_prefix">nm_ip6_route_get_prefix</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_ip6_route_get_prefix             (<link linkend="NMIP6Route">NMIP6Route</link> *route);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>route</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-route-set-prefix" role="function">
+<title>nm_ip6_route_set_prefix ()</title>
+<indexterm zone="nm-ip6-route-set-prefix"><primary sortas="nm_ip6_route_set_prefix">nm_ip6_route_set_prefix</primary></indexterm><programlisting><link linkend="void">void</link>                nm_ip6_route_set_prefix             (<link linkend="NMIP6Route">NMIP6Route</link> *route,
+                                                         <link linkend="guint32">guint32</link> prefix);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>route</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>prefix</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-route-get-next-hop" role="function">
+<title>nm_ip6_route_get_next_hop ()</title>
+<indexterm zone="nm-ip6-route-get-next-hop"><primary sortas="nm_ip6_route_get_next_hop">nm_ip6_route_get_next_hop</primary></indexterm><programlisting>const struct <link linkend="in6-addr">in6_addr</link> * nm_ip6_route_get_next_hop       (<link linkend="NMIP6Route">NMIP6Route</link> *route);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>route</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-route-set-next-hop" role="function">
+<title>nm_ip6_route_set_next_hop ()</title>
+<indexterm zone="nm-ip6-route-set-next-hop"><primary sortas="nm_ip6_route_set_next_hop">nm_ip6_route_set_next_hop</primary></indexterm><programlisting><link linkend="void">void</link>                nm_ip6_route_set_next_hop           (<link linkend="NMIP6Route">NMIP6Route</link> *route,
+                                                         const <link linkend="struct-in6-addr">struct in6_addr</link> *next_hop);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>route</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>next_hop</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-route-get-metric" role="function">
+<title>nm_ip6_route_get_metric ()</title>
+<indexterm zone="nm-ip6-route-get-metric"><primary sortas="nm_ip6_route_get_metric">nm_ip6_route_get_metric</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_ip6_route_get_metric             (<link linkend="NMIP6Route">NMIP6Route</link> *route);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>route</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-ip6-route-set-metric" role="function">
+<title>nm_ip6_route_set_metric ()</title>
+<indexterm zone="nm-ip6-route-set-metric"><primary sortas="nm_ip6_route_set_metric">nm_ip6_route_set_metric</primary></indexterm><programlisting><link linkend="void">void</link>                nm_ip6_route_set_metric             (<link linkend="NMIP6Route">NMIP6Route</link> *route,
+                                                         <link linkend="guint32">guint32</link> metric);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>route</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>metric</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="NMSettingIP6Config-struct" role="struct">
+<title>NMSettingIP6Config</title>
+<indexterm zone="NMSettingIP6Config-struct"><primary sortas="NMSettingIP6Config">NMSettingIP6Config</primary></indexterm><programlisting>typedef struct _NMSettingIP6Config NMSettingIP6Config;</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="nm-setting-ip6-config-get-type" role="function">
+<title>nm_setting_ip6_config_get_type ()</title>
+<indexterm zone="nm-setting-ip6-config-get-type"><primary sortas="nm_setting_ip6_config_get_type">nm_setting_ip6_config_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_setting_ip6_config_get_type      (void);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-new" role="function">
+<title>nm_setting_ip6_config_new ()</title>
+<indexterm zone="nm-setting-ip6-config-new"><primary sortas="nm_setting_ip6_config_new">nm_setting_ip6_config_new</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link> *         nm_setting_ip6_config_new           (void);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-get-method" role="function">
+<title>nm_setting_ip6_config_get_method ()</title>
+<indexterm zone="nm-setting-ip6-config-get-method"><primary sortas="nm_setting_ip6_config_get_method">nm_setting_ip6_config_get_method</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_ip6_config_get_method    (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-get-num-dns" role="function">
+<title>nm_setting_ip6_config_get_num_dns ()</title>
+<indexterm zone="nm-setting-ip6-config-get-num-dns"><primary sortas="nm_setting_ip6_config_get_num_dns">nm_setting_ip6_config_get_num_dns</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_ip6_config_get_num_dns   (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-get-dns" role="function">
+<title>nm_setting_ip6_config_get_dns ()</title>
+<indexterm zone="nm-setting-ip6-config-get-dns"><primary sortas="nm_setting_ip6_config_get_dns">nm_setting_ip6_config_get_dns</primary></indexterm><programlisting>const struct <link linkend="in6-addr">in6_addr</link> * nm_setting_ip6_config_get_dns   (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-add-dns" role="function">
+<title>nm_setting_ip6_config_add_dns ()</title>
+<indexterm zone="nm-setting-ip6-config-add-dns"><primary sortas="nm_setting_ip6_config_add_dns">nm_setting_ip6_config_add_dns</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ip6_config_add_dns       (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         const <link linkend="struct-in6-addr">struct in6_addr</link> *dns);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>dns</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-remove-dns" role="function">
+<title>nm_setting_ip6_config_remove_dns ()</title>
+<indexterm zone="nm-setting-ip6-config-remove-dns"><primary sortas="nm_setting_ip6_config_remove_dns">nm_setting_ip6_config_remove_dns</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_ip6_config_remove_dns    (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-clear-dns" role="function">
+<title>nm_setting_ip6_config_clear_dns ()</title>
+<indexterm zone="nm-setting-ip6-config-clear-dns"><primary sortas="nm_setting_ip6_config_clear_dns">nm_setting_ip6_config_clear_dns</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_ip6_config_clear_dns     (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-get-num-dns-searches" role="function">
+<title>nm_setting_ip6_config_get_num_dns_searches ()</title>
+<indexterm zone="nm-setting-ip6-config-get-num-dns-searches"><primary sortas="nm_setting_ip6_config_get_num_dns_searches">nm_setting_ip6_config_get_num_dns_searches</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_ip6_config_get_num_dns_searches
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-get-dns-search" role="function">
+<title>nm_setting_ip6_config_get_dns_search ()</title>
+<indexterm zone="nm-setting-ip6-config-get-dns-search"><primary sortas="nm_setting_ip6_config_get_dns_search">nm_setting_ip6_config_get_dns_search</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_ip6_config_get_dns_search
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-add-dns-search" role="function">
+<title>nm_setting_ip6_config_add_dns_search ()</title>
+<indexterm zone="nm-setting-ip6-config-add-dns-search"><primary sortas="nm_setting_ip6_config_add_dns_search">nm_setting_ip6_config_add_dns_search</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ip6_config_add_dns_search
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         const <link linkend="char">char</link> *dns_search);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>dns_search</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-remove-dns-search" role="function">
+<title>nm_setting_ip6_config_remove_dns_search ()</title>
+<indexterm zone="nm-setting-ip6-config-remove-dns-search"><primary sortas="nm_setting_ip6_config_remove_dns_search">nm_setting_ip6_config_remove_dns_search</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_ip6_config_remove_dns_search
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-clear-dns-searches" role="function">
+<title>nm_setting_ip6_config_clear_dns_searches ()</title>
+<indexterm zone="nm-setting-ip6-config-clear-dns-searches"><primary sortas="nm_setting_ip6_config_clear_dns_searches">nm_setting_ip6_config_clear_dns_searches</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_ip6_config_clear_dns_searches
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-get-num-addresses" role="function">
+<title>nm_setting_ip6_config_get_num_addresses ()</title>
+<indexterm zone="nm-setting-ip6-config-get-num-addresses"><primary sortas="nm_setting_ip6_config_get_num_addresses">nm_setting_ip6_config_get_num_addresses</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_ip6_config_get_num_addresses
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-get-address" role="function">
+<title>nm_setting_ip6_config_get_address ()</title>
+<indexterm zone="nm-setting-ip6-config-get-address"><primary sortas="nm_setting_ip6_config_get_address">nm_setting_ip6_config_get_address</primary></indexterm><programlisting><link linkend="NMIP6Address">NMIP6Address</link> *      nm_setting_ip6_config_get_address   (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-add-address" role="function">
+<title>nm_setting_ip6_config_add_address ()</title>
+<indexterm zone="nm-setting-ip6-config-add-address"><primary sortas="nm_setting_ip6_config_add_address">nm_setting_ip6_config_add_address</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ip6_config_add_address   (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="NMIP6Address">NMIP6Address</link> *address);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>address</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-remove-address" role="function">
+<title>nm_setting_ip6_config_remove_address ()</title>
+<indexterm zone="nm-setting-ip6-config-remove-address"><primary sortas="nm_setting_ip6_config_remove_address">nm_setting_ip6_config_remove_address</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_ip6_config_remove_address
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-clear-addresses" role="function">
+<title>nm_setting_ip6_config_clear_addresses ()</title>
+<indexterm zone="nm-setting-ip6-config-clear-addresses"><primary sortas="nm_setting_ip6_config_clear_addresses">nm_setting_ip6_config_clear_addresses</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_ip6_config_clear_addresses
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-get-num-routes" role="function">
+<title>nm_setting_ip6_config_get_num_routes ()</title>
+<indexterm zone="nm-setting-ip6-config-get-num-routes"><primary sortas="nm_setting_ip6_config_get_num_routes">nm_setting_ip6_config_get_num_routes</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_ip6_config_get_num_routes
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-get-route" role="function">
+<title>nm_setting_ip6_config_get_route ()</title>
+<indexterm zone="nm-setting-ip6-config-get-route"><primary sortas="nm_setting_ip6_config_get_route">nm_setting_ip6_config_get_route</primary></indexterm><programlisting><link linkend="NMIP6Route">NMIP6Route</link> *        nm_setting_ip6_config_get_route     (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-add-route" role="function">
+<title>nm_setting_ip6_config_add_route ()</title>
+<indexterm zone="nm-setting-ip6-config-add-route"><primary sortas="nm_setting_ip6_config_add_route">nm_setting_ip6_config_add_route</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ip6_config_add_route     (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="NMIP6Route">NMIP6Route</link> *route);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>route</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-remove-route" role="function">
+<title>nm_setting_ip6_config_remove_route ()</title>
+<indexterm zone="nm-setting-ip6-config-remove-route"><primary sortas="nm_setting_ip6_config_remove_route">nm_setting_ip6_config_remove_route</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_ip6_config_remove_route  (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting,
+                                                         <link linkend="guint32">guint32</link> i);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-clear-routes" role="function">
+<title>nm_setting_ip6_config_clear_routes ()</title>
+<indexterm zone="nm-setting-ip6-config-clear-routes"><primary sortas="nm_setting_ip6_config_clear_routes">nm_setting_ip6_config_clear_routes</primary></indexterm><programlisting><link linkend="void">void</link>                nm_setting_ip6_config_clear_routes  (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-get-ignore-auto-routes" role="function">
+<title>nm_setting_ip6_config_get_ignore_auto_routes ()</title>
+<indexterm zone="nm-setting-ip6-config-get-ignore-auto-routes"><primary sortas="nm_setting_ip6_config_get_ignore_auto_routes">nm_setting_ip6_config_get_ignore_auto_routes</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ip6_config_get_ignore_auto_routes
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-get-ignore-auto-dns" role="function">
+<title>nm_setting_ip6_config_get_ignore_auto_dns ()</title>
+<indexterm zone="nm-setting-ip6-config-get-ignore-auto-dns"><primary sortas="nm_setting_ip6_config_get_ignore_auto_dns">nm_setting_ip6_config_get_ignore_auto_dns</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ip6_config_get_ignore_auto_dns
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-setting-ip6-config-get-never-default" role="function">
+<title>nm_setting_ip6_config_get_never_default ()</title>
+<indexterm zone="nm-setting-ip6-config-get-never-default"><primary sortas="nm_setting_ip6_config_get_never_default">nm_setting_ip6_config_get_never_default</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ip6_config_get_never_default
+                                                        (<link linkend="NMSettingIP6Config">NMSettingIP6Config</link> *setting);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+<refsect1 id="NMSettingIP6Config.property-details" role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2 id="NMSettingIP6Config--addresses" role="property"><title>The <literal>&quot;addresses&quot;</literal> property</title>
+<indexterm zone="NMSettingIP6Config--addresses"><primary sortas="NMSettingIP6Config:addresses">NMSettingIP6Config:addresses</primary></indexterm><programlisting>  &quot;addresses&quot;                <link linkend="GPtrArray-GValueArray-GArray-guchar-+guint--*">GPtrArray_GValueArray_GArray_guchar_+guint__*</link>  : Read / Write</programlisting>
+<para>
+Array of IPv6 address structures.  Each IPv6 address structure is
+composed of 2 members, the first being a byte array containing the IPv6
+address (network byte order) and the second a 32-bit integer containing
+the IPv6 address prefix.  For the 'auto' method, given IP addresses are
+appended to those returned by automatic configuration.  Addresses cannot
+be used with the 'shared' or 'link-local' methods as the interface is
+automatically assigned an address with these methods.</para>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingIP6Config--dns" role="property"><title>The <literal>&quot;dns&quot;</literal> property</title>
+<indexterm zone="NMSettingIP6Config--dns"><primary sortas="NMSettingIP6Config:dns">NMSettingIP6Config:dns</primary></indexterm><programlisting>  &quot;dns&quot;                      <link linkend="GPtrArray-GArray-guchar--">GPtrArray_GArray_guchar__</link>*  : Read / Write</programlisting>
+<para>
+Array of DNS servers, where each member of the array is a byte array
+containing the IPv6 address of the DNS server (in network byte order).
+For the 'auto' method, these DNS servers are appended to those (if any)
+returned by automatic configuration.  DNS servers cannot be used with
+the 'shared' or 'link-local' methods as there is no usptream network. In
+all other methods, these DNS servers are used as the only DNS servers for
+this connection.</para>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingIP6Config--dns-search" role="property"><title>The <literal>&quot;dns-search&quot;</literal> property</title>
+<indexterm zone="NMSettingIP6Config--dns-search"><primary sortas="NMSettingIP6Config:dns-search">NMSettingIP6Config:dns-search</primary></indexterm><programlisting>  &quot;dns-search&quot;               <link linkend="GSList-gchararray-">GSList_gchararray_</link>*   : Read / Write</programlisting>
+<para>
+List of DNS search domains.  For the 'auto' method, these search domains
+are appended to those returned by automatic configuration. Search domains
+cannot be used with the 'shared' or 'link-local' methods as there is no
+upstream network.  In all other methods, these search domains are used
+as the only search domains for this connection.</para>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingIP6Config--ignore-auto-dns" role="property"><title>The <literal>&quot;ignore-auto-dns&quot;</literal> property</title>
+<indexterm zone="NMSettingIP6Config--ignore-auto-dns"><primary sortas="NMSettingIP6Config:ignore-auto-dns">NMSettingIP6Config:ignore-auto-dns</primary></indexterm><programlisting>  &quot;ignore-auto-dns&quot;          <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
+<para>
+When the method is set to 'auto' and this property to TRUE, automatically
+configured nameservers and search domains are ignored and only namservers
+and search domains specified in <link linkend="NMSettingIP6Config--dns"><type>"dns"</type></link> and
+<link linkend="NMSettingIP6Config--dns-search"><type>"dns-search"</type></link>, if any, are used.</para>
+<para>
+</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2 id="NMSettingIP6Config--ignore-auto-routes" role="property"><title>The <literal>&quot;ignore-auto-routes&quot;</literal> property</title>
+<indexterm zone="NMSettingIP6Config--ignore-auto-routes"><primary sortas="NMSettingIP6Config:ignore-auto-routes">NMSettingIP6Config:ignore-auto-routes</primary></indexterm><programlisting>  &quot;ignore-auto-routes&quot;       <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
+<para>
+When the method is set to 'auto' and this property to TRUE, automatically
+configured routes are ignored and only routes specified in
+<link linkend="NMSettingIP6Config--routes"><type>"routes"</type></link>, if any, are used.</para>
+<para>
+</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2 id="NMSettingIP6Config--method" role="property"><title>The <literal>&quot;method&quot;</literal> property</title>
+<indexterm zone="NMSettingIP6Config--method"><primary sortas="NMSettingIP6Config:method">NMSettingIP6Config:method</primary></indexterm><programlisting>  &quot;method&quot;                   <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>
+IPv6 configuration method.  If 'auto' is specified then the appropriate
+automatic method (DHCP, PPP, advertisement, etc) is used for the
+interface and most other properties can be left unset.  If 'link-local'
+is specified, then an IPv6 link-local address will be assigned to the
+interface.  If 'manual' is specified, static IP addressing is used and
+at least one IP address must be given in the 'addresses' property.  If
+'ignored' is specified, IPv6 configuration is not done. This property
+must be set.  NOTE: DHCP configuration and the 'shared' method are not
+yet supported.</para>
+<para>
+</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="NMSettingIP6Config--never-default" role="property"><title>The <literal>&quot;never-default&quot;</literal> property</title>
+<indexterm zone="NMSettingIP6Config--never-default"><primary sortas="NMSettingIP6Config:never-default">NMSettingIP6Config:never-default</primary></indexterm><programlisting>  &quot;never-default&quot;            <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
+<para>
+If TRUE, this connection will never be the default IPv6 connection,
+meaning it will never be assigned the default IPv6 route by NetworkManager.</para>
+<para>
+</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2 id="NMSettingIP6Config--routes" role="property"><title>The <literal>&quot;routes&quot;</literal> property</title>
+<indexterm zone="NMSettingIP6Config--routes"><primary sortas="NMSettingIP6Config:routes">NMSettingIP6Config:routes</primary></indexterm><programlisting>  &quot;routes&quot;                   <link linkend="GPtrArray-GValueArray-GArray-guchar-+guint+GArray-guchar-+guint--*">GPtrArray_GValueArray_GArray_guchar_+guint+GArray_guchar_+guint__*</link>  : Read / Write</programlisting>
+<para>
+Array of IPv6 route structures.  Each IPv6 route structure is composed
+of 4 members; the first being the destination IPv6 network or
+address (network byte order) as a byte array, the second the destination
+network or address IPv6 prefix, the third being the next-hop IPv6 address
+(network byte order) if any, and the fourth being the route metric. For
+the 'auto' method, given IP routes are appended to those returned by
+automatic configuration.  Routes cannot be used with the 'shared' or
+'link-local' methods because there is no upstream network.</para>
+<para>
+</para></refsect2>
+</refsect1>
+
+
+
+
+</refentry>

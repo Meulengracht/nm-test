@@ -24,8 +24,7 @@
 #include <glib.h>
 #include <nm-connection.h>
 
-#define TYPE_ETHERNET "Ethernet"
-#define TYPE_WIRELESS "Wireless"
+#include "shvar.h"
 
 NMConnection *connection_from_file (const char *filename,
                                     const char *network_file,
@@ -34,5 +33,7 @@ NMConnection *connection_from_file (const char *filename,
                                     char **keyfile,
                                     GError **error,
                                     gboolean *ignore_error);
+
+const char *reader_get_prefix (void);
 
 #endif  /* __READER_H__ */

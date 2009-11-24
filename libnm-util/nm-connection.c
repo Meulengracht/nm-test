@@ -290,6 +290,11 @@ nm_connection_lookup_setting_type (const char *name)
 	char *type_name;
 	GType type;
 
+	g_return_val_if_fail (name != NULL, G_TYPE_NONE);
+
+	if (!registered_settings)
+		register_default_settings ();
+
 	type_name = (char *) g_hash_table_lookup (registered_settings, name);
 	if (type_name) {
 		type = g_type_from_name (type_name);
@@ -1001,6 +1006,7 @@ nm_connection_new (void)
 /**
  * nm_connection_new_from_hash:
  * @hash: the #GHashTable describing the connection
+ * @error: location of a #GError to return on failure
  *
  * Creates a new #NMConnection from a hash table describing the connection.  See
  * nm_connection_to_hash() for a description of the expected hash table.

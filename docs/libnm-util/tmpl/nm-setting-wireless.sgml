@@ -145,7 +145,17 @@ NMSettingWireless
 
 </para>
 
+<!-- ##### ARG NMSettingWireless:bssid ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG NMSettingWireless:channel ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSettingWireless:mac-address ##### -->
 <para>
 
 </para>
@@ -166,6 +176,16 @@ NMSettingWireless
 </para>
 
 <!-- ##### ARG NMSettingWireless:security ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSettingWireless:seen-bssids ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSettingWireless:ssid ##### -->
 <para>
 
 </para>

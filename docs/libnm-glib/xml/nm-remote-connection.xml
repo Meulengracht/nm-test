@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="libnm-glib-NMRemoteConnection">
+<refmeta>
+<refentrytitle role="top_of_page" id="libnm-glib-NMRemoteConnection.top_of_page">NMRemoteConnection</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNM-GLIB Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>NMRemoteConnection</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id="libnm-glib-NMRemoteConnection.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="libnm-glib-NMRemoteConnection.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+</para>
+</refsect1>
+
+<refsect1 id="libnm-glib-NMRemoteConnection.details" role="details">
+<title role="details.title">Details</title>
+
+</refsect1>
+
+
+
+
+</refentry>

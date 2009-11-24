@@ -3,7 +3,7 @@
                "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
 <refentry id="NMDHCP4Config">
 <refmeta>
-<refentrytitle role="top_of_page">NMDHCP4Config</refentrytitle>
+<refentrytitle role="top_of_page" id="NMDHCP4Config.top_of_page">NMDHCP4Config</refentrytitle>
 <manvolnum>3</manvolnum>
 <refmiscinfo>LIBNM-GLIB Library</refmiscinfo>
 </refmeta>
@@ -11,143 +11,125 @@
 <refnamediv>
 <refname>NMDHCP4Config</refname>
 <refpurpose></refpurpose>
-<!--[<xref linkend="desc" endterm="desc.title"/>]-->
 </refnamediv>
 
-<refsynopsisdiv role="synopsis">
+<refsynopsisdiv id="NMDHCP4Config.synopsis" role="synopsis">
 <title role="synopsis.title">Synopsis</title>
 
 <synopsis>
-
-
-
                     <link linkend="NMDHCP4Config-struct">NMDHCP4Config</link>;
-#define             <link linkend="NM-DHCP4-CONFIG-OPTIONS:CAPS">NM_DHCP4_CONFIG_OPTIONS</link>
-<link linkend="GObject">GObject</link>*            <link linkend="nm-dhcp4-config-new">nm_dhcp4_config_new</link>                 (<link linkend="DBusGConnection">DBusGConnection</link> *connection,
+#define             <link linkend="NM-DHCP4-CONFIG-OPTIONS--CAPS">NM_DHCP4_CONFIG_OPTIONS</link>
+<link linkend="GObject">GObject</link> *           <link linkend="nm-dhcp4-config-new">nm_dhcp4_config_new</link>                 (<link linkend="DBusGConnection">DBusGConnection</link> *connection,
                                                          const <link linkend="char">char</link> *object_path);
-<link linkend="GHashTable">GHashTable</link>*         <link linkend="nm-dhcp4-config-get-options">nm_dhcp4_config_get_options</link>         (<link linkend="NMDHCP4Config">NMDHCP4Config</link> *config);
-const <link linkend="char">char</link>*         <link linkend="nm-dhcp4-config-get-one-option">nm_dhcp4_config_get_one_option</link>      (<link linkend="NMDHCP4Config">NMDHCP4Config</link> *config,
+<link linkend="GHashTable">GHashTable</link> *        <link linkend="nm-dhcp4-config-get-options">nm_dhcp4_config_get_options</link>         (<link linkend="NMDHCP4Config">NMDHCP4Config</link> *config);
+const <link linkend="char">char</link> *        <link linkend="nm-dhcp4-config-get-one-option">nm_dhcp4_config_get_one_option</link>      (<link linkend="NMDHCP4Config">NMDHCP4Config</link> *config,
                                                          const <link linkend="char">char</link> *option);
-
 </synopsis>
 </refsynopsisdiv>
 
-<refsect1 role="object_hierarchy">
+<refsect1 id="NMDHCP4Config.object-hierarchy" role="object_hierarchy">
 <title role="object_hierarchy.title">Object Hierarchy</title>
 <synopsis>
-
   <link linkend="GObject">GObject</link>
    +----<link linkend="NMObject">NMObject</link>
          +----NMDHCP4Config
 </synopsis>
-
 </refsect1>
 
 
 
 
 
-<refsect1 role="properties">
+<refsect1 id="NMDHCP4Config.properties" role="properties">
 <title role="properties.title">Properties</title>
 <synopsis>
-
-  &quot;<link linkend="NMDHCP4Config--options">options</link>&quot;                  <link linkend="GHashTable">GHashTable</link>            : Read
+  &quot;<link linkend="NMDHCP4Config--options">options</link>&quot;                  <link linkend="GHashTable">GHashTable</link>*           : Read
 </synopsis>
 </refsect1>
 
 
 
-<refsect1 role="desc">
+<refsect1 id="NMDHCP4Config.description" role="desc">
 <title role="desc.title">Description</title>
 <para>
-
 </para>
 </refsect1>
 
-<refsect1 role="details">
+<refsect1 id="NMDHCP4Config.details" role="details">
 <title role="details.title">Details</title>
-<refsect2>
-<title><anchor id="NMDHCP4Config-struct" role="struct"/>NMDHCP4Config</title>
-<indexterm><primary>NMDHCP4Config</primary></indexterm><programlisting>typedef struct _NMDHCP4Config NMDHCP4Config;</programlisting>
+<refsect2 id="NMDHCP4Config-struct" role="struct">
+<title>NMDHCP4Config</title>
+<indexterm zone="NMDHCP4Config-struct"><primary sortas="NMDHCP4Config">NMDHCP4Config</primary></indexterm><programlisting>typedef struct _NMDHCP4Config NMDHCP4Config;</programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="NM-DHCP4-CONFIG-OPTIONS:CAPS" role="macro"/>NM_DHCP4_CONFIG_OPTIONS</title>
-<indexterm><primary>NM_DHCP4_CONFIG_OPTIONS</primary></indexterm><programlisting>#define NM_DHCP4_CONFIG_OPTIONS "options"
+<refsect2 id="NM-DHCP4-CONFIG-OPTIONS--CAPS" role="macro">
+<title>NM_DHCP4_CONFIG_OPTIONS</title>
+<indexterm zone="NM-DHCP4-CONFIG-OPTIONS--CAPS"><primary sortas="NM_DHCP4_CONFIG_OPTIONS">NM_DHCP4_CONFIG_OPTIONS</primary></indexterm><programlisting>#define NM_DHCP4_CONFIG_OPTIONS "options"
 </programlisting>
 <para>
-
 </para></refsect2>
-<refsect2>
-<title><anchor id="nm-dhcp4-config-new" role="function"/>nm_dhcp4_config_new ()</title>
-<indexterm><primary>nm_dhcp4_config_new</primary></indexterm><programlisting><link linkend="GObject">GObject</link>*            nm_dhcp4_config_new                 (<link linkend="DBusGConnection">DBusGConnection</link> *connection,
+<refsect2 id="nm-dhcp4-config-new" role="function">
+<title>nm_dhcp4_config_new ()</title>
+<indexterm zone="nm-dhcp4-config-new"><primary sortas="nm_dhcp4_config_new">nm_dhcp4_config_new</primary></indexterm><programlisting><link linkend="GObject">GObject</link> *           nm_dhcp4_config_new                 (<link linkend="DBusGConnection">DBusGConnection</link> *connection,
                                                          const <link linkend="char">char</link> *object_path);</programlisting>
 <para>
 Creates a new <link linkend="NMDHCP4Config"><type>NMDHCP4Config</type></link>.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>connection</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>connection</parameter>&#160;:</term>
 <listitem><simpara> the <link linkend="DBusGConnection"><type>DBusGConnection</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>object_path</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>object_path</parameter>&#160;:</term>
 <listitem><simpara> the DBus object path of the device
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> a new configuration
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> a new configuration
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-dhcp4-config-get-options" role="function"/>nm_dhcp4_config_get_options ()</title>
-<indexterm><primary>nm_dhcp4_config_get_options</primary></indexterm><programlisting><link linkend="GHashTable">GHashTable</link>*         nm_dhcp4_config_get_options         (<link linkend="NMDHCP4Config">NMDHCP4Config</link> *config);</programlisting>
+<refsect2 id="nm-dhcp4-config-get-options" role="function">
+<title>nm_dhcp4_config_get_options ()</title>
+<indexterm zone="nm-dhcp4-config-get-options"><primary sortas="nm_dhcp4_config_get_options">nm_dhcp4_config_get_options</primary></indexterm><programlisting><link linkend="GHashTable">GHashTable</link> *        nm_dhcp4_config_get_options         (<link linkend="NMDHCP4Config">NMDHCP4Config</link> *config);</programlisting>
 <para>
 Gets all the options contained in the configuration.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>config</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>config</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMDHCP4Config"><type>NMDHCP4Config</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the <link linkend="GHashTable"><type>GHashTable</type></link> containing strings for keys and values.
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the <link linkend="GHashTable"><type>GHashTable</type></link> containing strings for keys and values.
 This is the internal copy used by the configuration, and must not be modified.
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2>
-<title><anchor id="nm-dhcp4-config-get-one-option" role="function"/>nm_dhcp4_config_get_one_option ()</title>
-<indexterm><primary>nm_dhcp4_config_get_one_option</primary></indexterm><programlisting>const <link linkend="char">char</link>*         nm_dhcp4_config_get_one_option      (<link linkend="NMDHCP4Config">NMDHCP4Config</link> *config,
+<refsect2 id="nm-dhcp4-config-get-one-option" role="function">
+<title>nm_dhcp4_config_get_one_option ()</title>
+<indexterm zone="nm-dhcp4-config-get-one-option"><primary sortas="nm_dhcp4_config_get_one_option">nm_dhcp4_config_get_one_option</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_dhcp4_config_get_one_option      (<link linkend="NMDHCP4Config">NMDHCP4Config</link> *config,
                                                          const <link linkend="char">char</link> *option);</programlisting>
 <para>
 Gets one option by option name.</para>
 <para>
-
 </para><variablelist role="params">
-<varlistentry><term><parameter>config</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>config</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMDHCP4Config"><type>NMDHCP4Config</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><parameter>option</parameter>&nbsp;:</term>
+<varlistentry><term><parameter>option</parameter>&#160;:</term>
 <listitem><simpara> the option to retrieve
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> the configuration option's value. This is the internal string used by the
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the configuration option's value. This is the internal string used by the
 configuration, and must not be modified.
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
 
 </refsect1>
-<refsect1 role="property_details">
+<refsect1 id="NMDHCP4Config.property-details" role="property_details">
 <title role="property_details.title">Property Details</title>
-<refsect2><title><anchor id="NMDHCP4Config--options"/>The <literal>&quot;options&quot;</literal> property</title>
-<indexterm><primary>NMDHCP4Config:options</primary></indexterm><programlisting>  &quot;options&quot;                  <link linkend="GHashTable">GHashTable</link>            : Read</programlisting>
+<refsect2 id="NMDHCP4Config--options" role="property"><title>The <literal>&quot;options&quot;</literal> property</title>
+<indexterm zone="NMDHCP4Config--options"><primary sortas="NMDHCP4Config:options">NMDHCP4Config:options</primary></indexterm><programlisting>  &quot;options&quot;                  <link linkend="GHashTable">GHashTable</link>*           : Read</programlisting>
 <para>
 The <link linkend="GHashTable"><type>GHashTable</type></link> containing options of the configuration.</para>
 <para>
-
 </para></refsect2>
-
 </refsect1>
 
 
 
 
-
-<refsect1><refsect2 /><refsect2 /></refsect1>
 </refentry>

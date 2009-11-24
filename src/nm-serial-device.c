@@ -19,15 +19,13 @@
  * Copyright (C) 2007 - 2008 Red Hat, Inc.
  */
 
-#define _GNU_SOURCE  /* for strcasestr() */
-
-#include <termio.h>
+#include "config.h"
+#include <termios.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <sys/ioctl.h>
 #include <string.h>
 #include <stdlib.h>
 #include <glib.h>
@@ -346,7 +344,7 @@ static gboolean
 config_fd (NMSerialDevice *device, NMSettingSerial *setting)
 {
 	NMSerialDevicePrivate *priv = NM_SERIAL_DEVICE_GET_PRIVATE (device);
-	struct termio stbuf;
+	struct termios stbuf;
 	int speed;
 	int bits;
 	int parity;
@@ -357,7 +355,7 @@ config_fd (NMSerialDevice *device, NMSettingSerial *setting)
 	parity = parse_parity (nm_setting_serial_get_parity (setting));
 	stopbits = parse_stopbits (nm_setting_serial_get_stopbits (setting));
 
-	ioctl (priv->fd, TCGETA, &stbuf);
+	tcgetattr (priv->fd, &stbuf);
 
 	stbuf.c_iflag &= ~(IGNCR | ICRNL | IUCLC | INPCK | IXON | IXANY | IGNPAR );
 	stbuf.c_oflag &= ~(OPOST | OLCUC | OCRNL | ONLCR | ONLRET);
@@ -370,7 +368,7 @@ config_fd (NMSerialDevice *device, NMSettingSerial *setting)
 	stbuf.c_cflag &= ~(CBAUD | CSIZE | CSTOPB | CLOCAL | PARENB);
 	stbuf.c_cflag |= (speed | bits | CREAD | 0 | parity | stopbits);
 
-	if (ioctl (priv->fd, TCSETA, &stbuf) < 0) {
+	if (tcsetattr (priv->fd, TCSANOW, &stbuf) < 0) {
 		nm_warning ("(%s) cannot control device (errno %d)",
 		            nm_device_get_iface (NM_DEVICE (device)), errno);
 		return FALSE;
@@ -393,6 +391,12 @@ nm_serial_device_open (NMSerialDevice *device,
 	priv = NM_SERIAL_DEVICE_GET_PRIVATE (device);
 	iface = nm_device_get_iface (NM_DEVICE (device));
 
+	if (priv->fd >= 0) {
+		nm_debug ("(%s) bug: device already open", iface);
+		nm_serial_device_close (device);
+		priv->fd = -1;
+	}
+
 	nm_debug ("(%s) opening device...", iface);
 
 	path = g_build_filename ("/dev", iface, NULL);
@@ -401,24 +405,26 @@ nm_serial_device_open (NMSerialDevice *device,
 
 	if (priv->fd < 0) {
 		nm_warning ("(%s) cannot open device (errno %d)", iface, errno);
-		return FALSE;
+		goto error;
 	}
 
-	if (ioctl (priv->fd, TCGETA, &priv->old_t) < 0) {
+	if (tcgetattr (priv->fd, &priv->old_t) < 0) {
 		nm_warning ("(%s) cannot control device (errno %d)", iface, errno);
-		close (priv->fd);
-		return FALSE;
+		goto error;
 	}
 
-	if (!config_fd (device, setting)) {
-		close (priv->fd);
-		return FALSE;
-	}
+	if (!config_fd (device, setting))
+		goto error;
 
 	priv->channel = g_io_channel_unix_new (priv->fd);
 	g_io_channel_set_encoding (priv->channel, NULL, NULL);
-
 	return TRUE;
+
+error:
+	if (priv->fd >= 0)
+		close (priv->fd);
+	priv->fd = -1;
+	return FALSE;
 }
 
 void
@@ -439,7 +445,7 @@ nm_serial_device_close (NMSerialDevice *device)
 		priv->ppp_manager = NULL;
 	}
 
-	if (priv->fd) {
+	if (priv->fd >= 0) {
 		nm_debug ("Closing device '%s'", nm_device_get_iface (NM_DEVICE (device)));
 
 		if (priv->channel) {
@@ -447,9 +453,9 @@ nm_serial_device_close (NMSerialDevice *device)
 			priv->channel = NULL;
 		}
 
-		ioctl (priv->fd, TCSETA, &priv->old_t);
+		tcsetattr (priv->fd, TCSANOW, &priv->old_t);
 		close (priv->fd);
-		priv->fd = 0;
+		priv->fd = -1;
 	}
 }
 
@@ -1047,7 +1053,7 @@ real_act_stage2_config (NMDevice *device, NMDeviceStateReason *reason)
 		ppp_name = serial_class->get_ppp_name (NM_SERIAL_DEVICE (device), req);
 
 	priv->ppp_manager = nm_ppp_manager_new (nm_device_get_iface (device));
-	if (nm_ppp_manager_start (priv->ppp_manager, req, ppp_name, &err)) {
+	if (nm_ppp_manager_start (priv->ppp_manager, req, ppp_name, 20, &err)) {
 		g_signal_connect (priv->ppp_manager, "state-changed",
 					   G_CALLBACK (ppp_state_changed),
 					   device);
@@ -1135,6 +1141,8 @@ nm_serial_device_init (NMSerialDevice *self)
 {
 	if (getenv ("NM_SERIAL_DEBUG"))
 		serial_debug = TRUE;
+
+	NM_SERIAL_DEVICE_GET_PRIVATE (self)->fd = -1;
 }
 
 static void

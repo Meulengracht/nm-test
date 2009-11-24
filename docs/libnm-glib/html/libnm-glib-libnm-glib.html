@@ -1,14 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>libnm_glib</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="libnm-glib Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.74.3">
+<link rel="home" href="index.html" title="libnm-glib Reference Manual">
 <link rel="up" href="ch01.html" title="[Insert title here]">
 <link rel="prev" href="libnm-glib-nm-vpn-plugin-ui-interface.html" title="nm-vpn-plugin-ui-interface">
 <link rel="next" href="libnm-glib-nm-types.html" title="nm-types">
-<meta name="generator" content="GTK-Doc V1.9 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="[Insert title here]">
 </head>
@@ -21,64 +21,59 @@
 <th width="100%" align="center">libnm-glib Reference Manual</th>
 <td><a accesskey="n" href="libnm-glib-nm-types.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#id2845396" class="shortcut">Top</a>
-                  &#160;|&#160;
-                  <a href="#id2880561" class="shortcut">Description</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#libnm-glib-libnm-glib.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#libnm-glib-libnm-glib.description" class="shortcut">Description</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="libnm-glib-libnm-glib"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
-<h2>
-<a name="id2845396"></a><span class="refentrytitle">libnm_glib</span>
-</h2>
+<h2><span class="refentrytitle"><a name="libnm-glib-libnm-glib.top_of_page"></a>libnm_glib</span></h2>
 <p>libnm_glib</p>
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
 <div class="refsynopsisdiv">
-<h2>Synopsis</h2>
+<a name="libnm-glib-libnm-glib.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
-
-
-
-enum                <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-state">libnm_glib_state</a>;
-typedef             <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx">libnm_glib_ctx</a>;
-void                (<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-callback-func">*libnm_glib_callback_func</a>)         (<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx">libnm_glib_ctx</a> *libnm_ctx,
+enum                <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-state" title="enum libnm_glib_state">libnm_glib_state</a>;
+typedef             <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx" title="libnm_glib_ctx">libnm_glib_ctx</a>;
+void                (<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-callback-func" title="libnm_glib_callback_func ()">*libnm_glib_callback_func</a>)         (<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx" title="libnm_glib_ctx">libnm_glib_ctx</a> *libnm_ctx,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);
-<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx">libnm_glib_ctx</a>*     <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-init">libnm_glib_init</a>                     (void);
-void                <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-shutdown">libnm_glib_shutdown</a>                 (<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx">libnm_glib_ctx</a> *ctx);
-<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-state">libnm_glib_state</a>    <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-get-network-state">libnm_glib_get_network_state</a>        (const <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx">libnm_glib_ctx</a> *ctx);
+<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx" title="libnm_glib_ctx">libnm_glib_ctx</a> *    <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-init" title="libnm_glib_init ()">libnm_glib_init</a>                     (void);
+void                <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-shutdown" title="libnm_glib_shutdown ()">libnm_glib_shutdown</a>                 (<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx" title="libnm_glib_ctx">libnm_glib_ctx</a> *ctx);
+<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-state" title="enum libnm_glib_state">libnm_glib_state</a>    <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-get-network-state" title="libnm_glib_get_network_state ()">libnm_glib_get_network_state</a>        (const <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx" title="libnm_glib_ctx">libnm_glib_ctx</a> *ctx);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
->guint</a>               <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-register-callback">libnm_glib_register_callback</a>        (<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx">libnm_glib_ctx</a> *ctx,
-                                                         <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-callback-func">libnm_glib_callback_func</a> func,
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
+>guint</a>               <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-register-callback" title="libnm_glib_register_callback ()">libnm_glib_register_callback</a>        (<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx" title="libnm_glib_ctx">libnm_glib_ctx</a> *ctx,
+                                                         <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-callback-func" title="libnm_glib_callback_func ()">libnm_glib_callback_func</a> func,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
+href="http://library.gnome.org/devel/glib/unstable/glib-The-Main-Event-Loop.html#GMainContext"
 >GMainContext</a> *g_main_ctx);
-void                <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-unregister-callback">libnm_glib_unregister_callback</a>      (<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx">libnm_glib_ctx</a> *ctx,
+void                <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-unregister-callback" title="libnm_glib_unregister_callback ()">libnm_glib_unregister_callback</a>      (<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx" title="libnm_glib_ctx">libnm_glib_ctx</a> *ctx,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a> id);
 </pre>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2880561"></a><h2>Description</h2>
+<a name="libnm-glib-libnm-glib.description"></a><h2>Description</h2>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
-<a name="id2880576"></a><h2>Details</h2>
+<a name="libnm-glib-libnm-glib.details"></a><h2>Details</h2>
 <div class="refsect2" lang="en">
-<a name="id2880587"></a><h3>
-<a name="libnm-glib-state"></a>enum libnm_glib_state</h3>
-<a class="indexterm" name="id2880600"></a><pre class="programlisting">typedef enum libnm_glib_state
+<a name="libnm-glib-state"></a><h3>enum libnm_glib_state</h3>
+<pre class="programlisting">typedef enum libnm_glib_state
 {
 	LIBNM_NO_DBUS = 0,
 	LIBNM_NO_NETWORKMANAGER,
@@ -88,43 +83,36 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 } libnm_glib_state;
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2880618"></a><h3>
-<a name="libnm-glib-ctx"></a>libnm_glib_ctx</h3>
-<a class="indexterm" name="id2880630"></a><pre class="programlisting">typedef struct libnm_glib_ctx libnm_glib_ctx;
+<a name="libnm-glib-ctx"></a><h3>libnm_glib_ctx</h3>
+<pre class="programlisting">typedef struct libnm_glib_ctx libnm_glib_ctx;
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2880647"></a><h3>
-<a name="libnm-glib-callback-func"></a>libnm_glib_callback_func ()</h3>
-<a class="indexterm" name="id2880658"></a><pre class="programlisting">void                (*libnm_glib_callback_func)         (<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx">libnm_glib_ctx</a> *libnm_ctx,
+<a name="libnm-glib-callback-func"></a><h3>libnm_glib_callback_func ()</h3>
+<pre class="programlisting">void                (*libnm_glib_callback_func)         (<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx" title="libnm_glib_ctx">libnm_glib_ctx</a> *libnm_ctx,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>libnm_ctx</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>libnm_ctx</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>user_data</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -132,63 +120,51 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2880725"></a><h3>
-<a name="libnm-glib-init"></a>libnm_glib_init ()</h3>
-<a class="indexterm" name="id2880738"></a><pre class="programlisting"><a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx">libnm_glib_ctx</a>*     libnm_glib_init                     (void);</pre>
+<a name="libnm-glib-init"></a><h3>libnm_glib_init ()</h3>
+<pre class="programlisting"><a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx" title="libnm_glib_ctx">libnm_glib_ctx</a> *    libnm_glib_init                     (void);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2881064"></a><h3>
-<a name="libnm-glib-shutdown"></a>libnm_glib_shutdown ()</h3>
-<a class="indexterm" name="id2881076"></a><pre class="programlisting">void                libnm_glib_shutdown                 (<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx">libnm_glib_ctx</a> *ctx);</pre>
+<a name="libnm-glib-shutdown"></a><h3>libnm_glib_shutdown ()</h3>
+<pre class="programlisting">void                libnm_glib_shutdown                 (<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx" title="libnm_glib_ctx">libnm_glib_ctx</a> *ctx);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><em class="parameter"><code>ctx</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>ctx</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2881122"></a><h3>
-<a name="libnm-glib-get-network-state"></a>libnm_glib_get_network_state ()</h3>
-<a class="indexterm" name="id2881135"></a><pre class="programlisting"><a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-state">libnm_glib_state</a>    libnm_glib_get_network_state        (const <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx">libnm_glib_ctx</a> *ctx);</pre>
+<a name="libnm-glib-get-network-state"></a><h3>libnm_glib_get_network_state ()</h3>
+<pre class="programlisting"><a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-state" title="enum libnm_glib_state">libnm_glib_state</a>    libnm_glib_get_network_state        (const <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx" title="libnm_glib_ctx">libnm_glib_ctx</a> *ctx);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>ctx</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>ctx</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -196,49 +172,45 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2881192"></a><h3>
-<a name="libnm-glib-register-callback"></a>libnm_glib_register_callback ()</h3>
-<a class="indexterm" name="id2881206"></a><pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
->guint</a>               libnm_glib_register_callback        (<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx">libnm_glib_ctx</a> *ctx,
-                                                         <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-callback-func">libnm_glib_callback_func</a> func,
+<a name="libnm-glib-register-callback"></a><h3>libnm_glib_register_callback ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
+>guint</a>               libnm_glib_register_callback        (<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx" title="libnm_glib_ctx">libnm_glib_ctx</a> *ctx,
+                                                         <a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-callback-func" title="libnm_glib_callback_func ()">libnm_glib_callback_func</a> func,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
+href="http://library.gnome.org/devel/glib/unstable/glib-The-Main-Event-Loop.html#GMainContext"
 >GMainContext</a> *g_main_ctx);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>ctx</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>ctx</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>func</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>func</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>user_data</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>g_main_ctx</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>g_main_ctx</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span>&#160;:</span></p></td>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
@@ -246,39 +218,33 @@ href="/usr/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2881327"></a><h3>
-<a name="libnm-glib-unregister-callback"></a>libnm_glib_unregister_callback ()</h3>
-<a class="indexterm" name="id2881340"></a><pre class="programlisting">void                libnm_glib_unregister_callback      (<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx">libnm_glib_ctx</a> *ctx,
+<a name="libnm-glib-unregister-callback"></a><h3>libnm_glib_unregister_callback ()</h3>
+<pre class="programlisting">void                libnm_glib_unregister_callback      (<a class="link" href="libnm-glib-libnm-glib.html#libnm-glib-ctx" title="libnm_glib_ctx">libnm_glib_ctx</a> *ctx,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a> id);</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>ctx</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>ctx</code></em> :</span></p></td>
 <td>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="parameter"><code>id</code></em>&#160;:</span></p></td>
+<td><p><span class="term"><em class="parameter"><code>id</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr>
 </tbody>
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
-<a name="id2881903"></a><div class="refsect2" lang="en"><a name="id2881904"></a></div>
+</div>
+<div class="footer">
 <hr>
-<div class="refsect2" lang="en"><a name="id2881905"></a></div>
-</div>
-</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

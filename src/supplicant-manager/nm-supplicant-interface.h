@@ -74,42 +74,52 @@ enum {
 #define NM_IS_SUPPLICANT_INTERFACE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass),  NM_TYPE_SUPPLICANT_INTERFACE))
 #define NM_SUPPLICANT_INTERFACE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj),  NM_TYPE_SUPPLICANT_INTERFACE, NMSupplicantInterfaceClass))
 
-struct _NMSupplicantInterface
-{
+struct _NMSupplicantInterface {
 	GObject parent;
 };
 
-typedef struct
-{
+typedef struct {
 	GObjectClass parent;
 
-	/* class members */
-	void (* state)            (NMSupplicantInterface * iface,
-	                           guint32 new_state,
-	                           guint32 old_state);
+	/* Signals */
 
-	void (* removed)          (NMSupplicantInterface * iface);
+	/* change in the interface's state */
+	void (*state)            (NMSupplicantInterface * iface,
+	                          guint32 new_state,
+	                          guint32 old_state);
 
-	void (* scanned_ap)       (NMSupplicantInterface * iface,
-	                           DBusMessage * message);
+	/* interface was removed by the supplicant */
+	void (*removed)          (NMSupplicantInterface * iface);
 
-	void (* scan_result)      (NMSupplicantInterface * iface, gboolean result);
+	/* interface saw a new access point from a scan */
+	void (*scanned_ap)       (NMSupplicantInterface * iface,
+	                          DBusMessage * message);
 
-	void (* connection_state) (NMSupplicantInterface * iface,
-	                           guint32 new_state,
-	                           guint32 old_state);
+	/* result of a wireless scan request */
+	void (*scan_req_result)  (NMSupplicantInterface * iface,
+	                          gboolean success);
 
-	void (* connection_error) (NMSupplicantInterface * iface,
-	                           const char * name,
-	                           const char * message);
+	/* scan results returned from supplicant */
+	void (*scan_results)     (NMSupplicantInterface * iface,
+	                          guint num_bssids);
+
+	/* link state of the device's connection */
+	void (*connection_state) (NMSupplicantInterface * iface,
+	                          guint32 new_state,
+	                          guint32 old_state);
+
+	/* an error occurred during a connection request */
+	void (*connection_error) (NMSupplicantInterface * iface,
+	                          const char * name,
+	                          const char * message);
 } NMSupplicantInterfaceClass;
 
 
 GType nm_supplicant_interface_get_type (void);
 
 NMSupplicantInterface * nm_supplicant_interface_new (NMSupplicantManager * smgr,
-													 const char *ifname,
-													 gboolean is_wireless);
+                                                     const char *ifname,
+                                                     gboolean is_wireless);
 
 gboolean nm_supplicant_interface_set_config (NMSupplicantInterface * iface,
                                              NMSupplicantConfig * cfg);
@@ -127,6 +137,8 @@ guint32 nm_supplicant_interface_get_connection_state (NMSupplicantInterface * se
 const char *nm_supplicant_interface_state_to_string (guint32 state);
 
 const char *nm_supplicant_interface_connection_state_to_string (guint32 state);
+
+gboolean nm_supplicant_interface_get_scanning (NMSupplicantInterface *self);
 
 G_END_DECLS
 
