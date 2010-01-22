@@ -87,8 +87,8 @@ const <link linkend="char">char</link> *        <link linkend="nm-connection-get
 <refsect1 id="NMConnection.properties" role="properties">
 <title role="properties.title">Properties</title>
 <synopsis>
-  &quot;<link linkend="NMConnection--path">path</link>&quot;                     <link linkend="gchar">gchar</link>*                : Read / Write
-  &quot;<link linkend="NMConnection--scope">scope</link>&quot;                    <link linkend="guint">guint</link>                 : Read / Write
+  &quot;<link linkend="NMConnection--path">path</link>&quot;                     <link linkend="gchar">gchar</link>*                : Read / Write / Construct
+  &quot;<link linkend="NMConnection--scope">scope</link>&quot;                    <link linkend="guint">guint</link>                 : Read / Write / Construct
 </synopsis>
 </refsect1>
 
@@ -258,7 +258,7 @@ Creates a new <link linkend="NMConnection"><type>NMConnection</type></link> from
 <listitem><simpara> the <link linkend="GHashTable"><type>GHashTable</type></link> describing the connection
 </simpara></listitem></varlistentry>
 <varlistentry><term><parameter>error</parameter>&#160;:</term>
-<listitem><simpara> location of a <link linkend="GError"><type>GError</type></link> to return on failure
+<listitem><simpara> on unsuccessful return, an error
 </simpara></listitem></varlistentry>
 <varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the new <link linkend="NMConnection"><type>NMConnection</type></link> object, populated with settings created
 from the values in the hash table, or NULL if the connection failed to
@@ -653,7 +653,7 @@ Useful for figuring out which setting a returned error is for.</para>
 <refsect1 id="NMConnection.property-details" role="property_details">
 <title role="property_details.title">Property Details</title>
 <refsect2 id="NMConnection--path" role="property"><title>The <literal>&quot;path&quot;</literal> property</title>
-<indexterm zone="NMConnection--path"><primary sortas="NMConnection:path">NMConnection:path</primary></indexterm><programlisting>  &quot;path&quot;                     <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<indexterm zone="NMConnection--path"><primary sortas="NMConnection:path">NMConnection:path</primary></indexterm><programlisting>  &quot;path&quot;                     <link linkend="gchar">gchar</link>*                : Read / Write / Construct</programlisting>
 <para>
 The connection's D-Bus path, used only by the calling process as a record
 of the D-Bus path of the connection as provided by a settings service.</para>
@@ -661,7 +661,7 @@ of the D-Bus path of the connection as provided by a settings service.</para>
 </para><para>Default value: NULL</para>
 </refsect2>
 <refsect2 id="NMConnection--scope" role="property"><title>The <literal>&quot;scope&quot;</literal> property</title>
-<indexterm zone="NMConnection--scope"><primary sortas="NMConnection:scope">NMConnection:scope</primary></indexterm><programlisting>  &quot;scope&quot;                    <link linkend="guint">guint</link>                 : Read / Write</programlisting>
+<indexterm zone="NMConnection--scope"><primary sortas="NMConnection:scope">NMConnection:scope</primary></indexterm><programlisting>  &quot;scope&quot;                    <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
 <para>
 The connection's scope, used only by the calling process as a record
 of which settings service the connection is provided by.  One of the

@@ -35,15 +35,17 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 noinst_PROGRAMS = test-settings-defaults$(EXEEXT) test-crypto$(EXEEXT) \
-	test-need-secrets$(EXEEXT)
+	test-need-secrets$(EXEEXT) test-general$(EXEEXT) \
+	test-setting-8021x$(EXEEXT)
 subdir = libnm-util/tests
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/compiler_warnings.m4 \
 	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/libnl-check.m4 $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -54,19 +56,31 @@ PROGRAMS = $(noinst_PROGRAMS)
 am_test_crypto_OBJECTS = test_crypto-test-crypto.$(OBJEXT)
 test_crypto_OBJECTS = $(am_test_crypto_OBJECTS)
 am__DEPENDENCIES_1 =
-test_crypto_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(top_builddir)/libnm-util/libtest-crypto.la
+test_crypto_DEPENDENCIES =  \
+	$(top_builddir)/libnm-util/libtest-crypto.la \
+	$(top_builddir)/libnm-util/libnm-util.la $(am__DEPENDENCIES_1)
+am_test_general_OBJECTS = test_general-test-general.$(OBJEXT)
+test_general_OBJECTS = $(am_test_general_OBJECTS)
+test_general_DEPENDENCIES = $(top_builddir)/libnm-util/libnm-util.la \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_test_need_secrets_OBJECTS =  \
 	test_need_secrets-test-need-secrets.$(OBJEXT)
 test_need_secrets_OBJECTS = $(am_test_need_secrets_OBJECTS)
 test_need_secrets_DEPENDENCIES =  \
 	$(top_builddir)/libnm-util/libnm-util.la $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
+am_test_setting_8021x_OBJECTS =  \
+	test_setting_8021x-test-setting-8021x.$(OBJEXT)
+test_setting_8021x_OBJECTS = $(am_test_setting_8021x_OBJECTS)
+test_setting_8021x_DEPENDENCIES =  \
+	$(top_builddir)/libnm-util/libnm-util.la $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 am_test_settings_defaults_OBJECTS =  \
 	test_settings_defaults-test-settings-defaults.$(OBJEXT)
 test_settings_defaults_OBJECTS = $(am_test_settings_defaults_OBJECTS)
-test_settings_defaults_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(top_builddir)/libnm-util/libnm-util.la
+test_settings_defaults_DEPENDENCIES =  \
+	$(top_builddir)/libnm-util/libnm-util.la $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -80,9 +94,11 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(test_crypto_SOURCES) $(test_need_secrets_SOURCES) \
+SOURCES = $(test_crypto_SOURCES) $(test_general_SOURCES) \
+	$(test_need_secrets_SOURCES) $(test_setting_8021x_SOURCES) \
 	$(test_settings_defaults_SOURCES)
-DIST_SOURCES = $(test_crypto_SOURCES) $(test_need_secrets_SOURCES) \
+DIST_SOURCES = $(test_crypto_SOURCES) $(test_general_SOURCES) \
+	$(test_need_secrets_SOURCES) $(test_setting_8021x_SOURCES) \
 	$(test_settings_defaults_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
@@ -173,8 +189,8 @@ GNUTLS_CFLAGS = @GNUTLS_CFLAGS@
 GNUTLS_LIBS = @GNUTLS_LIBS@
 GREP = @GREP@
 GTKDOC_CHECK = @GTKDOC_CHECK@
-HAL_CFLAGS = @HAL_CFLAGS@
-HAL_LIBS = @HAL_LIBS@
+GUDEV_CFLAGS = @GUDEV_CFLAGS@
+GUDEV_LIBS = @GUDEV_LIBS@
 HTML_DIR = @HTML_DIR@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -187,8 +203,10 @@ INTLTOOL_EXTRACT = @INTLTOOL_EXTRACT@
 INTLTOOL_MERGE = @INTLTOOL_MERGE@
 INTLTOOL_PERL = @INTLTOOL_PERL@
 INTLTOOL_UPDATE = @INTLTOOL_UPDATE@
+IPTABLES_PATH = @IPTABLES_PATH@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
+LIBDL = @LIBDL@
 LIBGCRYPT_CFLAGS = @LIBGCRYPT_CFLAGS@
 LIBGCRYPT_CONFIG = @LIBGCRYPT_CONFIG@
 LIBGCRYPT_LIBS = @LIBGCRYPT_LIBS@
@@ -198,8 +216,6 @@ LIBNL_LIBS = @LIBNL_LIBS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
-LIBUDEV_CFLAGS = @LIBUDEV_CFLAGS@
-LIBUDEV_LIBS = @LIBUDEV_LIBS@
 LIPO = @LIPO@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
@@ -229,7 +245,6 @@ PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POLKIT_CFLAGS = @POLKIT_CFLAGS@
 POLKIT_LIBS = @POLKIT_LIBS@
-POLKIT_POLICY_FILE_VALIDATE = @POLKIT_POLICY_FILE_VALIDATE@
 POSUB = @POSUB@
 PO_IN_DATADIR_FALSE = @PO_IN_DATADIR_FALSE@
 PO_IN_DATADIR_TRUE = @PO_IN_DATADIR_TRUE@
@@ -312,9 +327,9 @@ test_settings_defaults_CPPFLAGS = \
 	$(DBUS_CFLAGS)
 
 test_settings_defaults_LDADD = \
+	$(top_builddir)/libnm-util/libnm-util.la \
 	$(GLIB_LIBS) \
-	$(DBUS_LIBS) \
-	$(top_builddir)/libnm-util/libnm-util.la
+	$(DBUS_LIBS)
 
 test_crypto_SOURCES = \
 	test-crypto.c
@@ -323,8 +338,9 @@ test_crypto_CPPFLAGS = \
 	$(GLIB_CFLAGS)
 
 test_crypto_LDADD = \
-	$(GLIB_LIBS) \
-	$(top_builddir)/libnm-util/libtest-crypto.la
+	$(top_builddir)/libnm-util/libtest-crypto.la \
+	$(top_builddir)/libnm-util/libnm-util.la \
+	$(GLIB_LIBS)
 
 test_need_secrets_SOURCES = \
 	test-need-secrets.c
@@ -335,6 +351,30 @@ test_need_secrets_CPPFLAGS = \
 	$(DBUS_CFLAGS)
 
 test_need_secrets_LDADD = \
+	$(top_builddir)/libnm-util/libnm-util.la \
+	$(GLIB_LIBS) \
+	$(DBUS_LIBS)
+
+test_general_SOURCES = \
+	test-general.c
+
+test_general_CPPFLAGS = \
+	$(GLIB_CFLAGS) \
+	$(DBUS_CFLAGS)
+
+test_general_LDADD = \
+	$(top_builddir)/libnm-util/libnm-util.la \
+	$(GLIB_LIBS) \
+	$(DBUS_LIBS)
+
+test_setting_8021x_SOURCES = \
+	test-setting-8021x.c
+
+test_setting_8021x_CPPFLAGS = \
+	$(GLIB_CFLAGS) \
+	$(DBUS_CFLAGS)
+
+test_setting_8021x_LDADD = \
 	$(top_builddir)/libnm-util/libnm-util.la \
 	$(GLIB_LIBS) \
 	$(DBUS_LIBS)
@@ -385,9 +425,15 @@ clean-noinstPROGRAMS:
 test-crypto$(EXEEXT): $(test_crypto_OBJECTS) $(test_crypto_DEPENDENCIES) 
 	@rm -f test-crypto$(EXEEXT)
 	$(LINK) $(test_crypto_OBJECTS) $(test_crypto_LDADD) $(LIBS)
+test-general$(EXEEXT): $(test_general_OBJECTS) $(test_general_DEPENDENCIES) 
+	@rm -f test-general$(EXEEXT)
+	$(LINK) $(test_general_OBJECTS) $(test_general_LDADD) $(LIBS)
 test-need-secrets$(EXEEXT): $(test_need_secrets_OBJECTS) $(test_need_secrets_DEPENDENCIES) 
 	@rm -f test-need-secrets$(EXEEXT)
 	$(LINK) $(test_need_secrets_OBJECTS) $(test_need_secrets_LDADD) $(LIBS)
+test-setting-8021x$(EXEEXT): $(test_setting_8021x_OBJECTS) $(test_setting_8021x_DEPENDENCIES) 
+	@rm -f test-setting-8021x$(EXEEXT)
+	$(LINK) $(test_setting_8021x_OBJECTS) $(test_setting_8021x_LDADD) $(LIBS)
 test-settings-defaults$(EXEEXT): $(test_settings_defaults_OBJECTS) $(test_settings_defaults_DEPENDENCIES) 
 	@rm -f test-settings-defaults$(EXEEXT)
 	$(LINK) $(test_settings_defaults_OBJECTS) $(test_settings_defaults_LDADD) $(LIBS)
@@ -399,7 +445,9 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_crypto-test-crypto.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_general-test-general.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_need_secrets-test-need-secrets.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_setting_8021x-test-setting-8021x.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_settings_defaults-test-settings-defaults.Po@am__quote@
 
 .c.o:
@@ -440,6 +488,20 @@ test_crypto-test-crypto.obj: test-crypto.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_crypto_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o test_crypto-test-crypto.obj `if test -f 'test-crypto.c'; then $(CYGPATH_W) 'test-crypto.c'; else $(CYGPATH_W) '$(srcdir)/test-crypto.c'; fi`
 
+test_general-test-general.o: test-general.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_general_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT test_general-test-general.o -MD -MP -MF $(DEPDIR)/test_general-test-general.Tpo -c -o test_general-test-general.o `test -f 'test-general.c' || echo '$(srcdir)/'`test-general.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/test_general-test-general.Tpo $(DEPDIR)/test_general-test-general.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test-general.c' object='test_general-test-general.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_general_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o test_general-test-general.o `test -f 'test-general.c' || echo '$(srcdir)/'`test-general.c
+
+test_general-test-general.obj: test-general.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_general_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT test_general-test-general.obj -MD -MP -MF $(DEPDIR)/test_general-test-general.Tpo -c -o test_general-test-general.obj `if test -f 'test-general.c'; then $(CYGPATH_W) 'test-general.c'; else $(CYGPATH_W) '$(srcdir)/test-general.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/test_general-test-general.Tpo $(DEPDIR)/test_general-test-general.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test-general.c' object='test_general-test-general.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_general_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o test_general-test-general.obj `if test -f 'test-general.c'; then $(CYGPATH_W) 'test-general.c'; else $(CYGPATH_W) '$(srcdir)/test-general.c'; fi`
+
 test_need_secrets-test-need-secrets.o: test-need-secrets.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_need_secrets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT test_need_secrets-test-need-secrets.o -MD -MP -MF $(DEPDIR)/test_need_secrets-test-need-secrets.Tpo -c -o test_need_secrets-test-need-secrets.o `test -f 'test-need-secrets.c' || echo '$(srcdir)/'`test-need-secrets.c
 @am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/test_need_secrets-test-need-secrets.Tpo $(DEPDIR)/test_need_secrets-test-need-secrets.Po
@@ -453,6 +515,20 @@ test_need_secrets-test-need-secrets.obj: test-need-secrets.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test-need-secrets.c' object='test_need_secrets-test-need-secrets.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_need_secrets_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o test_need_secrets-test-need-secrets.obj `if test -f 'test-need-secrets.c'; then $(CYGPATH_W) 'test-need-secrets.c'; else $(CYGPATH_W) '$(srcdir)/test-need-secrets.c'; fi`
+
+test_setting_8021x-test-setting-8021x.o: test-setting-8021x.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_setting_8021x_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT test_setting_8021x-test-setting-8021x.o -MD -MP -MF $(DEPDIR)/test_setting_8021x-test-setting-8021x.Tpo -c -o test_setting_8021x-test-setting-8021x.o `test -f 'test-setting-8021x.c' || echo '$(srcdir)/'`test-setting-8021x.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/test_setting_8021x-test-setting-8021x.Tpo $(DEPDIR)/test_setting_8021x-test-setting-8021x.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test-setting-8021x.c' object='test_setting_8021x-test-setting-8021x.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_setting_8021x_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o test_setting_8021x-test-setting-8021x.o `test -f 'test-setting-8021x.c' || echo '$(srcdir)/'`test-setting-8021x.c
+
+test_setting_8021x-test-setting-8021x.obj: test-setting-8021x.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_setting_8021x_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT test_setting_8021x-test-setting-8021x.obj -MD -MP -MF $(DEPDIR)/test_setting_8021x-test-setting-8021x.Tpo -c -o test_setting_8021x-test-setting-8021x.obj `if test -f 'test-setting-8021x.c'; then $(CYGPATH_W) 'test-setting-8021x.c'; else $(CYGPATH_W) '$(srcdir)/test-setting-8021x.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/test_setting_8021x-test-setting-8021x.Tpo $(DEPDIR)/test_setting_8021x-test-setting-8021x.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test-setting-8021x.c' object='test_setting_8021x-test-setting-8021x.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_setting_8021x_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o test_setting_8021x-test-setting-8021x.obj `if test -f 'test-setting-8021x.c'; then $(CYGPATH_W) 'test-setting-8021x.c'; else $(CYGPATH_W) '$(srcdir)/test-setting-8021x.c'; fi`
 
 test_settings_defaults-test-settings-defaults.o: test-settings-defaults.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_settings_defaults_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT test_settings_defaults-test-settings-defaults.o -MD -MP -MF $(DEPDIR)/test_settings_defaults-test-settings-defaults.Tpo -c -o test_settings_defaults-test-settings-defaults.o `test -f 'test-settings-defaults.c' || echo '$(srcdir)/'`test-settings-defaults.c
@@ -789,9 +865,27 @@ uninstall-am:
 	tags tags-recursive uninstall uninstall-am
 
 
-@WITH_TESTS_TRUE@check-local: test-settings-defaults test-crypto
+@WITH_TESTS_TRUE@check-local: test-settings-defaults test-crypto test-need-secrets
 @WITH_TESTS_TRUE@	$(abs_builddir)/test-settings-defaults
 @WITH_TESTS_TRUE@	$(abs_builddir)/test-need-secrets
+@WITH_TESTS_TRUE@	$(abs_builddir)/test-general
+
+# Private key and CA certificate in the same file (PEM)
+@WITH_TESTS_TRUE@	$(abs_builddir)/test-setting-8021x \
+@WITH_TESTS_TRUE@		$(top_srcdir)/libnm-util/tests/certs/test_key_and_cert.pem \
+@WITH_TESTS_TRUE@		"test" \
+@WITH_TESTS_TRUE@		$(top_srcdir)/libnm-util/tests/certs/test-key-only-decrypted.der
+
+# Private key by itself (PEM)
+@WITH_TESTS_TRUE@	$(abs_builddir)/test-setting-8021x \
+@WITH_TESTS_TRUE@		$(top_srcdir)/libnm-util/tests/certs/test-key-only.pem \
+@WITH_TESTS_TRUE@		"test" \
+@WITH_TESTS_TRUE@		$(top_srcdir)/libnm-util/tests/certs/test-key-only-decrypted.der
+
+# Private key and CA certificate in the same file (pkcs12)
+@WITH_TESTS_TRUE@	$(abs_builddir)/test-setting-8021x \
+@WITH_TESTS_TRUE@		$(top_srcdir)/libnm-util/tests/certs/test-cert.p12 \
+@WITH_TESTS_TRUE@		"test"
 
 # Normal CA certificate
 @WITH_TESTS_TRUE@	$(abs_builddir)/test-crypto --cert \

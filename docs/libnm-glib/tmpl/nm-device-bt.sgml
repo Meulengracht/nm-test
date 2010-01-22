@@ -17,3 +17,68 @@ NMDeviceBt
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### MACRO NM_DEVICE_BT_HW_ADDRESS ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_DEVICE_BT_NAME ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_DEVICE_BT_CAPABILITIES ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### STRUCT NMDeviceBt ##### -->
+<para>
+
+</para>
+
+@parent: 
+
+<!-- ##### FUNCTION nm_device_bt_new ##### -->
+<para>
+
+</para>
+
+@connection: 
+@path: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_device_bt_get_hw_address ##### -->
+<para>
+
+</para>
+
+@device: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_device_bt_get_name ##### -->
+<para>
+
+</para>
+
+@device: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_device_bt_get_capabilities ##### -->
+<para>
+
+</para>
+
+@device: 
+@Returns: 
+
+

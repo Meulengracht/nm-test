@@ -4,7 +4,7 @@
   <interface name="org.freedesktop.NetworkManager.Device">
     <property name="Udi" type="s" access="read">
       <tp:docstring>
-        HAL UDI for the device.
+        Unique Device Identifier.
       </tp:docstring>
     </property>
     <property name="Interface" type="s" access="read">
@@ -42,6 +42,11 @@
         Object path of the Dhcp4Config object describing the DHCP options returned by the DHCP server.  Only valid when the device is in the NM_DEVICE_STATE_ACTIVATED state.
       </tp:docstring>
     </property>
+    <property name="Ip6Config" type="o" access="read">
+      <tp:docstring>
+        Object path of the Ip6Config object describing the configuration of the device.  Only valid when the device is in the NM_DEVICE_STATE_ACTIVATED state.
+      </tp:docstring>
+    </property>
     <property name="Managed" type="b" access="read">
       <tp:docstring>
         Whether or not this device is managed by NetworkManager.
@@ -53,6 +58,12 @@
       </tp:docstring>
     </property>
 
+    <method name="Disconnect">
+      <tp:docstring>
+        Disconnects a device and prevents the device from automatically activating further connections without user intervention.
+      </tp:docstring>
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol" value="impl_device_disconnect"/>
+    </method>
 
     <signal name="StateChanged">
       <arg name="new_state" type="u" tp:type="NM_DEVICE_STATE">
@@ -369,6 +380,16 @@
       <tp:enumvalue suffix="CARRIER" value="40">
         <tp:docstring>
           The device's carrier/link changed.
+        </tp:docstring>
+      </tp:enumvalue>
+      <tp:enumvalue suffix="CONNECTION_ASSUMED" value="41">
+        <tp:docstring>
+          The device's existing connection was assumed.
+        </tp:docstring>
+      </tp:enumvalue>
+      <tp:enumvalue suffix="SUPPLICANT_AVAILABLE" value="42">
+        <tp:docstring>
+          The 802.1x supplicant is now available.
         </tp:docstring>
       </tp:enumvalue>
 	</tp:enum>

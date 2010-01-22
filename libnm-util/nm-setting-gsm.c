@@ -76,11 +76,10 @@ typedef struct {
 
 	char *apn; /* NULL for dynamic */
 	char *network_id; /* for manual registration or NULL for automatic */
-	int network_type; /* One of the NM_GSM_NETWORK_* */
-	int band;
+	int network_type; /* One of the NM_SETTING_GSM_NETWORK_TYPE_* */
+	guint32 allowed_bands;     /* A bitfield of NM_SETTING_GSM_BAND_* */
 
 	char *pin;
-	char *puk;
 } NMSettingGsmPrivate;
 
 enum {
@@ -94,6 +93,7 @@ enum {
 	PROP_BAND,
 	PROP_PIN,
 	PROP_PUK,
+	PROP_ALLOWED_BANDS,
 
 	LAST_PROP
 };
@@ -164,9 +164,16 @@ nm_setting_gsm_get_network_type (NMSettingGsm *setting)
 int
 nm_setting_gsm_get_band (NMSettingGsm *setting)
 {
-	g_return_val_if_fail (NM_IS_SETTING_GSM (setting), -1);
+	g_warning ("Tried to get deprecated property " NM_SETTING_GSM_SETTING_NAME "/" NM_SETTING_GSM_BAND);
+	return -1;
+}
 
-	return NM_SETTING_GSM_GET_PRIVATE (setting)->band;
+guint32
+nm_setting_gsm_get_allowed_bands (NMSettingGsm *setting)
+{
+	g_return_val_if_fail (NM_IS_SETTING_GSM (setting), NM_SETTING_GSM_BAND_UNKNOWN);
+
+	return NM_SETTING_GSM_GET_PRIVATE (setting)->allowed_bands;
 }
 
 const char *
@@ -180,9 +187,8 @@ nm_setting_gsm_get_pin (NMSettingGsm *setting)
 const char *
 nm_setting_gsm_get_puk (NMSettingGsm *setting)
 {
-	g_return_val_if_fail (NM_IS_SETTING_GSM (setting), NULL);
-
-	return NM_SETTING_GSM_GET_PRIVATE (setting)->puk;
+	g_warning ("Tried to get deprecated property " NM_SETTING_GSM_SETTING_NAME "/" NM_SETTING_GSM_PUK);
+	return NULL;
 }
 
 static gboolean
@@ -299,7 +305,6 @@ finalize (GObject *object)
 	g_free (priv->apn);
 	g_free (priv->network_id);
 	g_free (priv->pin);
-	g_free (priv->puk);
 
 	G_OBJECT_CLASS (nm_setting_gsm_parent_class)->finalize (object);
 }
@@ -309,6 +314,7 @@ set_property (GObject *object, guint prop_id,
 		    const GValue *value, GParamSpec *pspec)
 {
 	NMSettingGsmPrivate *priv = NM_SETTING_GSM_GET_PRIVATE (object);
+	const char *str;
 
 	switch (prop_id) {
 	case PROP_NUMBER:
@@ -335,16 +341,21 @@ set_property (GObject *object, guint prop_id,
 		priv->network_type = g_value_get_int (value);
 		break;
 	case PROP_BAND:
-		priv->band = g_value_get_int (value);
+		if (g_value_get_int (value) != -1)
+			g_warning ("Tried to set deprecated property " NM_SETTING_GSM_SETTING_NAME "/" NM_SETTING_GSM_BAND);
+		break;
+	case PROP_ALLOWED_BANDS:
+		priv->allowed_bands = g_value_get_uint (value);
 		break;
 	case PROP_PIN:
 		g_free (priv->pin);
 		priv->pin = g_value_dup_string (value);
 		break;
 	case PROP_PUK:
-		g_free (priv->puk);
-		priv->puk = g_value_dup_string (value);
-		break;	
+		str = g_value_get_string (value);
+		if (str && strlen (str))
+			g_warning ("Tried to set deprecated property " NM_SETTING_GSM_SETTING_NAME "/" NM_SETTING_GSM_PUK);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
@@ -376,14 +387,19 @@ get_property (GObject *object, guint prop_id,
 	case PROP_NETWORK_TYPE:
 		g_value_set_int (value, nm_setting_gsm_get_network_type (setting));
 		break;
-	case PROP_BAND:
-		g_value_set_int (value, nm_setting_gsm_get_band (setting));
+	case PROP_ALLOWED_BANDS:
+		g_value_set_uint (value, nm_setting_gsm_get_allowed_bands (setting));
 		break;
 	case PROP_PIN:
 		g_value_set_string (value, nm_setting_gsm_get_pin (setting));
 		break;
 	case PROP_PUK:
-		g_value_set_string (value, nm_setting_gsm_get_puk (setting));
+		/* deprecated */
+		g_value_set_string (value, NULL);
+		break;
+	case PROP_BAND:
+		/* deprecated */
+		g_value_set_int (value, -1);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -526,9 +542,9 @@ nm_setting_gsm_class_init (NMSettingGsmClass *setting_class)
 					    "are: -1: any, 0: 3G only, 1: GPRS/EDGE only, "
 					    "2: prefer 3G, and 3: prefer 2G.  Note that not all "
 					    "devices allow network preference control.",
-					    NM_GSM_NETWORK_ANY,
-					    NM_GSM_NETWORK_PREFER_UMTS_HSPA,
-					    NM_GSM_NETWORK_ANY,
+					    NM_SETTING_GSM_NETWORK_TYPE_ANY,
+					    NM_SETTING_GSM_NETWORK_TYPE_PREFER_GPRS_EDGE,
+					    NM_SETTING_GSM_NETWORK_TYPE_ANY,
 					    G_PARAM_READWRITE | G_PARAM_CONSTRUCT | NM_SETTING_PARAM_SERIALIZE));
 
 	/**
@@ -538,12 +554,27 @@ nm_setting_gsm_class_init (NMSettingGsmClass *setting_class)
 	 * frequency band control.
 	 **/
 	g_object_class_install_property
-		(object_class, PROP_BAND,
-		 g_param_spec_int (NM_SETTING_GSM_BAND,
-					    "Band",
-					    "Band (currently unused)",
-					    -1, 5, -1, /* FIXME: Use an enum for it */
-					    G_PARAM_READWRITE | G_PARAM_CONSTRUCT | NM_SETTING_PARAM_SERIALIZE));
+		(object_class, PROP_ALLOWED_BANDS,
+		 g_param_spec_uint (NM_SETTING_GSM_ALLOWED_BANDS,
+		                    "Allowed Bands",
+		                    "Bitfield of allowed frequency bands.  Note that "
+		                    "not all devices allow frequency band control.",
+		                    NM_SETTING_GSM_BAND_UNKNOWN,
+		                    NM_SETTING_GSM_BAND_UNKNOWN
+		                     || NM_SETTING_GSM_BAND_ANY
+		                     || NM_SETTING_GSM_BAND_EGSM
+		                     || NM_SETTING_GSM_BAND_DCS
+		                     || NM_SETTING_GSM_BAND_PCS
+		                     || NM_SETTING_GSM_BAND_G850
+		                     || NM_SETTING_GSM_BAND_U2100
+		                     || NM_SETTING_GSM_BAND_U1800
+		                     || NM_SETTING_GSM_BAND_U17IV
+		                     || NM_SETTING_GSM_BAND_U800
+		                     || NM_SETTING_GSM_BAND_U850
+		                     || NM_SETTING_GSM_BAND_U900
+		                     || NM_SETTING_GSM_BAND_U17IX,
+		                    NM_SETTING_GSM_BAND_ANY,
+		                    G_PARAM_READWRITE | G_PARAM_CONSTRUCT | NM_SETTING_PARAM_SERIALIZE));
 
 	/**
 	 * NMSettingGsm:pin:
@@ -566,21 +597,26 @@ nm_setting_gsm_class_init (NMSettingGsmClass *setting_class)
 	/**
 	 * NMSettingGsm:puk:
 	 *
-	 * If the PIN is incorrectly entered too many times, the PUK (PIN Unlock
-	 * Code) is required before the device becomes operational.  It's usually
-	 * best not to enter the PUK due to the risk of completely locking your SIM
-	 * by entering a wrong PUK too many times.
+	 * DEPRECATED
 	 **/
 	g_object_class_install_property
 		(object_class, PROP_PUK,
 		 g_param_spec_string (NM_SETTING_GSM_PUK,
-						  "PUK",
-						  "If the PIN is incorrectly entered too many times, "
-						  "the PUK (PIN Unlock Code) is required before the "
-						  "device becomes operational.  It's usually best not "
-						  "to enter the PUK due to the risk of completely "
-						  "locking your SIM by entering a wrong PUK too many "
-						  "times.",
+						  "PUK (DEPRECATED and UNUSED)",
+						  "PUK (DEPRECATED and UNUSED)",
 						  NULL,
 						  G_PARAM_READWRITE | NM_SETTING_PARAM_SERIALIZE | NM_SETTING_PARAM_SECRET));
+
+	/**
+	 * NMSettingGsm:band:
+	 *
+	 * DEPRECATED
+	 **/
+	g_object_class_install_property
+		(object_class, PROP_BAND,
+		 g_param_spec_int (NM_SETTING_GSM_BAND,
+		                    "Band (DEPRECATED and UNUSED)",
+		                    "Band (DEPRECATED and UNUSED)",
+		                    -1, 5, -1,
+		                    G_PARAM_READWRITE | G_PARAM_CONSTRUCT | NM_SETTING_PARAM_SERIALIZE));
 }

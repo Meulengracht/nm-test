@@ -33,15 +33,21 @@
 #include <nm-setting-pppoe.h>
 #include <nm-setting-wireless-security.h>
 #include <nm-setting-8021x.h>
+#include <nm-settings-connection-interface.h>
 
 #include "common.h"
 #include "nm-ifcfg-connection.h"
-#include "nm-system-config-hal-manager.h"
 #include "reader.h"
 #include "writer.h"
 #include "nm-inotify-helper.h"
 
-G_DEFINE_TYPE (NMIfcfgConnection, nm_ifcfg_connection, NM_TYPE_SYSCONFIG_CONNECTION)
+static NMSettingsConnectionInterface *parent_settings_connection_iface;
+
+static void settings_connection_interface_init (NMSettingsConnectionInterface *klass);
+
+G_DEFINE_TYPE_EXTENDED (NMIfcfgConnection, nm_ifcfg_connection, NM_TYPE_SYSCONFIG_CONNECTION, 0,
+                        G_IMPLEMENT_INTERFACE (NM_TYPE_SETTINGS_CONNECTION_INTERFACE,
+                                               settings_connection_interface_init))
 
 #define NM_IFCFG_CONNECTION_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), NM_TYPE_IFCFG_CONNECTION, NMIfcfgConnectionPrivate))
 
@@ -54,12 +60,14 @@ typedef struct {
 	char *keyfile;
 	int keyfile_wd;
 
-	char *udi;
-	gboolean unmanaged;
+	char *routefile;
+	int routefile_wd;
 
-	NMSystemConfigHalManager *hal_mgr;
-	DBusGConnection *g_connection;
-	gulong daid;
+	char *route6file;
+	int route6file_wd;
+
+	char *udi;
+	char *unmanaged;
 } NMIfcfgConnectionPrivate;
 
 enum {
@@ -79,150 +87,6 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-static char *
-get_ether_device_udi (DBusGConnection *g_connection, const GByteArray *mac, GSList *devices)
-{
-	GError *error = NULL;
-	GSList *iter;
-	char *udi = NULL;
-
-	if (!g_connection || !mac)
-		return NULL;
-
-	for (iter = devices; !udi && iter; iter = g_slist_next (iter)) {
-		DBusGProxy *dev_proxy;
-		char *address = NULL;
-
-		dev_proxy = dbus_g_proxy_new_for_name (g_connection,
-		                                       "org.freedesktop.Hal",
-		                                       iter->data,
-		                                       "org.freedesktop.Hal.Device");
-		if (!dev_proxy)
-			continue;
-
-		if (dbus_g_proxy_call_with_timeout (dev_proxy,
-		                                    "GetPropertyString", 10000, &error,
-		                                    G_TYPE_STRING, "net.address", G_TYPE_INVALID,
-		                                    G_TYPE_STRING, &address, G_TYPE_INVALID)) {		
-			struct ether_addr *dev_mac;
-
-			if (address && strlen (address)) {
-				dev_mac = ether_aton (address);
-				if (!memcmp (dev_mac->ether_addr_octet, mac->data, ETH_ALEN))
-					udi = g_strdup (iter->data);
-			}
-		} else {
-			g_error_free (error);
-			error = NULL;
-		}
-		g_free (address);
-		g_object_unref (dev_proxy);
-	}
-
-	return udi;
-}
-
-static NMDeviceType
-get_device_type_for_connection (NMConnection *connection)
-{
-	NMDeviceType devtype = NM_DEVICE_TYPE_UNKNOWN;
-	NMSettingConnection *s_con;
-	const char *ctype;
-
-	s_con = NM_SETTING_CONNECTION (nm_connection_get_setting (connection, NM_TYPE_SETTING_CONNECTION));
-	if (!s_con)
-		return NM_DEVICE_TYPE_UNKNOWN;
-
-	ctype = nm_setting_connection_get_connection_type (s_con);
-
-	if (   !strcmp (ctype, NM_SETTING_WIRED_SETTING_NAME)
-	    || !strcmp (ctype, NM_SETTING_PPPOE_SETTING_NAME)) {
-		if (nm_connection_get_setting (connection, NM_TYPE_SETTING_WIRED))
-			devtype = NM_DEVICE_TYPE_ETHERNET;
-	} else if (!strcmp (ctype, NM_SETTING_WIRELESS_SETTING_NAME)) {
-		if (nm_connection_get_setting (connection, NM_TYPE_SETTING_WIRELESS))
-			devtype = NM_DEVICE_TYPE_WIFI;
-	} else if (!strcmp (ctype, NM_SETTING_GSM_SETTING_NAME)) {
-		if (nm_connection_get_setting (connection, NM_TYPE_SETTING_GSM))
-			devtype = NM_DEVICE_TYPE_GSM;
-	} else if (!strcmp (ctype, NM_SETTING_CDMA_SETTING_NAME)) {
-		if (nm_connection_get_setting (connection, NM_TYPE_SETTING_CDMA))
-			devtype = NM_DEVICE_TYPE_CDMA;
-	}
-
-	return devtype;
-}
-
-static char *
-get_udi_for_connection (NMConnection *connection,
-                        DBusGConnection *g_connection,
-                        NMSystemConfigHalManager *hal_mgr,
-                        NMDeviceType devtype)
-{
-	NMSettingWired *s_wired;
-	NMSettingWireless *s_wireless;
-	char *udi = NULL;
-	GSList *devices = NULL;
-
-	if (devtype == NM_DEVICE_TYPE_UNKNOWN)
-		devtype = get_device_type_for_connection (connection);
-
-	switch (devtype) {
-	case NM_DEVICE_TYPE_ETHERNET:
-		s_wired = (NMSettingWired *) nm_connection_get_setting (connection, NM_TYPE_SETTING_WIRED);
-		if (s_wired) {
-			devices = nm_system_config_hal_manager_get_devices_of_type (hal_mgr, NM_DEVICE_TYPE_ETHERNET);
-			udi = get_ether_device_udi (g_connection, nm_setting_wired_get_mac_address (s_wired), devices);
-		}
-		break;
-
-	case NM_DEVICE_TYPE_WIFI:
-		s_wireless = (NMSettingWireless *) nm_connection_get_setting (connection, NM_TYPE_SETTING_WIRELESS);
-		if (s_wireless) {
-			devices = nm_system_config_hal_manager_get_devices_of_type (hal_mgr, NM_DEVICE_TYPE_WIFI);
-			udi = get_ether_device_udi (g_connection, nm_setting_wireless_get_mac_address (s_wireless), devices);
-		}
-		break;
-
-	default:
-		break;
-	}
-
-	g_slist_foreach (devices, (GFunc) g_free, NULL);
-	g_slist_free (devices);
-
-	return udi;
-}
-
-static void
-device_added_cb (NMSystemConfigHalManager *hal_mgr,
-                 const char *udi,
-                 NMDeviceType devtype,
-                 gpointer user_data)
-{
-	NMIfcfgConnection *connection = NM_IFCFG_CONNECTION (user_data);
-	NMIfcfgConnectionPrivate *priv = NM_IFCFG_CONNECTION_GET_PRIVATE (connection);
-	NMConnection *wrapped;
-
-	/* Should only be called when udi is NULL */
-	g_return_if_fail (priv->udi == NULL);
-
-	wrapped = nm_exported_connection_get_connection (NM_EXPORTED_CONNECTION (connection));
-	if (devtype != get_device_type_for_connection (wrapped))
-		return;
-
-	priv->udi = get_udi_for_connection (wrapped, priv->g_connection, priv->hal_mgr, devtype);
-	if (!priv->udi)
-		return;
-
-	/* If the connection is unmanaged we have to tell the plugin */
-	if (priv->unmanaged)
-		g_object_notify (G_OBJECT (connection), NM_IFCFG_CONNECTION_UNMANAGED);
-
-	g_signal_handler_disconnect (G_OBJECT (hal_mgr), priv->daid);
-	priv->daid = 0;
-}
-
 static void
 files_changed_cb (NMInotifyHelper *ih,
                   struct inotify_event *evt,
@@ -232,7 +96,7 @@ files_changed_cb (NMInotifyHelper *ih,
 	NMIfcfgConnection *self = NM_IFCFG_CONNECTION (user_data);
 	NMIfcfgConnectionPrivate *priv = NM_IFCFG_CONNECTION_GET_PRIVATE (self);
 
-	if ((evt->wd != priv->file_wd) && (evt->wd != priv->keyfile_wd))
+	if ((evt->wd != priv->file_wd) && (evt->wd != priv->keyfile_wd) && (evt->wd != priv->routefile_wd) && (evt->wd != priv->route6file_wd))
 		return;
 
 	/* push the event up to the plugin */
@@ -241,43 +105,38 @@ files_changed_cb (NMInotifyHelper *ih,
 
 NMIfcfgConnection *
 nm_ifcfg_connection_new (const char *filename,
-                         DBusGConnection *g_connection,
-                         NMSystemConfigHalManager *hal_mgr,
                          GError **error,
                          gboolean *ignore_error)
 {
 	GObject *object;
 	NMIfcfgConnectionPrivate *priv;
-	NMConnection *wrapped;
-	gboolean unmanaged = FALSE;
-	char *udi;
+	NMConnection *tmp;
+	char *unmanaged = NULL;
 	char *keyfile = NULL;
+	char *routefile = NULL;
+	char *route6file = NULL;
 	NMInotifyHelper *ih;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
-	wrapped = connection_from_file (filename, NULL, NULL, &unmanaged, &keyfile, error, ignore_error);
-	if (!wrapped)
+	tmp = connection_from_file (filename, NULL, NULL, NULL, &unmanaged, &keyfile, &routefile, &route6file, error, ignore_error);
+	if (!tmp)
 		return NULL;
-
-	udi = get_udi_for_connection (wrapped, g_connection, hal_mgr, NM_DEVICE_TYPE_UNKNOWN);
 
 	object = (GObject *) g_object_new (NM_TYPE_IFCFG_CONNECTION,
 	                                   NM_IFCFG_CONNECTION_FILENAME, filename,
 	                                   NM_IFCFG_CONNECTION_UNMANAGED, unmanaged,
-	                                   NM_IFCFG_CONNECTION_UDI, udi,
-	                                   NM_EXPORTED_CONNECTION_CONNECTION, wrapped,
 	                                   NULL);
-	if (!object)
-		goto out;
+	if (!object) {
+		g_object_unref (tmp);
+		return NULL;
+	}
+
+	/* Update our settings with what was read from the file */
+	nm_sysconfig_connection_update (NM_SYSCONFIG_CONNECTION (object), tmp, FALSE, NULL);
+	g_object_unref (tmp);
 
 	priv = NM_IFCFG_CONNECTION_GET_PRIVATE (object);
-
-	if (!udi) {
-		priv->hal_mgr = g_object_ref (hal_mgr);
-		priv->g_connection = dbus_g_connection_ref (g_connection);
-		priv->daid = g_signal_connect (priv->hal_mgr, "device-added", G_CALLBACK (device_added_cb), object);
-	}
 
 	ih = nm_inotify_helper_get ();
 	priv->ih_event_id = g_signal_connect (ih, "event", G_CALLBACK (files_changed_cb), object);
@@ -287,10 +146,13 @@ nm_ifcfg_connection_new (const char *filename,
 	priv->keyfile = keyfile;
 	priv->keyfile_wd = nm_inotify_helper_add_watch (ih, keyfile);
 
-out:
-	g_object_unref (wrapped);
-	g_free (udi);
-	return (NMIfcfgConnection *) object;
+	priv->routefile = routefile;
+	priv->routefile_wd = nm_inotify_helper_add_watch (ih, routefile);
+
+	priv->route6file = route6file;
+	priv->route6file_wd = nm_inotify_helper_add_watch (ih, route6file);
+
+	return NM_IFCFG_CONNECTION (object);
 }
 
 const char *
@@ -302,57 +164,62 @@ nm_ifcfg_connection_get_filename (NMIfcfgConnection *self)
 }
 
 const char *
-nm_ifcfg_connection_get_udi (NMIfcfgConnection *self)
-{
-	g_return_val_if_fail (NM_IS_IFCFG_CONNECTION (self), NULL);
-
-	return NM_IFCFG_CONNECTION_GET_PRIVATE (self)->udi;
-}
-
-gboolean
-nm_ifcfg_connection_get_unmanaged (NMIfcfgConnection *self)
+nm_ifcfg_connection_get_unmanaged_spec (NMIfcfgConnection *self)
 {
 	g_return_val_if_fail (NM_IS_IFCFG_CONNECTION (self), FALSE);
 
 	return NM_IFCFG_CONNECTION_GET_PRIVATE (self)->unmanaged;
 }
 
-gboolean
-nm_ifcfg_connection_update (NMIfcfgConnection *self, GHashTable *new_settings, GError **error)
+static gboolean
+update (NMSettingsConnectionInterface *connection,
+	    NMSettingsConnectionInterfaceUpdateFunc callback,
+	    gpointer user_data)
 {
-	NMExportedConnection *exported = NM_EXPORTED_CONNECTION (self);
-	NMIfcfgConnectionPrivate *priv = NM_IFCFG_CONNECTION_GET_PRIVATE (exported);
-	NMConnection *connection;
+	NMIfcfgConnectionPrivate *priv = NM_IFCFG_CONNECTION_GET_PRIVATE (connection);
+	GError *error = NULL;
 
-	connection = nm_exported_connection_get_connection (exported);
-	if (!nm_connection_replace_settings (connection, new_settings, error))
+	if (!writer_update_connection (NM_CONNECTION (connection),
+	                               IFCFG_DIR,
+	                               priv->filename,
+	                               priv->keyfile,
+	                               &error)) {
+		callback (connection, error, user_data);
+		g_error_free (error);
 		return FALSE;
+	}
 
-	return writer_update_connection (connection, IFCFG_DIR, priv->filename, priv->keyfile, error);
+	return parent_settings_connection_iface->update (connection, callback, user_data);
 }
 
-static gboolean
-update (NMExportedConnection *exported, GHashTable *new_settings, GError **error)
+static gboolean 
+do_delete (NMSettingsConnectionInterface *connection,
+	       NMSettingsConnectionInterfaceDeleteFunc callback,
+	       gpointer user_data)
 {
-	if (!NM_EXPORTED_CONNECTION_CLASS (nm_ifcfg_connection_parent_class)->update (exported, new_settings, error))
-		return FALSE;
-
-	return nm_ifcfg_connection_update (NM_IFCFG_CONNECTION (exported), new_settings, error);
-}
-
-static gboolean
-do_delete (NMExportedConnection *exported, GError **error)
-{
-	NMIfcfgConnectionPrivate *priv = NM_IFCFG_CONNECTION_GET_PRIVATE (exported);
+	NMIfcfgConnectionPrivate *priv = NM_IFCFG_CONNECTION_GET_PRIVATE (connection);
 
 	g_unlink (priv->filename);
 	if (priv->keyfile)
 		g_unlink (priv->keyfile);
+	if (priv->routefile)
+		g_unlink (priv->routefile);
 
-	return TRUE;
+	if (priv->route6file)
+		g_unlink (priv->route6file);
+
+	return parent_settings_connection_iface->delete (connection, callback, user_data);
 }
 
 /* GObject */
+
+static void
+settings_connection_interface_init (NMSettingsConnectionInterface *iface)
+{
+	parent_settings_connection_iface = g_type_interface_peek_parent (iface);
+	iface->update = update;
+	iface->delete = do_delete;
+}
 
 static void
 nm_ifcfg_connection_init (NMIfcfgConnection *connection)
@@ -363,14 +230,11 @@ static void
 finalize (GObject *object)
 {
 	NMIfcfgConnectionPrivate *priv = NM_IFCFG_CONNECTION_GET_PRIVATE (object);
-	NMConnection *wrapped;
 	NMInotifyHelper *ih;
 
 	g_free (priv->udi);
 
-	wrapped = nm_exported_connection_get_connection (NM_EXPORTED_CONNECTION (object));
-	if (wrapped)
-		nm_connection_clear_secrets (wrapped);
+	nm_connection_clear_secrets (NM_CONNECTION (object));
 
 	ih = nm_inotify_helper_get ();
 
@@ -384,15 +248,13 @@ finalize (GObject *object)
 	if (priv->keyfile_wd >= 0)
 		nm_inotify_helper_remove_watch (ih, priv->keyfile_wd);
 
-	if (priv->hal_mgr) {
-		if (priv->daid)
-			g_signal_handler_disconnect (G_OBJECT (priv->hal_mgr), priv->daid);
+	g_free (priv->routefile);
+	if (priv->routefile_wd >= 0)
+		nm_inotify_helper_remove_watch (ih, priv->routefile_wd);
 
-		g_object_unref (priv->hal_mgr);
-	}
-
-	if (priv->g_connection)
-		dbus_g_connection_unref (priv->g_connection);
+	g_free (priv->route6file);
+	if (priv->route6file_wd >= 0)
+		nm_inotify_helper_remove_watch (ih, priv->route6file_wd);
 
 	G_OBJECT_CLASS (nm_ifcfg_connection_parent_class)->finalize (object);
 }
@@ -409,7 +271,7 @@ set_property (GObject *object, guint prop_id,
 		priv->filename = g_value_dup_string (value);
 		break;
 	case PROP_UNMANAGED:
-		priv->unmanaged = g_value_get_boolean (value);
+		priv->unmanaged = g_value_dup_string (value);
 		break;
 	case PROP_UDI:
 		/* Construct only */
@@ -432,7 +294,7 @@ get_property (GObject *object, guint prop_id,
 		g_value_set_string (value, priv->filename);
 		break;
 	case PROP_UNMANAGED:
-		g_value_set_boolean (value, priv->unmanaged);
+		g_value_set_string (value, priv->unmanaged);
 		break;
 	case PROP_UDI:
 		g_value_set_string (value, priv->udi);
@@ -447,7 +309,6 @@ static void
 nm_ifcfg_connection_class_init (NMIfcfgConnectionClass *ifcfg_connection_class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (ifcfg_connection_class);
-	NMExportedConnectionClass *connection_class = NM_EXPORTED_CONNECTION_CLASS (ifcfg_connection_class);
 
 	g_type_class_add_private (ifcfg_connection_class, sizeof (NMIfcfgConnectionPrivate));
 
@@ -455,9 +316,6 @@ nm_ifcfg_connection_class_init (NMIfcfgConnectionClass *ifcfg_connection_class)
 	object_class->set_property = set_property;
 	object_class->get_property = get_property;
 	object_class->finalize     = finalize;
-
-	connection_class->update       = update;
-	connection_class->do_delete    = do_delete;
 
 	/* Properties */
 	g_object_class_install_property
@@ -470,10 +328,10 @@ nm_ifcfg_connection_class_init (NMIfcfgConnectionClass *ifcfg_connection_class)
 
 	g_object_class_install_property
 		(object_class, PROP_UNMANAGED,
-		 g_param_spec_boolean (NM_IFCFG_CONNECTION_UNMANAGED,
+		 g_param_spec_string (NM_IFCFG_CONNECTION_UNMANAGED,
 						  "Unmanaged",
 						  "Unmanaged",
-						  FALSE,
+						  NULL,
 						  G_PARAM_READWRITE));
 
 	g_object_class_install_property

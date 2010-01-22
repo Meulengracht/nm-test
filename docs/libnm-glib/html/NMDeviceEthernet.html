@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>NMDeviceEthernet</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.74.3">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="index.html" title="libnm-glib Reference Manual">
 <link rel="up" href="ch01.html" title="[Insert title here]">
 <link rel="prev" href="NMActiveConnection.html" title="NMActiveConnection">
@@ -31,7 +31,7 @@
                 <a href="#NMDeviceEthernet.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="NMDeviceEthernet">
 <a name="NMDeviceEthernet"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -40,7 +40,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="NMDeviceEthernet.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
 #define             <a class="link" href="NMDeviceEthernet.html#NM-DEVICE-ETHERNET-HW-ADDRESS--CAPS" title="NM_DEVICE_ETHERNET_HW_ADDRESS">NM_DEVICE_ETHERNET_HW_ADDRESS</a>
@@ -62,7 +62,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolea
 >gboolean</a>            <a class="link" href="NMDeviceEthernet.html#nm-device-ethernet-get-carrier" title="nm_device_ethernet_get_carrier ()">nm_device_ethernet_get_carrier</a>      (<a class="link" href="NMDeviceEthernet.html" title="NMDeviceEthernet">NMDeviceEthernet</a> *device);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="NMDeviceEthernet.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
@@ -73,7 +73,7 @@ href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Ty
                +----NMDeviceEthernet
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="NMDeviceEthernet.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="NMDeviceEthernet.html#NMDeviceEthernet--carrier" title='The "carrier" property'>carrier</a>"                  <a
@@ -87,14 +87,14 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a>                 : Read
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="NMDeviceEthernet.description"></a><h2>Description</h2>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="NMDeviceEthernet.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_DEVICE_ETHERNET_HW_ADDRESS">
 <a name="NM-DEVICE-ETHERNET-HW-ADDRESS--CAPS"></a><h3>NM_DEVICE_ETHERNET_HW_ADDRESS</h3>
 <pre class="programlisting">#define NM_DEVICE_ETHERNET_HW_ADDRESS  "hw-address"
 </pre>
@@ -102,7 +102,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_DEVICE_ETHERNET_SPEED">
 <a name="NM-DEVICE-ETHERNET-SPEED--CAPS"></a><h3>NM_DEVICE_ETHERNET_SPEED</h3>
 <pre class="programlisting">#define NM_DEVICE_ETHERNET_SPEED       "speed"
 </pre>
@@ -110,7 +110,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_DEVICE_ETHERNET_CARRIER">
 <a name="NM-DEVICE-ETHERNET-CARRIER--CAPS"></a><h3>NM_DEVICE_ETHERNET_CARRIER</h3>
 <pre class="programlisting">#define NM_DEVICE_ETHERNET_CARRIER     "carrier"
 </pre>
@@ -118,14 +118,14 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NMDeviceEthernet">
 <a name="NMDeviceEthernet-struct"></a><h3>NMDeviceEthernet</h3>
 <pre class="programlisting">typedef struct _NMDeviceEthernet NMDeviceEthernet;</pre>
 <p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_device_ethernet_new ()">
 <a name="nm-device-ethernet-new"></a><h3>nm_device_ethernet_new ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject"
@@ -161,7 +161,7 @@ href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConn
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_device_ethernet_get_hw_address ()">
 <a name="nm-device-ethernet-get-hw-address"></a><h3>nm_device_ethernet_get_hw_address ()</h3>
 <pre class="programlisting">const char *        nm_device_ethernet_get_hw_address   (<a class="link" href="NMDeviceEthernet.html" title="NMDeviceEthernet">NMDeviceEthernet</a> *device);</pre>
 <p>
@@ -186,7 +186,7 @@ device, and must not be modified.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_device_ethernet_get_speed ()">
 <a name="nm-device-ethernet-get-speed"></a><h3>nm_device_ethernet_get_speed ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -212,7 +212,7 @@ Gets the speed of the <a class="link" href="NMDeviceEthernet.html" title="NMDevi
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_device_ethernet_get_carrier ()">
 <a name="nm-device-ethernet-get-carrier"></a><h3>nm_device_ethernet_get_carrier ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -240,9 +240,9 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRU
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="NMDeviceEthernet.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "carrier" property'>
 <a name="NMDeviceEthernet--carrier"></a><h3>The <code class="literal">"carrier"</code> property</h3>
 <pre class="programlisting">  "carrier"                  <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -254,7 +254,7 @@ Whether the device has carrier.</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "hw-address" property'>
 <a name="NMDeviceEthernet--hw-address"></a><h3>The <code class="literal">"hw-address"</code> property</h3>
 <pre class="programlisting">  "hw-address"               <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
@@ -266,7 +266,7 @@ The hardware (MAC) address of the device.</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "speed" property'>
 <a name="NMDeviceEthernet--speed"></a><h3>The <code class="literal">"speed"</code> property</h3>
 <pre class="programlisting">  "speed"                    <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"

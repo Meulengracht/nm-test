@@ -25,6 +25,7 @@
 #include <glib-object.h>
 #include "nm-connection.h"
 #include "nm-active-connection.h"
+#include "nm-secrets-provider-interface.h"
 
 #define NM_TYPE_ACT_REQUEST            (nm_act_request_get_type ())
 #define NM_ACT_REQUEST(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), NM_TYPE_ACT_REQUEST, NMActRequest))
@@ -37,28 +38,18 @@ typedef struct {
 	GObject parent;
 } NMActRequest;
 
-typedef enum {
-	SECRETS_CALLER_NONE = 0,
-	SECRETS_CALLER_ETHERNET,
-	SECRETS_CALLER_WIFI,
-	SECRETS_CALLER_GSM,
-	SECRETS_CALLER_CDMA,
-	SECRETS_CALLER_PPP,
-	SECRETS_CALLER_HSO_GSM
-} RequestSecretsCaller;
-
 typedef struct {
 	GObjectClass parent;
 
 	/* Signals */
-	void (*connection_secrets_updated)  (NMActRequest *req,
-	                                     NMConnection *connection,
-	                                     GSList *updated_settings,
-	                                     RequestSecretsCaller caller);
-	void (*connection_secrets_failed)   (NMActRequest *req,
-	                                     NMConnection *connection,
-	                                     const char *setting,
-	                                     RequestSecretsCaller caller);
+	void (*secrets_updated)        (NMActRequest *req,
+	                                NMConnection *connection,
+	                                GSList *updated_settings,
+	                                RequestSecretsCaller caller);
+	void (*secrets_failed)         (NMActRequest *req,
+	                                NMConnection *connection,
+	                                const char *setting,
+	                                RequestSecretsCaller caller);
 
 	void (*properties_changed) (NMActRequest *req, GHashTable *properties);
 } NMActRequestClass;
@@ -68,15 +59,10 @@ GType nm_act_request_get_type (void);
 NMActRequest *nm_act_request_new          (NMConnection *connection,
                                            const char *specific_object,
                                            gboolean user_requested,
+                                           gboolean assumed,
                                            gpointer *device);  /* An NMDevice */
 
 NMConnection *nm_act_request_get_connection     (NMActRequest *req);
-gboolean      nm_act_request_request_connection_secrets (NMActRequest *req,
-                                                         const char *setting_name,
-                                                         gboolean request_new,
-                                                         RequestSecretsCaller caller,
-                                                         const char *hint1,
-                                                         const char *hint2);
 const char *  nm_act_request_get_specific_object (NMActRequest *req);
 
 void          nm_act_request_set_specific_object (NMActRequest *req,
@@ -100,4 +86,14 @@ void          nm_act_request_add_share_rule (NMActRequest *req,
 
 GObject *     nm_act_request_get_device (NMActRequest *req);
 
+gboolean      nm_act_request_get_assumed (NMActRequest *req);
+
+gboolean nm_act_request_get_secrets    (NMActRequest *req,
+                                        const char *setting_name,
+                                        gboolean request_new,
+                                        RequestSecretsCaller caller,
+                                        const char *hint1,
+                                        const char *hint2);
+
 #endif /* NM_ACTIVATION_REQUEST_H */
+

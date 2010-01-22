@@ -34,15 +34,16 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-noinst_PROGRAMS = test-ifcfg-rh$(EXEEXT)
+noinst_PROGRAMS = test-ifcfg-rh$(EXEEXT) test-ifcfg-rh-utils$(EXEEXT)
 subdir = system-settings/plugins/ifcfg-rh/tests
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/compiler_warnings.m4 \
 	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/libnl-check.m4 $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -53,10 +54,14 @@ PROGRAMS = $(noinst_PROGRAMS)
 am_test_ifcfg_rh_OBJECTS = test_ifcfg_rh-test-ifcfg-rh.$(OBJEXT)
 test_ifcfg_rh_OBJECTS = $(am_test_ifcfg_rh_OBJECTS)
 am__DEPENDENCIES_1 =
-test_ifcfg_rh_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(top_builddir)/libnm-glib/libnm_glib.la \
+test_ifcfg_rh_DEPENDENCIES = $(top_builddir)/libnm-glib/libnm-glib.la \
 	$(top_builddir)/libnm-util/libnm-util.la \
-	$(top_builddir)/system-settings/plugins/ifcfg-rh/libifcfg-rh-io.la
+	$(top_builddir)/system-settings/plugins/ifcfg-rh/libifcfg-rh-io.la \
+	$(am__DEPENDENCIES_1)
+am_test_ifcfg_rh_utils_OBJECTS =  \
+	test_ifcfg_rh_utils-test-ifcfg-rh-utils.$(OBJEXT)
+test_ifcfg_rh_utils_OBJECTS = $(am_test_ifcfg_rh_utils_OBJECTS)
+test_ifcfg_rh_utils_DEPENDENCIES = $(top_builddir)/system-settings/plugins/ifcfg-rh/libifcfg-rh-io.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -70,8 +75,8 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(test_ifcfg_rh_SOURCES)
-DIST_SOURCES = $(test_ifcfg_rh_SOURCES)
+SOURCES = $(test_ifcfg_rh_SOURCES) $(test_ifcfg_rh_utils_SOURCES)
+DIST_SOURCES = $(test_ifcfg_rh_SOURCES) $(test_ifcfg_rh_utils_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-dvi-recursive install-exec-recursive \
@@ -161,8 +166,8 @@ GNUTLS_CFLAGS = @GNUTLS_CFLAGS@
 GNUTLS_LIBS = @GNUTLS_LIBS@
 GREP = @GREP@
 GTKDOC_CHECK = @GTKDOC_CHECK@
-HAL_CFLAGS = @HAL_CFLAGS@
-HAL_LIBS = @HAL_LIBS@
+GUDEV_CFLAGS = @GUDEV_CFLAGS@
+GUDEV_LIBS = @GUDEV_LIBS@
 HTML_DIR = @HTML_DIR@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -175,8 +180,10 @@ INTLTOOL_EXTRACT = @INTLTOOL_EXTRACT@
 INTLTOOL_MERGE = @INTLTOOL_MERGE@
 INTLTOOL_PERL = @INTLTOOL_PERL@
 INTLTOOL_UPDATE = @INTLTOOL_UPDATE@
+IPTABLES_PATH = @IPTABLES_PATH@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
+LIBDL = @LIBDL@
 LIBGCRYPT_CFLAGS = @LIBGCRYPT_CFLAGS@
 LIBGCRYPT_CONFIG = @LIBGCRYPT_CONFIG@
 LIBGCRYPT_LIBS = @LIBGCRYPT_LIBS@
@@ -186,8 +193,6 @@ LIBNL_LIBS = @LIBNL_LIBS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
-LIBUDEV_CFLAGS = @LIBUDEV_CFLAGS@
-LIBUDEV_LIBS = @LIBUDEV_LIBS@
 LIPO = @LIPO@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
@@ -217,7 +222,6 @@ PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POLKIT_CFLAGS = @POLKIT_CFLAGS@
 POLKIT_LIBS = @POLKIT_LIBS@
-POLKIT_POLICY_FILE_VALIDATE = @POLKIT_POLICY_FILE_VALIDATE@
 POSUB = @POSUB@
 PO_IN_DATADIR_FALSE = @PO_IN_DATADIR_FALSE@
 PO_IN_DATADIR_TRUE = @PO_IN_DATADIR_TRUE@
@@ -304,10 +308,27 @@ test_ifcfg_rh_CPPFLAGS = \
 	-DTEST_SCRATCH_DIR=\"$(abs_builddir)/\"
 
 test_ifcfg_rh_LDADD = \
-	$(DBUS_LIBS) \
-	$(top_builddir)/libnm-glib/libnm_glib.la \
+	$(top_builddir)/libnm-glib/libnm-glib.la \
 	$(top_builddir)/libnm-util/libnm-util.la \
+	$(top_builddir)/system-settings/plugins/ifcfg-rh/libifcfg-rh-io.la \
+	$(DBUS_LIBS)
+
+test_ifcfg_rh_utils_SOURCES = \
+	test-ifcfg-rh-utils.c
+
+test_ifcfg_rh_utils_CPPFLAGS = \
+	$(GLIB_CFLAGS)
+
+test_ifcfg_rh_utils_LDADD = \
 	$(top_builddir)/system-settings/plugins/ifcfg-rh/libifcfg-rh-io.la
+
+EXTRA_DIST = \
+	iscsiadm-test-dhcp \
+	iscsiadm-test-static \
+	iscsiadm-test-bad-ipaddr \
+	iscsiadm-test-bad-gateway \
+	iscsiadm-test-bad-dns1 \
+	iscsiadm-test-bad-dns2
 
 all: all-recursive
 
@@ -355,6 +376,9 @@ clean-noinstPROGRAMS:
 test-ifcfg-rh$(EXEEXT): $(test_ifcfg_rh_OBJECTS) $(test_ifcfg_rh_DEPENDENCIES) 
 	@rm -f test-ifcfg-rh$(EXEEXT)
 	$(LINK) $(test_ifcfg_rh_OBJECTS) $(test_ifcfg_rh_LDADD) $(LIBS)
+test-ifcfg-rh-utils$(EXEEXT): $(test_ifcfg_rh_utils_OBJECTS) $(test_ifcfg_rh_utils_DEPENDENCIES) 
+	@rm -f test-ifcfg-rh-utils$(EXEEXT)
+	$(LINK) $(test_ifcfg_rh_utils_OBJECTS) $(test_ifcfg_rh_utils_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -363,6 +387,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_ifcfg_rh-test-ifcfg-rh.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_ifcfg_rh_utils-test-ifcfg-rh-utils.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -401,6 +426,20 @@ test_ifcfg_rh-test-ifcfg-rh.obj: test-ifcfg-rh.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test-ifcfg-rh.c' object='test_ifcfg_rh-test-ifcfg-rh.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_ifcfg_rh_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o test_ifcfg_rh-test-ifcfg-rh.obj `if test -f 'test-ifcfg-rh.c'; then $(CYGPATH_W) 'test-ifcfg-rh.c'; else $(CYGPATH_W) '$(srcdir)/test-ifcfg-rh.c'; fi`
+
+test_ifcfg_rh_utils-test-ifcfg-rh-utils.o: test-ifcfg-rh-utils.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_ifcfg_rh_utils_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT test_ifcfg_rh_utils-test-ifcfg-rh-utils.o -MD -MP -MF $(DEPDIR)/test_ifcfg_rh_utils-test-ifcfg-rh-utils.Tpo -c -o test_ifcfg_rh_utils-test-ifcfg-rh-utils.o `test -f 'test-ifcfg-rh-utils.c' || echo '$(srcdir)/'`test-ifcfg-rh-utils.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/test_ifcfg_rh_utils-test-ifcfg-rh-utils.Tpo $(DEPDIR)/test_ifcfg_rh_utils-test-ifcfg-rh-utils.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test-ifcfg-rh-utils.c' object='test_ifcfg_rh_utils-test-ifcfg-rh-utils.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_ifcfg_rh_utils_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o test_ifcfg_rh_utils-test-ifcfg-rh-utils.o `test -f 'test-ifcfg-rh-utils.c' || echo '$(srcdir)/'`test-ifcfg-rh-utils.c
+
+test_ifcfg_rh_utils-test-ifcfg-rh-utils.obj: test-ifcfg-rh-utils.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_ifcfg_rh_utils_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT test_ifcfg_rh_utils-test-ifcfg-rh-utils.obj -MD -MP -MF $(DEPDIR)/test_ifcfg_rh_utils-test-ifcfg-rh-utils.Tpo -c -o test_ifcfg_rh_utils-test-ifcfg-rh-utils.obj `if test -f 'test-ifcfg-rh-utils.c'; then $(CYGPATH_W) 'test-ifcfg-rh-utils.c'; else $(CYGPATH_W) '$(srcdir)/test-ifcfg-rh-utils.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/test_ifcfg_rh_utils-test-ifcfg-rh-utils.Tpo $(DEPDIR)/test_ifcfg_rh_utils-test-ifcfg-rh-utils.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test-ifcfg-rh-utils.c' object='test_ifcfg_rh_utils-test-ifcfg-rh-utils.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_ifcfg_rh_utils_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o test_ifcfg_rh_utils-test-ifcfg-rh-utils.obj `if test -f 'test-ifcfg-rh-utils.c'; then $(CYGPATH_W) 'test-ifcfg-rh-utils.c'; else $(CYGPATH_W) '$(srcdir)/test-ifcfg-rh-utils.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -724,6 +763,7 @@ uninstall-am:
 
 
 @WITH_TESTS_TRUE@check-local: test-ifcfg-rh
+@WITH_TESTS_TRUE@	$(abs_builddir)/test-ifcfg-rh-utils
 @WITH_TESTS_TRUE@	$(abs_builddir)/test-ifcfg-rh
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

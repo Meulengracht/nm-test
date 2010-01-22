@@ -23,6 +23,10 @@
 #include "nm-setting-connection.h"
 #include "nm-device-interface.h"
 #include "nm-utils.h"
+#include "nm-properties-changed-signal.h"
+
+static gboolean impl_device_disconnect (NMDeviceInterface *device,
+                                        GError **error);
 
 #include "nm-device-interface-glue.h"
 
@@ -49,6 +53,8 @@ nm_device_interface_error_get_type (void)
 			ENUM_ENTRY (NM_DEVICE_INTERFACE_ERROR_CONNECTION_ACTIVATING, "ConnectionActivating"),
 			/* Connection is invalid for this device. */
 			ENUM_ENTRY (NM_DEVICE_INTERFACE_ERROR_CONNECTION_INVALID, "ConnectionInvalid"),
+			/* Operation could not be performed because the device is not active. */
+			ENUM_ENTRY (NM_DEVICE_INTERFACE_ERROR_NOT_ACTIVE, "NotActive"),
 			{ 0, 0, 0 }
 		};
 		etype = g_enum_register_static ("NMDeviceInterfaceError", values);
@@ -70,8 +76,8 @@ nm_device_interface_init (gpointer g_iface)
 	g_object_interface_install_property
 		(g_iface,
 		 g_param_spec_string (NM_DEVICE_INTERFACE_UDI,
-							  "Udi",
-							  "HAL Udi",
+							  "UDI",
+							  "Unique Device Identifier",
 							  NULL,
 							  G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 
@@ -125,6 +131,14 @@ nm_device_interface_init (gpointer g_iface)
 
 	g_object_interface_install_property
 		(g_iface,
+		 g_param_spec_boxed (NM_DEVICE_INTERFACE_IP6_CONFIG,
+							  "IP6 Config",
+							  "IP6 Config",
+							  DBUS_TYPE_G_OBJECT_PATH,
+							  G_PARAM_READWRITE));
+
+	g_object_interface_install_property
+		(g_iface,
 		 g_param_spec_uint (NM_DEVICE_INTERFACE_STATE,
 							"State",
 							"State",
@@ -137,14 +151,22 @@ nm_device_interface_init (gpointer g_iface)
 							"DeviceType",
 							"DeviceType",
 							0, G_MAXUINT32, NM_DEVICE_TYPE_UNKNOWN,
-							G_PARAM_READABLE));
+							G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | NM_PROPERTY_PARAM_NO_EXPORT));
 
 	g_object_interface_install_property
 		(g_iface, g_param_spec_boolean (NM_DEVICE_INTERFACE_MANAGED,
 	                                   "Managed",
 	                                   "Managed",
-	                                   TRUE,
+	                                   FALSE,
 	                                   G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_interface_install_property
+		(g_iface,
+		 g_param_spec_string (NM_DEVICE_INTERFACE_TYPE_DESC,
+							  "Type Description",
+							  "Device type description",
+							  NULL,
+							  G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | NM_PROPERTY_PARAM_NO_EXPORT));
 
 	/* Signals */
 	g_signal_new ("state-changed",
@@ -253,6 +275,39 @@ nm_device_interface_activate (NMDeviceInterface *device,
 	return success;
 }
 
+gboolean
+nm_device_interface_disconnect (NMDeviceInterface *device,
+                                GError **error)
+{
+	gboolean success = FALSE;
+
+	g_return_val_if_fail (NM_IS_DEVICE_INTERFACE (device), FALSE);
+
+	switch (nm_device_interface_get_state (device)) {
+	case NM_DEVICE_STATE_UNKNOWN:
+	case NM_DEVICE_STATE_UNMANAGED:
+	case NM_DEVICE_STATE_UNAVAILABLE:
+	case NM_DEVICE_STATE_DISCONNECTED:
+		g_set_error_literal (error,
+		                     NM_DEVICE_INTERFACE_ERROR,
+		                     NM_DEVICE_INTERFACE_ERROR_NOT_ACTIVE,
+		                     "Cannot disconnect an inactive device.");
+		break;
+	default:
+		success = NM_DEVICE_INTERFACE_GET_INTERFACE (device)->disconnect (device, error);
+		break;
+	}
+
+	return success;
+}
+
+static gboolean
+impl_device_disconnect (NMDeviceInterface *device,
+                        GError **error)
+{
+	return nm_device_interface_disconnect (device, error);
+}
+
 void
 nm_device_interface_deactivate (NMDeviceInterface *device, NMDeviceStateReason reason)
 {
@@ -268,5 +323,44 @@ nm_device_interface_get_state (NMDeviceInterface *device)
 
 	g_object_get (G_OBJECT (device), "state", &state, NULL);
 	return state;
+}
+
+gboolean
+nm_device_interface_spec_match_list (NMDeviceInterface *device,
+                                     const GSList *specs)
+{
+	g_return_val_if_fail (NM_IS_DEVICE_INTERFACE (device), FALSE);
+
+	if (NM_DEVICE_INTERFACE_GET_INTERFACE (device)->spec_match_list)
+		return NM_DEVICE_INTERFACE_GET_INTERFACE (device)->spec_match_list (device, specs);
+	return FALSE;
+}
+
+NMConnection *
+nm_device_interface_connection_match_config (NMDeviceInterface *device,
+                                             const GSList *connections)
+{
+	g_return_val_if_fail (NM_IS_DEVICE_INTERFACE (device), NULL);
+
+	if (NM_DEVICE_INTERFACE_GET_INTERFACE (device)->connection_match_config)
+		return NM_DEVICE_INTERFACE_GET_INTERFACE (device)->connection_match_config (device, connections);
+	return NULL;
+}
+
+gboolean
+nm_device_interface_can_assume_connection (NMDeviceInterface *device)
+{
+	g_return_val_if_fail (NM_IS_DEVICE_INTERFACE (device), FALSE);
+
+	return !!NM_DEVICE_INTERFACE_GET_INTERFACE (device)->connection_match_config;
+}
+
+void
+nm_device_interface_set_enabled (NMDeviceInterface *device, gboolean enabled)
+{
+	g_return_if_fail (NM_IS_DEVICE_INTERFACE (device));
+
+	if (NM_DEVICE_INTERFACE_GET_INTERFACE (device)->set_enabled)
+		return NM_DEVICE_INTERFACE_GET_INTERFACE (device)->set_enabled (device, enabled);
 }
 

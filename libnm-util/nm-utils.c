@@ -21,7 +21,7 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301 USA.
  *
- * (C) Copyright 2005 - 2008 Red Hat, Inc.
+ * (C) Copyright 2005 - 2009 Red Hat, Inc.
  */
 
 #include <string.h>
@@ -34,6 +34,7 @@
 
 #include <glib.h>
 #include <glib-object.h>
+#include <glib/gi18n.h>
 #include <dbus/dbus-glib.h>
 #include <uuid/uuid.h>
 
@@ -53,14 +54,6 @@
  * A collection of utility functions for working SSIDs, IP addresses, WiFi
  * access points and devices, among other things.
  */
-
-/* IP6 currently incomplete */
-GSList *nm_utils_ip6_addresses_from_gvalue (const GValue *value);
-void nm_utils_ip6_addresses_to_gvalue (GSList *list, GValue *value);
-
-GSList *nm_utils_ip6_dns_from_gvalue (const GValue *value);
-void nm_utils_ip6_dns_to_gvalue (GSList *list, GValue *value);
-
 
 struct EncodingTriplet
 {
@@ -1228,14 +1221,13 @@ nm_utils_ip6_addresses_from_gvalue (const GValue *value)
 	for (i = 0; addresses && (i < addresses->len); i++) {
 		GValueArray *elements = (GValueArray *) g_ptr_array_index (addresses, i);
 		GValue *tmp;
-		GByteArray *ba_addr, *ba_gw;
+		GByteArray *ba_addr;
 		NMIP6Address *addr;
 		guint32 prefix;
 
-		if (   (elements->n_values != 3)
+		if (   (elements->n_values != 2)
 		    || (G_VALUE_TYPE (g_value_array_get_nth (elements, 0)) != DBUS_TYPE_G_UCHAR_ARRAY)
-		    || (G_VALUE_TYPE (g_value_array_get_nth (elements, 1)) != G_TYPE_UINT)
-		    || (G_VALUE_TYPE (g_value_array_get_nth (elements, 2)) != DBUS_TYPE_G_UCHAR_ARRAY)) {
+		    || (G_VALUE_TYPE (g_value_array_get_nth (elements, 1)) != G_TYPE_UINT)) {
 			nm_warning ("%s: ignoring invalid IP6 address structure", __func__);
 			continue;
 		}
@@ -1256,18 +1248,9 @@ nm_utils_ip6_addresses_from_gvalue (const GValue *value)
 			continue;
 		}
 
-		tmp = g_value_array_get_nth (elements, 2);
-		ba_gw = g_value_get_boxed (tmp);
-		if (ba_gw->len != 16) {
-			nm_warning ("%s: ignoring invalid IP6 gateway of length %d",
-			            __func__, ba_gw->len);
-			continue;
-		}
-
 		addr = nm_ip6_address_new ();
 		nm_ip6_address_set_prefix (addr, prefix);
 		nm_ip6_address_set_address (addr, (const struct in6_addr *) ba_addr->data);
-		nm_ip6_address_set_gateway (addr, (const struct in6_addr *) ba_gw->data);
 		list = g_slist_prepend (list, addr);
 	}
 
@@ -1284,29 +1267,129 @@ nm_utils_ip6_addresses_to_gvalue (GSList *list, GValue *value)
 
 	for (iter = list; iter; iter = iter->next) {
 		NMIP6Address *addr = (NMIP6Address *) iter->data;
-		GValue element = { 0, };
-		GByteArray *ba_addr, *ba_gw;
+		GValueArray *array;
+		GValue element = {0, };
+		GByteArray *ba;
 
-		g_value_init (&element, DBUS_TYPE_G_IP6_ADDRESS);
-		g_value_take_boxed (&element, dbus_g_type_specialized_construct (DBUS_TYPE_G_IP6_ADDRESS));
+		array = g_value_array_new (2);
 
-		ba_addr = g_byte_array_sized_new (16);
-		g_byte_array_append (ba_addr, (guint8 *) nm_ip6_address_get_address (addr), 16);
-
-		ba_gw = g_byte_array_sized_new (16);
-		g_byte_array_append (ba_gw, (guint8 *) nm_ip6_address_get_gateway (addr), 16);
-
-		dbus_g_type_struct_set (&element,
-		                        0, ba_addr,
-		                        1, nm_ip6_address_get_prefix (addr),
-		                        2, ba_gw,
-		                        G_MAXUINT);
-
-		g_ptr_array_add (addresses, g_value_get_boxed (&element));
+		g_value_init (&element, DBUS_TYPE_G_UCHAR_ARRAY);
+		ba = g_byte_array_new ();
+		g_byte_array_append (ba, (guint8 *) nm_ip6_address_get_address (addr), 16);
+		g_value_take_boxed (&element, ba);
+		g_value_array_append (array, &element);
 		g_value_unset (&element);
+
+		g_value_init (&element, G_TYPE_UINT);
+		g_value_set_uint (&element, nm_ip6_address_get_prefix (addr));
+		g_value_array_append (array, &element);
+		g_value_unset (&element);
+
+		g_ptr_array_add (addresses, array);
 	}
 
 	g_value_take_boxed (value, addresses);
+}
+
+GSList *
+nm_utils_ip6_routes_from_gvalue (const GValue *value)
+{
+	GPtrArray *routes;
+	int i;
+	GSList *list = NULL;
+
+	routes = (GPtrArray *) g_value_get_boxed (value);
+	for (i = 0; routes && (i < routes->len); i++) {
+		GValueArray *route_values = (GValueArray *) g_ptr_array_index (routes, i);
+		GByteArray *dest, *next_hop;
+		guint prefix, metric;
+		NMIP6Route *route;
+
+		if (   (route_values->n_values != 4)
+		    || (G_VALUE_TYPE (g_value_array_get_nth (route_values, 0)) != DBUS_TYPE_G_UCHAR_ARRAY)
+			|| (G_VALUE_TYPE (g_value_array_get_nth (route_values, 1)) != G_TYPE_UINT)
+		    || (G_VALUE_TYPE (g_value_array_get_nth (route_values, 2)) != DBUS_TYPE_G_UCHAR_ARRAY)
+			|| (G_VALUE_TYPE (g_value_array_get_nth (route_values, 3)) != G_TYPE_UINT)) {
+			nm_warning ("Ignoring invalid IP6 route");
+			continue;
+		}
+
+		dest = g_value_get_boxed (g_value_array_get_nth (route_values, 0));
+		if (dest->len != 16) {
+			nm_warning ("%s: ignoring invalid IP6 dest address of length %d",
+			            __func__, dest->len);
+			continue;
+		}
+
+		prefix = g_value_get_uint (g_value_array_get_nth (route_values, 1));
+
+		next_hop = g_value_get_boxed (g_value_array_get_nth (route_values, 2));
+		if (next_hop->len != 16) {
+			nm_warning ("%s: ignoring invalid IP6 next_hop address of length %d",
+			            __func__, next_hop->len);
+			continue;
+		}
+
+		metric = g_value_get_uint (g_value_array_get_nth (route_values, 3));
+
+		route = nm_ip6_route_new ();
+		nm_ip6_route_set_dest (route, (struct in6_addr *)dest->data);
+		nm_ip6_route_set_prefix (route, prefix);
+		nm_ip6_route_set_next_hop (route, (struct in6_addr *)next_hop->data);
+		nm_ip6_route_set_metric (route, metric);
+		list = g_slist_prepend (list, route);
+	}
+
+	return g_slist_reverse (list);
+}
+
+void
+nm_utils_ip6_routes_to_gvalue (GSList *list, GValue *value)
+{
+	GPtrArray *routes;
+	GSList *iter;
+
+	routes = g_ptr_array_new ();
+
+	for (iter = list; iter; iter = iter->next) {
+		NMIP6Route *route = (NMIP6Route *) iter->data;
+		GValueArray *array;
+		const struct in6_addr *addr;
+		GByteArray *ba;
+		GValue element = {0, };
+
+		array = g_value_array_new (4);
+
+		g_value_init (&element, DBUS_TYPE_G_UCHAR_ARRAY);
+		addr = nm_ip6_route_get_dest (route);
+		ba = g_byte_array_new ();
+		g_byte_array_append (ba, (guchar *)addr, sizeof (*addr));
+		g_value_take_boxed (&element, ba);
+		g_value_array_append (array, &element);
+		g_value_unset (&element);
+
+		g_value_init (&element, G_TYPE_UINT);
+		g_value_set_uint (&element, nm_ip6_route_get_prefix (route));
+		g_value_array_append (array, &element);
+		g_value_unset (&element);
+
+		g_value_init (&element, DBUS_TYPE_G_UCHAR_ARRAY);
+		addr = nm_ip6_route_get_next_hop (route);
+		ba = g_byte_array_new ();
+		g_byte_array_append (ba, (guchar *)addr, sizeof (*addr));
+		g_value_take_boxed (&element, ba);
+		g_value_array_append (array, &element);
+		g_value_unset (&element);
+
+		g_value_init (&element, G_TYPE_UINT);
+		g_value_set_uint (&element, nm_ip6_route_get_metric (route));
+		g_value_array_append (array, &element);
+		g_value_unset (&element);
+
+		g_ptr_array_add (routes, array);
+	}
+
+	g_value_take_boxed (value, routes);
 }
 
 GSList *
@@ -1414,5 +1497,205 @@ nm_utils_uuid_generate_from_string (const char *s)
 out:
 	g_free (uuid);
 	return buf;
+}
+
+static char *
+make_key (const char *salt,
+          const gsize salt_len,
+          const char *password,
+          gsize *out_len,
+          GError **error)
+{
+	char *key;
+	guint32 digest_len = 24; /* DES-EDE3-CBC */
+
+	g_return_val_if_fail (salt != NULL, NULL);
+	g_return_val_if_fail (salt_len >= 8, NULL);
+	g_return_val_if_fail (password != NULL, NULL);
+	g_return_val_if_fail (out_len != NULL, NULL);
+
+	key = g_malloc0 (digest_len + 1);
+	if (!key) {
+		g_set_error (error,
+		             NM_CRYPTO_ERROR,
+		             NM_CRYPTO_ERR_OUT_OF_MEMORY,
+		             _("Not enough memory to make encryption key."));
+		return NULL;
+	}
+
+	if (!crypto_md5_hash (salt, salt_len, password, strlen (password), key, digest_len, error)) {
+		*out_len = 0;
+		memset (key, 0, digest_len);
+		g_free (key);
+		key = NULL;
+	} else
+		*out_len = digest_len;
+
+	return key;
+}
+
+/*
+ * utils_bin2hexstr
+ *
+ * Convert a byte-array into a hexadecimal string.
+ *
+ * Code originally by Alex Larsson <alexl@redhat.com> and
+ *  copyright Red Hat, Inc. under terms of the LGPL.
+ *
+ */
+static char *
+utils_bin2hexstr (const char *bytes, int len, int final_len)
+{
+	static char hex_digits[] = "0123456789abcdef";
+	char *result;
+	int i;
+	gsize buflen = (len * 2) + 1;
+
+	g_return_val_if_fail (bytes != NULL, NULL);
+	g_return_val_if_fail (len > 0, NULL);
+	g_return_val_if_fail (len < 4096, NULL);   /* Arbitrary limit */
+	if (final_len > -1)
+		g_return_val_if_fail (final_len < buflen, NULL);
+
+	result = g_malloc0 (buflen);
+	for (i = 0; i < len; i++)
+	{
+		result[2*i] = hex_digits[(bytes[i] >> 4) & 0xf];
+		result[2*i+1] = hex_digits[bytes[i] & 0xf];
+	}
+	/* Cut converted key off at the correct length for this cipher type */
+	if (final_len > -1)
+		result[final_len] = '\0';
+	else
+		result[buflen - 1] = '\0';
+
+	return result;
+}
+
+/**
+ * nm_utils_rsa_key_encrypt:
+ * @data: RSA private key data to be encrypted
+ * @in_password: existing password to use, if any
+ * @out_password: if @in_password was NULL, a random password will be generated
+ *  and returned in this argument
+ * @error: detailed error information on return, if an error occurred
+ *
+ * Encrypts the given RSA private key data with the given password (or generates
+ * a password if no password was given) and converts the data to PEM format
+ * suitable for writing to a file.
+ *
+ * Returns: on success, PEM-formatted data suitable for writing to a PEM-formatted
+ * certificate/private key file.
+ **/
+GByteArray *
+nm_utils_rsa_key_encrypt (const GByteArray *data,
+                          const char *in_password,
+                          char **out_password,
+                          GError **error)
+{
+	char salt[8];
+	char *key = NULL, *enc = NULL, *pw_buf[32];
+	gsize key_len = 0, enc_len = 0;
+	GString *pem = NULL;
+	char *tmp, *tmp_password = NULL;
+	int left;
+	const char *p;
+	GByteArray *ret = NULL;
+
+	g_return_val_if_fail (data != NULL, NULL);
+	g_return_val_if_fail (data->len > 0, NULL);
+	if (out_password)
+		g_return_val_if_fail (*out_password == NULL, NULL);
+
+	/* Make the password if needed */
+	if (!in_password) {
+		if (!crypto_randomize (pw_buf, sizeof (pw_buf), error))
+			return NULL;
+		in_password = tmp_password = utils_bin2hexstr ((const char *) pw_buf, sizeof (pw_buf), -1);
+	}
+
+	if (!crypto_randomize (salt, sizeof (salt), error))
+		goto out;
+
+	key = make_key (&salt[0], sizeof (salt), in_password, &key_len, error);
+	if (!key)
+		goto out;
+
+	enc = crypto_encrypt (CIPHER_DES_EDE3_CBC, data, salt, sizeof (salt), key, key_len, &enc_len, error);
+	if (!enc)
+		goto out;
+
+	pem = g_string_sized_new (enc_len * 2 + 100);
+	if (!pem) {
+		g_set_error_literal (error, NM_CRYPTO_ERROR,
+		                     NM_CRYPTO_ERR_OUT_OF_MEMORY,
+		                     _("Could not allocate memory for PEM file creation."));
+		goto out;
+	}
+
+	g_string_append (pem, "-----BEGIN RSA PRIVATE KEY-----\n");
+	g_string_append (pem, "Proc-Type: 4,ENCRYPTED\n");
+
+	/* Convert the salt to a hex string */
+	tmp = utils_bin2hexstr ((const char *) salt, sizeof (salt), 16);
+	if (!tmp) {
+		g_set_error (error, NM_CRYPTO_ERROR,
+		             NM_CRYPTO_ERR_OUT_OF_MEMORY,
+		             _("Could not allocate memory for writing IV to PEM file."));
+		goto out;
+	}
+
+	g_string_append_printf (pem, "DEK-Info: DES-EDE3-CBC,%s\n\n", tmp);
+	g_free (tmp);
+
+	/* Convert the encrypted key to a base64 string */
+	p = tmp = g_base64_encode ((const guchar *) enc, enc_len);
+	if (!tmp) {
+		g_set_error (error, NM_CRYPTO_ERROR,
+		             NM_CRYPTO_ERR_OUT_OF_MEMORY,
+		             _("Could not allocate memory for writing encrypted key to PEM file."));
+		goto out;
+	}
+
+	left = strlen (tmp);
+	while (left > 0) {
+		g_string_append_len (pem, p, (left < 64) ? left : 64);
+		g_string_append_c (pem, '\n');
+		left -= 64;
+		p += 64;
+	}
+	g_free (tmp);
+
+	g_string_append (pem, "-----END RSA PRIVATE KEY-----\n");
+
+	ret = g_byte_array_sized_new (pem->len);
+	if (!ret) {
+		g_set_error (error, NM_CRYPTO_ERROR,
+		             NM_CRYPTO_ERR_OUT_OF_MEMORY,
+		             _("Could not allocate memory for PEM file data."));
+		goto out;
+	}
+	g_byte_array_append (ret, (const unsigned char *) pem->str, pem->len);
+	if (tmp_password && out_password)
+		*out_password = g_strdup (tmp_password);
+
+out:
+	if (key) {
+		memset (key, 0, key_len);
+		g_free (key);
+	}
+	if (enc) {
+		memset (enc, 0, enc_len);
+		g_free (enc);
+	}
+	if (pem)
+		g_string_free (pem, TRUE);
+
+	if (tmp_password) {
+		memset (tmp_password, 0, strlen (tmp_password));
+		g_free (tmp_password);
+	}
+
+	return ret;
 }
 

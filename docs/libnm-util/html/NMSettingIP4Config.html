@@ -3,11 +3,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>NMSettingIP4Config</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.74.3">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="index.html" title="libnm-util Reference Manual">
 <link rel="up" href="ch01.html" title="libnm-util API Reference">
 <link rel="prev" href="NMSetting8021x.html" title="NMSetting8021x">
-<link rel="next" href="NMSettingPPP.html" title="NMSettingPPP">
+<link rel="next" href="NMSettingIP6Config.html" title="NMSettingIP6Config">
 <meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="libnm-util API Reference">
@@ -21,7 +21,7 @@
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">libnm-util Reference Manual</th>
-<td><a accesskey="n" href="NMSettingPPP.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="NMSettingIP6Config.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
 <tr><td colspan="5" class="shortcuts">
 <a href="#NMSettingIP4Config.synopsis" class="shortcut">Top</a>
@@ -33,7 +33,7 @@
                 <a href="#NMSettingIP4Config.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="NMSettingIP4Config">
 <a name="NMSettingIP4Config"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,7 +42,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="NMSettingIP4Config.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
 #define             <a
@@ -86,6 +86,9 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-I
 #define             <a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-DHCP-CLIENT-ID--CAPS"
 >NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID</a>
+#define             <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-DHCP-SEND-HOSTNAME--CAPS"
+>NM_SETTING_IP4_CONFIG_DHCP_SEND_HOSTNAME</a>
 #define             <a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NM-SETTING-IP4-CONFIG-DHCP-HOSTNAME--CAPS"
 >NM_SETTING_IP4_CONFIG_DHCP_HOSTNAME</a>
@@ -484,6 +487,14 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-g
                                                         (<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
 >NMSettingIP4Config</a> *setting);
+<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-get-dhcp-send-hostname"
+>nm_setting_ip4_config_get_dhcp_send_hostname</a>
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);
 const char *        <a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#nm-setting-ip4-config-get-dhcp-hostname"
 >nm_setting_ip4_config_get_dhcp_hostname</a>
@@ -500,7 +511,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
 >NMSettingIP4Config</a> *setting);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="NMSettingIP4Config.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
@@ -512,7 +523,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
          +----NMSettingIP4Config
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="NMSettingIP4Config.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a
@@ -528,6 +539,11 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--dhc
 >dhcp-hostname</a>"            <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
+  "<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--dhcp-send-hostname"
+>dhcp-send-hostname</a>"       <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct
   "<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--dns"
 >dns</a>"                      GArray_guint_*        : Read / Write
@@ -559,14 +575,14 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--rou
 >routes</a>"                   GPtrArray_GArray_guint__*  : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="NMSettingIP4Config.description"></a><h2>Description</h2>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="NMSettingIP4Config.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_IP4_CONFIG_SETTING_NAME">
 <a name="NM-SETTING-IP4-CONFIG-SETTING-NAME--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_SETTING_NAME</h3>
 <pre class="programlisting">#define NM_SETTING_IP4_CONFIG_SETTING_NAME "ipv4"
 </pre>
@@ -574,7 +590,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--rou
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum NMSettingIP4ConfigError">
 <a name="NMSettingIP4ConfigError"></a><h3>enum NMSettingIP4ConfigError</h3>
 <pre class="programlisting">typedef enum
 {
@@ -588,7 +604,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--rou
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_TYPE_SETTING_IP4_CONFIG_ERROR">
 <a name="NM-TYPE-SETTING-IP4-CONFIG-ERROR--CAPS"></a><h3>NM_TYPE_SETTING_IP4_CONFIG_ERROR</h3>
 <pre class="programlisting">#define NM_TYPE_SETTING_IP4_CONFIG_ERROR (nm_setting_ip4_config_error_get_type ()) 
 </pre>
@@ -596,7 +612,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--rou
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_IP4_CONFIG_ERROR">
 <a name="NM-SETTING-IP4-CONFIG-ERROR--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_ERROR</h3>
 <pre class="programlisting">#define NM_SETTING_IP4_CONFIG_ERROR nm_setting_ip4_config_error_quark ()
 </pre>
@@ -604,7 +620,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--rou
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_error_quark ()">
 <a name="nm-setting-ip4-config-error-quark"></a><h3>nm_setting_ip4_config_error_quark ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
@@ -621,7 +637,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_IP4_CONFIG_METHOD">
 <a name="NM-SETTING-IP4-CONFIG-METHOD--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_METHOD</h3>
 <pre class="programlisting">#define NM_SETTING_IP4_CONFIG_METHOD             "method"
 </pre>
@@ -629,7 +645,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_IP4_CONFIG_DNS">
 <a name="NM-SETTING-IP4-CONFIG-DNS--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_DNS</h3>
 <pre class="programlisting">#define NM_SETTING_IP4_CONFIG_DNS                "dns"
 </pre>
@@ -637,7 +653,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_IP4_CONFIG_DNS_SEARCH">
 <a name="NM-SETTING-IP4-CONFIG-DNS-SEARCH--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_DNS_SEARCH</h3>
 <pre class="programlisting">#define NM_SETTING_IP4_CONFIG_DNS_SEARCH         "dns-search"
 </pre>
@@ -645,7 +661,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_IP4_CONFIG_ADDRESSES">
 <a name="NM-SETTING-IP4-CONFIG-ADDRESSES--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_ADDRESSES</h3>
 <pre class="programlisting">#define NM_SETTING_IP4_CONFIG_ADDRESSES          "addresses"
 </pre>
@@ -653,7 +669,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_IP4_CONFIG_ROUTES">
 <a name="NM-SETTING-IP4-CONFIG-ROUTES--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_ROUTES</h3>
 <pre class="programlisting">#define NM_SETTING_IP4_CONFIG_ROUTES             "routes"
 </pre>
@@ -661,7 +677,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_IP4_CONFIG_IGNORE_AUTO_ROUTES">
 <a name="NM-SETTING-IP4-CONFIG-IGNORE-AUTO-ROUTES--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_IGNORE_AUTO_ROUTES</h3>
 <pre class="programlisting">#define NM_SETTING_IP4_CONFIG_IGNORE_AUTO_ROUTES "ignore-auto-routes"
 </pre>
@@ -669,7 +685,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_IP4_CONFIG_IGNORE_AUTO_DNS">
 <a name="NM-SETTING-IP4-CONFIG-IGNORE-AUTO-DNS--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_IGNORE_AUTO_DNS</h3>
 <pre class="programlisting">#define NM_SETTING_IP4_CONFIG_IGNORE_AUTO_DNS    "ignore-auto-dns"
 </pre>
@@ -677,7 +693,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID">
 <a name="NM-SETTING-IP4-CONFIG-DHCP-CLIENT-ID--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID</h3>
 <pre class="programlisting">#define NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID     "dhcp-client-id"
 </pre>
@@ -685,7 +701,15 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_IP4_CONFIG_DHCP_SEND_HOSTNAME">
+<a name="NM-SETTING-IP4-CONFIG-DHCP-SEND-HOSTNAME--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_DHCP_SEND_HOSTNAME</h3>
+<pre class="programlisting">#define NM_SETTING_IP4_CONFIG_DHCP_SEND_HOSTNAME "dhcp-send-hostname"
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="NM_SETTING_IP4_CONFIG_DHCP_HOSTNAME">
 <a name="NM-SETTING-IP4-CONFIG-DHCP-HOSTNAME--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_DHCP_HOSTNAME</h3>
 <pre class="programlisting">#define NM_SETTING_IP4_CONFIG_DHCP_HOSTNAME      "dhcp-hostname"
 </pre>
@@ -693,7 +717,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_IP4_CONFIG_NEVER_DEFAULT">
 <a name="NM-SETTING-IP4-CONFIG-NEVER-DEFAULT--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_NEVER_DEFAULT</h3>
 <pre class="programlisting">#define NM_SETTING_IP4_CONFIG_NEVER_DEFAULT      "never-default"
 </pre>
@@ -701,7 +725,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_IP4_CONFIG_METHOD_AUTO">
 <a name="NM-SETTING-IP4-CONFIG-METHOD-AUTO--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_METHOD_AUTO</h3>
 <pre class="programlisting">#define NM_SETTING_IP4_CONFIG_METHOD_AUTO       "auto"
 </pre>
@@ -709,7 +733,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_IP4_CONFIG_METHOD_LINK_LOCAL">
 <a name="NM-SETTING-IP4-CONFIG-METHOD-LINK-LOCAL--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_METHOD_LINK_LOCAL</h3>
 <pre class="programlisting">#define NM_SETTING_IP4_CONFIG_METHOD_LINK_LOCAL "link-local"
 </pre>
@@ -717,7 +741,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_IP4_CONFIG_METHOD_MANUAL">
 <a name="NM-SETTING-IP4-CONFIG-METHOD-MANUAL--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_METHOD_MANUAL</h3>
 <pre class="programlisting">#define NM_SETTING_IP4_CONFIG_METHOD_MANUAL     "manual"
 </pre>
@@ -725,7 +749,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_IP4_CONFIG_METHOD_SHARED">
 <a name="NM-SETTING-IP4-CONFIG-METHOD-SHARED--CAPS"></a><h3>NM_SETTING_IP4_CONFIG_METHOD_SHARED</h3>
 <pre class="programlisting">#define NM_SETTING_IP4_CONFIG_METHOD_SHARED     "shared"
 </pre>
@@ -733,7 +757,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NMIP4Address">
 <a name="NMIP4Address"></a><h3>NMIP4Address</h3>
 <pre class="programlisting">typedef struct NMIP4Address NMIP4Address;
 </pre>
@@ -741,7 +765,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_address_new ()">
 <a name="nm-ip4-address-new"></a><h3>nm_ip4_address_new ()</h3>
 <pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
@@ -758,7 +782,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_address_dup ()">
 <a name="nm-ip4-address-dup"></a><h3>nm_ip4_address_dup ()</h3>
 <pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
@@ -784,7 +808,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_address_ref ()">
 <a name="nm-ip4-address-ref"></a><h3>nm_ip4_address_ref ()</h3>
 <pre class="programlisting">void                nm_ip4_address_ref                  (<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
@@ -801,7 +825,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_address_unref ()">
 <a name="nm-ip4-address-unref"></a><h3>nm_ip4_address_unref ()</h3>
 <pre class="programlisting">void                nm_ip4_address_unref                (<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
@@ -818,7 +842,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_address_compare ()">
 <a name="nm-ip4-address-compare"></a><h3>nm_ip4_address_compare ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -852,7 +876,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_address_get_address ()">
 <a name="nm-ip4-address-get-address"></a><h3>nm_ip4_address_get_address ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -878,7 +902,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_address_set_address ()">
 <a name="nm-ip4-address-set-address"></a><h3>nm_ip4_address_set_address ()</h3>
 <pre class="programlisting">void                nm_ip4_address_set_address          (<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
@@ -905,7 +929,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_address_get_prefix ()">
 <a name="nm-ip4-address-get-prefix"></a><h3>nm_ip4_address_get_prefix ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -931,7 +955,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_address_set_prefix ()">
 <a name="nm-ip4-address-set-prefix"></a><h3>nm_ip4_address_set_prefix ()</h3>
 <pre class="programlisting">void                nm_ip4_address_set_prefix           (<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
@@ -958,7 +982,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_address_get_gateway ()">
 <a name="nm-ip4-address-get-gateway"></a><h3>nm_ip4_address_get_gateway ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -984,7 +1008,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_address_set_gateway ()">
 <a name="nm-ip4-address-set-gateway"></a><h3>nm_ip4_address_set_gateway ()</h3>
 <pre class="programlisting">void                nm_ip4_address_set_gateway          (<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
@@ -1011,7 +1035,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NMIP4Route">
 <a name="NMIP4Route"></a><h3>NMIP4Route</h3>
 <pre class="programlisting">typedef struct NMIP4Route NMIP4Route;
 </pre>
@@ -1019,7 +1043,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_route_new ()">
 <a name="nm-ip4-route-new"></a><h3>nm_ip4_route_new ()</h3>
 <pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
@@ -1036,7 +1060,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_route_dup ()">
 <a name="nm-ip4-route-dup"></a><h3>nm_ip4_route_dup ()</h3>
 <pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
@@ -1062,7 +1086,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_route_ref ()">
 <a name="nm-ip4-route-ref"></a><h3>nm_ip4_route_ref ()</h3>
 <pre class="programlisting">void                nm_ip4_route_ref                    (<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
@@ -1079,7 +1103,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_route_unref ()">
 <a name="nm-ip4-route-unref"></a><h3>nm_ip4_route_unref ()</h3>
 <pre class="programlisting">void                nm_ip4_route_unref                  (<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
@@ -1096,7 +1120,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_route_compare ()">
 <a name="nm-ip4-route-compare"></a><h3>nm_ip4_route_compare ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1130,7 +1154,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_route_get_dest ()">
 <a name="nm-ip4-route-get-dest"></a><h3>nm_ip4_route_get_dest ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -1156,7 +1180,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_route_set_dest ()">
 <a name="nm-ip4-route-set-dest"></a><h3>nm_ip4_route_set_dest ()</h3>
 <pre class="programlisting">void                nm_ip4_route_set_dest               (<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
@@ -1183,7 +1207,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_route_get_prefix ()">
 <a name="nm-ip4-route-get-prefix"></a><h3>nm_ip4_route_get_prefix ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -1209,7 +1233,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_route_set_prefix ()">
 <a name="nm-ip4-route-set-prefix"></a><h3>nm_ip4_route_set_prefix ()</h3>
 <pre class="programlisting">void                nm_ip4_route_set_prefix             (<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
@@ -1236,7 +1260,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_route_get_next_hop ()">
 <a name="nm-ip4-route-get-next-hop"></a><h3>nm_ip4_route_get_next_hop ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -1262,7 +1286,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_route_set_next_hop ()">
 <a name="nm-ip4-route-set-next-hop"></a><h3>nm_ip4_route_set_next_hop ()</h3>
 <pre class="programlisting">void                nm_ip4_route_set_next_hop           (<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
@@ -1289,7 +1313,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_route_get_metric ()">
 <a name="nm-ip4-route-get-metric"></a><h3>nm_ip4_route_get_metric ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -1315,7 +1339,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_route_set_metric ()">
 <a name="nm-ip4-route-set-metric"></a><h3>nm_ip4_route_set_metric ()</h3>
 <pre class="programlisting">void                nm_ip4_route_set_metric             (<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
@@ -1342,14 +1366,14 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NMSettingIP4Config">
 <a name="NMSettingIP4Config-struct"></a><h3>NMSettingIP4Config</h3>
 <pre class="programlisting">typedef struct _NMSettingIP4Config NMSettingIP4Config;</pre>
 <p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_get_type ()">
 <a name="nm-setting-ip4-config-get-type"></a><h3>nm_setting_ip4_config_get_type ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"
@@ -1366,7 +1390,7 @@ href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.h
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_new ()">
 <a name="nm-setting-ip4-config-new"></a><h3>nm_setting_ip4_config_new ()</h3>
 <pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMSetting.html"
@@ -1383,7 +1407,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_get_method ()">
 <a name="nm-setting-ip4-config-get-method"></a><h3>nm_setting_ip4_config_get_method ()</h3>
 <pre class="programlisting">const char *        nm_setting_ip4_config_get_method    (<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
@@ -1407,7 +1431,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_get_num_dns ()">
 <a name="nm-setting-ip4-config-get-num-dns"></a><h3>nm_setting_ip4_config_get_num_dns ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -1433,7 +1457,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_get_dns ()">
 <a name="nm-setting-ip4-config-get-dns"></a><h3>nm_setting_ip4_config_get_dns ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -1467,7 +1491,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_add_dns ()">
 <a name="nm-setting-ip4-config-add-dns"></a><h3>nm_setting_ip4_config_add_dns ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1501,7 +1525,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_remove_dns ()">
 <a name="nm-setting-ip4-config-remove-dns"></a><h3>nm_setting_ip4_config_remove_dns ()</h3>
 <pre class="programlisting">void                nm_setting_ip4_config_remove_dns    (<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
@@ -1528,7 +1552,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_clear_dns ()">
 <a name="nm-setting-ip4-config-clear-dns"></a><h3>nm_setting_ip4_config_clear_dns ()</h3>
 <pre class="programlisting">void                nm_setting_ip4_config_clear_dns     (<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
@@ -1545,7 +1569,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_get_num_dns_searches ()">
 <a name="nm-setting-ip4-config-get-num-dns-searches"></a><h3>nm_setting_ip4_config_get_num_dns_searches ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -1572,7 +1596,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_get_dns_search ()">
 <a name="nm-setting-ip4-config-get-dns-search"></a><h3>nm_setting_ip4_config_get_dns_search ()</h3>
 <pre class="programlisting">const char *        nm_setting_ip4_config_get_dns_search
                                                         (<a
@@ -1605,7 +1629,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_add_dns_search ()">
 <a name="nm-setting-ip4-config-add-dns-search"></a><h3>nm_setting_ip4_config_add_dns_search ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1638,7 +1662,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_remove_dns_search ()">
 <a name="nm-setting-ip4-config-remove-dns-search"></a><h3>nm_setting_ip4_config_remove_dns_search ()</h3>
 <pre class="programlisting">void                nm_setting_ip4_config_remove_dns_search
                                                         (<a
@@ -1666,7 +1690,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_clear_dns_searches ()">
 <a name="nm-setting-ip4-config-clear-dns-searches"></a><h3>nm_setting_ip4_config_clear_dns_searches ()</h3>
 <pre class="programlisting">void                nm_setting_ip4_config_clear_dns_searches
                                                         (<a
@@ -1684,7 +1708,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_get_num_addresses ()">
 <a name="nm-setting-ip4-config-get-num-addresses"></a><h3>nm_setting_ip4_config_get_num_addresses ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -1711,7 +1735,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_get_address ()">
 <a name="nm-setting-ip4-config-get-address"></a><h3>nm_setting_ip4_config_get_address ()</h3>
 <pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
@@ -1745,7 +1769,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_add_address ()">
 <a name="nm-setting-ip4-config-add-address"></a><h3>nm_setting_ip4_config_add_address ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1779,7 +1803,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_remove_address ()">
 <a name="nm-setting-ip4-config-remove-address"></a><h3>nm_setting_ip4_config_remove_address ()</h3>
 <pre class="programlisting">void                nm_setting_ip4_config_remove_address
                                                         (<a
@@ -1807,7 +1831,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_clear_addresses ()">
 <a name="nm-setting-ip4-config-clear-addresses"></a><h3>nm_setting_ip4_config_clear_addresses ()</h3>
 <pre class="programlisting">void                nm_setting_ip4_config_clear_addresses
                                                         (<a
@@ -1825,7 +1849,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_get_num_routes ()">
 <a name="nm-setting-ip4-config-get-num-routes"></a><h3>nm_setting_ip4_config_get_num_routes ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -1852,7 +1876,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_get_route ()">
 <a name="nm-setting-ip4-config-get-route"></a><h3>nm_setting_ip4_config_get_route ()</h3>
 <pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
@@ -1886,7 +1910,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_add_route ()">
 <a name="nm-setting-ip4-config-add-route"></a><h3>nm_setting_ip4_config_add_route ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1920,7 +1944,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_remove_route ()">
 <a name="nm-setting-ip4-config-remove-route"></a><h3>nm_setting_ip4_config_remove_route ()</h3>
 <pre class="programlisting">void                nm_setting_ip4_config_remove_route  (<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
@@ -1947,7 +1971,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_clear_routes ()">
 <a name="nm-setting-ip4-config-clear-routes"></a><h3>nm_setting_ip4_config_clear_routes ()</h3>
 <pre class="programlisting">void                nm_setting_ip4_config_clear_routes  (<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
@@ -1964,7 +1988,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_get_ignore_auto_routes ()">
 <a name="nm-setting-ip4-config-get-ignore-auto-routes"></a><h3>nm_setting_ip4_config_get_ignore_auto_routes ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1991,7 +2015,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_get_ignore_auto_dns ()">
 <a name="nm-setting-ip4-config-get-ignore-auto-dns"></a><h3>nm_setting_ip4_config_get_ignore_auto_dns ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -2018,7 +2042,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_get_dhcp_client_id ()">
 <a name="nm-setting-ip4-config-get-dhcp-client-id"></a><h3>nm_setting_ip4_config_get_dhcp_client_id ()</h3>
 <pre class="programlisting">const char *        nm_setting_ip4_config_get_dhcp_client_id
                                                         (<a
@@ -2043,7 +2067,34 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_get_dhcp_send_hostname ()">
+<a name="nm-setting-ip4-config-get-dhcp-send-hostname"></a><h3>nm_setting_ip4_config_get_dhcp_send_hostname ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>            nm_setting_ip4_config_get_dhcp_send_hostname
+                                                        (<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
+>NMSettingIP4Config</a> *setting);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>setting</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="nm_setting_ip4_config_get_dhcp_hostname ()">
 <a name="nm-setting-ip4-config-get-dhcp-hostname"></a><h3>nm_setting_ip4_config_get_dhcp_hostname ()</h3>
 <pre class="programlisting">const char *        nm_setting_ip4_config_get_dhcp_hostname
                                                         (<a
@@ -2068,7 +2119,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ip4_config_get_never_default ()">
 <a name="nm-setting-ip4-config-get-never-default"></a><h3>nm_setting_ip4_config_get_never_default ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -2095,9 +2146,9 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="NMSettingIP4Config.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "addresses" property'>
 <a name="NMSettingIP4Config--addresses"></a><h3>The <code class="literal">"addresses"</code> property</h3>
 <pre class="programlisting">  "addresses"                GPtrArray_GArray_guint__*  : Read / Write</pre>
 <p>
@@ -2113,7 +2164,7 @@ automatically assigned an address with these methods.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "dhcp-client-id" property'>
 <a name="NMSettingIP4Config--dhcp-client-id"></a><h3>The <code class="literal">"dhcp-client-id"</code> property</h3>
 <pre class="programlisting">  "dhcp-client-id"           <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
@@ -2126,21 +2177,40 @@ DHCP server may use to cusomize the DHCP lease and options.</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "dhcp-hostname" property'>
 <a name="NMSettingIP4Config--dhcp-hostname"></a><h3>The <code class="literal">"dhcp-hostname"</code> property</h3>
 <pre class="programlisting">  "dhcp-hostname"            <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write</pre>
 <p>
-A hostname to be sent to the DHCP server when acquiring a lease. Some
-DHCP servers use this hostname to update DNS databases, essentially
-providing a static hostname for the computer.</p>
+If the <a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--dhcp-send-hostname"
+><span class="type">"dhcp-send-hostname"</span></a> property is TRUE, then the
+specified name will be sent to the DHCP server when acquiring a lease.</p>
 <p>
 </p>
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "dhcp-send-hostname" property'>
+<a name="NMSettingIP4Config--dhcp-send-hostname"></a><h3>The <code class="literal">"dhcp-send-hostname"</code> property</h3>
+<pre class="programlisting">  "dhcp-send-hostname"       <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct</pre>
+<p>
+If TRUE, a hostname is sent to the DHCP server when acquiring a lease.
+Some DHCP servers use this hostname to update DNS databases, essentially
+providing a static hostname for the computer.  If
+<a
+href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--dhcp-hostname"
+><span class="type">"dhcp-hostname"</span></a> is empty and this property is TRUE,
+the current persistent hostname of the computer is sent.</p>
+<p>
+</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" title='The "dns" property'>
 <a name="NMSettingIP4Config--dns"></a><h3>The <code class="literal">"dns"</code> property</h3>
 <pre class="programlisting">  "dns"                      GArray_guint_*        : Read / Write</pre>
 <p>
@@ -2154,7 +2224,7 @@ connection.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "dns-search" property'>
 <a name="NMSettingIP4Config--dns-search"></a><h3>The <code class="literal">"dns-search"</code> property</h3>
 <pre class="programlisting">  "dns-search"               GSList_gchararray_*   : Read / Write</pre>
 <p>
@@ -2167,7 +2237,7 @@ as the only search domains for this connection.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "ignore-auto-dns" property'>
 <a name="NMSettingIP4Config--ignore-auto-dns"></a><h3>The <code class="literal">"ignore-auto-dns"</code> property</h3>
 <pre class="programlisting">  "ignore-auto-dns"          <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -2186,7 +2256,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--dns
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "ignore-auto-routes" property'>
 <a name="NMSettingIP4Config--ignore-auto-routes"></a><h3>The <code class="literal">"ignore-auto-routes"</code> property</h3>
 <pre class="programlisting">  "ignore-auto-routes"       <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -2202,7 +2272,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMSettingIP4Config--rou
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "method" property'>
 <a name="NMSettingIP4Config--method"></a><h3>The <code class="literal">"method"</code> property</h3>
 <pre class="programlisting">  "method"                   <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
@@ -2224,7 +2294,7 @@ connection.  This property must be set.</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "never-default" property'>
 <a name="NMSettingIP4Config--never-default"></a><h3>The <code class="literal">"never-default"</code> property</h3>
 <pre class="programlisting">  "never-default"            <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -2237,7 +2307,7 @@ meaning it will never be assigned the default route by NetworkManager.</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "routes" property'>
 <a name="NMSettingIP4Config--routes"></a><h3>The <code class="literal">"routes"</code> property</h3>
 <pre class="programlisting">  "routes"                   GPtrArray_GArray_guint__*  : Read / Write</pre>
 <p>

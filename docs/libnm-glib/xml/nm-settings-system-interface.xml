@@ -17,6 +17,30 @@
 <title role="synopsis.title">Synopsis</title>
 
 <synopsis>
+enum                <link linkend="NMSettingsSystemPermissions">NMSettingsSystemPermissions</link>;
+#define             <link linkend="NM-SETTINGS-SYSTEM-INTERFACE-GET-INTERFACE--CAPS">NM_SETTINGS_SYSTEM_INTERFACE_GET_INTERFACE</link>(obj)
+#define             <link linkend="NM-SETTINGS-SYSTEM-INTERFACE-HOSTNAME--CAPS">NM_SETTINGS_SYSTEM_INTERFACE_HOSTNAME</link>
+#define             <link linkend="NM-SETTINGS-SYSTEM-INTERFACE-CAN-MODIFY--CAPS">NM_SETTINGS_SYSTEM_INTERFACE_CAN_MODIFY</link>
+#define             <link linkend="NM-SETTINGS-SYSTEM-INTERFACE-CHECK-PERMISSIONS--CAPS">NM_SETTINGS_SYSTEM_INTERFACE_CHECK_PERMISSIONS</link>
+enum                <link linkend="NMSettingsSystemInterfaceProp">NMSettingsSystemInterfaceProp</link>;
+                    <link linkend="NMSettingsSystemInterface">NMSettingsSystemInterface</link>;
+<link linkend="void">void</link>                (<link linkend="NMSettingsSystemSaveHostnameFunc">*NMSettingsSystemSaveHostnameFunc</link>) (<link linkend="NMSettingsSystemInterface">NMSettingsSystemInterface</link> *settings,
+                                                         <link linkend="GError">GError</link> *error,
+                                                         <link linkend="gpointer">gpointer</link> user_data);
+<link linkend="void">void</link>                (<link linkend="NMSettingsSystemGetPermissionsFunc">*NMSettingsSystemGetPermissionsFunc</link>)
+                                                        (<link linkend="NMSettingsSystemInterface">NMSettingsSystemInterface</link> *settings,
+                                                         <link linkend="NMSettingsSystemPermissions">NMSettingsSystemPermissions</link> permissions,
+                                                         <link linkend="GError">GError</link> *error,
+                                                         <link linkend="gpointer">gpointer</link> user_data);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-settings-system-interface-save-hostname">nm_settings_system_interface_save_hostname</link>
+                                                        (<link linkend="NMSettingsSystemInterface">NMSettingsSystemInterface</link> *settings,
+                                                         const <link linkend="char">char</link> *hostname,
+                                                         <link linkend="NMSettingsSystemSaveHostnameFunc">NMSettingsSystemSaveHostnameFunc</link> callback,
+                                                         <link linkend="gpointer">gpointer</link> user_data);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-settings-system-interface-get-permissions">nm_settings_system_interface_get_permissions</link>
+                                                        (<link linkend="NMSettingsSystemInterface">NMSettingsSystemInterface</link> *settings,
+                                                         <link linkend="NMSettingsSystemGetPermissionsFunc">NMSettingsSystemGetPermissionsFunc</link> callback,
+                                                         <link linkend="gpointer">gpointer</link> user_data);
 </synopsis>
 </refsynopsisdiv>
 
@@ -36,6 +60,176 @@
 
 <refsect1 id="libnm-glib-nm-settings-system-interface.details" role="details">
 <title role="details.title">Details</title>
+<refsect2 id="NMSettingsSystemPermissions" role="enum">
+<title>enum NMSettingsSystemPermissions</title>
+<indexterm zone="NMSettingsSystemPermissions"><primary sortas="NMSettingsSystemPermissions">NMSettingsSystemPermissions</primary></indexterm><programlisting>typedef enum {
+	NM_SETTINGS_SYSTEM_PERMISSION_NONE = 0x0,
+	NM_SETTINGS_SYSTEM_PERMISSION_CONNECTION_MODIFY = 0x1,
+	NM_SETTINGS_SYSTEM_PERMISSION_WIFI_SHARE_PROTECTED = 0x2,
+	NM_SETTINGS_SYSTEM_PERMISSION_WIFI_SHARE_OPEN = 0x4,
+	NM_SETTINGS_SYSTEM_PERMISSION_HOSTNAME_MODIFY = 0x8
+} NMSettingsSystemPermissions;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTINGS-SYSTEM-INTERFACE-GET-INTERFACE--CAPS" role="macro">
+<title>NM_SETTINGS_SYSTEM_INTERFACE_GET_INTERFACE()</title>
+<indexterm zone="NM-SETTINGS-SYSTEM-INTERFACE-GET-INTERFACE--CAPS"><primary sortas="NM_SETTINGS_SYSTEM_INTERFACE_GET_INTERFACE">NM_SETTINGS_SYSTEM_INTERFACE_GET_INTERFACE</primary></indexterm><programlisting>#define NM_SETTINGS_SYSTEM_INTERFACE_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), NM_TYPE_SETTINGS_SYSTEM_INTERFACE, NMSettingsSystemInterface))
+</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>obj</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="NM-SETTINGS-SYSTEM-INTERFACE-HOSTNAME--CAPS" role="macro">
+<title>NM_SETTINGS_SYSTEM_INTERFACE_HOSTNAME</title>
+<indexterm zone="NM-SETTINGS-SYSTEM-INTERFACE-HOSTNAME--CAPS"><primary sortas="NM_SETTINGS_SYSTEM_INTERFACE_HOSTNAME">NM_SETTINGS_SYSTEM_INTERFACE_HOSTNAME</primary></indexterm><programlisting>#define NM_SETTINGS_SYSTEM_INTERFACE_HOSTNAME          "hostname"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTINGS-SYSTEM-INTERFACE-CAN-MODIFY--CAPS" role="macro">
+<title>NM_SETTINGS_SYSTEM_INTERFACE_CAN_MODIFY</title>
+<indexterm zone="NM-SETTINGS-SYSTEM-INTERFACE-CAN-MODIFY--CAPS"><primary sortas="NM_SETTINGS_SYSTEM_INTERFACE_CAN_MODIFY">NM_SETTINGS_SYSTEM_INTERFACE_CAN_MODIFY</primary></indexterm><programlisting>#define NM_SETTINGS_SYSTEM_INTERFACE_CAN_MODIFY        "can-modify"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTINGS-SYSTEM-INTERFACE-CHECK-PERMISSIONS--CAPS" role="macro">
+<title>NM_SETTINGS_SYSTEM_INTERFACE_CHECK_PERMISSIONS</title>
+<indexterm zone="NM-SETTINGS-SYSTEM-INTERFACE-CHECK-PERMISSIONS--CAPS"><primary sortas="NM_SETTINGS_SYSTEM_INTERFACE_CHECK_PERMISSIONS">NM_SETTINGS_SYSTEM_INTERFACE_CHECK_PERMISSIONS</primary></indexterm><programlisting>#define NM_SETTINGS_SYSTEM_INTERFACE_CHECK_PERMISSIONS "check-permissions"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingsSystemInterfaceProp" role="enum">
+<title>enum NMSettingsSystemInterfaceProp</title>
+<indexterm zone="NMSettingsSystemInterfaceProp"><primary sortas="NMSettingsSystemInterfaceProp">NMSettingsSystemInterfaceProp</primary></indexterm><programlisting>typedef enum {
+	NM_SETTINGS_SYSTEM_INTERFACE_PROP_FIRST = 0x1000,
+
+	NM_SETTINGS_SYSTEM_INTERFACE_PROP_HOSTNAME = NM_SETTINGS_SYSTEM_INTERFACE_PROP_FIRST,
+	NM_SETTINGS_SYSTEM_INTERFACE_PROP_CAN_MODIFY
+} NMSettingsSystemInterfaceProp;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingsSystemInterface" role="struct">
+<title>NMSettingsSystemInterface</title>
+<indexterm zone="NMSettingsSystemInterface"><primary sortas="NMSettingsSystemInterface">NMSettingsSystemInterface</primary></indexterm><programlisting>typedef struct {
+	GTypeInterface g_iface;
+
+	/* Methods */
+	gboolean (*save_hostname) (NMSettingsSystemInterface *settings,
+	                           const char *hostname,
+	                           NMSettingsSystemSaveHostnameFunc callback,
+	                           gpointer user_data);
+
+	gboolean (*get_permissions) (NMSettingsSystemInterface *settings,
+	                             NMSettingsSystemGetPermissionsFunc callback,
+	                             gpointer user_data);
+
+	/* Signals */
+	void (*check_permissions) (NMSettingsSystemInterface *settings);
+
+	/* Padding for future expansion */
+	void (*_reserved1) (void);
+	void (*_reserved2) (void);
+	void (*_reserved3) (void);
+	void (*_reserved4) (void);
+	void (*_reserved5) (void);
+	void (*_reserved6) (void);
+} NMSettingsSystemInterface;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingsSystemSaveHostnameFunc" role="function">
+<title>NMSettingsSystemSaveHostnameFunc ()</title>
+<indexterm zone="NMSettingsSystemSaveHostnameFunc"><primary sortas="NMSettingsSystemSaveHostnameFunc">NMSettingsSystemSaveHostnameFunc</primary></indexterm><programlisting><link linkend="void">void</link>                (*NMSettingsSystemSaveHostnameFunc) (<link linkend="NMSettingsSystemInterface">NMSettingsSystemInterface</link> *settings,
+                                                         <link linkend="GError">GError</link> *error,
+                                                         <link linkend="gpointer">gpointer</link> user_data);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>settings</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>error</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="NMSettingsSystemGetPermissionsFunc" role="function">
+<title>NMSettingsSystemGetPermissionsFunc ()</title>
+<indexterm zone="NMSettingsSystemGetPermissionsFunc"><primary sortas="NMSettingsSystemGetPermissionsFunc">NMSettingsSystemGetPermissionsFunc</primary></indexterm><programlisting><link linkend="void">void</link>                (*NMSettingsSystemGetPermissionsFunc)
+                                                        (<link linkend="NMSettingsSystemInterface">NMSettingsSystemInterface</link> *settings,
+                                                         <link linkend="NMSettingsSystemPermissions">NMSettingsSystemPermissions</link> permissions,
+                                                         <link linkend="GError">GError</link> *error,
+                                                         <link linkend="gpointer">gpointer</link> user_data);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>settings</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>permissions</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>error</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-settings-system-interface-save-hostname" role="function">
+<title>nm_settings_system_interface_save_hostname ()</title>
+<indexterm zone="nm-settings-system-interface-save-hostname"><primary sortas="nm_settings_system_interface_save_hostname">nm_settings_system_interface_save_hostname</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_settings_system_interface_save_hostname
+                                                        (<link linkend="NMSettingsSystemInterface">NMSettingsSystemInterface</link> *settings,
+                                                         const <link linkend="char">char</link> *hostname,
+                                                         <link linkend="NMSettingsSystemSaveHostnameFunc">NMSettingsSystemSaveHostnameFunc</link> callback,
+                                                         <link linkend="gpointer">gpointer</link> user_data);</programlisting>
+<para>
+Requests that the machine's persistent hostname be set to the specified value
+or cleared.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>settings</parameter>&#160;:</term>
+<listitem><simpara> a object implementing <link linkend="NMSettingsSystemInterface"><literal>NMSettingsSystemInterface</literal></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>hostname</parameter>&#160;:</term>
+<listitem><simpara> the new persistent hostname to set, or NULL to clear any existing
+ persistent hostname
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>callback</parameter>&#160;:</term>
+<listitem><simpara> callback to be called when the hostname operation completes
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara> caller-specific data passed to <parameter>callback</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> TRUE if the request was successful, FALSE if it failed
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-settings-system-interface-get-permissions" role="function">
+<title>nm_settings_system_interface_get_permissions ()</title>
+<indexterm zone="nm-settings-system-interface-get-permissions"><primary sortas="nm_settings_system_interface_get_permissions">nm_settings_system_interface_get_permissions</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_settings_system_interface_get_permissions
+                                                        (<link linkend="NMSettingsSystemInterface">NMSettingsSystemInterface</link> *settings,
+                                                         <link linkend="NMSettingsSystemGetPermissionsFunc">NMSettingsSystemGetPermissionsFunc</link> callback,
+                                                         <link linkend="gpointer">gpointer</link> user_data);</programlisting>
+<para>
+Requests an indication of the operations the caller is permitted to perform
+including those that may require authorization.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>settings</parameter>&#160;:</term>
+<listitem><simpara> a object implementing <link linkend="NMSettingsSystemInterface"><literal>NMSettingsSystemInterface</literal></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>callback</parameter>&#160;:</term>
+<listitem><simpara> callback to be called when the permissions operation completes
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara> caller-specific data passed to <parameter>callback</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> TRUE if the request was successful, FALSE if it failed
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
 
 </refsect1>
 

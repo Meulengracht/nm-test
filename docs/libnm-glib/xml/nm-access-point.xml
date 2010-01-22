@@ -81,55 +81,55 @@ const <link linkend="char">char</link> *        <link linkend="nm-access-point-g
 <title role="details.title">Details</title>
 <refsect2 id="NM-ACCESS-POINT-FLAGS--CAPS" role="macro">
 <title>NM_ACCESS_POINT_FLAGS</title>
-<indexterm zone="NM-ACCESS-POINT-FLAGS--CAPS"><primary sortas="NM_ACCESS_POINT_FLAGS">NM_ACCESS_POINT_FLAGS</primary></indexterm><programlisting>#define NM_ACCESS_POINT_FLAGS      "flags"
+<indexterm zone="NM-ACCESS-POINT-FLAGS--CAPS"><primary sortas="NM_ACCESS_POINT_FLAGS">NM_ACCESS_POINT_FLAGS</primary></indexterm><programlisting>#define NM_ACCESS_POINT_FLAGS       "flags"
 </programlisting>
 <para>
 </para></refsect2>
 <refsect2 id="NM-ACCESS-POINT-WPA-FLAGS--CAPS" role="macro">
 <title>NM_ACCESS_POINT_WPA_FLAGS</title>
-<indexterm zone="NM-ACCESS-POINT-WPA-FLAGS--CAPS"><primary sortas="NM_ACCESS_POINT_WPA_FLAGS">NM_ACCESS_POINT_WPA_FLAGS</primary></indexterm><programlisting>#define NM_ACCESS_POINT_WPA_FLAGS  "wpa-flags"
+<indexterm zone="NM-ACCESS-POINT-WPA-FLAGS--CAPS"><primary sortas="NM_ACCESS_POINT_WPA_FLAGS">NM_ACCESS_POINT_WPA_FLAGS</primary></indexterm><programlisting>#define NM_ACCESS_POINT_WPA_FLAGS   "wpa-flags"
 </programlisting>
 <para>
 </para></refsect2>
 <refsect2 id="NM-ACCESS-POINT-RSN-FLAGS--CAPS" role="macro">
 <title>NM_ACCESS_POINT_RSN_FLAGS</title>
-<indexterm zone="NM-ACCESS-POINT-RSN-FLAGS--CAPS"><primary sortas="NM_ACCESS_POINT_RSN_FLAGS">NM_ACCESS_POINT_RSN_FLAGS</primary></indexterm><programlisting>#define NM_ACCESS_POINT_RSN_FLAGS  "rsn-flags"
+<indexterm zone="NM-ACCESS-POINT-RSN-FLAGS--CAPS"><primary sortas="NM_ACCESS_POINT_RSN_FLAGS">NM_ACCESS_POINT_RSN_FLAGS</primary></indexterm><programlisting>#define NM_ACCESS_POINT_RSN_FLAGS   "rsn-flags"
 </programlisting>
 <para>
 </para></refsect2>
 <refsect2 id="NM-ACCESS-POINT-SSID--CAPS" role="macro">
 <title>NM_ACCESS_POINT_SSID</title>
-<indexterm zone="NM-ACCESS-POINT-SSID--CAPS"><primary sortas="NM_ACCESS_POINT_SSID">NM_ACCESS_POINT_SSID</primary></indexterm><programlisting>#define NM_ACCESS_POINT_SSID       "ssid"
+<indexterm zone="NM-ACCESS-POINT-SSID--CAPS"><primary sortas="NM_ACCESS_POINT_SSID">NM_ACCESS_POINT_SSID</primary></indexterm><programlisting>#define NM_ACCESS_POINT_SSID        "ssid"
 </programlisting>
 <para>
 </para></refsect2>
 <refsect2 id="NM-ACCESS-POINT-FREQUENCY--CAPS" role="macro">
 <title>NM_ACCESS_POINT_FREQUENCY</title>
-<indexterm zone="NM-ACCESS-POINT-FREQUENCY--CAPS"><primary sortas="NM_ACCESS_POINT_FREQUENCY">NM_ACCESS_POINT_FREQUENCY</primary></indexterm><programlisting>#define NM_ACCESS_POINT_FREQUENCY  "frequency"
+<indexterm zone="NM-ACCESS-POINT-FREQUENCY--CAPS"><primary sortas="NM_ACCESS_POINT_FREQUENCY">NM_ACCESS_POINT_FREQUENCY</primary></indexterm><programlisting>#define NM_ACCESS_POINT_FREQUENCY   "frequency"
 </programlisting>
 <para>
 </para></refsect2>
 <refsect2 id="NM-ACCESS-POINT-HW-ADDRESS--CAPS" role="macro">
 <title>NM_ACCESS_POINT_HW_ADDRESS</title>
-<indexterm zone="NM-ACCESS-POINT-HW-ADDRESS--CAPS"><primary sortas="NM_ACCESS_POINT_HW_ADDRESS">NM_ACCESS_POINT_HW_ADDRESS</primary></indexterm><programlisting>#define NM_ACCESS_POINT_HW_ADDRESS "hw-address"
+<indexterm zone="NM-ACCESS-POINT-HW-ADDRESS--CAPS"><primary sortas="NM_ACCESS_POINT_HW_ADDRESS">NM_ACCESS_POINT_HW_ADDRESS</primary></indexterm><programlisting>#define NM_ACCESS_POINT_HW_ADDRESS  "hw-address"
 </programlisting>
 <para>
 </para></refsect2>
 <refsect2 id="NM-ACCESS-POINT-MODE--CAPS" role="macro">
 <title>NM_ACCESS_POINT_MODE</title>
-<indexterm zone="NM-ACCESS-POINT-MODE--CAPS"><primary sortas="NM_ACCESS_POINT_MODE">NM_ACCESS_POINT_MODE</primary></indexterm><programlisting>#define NM_ACCESS_POINT_MODE       "mode"
+<indexterm zone="NM-ACCESS-POINT-MODE--CAPS"><primary sortas="NM_ACCESS_POINT_MODE">NM_ACCESS_POINT_MODE</primary></indexterm><programlisting>#define NM_ACCESS_POINT_MODE        "mode"
 </programlisting>
 <para>
 </para></refsect2>
 <refsect2 id="NM-ACCESS-POINT-MAX-BITRATE--CAPS" role="macro">
 <title>NM_ACCESS_POINT_MAX_BITRATE</title>
-<indexterm zone="NM-ACCESS-POINT-MAX-BITRATE--CAPS"><primary sortas="NM_ACCESS_POINT_MAX_BITRATE">NM_ACCESS_POINT_MAX_BITRATE</primary></indexterm><programlisting>#define NM_ACCESS_POINT_MAX_BITRATE   "max-bitrate"
+<indexterm zone="NM-ACCESS-POINT-MAX-BITRATE--CAPS"><primary sortas="NM_ACCESS_POINT_MAX_BITRATE">NM_ACCESS_POINT_MAX_BITRATE</primary></indexterm><programlisting>#define NM_ACCESS_POINT_MAX_BITRATE "max-bitrate"
 </programlisting>
 <para>
 </para></refsect2>
 <refsect2 id="NM-ACCESS-POINT-STRENGTH--CAPS" role="macro">
 <title>NM_ACCESS_POINT_STRENGTH</title>
-<indexterm zone="NM-ACCESS-POINT-STRENGTH--CAPS"><primary sortas="NM_ACCESS_POINT_STRENGTH">NM_ACCESS_POINT_STRENGTH</primary></indexterm><programlisting>#define NM_ACCESS_POINT_STRENGTH   "strength"
+<indexterm zone="NM-ACCESS-POINT-STRENGTH--CAPS"><primary sortas="NM_ACCESS_POINT_STRENGTH">NM_ACCESS_POINT_STRENGTH</primary></indexterm><programlisting>#define NM_ACCESS_POINT_STRENGTH    "strength"
 </programlisting>
 <para>
 </para></refsect2>
@@ -269,7 +269,7 @@ Gets the current signal strength of the access point.</para>
 <para>
 </para><variablelist role="params">
 <varlistentry><term><parameter>ap</parameter>&#160;:</term>
-<listitem><simpara> 
+<listitem><simpara> a <link linkend="NMAccessPoint"><type>NMAccessPoint</type></link>
 </simpara></listitem></varlistentry>
 <varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the signal strength
 </simpara></listitem></varlistentry>

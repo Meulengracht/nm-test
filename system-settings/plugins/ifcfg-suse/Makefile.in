@@ -34,20 +34,15 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@NO_GIO_TRUE@am__append_1 = \
-@NO_GIO_TRUE@	$(top_builddir)/gfilemonitor/libgfilemonitor.la
-
-@NO_GIO_FALSE@am__append_2 = \
-@NO_GIO_FALSE@	$(GIO_LIBS)
-
 subdir = system-settings/plugins/ifcfg-suse
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/compiler_warnings.m4 \
 	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/libnl-check.m4 $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -78,16 +73,11 @@ am__base_list = \
 am__installdirs = "$(DESTDIR)$(pkglibdir)"
 LTLIBRARIES = $(pkglib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-@NO_GIO_FALSE@am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1)
 libnm_settings_plugin_ifcfg_suse_la_DEPENDENCIES =  \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(top_builddir)/libnm-util/libnm-util.la \
-	$(top_builddir)/libnm-glib/libnm_glib.la $(am__append_1) \
-	$(am__DEPENDENCIES_2)
+	$(top_builddir)/libnm-util/libnm-util.la \
+	$(top_builddir)/libnm-glib/libnm-glib.la $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_libnm_settings_plugin_ifcfg_suse_la_OBJECTS =  \
-	libnm_settings_plugin_ifcfg_suse_la-nm-suse-connection.lo \
-	libnm_settings_plugin_ifcfg_suse_la-shvar.lo \
-	libnm_settings_plugin_ifcfg_suse_la-parser.lo \
 	libnm_settings_plugin_ifcfg_suse_la-plugin.lo
 libnm_settings_plugin_ifcfg_suse_la_OBJECTS =  \
 	$(am_libnm_settings_plugin_ifcfg_suse_la_OBJECTS)
@@ -162,8 +152,8 @@ GNUTLS_CFLAGS = @GNUTLS_CFLAGS@
 GNUTLS_LIBS = @GNUTLS_LIBS@
 GREP = @GREP@
 GTKDOC_CHECK = @GTKDOC_CHECK@
-HAL_CFLAGS = @HAL_CFLAGS@
-HAL_LIBS = @HAL_LIBS@
+GUDEV_CFLAGS = @GUDEV_CFLAGS@
+GUDEV_LIBS = @GUDEV_LIBS@
 HTML_DIR = @HTML_DIR@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -176,8 +166,10 @@ INTLTOOL_EXTRACT = @INTLTOOL_EXTRACT@
 INTLTOOL_MERGE = @INTLTOOL_MERGE@
 INTLTOOL_PERL = @INTLTOOL_PERL@
 INTLTOOL_UPDATE = @INTLTOOL_UPDATE@
+IPTABLES_PATH = @IPTABLES_PATH@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
+LIBDL = @LIBDL@
 LIBGCRYPT_CFLAGS = @LIBGCRYPT_CFLAGS@
 LIBGCRYPT_CONFIG = @LIBGCRYPT_CONFIG@
 LIBGCRYPT_LIBS = @LIBGCRYPT_LIBS@
@@ -187,8 +179,6 @@ LIBNL_LIBS = @LIBNL_LIBS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
-LIBUDEV_CFLAGS = @LIBUDEV_CFLAGS@
-LIBUDEV_LIBS = @LIBUDEV_LIBS@
 LIPO = @LIPO@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
@@ -218,7 +208,6 @@ PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POLKIT_CFLAGS = @POLKIT_CFLAGS@
 POLKIT_LIBS = @POLKIT_LIBS@
-POLKIT_POLICY_FILE_VALIDATE = @POLKIT_POLICY_FILE_VALIDATE@
 POSUB = @POSUB@
 PO_IN_DATADIR_FALSE = @PO_IN_DATADIR_FALSE@
 PO_IN_DATADIR_TRUE = @PO_IN_DATADIR_TRUE@
@@ -290,12 +279,6 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 pkglib_LTLIBRARIES = libnm-settings-plugin-ifcfg-suse.la
 libnm_settings_plugin_ifcfg_suse_la_SOURCES = \
-	nm-suse-connection.c \
-	nm-suse-connection.h \
-	shvar.c \
-	shvar.h \
-	parser.c \
-	parser.h \
 	plugin.c \
 	plugin.h
 
@@ -303,20 +286,21 @@ libnm_settings_plugin_ifcfg_suse_la_CPPFLAGS = \
 	$(GLIB_CFLAGS) \
 	$(GMODULE_CFLAGS) \
 	$(DBUS_CFLAGS) \
-	$(POLKIT_CFLAGS) \
 	-DG_DISABLE_DEPRECATED \
-	-I${top_srcdir}/system-settings/src \
+	-I${top_srcdir}/src/system-settings \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/libnm-util \
 	-I$(top_srcdir)/libnm-glib \
 	-DSYSCONFDIR=\"$(sysconfdir)\"
 
 libnm_settings_plugin_ifcfg_suse_la_LDFLAGS = -module -avoid-version
-libnm_settings_plugin_ifcfg_suse_la_LIBADD = $(GLIB_LIBS) \
-	$(GMODULE_LIBS) $(POLKIT_LIBS) \
+libnm_settings_plugin_ifcfg_suse_la_LIBADD = \
 	$(top_builddir)/libnm-util/libnm-util.la \
-	$(top_builddir)/libnm-glib/libnm_glib.la $(am__append_1) \
-	$(am__append_2)
+	$(top_builddir)/libnm-glib/libnm-glib.la \
+	$(GLIB_LIBS) \
+	$(GMODULE_LIBS) \
+	$(GIO_LIBS)
+
 all: all-am
 
 .SUFFIXES:
@@ -391,10 +375,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_settings_plugin_ifcfg_suse_la-nm-suse-connection.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_settings_plugin_ifcfg_suse_la-parser.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_settings_plugin_ifcfg_suse_la-plugin.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_settings_plugin_ifcfg_suse_la-shvar.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -419,27 +400,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
-
-libnm_settings_plugin_ifcfg_suse_la-nm-suse-connection.lo: nm-suse-connection.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libnm_settings_plugin_ifcfg_suse_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libnm_settings_plugin_ifcfg_suse_la-nm-suse-connection.lo -MD -MP -MF $(DEPDIR)/libnm_settings_plugin_ifcfg_suse_la-nm-suse-connection.Tpo -c -o libnm_settings_plugin_ifcfg_suse_la-nm-suse-connection.lo `test -f 'nm-suse-connection.c' || echo '$(srcdir)/'`nm-suse-connection.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libnm_settings_plugin_ifcfg_suse_la-nm-suse-connection.Tpo $(DEPDIR)/libnm_settings_plugin_ifcfg_suse_la-nm-suse-connection.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='nm-suse-connection.c' object='libnm_settings_plugin_ifcfg_suse_la-nm-suse-connection.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libnm_settings_plugin_ifcfg_suse_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libnm_settings_plugin_ifcfg_suse_la-nm-suse-connection.lo `test -f 'nm-suse-connection.c' || echo '$(srcdir)/'`nm-suse-connection.c
-
-libnm_settings_plugin_ifcfg_suse_la-shvar.lo: shvar.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libnm_settings_plugin_ifcfg_suse_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libnm_settings_plugin_ifcfg_suse_la-shvar.lo -MD -MP -MF $(DEPDIR)/libnm_settings_plugin_ifcfg_suse_la-shvar.Tpo -c -o libnm_settings_plugin_ifcfg_suse_la-shvar.lo `test -f 'shvar.c' || echo '$(srcdir)/'`shvar.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libnm_settings_plugin_ifcfg_suse_la-shvar.Tpo $(DEPDIR)/libnm_settings_plugin_ifcfg_suse_la-shvar.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='shvar.c' object='libnm_settings_plugin_ifcfg_suse_la-shvar.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libnm_settings_plugin_ifcfg_suse_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libnm_settings_plugin_ifcfg_suse_la-shvar.lo `test -f 'shvar.c' || echo '$(srcdir)/'`shvar.c
-
-libnm_settings_plugin_ifcfg_suse_la-parser.lo: parser.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libnm_settings_plugin_ifcfg_suse_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libnm_settings_plugin_ifcfg_suse_la-parser.lo -MD -MP -MF $(DEPDIR)/libnm_settings_plugin_ifcfg_suse_la-parser.Tpo -c -o libnm_settings_plugin_ifcfg_suse_la-parser.lo `test -f 'parser.c' || echo '$(srcdir)/'`parser.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libnm_settings_plugin_ifcfg_suse_la-parser.Tpo $(DEPDIR)/libnm_settings_plugin_ifcfg_suse_la-parser.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='parser.c' object='libnm_settings_plugin_ifcfg_suse_la-parser.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libnm_settings_plugin_ifcfg_suse_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libnm_settings_plugin_ifcfg_suse_la-parser.lo `test -f 'parser.c' || echo '$(srcdir)/'`parser.c
 
 libnm_settings_plugin_ifcfg_suse_la-plugin.lo: plugin.c
 @am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libnm_settings_plugin_ifcfg_suse_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libnm_settings_plugin_ifcfg_suse_la-plugin.lo -MD -MP -MF $(DEPDIR)/libnm_settings_plugin_ifcfg_suse_la-plugin.Tpo -c -o libnm_settings_plugin_ifcfg_suse_la-plugin.lo `test -f 'plugin.c' || echo '$(srcdir)/'`plugin.c

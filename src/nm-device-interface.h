@@ -32,25 +32,31 @@
 #define NM_IS_DEVICE_INTERFACE(obj)   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), NM_TYPE_DEVICE_INTERFACE))
 #define NM_DEVICE_INTERFACE_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), NM_TYPE_DEVICE_INTERFACE, NMDeviceInterface))
 
+#define IS_ACTIVATING_STATE(state) \
+	(state > NM_DEVICE_STATE_DISCONNECTED && state < NM_DEVICE_STATE_ACTIVATED)
+
 typedef enum
 {
 	NM_DEVICE_INTERFACE_ERROR_CONNECTION_ACTIVATING = 0,
 	NM_DEVICE_INTERFACE_ERROR_CONNECTION_INVALID,
+	NM_DEVICE_INTERFACE_ERROR_NOT_ACTIVE,
 } NMDeviceInterfaceError;
 
 #define NM_DEVICE_INTERFACE_ERROR (nm_device_interface_error_quark ())
 #define NM_TYPE_DEVICE_INTERFACE_ERROR (nm_device_interface_error_get_type ()) 
 
-#define NM_DEVICE_INTERFACE_UDI "udi"
-#define NM_DEVICE_INTERFACE_IFACE "interface"
-#define NM_DEVICE_INTERFACE_DRIVER "driver"
+#define NM_DEVICE_INTERFACE_UDI          "udi"
+#define NM_DEVICE_INTERFACE_IFACE        "interface"
+#define NM_DEVICE_INTERFACE_DRIVER       "driver"
 #define NM_DEVICE_INTERFACE_CAPABILITIES "capabilities"
-#define NM_DEVICE_INTERFACE_IP4_ADDRESS "ip4-address"
-#define NM_DEVICE_INTERFACE_IP4_CONFIG "ip4-config"
+#define NM_DEVICE_INTERFACE_IP4_ADDRESS  "ip4-address"
+#define NM_DEVICE_INTERFACE_IP4_CONFIG   "ip4-config"
 #define NM_DEVICE_INTERFACE_DHCP4_CONFIG "dhcp4-config"
-#define NM_DEVICE_INTERFACE_STATE "state"
-#define NM_DEVICE_INTERFACE_DEVICE_TYPE "device-type" /* ugh */
-#define NM_DEVICE_INTERFACE_MANAGED "managed"
+#define NM_DEVICE_INTERFACE_IP6_CONFIG   "ip6-config"
+#define NM_DEVICE_INTERFACE_STATE        "state"
+#define NM_DEVICE_INTERFACE_DEVICE_TYPE  "device-type" /* ugh */
+#define NM_DEVICE_INTERFACE_MANAGED      "managed"
+#define NM_DEVICE_INTERFACE_TYPE_DESC    "type-desc"  /* Internal only */
 
 typedef enum {
 	NM_DEVICE_INTERFACE_PROP_FIRST = 0x1000,
@@ -62,9 +68,11 @@ typedef enum {
 	NM_DEVICE_INTERFACE_PROP_IP4_ADDRESS,
 	NM_DEVICE_INTERFACE_PROP_IP4_CONFIG,
 	NM_DEVICE_INTERFACE_PROP_DHCP4_CONFIG,
+	NM_DEVICE_INTERFACE_PROP_IP6_CONFIG,
 	NM_DEVICE_INTERFACE_PROP_STATE,
 	NM_DEVICE_INTERFACE_PROP_DEVICE_TYPE,
 	NM_DEVICE_INTERFACE_PROP_MANAGED,
+	NM_DEVICE_INTERFACE_PROP_TYPE_DESC,
 } NMDeviceInterfaceProp;
 
 
@@ -83,6 +91,13 @@ struct _NMDeviceInterface {
 	                      GError **error);
 
 	void (*deactivate) (NMDeviceInterface *device, NMDeviceStateReason reason);
+	gboolean (*disconnect) (NMDeviceInterface *device, GError **error);
+
+	gboolean (*spec_match_list) (NMDeviceInterface *device, const GSList *specs);
+
+	NMConnection * (*connection_match_config) (NMDeviceInterface *device, const GSList *specs);
+
+	void (*set_enabled) (NMDeviceInterface *device, gboolean enabled);
 
 	/* Signals */
 	void (*state_changed) (NMDeviceInterface *device,
@@ -93,6 +108,8 @@ struct _NMDeviceInterface {
 
 GQuark nm_device_interface_error_quark (void);
 GType nm_device_interface_error_get_type (void);
+
+gboolean nm_device_interface_disconnect (NMDeviceInterface *device, GError **error);
 
 GType nm_device_interface_get_type (void);
 
@@ -107,5 +124,15 @@ gboolean nm_device_interface_activate (NMDeviceInterface *device,
 void nm_device_interface_deactivate (NMDeviceInterface *device, NMDeviceStateReason reason);
 
 NMDeviceState nm_device_interface_get_state (NMDeviceInterface *device);
+
+gboolean nm_device_interface_spec_match_list (NMDeviceInterface *device,
+                                              const GSList *specs);
+
+NMConnection * nm_device_interface_connection_match_config (NMDeviceInterface *device,
+                                                            const GSList *connections);
+
+gboolean nm_device_interface_can_assume_connection (NMDeviceInterface *device);
+
+void nm_device_interface_set_enabled (NMDeviceInterface *device, gboolean enabled);
 
 #endif /* NM_DEVICE_INTERFACE_H */

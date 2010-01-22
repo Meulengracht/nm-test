@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>NMConnection</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.74.3">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="index.html" title="libnm-util Reference Manual">
 <link rel="up" href="ch01.html" title="libnm-util API Reference">
 <link rel="prev" href="ch01.html" title="libnm-util API Reference">
@@ -35,7 +35,7 @@
                 <a href="#NMConnection.signals" class="shortcut">Signals</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="NMConnection">
 <a name="NMConnection"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -44,7 +44,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="NMConnection.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
 
@@ -270,7 +270,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 >GQuark</a> error_quark);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="NMConnection.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
@@ -279,22 +279,22 @@ href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Ty
    +----NMConnection
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="NMConnection.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a
 href="http://[SERVER]/libnm-util/NMConnection.html#NMConnection--path"
 >path</a>"                     <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
->gchar</a>*                : Read / Write
+>gchar</a>*                : Read / Write / Construct
   "<a
 href="http://[SERVER]/libnm-util/NMConnection.html#NMConnection--scope"
 >scope</a>"                    <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
->guint</a>                 : Read / Write
+>guint</a>                 : Read / Write / Construct
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signals">
 <a name="NMConnection.signals"></a><h2>Signals</h2>
 <pre class="synopsis">
   "<a
@@ -302,7 +302,7 @@ href="http://[SERVER]/libnm-util/NMConnection.html#NMConnection-secrets-updated"
 >secrets-updated</a>"                                : Run First
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="NMConnection.description"></a><h2>Description</h2>
 <p>
 An <a
@@ -345,9 +345,9 @@ for all users.</p>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="NMConnection.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum NMConnectionScope">
 <a name="NMConnectionScope"></a><h3>enum NMConnectionScope</h3>
 <pre class="programlisting">typedef enum {
 	NM_CONNECTION_SCOPE_UNKNOWN = 0,
@@ -383,7 +383,7 @@ connection.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum NMConnectionError">
 <a name="NMConnectionError"></a><h3>enum NMConnectionError</h3>
 <pre class="programlisting">typedef enum
 {
@@ -420,7 +420,7 @@ href="http://[SERVER]/libnm-util/NMSettingConnection.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_TYPE_CONNECTION_ERROR">
 <a name="NM-TYPE-CONNECTION-ERROR--CAPS"></a><h3>NM_TYPE_CONNECTION_ERROR</h3>
 <pre class="programlisting">#define NM_TYPE_CONNECTION_ERROR (nm_connection_error_get_type ()) 
 </pre>
@@ -428,7 +428,7 @@ href="http://[SERVER]/libnm-util/NMSettingConnection.html"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_CONNECTION_ERROR">
 <a name="NM-CONNECTION-ERROR--CAPS"></a><h3>NM_CONNECTION_ERROR</h3>
 <pre class="programlisting">#define NM_CONNECTION_ERROR nm_connection_error_quark ()
 </pre>
@@ -436,7 +436,7 @@ href="http://[SERVER]/libnm-util/NMSettingConnection.html"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_error_quark ()">
 <a name="nm-connection-error-quark"></a><h3>nm_connection_error_quark ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
@@ -459,7 +459,7 @@ href="http://[SERVER]/libnm-util/NMConnection.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_CONNECTION_SCOPE">
 <a name="NM-CONNECTION-SCOPE--CAPS"></a><h3>NM_CONNECTION_SCOPE</h3>
 <pre class="programlisting">#define NM_CONNECTION_SCOPE "scope"
 </pre>
@@ -467,7 +467,7 @@ href="http://[SERVER]/libnm-util/NMConnection.html"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_CONNECTION_PATH">
 <a name="NM-CONNECTION-PATH--CAPS"></a><h3>NM_CONNECTION_PATH</h3>
 <pre class="programlisting">#define NM_CONNECTION_PATH "path"
 </pre>
@@ -475,7 +475,7 @@ href="http://[SERVER]/libnm-util/NMConnection.html"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NMConnection">
 <a name="NMConnection-struct"></a><h3>NMConnection</h3>
 <pre class="programlisting">typedef struct _NMConnection NMConnection;</pre>
 <p>
@@ -485,7 +485,7 @@ It should only be accessed through the functions described below.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_get_type ()">
 <a name="nm-connection-get-type"></a><h3>nm_connection_get_type ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"
@@ -502,7 +502,7 @@ href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.h
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_new ()">
 <a name="nm-connection-new"></a><h3>nm_connection_new ()</h3>
 <pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMConnection.html"
@@ -527,7 +527,7 @@ href="http://[SERVER]/libnm-util/NMConnection.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_new_from_hash ()">
 <a name="nm-connection-new-from-hash"></a><h3>nm_connection_new_from_hash ()</h3>
 <pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMConnection.html"
@@ -558,9 +558,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Hash-Tables.html#GHashTa
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
-<td> location of a <a
-href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"
-><span class="type">GError</span></a> to return on failure
+<td> on unsuccessful return, an error
 </td>
 </tr>
 <tr>
@@ -576,7 +574,7 @@ validate
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_duplicate ()">
 <a name="nm-connection-duplicate"></a><h3>nm_connection_duplicate ()</h3>
 <pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMConnection.html"
@@ -613,7 +611,7 @@ href="http://[SERVER]/libnm-util/NMConnection.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_add_setting ()">
 <a name="nm-connection-add-setting"></a><h3>nm_connection_add_setting ()</h3>
 <pre class="programlisting">void                nm_connection_add_setting           (<a
 href="http://[SERVER]/libnm-util/NMConnection.html"
@@ -657,7 +655,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_remove_setting ()">
 <a name="nm-connection-remove-setting"></a><h3>nm_connection_remove_setting ()</h3>
 <pre class="programlisting">void                nm_connection_remove_setting        (<a
 href="http://[SERVER]/libnm-util/NMConnection.html"
@@ -699,7 +697,7 @@ href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.h
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_get_setting ()">
 <a name="nm-connection-get-setting"></a><h3>nm_connection_get_setting ()</h3>
 <pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMSetting.html"
@@ -751,7 +749,7 @@ href="http://[SERVER]/libnm-util/NMConnection.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_get_setting_by_name ()">
 <a name="nm-connection-get-setting-by-name"></a><h3>nm_connection_get_setting_by_name ()</h3>
 <pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMSetting.html"
@@ -797,7 +795,7 @@ href="http://[SERVER]/libnm-util/NMConnection.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_replace_settings ()">
 <a name="nm-connection-replace-settings"></a><h3>nm_connection_replace_settings ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -852,7 +850,7 @@ if they were not
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_compare ()">
 <a name="nm-connection-compare"></a><h3>nm_connection_compare ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -910,7 +908,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FAL
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_verify ()">
 <a name="nm-connection-verify"></a><h3>nm_connection_verify ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -970,7 +968,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FAL
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_need_secrets ()">
 <a name="nm-connection-need-secrets"></a><h3>nm_connection_need_secrets ()</h3>
 <pre class="programlisting">const char *        nm_connection_need_secrets          (<a
 href="http://[SERVER]/libnm-util/NMConnection.html"
@@ -1027,7 +1025,7 @@ missing secrets
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_clear_secrets ()">
 <a name="nm-connection-clear-secrets"></a><h3>nm_connection_clear_secrets ()</h3>
 <pre class="programlisting">void                nm_connection_clear_secrets         (<a
 href="http://[SERVER]/libnm-util/NMConnection.html"
@@ -1049,7 +1047,7 @@ href="http://[SERVER]/libnm-util/NMConnection.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_update_secrets ()">
 <a name="nm-connection-update-secrets"></a><h3>nm_connection_update_secrets ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1114,7 +1112,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FAL
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_set_scope ()">
 <a name="nm-connection-set-scope"></a><h3>nm_connection_set_scope ()</h3>
 <pre class="programlisting">void                nm_connection_set_scope             (<a
 href="http://[SERVER]/libnm-util/NMConnection.html"
@@ -1154,7 +1152,7 @@ href="http://[SERVER]/libnm-util/NMConnection.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_get_scope ()">
 <a name="nm-connection-get-scope"></a><h3>nm_connection_get_scope ()</h3>
 <pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMConnection.html#NMConnectionScope"
@@ -1187,7 +1185,7 @@ href="http://[SERVER]/libnm-util/NMConnection.html#nm-connection-set-scope"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_set_path ()">
 <a name="nm-connection-set-path"></a><h3>nm_connection_set_path ()</h3>
 <pre class="programlisting">void                nm_connection_set_path              (<a
 href="http://[SERVER]/libnm-util/NMConnection.html"
@@ -1221,7 +1219,7 @@ which provides the connection
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_get_path ()">
 <a name="nm-connection-get-path"></a><h3>nm_connection_get_path ()</h3>
 <pre class="programlisting">const char *        nm_connection_get_path              (<a
 href="http://[SERVER]/libnm-util/NMConnection.html"
@@ -1252,7 +1250,7 @@ href="http://[SERVER]/libnm-util/NMConnection.html#nm-connection-set-path"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_for_each_setting_value ()">
 <a name="nm-connection-for-each-setting-value"></a><h3>nm_connection_for_each_setting_value ()</h3>
 <pre class="programlisting">void                nm_connection_for_each_setting_value
                                                         (<a
@@ -1297,7 +1295,7 @@ href="http://[SERVER]/libnm-util/NMConnection.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_to_hash ()">
 <a name="nm-connection-to-hash"></a><h3>nm_connection_to_hash ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Hash-Tables.html#GHashTable"
@@ -1348,7 +1346,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Hash-Tables.html#g-hash-
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_dump ()">
 <a name="nm-connection-dump"></a><h3>nm_connection_dump ()</h3>
 <pre class="programlisting">void                nm_connection_dump                  (<a
 href="http://[SERVER]/libnm-util/NMConnection.html"
@@ -1371,7 +1369,7 @@ href="http://[SERVER]/libnm-util/NMConnection.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_create_setting ()">
 <a name="nm-connection-create-setting"></a><h3>nm_connection_create_setting ()</h3>
 <pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMSetting.html"
@@ -1399,7 +1397,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_lookup_setting_type ()">
 <a name="nm-connection-lookup-setting-type"></a><h3>nm_connection_lookup_setting_type ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"
@@ -1429,7 +1427,7 @@ href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.h
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_connection_lookup_setting_type_by_quark ()">
 <a name="nm-connection-lookup-setting-type-by-quark"></a><h3>nm_connection_lookup_setting_type_by_quark ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"
@@ -1463,13 +1461,13 @@ href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.h
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="NMConnection.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "path" property'>
 <a name="NMConnection--path"></a><h3>The <code class="literal">"path"</code> property</h3>
 <pre class="programlisting">  "path"                     <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
->gchar</a>*                : Read / Write</pre>
+>gchar</a>*                : Read / Write / Construct</pre>
 <p>
 The connection's D-Bus path, used only by the calling process as a record
 of the D-Bus path of the connection as provided by a settings service.</p>
@@ -1478,11 +1476,11 @@ of the D-Bus path of the connection as provided by a settings service.</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "scope" property'>
 <a name="NMConnection--scope"></a><h3>The <code class="literal">"scope"</code> property</h3>
 <pre class="programlisting">  "scope"                    <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
->guint</a>                 : Read / Write</pre>
+>guint</a>                 : Read / Write / Construct</pre>
 <p>
 The connection's scope, used only by the calling process as a record
 of which settings service the connection is provided by.  One of the
@@ -1493,9 +1491,9 @@ NM_CONNECTION_SCOPE_* defines.</p>
 <p>Default value: 0</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signal Details">
 <a name="NMConnection.signal-details"></a><h2>Signal Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "secrets-updated" signal'>
 <a name="NMConnection-secrets-updated"></a><h3>The <code class="literal">"secrets-updated"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a
 href="http://[SERVER]/libnm-util/NMConnection.html"

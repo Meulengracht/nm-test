@@ -20,8 +20,11 @@
  */
 
 #include <glib.h>
+#include <errno.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "NetworkManagerUtils.h"
 #include "nm-utils.h"
@@ -94,38 +97,6 @@ nm_spawn_process (const char *args)
 
 	g_strfreev (argv);
 	return status;
-}
-
-void
-nm_print_device_capabilities (NMDevice *dev)
-{
-	gboolean full_support = TRUE;
-	guint32 caps;
-	const char *driver, *iface;
-
-	g_return_if_fail (dev != NULL);
-
-	caps = nm_device_get_capabilities (dev);
-	iface = nm_device_get_iface (dev);
-	driver = nm_device_get_driver (dev);
-	if (!driver)
-		driver = "<unknown>";
-
-	if (caps == NM_DEVICE_CAP_NONE || !(NM_DEVICE_CAP_NM_SUPPORTED)) {
-		nm_info ("(%s): driver '%s' is unsupported", iface, driver);
-		return;
-	}
-
-	if (NM_IS_DEVICE_ETHERNET (dev)) {
-		if (!(caps & NM_DEVICE_CAP_CARRIER_DETECT)) {
-			nm_info ("(%s): driver '%s' does not support carrier detection.\n"
-					"\tYou must switch to it manually.",
-					iface, driver);
-			full_support = FALSE;
-		}
-	} else if (NM_IS_DEVICE_WIFI (dev)) {
-		/* Print out WPA support */
-	}
 }
 
 /*
@@ -291,46 +262,110 @@ nm_utils_merge_ip4_config (NMIP4Config *ip4_config, NMSettingIP4Config *setting)
 		nm_ip4_config_set_never_default (ip4_config, TRUE);
 }
 
-static void
-nm_gvalue_destroy (gpointer data)
+static inline gboolean
+ip6_addresses_equal (const struct in6_addr *a, const struct in6_addr *b)
 {
-	GValue *value = (GValue *) data;
-
-	g_value_unset (value);
-	g_slice_free (GValue, value);
+	return memcmp (a, b, sizeof (struct in6_addr)) == 0;
 }
 
-static GValue *
-str_to_gvalue (const char *str)
+/* This is exactly identical to nm_utils_merge_ip4_config, with s/4/6/,
+ * except that we can't compare addresses with ==.
+ */
+void
+nm_utils_merge_ip6_config (NMIP6Config *ip6_config, NMSettingIP6Config *setting)
 {
-	GValue *value;
+	int i, j;
 
-	value = g_slice_new0 (GValue);
-	g_value_init (value, G_TYPE_STRING);
-	g_value_set_string (value, str);
-	return value;
-}
+	if (!setting)
+		return; /* Defaults are just fine */
 
-static GValue *
-op_to_gvalue (const char *op)
-{
-	GValue *value;
+	if (nm_setting_ip6_config_get_ignore_auto_dns (setting)) {
+		nm_ip6_config_reset_nameservers (ip6_config);
+		nm_ip6_config_reset_domains (ip6_config);
+		nm_ip6_config_reset_searches (ip6_config);
+	}
 
-	value = g_slice_new0 (GValue);
-	g_value_init (value, DBUS_TYPE_G_OBJECT_PATH);
-	g_value_set_boxed (value, op);
-	return value;
-}
+	if (nm_setting_ip6_config_get_ignore_auto_routes (setting))
+		nm_ip6_config_reset_routes (ip6_config);
 
-static GValue *
-uint_to_gvalue (guint32 val)
-{
-	GValue *value;
+	for (i = 0; i < nm_setting_ip6_config_get_num_dns (setting); i++) {
+		const struct in6_addr *ns;
+		gboolean found = FALSE;
 
-	value = g_slice_new0 (GValue);
-	g_value_init (value, G_TYPE_UINT);
-	g_value_set_uint (value, val);
-	return value;
+		/* Avoid dupes */
+		ns = nm_setting_ip6_config_get_dns (setting, i);
+		for (j = 0; j < nm_ip6_config_get_num_nameservers (ip6_config); j++) {
+			if (ip6_addresses_equal (nm_ip6_config_get_nameserver (ip6_config, j), ns)) {
+				found = TRUE;
+				break;
+			}
+		}
+
+		if (!found)
+			nm_ip6_config_add_nameserver (ip6_config, ns);
+	}
+
+	/* DNS search domains */
+	for (i = 0; i < nm_setting_ip6_config_get_num_dns_searches (setting); i++) {
+		const char *search = nm_setting_ip6_config_get_dns_search (setting, i);
+		gboolean found = FALSE;
+
+		/* Avoid dupes */
+		for (j = 0; j < nm_ip6_config_get_num_searches (ip6_config); j++) {
+			if (!strcmp (search, nm_ip6_config_get_search (ip6_config, j))) {
+				found = TRUE;
+				break;
+			}
+		}
+
+		if (!found)
+			nm_ip6_config_add_search (ip6_config, search);
+	}
+
+	/* IPv6 addresses */
+	for (i = 0; i < nm_setting_ip6_config_get_num_addresses (setting); i++) {
+		NMIP6Address *setting_addr = nm_setting_ip6_config_get_address (setting, i);
+		guint32 num;
+
+		num = nm_ip6_config_get_num_addresses (ip6_config);
+		for (j = 0; j < num; j++) {
+			NMIP6Address *cfg_addr = nm_ip6_config_get_address (ip6_config, j);
+
+			/* Dupe, override with user-specified address */
+			if (ip6_addresses_equal (nm_ip6_address_get_address (cfg_addr), nm_ip6_address_get_address (setting_addr))) {
+				nm_ip6_config_replace_address (ip6_config, j, setting_addr);
+				break;
+			}
+		}
+
+		if (j == num)
+			nm_ip6_config_add_address (ip6_config, setting_addr);
+	}
+
+	/* IPv6 routes */
+	for (i = 0; i < nm_setting_ip6_config_get_num_routes (setting); i++) {
+		NMIP6Route *setting_route = nm_setting_ip6_config_get_route (setting, i);
+		guint32 num;
+
+		num = nm_ip6_config_get_num_routes (ip6_config);
+		for (j = 0; j < num; j++) {
+			NMIP6Route *cfg_route = nm_ip6_config_get_route (ip6_config, j);
+
+			/* Dupe, override with user-specified route */
+			if (   ip6_addresses_equal (nm_ip6_route_get_dest (cfg_route), nm_ip6_route_get_dest (setting_route))
+			    && (nm_ip6_route_get_prefix (cfg_route) == nm_ip6_route_get_prefix (setting_route))
+				&& ip6_addresses_equal (nm_ip6_route_get_next_hop (cfg_route), nm_ip6_route_get_next_hop (setting_route))) {
+				nm_ip6_config_replace_route (ip6_config, j, setting_route);
+				break;
+			}
+		}
+
+		if (j == num)
+			nm_ip6_config_add_route (ip6_config, setting_route);
+	}
+
+	if (nm_setting_ip6_config_get_never_default (setting))
+		nm_ip6_config_set_never_default (ip6_config, TRUE);
 }
 
 void
@@ -367,57 +402,48 @@ nm_utils_call_dispatcher (const char *action,
 	if (connection) {
 		connection_hash = nm_connection_to_hash (connection);
 
-		connection_props = g_hash_table_new_full (g_str_hash, g_str_equal,
-		                                          NULL, nm_gvalue_destroy);
+		connection_props = value_hash_create ();
 
 		/* Service name */
 		if (nm_connection_get_scope (connection) == NM_CONNECTION_SCOPE_USER) {
-			g_hash_table_insert (connection_props,
-			                     NMD_CONNECTION_PROPS_SERVICE_NAME,
-			                     str_to_gvalue (NM_DBUS_SERVICE_USER_SETTINGS));
+			value_hash_add_str (connection_props,
+								NMD_CONNECTION_PROPS_SERVICE_NAME,
+								NM_DBUS_SERVICE_USER_SETTINGS);
 		} else if (nm_connection_get_scope (connection) == NM_CONNECTION_SCOPE_SYSTEM) {
-			g_hash_table_insert (connection_props,
-			                     NMD_CONNECTION_PROPS_SERVICE_NAME,
-			                     str_to_gvalue (NM_DBUS_SERVICE_SYSTEM_SETTINGS));
+			value_hash_add_str (connection_props,
+								NMD_CONNECTION_PROPS_SERVICE_NAME,
+								NM_DBUS_SERVICE_SYSTEM_SETTINGS);
 		}
 
 		/* path */
-		g_hash_table_insert (connection_props,
-		                     NMD_CONNECTION_PROPS_PATH,
-		                     op_to_gvalue (nm_connection_get_path (connection)));
+		value_hash_add_object_path (connection_props,
+									NMD_CONNECTION_PROPS_PATH,
+									nm_connection_get_path (connection));
 	} else {
-		connection_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
-		connection_props = g_hash_table_new (g_direct_hash, g_direct_equal);
+		connection_hash = value_hash_create ();
+		connection_props = value_hash_create ();
 	}
 
-	device_props = g_hash_table_new_full (g_str_hash, g_str_equal,
-	                                      NULL, nm_gvalue_destroy);
+	device_props = value_hash_create ();
 
 	/* Hostname actions do not require a device */
 	if (strcmp (action, "hostname")) {
 		/* interface */
-		g_hash_table_insert (device_props, NMD_DEVICE_PROPS_INTERFACE,
-		                     str_to_gvalue (nm_device_get_iface (device)));
+		value_hash_add_str (device_props, NMD_DEVICE_PROPS_INTERFACE, nm_device_get_iface (device));
 
 		/* IP interface */
 		if (vpn_iface) {
-			g_hash_table_insert (device_props, NMD_DEVICE_PROPS_IP_INTERFACE,
-			                     str_to_gvalue (vpn_iface));
+			value_hash_add_str (device_props, NMD_DEVICE_PROPS_IP_INTERFACE, vpn_iface);
 		} else if (nm_device_get_ip_iface (device)) {
-			g_hash_table_insert (device_props, NMD_DEVICE_PROPS_IP_INTERFACE,
-			                     str_to_gvalue (nm_device_get_ip_iface (device)));
+			value_hash_add_str (device_props, NMD_DEVICE_PROPS_IP_INTERFACE, nm_device_get_ip_iface (device));
 		}
 
 		/* type */
-		g_hash_table_insert (device_props, NMD_DEVICE_PROPS_TYPE,
-		                     uint_to_gvalue (nm_device_get_device_type (device)));
+		value_hash_add_uint (device_props, NMD_DEVICE_PROPS_TYPE, nm_device_get_device_type (device));
 
 		/* state */
-		g_hash_table_insert (device_props, NMD_DEVICE_PROPS_STATE,
-		                     uint_to_gvalue (nm_device_get_state (device)));
-
-		g_hash_table_insert (device_props, NMD_DEVICE_PROPS_PATH,
-		                     op_to_gvalue (nm_device_get_udi (device)));
+		value_hash_add_uint (device_props, NMD_DEVICE_PROPS_STATE, nm_device_get_state (device));
+		value_hash_add_object_path (device_props, NMD_DEVICE_PROPS_PATH, nm_device_get_path (device));
 	}
 
 	dbus_g_proxy_call_no_reply (proxy, "Action",
@@ -432,5 +458,124 @@ nm_utils_call_dispatcher (const char *action,
 	g_hash_table_destroy (connection_props);
 	g_hash_table_destroy (device_props);
 	g_object_unref (dbus_mgr);
+}
+
+gboolean
+nm_match_spec_hwaddr (const GSList *specs, const char *hwaddr)
+{
+	const GSList *iter;
+	char *hwaddr_match, *p;
+
+	g_return_val_if_fail (hwaddr != NULL, FALSE);
+
+	p = hwaddr_match = g_strdup_printf ("mac:%s", hwaddr);
+
+	while (*p) {
+		*p = g_ascii_tolower (*p);
+		p++;
+	}
+
+	for (iter = specs; iter; iter = g_slist_next (iter)) {
+		if (!strcmp ((const char *) iter->data, hwaddr_match)) {
+			g_free (hwaddr_match);
+			return TRUE;
+		}
+	}
+
+	g_free (hwaddr_match);
+	return FALSE;
+}
+
+/*********************************/
+
+static void
+nm_gvalue_destroy (gpointer data)
+{
+	GValue *value = (GValue *) data;
+
+	g_value_unset (value);
+	g_slice_free (GValue, value);
+}
+
+GHashTable *
+value_hash_create (void)
+{
+	return g_hash_table_new_full (g_str_hash, g_str_equal, g_free, nm_gvalue_destroy);
+}
+
+void
+value_hash_add (GHashTable *hash,
+				const char *key,
+				GValue *value)
+{
+	g_hash_table_insert (hash, g_strdup (key), value);
+}
+
+void
+value_hash_add_str (GHashTable *hash,
+					const char *key,
+					const char *str)
+{
+	GValue *value;
+
+	value = g_slice_new0 (GValue);
+	g_value_init (value, G_TYPE_STRING);
+	g_value_set_string (value, str);
+
+	value_hash_add (hash, key, value);
+}
+
+void
+value_hash_add_object_path (GHashTable *hash,
+							const char *key,
+							const char *op)
+{
+	GValue *value;
+
+	value = g_slice_new0 (GValue);
+	g_value_init (value, DBUS_TYPE_G_OBJECT_PATH);
+	g_value_set_boxed (value, op);
+
+	value_hash_add (hash, key, value);
+}
+
+void
+value_hash_add_uint (GHashTable *hash,
+					 const char *key,
+					 guint32 val)
+{
+	GValue *value;
+
+	value = g_slice_new0 (GValue);
+	g_value_init (value, G_TYPE_UINT);
+	g_value_set_uint (value, val);
+
+	value_hash_add (hash, key, value);
+}
+
+gboolean
+nm_utils_do_sysctl (const char *path, const char *value)
+{
+	int fd, len, nwrote, total;
+
+	fd = open (path, O_WRONLY | O_TRUNC);
+	if (fd == -1)
+		return FALSE;
+
+	len = strlen (value);
+	total = 0;
+	do {
+		nwrote = write (fd, value + total, len - total);
+		if (nwrote == -1) {
+			if (errno == EINTR)
+				continue;
+			close (fd);
+			return FALSE;
+		}
+		total += nwrote;
+	} while (total < len);
+
+	close (fd);
+	return TRUE;
 }
 

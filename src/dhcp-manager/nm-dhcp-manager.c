@@ -40,6 +40,7 @@
 #include "nm-marshal.h"
 #include "nm-utils.h"
 #include "nm-dbus-manager.h"
+#include "nm-hostname-provider.h"
 #include "nm-dbus-glib-types.h"
 #include "nm-glib-compat.h"
 
@@ -52,6 +53,7 @@ typedef struct {
 	NMDBusManager * dbus_mgr;
 	GHashTable *	devices;
 	DBusGProxy *	proxy;
+	NMHostnameProvider *hostname_provider;
 } NMDHCPManagerPrivate;
 
 
@@ -70,6 +72,8 @@ static guint signals[LAST_SIGNAL] = { 0 };
 static NMDHCPManager *nm_dhcp_manager_new (void);
 
 static void nm_dhcp_manager_cancel_transaction_real (NMDHCPDevice *device);
+
+static void hostname_provider_destroyed (gpointer data, GObject *destroyed_object);
 
 NMDHCPManager *
 nm_dhcp_manager_get (void)
@@ -94,6 +98,11 @@ static void
 finalize (GObject *object)
 {
 	NMDHCPManagerPrivate *priv = NM_DHCP_MANAGER_GET_PRIVATE (object);
+
+	if (priv->hostname_provider) {
+		g_object_weak_unref (G_OBJECT (priv->hostname_provider), hostname_provider_destroyed, object);
+		priv->hostname_provider = NULL;
+	}
 
 	g_hash_table_destroy (priv->devices);
 	g_object_unref (priv->proxy);
@@ -169,7 +178,7 @@ nm_dhcp_device_watch_cleanup (NMDHCPDevice * device)
 static void
 nm_dhcp_device_destroy (NMDHCPDevice *device)
 {
-	int ret;
+	int ignored;
 
 	nm_dhcp_device_timeout_cleanup (device);
 
@@ -180,7 +189,7 @@ nm_dhcp_device_destroy (NMDHCPDevice *device)
 		g_hash_table_destroy (device->options);
 
 	if (device->conf_file) {
-		ret = unlink (device->conf_file);
+		ignored = unlink (device->conf_file);
 		g_free (device->conf_file);
 	}
 
@@ -499,8 +508,7 @@ nm_dhcp_manager_handle_timeout (gpointer user_data)
 {
 	NMDHCPDevice *device = (NMDHCPDevice *) user_data;
 
-	nm_info ("Device '%s' DHCP transaction took too long (>%ds), stopping it.",
-			 device->iface, NM_DHCP_TIMEOUT);
+	nm_info ("(%s): DHCP transaction took too long, stopping it.", device->iface);
 
 	nm_dhcp_manager_cancel_transaction (device->manager, device->iface);
 
@@ -579,10 +587,12 @@ nm_dhcp_manager_begin_transaction (NMDHCPManager *manager,
                                    const char *iface,
                                    const char *uuid,
                                    NMSettingIP4Config *s_ip4,
-                                   guint32 timeout)
+                                   guint32 timeout,
+                                   guint8 *dhcp_anycast_addr)
 {
 	NMDHCPManagerPrivate *priv;
 	NMDHCPDevice *device;
+	NMSettingIP4Config *setting;
 
 	g_return_val_if_fail (NM_IS_DHCP_MANAGER (manager), FALSE);
 	g_return_val_if_fail (iface != NULL, FALSE);
@@ -598,14 +608,35 @@ nm_dhcp_manager_begin_transaction (NMDHCPManager *manager,
 		nm_dhcp_manager_cancel_transaction_real (device);
 	}
 
-	nm_info ("Activation (%s) Beginning DHCP transaction.", iface);
+	if (s_ip4 && 
+		nm_setting_ip4_config_get_dhcp_send_hostname (s_ip4) &&
+		nm_setting_ip4_config_get_dhcp_hostname (s_ip4) == NULL &&
+		priv->hostname_provider != NULL) {
+		/* We're asked to send the hostname to DHCP server,
+		   the hostname isn't specified,
+		   and a hostname provider is registered: use that */
 
-	device->pid = nm_dhcp_client_start (device, uuid, s_ip4);
-	if (device->pid == 0)
-		return FALSE;
+		setting = NM_SETTING_IP4_CONFIG (nm_setting_duplicate (NM_SETTING (s_ip4)));
+		g_object_set (G_OBJECT (setting),
+					  NM_SETTING_IP4_CONFIG_DHCP_HOSTNAME,
+					  nm_hostname_provider_get_hostname (priv->hostname_provider),
+					  NULL);
+	} else {
+		setting = s_ip4 ? g_object_ref (s_ip4) : NULL;
+	}
 
 	if (timeout == 0)
 		timeout = NM_DHCP_TIMEOUT;
+
+	nm_info ("Activation (%s) Beginning DHCP transaction (timeout in %d seconds)",
+	         iface, timeout);
+	device->pid = nm_dhcp_client_start (device, uuid, setting, dhcp_anycast_addr);
+
+	if (setting)
+		g_object_unref (setting);
+
+	if (device->pid == 0)
+		return FALSE;
 
 	/* Set up a timeout on the transaction to kill it after the timeout */
 	device->timeout_id = g_timeout_add_seconds (timeout,
@@ -668,7 +699,7 @@ nm_dhcp_manager_cancel_transaction_real (NMDHCPDevice *device)
 
 	nm_dhcp_client_stop (device, device->pid);
 
-	nm_info ("%s: canceled DHCP transaction, dhcp client pid %d",
+	nm_info ("(%s): canceled DHCP transaction, dhcp client pid %d",
 	         device->iface,
 	         device->pid);
 
@@ -1062,5 +1093,44 @@ nm_dhcp_manager_foreach_dhcp4_option (NMDHCPManager *self,
 	info.user_data = user_data;
 	g_hash_table_foreach (device->options, iterate_dhcp4_config_option, &info);
 	return TRUE;
+}
+
+static void
+hostname_provider_destroyed (gpointer data, GObject *destroyed_object)
+{
+	NM_DHCP_MANAGER_GET_PRIVATE (data)->hostname_provider = NULL;
+}
+
+void
+nm_dhcp_manager_set_hostname_provider (NMDHCPManager *manager,
+									   NMHostnameProvider *provider)
+{
+	NMDHCPManagerPrivate *priv;
+
+	g_return_if_fail (NM_IS_DHCP_MANAGER (manager));
+
+	priv = NM_DHCP_MANAGER_GET_PRIVATE (manager);
+
+	if (priv->hostname_provider) {
+		g_object_weak_unref (G_OBJECT (priv->hostname_provider), hostname_provider_destroyed, manager);
+		priv->hostname_provider = NULL;
+	}
+
+	if (provider) {
+		priv->hostname_provider = provider;
+		g_object_weak_ref (G_OBJECT (provider), hostname_provider_destroyed, manager);
+	}
+}
+
+GSList *
+nm_dhcp_manager_get_lease_ip4_config (NMDHCPManager *self,
+                                      const char *iface,
+                                      const char *uuid)
+{
+	g_return_val_if_fail (NM_IS_DHCP_MANAGER (self), NULL);
+	g_return_val_if_fail (iface != NULL, NULL);
+	g_return_val_if_fail (uuid != NULL, NULL);
+
+	return nm_dhcp_client_get_lease_ip4_config (iface, uuid);
 }
 

@@ -26,7 +26,7 @@
 #include <dbus/dbus.h>
 #include <net/ethernet.h>
 
-
+#include "nm-rfkill.h"
 #include "nm-device.h"
 #include "NetworkManagerAP.h"
 
@@ -42,11 +42,14 @@ G_BEGIN_DECLS
 #define NM_DEVICE_WIFI_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS ((obj),  NM_TYPE_DEVICE_WIFI, NMDeviceWifiClass))
 
 
-#define NM_DEVICE_WIFI_HW_ADDRESS "hw-address"
-#define NM_DEVICE_WIFI_MODE "mode"
-#define NM_DEVICE_WIFI_BITRATE "bitrate"
+#define NM_DEVICE_WIFI_HW_ADDRESS          "hw-address"
+#define NM_DEVICE_WIFI_MODE                "mode"
+#define NM_DEVICE_WIFI_BITRATE             "bitrate"
 #define NM_DEVICE_WIFI_ACTIVE_ACCESS_POINT "active-access-point"
-#define NM_DEVICE_WIFI_CAPABILITIES "wireless-capabilities"
+#define NM_DEVICE_WIFI_CAPABILITIES        "wireless-capabilities"
+#define NM_DEVICE_WIFI_IFINDEX             "ifindex"
+#define NM_DEVICE_WIFI_SCANNING            "scanning"
+#define NM_DEVICE_WIFI_IPW_RFKILL_STATE    "ipw-rfkill-state"
 
 #ifndef NM_DEVICE_WIFI_DEFINED
 #define NM_DEVICE_WIFI_DEFINED
@@ -73,15 +76,16 @@ struct _NMDeviceWifiClass
 	void (*access_point_removed) (NMDeviceWifi *device, NMAccessPoint *ap);
 	void (*hidden_ap_found)      (NMDeviceWifi *device, NMAccessPoint *ap);
 	void (*properties_changed)   (NMDeviceWifi *device, GHashTable *properties);
+	gboolean (*scanning_allowed) (NMDeviceWifi *device);
 };
 
 
 GType nm_device_wifi_get_type (void);
 
-NMDeviceWifi *nm_device_wifi_new (const char *udi,
-										    const char *iface,
-										    const char *driver,
-										    gboolean managed);
+NMDevice *nm_device_wifi_new (const char *udi,
+                              const char *iface,
+                              const char *driver,
+                              guint32 ifindex);
 
 void nm_device_wifi_get_address (NMDeviceWifi *dev,
 								   struct ether_addr *addr);
@@ -98,7 +102,9 @@ NM80211Mode	nm_device_wifi_get_mode (NMDeviceWifi *self);
 
 NMAccessPoint * nm_device_wifi_get_activation_ap (NMDeviceWifi *self);
 
-void nm_device_wifi_set_enabled (NMDeviceWifi *self, gboolean enabled);
+guint32 nm_device_wifi_get_ifindex (NMDeviceWifi *self);
+
+RfKillState nm_device_wifi_get_ipw_rfkill_state (NMDeviceWifi *self);
 
 G_END_DECLS
 

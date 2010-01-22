@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>NMSetting</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.74.3">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="index.html" title="libnm-util Reference Manual">
 <link rel="up" href="ch01.html" title="libnm-util API Reference">
 <link rel="prev" href="NMConnection.html" title="NMConnection">
@@ -33,7 +33,7 @@
                 <a href="#NMSetting.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="NMSetting">
 <a name="NMSetting"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,7 +42,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="NMSetting.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
 
@@ -201,7 +201,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GEr
 >GError</a> **error);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="NMSetting.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
@@ -215,6 +215,12 @@ href="http://[SERVER]/libnm-util/NMSettingGsm.html"
 href="http://[SERVER]/libnm-util/NMSetting8021x.html"
 >NMSetting8021x</a>
          +----<a
+href="http://[SERVER]/libnm-util/NMSettingBluetooth.html"
+>NMSettingBluetooth</a>
+         +----<a
+href="http://[SERVER]/libnm-util/NMSettingOlpcMesh.html"
+>NMSettingOlpcMesh</a>
+         +----<a
 href="http://[SERVER]/libnm-util/NMSettingCdma.html"
 >NMSettingCdma</a>
          +----<a
@@ -223,6 +229,9 @@ href="http://[SERVER]/libnm-util/NMSettingSerial.html"
          +----<a
 href="http://[SERVER]/libnm-util/NMSettingWirelessSecurity.html"
 >NMSettingWirelessSecurity</a>
+         +----<a
+href="http://[SERVER]/libnm-util/NMSettingIP6Config.html"
+>NMSettingIP6Config</a>
          +----<a
 href="http://[SERVER]/libnm-util/NMSettingIP4Config.html"
 >NMSettingIP4Config</a>
@@ -246,7 +255,7 @@ href="http://[SERVER]/libnm-util/NMSettingWireless.html"
 >NMSettingWireless</a>
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="NMSetting.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a
@@ -256,7 +265,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="NMSetting.description"></a><h2>Description</h2>
 <p>
 Each <a
@@ -274,9 +283,9 @@ of properties and allowed values.</p>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="NMSetting.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum NMSettingError">
 <a name="NMSettingError"></a><h3>enum NMSettingError</h3>
 <pre class="programlisting">typedef enum
 {
@@ -323,7 +332,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_TYPE_SETTING_ERROR">
 <a name="NM-TYPE-SETTING-ERROR--CAPS"></a><h3>NM_TYPE_SETTING_ERROR</h3>
 <pre class="programlisting">#define NM_TYPE_SETTING_ERROR (nm_setting_error_get_type ()) 
 </pre>
@@ -331,7 +340,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_ERROR">
 <a name="NM-SETTING-ERROR--CAPS"></a><h3>NM_SETTING_ERROR</h3>
 <pre class="programlisting">#define NM_SETTING_ERROR nm_setting_error_quark ()
 </pre>
@@ -339,7 +348,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_error_quark ()">
 <a name="nm-setting-error-quark"></a><h3>nm_setting_error_quark ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
@@ -360,7 +369,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PARAM_SERIALIZE">
 <a name="NM-SETTING-PARAM-SERIALIZE--CAPS"></a><h3>NM_SETTING_PARAM_SERIALIZE</h3>
 <pre class="programlisting">#define NM_SETTING_PARAM_SERIALIZE    (1 &lt;&lt; (0 + G_PARAM_USER_SHIFT))
 </pre>
@@ -368,7 +377,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PARAM_REQUIRED">
 <a name="NM-SETTING-PARAM-REQUIRED--CAPS"></a><h3>NM_SETTING_PARAM_REQUIRED</h3>
 <pre class="programlisting">#define NM_SETTING_PARAM_REQUIRED     (1 &lt;&lt; (1 + G_PARAM_USER_SHIFT))
 </pre>
@@ -376,7 +385,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PARAM_SECRET">
 <a name="NM-SETTING-PARAM-SECRET--CAPS"></a><h3>NM_SETTING_PARAM_SECRET</h3>
 <pre class="programlisting">#define NM_SETTING_PARAM_SECRET       (1 &lt;&lt; (2 + G_PARAM_USER_SHIFT))
 </pre>
@@ -384,7 +393,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PARAM_FUZZY_IGNORE">
 <a name="NM-SETTING-PARAM-FUZZY-IGNORE--CAPS"></a><h3>NM_SETTING_PARAM_FUZZY_IGNORE</h3>
 <pre class="programlisting">#define NM_SETTING_PARAM_FUZZY_IGNORE (1 &lt;&lt; (3 + G_PARAM_USER_SHIFT))
 </pre>
@@ -392,7 +401,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_NAME">
 <a name="NM-SETTING-NAME--CAPS"></a><h3>NM_SETTING_NAME</h3>
 <pre class="programlisting">#define NM_SETTING_NAME "name"
 </pre>
@@ -400,7 +409,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NMSetting">
 <a name="NMSetting-struct"></a><h3>NMSetting</h3>
 <pre class="programlisting">typedef struct _NMSetting NMSetting;</pre>
 <p>
@@ -410,7 +419,7 @@ It should only be accessed through the functions described below.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NMSettingValueIterFn ()">
 <a name="NMSettingValueIterFn"></a><h3>NMSettingValueIterFn ()</h3>
 <pre class="programlisting">void                (*NMSettingValueIterFn)             (<a
 href="http://[SERVER]/libnm-util/NMSetting.html"
@@ -459,7 +468,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointe
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_get_type ()">
 <a name="nm-setting-get-type"></a><h3>nm_setting_get_type ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"
@@ -476,7 +485,7 @@ href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.h
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_to_hash ()">
 <a name="nm-setting-to-hash"></a><h3>nm_setting_to_hash ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Hash-Tables.html#GHashTable"
@@ -514,7 +523,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Hash-Tables.html#GHashTa
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_new_from_hash ()">
 <a name="nm-setting-new-from-hash"></a><h3>nm_setting_new_from_hash ()</h3>
 <pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMSetting.html"
@@ -567,7 +576,7 @@ hash table, or NULL on failure
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_duplicate ()">
 <a name="nm-setting-duplicate"></a><h3>nm_setting_duplicate ()</h3>
 <pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMSetting.html"
@@ -604,7 +613,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_get_name ()">
 <a name="nm-setting-get-name"></a><h3>nm_setting_get_name ()</h3>
 <pre class="programlisting">const char *        nm_setting_get_name                 (<a
 href="http://[SERVER]/libnm-util/NMSetting.html"
@@ -637,7 +646,7 @@ like 'ppp' or 'wireless' or 'wired'.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_verify ()">
 <a name="nm-setting-verify"></a><h3>nm_setting_verify ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -697,7 +706,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FAL
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum NMSettingCompareFlags">
 <a name="NMSettingCompareFlags"></a><h3>enum NMSettingCompareFlags</h3>
 <pre class="programlisting">typedef enum {
 	NM_SETTING_COMPARE_FLAG_EXACT = 0x00000000,
@@ -740,7 +749,7 @@ two connections.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_compare ()">
 <a name="nm-setting-compare"></a><h3>nm_setting_compare ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -798,7 +807,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FAL
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_enumerate_values ()">
 <a name="nm-setting-enumerate-values"></a><h3>nm_setting_enumerate_values ()</h3>
 <pre class="programlisting">void                nm_setting_enumerate_values         (<a
 href="http://[SERVER]/libnm-util/NMSetting.html"
@@ -840,7 +849,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_to_string ()">
 <a name="nm-setting-to-string"></a><h3>nm_setting_to_string ()</h3>
 <pre class="programlisting">char *              nm_setting_to_string                (<a
 href="http://[SERVER]/libnm-util/NMSetting.html"
@@ -874,7 +883,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Memory-Allocation.html#g
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_clear_secrets ()">
 <a name="nm-setting-clear-secrets"></a><h3>nm_setting_clear_secrets ()</h3>
 <pre class="programlisting">void                nm_setting_clear_secrets            (<a
 href="http://[SERVER]/libnm-util/NMSetting.html"
@@ -897,7 +906,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_need_secrets ()">
 <a name="nm-setting-need-secrets"></a><h3>nm_setting_need_secrets ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"
@@ -941,7 +950,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#g-pt
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_update_secrets ()">
 <a name="nm-setting-update-secrets"></a><h3>nm_setting_update_secrets ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1000,9 +1009,9 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FAL
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="NMSetting.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "name" property'>
 <a name="NMSetting--name"></a><h3>The <code class="literal">"name"</code> property</h3>
 <pre class="programlisting">  "name"                     <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"

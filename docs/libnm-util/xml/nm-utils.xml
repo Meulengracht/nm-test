@@ -57,8 +57,21 @@ enum                <link linkend="NMUtilsSecurityType">NMUtilsSecurityType</lin
                                                          <link linkend="GValue">GValue</link> *value);
 <link linkend="guint32">guint32</link>             <link linkend="nm-utils-ip4-netmask-to-prefix">nm_utils_ip4_netmask_to_prefix</link>      (<link linkend="guint32">guint32</link> netmask);
 <link linkend="guint32">guint32</link>             <link linkend="nm-utils-ip4-prefix-to-netmask">nm_utils_ip4_prefix_to_netmask</link>      (<link linkend="guint32">guint32</link> prefix);
+<link linkend="GSList">GSList</link> *            <link linkend="nm-utils-ip6-addresses-from-gvalue">nm_utils_ip6_addresses_from_gvalue</link>  (const <link linkend="GValue">GValue</link> *value);
+<link linkend="void">void</link>                <link linkend="nm-utils-ip6-addresses-to-gvalue">nm_utils_ip6_addresses_to_gvalue</link>    (<link linkend="GSList">GSList</link> *list,
+                                                         <link linkend="GValue">GValue</link> *value);
+<link linkend="GSList">GSList</link> *            <link linkend="nm-utils-ip6-routes-from-gvalue">nm_utils_ip6_routes_from_gvalue</link>     (const <link linkend="GValue">GValue</link> *value);
+<link linkend="void">void</link>                <link linkend="nm-utils-ip6-routes-to-gvalue">nm_utils_ip6_routes_to_gvalue</link>       (<link linkend="GSList">GSList</link> *list,
+                                                         <link linkend="GValue">GValue</link> *value);
+<link linkend="GSList">GSList</link> *            <link linkend="nm-utils-ip6-dns-from-gvalue">nm_utils_ip6_dns_from_gvalue</link>        (const <link linkend="GValue">GValue</link> *value);
+<link linkend="void">void</link>                <link linkend="nm-utils-ip6-dns-to-gvalue">nm_utils_ip6_dns_to_gvalue</link>          (<link linkend="GSList">GSList</link> *list,
+                                                         <link linkend="GValue">GValue</link> *value);
 <link linkend="char">char</link> *              <link linkend="nm-utils-uuid-generate">nm_utils_uuid_generate</link>              (void);
 <link linkend="char">char</link> *              <link linkend="nm-utils-uuid-generate-from-string">nm_utils_uuid_generate_from_string</link>  (const <link linkend="char">char</link> *s);
+<link linkend="GByteArray">GByteArray</link> *        <link linkend="nm-utils-rsa-key-encrypt">nm_utils_rsa_key_encrypt</link>            (const <link linkend="GByteArray">GByteArray</link> *data,
+                                                         const <link linkend="char">char</link> *in_password,
+                                                         <link linkend="char">char</link> **out_password,
+                                                         <link linkend="GError">GError</link> **error);
 </synopsis>
 </refsynopsisdiv>
 
@@ -525,6 +538,78 @@ which should be unset by the caller (when no longer needed) with
 <varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the netmask represented by the prefix
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
+<refsect2 id="nm-utils-ip6-addresses-from-gvalue" role="function">
+<title>nm_utils_ip6_addresses_from_gvalue ()</title>
+<indexterm zone="nm-utils-ip6-addresses-from-gvalue"><primary sortas="nm_utils_ip6_addresses_from_gvalue">nm_utils_ip6_addresses_from_gvalue</primary></indexterm><programlisting><link linkend="GSList">GSList</link> *            nm_utils_ip6_addresses_from_gvalue  (const <link linkend="GValue">GValue</link> *value);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-utils-ip6-addresses-to-gvalue" role="function">
+<title>nm_utils_ip6_addresses_to_gvalue ()</title>
+<indexterm zone="nm-utils-ip6-addresses-to-gvalue"><primary sortas="nm_utils_ip6_addresses_to_gvalue">nm_utils_ip6_addresses_to_gvalue</primary></indexterm><programlisting><link linkend="void">void</link>                nm_utils_ip6_addresses_to_gvalue    (<link linkend="GSList">GSList</link> *list,
+                                                         <link linkend="GValue">GValue</link> *value);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>list</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-utils-ip6-routes-from-gvalue" role="function">
+<title>nm_utils_ip6_routes_from_gvalue ()</title>
+<indexterm zone="nm-utils-ip6-routes-from-gvalue"><primary sortas="nm_utils_ip6_routes_from_gvalue">nm_utils_ip6_routes_from_gvalue</primary></indexterm><programlisting><link linkend="GSList">GSList</link> *            nm_utils_ip6_routes_from_gvalue     (const <link linkend="GValue">GValue</link> *value);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-utils-ip6-routes-to-gvalue" role="function">
+<title>nm_utils_ip6_routes_to_gvalue ()</title>
+<indexterm zone="nm-utils-ip6-routes-to-gvalue"><primary sortas="nm_utils_ip6_routes_to_gvalue">nm_utils_ip6_routes_to_gvalue</primary></indexterm><programlisting><link linkend="void">void</link>                nm_utils_ip6_routes_to_gvalue       (<link linkend="GSList">GSList</link> *list,
+                                                         <link linkend="GValue">GValue</link> *value);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>list</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-utils-ip6-dns-from-gvalue" role="function">
+<title>nm_utils_ip6_dns_from_gvalue ()</title>
+<indexterm zone="nm-utils-ip6-dns-from-gvalue"><primary sortas="nm_utils_ip6_dns_from_gvalue">nm_utils_ip6_dns_from_gvalue</primary></indexterm><programlisting><link linkend="GSList">GSList</link> *            nm_utils_ip6_dns_from_gvalue        (const <link linkend="GValue">GValue</link> *value);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-utils-ip6-dns-to-gvalue" role="function">
+<title>nm_utils_ip6_dns_to_gvalue ()</title>
+<indexterm zone="nm-utils-ip6-dns-to-gvalue"><primary sortas="nm_utils_ip6_dns_to_gvalue">nm_utils_ip6_dns_to_gvalue</primary></indexterm><programlisting><link linkend="void">void</link>                nm_utils_ip6_dns_to_gvalue          (<link linkend="GSList">GSList</link> *list,
+                                                         <link linkend="GValue">GValue</link> *value);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>list</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
 <refsect2 id="nm-utils-uuid-generate" role="function">
 <title>nm_utils_uuid_generate ()</title>
 <indexterm zone="nm-utils-uuid-generate"><primary sortas="nm_utils_uuid_generate">nm_utils_uuid_generate</primary></indexterm><programlisting><link linkend="char">char</link> *              nm_utils_uuid_generate              (void);</programlisting>
@@ -548,6 +633,35 @@ For a given <parameter>s</parameter>, this function will always return the same 
 </simpara></listitem></varlistentry>
 <varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> a newly allocated UUID suitable for use as the <link linkend="NMSettingConnection"><type>NMSettingConnection</type></link>
 object's <link linkend="NMSettingConnection--id--"><type>"id:"</type></link> property
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-utils-rsa-key-encrypt" role="function">
+<title>nm_utils_rsa_key_encrypt ()</title>
+<indexterm zone="nm-utils-rsa-key-encrypt"><primary sortas="nm_utils_rsa_key_encrypt">nm_utils_rsa_key_encrypt</primary></indexterm><programlisting><link linkend="GByteArray">GByteArray</link> *        nm_utils_rsa_key_encrypt            (const <link linkend="GByteArray">GByteArray</link> *data,
+                                                         const <link linkend="char">char</link> *in_password,
+                                                         <link linkend="char">char</link> **out_password,
+                                                         <link linkend="GError">GError</link> **error);</programlisting>
+<para>
+Encrypts the given RSA private key data with the given password (or generates
+a password if no password was given) and converts the data to PEM format
+suitable for writing to a file.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&#160;:</term>
+<listitem><simpara> RSA private key data to be encrypted
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>in_password</parameter>&#160;:</term>
+<listitem><simpara> existing password to use, if any
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>out_password</parameter>&#160;:</term>
+<listitem><simpara> if <parameter>in_password</parameter> was NULL, a random password will be generated
+ and returned in this argument
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>error</parameter>&#160;:</term>
+<listitem><simpara> detailed error information on return, if an error occurred
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> on success, PEM-formatted data suitable for writing to a PEM-formatted
+certificate/private key file.
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
 

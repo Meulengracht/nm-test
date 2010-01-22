@@ -39,9 +39,10 @@ DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/compiler_warnings.m4 \
 	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/libnl-check.m4 $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -50,15 +51,14 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-libsupplicant_manager_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) \
-	$(top_builddir)/marshallers/libmarshallers.la
+libsupplicant_manager_la_DEPENDENCIES =  \
+	$(top_builddir)/marshallers/libmarshallers.la \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_libsupplicant_manager_la_OBJECTS =  \
 	libsupplicant_manager_la-nm-supplicant-manager.lo \
 	libsupplicant_manager_la-nm-supplicant-config.lo \
 	libsupplicant_manager_la-nm-supplicant-interface.lo \
-	libsupplicant_manager_la-nm-supplicant-settings-verify.lo \
-	libsupplicant_manager_la-gnome-keyring-md5.lo
+	libsupplicant_manager_la-nm-supplicant-settings-verify.lo
 libsupplicant_manager_la_OBJECTS =  \
 	$(am_libsupplicant_manager_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -165,8 +165,8 @@ GNUTLS_CFLAGS = @GNUTLS_CFLAGS@
 GNUTLS_LIBS = @GNUTLS_LIBS@
 GREP = @GREP@
 GTKDOC_CHECK = @GTKDOC_CHECK@
-HAL_CFLAGS = @HAL_CFLAGS@
-HAL_LIBS = @HAL_LIBS@
+GUDEV_CFLAGS = @GUDEV_CFLAGS@
+GUDEV_LIBS = @GUDEV_LIBS@
 HTML_DIR = @HTML_DIR@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -179,8 +179,10 @@ INTLTOOL_EXTRACT = @INTLTOOL_EXTRACT@
 INTLTOOL_MERGE = @INTLTOOL_MERGE@
 INTLTOOL_PERL = @INTLTOOL_PERL@
 INTLTOOL_UPDATE = @INTLTOOL_UPDATE@
+IPTABLES_PATH = @IPTABLES_PATH@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
+LIBDL = @LIBDL@
 LIBGCRYPT_CFLAGS = @LIBGCRYPT_CFLAGS@
 LIBGCRYPT_CONFIG = @LIBGCRYPT_CONFIG@
 LIBGCRYPT_LIBS = @LIBGCRYPT_LIBS@
@@ -190,8 +192,6 @@ LIBNL_LIBS = @LIBNL_LIBS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
-LIBUDEV_CFLAGS = @LIBUDEV_CFLAGS@
-LIBUDEV_LIBS = @LIBUDEV_LIBS@
 LIPO = @LIPO@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
@@ -221,7 +221,6 @@ PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POLKIT_CFLAGS = @POLKIT_CFLAGS@
 POLKIT_LIBS = @POLKIT_LIBS@
-POLKIT_POLICY_FILE_VALIDATE = @POLKIT_POLICY_FILE_VALIDATE@
 POSUB = @POSUB@
 PO_IN_DATADIR_FALSE = @PO_IN_DATADIR_FALSE@
 PO_IN_DATADIR_TRUE = @PO_IN_DATADIR_TRUE@
@@ -309,21 +308,18 @@ libsupplicant_manager_la_SOURCES = \
 	nm-supplicant-interface.c \
 	nm-supplicant-interface.h \
 	nm-supplicant-settings-verify.h \
-	nm-supplicant-settings-verify.c \
-	gnome-keyring-md5.h \
-	gnome-keyring-md5.c
+	nm-supplicant-settings-verify.c
 
 libsupplicant_manager_la_CPPFLAGS = \
 	$(DBUS_CFLAGS) \
 	$(GLIB_CFLAGS) \
-	$(HAL_CFLAGS) \
 	-DNM_PKGDATADIR=\"$(pkgdatadir)\" \
 	-DNM_LOCALSTATEDIR=\"$(localstatedir)\"
 
 libsupplicant_manager_la_LIBADD = \
+	$(top_builddir)/marshallers/libmarshallers.la \
 	$(DBUS_LIBS) \
-	$(GLIB_LIBS) \
-	$(top_builddir)/marshallers/libmarshallers.la
+	$(GLIB_LIBS)
 
 all: all-recursive
 
@@ -377,7 +373,6 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libsupplicant_manager_la-gnome-keyring-md5.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libsupplicant_manager_la-nm-supplicant-config.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libsupplicant_manager_la-nm-supplicant-interface.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libsupplicant_manager_la-nm-supplicant-manager.Plo@am__quote@
@@ -434,13 +429,6 @@ libsupplicant_manager_la-nm-supplicant-settings-verify.lo: nm-supplicant-setting
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='nm-supplicant-settings-verify.c' object='libsupplicant_manager_la-nm-supplicant-settings-verify.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libsupplicant_manager_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libsupplicant_manager_la-nm-supplicant-settings-verify.lo `test -f 'nm-supplicant-settings-verify.c' || echo '$(srcdir)/'`nm-supplicant-settings-verify.c
-
-libsupplicant_manager_la-gnome-keyring-md5.lo: gnome-keyring-md5.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libsupplicant_manager_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libsupplicant_manager_la-gnome-keyring-md5.lo -MD -MP -MF $(DEPDIR)/libsupplicant_manager_la-gnome-keyring-md5.Tpo -c -o libsupplicant_manager_la-gnome-keyring-md5.lo `test -f 'gnome-keyring-md5.c' || echo '$(srcdir)/'`gnome-keyring-md5.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libsupplicant_manager_la-gnome-keyring-md5.Tpo $(DEPDIR)/libsupplicant_manager_la-gnome-keyring-md5.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gnome-keyring-md5.c' object='libsupplicant_manager_la-gnome-keyring-md5.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libsupplicant_manager_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libsupplicant_manager_la-gnome-keyring-md5.lo `test -f 'gnome-keyring-md5.c' || echo '$(srcdir)/'`gnome-keyring-md5.c
 
 mostlyclean-libtool:
 	-rm -f *.lo

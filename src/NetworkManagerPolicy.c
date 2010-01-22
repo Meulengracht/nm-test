@@ -34,15 +34,13 @@
 #include "nm-device.h"
 #include "nm-device-wifi.h"
 #include "nm-device-ethernet.h"
-#include "nm-hso-gsm-device.h"
-#include "nm-gsm-device.h"
-#include "nm-cdma-device.h"
 #include "nm-dbus-manager.h"
 #include "nm-setting-ip4-config.h"
 #include "nm-setting-connection.h"
 #include "NetworkManagerSystem.h"
 #include "nm-named-manager.h"
 #include "nm-vpn-manager.h"
+#include "nm-modem.h"
 
 typedef struct LookupThread LookupThread;
 
@@ -234,8 +232,7 @@ get_best_device (NMManager *manager, NMActRequest **out_req)
 			}
 		}
 
-		/* 'hso' devices never get a gateway from the remote end */
-		if (!can_default && !NM_IS_HSO_GSM_DEVICE (dev))
+		if (!can_default && !NM_IS_MODEM (dev))
 			continue;
 
 		/* 'never-default' devices can't ever be the default */
@@ -318,9 +315,9 @@ update_etc_hosts (const char *hostname)
 
 	/* Hmm, /etc/hosts was empty for some reason */
 	if (!added) {
-		g_string_append (new_contents, "# Do not remove the following line, or various programs");
-		g_string_append (new_contents, "# that require network functionality will fail.");
-		g_string_append (new_contents, "127.0.0.1\t" FALLBACK_HOSTNAME "\tlocalhost");
+		g_string_append (new_contents, "# Do not remove the following line, or various programs\n");
+		g_string_append (new_contents, "# that require network functionality will fail.\n");
+		g_string_append (new_contents, "127.0.0.1\t" FALLBACK_HOSTNAME "\tlocalhost\n");
 	}
 
 	error = NULL;
@@ -651,7 +648,7 @@ auto_activate_device (gpointer user_data)
 		GError *error = NULL;
 		const char *device_path;
 
-		device_path = nm_device_get_udi (data->device);
+		device_path = nm_device_get_path (data->device);
 		if (!nm_manager_activate_connection (policy->manager,
 		                                     best_connection,
 		                                     specific_object,
@@ -713,7 +710,25 @@ hostname_changed (NMManager *manager, GParamSpec *pspec, gpointer user_data)
 }
 
 static void
-schedule_activate_check (NMPolicy *policy, NMDevice *device)
+sleeping_changed (NMManager *manager, GParamSpec *pspec, gpointer user_data)
+{
+	gboolean sleeping = FALSE;
+	GSList *connections, *iter;
+
+	g_object_get (G_OBJECT (manager), NM_MANAGER_SLEEPING, &sleeping, NULL);
+
+	/* Clear the invalid flag on all connections so they'll get retried on wakeup */
+	if (sleeping) {
+		connections = nm_manager_get_connections (manager, NM_CONNECTION_SCOPE_SYSTEM);
+		connections = g_slist_concat (connections, nm_manager_get_connections (manager, NM_CONNECTION_SCOPE_USER));
+		for (iter = connections; iter; iter = g_slist_next (iter))
+			g_object_set_data (G_OBJECT (iter->data), INVALID_TAG, NULL);
+		g_slist_free (connections);
+	}
+}
+
+static void
+schedule_activate_check (NMPolicy *policy, NMDevice *device, guint delay_seconds)
 {
 	ActivateData *data;
 	GSList *iter;
@@ -726,7 +741,7 @@ schedule_activate_check (NMPolicy *policy, NMDevice *device)
 	if (state < NM_DEVICE_STATE_DISCONNECTED)
 		return;
 
-	if (!nm_device_can_activate (device))
+	if (!nm_device_autoconnect_allowed (device))
 		return;
 
 	for (iter = policy->pending_activation_checks; iter; iter = g_slist_next (iter)) {
@@ -740,7 +755,7 @@ schedule_activate_check (NMPolicy *policy, NMDevice *device)
 
 	data->policy = policy;
 	data->device = g_object_ref (device);
-	data->id = g_idle_add (auto_activate_device, data);
+	data->id = delay_seconds ? g_timeout_add_seconds (delay_seconds, auto_activate_device, data) : g_idle_add (auto_activate_device, data);
 	policy->pending_activation_checks = g_slist_append (policy->pending_activation_checks, data);
 }
 
@@ -768,13 +783,15 @@ device_state_changed (NMDevice *device,
 
 	switch (new_state) {
 	case NM_DEVICE_STATE_FAILED:
-		/* Mark the connection invalid so it doesn't get automatically chosen */
-		if (connection) {
+		/* Mark the connection invalid if it failed during activation so that
+		 * it doesn't get automatically chosen over and over and over again.
+		 */
+		if (connection && IS_ACTIVATING_STATE (old_state)) {
 			g_object_set_data (G_OBJECT (connection), INVALID_TAG, GUINT_TO_POINTER (TRUE));
 			nm_info ("Marking connection '%s' invalid.", get_connection_id (connection));
 			nm_connection_clear_secrets (connection);
 		}
-		schedule_activate_check (policy, device);
+		schedule_activate_check (policy, device, 3);
 		break;
 	case NM_DEVICE_STATE_ACTIVATED:
 		/* Clear the invalid tag on the connection */
@@ -787,7 +804,7 @@ device_state_changed (NMDevice *device,
 	case NM_DEVICE_STATE_UNAVAILABLE:
 	case NM_DEVICE_STATE_DISCONNECTED:
 		update_routing_and_dns (policy, FALSE);
-		schedule_activate_check (policy, device);
+		schedule_activate_check (policy, device, 0);
 		break;
 	default:
 		break;
@@ -805,7 +822,7 @@ device_ip4_config_changed (NMDevice *device,
 static void
 wireless_networks_changed (NMDeviceWifi *device, NMAccessPoint *ap, gpointer user_data)
 {
-	schedule_activate_check ((NMPolicy *) user_data, NM_DEVICE (device));
+	schedule_activate_check ((NMPolicy *) user_data, NM_DEVICE (device), 0);
 }
 
 typedef struct {
@@ -901,7 +918,7 @@ schedule_activate_all (NMPolicy *policy)
 
 	devices = nm_manager_get_devices (policy->manager);
 	for (iter = devices; iter; iter = g_slist_next (iter))
-		schedule_activate_check (policy, NM_DEVICE (iter->data));
+		schedule_activate_check (policy, NM_DEVICE (iter->data), 0);
 }
 
 static void
@@ -991,8 +1008,12 @@ nm_policy_new (NMManager *manager, NMVPNManager *vpn_manager)
 	                       G_CALLBACK (global_state_changed), policy);
 	policy->signal_ids = g_slist_append (policy->signal_ids, (gpointer) id);
 
-	id = g_signal_connect (manager, "notify::hostname",
+	id = g_signal_connect (manager, "notify::" NM_MANAGER_HOSTNAME,
 	                       G_CALLBACK (hostname_changed), policy);
+	policy->signal_ids = g_slist_append (policy->signal_ids, (gpointer) id);
+
+	id = g_signal_connect (manager, "notify::" NM_MANAGER_SLEEPING,
+	                       G_CALLBACK (sleeping_changed), policy);
 	policy->signal_ids = g_slist_append (policy->signal_ids, (gpointer) id);
 
 	id = g_signal_connect (manager, "device-added",

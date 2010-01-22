@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 5; indent-tabs-mode: t; c-basic-offset: 5 -*- */
+/* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
 
 /* NetworkManager system settings service (ifupdown)
  *
@@ -19,6 +19,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  * (C) Copyright 2007,2008 Canonical Ltd.
+ * (C) Copyright 2009 Red Hat, Inc.
  */
 
 #include <string.h>
@@ -35,6 +36,7 @@
 
 #include "interface_parser.h"
 
+#include "NetworkManager.h"
 #include "nm-system-config-interface.h"
 #include "nm-setting-ip4-config.h"
 #include "nm-setting-wireless.h"
@@ -49,6 +51,9 @@
 #include <nm-utils.h>
 
 #include <arpa/inet.h>
+
+#define G_UDEV_API_IS_SUBJECT_TO_CHANGE
+#include <gudev/gudev.h>
 
 #define IFUPDOWN_PLUGIN_NAME "ifupdown"
 #define IFUPDOWN_PLUGIN_INFO "(C) 2008 Canonical Ltd.  To report bugs please use the NetworkManager mailing list."
@@ -65,14 +70,13 @@
 #endif
 
 typedef struct {
-
-	DBusGConnection *g_connection;
-	NMSystemConfigHalManager *hal_mgr;
+	GUdevClient *client;
 
 	GHashTable *iface_connections;
 	gchar* hostname;
 
-	GHashTable *well_known_udis;
+	GHashTable *well_known_interfaces;
+	GHashTable *well_known_ifaces;
 	gboolean unmanage_well_known;
 
 	gulong inotify_event_id;
@@ -83,8 +87,8 @@ static void
 system_config_interface_init (NMSystemConfigInterface *system_config_interface_class);
 
 G_DEFINE_TYPE_EXTENDED (SCPluginIfupdown, sc_plugin_ifupdown, G_TYPE_OBJECT, 0,
-				    G_IMPLEMENT_INTERFACE (NM_TYPE_SYSTEM_CONFIG_INTERFACE,
-									  system_config_interface_init))
+                        G_IMPLEMENT_INTERFACE (NM_TYPE_SYSTEM_CONFIG_INTERFACE,
+                                               system_config_interface_init))
 
 #define SC_PLUGIN_IFUPDOWN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), SC_TYPE_PLUGIN_IFUPDOWN, SCPluginIfupdownPrivate))
 
@@ -92,8 +96,7 @@ static void
 sc_plugin_ifupdown_class_init (SCPluginIfupdownClass *req_class);
 
 static void
-SCPluginIfupdown_init (NMSystemConfigInterface *config,
-				   NMSystemConfigHalManager *hal_manager);
+SCPluginIfupdown_init (NMSystemConfigInterface *config);
 
 /* Returns the plugins currently known list of connections.  The returned
  * list is freed by the system settings service.
@@ -102,12 +105,12 @@ static GSList*
 SCPluginIfupdown_get_connections (NMSystemConfigInterface *config);
 
 /*
- * Return a list of HAL UDIs of devices which NetworkManager should not
+ * Return a list of device specifications which NetworkManager should not
  * manage.  Returned list will be freed by the system settings service, and
  * each element must be allocated using g_malloc() or its variants.
  */
 static GSList*
-SCPluginIfupdown_get_unmanaged_devices (NMSystemConfigInterface *config);
+SCPluginIfupdown_get_unmanaged_specs (NMSystemConfigInterface *config);
 
 
 /*  GObject */
@@ -121,9 +124,6 @@ GObject__set_property (GObject *object, guint prop_id,
 
 static void
 GObject__dispose (GObject *object);
-
-static void
-GObject__finalize (GObject *object);
 
 /* other helpers */
 static const char *
@@ -142,7 +142,7 @@ system_config_interface_init (NMSystemConfigInterface *system_config_interface_c
 {
 	system_config_interface_class->init = SCPluginIfupdown_init;
 	system_config_interface_class->get_connections = SCPluginIfupdown_get_connections;
-	system_config_interface_class->get_unmanaged_devices = SCPluginIfupdown_get_unmanaged_devices;
+	system_config_interface_class->get_unmanaged_specs = SCPluginIfupdown_get_unmanaged_specs;
 }
 
 static void
@@ -153,7 +153,6 @@ sc_plugin_ifupdown_class_init (SCPluginIfupdownClass *req_class)
 	g_type_class_add_private (req_class, sizeof (SCPluginIfupdownPrivate));
 
 	object_class->dispose = GObject__dispose;
-	object_class->finalize = GObject__finalize;
 	object_class->get_property = GObject__get_property;
 	object_class->set_property = GObject__set_property;
 
@@ -174,329 +173,275 @@ sc_plugin_ifupdown_class_init (SCPluginIfupdownClass *req_class)
 	                                  NM_SYSTEM_CONFIG_INTERFACE_HOSTNAME);
 }
 
-static GByteArray*
-get_net_address_for_udi (DBusGConnection *g_connection,
-					const gchar* udi,
-					GError **error)
+static void
+ignore_cb (NMSettingsConnectionInterface *connection,
+           GError *error,
+           gpointer user_data)
 {
-	DBusGProxy *dev_proxy;
-	char *address = NULL;
-	GByteArray *mac_address = NULL;
-	dev_proxy = dbus_g_proxy_new_for_name (g_connection,
-								    "org.freedesktop.Hal",
-								    udi,
-								    "org.freedesktop.Hal.Device");
-	if (!dev_proxy)
-		return NULL;
-
-	if (!dbus_g_proxy_call_with_timeout (dev_proxy,
-								  "GetPropertyString", 10000, error,
-								  G_TYPE_STRING, "net.address", G_TYPE_INVALID,
-								  G_TYPE_STRING, &address, G_TYPE_INVALID)) {
-		goto out;
-	}
-
-	if (address && strlen (address)) {
-		struct ether_addr *dev_mac;
-		mac_address = g_byte_array_new();
-		dev_mac = ether_aton (address);
-		g_byte_array_append (mac_address, dev_mac->ether_addr_octet, ETH_ALEN);
-	}
-
- out:
-	g_free(address);
-	g_object_unref (dev_proxy);
-	return mac_address;
-}
-
-static gchar*
-get_iface_for_udi (DBusGConnection *g_connection,
-			    const gchar* udi,
-			    GError **error)
-{
-	DBusGProxy *dev_proxy;
-	char *iface = NULL;
-	dev_proxy = dbus_g_proxy_new_for_name (g_connection,
-								    "org.freedesktop.Hal",
-								    udi,
-								    "org.freedesktop.Hal.Device");
-	if (!dev_proxy)
-		return NULL;
-
-	if (dbus_g_proxy_call_with_timeout (dev_proxy,
-								 "GetPropertyString", 10000, error,
-								 G_TYPE_STRING, "net.interface", G_TYPE_INVALID,
-								 G_TYPE_STRING, &iface, G_TYPE_INVALID)) {
-		g_object_unref (dev_proxy);
-		return iface;
-	}
-	g_object_unref (dev_proxy);
-	return NULL;
 }
 
 static void
-bind_device_to_connection (NMSystemConfigInterface *config,
-					 DBusGConnection *g_connection,
-					 const gchar* udi,
-					 NMExportedConnection *exported_iface_connection)
+bind_device_to_connection (SCPluginIfupdown *self,
+                           GUdevDevice *device,
+                           NMIfupdownConnection *exported)
 {
 	GByteArray *mac_address;
-	GError *error = NULL;
-	NMConnection *iface_connection;
-	NMSetting *wired_setting = NULL;
-	NMSetting *wireless_setting = NULL;
+	NMSetting *s_wired = NULL;
+	NMSetting *s_wifi = NULL;
+	const char *iface, *address;
+	struct ether_addr *tmp_mac;
 
-	iface_connection = nm_exported_connection_get_connection (exported_iface_connection);
-	if (!iface_connection) {
-		nm_warning ("no device locking possible. NMExportedConnection doesnt have a real connection.");
+	iface = g_udev_device_get_name (device);
+	if (!iface) {
+		PLUGIN_WARN ("SCPluginIfupdown", "failed to get ifname for device.");
 		return;
 	}
 
-	mac_address = get_net_address_for_udi (g_connection, udi, &error);
-
-	if(error) {
-		PLUGIN_PRINT ("SCPluginIfupdown", "getting mac address for managed device"
-				    "failed: %s (%d)", error->message, error->code);
+	address = g_udev_device_get_sysfs_attr (device, "address");
+	if (!address || !strlen (address)) {
+		PLUGIN_WARN ("SCPluginIfupdown", "failed to get MAC address for %s", iface);
 		return;
 	}
 
-	wired_setting = nm_connection_get_setting (iface_connection,
-									   NM_TYPE_SETTING_WIRED);
-	wireless_setting = nm_connection_get_setting (iface_connection,
-										 NM_TYPE_SETTING_WIRELESS);
-	if (wired_setting) {
+	tmp_mac = ether_aton (address);
+	if (!tmp_mac) {
+		PLUGIN_WARN ("SCPluginIfupdown", "failed to parse MAC address '%s' for %s",
+		             address, iface);
+		return;
+	}
+
+	mac_address = g_byte_array_sized_new (ETH_ALEN);
+	g_byte_array_append (mac_address, &(tmp_mac->ether_addr_octet[0]), ETH_ALEN);
+
+	s_wired = nm_connection_get_setting (NM_CONNECTION (exported), NM_TYPE_SETTING_WIRED);
+	s_wifi = nm_connection_get_setting (NM_CONNECTION (exported), NM_TYPE_SETTING_WIRELESS);
+	if (s_wired) {
 		PLUGIN_PRINT ("SCPluginIfupdown", "locking wired connection setting");
-		g_object_set (wired_setting, NM_SETTING_WIRED_MAC_ADDRESS, mac_address, NULL);
-	} else if (wireless_setting) {
+		g_object_set (s_wired, NM_SETTING_WIRED_MAC_ADDRESS, mac_address, NULL);
+	} else if (s_wifi) {
 		PLUGIN_PRINT ("SCPluginIfupdown", "locking wireless connection setting");
-		g_object_set (wireless_setting, NM_SETTING_WIRELESS_MAC_ADDRESS, mac_address, NULL);
+		g_object_set (s_wifi, NM_SETTING_WIRELESS_MAC_ADDRESS, mac_address, NULL);
 	}
+	g_byte_array_free (mac_address, TRUE);
 
-	if(mac_address)
-		g_byte_array_free (mac_address, TRUE);
+	nm_settings_connection_interface_update (NM_SETTINGS_CONNECTION_INTERFACE (exported),
+	                                         ignore_cb,
+	                                         NULL);
 }    
 
 static void
-hal_device_added_cb (NMSystemConfigHalManager *hal_mgr,
-				 const gchar* udi,
-				 NMDeviceType devtype,
-				 NMSystemConfigInterface *config)
+udev_device_added (SCPluginIfupdown *self, GUdevDevice *device)
 {
-	SCPluginIfupdownPrivate *priv = SC_PLUGIN_IFUPDOWN_GET_PRIVATE (config);
-	gchar *iface = NULL;
-	GError *error = NULL;
-	gpointer exported_iface_connection;
-	NMConnection *iface_connection = NULL;
+	SCPluginIfupdownPrivate *priv = SC_PLUGIN_IFUPDOWN_GET_PRIVATE (self);
+	const char *iface, *path;
+	NMIfupdownConnection *exported;
 
-	iface = get_iface_for_udi (priv->g_connection,
-						  udi,
-						  &error);
-
-	PLUGIN_PRINT("SCPlugin-Ifupdown",
-			   "devices added (udi: %s, iface: %s)", udi, iface);
-
-	if(!iface)
+	iface = g_udev_device_get_name (device);
+	path = g_udev_device_get_sysfs_path (device);
+	if (!iface || !path)
 		return;
 
-	exported_iface_connection =
-		NM_EXPORTED_CONNECTION (g_hash_table_lookup (priv->iface_connections, iface));
+	PLUGIN_PRINT("SCPlugin-Ifupdown",
+	             "devices added (path: %s, iface: %s)", path, iface);
 
 	/* if we have a configured connection for this particular iface
 	 * we want to either unmanage the device or lock it
 	 */
-	if(!exported_iface_connection)
-		goto out;
+	exported = (NMIfupdownConnection *) g_hash_table_lookup (priv->iface_connections, iface);
+	if (!exported && !g_hash_table_lookup (priv->well_known_interfaces, iface)) {
+		PLUGIN_PRINT("SCPlugin-Ifupdown",
+			"device added (path: %s, iface: %s): no ifupdown configuration found.", path, iface);
+		return;
+	}
 
-	iface_connection = nm_exported_connection_get_connection (exported_iface_connection);
+	g_hash_table_insert (priv->well_known_ifaces, g_strdup (iface), g_object_ref (device));
 
-	if(!iface_connection)
-		goto out;
-
-	g_hash_table_insert (priv->well_known_udis, (gpointer)udi, "nothing");
+	if (exported)
+		bind_device_to_connection (self, device, exported);
 
 	if (ALWAYS_UNMANAGE || priv->unmanage_well_known)
-		g_signal_emit_by_name (G_OBJECT(config), "unmanaged-devices-changed");
-	else
-		bind_device_to_connection (config, priv->g_connection, udi, exported_iface_connection);
-
- out:
-	g_free (iface);
+		g_signal_emit_by_name (G_OBJECT (self), NM_SYSTEM_CONFIG_INTERFACE_UNMANAGED_SPECS_CHANGED);
 }
 
 static void
-hal_device_removed_cb (NMSystemConfigHalManager *hal_mgr,
-				   const gchar* udi,
- 				   NMDeviceType devtype,
-				   NMSystemConfigInterface *config)
+udev_device_removed (SCPluginIfupdown *self, GUdevDevice *device)
 {
-	SCPluginIfupdownPrivate *priv = SC_PLUGIN_IFUPDOWN_GET_PRIVATE (config);
+	SCPluginIfupdownPrivate *priv = SC_PLUGIN_IFUPDOWN_GET_PRIVATE (self);
+	const char *iface, *path;
+
+	iface = g_udev_device_get_name (device);
+	path = g_udev_device_get_sysfs_path (device);
+	if (!iface || !path)
+		return;
 
 	PLUGIN_PRINT("SCPlugin-Ifupdown",
-			   "devices removed (udi: %s)", udi);
+	             "devices removed (path: %s, iface: %s)", path, iface);
 
-	if(!g_hash_table_remove (priv->well_known_udis, udi))
+	if (!g_hash_table_remove (priv->well_known_ifaces, iface))
 		return;
 
 	if (ALWAYS_UNMANAGE || priv->unmanage_well_known)
-		g_signal_emit_by_name (G_OBJECT(config), "unmanaged-devices-changed");
+		g_signal_emit_by_name (G_OBJECT (self), NM_SYSTEM_CONFIG_INTERFACE_UNMANAGED_SPECS_CHANGED);
 }
 
 static void
-hal_device_added_cb2 (gpointer data,
-				  gpointer user_data)
+handle_uevent (GUdevClient *client,
+               const char *action,
+               GUdevDevice *device,
+               gpointer user_data)
 {
-	NMSystemConfigHalManager *hal_mgr = ((gpointer*)user_data)[0];
-	NMSystemConfigInterface *config = ((gpointer*)user_data)[1];
-	NMDeviceType devtype = GPOINTER_TO_INT(((gpointer*)user_data)[2]);
-	const gchar *udi  = data;
+	SCPluginIfupdown *self = SC_PLUGIN_IFUPDOWN (user_data);
+	const char *subsys;
 
-	hal_device_added_cb (hal_mgr,
-					 udi,
-					 devtype,
-					 config);
+	g_return_if_fail (action != NULL);
+
+	/* A bit paranoid */
+	subsys = g_udev_device_get_subsystem (device);
+	g_return_if_fail (subsys != NULL);
+	g_return_if_fail (strcmp (subsys, "net") == 0);
+
+	if (!strcmp (action, "add"))
+		udev_device_added (self, device);
+	else if (!strcmp (action, "remove"))
+		udev_device_removed (self, device);
 }
 
 static void
-SCPluginIfupdown_init (NMSystemConfigInterface *config,
-				   NMSystemConfigHalManager *hal_manager)
+SCPluginIfupdown_init (NMSystemConfigInterface *config)
 {
-	SCPluginIfupdownPrivate *priv = SC_PLUGIN_IFUPDOWN_GET_PRIVATE (config);
-	GHashTable *auto_ifaces = g_hash_table_new (g_str_hash, g_str_equal);
+	SCPluginIfupdown *self = SC_PLUGIN_IFUPDOWN (config);
+	SCPluginIfupdownPrivate *priv = SC_PLUGIN_IFUPDOWN_GET_PRIVATE (self);
+	GHashTable *auto_ifaces;
 	if_block *block = NULL;
 	NMInotifyHelper *inotify_helper;
 	GKeyFile* keyfile;
 	GError *error = NULL;
+	GList *keys, *iter;
+	const char *subsys[2] = { "net", NULL };
+
+	auto_ifaces = g_hash_table_new (g_str_hash, g_str_equal);
 
 	if(!priv->iface_connections)
 		priv->iface_connections = g_hash_table_new (g_str_hash, g_str_equal);
 
-	if(!priv->well_known_udis)
-		priv->well_known_udis = g_hash_table_new (g_str_hash, g_str_equal);
+	if(!priv->well_known_ifaces)
+		priv->well_known_ifaces = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+
+	if(!priv->well_known_interfaces)
+		priv->well_known_interfaces = g_hash_table_new (g_str_hash, g_str_equal);
 
 	PLUGIN_PRINT("SCPlugin-Ifupdown", "init!");
-	priv->hal_mgr = g_object_ref (hal_manager);
 
-	g_signal_connect (G_OBJECT(hal_manager),
-				   "device-added",
-				   G_CALLBACK(hal_device_added_cb),
-				   config);
+	priv->client = g_udev_client_new (subsys);
+	if (!priv->client) {
+		PLUGIN_WARN ("SCPlugin-Ifupdown", "    error initializing libgudev");
+	} else
+		g_signal_connect (priv->client, "uevent", G_CALLBACK (handle_uevent), self);
 
-	g_signal_connect (G_OBJECT(hal_manager),
-				   "device-removed",
-				   G_CALLBACK(hal_device_removed_cb),
-				   config);
+	priv->unmanage_well_known = IFUPDOWN_UNMANAGE_WELL_KNOWN_DEFAULT;
  
 	inotify_helper = nm_inotify_helper_get ();
 	priv->inotify_event_id = g_signal_connect (inotify_helper,
-									   "event",
-									   G_CALLBACK (update_system_hostname),
-									   config);
+	                                           "event",
+	                                           G_CALLBACK (update_system_hostname),
+	                                           config);
 
 	priv->inotify_system_hostname_wd =
 		nm_inotify_helper_add_watch (inotify_helper, IFUPDOWN_SYSTEM_HOSTNAME_FILE);
 
-	update_system_hostname(inotify_helper, NULL, NULL, config);
+	update_system_hostname (inotify_helper, NULL, NULL, config);
 
-	ifparser_init();
-	block = ifparser_getfirst();
+	/* Read in all the interfaces */
+	ifparser_init ();
+	block = ifparser_getfirst ();
+	while (block) {
+		if(!strcmp ("auto", block->type))
+			g_hash_table_insert (auto_ifaces, block->name, GUINT_TO_POINTER (1));
+		else if (!strcmp ("iface", block->type) && strcmp ("lo", block->name)) {
+			NMIfupdownConnection *exported;
 
-	while(block) {
-		if(!strcmp("auto", block->type)) {
-			g_hash_table_insert (auto_ifaces, block->name, "auto");
-		} else if (!strcmp ("iface", block->type) && strcmp ("lo", block->name)) {
-			NMExportedConnection *connection = g_hash_table_lookup(priv->iface_connections, block->name);
-			g_hash_table_remove (priv->iface_connections, block->name);
-
-			connection = NM_EXPORTED_CONNECTION(nm_ifupdown_connection_new(block));
-			ifupdown_update_connection_from_if_block (nm_exported_connection_get_connection(connection),
-											  block);
-
-			g_hash_table_insert (priv->iface_connections, block->name, connection);
-		}
-		block = block -> next;
-	}
-
-	{
-		GList *keys = g_hash_table_get_keys (priv->iface_connections);
-		GList *key_it = keys;
-		while(key_it) {
-			gpointer val = g_hash_table_lookup(auto_ifaces, key_it->data);
-			if(val) {
-				NMExportedConnection *connection =
-					g_hash_table_lookup(priv->iface_connections, key_it->data);
-				NMConnection *wrapped = NULL;
-				NMSetting *setting;
-				g_object_get(connection,
-						   NM_EXPORTED_CONNECTION_CONNECTION, &wrapped, NULL);
-				setting = NM_SETTING(nm_connection_get_setting
-								 (wrapped, NM_TYPE_SETTING_CONNECTION));
-				g_object_set (setting,
-						    "autoconnect", TRUE,
-						    NULL);
-				PLUGIN_PRINT("SCPlugin-Ifupdown", "autoconnect");
+			/* Remove any connection for this block that was previously found */
+			exported = g_hash_table_lookup (priv->iface_connections, block->name);
+			if (exported) {
+				nm_settings_connection_interface_delete (NM_SETTINGS_CONNECTION_INTERFACE (exported),
+				                                         ignore_cb,
+				                                         NULL);
+				g_hash_table_remove (priv->iface_connections, block->name);
 			}
-			key_it = key_it -> next;
+
+			/* add the new connection */
+			exported = nm_ifupdown_connection_new (block);
+			if (exported) {
+				g_hash_table_insert (priv->iface_connections, block->name, exported);
+				g_hash_table_insert (priv->well_known_interfaces, block->name, "known");
+				g_signal_emit_by_name (self, NM_SYSTEM_CONFIG_INTERFACE_CONNECTION_ADDED, exported);
+			}
+		} else if (!strcmp ("mapping", block->type)) {
+			g_hash_table_insert (priv->well_known_interfaces, block->name, "known");
 		}
+		block = block->next;
 	}
 
-	priv->unmanage_well_known = IFUPDOWN_UNMANAGE_WELL_KNOWN_DEFAULT;
+	/* Make 'auto' interfaces autoconnect=TRUE */
+	keys = g_hash_table_get_keys (priv->iface_connections);
+	for (iter = keys; iter; iter = g_list_next (iter)) {
+		NMIfupdownConnection *exported;
+		NMSetting *setting;
+
+		if (!g_hash_table_lookup (auto_ifaces, iter->data))
+			continue;
+
+		exported = g_hash_table_lookup (priv->iface_connections, iter->data);
+		setting = NM_SETTING (nm_connection_get_setting (NM_CONNECTION (exported), NM_TYPE_SETTING_CONNECTION));
+		g_object_set (setting, NM_SETTING_CONNECTION_AUTOCONNECT, TRUE, NULL);
+
+		nm_settings_connection_interface_update (NM_SETTINGS_CONNECTION_INTERFACE (exported),
+		                                         ignore_cb,
+		                                         NULL);
+
+		PLUGIN_PRINT("SCPlugin-Ifupdown", "autoconnect");
+	}
+	g_list_free (keys);
+	g_hash_table_destroy (auto_ifaces);
+
 	keyfile = g_key_file_new ();
 	if (!g_key_file_load_from_file (keyfile,
-							  IFUPDOWN_SYSTEM_SETTINGS_KEY_FILE,
-							  G_KEY_FILE_NONE,
-							  &error)) {
-		nm_info ("loading system config file (%s) caused error: %s (%d)",
-			    IFUPDOWN_SYSTEM_SETTINGS_KEY_FILE,
-			    error->message,
-			    error->code);
+	                                IFUPDOWN_SYSTEM_SETTINGS_KEY_FILE,
+	                                G_KEY_FILE_NONE,
+	                                &error)) {
+		nm_info ("loading system config file (%s) caused error: (%d) %s",
+		         IFUPDOWN_SYSTEM_SETTINGS_KEY_FILE,
+		         error ? error->code : -1,
+		         error && error->message ? error->message : "(unknown)");
 	} else {
 		gboolean manage_well_known;
 		error = NULL;
 
 		manage_well_known = g_key_file_get_boolean (keyfile,
-										    IFUPDOWN_KEY_FILE_GROUP,
-										    IFUPDOWN_KEY_FILE_KEY_MANAGED,
-										    &error);
+		                                            IFUPDOWN_KEY_FILE_GROUP,
+		                                            IFUPDOWN_KEY_FILE_KEY_MANAGED,
+		                                            &error);
 		if (error) {
-			nm_info ("getting keyfile key '%s' in group '%s' failed: %s (%d)",
-				    IFUPDOWN_KEY_FILE_GROUP,
-				    IFUPDOWN_KEY_FILE_KEY_MANAGED,
-				    error->message,
-				    error->code);
-		} else {
+			nm_info ("getting keyfile key '%s' in group '%s' failed: (%d) %s",
+			         IFUPDOWN_KEY_FILE_GROUP,
+			         IFUPDOWN_KEY_FILE_KEY_MANAGED,
+			         error ? error->code : -1,
+			         error && error->message ? error->message : "(unknown)");
+		} else
 			priv->unmanage_well_known = !manage_well_known;
-		}
 	}
 	PLUGIN_PRINT ("SCPluginIfupdown", "management mode: %s", priv->unmanage_well_known ? "unmanaged" : "managed");
 	if (keyfile)
 		g_key_file_free (keyfile);
 
-	{
-		/* init well_known_udis */
-		GSList *wired_devices = nm_system_config_hal_manager_get_devices_of_type (hal_manager, NM_DEVICE_TYPE_ETHERNET);
-		GSList *wifi_devices = nm_system_config_hal_manager_get_devices_of_type (hal_manager, NM_DEVICE_TYPE_WIFI);
-		gpointer *user_data;
+	/* Add well-known interfaces */
+	keys = g_udev_client_query_by_subsystem (priv->client, "net");
+	for (iter = keys; iter; iter = g_list_next (iter)) {
+		udev_device_added (self, G_UDEV_DEVICE (iter->data));
+		g_object_unref (G_UDEV_DEVICE (iter->data));
+	}
+	g_list_free (keys);
 
-		/* 3g in /etc/network/interfaces? no clue if thats mappable
-
-		GSList *gsm_devices = nm_system_config_hal_manager_get_devices_of_type (hal_manager, NM_DEVICE_TYPE_GSM);
-		GSList *cdma_devices = nm_system_config_hal_manager_get_devices_of_type (hal_manager, NM_DEVICE_TYPE_CDMA);
-		*/
-
-		user_data = g_new0 (gpointer, 3);
-		user_data[0] = hal_manager;
-		user_data[1] = config;
-		user_data[2] = GINT_TO_POINTER (NM_DEVICE_TYPE_ETHERNET);
-
-		g_slist_foreach (wired_devices, hal_device_added_cb2, user_data);
-
-		user_data[0] = hal_manager;
-		user_data[1] = config;
-		user_data[2] = GINT_TO_POINTER (NM_DEVICE_TYPE_ETHERNET);
-		g_slist_foreach (wifi_devices, hal_device_added_cb2, user_data);
-	}		
-
-	g_hash_table_unref(auto_ifaces);
 	PLUGIN_PRINT("SCPlugin-Ifupdown", "end _init.");
 }
 
@@ -509,41 +454,53 @@ SCPluginIfupdown_get_connections (NMSystemConfigInterface *config)
 {
 	SCPluginIfupdownPrivate *priv = SC_PLUGIN_IFUPDOWN_GET_PRIVATE (config);
 	GSList *connections = NULL;
-	GList *priv_list = g_hash_table_get_values(priv->iface_connections);
-	GList *it = priv_list;
+	GHashTableIter iter;
+	gpointer value;
+
 	PLUGIN_PRINT("SCPlugin-Ifupdown", "(%d) ... get_connections.", GPOINTER_TO_UINT(config));
 
-	while(it) {
-		NMExportedConnection *conn = it->data;
-		connections = g_slist_append(connections, conn);
-		it = it->next;
+	if(priv->unmanage_well_known) {
+		PLUGIN_PRINT("SCPlugin-Ifupdown", "(%d) ... get_connections (managed=false): return empty list.", GPOINTER_TO_UINT(config));
+		return NULL;
 	}
+
+	g_hash_table_iter_init (&iter, priv->iface_connections);
+	while (g_hash_table_iter_next (&iter, NULL, &value))
+		connections = g_slist_prepend (connections, value);
+
 	PLUGIN_PRINT("SCPlugin-Ifupdown", "(%d) connections count: %d", GPOINTER_TO_UINT(config), g_slist_length(connections));
 	return connections;
 }
 
 /*
- * Return a list of HAL UDIs of devices which NetworkManager should not
+ * Return a list of device specifications which NetworkManager should not
  * manage.  Returned list will be freed by the system settings service, and
  * each element must be allocated using g_malloc() or its variants.
  */
 static GSList*
-SCPluginIfupdown_get_unmanaged_devices (NMSystemConfigInterface *config)
+SCPluginIfupdown_get_unmanaged_specs (NMSystemConfigInterface *config)
 {
 	SCPluginIfupdownPrivate *priv = SC_PLUGIN_IFUPDOWN_GET_PRIVATE (config);
-	GList *keys;
-	GSList *udis = NULL;
+	GSList *specs = NULL;
+	GHashTableIter iter;
+	gpointer value;
 
 	if (!ALWAYS_UNMANAGE && !priv->unmanage_well_known)
 		return NULL;
 
-	keys = g_hash_table_get_keys (priv->well_known_udis);
-	PLUGIN_PRINT("Ifupdown", "get unmanaged devices count: %d", g_list_length(keys));
- 	while(keys) {
-		udis = g_slist_append(udis, g_strdup(keys->data));
-		keys = g_list_next(keys);
+	PLUGIN_PRINT("Ifupdown", "get unmanaged devices count: %d",
+	             g_hash_table_size (priv->well_known_ifaces));
+
+	g_hash_table_iter_init (&iter, priv->well_known_ifaces);
+	while (g_hash_table_iter_next (&iter, NULL, &value)) {
+		GUdevDevice *device = G_UDEV_DEVICE (value);
+		const char *address;
+
+		address = g_udev_device_get_sysfs_attr (device, "address");
+		if (address)
+			specs = g_slist_append (specs, g_strdup_printf ("mac:%s", address));
 	}
-	return udis;
+	return specs;
 }
 
 
@@ -615,15 +572,6 @@ write_system_hostname(NMSystemConfigInterface *config,
 static void
 sc_plugin_ifupdown_init (SCPluginIfupdown *plugin)
 {
-	SCPluginIfupdownPrivate *priv = SC_PLUGIN_IFUPDOWN_GET_PRIVATE (plugin);
-	GError *error = NULL;
-
-	priv->g_connection = dbus_g_bus_get (DBUS_BUS_SYSTEM, &error);
-	if (!priv->g_connection) {
-		PLUGIN_PRINT ("SCPlugin-Ifupdown", "    dbus-glib error: %s",
-		              error->message ? error->message : "(unknown)");
-		g_error_free (error);
-	}
 }
 
 static void
@@ -685,17 +633,16 @@ GObject__dispose (GObject *object)
 	if (priv->inotify_system_hostname_wd >= 0)
 		nm_inotify_helper_remove_watch (inotify_helper, priv->inotify_system_hostname_wd);
 
-	if (priv->well_known_udis)
-		g_hash_table_destroy(priv->well_known_udis);
+	if (priv->well_known_ifaces)
+		g_hash_table_destroy(priv->well_known_ifaces);
 
-	g_object_unref (priv->hal_mgr);
+	if (priv->well_known_interfaces)
+		g_hash_table_destroy(priv->well_known_interfaces);
+
+	if (priv->client)
+		g_object_unref (priv->client);
+
 	G_OBJECT_CLASS (sc_plugin_ifupdown_parent_class)->dispose (object);
-}
-
-static void
-GObject__finalize (GObject *object)
-{
-	G_OBJECT_CLASS (sc_plugin_ifupdown_parent_class)->finalize (object);
 }
 
 G_MODULE_EXPORT GObject *

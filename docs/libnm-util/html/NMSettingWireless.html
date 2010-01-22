@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>NMSettingWireless</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.74.3">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="index.html" title="libnm-util Reference Manual">
 <link rel="up" href="ch01.html" title="libnm-util API Reference">
 <link rel="prev" href="NMSettingWired.html" title="NMSettingWired">
@@ -33,7 +33,7 @@
                 <a href="#NMSettingWireless.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="NMSettingWireless">
 <a name="NMSettingWireless"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,7 +42,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="NMSettingWireless.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
 #define             <a
@@ -221,7 +221,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 >guint32</a> ap_mode);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="NMSettingWireless.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
@@ -233,7 +233,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
          +----NMSettingWireless
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="NMSettingWireless.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a
@@ -285,14 +285,14 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write / Construct
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="NMSettingWireless.description"></a><h2>Description</h2>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="NMSettingWireless.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_WIRELESS_SETTING_NAME">
 <a name="NM-SETTING-WIRELESS-SETTING-NAME--CAPS"></a><h3>NM_SETTING_WIRELESS_SETTING_NAME</h3>
 <pre class="programlisting">#define NM_SETTING_WIRELESS_SETTING_NAME "802-11-wireless"
 </pre>
@@ -300,7 +300,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum NMSettingWirelessError">
 <a name="NMSettingWirelessError"></a><h3>enum NMSettingWirelessError</h3>
 <pre class="programlisting">typedef enum
 {
@@ -315,7 +315,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_TYPE_SETTING_WIRELESS_ERROR">
 <a name="NM-TYPE-SETTING-WIRELESS-ERROR--CAPS"></a><h3>NM_TYPE_SETTING_WIRELESS_ERROR</h3>
 <pre class="programlisting">#define NM_TYPE_SETTING_WIRELESS_ERROR (nm_setting_wireless_error_get_type ()) 
 </pre>
@@ -323,7 +323,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_WIRELESS_ERROR">
 <a name="NM-SETTING-WIRELESS-ERROR--CAPS"></a><h3>NM_SETTING_WIRELESS_ERROR</h3>
 <pre class="programlisting">#define NM_SETTING_WIRELESS_ERROR nm_setting_wireless_error_quark ()
 </pre>
@@ -331,7 +331,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_wireless_error_quark ()">
 <a name="nm-setting-wireless-error-quark"></a><h3>nm_setting_wireless_error_quark ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
@@ -348,7 +348,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_WIRELESS_SSID">
 <a name="NM-SETTING-WIRELESS-SSID--CAPS"></a><h3>NM_SETTING_WIRELESS_SSID</h3>
 <pre class="programlisting">#define NM_SETTING_WIRELESS_SSID        "ssid"
 </pre>
@@ -356,7 +356,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_WIRELESS_MODE">
 <a name="NM-SETTING-WIRELESS-MODE--CAPS"></a><h3>NM_SETTING_WIRELESS_MODE</h3>
 <pre class="programlisting">#define NM_SETTING_WIRELESS_MODE        "mode"
 </pre>
@@ -364,7 +364,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_WIRELESS_BAND">
 <a name="NM-SETTING-WIRELESS-BAND--CAPS"></a><h3>NM_SETTING_WIRELESS_BAND</h3>
 <pre class="programlisting">#define NM_SETTING_WIRELESS_BAND        "band"
 </pre>
@@ -372,7 +372,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_WIRELESS_CHANNEL">
 <a name="NM-SETTING-WIRELESS-CHANNEL--CAPS"></a><h3>NM_SETTING_WIRELESS_CHANNEL</h3>
 <pre class="programlisting">#define NM_SETTING_WIRELESS_CHANNEL     "channel"
 </pre>
@@ -380,7 +380,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_WIRELESS_BSSID">
 <a name="NM-SETTING-WIRELESS-BSSID--CAPS"></a><h3>NM_SETTING_WIRELESS_BSSID</h3>
 <pre class="programlisting">#define NM_SETTING_WIRELESS_BSSID       "bssid"
 </pre>
@@ -388,7 +388,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_WIRELESS_RATE">
 <a name="NM-SETTING-WIRELESS-RATE--CAPS"></a><h3>NM_SETTING_WIRELESS_RATE</h3>
 <pre class="programlisting">#define NM_SETTING_WIRELESS_RATE        "rate"
 </pre>
@@ -396,7 +396,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_WIRELESS_TX_POWER">
 <a name="NM-SETTING-WIRELESS-TX-POWER--CAPS"></a><h3>NM_SETTING_WIRELESS_TX_POWER</h3>
 <pre class="programlisting">#define NM_SETTING_WIRELESS_TX_POWER    "tx-power"
 </pre>
@@ -404,7 +404,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_WIRELESS_MAC_ADDRESS">
 <a name="NM-SETTING-WIRELESS-MAC-ADDRESS--CAPS"></a><h3>NM_SETTING_WIRELESS_MAC_ADDRESS</h3>
 <pre class="programlisting">#define NM_SETTING_WIRELESS_MAC_ADDRESS "mac-address"
 </pre>
@@ -412,7 +412,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_WIRELESS_MTU">
 <a name="NM-SETTING-WIRELESS-MTU--CAPS"></a><h3>NM_SETTING_WIRELESS_MTU</h3>
 <pre class="programlisting">#define NM_SETTING_WIRELESS_MTU         "mtu"
 </pre>
@@ -420,7 +420,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_WIRELESS_SEEN_BSSIDS">
 <a name="NM-SETTING-WIRELESS-SEEN-BSSIDS--CAPS"></a><h3>NM_SETTING_WIRELESS_SEEN_BSSIDS</h3>
 <pre class="programlisting">#define NM_SETTING_WIRELESS_SEEN_BSSIDS "seen-bssids"
 </pre>
@@ -428,7 +428,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_WIRELESS_SEC">
 <a name="NM-SETTING-WIRELESS-SEC--CAPS"></a><h3>NM_SETTING_WIRELESS_SEC</h3>
 <pre class="programlisting">#define NM_SETTING_WIRELESS_SEC         "security"
 </pre>
@@ -436,14 +436,14 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NMSettingWireless">
 <a name="NMSettingWireless-struct"></a><h3>NMSettingWireless</h3>
 <pre class="programlisting">typedef struct _NMSettingWireless NMSettingWireless;</pre>
 <p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_wireless_get_type ()">
 <a name="nm-setting-wireless-get-type"></a><h3>nm_setting_wireless_get_type ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"
@@ -460,7 +460,7 @@ href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.h
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_wireless_new ()">
 <a name="nm-setting-wireless-new"></a><h3>nm_setting_wireless_new ()</h3>
 <pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMSetting.html"
@@ -477,7 +477,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_wireless_get_ssid ()">
 <a name="nm-setting-wireless-get-ssid"></a><h3>nm_setting_wireless_get_ssid ()</h3>
 <pre class="programlisting">const <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Byte-Arrays.html#GByteArray"
@@ -503,7 +503,7 @@ href="http://[SERVER]/libnm-util/NMSettingWireless.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_wireless_get_mode ()">
 <a name="nm-setting-wireless-get-mode"></a><h3>nm_setting_wireless_get_mode ()</h3>
 <pre class="programlisting">const char *        nm_setting_wireless_get_mode        (<a
 href="http://[SERVER]/libnm-util/NMSettingWireless.html"
@@ -527,7 +527,7 @@ href="http://[SERVER]/libnm-util/NMSettingWireless.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_wireless_get_band ()">
 <a name="nm-setting-wireless-get-band"></a><h3>nm_setting_wireless_get_band ()</h3>
 <pre class="programlisting">const char *        nm_setting_wireless_get_band        (<a
 href="http://[SERVER]/libnm-util/NMSettingWireless.html"
@@ -551,7 +551,7 @@ href="http://[SERVER]/libnm-util/NMSettingWireless.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_wireless_get_channel ()">
 <a name="nm-setting-wireless-get-channel"></a><h3>nm_setting_wireless_get_channel ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -577,7 +577,7 @@ href="http://[SERVER]/libnm-util/NMSettingWireless.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_wireless_get_bssid ()">
 <a name="nm-setting-wireless-get-bssid"></a><h3>nm_setting_wireless_get_bssid ()</h3>
 <pre class="programlisting">const <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Byte-Arrays.html#GByteArray"
@@ -603,7 +603,7 @@ href="http://[SERVER]/libnm-util/NMSettingWireless.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_wireless_get_rate ()">
 <a name="nm-setting-wireless-get-rate"></a><h3>nm_setting_wireless_get_rate ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -629,7 +629,7 @@ href="http://[SERVER]/libnm-util/NMSettingWireless.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_wireless_get_tx_power ()">
 <a name="nm-setting-wireless-get-tx-power"></a><h3>nm_setting_wireless_get_tx_power ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -655,7 +655,7 @@ href="http://[SERVER]/libnm-util/NMSettingWireless.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_wireless_get_mac_address ()">
 <a name="nm-setting-wireless-get-mac-address"></a><h3>nm_setting_wireless_get_mac_address ()</h3>
 <pre class="programlisting">const <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Byte-Arrays.html#GByteArray"
@@ -681,7 +681,7 @@ href="http://[SERVER]/libnm-util/NMSettingWireless.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_wireless_get_mtu ()">
 <a name="nm-setting-wireless-get-mtu"></a><h3>nm_setting_wireless_get_mtu ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -707,7 +707,7 @@ href="http://[SERVER]/libnm-util/NMSettingWireless.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_wireless_get_security ()">
 <a name="nm-setting-wireless-get-security"></a><h3>nm_setting_wireless_get_security ()</h3>
 <pre class="programlisting">const char *        nm_setting_wireless_get_security    (<a
 href="http://[SERVER]/libnm-util/NMSettingWireless.html"
@@ -731,7 +731,7 @@ href="http://[SERVER]/libnm-util/NMSettingWireless.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_wireless_add_seen_bssid ()">
 <a name="nm-setting-wireless-add-seen-bssid"></a><h3>nm_setting_wireless_add_seen_bssid ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -763,7 +763,7 @@ href="http://[SERVER]/libnm-util/NMSettingWireless.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_wireless_get_num_seen_bssids ()">
 <a name="nm-setting-wireless-get-num-seen-bssids"></a><h3>nm_setting_wireless_get_num_seen_bssids ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -790,7 +790,7 @@ href="http://[SERVER]/libnm-util/NMSettingWireless.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_wireless_get_seen_bssid ()">
 <a name="nm-setting-wireless-get-seen-bssid"></a><h3>nm_setting_wireless_get_seen_bssid ()</h3>
 <pre class="programlisting">const char *        nm_setting_wireless_get_seen_bssid  (<a
 href="http://[SERVER]/libnm-util/NMSettingWireless.html"
@@ -822,7 +822,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_wireless_ap_security_compatible ()">
 <a name="nm-setting-wireless-ap-security-compatible"></a><h3>nm_setting_wireless_ap_security_compatible ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -889,9 +889,9 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="NMSettingWireless.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "band" property'>
 <a name="NMSettingWireless--band"></a><h3>The <code class="literal">"band"</code> property</h3>
 <pre class="programlisting">  "band"                     <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
@@ -908,7 +908,7 @@ capability and may not work with all drivers.</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "bssid" property'>
 <a name="NMSettingWireless--bssid"></a><h3>The <code class="literal">"bssid"</code> property</h3>
 <pre class="programlisting">  "bssid"                    GArray_guchar_*       : Read / Write</pre>
 <p>
@@ -920,7 +920,7 @@ creating an Ad-Hoc network and is unlikely to in the future.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "channel" property'>
 <a name="NMSettingWireless--channel"></a><h3>The <code class="literal">"channel"</code> property</h3>
 <pre class="programlisting">  "channel"                  <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
@@ -935,7 +935,7 @@ also requires the 'band' property to be set.</p>
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "mac-address" property'>
 <a name="NMSettingWireless--mac-address"></a><h3>The <code class="literal">"mac-address"</code> property</h3>
 <pre class="programlisting">  "mac-address"              GArray_guchar_*       : Read / Write</pre>
 <p>
@@ -946,7 +946,7 @@ of the device (known as MAC spoofing).</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "mode" property'>
 <a name="NMSettingWireless--mode"></a><h3>The <code class="literal">"mode"</code> property</h3>
 <pre class="programlisting">  "mode"                     <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
@@ -959,7 +959,7 @@ infrastructure is assumed.</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "mtu" property'>
 <a name="NMSettingWireless--mtu"></a><h3>The <code class="literal">"mtu"</code> property</h3>
 <pre class="programlisting">  "mtu"                      <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
@@ -972,7 +972,7 @@ breaking larger packets up into multiple Ethernet frames.</p>
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "rate" property'>
 <a name="NMSettingWireless--rate"></a><h3>The <code class="literal">"rate"</code> property</h3>
 <pre class="programlisting">  "rate"                     <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
@@ -987,7 +987,7 @@ support setting a static bitrate.</p>
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "security" property'>
 <a name="NMSettingWireless--security"></a><h3>The <code class="literal">"security"</code> property</h3>
 <pre class="programlisting">  "security"                 <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
@@ -1001,7 +1001,7 @@ the connection contains a valid 802-11-wireless-security setting.</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "seen-bssids" property'>
 <a name="NMSettingWireless--seen-bssids"></a><h3>The <code class="literal">"seen-bssids"</code> property</h3>
 <pre class="programlisting">  "seen-bssids"              GSList_gchararray_*   : Read / Write</pre>
 <p>
@@ -1016,7 +1016,7 @@ find hidden APs by matching up scan results with the BSSIDs in this list.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "ssid" property'>
 <a name="NMSettingWireless--ssid"></a><h3>The <code class="literal">"ssid"</code> property</h3>
 <pre class="programlisting">  "ssid"                     GArray_guchar_*       : Read / Write</pre>
 <p>
@@ -1025,7 +1025,7 @@ SSID of the WiFi network.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "tx-power" property'>
 <a name="NMSettingWireless--tx-power"></a><h3>The <code class="literal">"tx-power"</code> property</h3>
 <pre class="programlisting">  "tx-power"                 <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"

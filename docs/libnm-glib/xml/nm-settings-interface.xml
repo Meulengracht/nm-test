@@ -17,6 +17,28 @@
 <title role="synopsis.title">Synopsis</title>
 
 <synopsis>
+enum                <link linkend="NMSettingsInterfaceError">NMSettingsInterfaceError</link>;
+#define             <link linkend="NM-SETTINGS-INTERFACE-ERROR--CAPS">NM_SETTINGS_INTERFACE_ERROR</link>
+<link linkend="GQuark">GQuark</link>              <link linkend="nm-settings-interface-error-quark">nm_settings_interface_error_quark</link>   (void);
+#define             <link linkend="NM-TYPE-SETTINGS-INTERFACE-ERROR--CAPS">NM_TYPE_SETTINGS_INTERFACE_ERROR</link>
+#define             <link linkend="NM-SETTINGS-INTERFACE-GET-INTERFACE--CAPS">NM_SETTINGS_INTERFACE_GET_INTERFACE</link> (obj)
+#define             <link linkend="NM-SETTINGS-INTERFACE-NEW-CONNECTION--CAPS">NM_SETTINGS_INTERFACE_NEW_CONNECTION</link>
+#define             <link linkend="NM-SETTINGS-INTERFACE-CONNECTIONS-READ--CAPS">NM_SETTINGS_INTERFACE_CONNECTIONS_READ</link>
+                    <link linkend="NMSettingsInterface">NMSettingsInterface</link>;
+<link linkend="void">void</link>                (<link linkend="NMSettingsAddConnectionFunc">*NMSettingsAddConnectionFunc</link>)      (<link linkend="NMSettingsInterface">NMSettingsInterface</link> *settings,
+                                                         <link linkend="GError">GError</link> *error,
+                                                         <link linkend="gpointer">gpointer</link> user_data);
+<link linkend="GType">GType</link>               <link linkend="nm-settings-interface-get-type">nm_settings_interface_get_type</link>      (void);
+<link linkend="GSList">GSList</link> *            <link linkend="nm-settings-interface-list-connections">nm_settings_interface_list_connections</link>
+                                                        (<link linkend="NMSettingsInterface">NMSettingsInterface</link> *settings);
+<link linkend="NMSettingsConnectionInterface">NMSettingsConnectionInterface</link> * <link linkend="nm-settings-interface-get-connection-by-path">nm_settings_interface_get_connection_by_path</link>
+                                                        (<link linkend="NMSettingsInterface">NMSettingsInterface</link> *settings,
+                                                         const <link linkend="char">char</link> *path);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-settings-interface-add-connection">nm_settings_interface_add_connection</link>
+                                                        (<link linkend="NMSettingsInterface">NMSettingsInterface</link> *settings,
+                                                         <link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="NMSettingsAddConnectionFunc">NMSettingsAddConnectionFunc</link> callback,
+                                                         <link linkend="gpointer">gpointer</link> user_data);
 </synopsis>
 </refsynopsisdiv>
 
@@ -36,6 +58,177 @@
 
 <refsect1 id="libnm-glib-nm-settings-interface.details" role="details">
 <title role="details.title">Details</title>
+<refsect2 id="NMSettingsInterfaceError" role="enum">
+<title>enum NMSettingsInterfaceError</title>
+<indexterm zone="NMSettingsInterfaceError"><primary sortas="NMSettingsInterfaceError">NMSettingsInterfaceError</primary></indexterm><programlisting>typedef enum {
+	NM_SETTINGS_INTERFACE_ERROR_INVALID_CONNECTION = 0,
+	NM_SETTINGS_INTERFACE_ERROR_READ_ONLY_CONNECTION,
+	NM_SETTINGS_INTERFACE_ERROR_INTERNAL_ERROR,
+	NM_SETTINGS_INTERFACE_ERROR_SECRETS_UNAVAILABLE,
+	NM_SETTINGS_INTERFACE_ERROR_SECRETS_REQUEST_CANCELED,
+	NM_SETTINGS_INTERFACE_ERROR_PERMISSION_DENIED
+} NMSettingsInterfaceError;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTINGS-INTERFACE-ERROR--CAPS" role="macro">
+<title>NM_SETTINGS_INTERFACE_ERROR</title>
+<indexterm zone="NM-SETTINGS-INTERFACE-ERROR--CAPS"><primary sortas="NM_SETTINGS_INTERFACE_ERROR">NM_SETTINGS_INTERFACE_ERROR</primary></indexterm><programlisting>#define NM_SETTINGS_INTERFACE_ERROR (nm_settings_interface_error_quark ())
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="nm-settings-interface-error-quark" role="function">
+<title>nm_settings_interface_error_quark ()</title>
+<indexterm zone="nm-settings-interface-error-quark"><primary sortas="nm_settings_interface_error_quark">nm_settings_interface_error_quark</primary></indexterm><programlisting><link linkend="GQuark">GQuark</link>              nm_settings_interface_error_quark   (void);</programlisting>
+<para>
+Setting error quark.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the setting error quark
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="NM-TYPE-SETTINGS-INTERFACE-ERROR--CAPS" role="macro">
+<title>NM_TYPE_SETTINGS_INTERFACE_ERROR</title>
+<indexterm zone="NM-TYPE-SETTINGS-INTERFACE-ERROR--CAPS"><primary sortas="NM_TYPE_SETTINGS_INTERFACE_ERROR">NM_TYPE_SETTINGS_INTERFACE_ERROR</primary></indexterm><programlisting>#define NM_TYPE_SETTINGS_INTERFACE_ERROR (nm_settings_interface_error_get_type ()) 
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTINGS-INTERFACE-GET-INTERFACE--CAPS" role="macro">
+<title>NM_SETTINGS_INTERFACE_GET_INTERFACE()</title>
+<indexterm zone="NM-SETTINGS-INTERFACE-GET-INTERFACE--CAPS"><primary sortas="NM_SETTINGS_INTERFACE_GET_INTERFACE">NM_SETTINGS_INTERFACE_GET_INTERFACE</primary></indexterm><programlisting>#define NM_SETTINGS_INTERFACE_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), NM_TYPE_SETTINGS_INTERFACE, NMSettingsInterface))
+</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>obj</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="NM-SETTINGS-INTERFACE-NEW-CONNECTION--CAPS" role="macro">
+<title>NM_SETTINGS_INTERFACE_NEW_CONNECTION</title>
+<indexterm zone="NM-SETTINGS-INTERFACE-NEW-CONNECTION--CAPS"><primary sortas="NM_SETTINGS_INTERFACE_NEW_CONNECTION">NM_SETTINGS_INTERFACE_NEW_CONNECTION</primary></indexterm><programlisting>#define NM_SETTINGS_INTERFACE_NEW_CONNECTION   "new-connection"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTINGS-INTERFACE-CONNECTIONS-READ--CAPS" role="macro">
+<title>NM_SETTINGS_INTERFACE_CONNECTIONS_READ</title>
+<indexterm zone="NM-SETTINGS-INTERFACE-CONNECTIONS-READ--CAPS"><primary sortas="NM_SETTINGS_INTERFACE_CONNECTIONS_READ">NM_SETTINGS_INTERFACE_CONNECTIONS_READ</primary></indexterm><programlisting>#define NM_SETTINGS_INTERFACE_CONNECTIONS_READ "connections-read"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingsInterface" role="struct">
+<title>NMSettingsInterface</title>
+<indexterm zone="NMSettingsInterface"><primary sortas="NMSettingsInterface">NMSettingsInterface</primary></indexterm><programlisting>typedef struct {
+	GTypeInterface g_iface;
+
+	/* Methods */
+	/* Returns a list of objects implementing NMSettingsConnectionInterface */
+	GSList * (*list_connections) (NMSettingsInterface *settings);
+
+	NMSettingsConnectionInterface * (*get_connection_by_path) (NMSettingsInterface *settings,
+	                                                           const char *path);
+
+	gboolean (*add_connection) (NMSettingsInterface *settings,
+	                            NMConnection *connection,
+	                            NMSettingsAddConnectionFunc callback,
+	                            gpointer user_data);
+
+	/* Signals */
+	void (*new_connection) (NMSettingsInterface *settings,
+	                        NMSettingsConnectionInterface *connection);
+
+	void (*connections_read) (NMSettingsInterface *settings);
+
+	/* Padding for future expansion */
+	void (*_reserved1) (void);
+	void (*_reserved2) (void);
+	void (*_reserved3) (void);
+	void (*_reserved4) (void);
+	void (*_reserved5) (void);
+	void (*_reserved6) (void);
+} NMSettingsInterface;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingsAddConnectionFunc" role="function">
+<title>NMSettingsAddConnectionFunc ()</title>
+<indexterm zone="NMSettingsAddConnectionFunc"><primary sortas="NMSettingsAddConnectionFunc">NMSettingsAddConnectionFunc</primary></indexterm><programlisting><link linkend="void">void</link>                (*NMSettingsAddConnectionFunc)      (<link linkend="NMSettingsInterface">NMSettingsInterface</link> *settings,
+                                                         <link linkend="GError">GError</link> *error,
+                                                         <link linkend="gpointer">gpointer</link> user_data);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>settings</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>error</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-settings-interface-get-type" role="function">
+<title>nm_settings_interface_get_type ()</title>
+<indexterm zone="nm-settings-interface-get-type"><primary sortas="nm_settings_interface_get_type">nm_settings_interface_get_type</primary></indexterm><programlisting><link linkend="GType">GType</link>               nm_settings_interface_get_type      (void);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-settings-interface-list-connections" role="function">
+<title>nm_settings_interface_list_connections ()</title>
+<indexterm zone="nm-settings-interface-list-connections"><primary sortas="nm_settings_interface_list_connections">nm_settings_interface_list_connections</primary></indexterm><programlisting><link linkend="GSList">GSList</link> *            nm_settings_interface_list_connections
+                                                        (<link linkend="NMSettingsInterface">NMSettingsInterface</link> *settings);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>settings</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-settings-interface-get-connection-by-path" role="function">
+<title>nm_settings_interface_get_connection_by_path ()</title>
+<indexterm zone="nm-settings-interface-get-connection-by-path"><primary sortas="nm_settings_interface_get_connection_by_path">nm_settings_interface_get_connection_by_path</primary></indexterm><programlisting><link linkend="NMSettingsConnectionInterface">NMSettingsConnectionInterface</link> * nm_settings_interface_get_connection_by_path
+                                                        (<link linkend="NMSettingsInterface">NMSettingsInterface</link> *settings,
+                                                         const <link linkend="char">char</link> *path);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>settings</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>path</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-settings-interface-add-connection" role="function">
+<title>nm_settings_interface_add_connection ()</title>
+<indexterm zone="nm-settings-interface-add-connection"><primary sortas="nm_settings_interface_add_connection">nm_settings_interface_add_connection</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_settings_interface_add_connection
+                                                        (<link linkend="NMSettingsInterface">NMSettingsInterface</link> *settings,
+                                                         <link linkend="NMConnection">NMConnection</link> *connection,
+                                                         <link linkend="NMSettingsAddConnectionFunc">NMSettingsAddConnectionFunc</link> callback,
+                                                         <link linkend="gpointer">gpointer</link> user_data);</programlisting>
+<para>
+Requests that the settings service add the given settings to a new connection.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>settings</parameter>&#160;:</term>
+<listitem><simpara> a object implementing <link linkend="NMSettingsInterface"><literal>NMSettingsInterface</literal></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>connection</parameter>&#160;:</term>
+<listitem><simpara> the settings to add; note that this object's settings will be
+ added, not the object itself
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>callback</parameter>&#160;:</term>
+<listitem><simpara> callback to be called when the add operation completes
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara> caller-specific data passed to <parameter>callback</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> TRUE if the request was successful, FALSE if it failed
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
 
 </refsect1>
 

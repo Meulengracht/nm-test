@@ -49,6 +49,11 @@ get_pidfile_for_iface (const char * iface)
 	                        NM_DHCP_MANAGER_PID_FILE_EXT);
 }
 
+GSList *
+nm_dhcp_client_get_lease_ip4_config (const char *iface, const char *uuid)
+{
+	return NULL;
+}
 
 static void
 dhcpcd_child_setup (gpointer user_data G_GNUC_UNUSED)
@@ -62,7 +67,8 @@ dhcpcd_child_setup (gpointer user_data G_GNUC_UNUSED)
 GPid
 nm_dhcp_client_start (NMDHCPDevice *device,
                       const char *uuid,
-                      NMSettingIP4Config *s_ip4)
+                      NMSettingIP4Config *s_ip4,
+                      guint8 *dhcp_anycast_addr)
 {
 	GPtrArray *argv = NULL;
 	GPid pid = 0;

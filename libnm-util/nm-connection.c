@@ -19,7 +19,7 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301 USA.
  *
- * (C) Copyright 2007 - 2008 Red Hat, Inc.
+ * (C) Copyright 2007 - 2009 Red Hat, Inc.
  * (C) Copyright 2007 - 2008 Novell, Inc.
  */
 
@@ -31,6 +31,7 @@
 #include "nm-utils-private.h"
 
 #include "nm-setting-8021x.h"
+#include "nm-setting-bluetooth.h"
 #include "nm-setting-connection.h"
 #include "nm-setting-ip4-config.h"
 #include "nm-setting-ip6-config.h"
@@ -40,6 +41,7 @@
 #include "nm-setting-wireless.h"
 #include "nm-setting-wireless-security.h"
 #include "nm-setting-vpn.h"
+#include "nm-setting-olpc-mesh.h"
 
 #include "nm-setting-serial.h"
 #include "nm-setting-gsm.h"
@@ -139,7 +141,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 static GHashTable *registered_settings = NULL;
 
-#define DEFAULT_MAP_SIZE 13
+#define DEFAULT_MAP_SIZE 15
 
 static struct SettingInfo {
 	const char *name;
@@ -215,6 +217,11 @@ register_default_settings (void)
 	                      NM_SETTING_WIRELESS_ERROR,
 	                      1);
 
+	register_one_setting (NM_SETTING_OLPC_MESH_SETTING_NAME,
+	                      NM_TYPE_SETTING_OLPC_MESH,
+	                      NM_SETTING_OLPC_MESH_ERROR,
+	                      1);
+
 	register_one_setting (NM_SETTING_GSM_SETTING_NAME,
 	                      NM_TYPE_SETTING_GSM,
 	                      NM_SETTING_GSM_ERROR,
@@ -224,6 +231,11 @@ register_default_settings (void)
 	                      NM_TYPE_SETTING_CDMA,
 	                      NM_SETTING_CDMA_ERROR,
 	                      1);
+
+	register_one_setting (NM_SETTING_BLUETOOTH_SETTING_NAME,
+			      NM_TYPE_SETTING_BLUETOOTH,
+			      NM_SETTING_BLUETOOTH_ERROR,
+			      1);
 
 	register_one_setting (NM_SETTING_WIRELESS_SECURITY_SETTING_NAME,
 	                      NM_TYPE_SETTING_WIRELESS_SECURITY,
@@ -258,6 +270,11 @@ register_default_settings (void)
 	register_one_setting (NM_SETTING_IP4_CONFIG_SETTING_NAME,
 	                      NM_TYPE_SETTING_IP4_CONFIG,
 	                      NM_SETTING_IP4_CONFIG_ERROR,
+	                      6);
+
+	register_one_setting (NM_SETTING_IP6_CONFIG_SETTING_NAME,
+	                      NM_TYPE_SETTING_IP6_CONFIG,
+	                      NM_SETTING_IP6_CONFIG_ERROR,
 	                      6);
 
 	/* Be sure to update DEFAULT_MAP_SIZE if you add another setting!! */
@@ -1006,7 +1023,7 @@ nm_connection_new (void)
 /**
  * nm_connection_new_from_hash:
  * @hash: the #GHashTable describing the connection
- * @error: location of a #GError to return on failure
+ * @error: on unsuccessful return, an error
  *
  * Creates a new #NMConnection from a hash table describing the connection.  See
  * nm_connection_to_hash() for a description of the expected hash table.
@@ -1019,14 +1036,11 @@ NMConnection *
 nm_connection_new_from_hash (GHashTable *hash, GError **error)
 {
 	NMConnection *connection;
-	NMConnectionPrivate *priv;
 
 	g_return_val_if_fail (hash != NULL, NULL);
 
 	connection = nm_connection_new ();
 	g_hash_table_foreach (hash, parse_one_setting, connection);
-
-	priv = NM_CONNECTION_GET_PRIVATE (connection);
 
 	if (!nm_connection_verify (connection, error)) {
 		g_object_unref (connection);
@@ -1156,7 +1170,7 @@ nm_connection_class_init (NMConnectionClass *klass)
 						    NM_CONNECTION_SCOPE_UNKNOWN,
 						    NM_CONNECTION_SCOPE_USER,
 						    NM_CONNECTION_SCOPE_UNKNOWN,
-						    G_PARAM_READWRITE));
+						    G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
 	/**
 	 * NMConnection:path:
@@ -1170,7 +1184,7 @@ nm_connection_class_init (NMConnectionClass *klass)
 						  "Path",
 						  "Path",
 						  NULL,
-						  G_PARAM_READWRITE));
+						  G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
 	/* Signals */
 

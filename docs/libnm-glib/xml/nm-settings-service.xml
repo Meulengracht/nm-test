@@ -17,6 +17,16 @@
 <title role="synopsis.title">Synopsis</title>
 
 <synopsis>
+#define             <link linkend="NM-SETTINGS-SERVICE-BUS--CAPS">NM_SETTINGS_SERVICE_BUS</link>
+#define             <link linkend="NM-SETTINGS-SERVICE-SCOPE--CAPS">NM_SETTINGS_SERVICE_SCOPE</link>
+                    <link linkend="NMSettingsService">NMSettingsService</link>;
+<link linkend="NMExportedConnection">NMExportedConnection</link> * <link linkend="nm-settings-service-get-connection-by-path">nm_settings_service_get_connection_by_path</link>
+                                                        (<link linkend="NMSettingsService">NMSettingsService</link> *self,
+                                                         const <link linkend="char">char</link> *path);
+<link linkend="void">void</link>                <link linkend="nm-settings-service-export">nm_settings_service_export</link>          (<link linkend="NMSettingsService">NMSettingsService</link> *self);
+<link linkend="void">void</link>                <link linkend="nm-settings-service-export-connection">nm_settings_service_export_connection</link>
+                                                        (<link linkend="NMSettingsService">NMSettingsService</link> *self,
+                                                         <link linkend="NMSettingsConnectionInterface">NMSettingsConnectionInterface</link> *exported);
 </synopsis>
 </refsynopsisdiv>
 
@@ -36,6 +46,65 @@
 
 <refsect1 id="libnm-glib-NMSettingsService.details" role="details">
 <title role="details.title">Details</title>
+<refsect2 id="NM-SETTINGS-SERVICE-BUS--CAPS" role="macro">
+<title>NM_SETTINGS_SERVICE_BUS</title>
+<indexterm zone="NM-SETTINGS-SERVICE-BUS--CAPS"><primary sortas="NM_SETTINGS_SERVICE_BUS">NM_SETTINGS_SERVICE_BUS</primary></indexterm><programlisting>#define NM_SETTINGS_SERVICE_BUS "bus"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTINGS-SERVICE-SCOPE--CAPS" role="macro">
+<title>NM_SETTINGS_SERVICE_SCOPE</title>
+<indexterm zone="NM-SETTINGS-SERVICE-SCOPE--CAPS"><primary sortas="NM_SETTINGS_SERVICE_SCOPE">NM_SETTINGS_SERVICE_SCOPE</primary></indexterm><programlisting>#define NM_SETTINGS_SERVICE_SCOPE "scope"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingsService" role="struct">
+<title>NMSettingsService</title>
+<indexterm zone="NMSettingsService"><primary sortas="NMSettingsService">NMSettingsService</primary></indexterm><programlisting>typedef struct {
+	GObject parent;
+} NMSettingsService;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="nm-settings-service-get-connection-by-path" role="function">
+<title>nm_settings_service_get_connection_by_path ()</title>
+<indexterm zone="nm-settings-service-get-connection-by-path"><primary sortas="nm_settings_service_get_connection_by_path">nm_settings_service_get_connection_by_path</primary></indexterm><programlisting><link linkend="NMExportedConnection">NMExportedConnection</link> * nm_settings_service_get_connection_by_path
+                                                        (<link linkend="NMSettingsService">NMSettingsService</link> *self,
+                                                         const <link linkend="char">char</link> *path);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>path</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-settings-service-export" role="function">
+<title>nm_settings_service_export ()</title>
+<indexterm zone="nm-settings-service-export"><primary sortas="nm_settings_service_export">nm_settings_service_export</primary></indexterm><programlisting><link linkend="void">void</link>                nm_settings_service_export          (<link linkend="NMSettingsService">NMSettingsService</link> *self);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-settings-service-export-connection" role="function">
+<title>nm_settings_service_export_connection ()</title>
+<indexterm zone="nm-settings-service-export-connection"><primary sortas="nm_settings_service_export_connection">nm_settings_service_export_connection</primary></indexterm><programlisting><link linkend="void">void</link>                nm_settings_service_export_connection
+                                                        (<link linkend="NMSettingsService">NMSettingsService</link> *self,
+                                                         <link linkend="NMSettingsConnectionInterface">NMSettingsConnectionInterface</link> *exported);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>exported</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
 
 </refsect1>
 

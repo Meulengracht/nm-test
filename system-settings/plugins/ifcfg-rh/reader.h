@@ -27,10 +27,13 @@
 #include "shvar.h"
 
 NMConnection *connection_from_file (const char *filename,
-                                    const char *network_file,
-                                    const char *test_type,
-                                    gboolean *ignored,
+                                    const char *network_file,  /* for unit tests only */
+                                    const char *test_type,     /* for unit tests only */
+                                    const char *iscsiadm_path, /* for unit tests only */
+                                    char **unmanaged,
                                     char **keyfile,
+                                    char **routefile,
+                                    char **route6file,
                                     GError **error,
                                     gboolean *ignore_error);
 

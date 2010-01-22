@@ -34,7 +34,9 @@
 #include <nm-setting-wireless.h>
 #include <nm-setting-8021x.h>
 #include <nm-setting-ip4-config.h>
+#include <nm-setting-ip6-config.h>
 #include <nm-setting-pppoe.h>
+#include <nm-utils.h>
 
 #include "common.h"
 #include "shvar.h"
@@ -144,151 +146,187 @@ out:
 	return success;
 }
 
+typedef NMSetting8021xCKScheme (*SchemeFunc)(NMSetting8021x *setting);
+typedef const char *           (*PathFunc)  (NMSetting8021x *setting);
+typedef const GByteArray *     (*BlobFunc)  (NMSetting8021x *setting);
+
 typedef struct ObjectType {
 	const char *setting_key;
+	SchemeFunc scheme_func;
+	PathFunc path_func;
+	BlobFunc blob_func;
 	const char *ifcfg_key;
-	const char *path_tag;
-	const char *hash_tag;
 	const char *suffix;
 } ObjectType;
 
 static const ObjectType ca_type = {
 	NM_SETTING_802_1X_CA_CERT,
+	nm_setting_802_1x_get_ca_cert_scheme,
+	nm_setting_802_1x_get_ca_cert_path,
+	nm_setting_802_1x_get_ca_cert_blob,
 	"IEEE_8021X_CA_CERT",
-	TAG_CA_CERT_PATH,
-	TAG_CA_CERT_HASH,
 	"ca-cert.der"
 };
 
 static const ObjectType phase2_ca_type = {
 	NM_SETTING_802_1X_PHASE2_CA_CERT,
+	nm_setting_802_1x_get_phase2_ca_cert_scheme,
+	nm_setting_802_1x_get_phase2_ca_cert_path,
+	nm_setting_802_1x_get_phase2_ca_cert_blob,
 	"IEEE_8021X_INNER_CA_CERT",
-	TAG_PHASE2_CA_CERT_PATH,
-	TAG_PHASE2_CA_CERT_HASH,
 	"inner-ca-cert.der"
 };
 
 static const ObjectType client_type = {
 	NM_SETTING_802_1X_CLIENT_CERT,
+	nm_setting_802_1x_get_client_cert_scheme,
+	nm_setting_802_1x_get_client_cert_path,
+	nm_setting_802_1x_get_client_cert_blob,
 	"IEEE_8021X_CLIENT_CERT",
-	TAG_CLIENT_CERT_PATH,
-	TAG_CLIENT_CERT_HASH,
 	"client-cert.der"
 };
 
 static const ObjectType phase2_client_type = {
 	NM_SETTING_802_1X_PHASE2_CLIENT_CERT,
+	nm_setting_802_1x_get_phase2_client_cert_scheme,
+	nm_setting_802_1x_get_phase2_client_cert_path,
+	nm_setting_802_1x_get_phase2_client_cert_blob,
 	"IEEE_8021X_INNER_CLIENT_CERT",
-	TAG_PHASE2_CLIENT_CERT_PATH,
-	TAG_PHASE2_CLIENT_CERT_HASH,
 	"inner-client-cert.der"
 };
 
 static const ObjectType pk_type = {
 	NM_SETTING_802_1X_PRIVATE_KEY,
+	nm_setting_802_1x_get_private_key_scheme,
+	nm_setting_802_1x_get_private_key_path,
+	nm_setting_802_1x_get_private_key_blob,
 	"IEEE_8021X_PRIVATE_KEY",
-	TAG_PRIVATE_KEY_PATH,
-	TAG_PRIVATE_KEY_HASH,
 	"private-key.pem"
 };
 
 static const ObjectType phase2_pk_type = {
 	NM_SETTING_802_1X_PHASE2_PRIVATE_KEY,
+	nm_setting_802_1x_get_phase2_private_key_scheme,
+	nm_setting_802_1x_get_phase2_private_key_path,
+	nm_setting_802_1x_get_phase2_private_key_blob,
 	"IEEE_8021X_INNER_PRIVATE_KEY",
-	TAG_PHASE2_PRIVATE_KEY_PATH,
-	TAG_PHASE2_PRIVATE_KEY_HASH,
 	"inner-private-key.pem"
 };
 
 static const ObjectType p12_type = {
 	NM_SETTING_802_1X_PRIVATE_KEY,
+	nm_setting_802_1x_get_private_key_scheme,
+	nm_setting_802_1x_get_private_key_path,
+	nm_setting_802_1x_get_private_key_blob,
 	"IEEE_8021X_PRIVATE_KEY",
-	TAG_PRIVATE_KEY_PATH,
-	TAG_PRIVATE_KEY_HASH,
 	"private-key.p12"
 };
 
 static const ObjectType phase2_p12_type = {
 	NM_SETTING_802_1X_PHASE2_PRIVATE_KEY,
+	nm_setting_802_1x_get_phase2_private_key_scheme,
+	nm_setting_802_1x_get_phase2_private_key_path,
+	nm_setting_802_1x_get_phase2_private_key_blob,
 	"IEEE_8021X_INNER_PRIVATE_KEY",
-	TAG_PHASE2_PRIVATE_KEY_PATH,
-	TAG_PHASE2_PRIVATE_KEY_HASH,
 	"inner-private-key.p12"
 };
 
 static gboolean
 write_object (NMSetting8021x *s_8021x,
               shvarFile *ifcfg,
-              const GByteArray *object,
+              const GByteArray *override_data,
               const ObjectType *objtype,
-              gboolean *wrote,
               GError **error)
 {
-	const char *orig_hash, *orig_file;
-	char *new_hash = NULL, *new_file = NULL;
-	gboolean success = FALSE;
-	GError *write_error = NULL;
+	NMSetting8021xCKScheme scheme;
+	const char *path = NULL;
+	const GByteArray *blob = NULL;
 
-	g_return_val_if_fail (objtype != NULL, FALSE);
 	g_return_val_if_fail (ifcfg != NULL, FALSE);
-	g_return_val_if_fail (wrote != NULL, FALSE);
+	g_return_val_if_fail (objtype != NULL, FALSE);
 
-	*wrote = FALSE;
+	if (override_data) {
+		/* if given explicit data to save, always use that instead of asking
+		 * the setting what to do.
+		 */
+		blob = override_data;
+	} else {
+		scheme = (*(objtype->scheme_func))(s_8021x);
+		switch (scheme) {
+		case NM_SETTING_802_1X_CK_SCHEME_BLOB:
+			blob = (*(objtype->blob_func))(s_8021x);
+			break;
+		case NM_SETTING_802_1X_CK_SCHEME_PATH:
+			path = (*(objtype->path_func))(s_8021x);
+			break;
+		default:
+			break;
+		}
+	}
 
-	if (!object) {
+	/* If certificate/private key wasn't sent, the connection may no longer be
+	 * 802.1x and thus we clear out the paths and certs.
+	 */
+	if (!path && !blob) {
+		char *standard_file;
+		int ignored;
+
+		/* Since no cert/private key is now being used, delete any standard file
+		 * that was created for this connection, but leave other files alone.
+		 * Thus, for example,
+		 * /etc/sysconfig/network-scripts/ca-cert-Test_Write_Wifi_WPA_EAP-TLS.der
+		 * will be deleted, but /etc/pki/tls/cert.pem will not.
+		 */
+		standard_file = utils_cert_path (ifcfg->fileName, objtype->suffix);
+		if (g_file_test (standard_file, G_FILE_TEST_EXISTS))
+			ignored = unlink (standard_file);
+		g_free (standard_file);
+
 		svSetValue (ifcfg, objtype->ifcfg_key, NULL, FALSE);
 		return TRUE;
 	}
 
-	new_hash = utils_hash_byte_array (object);
-	if (!new_hash) {
-		g_set_error (error, ifcfg_plugin_error_quark (), 0,
-		             "Could not hash certificate/key data for %s / %s",
-		             NM_SETTING_802_1X_SETTING_NAME, objtype->setting_key);
-		return FALSE;
+	/* If the object path was specified, prefer that over any raw cert data that
+	 * may have been sent.
+	 */
+	if (path) {
+		svSetValue (ifcfg, objtype->ifcfg_key, path, FALSE);
+		return TRUE;
 	}
 
-	orig_hash = g_object_get_data (G_OBJECT (s_8021x), objtype->hash_tag);
-	orig_file = g_object_get_data (G_OBJECT (s_8021x), objtype->path_tag);
+	/* If it's raw certificate data, write the cert data out to the standard file */
+	if (blob) {
+		gboolean success;
+		char *new_file;
+		GError *write_error = NULL;
 
-	if (!orig_hash || !orig_file || strcmp (new_hash, orig_hash)) {
-		/* if the cert data has changed, or there wasn't a cert
-		 * originally, write data out to the standard file.
-		 */
 		new_file = utils_cert_path (ifcfg->fileName, objtype->suffix);
 		if (!new_file) {
 			g_set_error (error, ifcfg_plugin_error_quark (), 0,
 			             "Could not create file path for %s / %s",
 			             NM_SETTING_802_1X_SETTING_NAME, objtype->setting_key);
-			goto out;
+			return FALSE;
 		}
 
-		if (!write_secret_file (new_file, (const char *) object->data, object->len, &write_error)) {
+		/* Write the raw certificate data out to the standard file so that we
+		 * can use paths from now on instead of pushing around the certificate
+		 * data itself.
+		 */
+		success = write_secret_file (new_file, (const char *) blob->data, blob->len, &write_error);
+		if (success) {
+			svSetValue (ifcfg, objtype->ifcfg_key, new_file, FALSE);
+			return TRUE;
+		} else {
 			g_set_error (error, ifcfg_plugin_error_quark (), 0,
 			             "Could not write certificate/key for %s / %s: %s",
 			             NM_SETTING_802_1X_SETTING_NAME, objtype->setting_key,
 			             (write_error && write_error->message) ? write_error->message : "(unknown)");
 			g_clear_error (&write_error);
-			goto out;
 		}
-		*wrote = TRUE;
-
-		svSetValue (ifcfg, objtype->ifcfg_key, new_file, FALSE);
-		g_object_set_data_full (G_OBJECT (s_8021x), objtype->path_tag, new_file, g_free);
-		new_file = NULL; /* g_object_set_data_full() took ownership */
-
-		g_object_set_data_full (G_OBJECT (s_8021x), objtype->hash_tag, new_hash, g_free);
-		new_hash = NULL; /* g_object_set_data_full() took ownership */
-	} else {
-		/* cert data hasn't changed */
-		svSetValue (ifcfg, objtype->ifcfg_key, orig_file, FALSE);
+		g_free (new_file);
 	}
-	success = TRUE;
 
-out:
-	g_free (new_hash);
-	g_free (new_file);
-	return success;
+	return FALSE;
 }
 
 static gboolean
@@ -297,41 +335,34 @@ write_8021x_certs (NMSetting8021x *s_8021x,
                    shvarFile *ifcfg,
                    GError **error)
 {
-	const GByteArray *data;
 	GByteArray *enc_key = NULL;
 	const char *password = NULL;
 	char *generated_pw = NULL;
-	gboolean success = FALSE, is_pkcs12 = FALSE, wrote;
+	gboolean success = FALSE, is_pkcs12 = FALSE;
 	const ObjectType *otype = NULL;
-	const char *prop;
+	const GByteArray *blob = NULL;
 
 	/* CA certificate */
-	data = NULL;
-	if (phase2) {
-		prop = NM_SETTING_802_1X_PHASE2_CA_CERT;
+	if (phase2)
 		otype = &phase2_ca_type;
-	} else {
-		prop = NM_SETTING_802_1X_CA_CERT;
+	else
 		otype = &ca_type;
-	}
-	g_object_get (G_OBJECT (s_8021x), prop, &data, NULL);
-	if (!write_object (s_8021x, ifcfg, data, otype, &wrote, error))
+
+	if (!write_object (s_8021x, ifcfg, NULL, otype, error))
 		return FALSE;
 
 	/* Private key */
 	if (phase2) {
-		if (nm_setting_802_1x_get_phase2_private_key (s_8021x)) {
-			if (nm_setting_802_1x_get_phase2_private_key_type (s_8021x) == NM_SETTING_802_1X_CK_TYPE_PKCS12)
+		if (nm_setting_802_1x_get_phase2_private_key_scheme (s_8021x) != NM_SETTING_802_1X_CK_SCHEME_UNKNOWN) {
+			if (nm_setting_802_1x_get_phase2_private_key_format (s_8021x) == NM_SETTING_802_1X_CK_FORMAT_PKCS12)
 				is_pkcs12 = TRUE;
 		}
-		prop = NM_SETTING_802_1X_PHASE2_PRIVATE_KEY;
 		password = nm_setting_802_1x_get_phase2_private_key_password (s_8021x);
 	} else {
-		if (nm_setting_802_1x_get_private_key (s_8021x)) {
-			if (nm_setting_802_1x_get_private_key_type (s_8021x) == NM_SETTING_802_1X_CK_TYPE_PKCS12)
+		if (nm_setting_802_1x_get_private_key_scheme (s_8021x) != NM_SETTING_802_1X_CK_SCHEME_UNKNOWN) {
+			if (nm_setting_802_1x_get_private_key_format (s_8021x) == NM_SETTING_802_1X_CK_FORMAT_PKCS12)
 				is_pkcs12 = TRUE;
 		}
-		prop = NM_SETTING_802_1X_PRIVATE_KEY;
 		password = nm_setting_802_1x_get_private_key_password (s_8021x);
 	}
 
@@ -340,29 +371,25 @@ write_8021x_certs (NMSetting8021x *s_8021x,
 	else
 		otype = phase2 ? &phase2_pk_type : &pk_type;
 
-	data = NULL;
-	g_object_get (G_OBJECT (s_8021x), prop, &data, NULL);
-	if (data && !is_pkcs12) {
-		GByteArray *array;
+	if ((*(otype->scheme_func))(s_8021x) == NM_SETTING_802_1X_CK_SCHEME_BLOB)
+		blob = (*(otype->blob_func))(s_8021x);
 
-		if (!password) {
-			/* Create a random private key */
-			array = crypto_random (32, error);
-			if (!array)
-				goto out;
-
-			password = generated_pw = utils_bin2hexstr ((const char *) array->data, array->len, -1);
-			memset (array->data, 0, array->len);
-			g_byte_array_free (array, TRUE);
-		}
-
-		/* Re-encrypt the private key if it's not PKCS#12 (which never decrypted by NM) */
-		enc_key = crypto_key_to_pem (data, password, error);
+	/* Only do the private key re-encrypt dance if we got the raw key data, which
+	 * by definition will be unencrypted.  If we're given a direct path to the
+	 * private key file, it'll be encrypted, so we don't need to re-encrypt.
+	 */
+	if (blob && !is_pkcs12) {
+		/* Encrypt the unencrypted private key with the fake password */
+		enc_key = nm_utils_rsa_key_encrypt (blob, password, &generated_pw, error);
 		if (!enc_key)
 			goto out;
+
+		if (generated_pw)
+			password = generated_pw;
 	}
 
-	if (!write_object (s_8021x, ifcfg, enc_key ? enc_key : data, otype, &wrote, error))
+	/* Save the private key */
+	if (!write_object (s_8021x, ifcfg, enc_key ? enc_key : blob, otype, error))
 		goto out;
 
 	/* Private key password */
@@ -371,27 +398,19 @@ write_8021x_certs (NMSetting8021x *s_8021x,
 	else
 		set_secret (ifcfg, "IEEE_8021X_PRIVATE_KEY_PASSWORD", password, FALSE);
 
-	if (enc_key) {
-		memset (enc_key->data, 0, enc_key->len);
-		g_byte_array_free (enc_key, TRUE);
-	}
-
 	/* Client certificate */
 	if (is_pkcs12) {
 		svSetValue (ifcfg,
 		            phase2 ? "IEEE_8021X_INNER_CLIENT_CERT" : "IEEE_8021X_CLIENT_CERT",
 		            NULL, FALSE);
 	} else {
-		if (phase2) {
-			prop = NM_SETTING_802_1X_PHASE2_CLIENT_CERT;
+		if (phase2)
 			otype = &phase2_client_type;
-		} else {
-			prop = NM_SETTING_802_1X_CLIENT_CERT;
+		else
 			otype = &client_type;
-		}
-		data = NULL;
-		g_object_get (G_OBJECT (s_8021x), prop, &data, NULL);
-		if (!write_object (s_8021x, ifcfg, data, otype, &wrote, error))
+
+		/* Save the client certificate */
+		if (!write_object (s_8021x, ifcfg, NULL, otype, error))
 			goto out;
 	}
 
@@ -401,6 +420,10 @@ out:
 	if (generated_pw) {
 		memset (generated_pw, 0, strlen (generated_pw));
 		g_free (generated_pw);
+	}
+	if (enc_key) {
+		memset (enc_key->data, 0, enc_key->len);
+		g_byte_array_free (enc_key, TRUE);
 	}
 	return success;
 }
@@ -816,13 +839,74 @@ write_connection_setting (NMSettingConnection *s_con, shvarFile *ifcfg)
 }
 
 static gboolean
+write_route_file_legacy (const char *filename, NMSettingIP4Config *s_ip4, GError **error)
+{
+	char dest[INET_ADDRSTRLEN];
+	char next_hop[INET_ADDRSTRLEN];
+	char **route_items;
+	char *route_contents;
+	NMIP4Route *route;
+	guint32 ip, prefix, metric;
+	guint32 i, num;
+	gboolean success = FALSE;
+
+	g_return_val_if_fail (filename != NULL, FALSE);
+	g_return_val_if_fail (s_ip4 != NULL, FALSE);
+	g_return_val_if_fail (error != NULL, FALSE);
+	g_return_val_if_fail (*error == NULL, FALSE);
+
+	num = nm_setting_ip4_config_get_num_routes (s_ip4);
+	if (num == 0) {
+		unlink (filename);
+		return TRUE;
+	}
+
+	route_items = g_malloc0 (sizeof (char*) * (num + 1));
+	for (i = 0; i < num; i++) {
+		route = nm_setting_ip4_config_get_route (s_ip4, i);
+
+		memset (dest, 0, sizeof (dest));
+		ip = nm_ip4_route_get_dest (route);
+		inet_ntop (AF_INET, (const void *) &ip, &dest[0], sizeof (dest));
+
+		prefix = nm_ip4_route_get_prefix (route);
+
+		memset (next_hop, 0, sizeof (next_hop));
+		ip = nm_ip4_route_get_next_hop (route);
+		inet_ntop (AF_INET, (const void *) &ip, &next_hop[0], sizeof (next_hop));
+
+		metric = nm_ip4_route_get_metric (route);
+
+		route_items[i] = g_strdup_printf ("%s/%u via %s metric %u\n", dest, prefix, next_hop, metric);
+	}
+	route_items[num] = NULL;
+	route_contents = g_strjoinv (NULL, route_items);
+	g_strfreev (route_items);
+
+	if (!g_file_set_contents (filename, route_contents, -1, NULL)) {
+		g_set_error (error, ifcfg_plugin_error_quark (), 0,
+		             "Writing route file '%s' failed", filename);
+		goto error;
+	}
+
+	success = TRUE;
+
+error:
+	g_free (route_contents);
+
+	return success;
+}
+
+static gboolean
 write_ip4_setting (NMConnection *connection, shvarFile *ifcfg, GError **error)
 {
 	NMSettingIP4Config *s_ip4;
 	const char *value;
-	char *addr_key, *prefix_key, *gw_key, *tmp;
+	char *addr_key, *prefix_key, *netmask_key, *gw_key, *metric_key, *tmp;
+	char *route_path = NULL;
 	guint32 i, num;
 	GString *searches;
+	gboolean success = FALSE;
 
 	s_ip4 = (NMSettingIP4Config *) nm_connection_get_setting (connection, NM_TYPE_SETTING_IP4_CONFIG);
 	if (!s_ip4) {
@@ -947,8 +1031,299 @@ write_ip4_setting (NMConnection *connection, shvarFile *ifcfg, GError **error)
 			svSetValue (ifcfg, "DHCP_CLIENT_ID", value, FALSE);
 	}
 
+	/* Static routes - route-<name> file */
+	route_path = utils_get_route_path (ifcfg->fileName);
+	if (!route_path) {
+		g_set_error (error, ifcfg_plugin_error_quark (), 0,
+		             "Could not get route file path for '%s'", ifcfg->fileName);
+		goto out;
+	}
+
+	if (utils_has_route_file_new_syntax (route_path)) {
+		shvarFile *routefile;
+
+		g_free (route_path);
+		routefile = utils_get_route_ifcfg (ifcfg->fileName, TRUE);
+		if (!routefile) {
+			g_set_error (error, ifcfg_plugin_error_quark (), 0,
+			             "Could not create route file '%s'", routefile->fileName);
+			goto out;
+		}
+
+		num = nm_setting_ip4_config_get_num_routes (s_ip4);
+		for (i = 0; i < 256; i++) {
+			char buf[INET_ADDRSTRLEN];
+			NMIP4Route *route;
+			guint32 ip, metric;
+
+			addr_key = g_strdup_printf ("ADDRESS%d", i);
+			netmask_key = g_strdup_printf ("NETMASK%d", i);
+			gw_key = g_strdup_printf ("GATEWAY%d", i);
+			metric_key = g_strdup_printf ("METRIC%d", i);
+
+			if (i >= num) {
+				svSetValue (routefile, addr_key, NULL, FALSE);
+				svSetValue (routefile, netmask_key, NULL, FALSE);
+				svSetValue (routefile, gw_key, NULL, FALSE);
+				svSetValue (routefile, metric_key, NULL, FALSE);
+			} else {
+				route = nm_setting_ip4_config_get_route (s_ip4, i);
+
+				memset (buf, 0, sizeof (buf));
+				ip = nm_ip4_route_get_dest (route);
+				inet_ntop (AF_INET, (const void *) &ip, &buf[0], sizeof (buf));
+				svSetValue (routefile, addr_key, &buf[0], FALSE);
+
+				memset (buf, 0, sizeof (buf));
+				ip = nm_utils_ip4_prefix_to_netmask (nm_ip4_route_get_prefix (route));
+				inet_ntop (AF_INET, (const void *) &ip, &buf[0], sizeof (buf));
+				svSetValue (routefile, netmask_key, &buf[0], FALSE);
+
+				memset (buf, 0, sizeof (buf));
+				ip = nm_ip4_route_get_next_hop (route);
+				inet_ntop (AF_INET, (const void *) &ip, &buf[0], sizeof (buf));
+				svSetValue (routefile, gw_key, &buf[0], FALSE);
+
+				memset (buf, 0, sizeof (buf));
+				metric = nm_ip4_route_get_metric (route);
+				if (metric == 0)
+					svSetValue (routefile, metric_key, NULL, FALSE);
+				else {
+					tmp = g_strdup_printf ("%u", metric);
+					svSetValue (routefile, metric_key, tmp, FALSE);
+					g_free (tmp);
+				}
+			}
+
+			g_free (addr_key);
+			g_free (netmask_key);
+			g_free (gw_key);
+			g_free (metric_key);
+		}
+		if (svWriteFile (routefile, 0644)) {
+			g_set_error (error, ifcfg_plugin_error_quark (), 0,
+			             "Could not update route file '%s'", routefile->fileName);
+			svCloseFile (routefile);
+			goto out;
+		}
+		svCloseFile (routefile);
+	} else {
+		write_route_file_legacy (route_path, s_ip4, error);
+		g_free (route_path);
+		if (error && *error)
+			goto out;
+	}
+
+	success = TRUE;
+
+out:
+	return success;
+}
+
+static gboolean
+write_route6_file (const char *filename, NMSettingIP6Config *s_ip6, GError **error)
+{
+	char dest[INET6_ADDRSTRLEN];
+	char next_hop[INET6_ADDRSTRLEN];
+	char **route_items;
+	char *route_contents;
+	NMIP6Route *route;
+	const struct in6_addr *ip;
+	guint32 prefix, metric;
+	guint32 i, num;
+	gboolean success = FALSE;
+
+	g_return_val_if_fail (filename != NULL, FALSE);
+	g_return_val_if_fail (s_ip6 != NULL, FALSE);
+	g_return_val_if_fail (error != NULL, FALSE);
+	g_return_val_if_fail (*error == NULL, FALSE);
+
+	num = nm_setting_ip6_config_get_num_routes (s_ip6);
+	if (num == 0) {
+		unlink (filename);
+		return TRUE;
+	}
+
+	route_items = g_malloc0 (sizeof (char*) * (num + 1));
+	for (i = 0; i < num; i++) {
+		route = nm_setting_ip6_config_get_route (s_ip6, i);
+
+		memset (dest, 0, sizeof (dest));
+		ip = nm_ip6_route_get_dest (route);
+		inet_ntop (AF_INET6, (const void *) ip, &dest[0], sizeof (dest));
+
+		prefix = nm_ip6_route_get_prefix (route);
+
+		memset (next_hop, 0, sizeof (next_hop));
+		ip = nm_ip6_route_get_next_hop (route);
+		inet_ntop (AF_INET6, (const void *) ip, &next_hop[0], sizeof (next_hop));
+
+		metric = nm_ip6_route_get_metric (route);
+
+		route_items[i] = g_strdup_printf ("%s/%u via %s metric %u\n", dest, prefix, next_hop, metric);
+	}
+	route_items[num] = NULL;
+	route_contents = g_strjoinv (NULL, route_items);
+	g_strfreev (route_items);
+
+	if (!g_file_set_contents (filename, route_contents, -1, NULL)) {
+		g_set_error (error, ifcfg_plugin_error_quark (), 0,
+		             "Writing route6 file '%s' failed", filename);
+		goto error;
+	}
+
+	success = TRUE;
+
+error:
+	g_free (route_contents);
+	return success;
+}
+
+static gboolean
+write_ip6_setting (NMConnection *connection, shvarFile *ifcfg, GError **error)
+{
+	NMSettingIP6Config *s_ip6;
+	NMSettingIP4Config *s_ip4;
+	const char *value;
+	char *addr_key, *prefix;
+	guint32 i, num, num4;
+	GString *searches;
+	char buf[INET6_ADDRSTRLEN];
+	NMIP6Address *addr;
+	const struct in6_addr *ip;
+	GString *ip_str1, *ip_str2, *ip_ptr;
+	char *route6_path;
+
+	s_ip6 = (NMSettingIP6Config *) nm_connection_get_setting (connection, NM_TYPE_SETTING_IP6_CONFIG);
+	if (!s_ip6) {
+		g_set_error (error, ifcfg_plugin_error_quark (), 0,
+		             "Missing '%s' setting", NM_SETTING_IP6_CONFIG_SETTING_NAME);
+		return FALSE;
+	}
+
+	value = nm_setting_ip6_config_get_method (s_ip6);
+	g_assert (value);
+	if (!strcmp (value, NM_SETTING_IP6_CONFIG_METHOD_IGNORE)) {
+		svSetValue (ifcfg, "IPV6INIT", "no", FALSE);
+		return TRUE;
+	} else if (!strcmp (value, NM_SETTING_IP6_CONFIG_METHOD_AUTO)) {
+		svSetValue (ifcfg, "IPV6INIT", "yes", FALSE);
+		svSetValue (ifcfg, "IPV6_AUTOCONF", "yes", FALSE);
+	} else if (!strcmp (value, NM_SETTING_IP6_CONFIG_METHOD_MANUAL)) {
+		svSetValue (ifcfg, "IPV6INIT", "yes", FALSE);
+		svSetValue (ifcfg, "IPV6_AUTOCONF", "no", FALSE);
+	} else if (!strcmp (value, NM_SETTING_IP6_CONFIG_METHOD_LINK_LOCAL)) {
+		svSetValue (ifcfg, "IPV6INIT", "yes", FALSE);
+		svSetValue (ifcfg, "IPV6_AUTOCONF", "no", FALSE);
+	} else if (!strcmp (value, NM_SETTING_IP6_CONFIG_METHOD_SHARED)) {
+		svSetValue (ifcfg, "IPV6INIT", "yes", FALSE);
+		/* TODO */
+	}
+
+	if (!strcmp (value, NM_SETTING_IP6_CONFIG_METHOD_MANUAL)) {
+		/* Write out IP addresses */
+		num = nm_setting_ip6_config_get_num_addresses (s_ip6);
+
+		ip_str1 = g_string_new (NULL);
+		ip_str2 = g_string_new (NULL);
+		for (i = 0; i < num; i++) {
+			if (i == 0)
+				ip_ptr = ip_str1;
+			else
+				ip_ptr = ip_str2;
+
+			addr = nm_setting_ip6_config_get_address (s_ip6, i);
+			ip = nm_ip6_address_get_address (addr);
+			prefix = g_strdup_printf ("%u", nm_ip6_address_get_prefix (addr));
+			memset (buf, 0, sizeof (buf));
+			inet_ntop (AF_INET6, (const void *) ip, buf, sizeof (buf));
+			if (i > 1)
+				g_string_append_c (ip_ptr, ' ');  /* separate addresses in IPV6ADDR_SECONDARIES */
+			g_string_append (ip_ptr, buf);
+			g_string_append_c (ip_ptr, '/');
+			g_string_append (ip_ptr, prefix);
+			g_free (prefix);
+		}
+
+		svSetValue (ifcfg, "IPV6ADDR", ip_str1->str, FALSE);
+		svSetValue (ifcfg, "IPV6ADDR_SECONDARIES", ip_str2->str, FALSE);
+		g_string_free (ip_str1, TRUE);
+		g_string_free (ip_str2, TRUE);
+	} else {
+		svSetValue (ifcfg, "IPV6ADDR", NULL, FALSE);
+		svSetValue (ifcfg, "IPV6ADDR_SECONDARIES", NULL, FALSE);
+	}
+
+	/* Write out DNS - 'DNS' key is used both for IPv4 and IPv6 */
+	s_ip4 = (NMSettingIP4Config *) nm_connection_get_setting (connection, NM_TYPE_SETTING_IP4_CONFIG);
+	num4 = s_ip4 ? nm_setting_ip4_config_get_num_dns (s_ip4) : 0; /* from where to start with IPv6 entries */
+	num = nm_setting_ip6_config_get_num_dns (s_ip6);
+	for (i = 0; i < 254; i++) {
+		addr_key = g_strdup_printf ("DNS%d", i + num4 + 1);
+
+		if (i >= num)
+			svSetValue (ifcfg, addr_key, NULL, FALSE);
+		else {
+			ip = nm_setting_ip6_config_get_dns (s_ip6, i);
+
+			memset (buf, 0, sizeof (buf));
+			inet_ntop (AF_INET6, (const void *) ip, buf, sizeof (buf));
+			svSetValue (ifcfg, addr_key, buf, FALSE);
+		}
+		g_free (addr_key);
+	}
+
+	/* Write out DNS domains - 'DOMAIN' key is shared for both IPv4 and IPv6 domains */
+	num = nm_setting_ip6_config_get_num_dns_searches (s_ip6);
+	if (num > 0) {
+		char *ip4_domains;
+		ip4_domains = svGetValue (ifcfg, "DOMAIN", FALSE);
+		searches = g_string_new (ip4_domains);
+		for (i = 0; i < num; i++) {
+			if (searches->len > 0)
+				g_string_append_c (searches, ' ');
+			g_string_append (searches, nm_setting_ip6_config_get_dns_search (s_ip6, i));
+		}
+		svSetValue (ifcfg, "DOMAIN", searches->str, FALSE);
+		g_string_free (searches, TRUE);
+		g_free (ip4_domains);
+	}
+
+	/* handle IPV6_DEFROUTE */
+	/* IPV6_DEFROUTE has the opposite meaning from 'never-default' */
+	if (nm_setting_ip6_config_get_never_default(s_ip6))
+		svSetValue (ifcfg, "IPV6_DEFROUTE", "no", FALSE);
+	else
+		svSetValue (ifcfg, "IPV6_DEFROUTE", "yes", FALSE);
+
+	svSetValue (ifcfg, "IPV6_PEERDNS", NULL, FALSE);
+	svSetValue (ifcfg, "IPV6_PEERROUTES", NULL, FALSE);
+	if (!strcmp (value, NM_SETTING_IP6_CONFIG_METHOD_AUTO)) {
+		svSetValue (ifcfg, "IPV6_PEERDNS",
+		            nm_setting_ip6_config_get_ignore_auto_dns (s_ip6) ? "no" : "yes",
+		            FALSE);
+
+		svSetValue (ifcfg, "IPV6_PEERROUTES",
+		            nm_setting_ip6_config_get_ignore_auto_routes (s_ip6) ? "no" : "yes",
+		            FALSE);
+	}
+
+	/* Static routes go to route6-<dev> file */
+	route6_path = utils_get_route6_path (ifcfg->fileName);
+	if (!route6_path) {
+		g_set_error (error, ifcfg_plugin_error_quark (), 0,
+		             "Could not get route6 file path for '%s'", ifcfg->fileName);
+		goto error;
+	}
+	write_route6_file (route6_path, s_ip6, error);
+	g_free (route6_path);
+	if (error && *error)
+		goto error;
 
 	return TRUE;
+
+error:
+	return FALSE;
 }
 
 static char *
@@ -980,6 +1355,7 @@ write_connection (NMConnection *connection,
                   GError **error)
 {
 	NMSettingConnection *s_con;
+	NMSettingIP6Config *s_ip6;
 	gboolean success = FALSE;
 	shvarFile *ifcfg = NULL;
 	char *ifcfg_name = NULL;
@@ -1048,6 +1424,12 @@ write_connection (NMConnection *connection,
 
 	if (!write_ip4_setting (connection, ifcfg, error))
 		goto out;
+
+	s_ip6 = (NMSettingIP6Config *) nm_connection_get_setting (connection, NM_TYPE_SETTING_IP6_CONFIG);
+	if (s_ip6) {
+		if (!write_ip6_setting (connection, ifcfg, error))
+			goto out;
+	}
 
 	write_connection_setting (s_con, ifcfg);
 

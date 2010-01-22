@@ -54,25 +54,16 @@ nm_dispatcher_action_CPPFLAGS = \
 	-DLIBEXECDIR=\"$(libexecdir)\"
 
 nm_dispatcher_action_LDADD = \
+	$(top_builddir)/libnm-glib/libnm-glib.la \
+	$(top_builddir)/libnm-util/libnm-util.la \
 	$(DBUS_LIBS) \
-	$(GLIB_LIBS) \
-	$(top_builddir)/libnm-glib/libnm_glib.la \
-	$(top_builddir)/libnm-util/libnm-util.la
+	$(GLIB_LIBS)
 
 nm-dispatcher-glue.h: nm-dispatcher.xml
 	dbus-binding-tool --prefix=nm_dispatcher --mode=glib-server --output=$@ $<
 
-udevdir = $(UDEV_BASE_DIR)
-udev_PROGRAMS = nm-modem-probe
-
-nm_modem_probe_SOURCES = nm-modem-probe.c
-nm_modem_probe_CPPFLAGS = $(GLIB_CFLAGS)
-nm_modem_probe_LDADD = $(GLIB_LIBS)
-
 udevrulesdir = $(UDEV_BASE_DIR)/rules.d
-udevrules_DATA = \
-	77-nm-probe-modem-capabilities.rules \
-	77-nm-zte-port-types.rules
+udevrules_DATA = 77-nm-olpc-mesh.rules
 
 dbusactivationdir = $(datadir)/dbus-1/system-services
 dbusactivation_in_files = org.freedesktop.nm_dispatcher.service.in
@@ -97,7 +88,7 @@ CLEANFILES = $(BUILT_SOURCES) $(dbusactivation_DATA)
 
 EXTRA_DIST = \
 	$(dbusservice_DATA) \
+	$(udevrules_DATA) \
 	$(dbusactivation_in_files) \
-	nm-dispatcher.xml \
-	$(udevrules_DATA)
+	nm-dispatcher.xml
 

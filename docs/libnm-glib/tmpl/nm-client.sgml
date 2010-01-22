@@ -45,6 +45,20 @@ NMClient
 
 
 
+<!-- ##### MACRO NM_CLIENT_WWAN_ENABLED ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_CLIENT_WWAN_HARDWARE_ENABLED ##### -->
+<para>
+
+</para>
+
+
+
 <!-- ##### MACRO NM_CLIENT_ACTIVE_CONNECTIONS ##### -->
 <para>
 
@@ -95,6 +109,16 @@ NMClient
 </para>
 
 <!-- ##### ARG NMClient:wireless-hardware-enabled ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMClient:wwan-enabled ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMClient:wwan-hardware-enabled ##### -->
 <para>
 
 </para>
@@ -178,6 +202,33 @@ NMClient
 
 
 <!-- ##### FUNCTION nm_client_wireless_hardware_get_enabled ##### -->
+<para>
+
+</para>
+
+@client: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_client_wwan_get_enabled ##### -->
+<para>
+
+</para>
+
+@client: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_client_wwan_set_enabled ##### -->
+<para>
+
+</para>
+
+@client: 
+@enabled: 
+
+
+<!-- ##### FUNCTION nm_client_wwan_hardware_get_enabled ##### -->
 <para>
 
 </para>

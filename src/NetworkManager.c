@@ -36,6 +36,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <glib/gi18n.h>
+#include <gmodule.h>
 #include <string.h>
 
 #include "NetworkManager.h"
@@ -48,12 +49,14 @@
 #include "nm-dbus-manager.h"
 #include "nm-supplicant-manager.h"
 #include "nm-dhcp-manager.h"
+#include "nm-hostname-provider.h"
 #include "nm-netlink-monitor.h"
 #include "nm-vpn-manager.h"
 #include "nm-logging.h"
 
 #define NM_DEFAULT_PID_FILE	LOCALSTATEDIR"/run/NetworkManager.pid"
-#define NM_DEFAULT_SYSTEM_STATE_FILE LOCALSTATEDIR"/lib/NetworkManager/NetworkManager.state"
+#define NM_DEFAULT_SYSTEM_CONF_FILE	SYSCONFDIR"/NetworkManager/nm-system-settings.conf"
+#define NM_DEFAULT_SYSTEM_STATE_FILE	LOCALSTATEDIR"/lib/NetworkManager/NetworkManager.state"
 
 /*
  * Globals
@@ -299,17 +302,43 @@ done:
 }
 
 static gboolean
+parse_config_file (const char *filename, char **plugins, GError **error)
+{
+	GKeyFile *config;
+
+	config = g_key_file_new ();
+	if (!config) {
+		g_set_error (error, 0, 0,
+		             "Not enough memory to load config file.");
+		return FALSE;
+	}
+
+	g_key_file_set_list_separator (config, ',');
+	if (!g_key_file_load_from_file (config, filename, G_KEY_FILE_NONE, error))
+		return FALSE;
+
+	*plugins = g_key_file_get_value (config, "main", "plugins", error);
+	if (*error)
+		return FALSE;
+
+	g_key_file_free (config);
+	return TRUE;
+}
+
+static gboolean
 parse_state_file (const char *filename,
                   gboolean *net_enabled,
                   gboolean *wifi_enabled,
+                  gboolean *wwan_enabled,
                   GError **error)
 {
 	GKeyFile *state_file;
 	GError *tmp_error = NULL;
-	gboolean wifi, net;
+	gboolean wifi, net, wwan;
 
 	g_return_val_if_fail (net_enabled != NULL, FALSE);
 	g_return_val_if_fail (wifi_enabled != NULL, FALSE);
+	g_return_val_if_fail (wwan_enabled != NULL, FALSE);
 
 	state_file = g_key_file_new ();
 	if (!state_file) {
@@ -347,6 +376,7 @@ parse_state_file (const char *filename,
 			/* Write out the initial state to the state file */
 			g_key_file_set_boolean (state_file, "main", "NetworkingEnabled", *net_enabled);
 			g_key_file_set_boolean (state_file, "main", "WirelessEnabled", *wifi_enabled);
+			g_key_file_set_boolean (state_file, "main", "WWANEnabled", *wwan_enabled);
 
 			data = g_key_file_to_data (state_file, &len, NULL);
 			if (data)
@@ -373,12 +403,20 @@ parse_state_file (const char *filename,
 		*net_enabled = net;
 	g_clear_error (&tmp_error);
 
-	wifi = g_key_file_get_boolean (state_file, "main", "WirelessEnabled", error);
+	wifi = g_key_file_get_boolean (state_file, "main", "WirelessEnabled", &tmp_error);
 	if (tmp_error) {
 		g_clear_error (error);
 		g_set_error_literal (error, tmp_error->domain, tmp_error->code, tmp_error->message);
 	} else
 		*wifi_enabled = wifi;
+	g_clear_error (&tmp_error);
+
+	wwan = g_key_file_get_boolean (state_file, "main", "WWANEnabled", &tmp_error);
+	if (tmp_error) {
+		g_clear_error (error);
+		g_set_error_literal (error, tmp_error->domain, tmp_error->code, tmp_error->message);
+	} else
+		*wwan_enabled = wwan;
 	g_clear_error (&tmp_error);
 
 	g_key_file_free (state_file);
@@ -395,10 +433,11 @@ main (int argc, char *argv[])
 {
 	GOptionContext *opt_ctx = NULL;
 	gboolean become_daemon = FALSE;
-	char *pidfile = NULL;
-	char *user_pidfile = NULL;
+	gboolean g_fatal_warnings = FALSE;
+	char *pidfile = NULL, *user_pidfile = NULL;
+	char *config = NULL, *plugins = NULL;
 	char *state_file = NM_DEFAULT_SYSTEM_STATE_FILE;
-	gboolean wifi_enabled = TRUE, net_enabled = TRUE;
+	gboolean wifi_enabled = TRUE, net_enabled = TRUE, wwan_enabled = TRUE;
 	gboolean success;
 	NMPolicy *policy = NULL;
 	NMVPNManager *vpn_manager = NULL;
@@ -410,14 +449,22 @@ main (int argc, char *argv[])
 	gboolean wrote_pidfile = FALSE;
 
 	GOptionEntry options[] = {
-		{"no-daemon", 0, 0, G_OPTION_ARG_NONE, &become_daemon, "Don't become a daemon", NULL},
-		{"pid-file", 0, 0, G_OPTION_ARG_FILENAME, &user_pidfile, "Specify the location of a PID file", "filename"},
-		{"state-file", 0, 0, G_OPTION_ARG_FILENAME, &state_file, "State file location", "/path/to/state.file"},
+		{ "no-daemon", 0, 0, G_OPTION_ARG_NONE, &become_daemon, "Don't become a daemon", NULL },
+		{ "g-fatal-warnings", 0, 0, G_OPTION_ARG_NONE, &g_fatal_warnings, "Make all warnings fatal", NULL },
+		{ "pid-file", 0, 0, G_OPTION_ARG_FILENAME, &user_pidfile, "Specify the location of a PID file", "filename" },
+		{ "state-file", 0, 0, G_OPTION_ARG_FILENAME, &state_file, "State file location", "/path/to/state.file" },
+		{ "config", 0, 0, G_OPTION_ARG_FILENAME, &config, "Config file location", "/path/to/config.file" },
+		{ "plugins", 0, 0, G_OPTION_ARG_STRING, &plugins, "List of plugins separated by ,", "plugin1,plugin2" },
 		{NULL}
 	};
 
 	if (getuid () != 0) {
 		g_printerr ("You must be root to run NetworkManager!\n");
+		exit (1);
+	}
+
+	if (!g_module_supported ()) {
+		g_printerr ("GModules are not supported on your platform!");
 		exit (1);
 	}
 
@@ -449,8 +496,31 @@ main (int argc, char *argv[])
 	if (check_pidfile (pidfile))
 		exit (1);
 
+	/* Parse the config file */
+	if (config) {
+		if (!parse_config_file (config, &plugins, &error)) {
+			g_warning ("Config file %s invalid: (%d) %s.",
+			           config,
+			           error ? error->code : -1,
+			           (error && error->message) ? error->message : "unknown");
+			exit (1);
+		}
+	} else {
+		config = NM_DEFAULT_SYSTEM_CONF_FILE;
+		if (!parse_config_file (config, &plugins, &error)) {
+			g_warning ("Default config file %s invalid: (%d) %s.",
+			           config,
+			           error ? error->code : -1,
+			           (error && error->message) ? error->message : "unknown");
+			config = NULL;
+			/* Not a hard failure */
+		}
+	}
+
+	g_clear_error (&error);
+
 	/* Parse the state file */
-	if (!parse_state_file (state_file, &net_enabled, &wifi_enabled, &error)) {
+	if (!parse_state_file (state_file, &net_enabled, &wifi_enabled, &wwan_enabled, &error)) {
 		g_warning ("State file %s parsing failed: (%d) %s.",
 		           state_file,
 		           error ? error->code : -1,
@@ -474,6 +544,14 @@ main (int argc, char *argv[])
 		}
 		if (write_pidfile (pidfile))
 			wrote_pidfile = TRUE;
+	}
+
+	if (g_fatal_warnings) {
+		GLogLevelFlags fatal_mask;
+
+		fatal_mask = g_log_set_always_fatal (G_LOG_FATAL_MASK);
+		fatal_mask |= G_LOG_LEVEL_WARNING | G_LOG_LEVEL_CRITICAL;
+		g_log_set_always_fatal (fatal_mask);
 	}
 
 	/*
@@ -510,9 +588,22 @@ main (int argc, char *argv[])
 		goto done;
 	}
 
-	manager = nm_manager_get (state_file, net_enabled, wifi_enabled);
+	named_mgr = nm_named_manager_get ();
+	if (!named_mgr) {
+		nm_warning ("Failed to start the named manager.");
+		goto done;
+	}
+
+	manager = nm_manager_get (config,
+	                          plugins,
+	                          state_file,
+	                          net_enabled,
+	                          wifi_enabled,
+	                          wwan_enabled,
+	                          &error);
 	if (manager == NULL) {
-		nm_error ("Failed to initialize the network manager.");
+		nm_error ("Failed to initialize the network manager: %s",
+		          error && error->message ? error->message : "(unknown)");
 		goto done;
 	}
 
@@ -529,23 +620,21 @@ main (int argc, char *argv[])
 		goto done;
 	}
 
-	named_mgr = nm_named_manager_get ();
-	if (!named_mgr) {
-		nm_warning ("Failed to start the named manager.");
-		goto done;
-	}
-
 	dhcp_mgr = nm_dhcp_manager_get ();
 	if (!dhcp_mgr) {
 		nm_warning ("Failed to start the DHCP manager.");
 		goto done;
 	}
 
+	nm_dhcp_manager_set_hostname_provider (dhcp_mgr, NM_HOSTNAME_PROVIDER (manager));
+
 	/* Start our DBus service */
 	if (!nm_dbus_manager_start_service (dbus_mgr)) {
 		nm_warning ("Failed to start the dbus service.");
 		goto done;
 	}
+
+	nm_manager_start (manager);
 
 	/* Bring up the loopback interface. */
 	nm_system_enable_loopback ();

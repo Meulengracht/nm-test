@@ -3,11 +3,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>NMIP4Config</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.74.3">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="index.html" title="libnm-glib Reference Manual">
 <link rel="up" href="ch01.html" title="[Insert title here]">
 <link rel="prev" href="NMDevice.html" title="NMDevice">
-<link rel="next" href="NMObject.html" title="NMObject">
+<link rel="next" href="NMIP6Config.html" title="NMIP6Config">
 <meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="[Insert title here]">
@@ -19,7 +19,7 @@
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">libnm-glib Reference Manual</th>
-<td><a accesskey="n" href="NMObject.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="NMIP6Config.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
 <tr><td colspan="5" class="shortcuts">
 <a href="#NMIP4Config.synopsis" class="shortcut">Top</a>
@@ -31,7 +31,7 @@
                 <a href="#NMIP4Config.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="NMIP4Config">
 <a name="NMIP4Config"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -40,7 +40,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="NMIP4Config.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
                     <a class="link" href="NMIP4Config.html#NMIP4Config-struct" title="NMIP4Config">NMIP4Config</a>;
@@ -74,7 +74,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Arrays.html#GArray"
 >GArray</a> *      <a class="link" href="NMIP4Config.html#nm-ip4-config-get-wins-servers" title="nm_ip4_config_get_wins_servers ()">nm_ip4_config_get_wins_servers</a>      (<a class="link" href="NMIP4Config.html" title="NMIP4Config">NMIP4Config</a> *config);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="NMIP4Config.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
@@ -84,7 +84,7 @@ href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Ty
          +----NMIP4Config
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="NMIP4Config.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="NMIP4Config.html#NMIP4Config--addresses" title='The "addresses" property'>addresses</a>"                <a
@@ -101,21 +101,21 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointe
   "<a class="link" href="NMIP4Config.html#NMIP4Config--wins-servers" title='The "wins-servers" property'>wins-servers</a>"             nm-uint-array*        : Read
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="NMIP4Config.description"></a><h2>Description</h2>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="NMIP4Config.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NMIP4Config">
 <a name="NMIP4Config-struct"></a><h3>NMIP4Config</h3>
 <pre class="programlisting">typedef struct _NMIP4Config NMIP4Config;</pre>
 <p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_IP4_CONFIG_ADDRESSES">
 <a name="NM-IP4-CONFIG-ADDRESSES--CAPS"></a><h3>NM_IP4_CONFIG_ADDRESSES</h3>
 <pre class="programlisting">#define NM_IP4_CONFIG_ADDRESSES "addresses"
 </pre>
@@ -123,7 +123,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointe
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_IP4_CONFIG_HOSTNAME">
 <a name="NM-IP4-CONFIG-HOSTNAME--CAPS"></a><h3>NM_IP4_CONFIG_HOSTNAME</h3>
 <pre class="programlisting">#define NM_IP4_CONFIG_HOSTNAME "hostname" /* DEPRECATED */
 </pre>
@@ -131,7 +131,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointe
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_IP4_CONFIG_NAMESERVERS">
 <a name="NM-IP4-CONFIG-NAMESERVERS--CAPS"></a><h3>NM_IP4_CONFIG_NAMESERVERS</h3>
 <pre class="programlisting">#define NM_IP4_CONFIG_NAMESERVERS "nameservers"
 </pre>
@@ -139,7 +139,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointe
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_IP4_CONFIG_DOMAINS">
 <a name="NM-IP4-CONFIG-DOMAINS--CAPS"></a><h3>NM_IP4_CONFIG_DOMAINS</h3>
 <pre class="programlisting">#define NM_IP4_CONFIG_DOMAINS "domains"
 </pre>
@@ -147,7 +147,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointe
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_IP4_CONFIG_ROUTES">
 <a name="NM-IP4-CONFIG-ROUTES--CAPS"></a><h3>NM_IP4_CONFIG_ROUTES</h3>
 <pre class="programlisting">#define NM_IP4_CONFIG_ROUTES "routes"
 </pre>
@@ -155,7 +155,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointe
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_IP4_CONFIG_WINS_SERVERS">
 <a name="NM-IP4-CONFIG-WINS-SERVERS--CAPS"></a><h3>NM_IP4_CONFIG_WINS_SERVERS</h3>
 <pre class="programlisting">#define NM_IP4_CONFIG_WINS_SERVERS "wins-servers"
 </pre>
@@ -163,7 +163,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointe
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_config_new ()">
 <a name="nm-ip4-config-new"></a><h3>nm_ip4_config_new ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject"
@@ -199,7 +199,7 @@ href="/usr/share/gtk-doc/html/dbus-glib/dbus-glib-DBusGConnection.html#DBusGConn
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_config_get_addresses ()">
 <a name="nm-ip4-config-get-addresses"></a><h3>nm_ip4_config_get_addresses ()</h3>
 <pre class="programlisting">const <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
@@ -228,7 +228,7 @@ used by the configuration and must not be modified.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_config_get_hostname ()">
 <a name="nm-ip4-config-get-hostname"></a><h3>nm_ip4_config_get_hostname ()</h3>
 <pre class="programlisting">const char *        nm_ip4_config_get_hostname          (<a class="link" href="NMIP4Config.html" title="NMIP4Config">NMIP4Config</a> *config);</pre>
 <p>
@@ -252,7 +252,7 @@ DEPRECATED.  Don't use.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_config_get_nameservers ()">
 <a name="nm-ip4-config-get-nameservers"></a><h3>nm_ip4_config_get_nameservers ()</h3>
 <pre class="programlisting">const <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Arrays.html#GArray"
@@ -283,7 +283,7 @@ configuration and must not be modified.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_config_get_domains ()">
 <a name="nm-ip4-config-get-domains"></a><h3>nm_ip4_config_get_domains ()</h3>
 <pre class="programlisting">const <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtrArray"
@@ -312,7 +312,7 @@ internal copy used by the configuration, and must not be modified.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_config_get_routes ()">
 <a name="nm-ip4-config-get-routes"></a><h3>nm_ip4_config_get_routes ()</h3>
 <pre class="programlisting">const <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
@@ -341,7 +341,7 @@ internal copy used by the configuration, and must not be modified.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_ip4_config_get_wins_servers ()">
 <a name="nm-ip4-config-get-wins-servers"></a><h3>nm_ip4_config_get_wins_servers ()</h3>
 <pre class="programlisting">const <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Arrays.html#GArray"
@@ -372,9 +372,9 @@ configuration and must not be modified.
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="NMIP4Config.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "addresses" property'>
 <a name="NMIP4Config--addresses"></a><h3>The <code class="literal">"addresses"</code> property</h3>
 <pre class="programlisting">  "addresses"                <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"
@@ -387,7 +387,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtr
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "domains" property'>
 <a name="NMIP4Config--domains"></a><h3>The <code class="literal">"domains"</code> property</h3>
 <pre class="programlisting">  "domains"                  nm-string-array*      : Read</pre>
 <p>
@@ -398,7 +398,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtr
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "hostname" property'>
 <a name="NMIP4Config--hostname"></a><h3>The <code class="literal">"hostname"</code> property</h3>
 <pre class="programlisting">  "hostname"                 <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"
@@ -410,7 +410,7 @@ DEPRECATED.  Don't use.</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "nameservers" property'>
 <a name="NMIP4Config--nameservers"></a><h3>The <code class="literal">"nameservers"</code> property</h3>
 <pre class="programlisting">  "nameservers"              nm-uint-array*        : Read</pre>
 <p>
@@ -423,7 +423,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "routes" property'>
 <a name="NMIP4Config--routes"></a><h3>The <code class="literal">"routes"</code> property</h3>
 <pre class="programlisting">  "routes"                   <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"
@@ -436,7 +436,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Pointer-Arrays.html#GPtr
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "wins-servers" property'>
 <a name="NMIP4Config--wins-servers"></a><h3>The <code class="literal">"wins-servers"</code> property</h3>
 <pre class="programlisting">  "wins-servers"             nm-uint-array*        : Read</pre>
 <p>

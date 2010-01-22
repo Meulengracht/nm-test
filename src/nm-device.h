@@ -29,6 +29,7 @@
 #include "NetworkManager.h"
 #include "nm-activation-request.h"
 #include "nm-ip4-config.h"
+#include "nm-ip6-config.h"
 #include "nm-dhcp4-config.h"
 #include "nm-connection.h"
 
@@ -49,20 +50,11 @@ G_BEGIN_DECLS
 #define NM_IS_DEVICE_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((klass),  NM_TYPE_DEVICE))
 #define NM_DEVICE_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS ((obj),  NM_TYPE_DEVICE, NMDeviceClass))
 
-typedef struct _NMDevice NMDevice;
-typedef struct _NMDeviceClass NMDeviceClass;
-typedef struct _NMDevicePrivate NMDevicePrivate;
-
-struct _NMDevice
-{
+typedef struct {
 	GObject parent;
+} NMDevice;
 
-	/*< private >*/
-	NMDevicePrivate *priv;
-};
-
-struct _NMDeviceClass
-{
+typedef struct {
 	GObjectClass parent;
 
 	/* Hardware state, ie IFF_UP */
@@ -82,7 +74,7 @@ struct _NMDeviceClass
 	guint32		(* get_type_capabilities)	(NMDevice *self);
 	guint32		(* get_generic_capabilities)	(NMDevice *self);
 
-	gboolean	(* can_activate) (NMDevice *self);
+	gboolean	(* is_available) (NMDevice *self);
 
 	NMConnection * (* get_best_auto_connection) (NMDevice *self,
 	                                             GSList *connections,
@@ -101,27 +93,43 @@ struct _NMDeviceClass
 	                                             NMDeviceStateReason *reason);
 	NMActStageReturn	(* act_stage2_config)	(NMDevice *self,
 	                                             NMDeviceStateReason *reason);
-	NMActStageReturn	(* act_stage3_ip_config_start) (NMDevice *self,
-	                                                    NMDeviceStateReason *reason);
+	NMActStageReturn	(* act_stage3_ip4_config_start) (NMDevice *self,
+														 NMDeviceStateReason *reason);
+	NMActStageReturn	(* act_stage3_ip6_config_start) (NMDevice *self,
+														 NMDeviceStateReason *reason);
 	NMActStageReturn	(* act_stage4_get_ip4_config)	(NMDevice *self,
 														 NMIP4Config **config,
 	                                                     NMDeviceStateReason *reason);
-	NMActStageReturn	(* act_stage4_ip_config_timeout)	(NMDevice *self,
+	NMActStageReturn	(* act_stage4_get_ip6_config)	(NMDevice *self,
+														 NMIP6Config **config,
+	                                                     NMDeviceStateReason *reason);
+	NMActStageReturn	(* act_stage4_ip4_config_timeout)	(NMDevice *self,
 	                                                         NMIP4Config **config,
+	                                                         NMDeviceStateReason *reason);
+	NMActStageReturn	(* act_stage4_ip6_config_timeout)	(NMDevice *self,
+	                                                         NMIP6Config **config,
 	                                                         NMDeviceStateReason *reason);
 	void			(* deactivate)			(NMDevice *self);
 	void			(* deactivate_quickly)	(NMDevice *self);
 
 	gboolean		(* can_interrupt_activation)		(NMDevice *self);
-};
+
+	gboolean        (* spec_match_list)     (NMDevice *self, const GSList *specs);
+
+	NMConnection *  (* connection_match_config) (NMDevice *self, const GSList *connections);
+} NMDeviceClass;
 
 
 GType nm_device_get_type (void);
+
+const char *    nm_device_get_path (NMDevice *dev);
+void            nm_device_set_path (NMDevice *dev, const char *path);
 
 const char *	nm_device_get_udi		(NMDevice *dev);
 const char *	nm_device_get_iface		(NMDevice *dev);
 const char *	nm_device_get_ip_iface	(NMDevice *dev);
 const char *	nm_device_get_driver	(NMDevice *dev);
+const char *	nm_device_get_type_desc (NMDevice *dev);
 
 NMDeviceType	nm_device_get_device_type	(NMDevice *dev);
 guint32		nm_device_get_capabilities	(NMDevice *dev);
@@ -131,7 +139,6 @@ int			nm_device_get_priority (NMDevice *dev);
 
 guint32			nm_device_get_ip4_address	(NMDevice *dev);
 void				nm_device_update_ip4_address	(NMDevice *dev);
-struct in6_addr *	nm_device_get_ip6_address	(NMDevice *dev);
 
 gboolean		nm_device_get_use_dhcp	(NMDevice *dev);
 void			nm_device_set_use_dhcp	(NMDevice *dev,
@@ -139,12 +146,13 @@ void			nm_device_set_use_dhcp	(NMDevice *dev,
 NMDHCP4Config * nm_device_get_dhcp4_config (NMDevice *dev);
 
 NMIP4Config *	nm_device_get_ip4_config	(NMDevice *dev);
+NMIP6Config *	nm_device_get_ip6_config	(NMDevice *dev);
 
 void *		nm_device_get_system_config_data	(NMDevice *dev);
 
 NMActRequest *	nm_device_get_act_request	(NMDevice *dev);
 
-gboolean		nm_device_can_activate	(NMDevice *dev);
+gboolean		nm_device_is_available (NMDevice *dev);
 
 NMConnection * nm_device_get_best_auto_connection (NMDevice *dev,
                                                    GSList *connections,
@@ -152,11 +160,14 @@ NMConnection * nm_device_get_best_auto_connection (NMDevice *dev,
 
 void			nm_device_activate_schedule_stage1_device_prepare		(NMDevice *device);
 void			nm_device_activate_schedule_stage2_device_config		(NMDevice *device);
-void			nm_device_activate_schedule_stage4_ip_config_get		(NMDevice *device);
-void			nm_device_activate_schedule_stage4_ip_config_timeout	(NMDevice *device);
+void			nm_device_activate_schedule_stage4_ip4_config_get		(NMDevice *device);
+void			nm_device_activate_schedule_stage4_ip4_config_timeout	(NMDevice *device);
+void			nm_device_activate_schedule_stage4_ip6_config_get		(NMDevice *device);
+void			nm_device_activate_schedule_stage4_ip6_config_timeout	(NMDevice *device);
 gboolean		nm_device_deactivate_quickly	(NMDevice *dev);
 gboolean		nm_device_is_activating		(NMDevice *dev);
 gboolean		nm_device_can_interrupt_activation		(NMDevice *self);
+gboolean		nm_device_autoconnect_allowed	(NMDevice *self);
 
 NMDeviceState nm_device_get_state (NMDevice *device);
 
@@ -164,6 +175,11 @@ gboolean nm_device_get_managed (NMDevice *device);
 void nm_device_set_managed (NMDevice *device,
                             gboolean managed,
                             NMDeviceStateReason reason);
+
+void nm_device_set_dhcp_timeout (NMDevice *device, guint32 timeout);
+void nm_device_set_dhcp_anycast_address (NMDevice *device, guint8 *addr);
+
+void nm_device_clear_autoconnect_inhibit (NMDevice *device);
 
 G_END_DECLS
 
