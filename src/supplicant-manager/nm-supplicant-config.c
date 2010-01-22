@@ -35,8 +35,6 @@
 #include "nm-setting.h"
 #include "NetworkManagerUtils.h"
 
-#include "gnome-keyring-md5.h"
-
 static char *hexstr2bin (const char *hex, size_t len);
 
 #define NM_SUPPLICANT_CONFIG_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), \
@@ -502,24 +500,34 @@ get_blob_id (const char *name, const char *seed_uid)
 	}
 
 
-static unsigned char *
-wep128_passphrase_hash (const char *input, size_t input_len, size_t *out_len)
+static gboolean
+wep128_passphrase_hash (const char *input,
+                        size_t input_len,
+                        guint8 *out_digest,
+                        size_t *out_digest_len)
 {
-	char md5_data[65];
-	unsigned char *digest;
+	GChecksum *sum;
+	guint8 data[64];
 	int i;
 
-	*out_len = 16;
-	digest = g_malloc0 (*out_len);
+	g_return_val_if_fail (out_digest != NULL, FALSE);
+	g_return_val_if_fail (out_digest_len != NULL, FALSE);
+	g_return_val_if_fail (*out_digest_len >= 16, FALSE);
 
-	/* Get at least 64 bytes */
-	for (i = 0; i < 64; i++)
-		md5_data[i] = input[i % input_len];
+	/* Get at least 64 bytes by repeating the passphrase into the buffer */
+	for (i = 0; i < sizeof (data); i++)
+		data[i] = input[i % input_len];
 
-	/* Null terminate md5 seed data and hash it */
-	md5_data[64] = 0;
-	gnome_keyring_md5_string (md5_data, digest);
-	return digest;
+	sum = g_checksum_new (G_CHECKSUM_MD5);
+	g_assert (sum);
+	g_checksum_update (sum, data, sizeof (data));
+	g_checksum_get_digest (sum, out_digest, out_digest_len);
+	g_checksum_free (sum);
+
+	g_assert (*out_digest_len == 16);
+	/* WEP104 keys are 13 bytes in length (26 hex characters) */
+	*out_digest_len = 13;
+	return TRUE;
 }
 
 static gboolean
@@ -555,12 +563,12 @@ add_wep_key (NMSupplicantConfig *self,
 			return FALSE;
 		}
 	} else if (wep_type == NM_WEP_KEY_TYPE_PASSPHRASE) {
-		char *digest;
-		size_t digest_len;
+		guint8 digest[16];
+		size_t digest_len = sizeof (digest);
 
-		digest = (char *) wep128_passphrase_hash (key, key_len, &digest_len);
-		success = nm_supplicant_config_add_option (self, name, digest, 13, TRUE);
-		g_free (digest);
+		success = wep128_passphrase_hash (key, key_len, digest, &digest_len);
+		if (success)
+			success = nm_supplicant_config_add_option (self, name, (const char *) digest, digest_len, TRUE);
 		if (!success) {
 			nm_warning ("Error adding %s to supplicant config.", name);
 			return FALSE;
@@ -576,7 +584,6 @@ nm_supplicant_config_add_setting_wireless_security (NMSupplicantConfig *self,
                                                     NMSetting8021x *setting_8021x,
                                                     const char *connection_uid)
 {
-	NMSupplicantConfigPrivate *priv;
 	char *value;
 	gboolean success;
 	const char *key_mgmt, *auth_alg;
@@ -585,8 +592,6 @@ nm_supplicant_config_add_setting_wireless_security (NMSupplicantConfig *self,
 	g_return_val_if_fail (NM_IS_SUPPLICANT_CONFIG (self), FALSE);
 	g_return_val_if_fail (setting != NULL, FALSE);
 	g_return_val_if_fail (connection_uid != NULL, FALSE);
-
-	priv = NM_SUPPLICANT_CONFIG_GET_PRIVATE (self);
 
 	key_mgmt = nm_setting_wireless_security_get_key_mgmt (setting);
 	if (!add_string_val (self, key_mgmt, "key_mgmt", TRUE, FALSE))
@@ -700,18 +705,15 @@ nm_supplicant_config_add_setting_8021x (NMSupplicantConfig *self,
                                         const char *connection_uid,
                                         gboolean wired)
 {
-	NMSupplicantConfigPrivate *priv;
 	char *tmp;
-	const char *peapver, *value;
-	gboolean success;
+	const char *peapver, *value, *path;
+	gboolean success, added;
 	GString *phase1, *phase2;
 	const GByteArray *array;
 
 	g_return_val_if_fail (NM_IS_SUPPLICANT_CONFIG (self), FALSE);
 	g_return_val_if_fail (setting != NULL, FALSE);
 	g_return_val_if_fail (connection_uid != NULL, FALSE);
-
-	priv = NM_SUPPLICANT_CONFIG_GET_PRIVATE (self);
 
 	value = nm_setting_802_1x_get_password (setting);
 	if (!add_string_val (self, value, "password", FALSE, TRUE))
@@ -780,53 +782,163 @@ nm_supplicant_config_add_setting_8021x (NMSupplicantConfig *self,
 	}
 	g_string_free (phase2, TRUE);
 
-	if (nm_setting_802_1x_get_system_ca_certs (setting)) {
-		if (!add_string_val (self, SYSTEM_CA_PATH, "ca_path", FALSE, FALSE))
+	/* CA path */
+	path = nm_setting_802_1x_get_ca_path (setting);
+	if (nm_setting_802_1x_get_system_ca_certs (setting))
+		path = SYSTEM_CA_PATH;
+	if (path) {
+		if (!add_string_val (self, path, "ca_path", FALSE, FALSE))
 			return FALSE;
-	} else {
-		ADD_BLOB_VAL (nm_setting_802_1x_get_ca_cert (setting), "ca_cert", connection_uid);
 	}
 
-	array = nm_setting_802_1x_get_private_key (setting);
-	if (array) {
-		ADD_BLOB_VAL (array, "private_key", connection_uid);
+	/* Phase2 CA path */
+	path = nm_setting_802_1x_get_phase2_ca_path (setting);
+	if (nm_setting_802_1x_get_system_ca_certs (setting))
+		path = SYSTEM_CA_PATH;
+	if (path) {
+		if (!add_string_val (self, path, "ca_path2", FALSE, FALSE))
+			return FALSE;
+	}
 
-		switch (nm_setting_802_1x_get_private_key_type (setting)) {
-		case NM_SETTING_802_1X_CK_TYPE_PKCS12:
-			/* Only add the private key password for PKCS#12 keys */
+	/* CA certificate */
+	switch (nm_setting_802_1x_get_ca_cert_scheme (setting)) {
+	case NM_SETTING_802_1X_CK_SCHEME_BLOB:
+		array = nm_setting_802_1x_get_ca_cert_blob (setting);
+		ADD_BLOB_VAL (array, "ca_cert", connection_uid);
+		break;
+	case NM_SETTING_802_1X_CK_SCHEME_PATH:
+		path = nm_setting_802_1x_get_ca_cert_path (setting);
+		if (!add_string_val (self, path, "ca_cert", FALSE, FALSE))
+			return FALSE;
+		break;
+	default:
+		break;
+	}
+
+	/* Phase 2 CA certificate */
+	switch (nm_setting_802_1x_get_phase2_ca_cert_scheme (setting)) {
+	case NM_SETTING_802_1X_CK_SCHEME_BLOB:
+		array = nm_setting_802_1x_get_phase2_ca_cert_blob (setting);
+		ADD_BLOB_VAL (array, "ca_cert2", connection_uid);
+		break;
+	case NM_SETTING_802_1X_CK_SCHEME_PATH:
+		path = nm_setting_802_1x_get_phase2_ca_cert_path (setting);
+		if (!add_string_val (self, path, "ca_cert2", FALSE, FALSE))
+			return FALSE;
+		break;
+	default:
+		break;
+	}
+
+	/* Private key */
+	added = FALSE;
+	switch (nm_setting_802_1x_get_private_key_scheme (setting)) {
+	case NM_SETTING_802_1X_CK_SCHEME_BLOB:
+		array = nm_setting_802_1x_get_private_key_blob (setting);
+		ADD_BLOB_VAL (array, "private_key", connection_uid);
+		added = TRUE;
+		break;
+	case NM_SETTING_802_1X_CK_SCHEME_PATH:
+		path = nm_setting_802_1x_get_private_key_path (setting);
+		if (!add_string_val (self, path, "private_key", FALSE, FALSE))
+			return FALSE;
+		added = TRUE;
+		break;
+	default:
+		break;
+	}
+
+	if (added) {
+		NMSetting8021xCKFormat format;
+		NMSetting8021xCKScheme scheme;
+
+		format = nm_setting_802_1x_get_private_key_format (setting);
+		scheme = nm_setting_802_1x_get_private_key_scheme (setting);
+
+		if (   scheme == NM_SETTING_802_1X_CK_SCHEME_PATH
+		    || format == NM_SETTING_802_1X_CK_FORMAT_PKCS12) {
+			/* Only add the private key password for PKCS#12 blobs and
+			 * all path schemes, since in both of these cases the private key
+			 * isn't decrypted at all.
+			 */
 			value = nm_setting_802_1x_get_private_key_password (setting);
 			if (!add_string_val (self, value, "private_key_passwd", FALSE, TRUE))
 				return FALSE;
-			break;
-		default:
-			/* Only add the client cert if the private key is not PKCS#12 */
-			ADD_BLOB_VAL (nm_setting_802_1x_get_client_cert (setting), "client_cert", connection_uid);
-			break;
+		}
+
+		if (format != NM_SETTING_802_1X_CK_FORMAT_PKCS12) {
+			/* Only add the client cert if the private key is not PKCS#12, as
+			 * wpa_supplicant configuration directs us to do.
+			 */
+			switch (nm_setting_802_1x_get_client_cert_scheme (setting)) {
+			case NM_SETTING_802_1X_CK_SCHEME_BLOB:
+				array = nm_setting_802_1x_get_client_cert_blob (setting);
+				ADD_BLOB_VAL (array, "client_cert", connection_uid);
+				break;
+			case NM_SETTING_802_1X_CK_SCHEME_PATH:
+				path = nm_setting_802_1x_get_client_cert_path (setting);
+				if (!add_string_val (self, path, "client_cert", FALSE, FALSE))
+					return FALSE;
+				break;
+			default:
+				break;
+			}
 		}
 	}
 
-	if (nm_setting_802_1x_get_system_ca_certs (setting)) {
-		if (!add_string_val (self, SYSTEM_CA_PATH, "ca_path2", FALSE, FALSE))
+	/* Phase 2 private key */
+	added = FALSE;
+	switch (nm_setting_802_1x_get_phase2_private_key_scheme (setting)) {
+	case NM_SETTING_802_1X_CK_SCHEME_BLOB:
+		array = nm_setting_802_1x_get_phase2_private_key_blob (setting);
+		ADD_BLOB_VAL (array, "private_key2", connection_uid);
+		added = TRUE;
+		break;
+	case NM_SETTING_802_1X_CK_SCHEME_PATH:
+		path = nm_setting_802_1x_get_phase2_private_key_path (setting);
+		if (!add_string_val (self, path, "private_key2", FALSE, FALSE))
 			return FALSE;
-	} else {
-		ADD_BLOB_VAL (nm_setting_802_1x_get_phase2_ca_cert (setting), "ca_cert2", connection_uid);
+		added = TRUE;
+		break;
+	default:
+		break;
 	}
 
-	array = nm_setting_802_1x_get_phase2_private_key (setting);
-	if (array) {
-		ADD_BLOB_VAL (array, "private_key2", connection_uid);
+	if (added) {
+		NMSetting8021xCKFormat format;
+		NMSetting8021xCKScheme scheme;
 
-		switch (nm_setting_802_1x_get_phase2_private_key_type (setting)) {
-		case NM_SETTING_802_1X_CK_TYPE_PKCS12:
-			/* Only add the private key password for PKCS#12 keys */
+		format = nm_setting_802_1x_get_phase2_private_key_format (setting);
+		scheme = nm_setting_802_1x_get_phase2_private_key_scheme (setting);
+
+		if (   scheme == NM_SETTING_802_1X_CK_SCHEME_PATH
+		    || format == NM_SETTING_802_1X_CK_FORMAT_PKCS12) {
+			/* Only add the private key password for PKCS#12 blobs and
+			 * all path schemes, since in both of these cases the private key
+			 * isn't decrypted at all.
+			 */
 			value = nm_setting_802_1x_get_phase2_private_key_password (setting);
-			if (!add_string_val (self, value, "private_key2_passwd", FALSE, TRUE))
+			if (!add_string_val (self, value, "private_key_passwd2", FALSE, TRUE))
 				return FALSE;
-			break;
-		default:
-			/* Only add the client cert if the private key is not PKCS#12 */
-			ADD_BLOB_VAL (nm_setting_802_1x_get_phase2_client_cert (setting), "client_cert2", connection_uid);
-			break;
+		}
+
+		if (format != NM_SETTING_802_1X_CK_FORMAT_PKCS12) {
+			/* Only add the client cert if the private key is not PKCS#12, as
+			 * wpa_supplicant configuration directs us to do.
+			 */
+			switch (nm_setting_802_1x_get_phase2_client_cert_scheme (setting)) {
+			case NM_SETTING_802_1X_CK_SCHEME_BLOB:
+				array = nm_setting_802_1x_get_phase2_client_cert_blob (setting);
+				ADD_BLOB_VAL (array, "client_cert2", connection_uid);
+				break;
+			case NM_SETTING_802_1X_CK_SCHEME_PATH:
+				path = nm_setting_802_1x_get_phase2_client_cert_path (setting);
+				if (!add_string_val (self, path, "client_cert2", FALSE, FALSE))
+					return FALSE;
+				break;
+			default:
+				break;
+			}
 		}
 	}
 

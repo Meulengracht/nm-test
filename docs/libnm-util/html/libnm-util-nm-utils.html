@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>nm-utils</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.74.3">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="index.html" title="libnm-util Reference Manual">
 <link rel="up" href="ch01.html" title="libnm-util API Reference">
 <link rel="prev" href="NMSettingVPN.html" title="NMSettingVPN">
@@ -29,7 +29,7 @@
                 <a href="#libnm-util-nm-utils.description" class="shortcut">Description</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="nm-utils">
 <a name="libnm-util-nm-utils"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -38,7 +38,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="libnm-util-nm-utils.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
 
@@ -206,15 +206,72 @@ href="http://[SERVER]/libnm-util/libnm-util-nm-utils.html#nm-utils-ip4-prefix-to
 >nm_utils_ip4_prefix_to_netmask</a>      (<a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
 >guint32</a> prefix);
+<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
+>GSList</a> *            <a
+href="http://[SERVER]/libnm-util/libnm-util-nm-utils.html#nm-utils-ip6-addresses-from-gvalue"
+>nm_utils_ip6_addresses_from_gvalue</a>  (const <a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"
+>GValue</a> *value);
+void                <a
+href="http://[SERVER]/libnm-util/libnm-util-nm-utils.html#nm-utils-ip6-addresses-to-gvalue"
+>nm_utils_ip6_addresses_to_gvalue</a>    (<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
+>GSList</a> *list,
+                                                         <a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"
+>GValue</a> *value);
+<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
+>GSList</a> *            <a
+href="http://[SERVER]/libnm-util/libnm-util-nm-utils.html#nm-utils-ip6-routes-from-gvalue"
+>nm_utils_ip6_routes_from_gvalue</a>     (const <a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"
+>GValue</a> *value);
+void                <a
+href="http://[SERVER]/libnm-util/libnm-util-nm-utils.html#nm-utils-ip6-routes-to-gvalue"
+>nm_utils_ip6_routes_to_gvalue</a>       (<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
+>GSList</a> *list,
+                                                         <a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"
+>GValue</a> *value);
+<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
+>GSList</a> *            <a
+href="http://[SERVER]/libnm-util/libnm-util-nm-utils.html#nm-utils-ip6-dns-from-gvalue"
+>nm_utils_ip6_dns_from_gvalue</a>        (const <a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"
+>GValue</a> *value);
+void                <a
+href="http://[SERVER]/libnm-util/libnm-util-nm-utils.html#nm-utils-ip6-dns-to-gvalue"
+>nm_utils_ip6_dns_to_gvalue</a>          (<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
+>GSList</a> *list,
+                                                         <a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"
+>GValue</a> *value);
 char *              <a
 href="http://[SERVER]/libnm-util/libnm-util-nm-utils.html#nm-utils-uuid-generate"
 >nm_utils_uuid_generate</a>              (void);
 char *              <a
 href="http://[SERVER]/libnm-util/libnm-util-nm-utils.html#nm-utils-uuid-generate-from-string"
 >nm_utils_uuid_generate_from_string</a>  (const char *s);
+<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Byte-Arrays.html#GByteArray"
+>GByteArray</a> *        <a
+href="http://[SERVER]/libnm-util/libnm-util-nm-utils.html#nm-utils-rsa-key-encrypt"
+>nm_utils_rsa_key_encrypt</a>            (const <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Byte-Arrays.html#GByteArray"
+>GByteArray</a> *data,
+                                                         const char *in_password,
+                                                         char **out_password,
+                                                         <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"
+>GError</a> **error);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="libnm-util-nm-utils.description"></a><h2>Description</h2>
 <p>
 A collection of utility functions for working SSIDs, IP addresses, WiFi
@@ -222,9 +279,9 @@ access points and devices, among other things.</p>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="libnm-util-nm-utils.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_print_backtrace()">
 <a name="nm-print-backtrace"></a><h3>nm_print_backtrace()</h3>
 <pre class="programlisting">#define             nm_print_backtrace()</pre>
 <p>
@@ -233,7 +290,7 @@ Prints a backtrace of the calling process to the logging location.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_get_timestamp()">
 <a name="nm-get-timestamp"></a><h3>nm_get_timestamp()</h3>
 <pre class="programlisting">#define             nm_get_timestamp(timestamp)</pre>
 <p>
@@ -250,7 +307,7 @@ For debugging only.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_info()">
 <a name="nm-info"></a><h3>nm_info()</h3>
 <pre class="programlisting">#define             nm_info(fmt, args...)</pre>
 <p>
@@ -272,7 +329,7 @@ For debugging only.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_info_str()">
 <a name="nm-info-str"></a><h3>nm_info_str()</h3>
 <pre class="programlisting">#define             nm_info_str(fmt_str, args...)</pre>
 <p>
@@ -294,7 +351,7 @@ For debugging only.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_debug()">
 <a name="nm-debug"></a><h3>nm_debug()</h3>
 <pre class="programlisting">#define             nm_debug(fmt, args...)</pre>
 <p>
@@ -316,7 +373,7 @@ For debugging only.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_debug_str()">
 <a name="nm-debug-str"></a><h3>nm_debug_str()</h3>
 <pre class="programlisting">#define             nm_debug_str(fmt_str, args...)</pre>
 <p>
@@ -338,7 +395,7 @@ For debugging only.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_warning()">
 <a name="nm-warning"></a><h3>nm_warning()</h3>
 <pre class="programlisting">#define             nm_warning(fmt, args...)</pre>
 <p>
@@ -360,7 +417,7 @@ For debugging only.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_warning_str()">
 <a name="nm-warning-str"></a><h3>nm_warning_str()</h3>
 <pre class="programlisting">#define             nm_warning_str(fmt_str, args...)</pre>
 <p>
@@ -382,7 +439,7 @@ For debugging only.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_error()">
 <a name="nm-error"></a><h3>nm_error()</h3>
 <pre class="programlisting">#define             nm_error(fmt, args...)</pre>
 <p>
@@ -404,7 +461,7 @@ For debugging only.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_error_str()">
 <a name="nm-error-str"></a><h3>nm_error_str()</h3>
 <pre class="programlisting">#define             nm_error_str(fmt_str, args...)</pre>
 <p>
@@ -426,7 +483,7 @@ For debugging only.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_utils_init ()">
 <a name="nm-utils-init"></a><h3>nm_utils_init ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -461,7 +518,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NUL
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_utils_deinit ()">
 <a name="nm-utils-deinit"></a><h3>nm_utils_deinit ()</h3>
 <pre class="programlisting">void                nm_utils_deinit                     (void);</pre>
 <p>
@@ -492,7 +549,7 @@ number of known SSID-cloaking methods.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_utils_is_empty_ssid ()">
 <a name="nm-utils-is-empty-ssid"></a><h3>nm_utils_is_empty_ssid ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -524,7 +581,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint8"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_utils_escape_ssid ()">
 <a name="nm-utils-escape-ssid"></a><h3>nm_utils_escape_ssid ()</h3>
 <pre class="programlisting">const char *        nm_utils_escape_ssid                (const <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint8"
@@ -562,7 +619,7 @@ and will be overwritten by subsequent calls to this function
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_utils_same_ssid ()">
 <a name="nm-utils-same-ssid"></a><h3>nm_utils_same_ssid ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -611,7 +668,7 @@ NULLs, even though that is functionally pointless.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_utils_ssid_to_utf8 ()">
 <a name="nm-utils-ssid-to-utf8"></a><h3>nm_utils_ssid_to_utf8 ()</h3>
 <pre class="programlisting">char *              nm_utils_ssid_to_utf8               (const char *ssid,
                                                          <a
@@ -671,7 +728,7 @@ on errors.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_utils_gvalue_hash_dup ()">
 <a name="nm-utils-gvalue-hash-dup"></a><h3>nm_utils_gvalue_hash_dup ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Hash-Tables.html#GHashTable"
@@ -708,7 +765,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Hash-Tables.html#g-hash-
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_utils_slist_free ()">
 <a name="nm-utils-slist-free"></a><h3>nm_utils_slist_free ()</h3>
 <pre class="programlisting">void                nm_utils_slist_free                 (<a
 href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
@@ -741,7 +798,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum NMUtilsSecurityType">
 <a name="NMUtilsSecurityType"></a><h3>enum NMUtilsSecurityType</h3>
 <pre class="programlisting">typedef enum {
 	NMU_SEC_INVALID = 0,
@@ -759,7 +816,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_utils_security_valid ()">
 <a name="nm-utils-security-valid"></a><h3>nm_utils_security_valid ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -842,7 +899,7 @@ compatible with the desired <em class="parameter"><code>type</code></em>, FALSE 
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_utils_ip4_addresses_from_gvalue ()">
 <a name="nm-utils-ip4-addresses-from-gvalue"></a><h3>nm_utils_ip4_addresses_from_gvalue ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
@@ -884,7 +941,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Address"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_utils_ip4_addresses_to_gvalue ()">
 <a name="nm-utils-ip4-addresses-to-gvalue"></a><h3>nm_utils_ip4_addresses_to_gvalue ()</h3>
 <pre class="programlisting">void                nm_utils_ip4_addresses_to_gvalue    (<a
 href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
@@ -929,7 +986,7 @@ href="http://library.gnome.org/devel/gobject/unstable/gobject-Generic-values.htm
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_utils_ip4_routes_from_gvalue ()">
 <a name="nm-utils-ip4-routes-from-gvalue"></a><h3>nm_utils_ip4_routes_from_gvalue ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
@@ -967,7 +1024,7 @@ href="http://[SERVER]/libnm-util/NMSettingIP4Config.html#NMIP4Route"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_utils_ip4_routes_to_gvalue ()">
 <a name="nm-utils-ip4-routes-to-gvalue"></a><h3>nm_utils_ip4_routes_to_gvalue ()</h3>
 <pre class="programlisting">void                nm_utils_ip4_routes_to_gvalue       (<a
 href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
@@ -1012,7 +1069,7 @@ href="http://library.gnome.org/devel/gobject/unstable/gobject-Generic-values.htm
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_utils_ip4_netmask_to_prefix ()">
 <a name="nm-utils-ip4-netmask-to-prefix"></a><h3>nm_utils_ip4_netmask_to_prefix ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -1040,7 +1097,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_utils_ip4_prefix_to_netmask ()">
 <a name="nm-utils-ip4-prefix-to-netmask"></a><h3>nm_utils_ip4_prefix_to_netmask ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -1068,7 +1125,166 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_utils_ip6_addresses_from_gvalue ()">
+<a name="nm-utils-ip6-addresses-from-gvalue"></a><h3>nm_utils_ip6_addresses_from_gvalue ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
+>GSList</a> *            nm_utils_ip6_addresses_from_gvalue  (const <a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"
+>GValue</a> *value);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="nm_utils_ip6_addresses_to_gvalue ()">
+<a name="nm-utils-ip6-addresses-to-gvalue"></a><h3>nm_utils_ip6_addresses_to_gvalue ()</h3>
+<pre class="programlisting">void                nm_utils_ip6_addresses_to_gvalue    (<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
+>GSList</a> *list,
+                                                         <a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"
+>GValue</a> *value);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="nm_utils_ip6_routes_from_gvalue ()">
+<a name="nm-utils-ip6-routes-from-gvalue"></a><h3>nm_utils_ip6_routes_from_gvalue ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
+>GSList</a> *            nm_utils_ip6_routes_from_gvalue     (const <a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"
+>GValue</a> *value);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="nm_utils_ip6_routes_to_gvalue ()">
+<a name="nm-utils-ip6-routes-to-gvalue"></a><h3>nm_utils_ip6_routes_to_gvalue ()</h3>
+<pre class="programlisting">void                nm_utils_ip6_routes_to_gvalue       (<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
+>GSList</a> *list,
+                                                         <a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"
+>GValue</a> *value);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="nm_utils_ip6_dns_from_gvalue ()">
+<a name="nm-utils-ip6-dns-from-gvalue"></a><h3>nm_utils_ip6_dns_from_gvalue ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
+>GSList</a> *            nm_utils_ip6_dns_from_gvalue        (const <a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"
+>GValue</a> *value);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="nm_utils_ip6_dns_to_gvalue ()">
+<a name="nm-utils-ip6-dns-to-gvalue"></a><h3>nm_utils_ip6_dns_to_gvalue ()</h3>
+<pre class="programlisting">void                nm_utils_ip6_dns_to_gvalue          (<a
+href="http://library.gnome.org/devel/glib/unstable/glib-Singly-Linked-Lists.html#GSList"
+>GSList</a> *list,
+                                                         <a
+href="http://library.gnome.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"
+>GValue</a> *value);</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="nm_utils_uuid_generate ()">
 <a name="nm-utils-uuid-generate"></a><h3>nm_utils_uuid_generate ()</h3>
 <pre class="programlisting">char *              nm_utils_uuid_generate              (void);</pre>
 <p>
@@ -1090,7 +1306,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Memory-Allocation.html#g
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_utils_uuid_generate_from_string ()">
 <a name="nm-utils-uuid-generate-from-string"></a><h3>nm_utils_uuid_generate_from_string ()</h3>
 <pre class="programlisting">char *              nm_utils_uuid_generate_from_string  (const char *s);</pre>
 <p>
@@ -1111,6 +1327,58 @@ For a given <em class="parameter"><code>s</code></em>, this function will always
 href="http://[SERVER]/libnm-util/NMSettingConnection.html"
 ><span class="type">NMSettingConnection</span></a>
 object's <span class="type">"id:"</span> property
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="nm_utils_rsa_key_encrypt ()">
+<a name="nm-utils-rsa-key-encrypt"></a><h3>nm_utils_rsa_key_encrypt ()</h3>
+<pre class="programlisting"><a
+href="http://library.gnome.org/devel/glib/unstable/glib-Byte-Arrays.html#GByteArray"
+>GByteArray</a> *        nm_utils_rsa_key_encrypt            (const <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Byte-Arrays.html#GByteArray"
+>GByteArray</a> *data,
+                                                         const char *in_password,
+                                                         char **out_password,
+                                                         <a
+href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"
+>GError</a> **error);</pre>
+<p>
+Encrypts the given RSA private key data with the given password (or generates
+a password if no password was given) and converts the data to PEM format
+suitable for writing to a file.</p>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td> RSA private key data to be encrypted
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>in_password</code></em> :</span></p></td>
+<td> existing password to use, if any
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>out_password</code></em> :</span></p></td>
+<td> if <em class="parameter"><code>in_password</code></em> was NULL, a random password will be generated
+ and returned in this argument
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td> detailed error information on return, if an error occurred
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> on success, PEM-formatted data suitable for writing to a PEM-formatted
+certificate/private key file.
 </td>
 </tr>
 </tbody>

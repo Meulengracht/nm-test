@@ -37,12 +37,18 @@
 #include <nm-device-wifi.h>
 #include <nm-gsm-device.h>
 #include <nm-cdma-device.h>
+#include <nm-device-bt.h>
 #include <nm-utils.h>
 #include <nm-setting-ip4-config.h>
 #include <nm-vpn-connection.h>
 #include <nm-setting-connection.h>
 
-#include "nm-dbus-glib-types.h"
+/* Don't use nm-dbus-glib-types.h so that we can keep nm-tool
+ * building standalone outside of the NM tree.
+ */
+#define DBUS_TYPE_G_MAP_OF_VARIANT          (dbus_g_type_get_map ("GHashTable", G_TYPE_STRING, G_TYPE_VALUE))
+#define DBUS_TYPE_G_MAP_OF_MAP_OF_VARIANT   (dbus_g_type_get_map ("GHashTable", G_TYPE_STRING, DBUS_TYPE_G_MAP_OF_VARIANT))
+#define DBUS_TYPE_G_ARRAY_OF_OBJECT_PATH    (dbus_g_type_get_collection ("GPtrArray", DBUS_TYPE_G_OBJECT_PATH))
 
 static GHashTable *user_connections = NULL;
 static GHashTable *system_connections = NULL;
@@ -307,6 +313,8 @@ detail_device (gpointer data, gpointer user_data)
 		print_string ("Type", "Mobile Broadband (GSM)");
 	else if (NM_IS_CDMA_DEVICE (device))
 		print_string ("Type", "Mobile Broadband (CDMA)");
+	else if (NM_IS_DEVICE_BT (device))
+		print_string ("Type", "Bluetooth");
 
 	print_string ("Driver", nm_device_get_driver (device) ? nm_device_get_driver (device) : "(unknown)");
 

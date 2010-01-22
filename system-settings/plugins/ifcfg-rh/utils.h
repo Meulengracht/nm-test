@@ -29,15 +29,23 @@ char *utils_bin2hexstr (const char *bytes, int len, int final_len);
 
 char *utils_hexstr2bin (const char *hex, size_t len);
 
-char *utils_hash_byte_array (const GByteArray *data);
-
 char *utils_cert_path (const char *parent, const char *suffix);
 
-char *utils_get_ifcfg_name (const char *file);
+const char *utils_get_ifcfg_name (const char *file, gboolean only_ifcfg);
 
+gboolean utils_should_ignore_file (const char *filename, gboolean only_ifcfg);
+
+char *utils_get_ifcfg_path (const char *parent);
 char *utils_get_keys_path (const char *parent);
+char *utils_get_route_path (const char *parent);
+char *utils_get_route6_path (const char *parent);
 
+shvarFile *utils_get_extra_ifcfg (const char *parent, const char *tag, gboolean should_create);
 shvarFile *utils_get_keys_ifcfg (const char *parent, gboolean should_create);
+shvarFile *utils_get_route_ifcfg (const char *parent, gboolean should_create);
+shvarFile *utils_get_route6_ifcfg (const char *parent, gboolean should_create);
+
+gboolean utils_has_route_file_new_syntax (const char *filename);
 
 #endif  /* _UTILS_H_ */
 

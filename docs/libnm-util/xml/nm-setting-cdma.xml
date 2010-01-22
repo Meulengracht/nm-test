@@ -7,13 +7,16 @@
 
 <refnamediv>
 <refname>NMSettingCdma</refname>
-<refpurpose></refpurpose>
+<refpurpose>Describes CDMA-based mobile broadband properties</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id="NMSettingCdma.synopsis" role="synopsis">
 <title role="synopsis.title">Synopsis</title>
 
 <synopsis>
+
+#include &lt;nm-setting-cdma.h&gt;
+
 #define             <link linkend="NM-SETTING-CDMA-SETTING-NAME--CAPS">NM_SETTING_CDMA_SETTING_NAME</link>
 enum                <link linkend="NMSettingCdmaError">NMSettingCdmaError</link>;
 #define             <link linkend="NM-TYPE-SETTING-CDMA-ERROR--CAPS">NM_TYPE_SETTING_CDMA_ERROR</link>
@@ -58,6 +61,10 @@ const <link linkend="char">char</link> *        <link linkend="nm-setting-cdma-g
 <refsect1 id="NMSettingCdma.description" role="desc">
 <title role="desc.title">Description</title>
 <para>
+The <link linkend="NMSettingCdma"><type>NMSettingCdma</type></link> object is a <link linkend="NMSetting"><type>NMSetting</type></link> subclass that describes
+properties that allow connections to IS-95-based mobile broadband
+networks, including those using CDMA2000/EVDO technology.</para>
+<para>
 </para>
 </refsect1>
 
@@ -97,8 +104,10 @@ const <link linkend="char">char</link> *        <link linkend="nm-setting-cdma-g
 <title>nm_setting_cdma_error_quark ()</title>
 <indexterm zone="nm-setting-cdma-error-quark"><primary sortas="nm_setting_cdma_error_quark">nm_setting_cdma_error_quark</primary></indexterm><programlisting><link linkend="GQuark">GQuark</link>              nm_setting_cdma_error_quark         (void);</programlisting>
 <para>
+Registers an error quark for <link linkend="NMSettingCdma"><type>NMSettingCdma</type></link> if necessary.</para>
+<para>
 </para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the error quark used for <link linkend="NMSettingCdma"><type>NMSettingCdma</type></link> errors.
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
 <refsect2 id="NM-SETTING-CDMA-NUMBER--CAPS" role="macro">
@@ -136,41 +145,49 @@ const <link linkend="char">char</link> *        <link linkend="nm-setting-cdma-g
 <title>nm_setting_cdma_new ()</title>
 <indexterm zone="nm-setting-cdma-new"><primary sortas="nm_setting_cdma_new">nm_setting_cdma_new</primary></indexterm><programlisting><link linkend="NMSetting">NMSetting</link> *         nm_setting_cdma_new                 (void);</programlisting>
 <para>
+Creates a new <link linkend="NMSettingCdma"><type>NMSettingCdma</type></link> object with default values.</para>
+<para>
 </para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the new empty <link linkend="NMSettingCdma"><type>NMSettingCdma</type></link> object
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
 <refsect2 id="nm-setting-cdma-get-number" role="function">
 <title>nm_setting_cdma_get_number ()</title>
 <indexterm zone="nm-setting-cdma-get-number"><primary sortas="nm_setting_cdma_get_number">nm_setting_cdma_get_number</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_cdma_get_number          (<link linkend="NMSettingCdma">NMSettingCdma</link> *setting);</programlisting>
 <para>
+</para>
+<para>
 </para><variablelist role="params">
 <varlistentry><term><parameter>setting</parameter>&#160;:</term>
-<listitem><simpara>
+<listitem><simpara> the <link linkend="NMSettingCdma"><type>NMSettingCdma</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the <link linkend="NMSettingCdma--number"><type>"number"</type></link> property of the setting
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
 <refsect2 id="nm-setting-cdma-get-username" role="function">
 <title>nm_setting_cdma_get_username ()</title>
 <indexterm zone="nm-setting-cdma-get-username"><primary sortas="nm_setting_cdma_get_username">nm_setting_cdma_get_username</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_cdma_get_username        (<link linkend="NMSettingCdma">NMSettingCdma</link> *setting);</programlisting>
 <para>
+</para>
+<para>
 </para><variablelist role="params">
 <varlistentry><term><parameter>setting</parameter>&#160;:</term>
-<listitem><simpara>
+<listitem><simpara> the <link linkend="NMSettingCdma"><type>NMSettingCdma</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the <link linkend="NMSettingCdma--username"><type>"username"</type></link> property of the setting
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
 <refsect2 id="nm-setting-cdma-get-password" role="function">
 <title>nm_setting_cdma_get_password ()</title>
 <indexterm zone="nm-setting-cdma-get-password"><primary sortas="nm_setting_cdma_get_password">nm_setting_cdma_get_password</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_cdma_get_password        (<link linkend="NMSettingCdma">NMSettingCdma</link> *setting);</programlisting>
 <para>
+</para>
+<para>
 </para><variablelist role="params">
 <varlistentry><term><parameter>setting</parameter>&#160;:</term>
-<listitem><simpara>
+<listitem><simpara> the <link linkend="NMSettingCdma"><type>NMSettingCdma</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the <link linkend="NMSettingCdma--password"><type>"password"</type></link> property of the setting
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
 
@@ -179,15 +196,30 @@ const <link linkend="char">char</link> *        <link linkend="nm-setting-cdma-g
 <title role="property_details.title">Property Details</title>
 <refsect2 id="NMSettingCdma--number" role="property"><title>The <literal>&quot;number&quot;</literal> property</title>
 <indexterm zone="NMSettingCdma--number"><primary sortas="NMSettingCdma:number">NMSettingCdma:number</primary></indexterm><programlisting>  &quot;number&quot;                   <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
-<para>Number to dial when establishing a PPP data session with the CDMA-based mobile broadband network.  If not specified, the default number (#777) is used when required.</para><para>Default value: NULL</para>
+<para>
+The number to dial to establish the connection to the CDMA-based mobile
+broadband network, if any.  If not specified, the default number (<link linkend="777--CAPS"><type>777</type></link>)
+is used when required.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
 <refsect2 id="NMSettingCdma--password" role="property"><title>The <literal>&quot;password&quot;</literal> property</title>
 <indexterm zone="NMSettingCdma--password"><primary sortas="NMSettingCdma:password">NMSettingCdma:password</primary></indexterm><programlisting>  &quot;password&quot;                 <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
-<para>Password used to authenticate with the network, if required.  Note that many providers do not require a password or accept any password.</para><para>Default value: NULL</para>
+<para>
+The password used to authenticate with the network, if required.  Many
+providers do not require a password, or accept any password.  But if a
+password is required, it is specified here.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
 <refsect2 id="NMSettingCdma--username" role="property"><title>The <literal>&quot;username&quot;</literal> property</title>
 <indexterm zone="NMSettingCdma--username"><primary sortas="NMSettingCdma:username">NMSettingCdma:username</primary></indexterm><programlisting>  &quot;username&quot;                 <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
-<para>Username used to authenticate with the network, if required.  Note that many providers do not require a username or accept any username.</para><para>Default value: NULL</para>
+<para>
+The username used to authenticate with the network, if required.  Many
+providers do not require a username, or accept any username.  But if a
+username is required, it is specified here.</para>
+<para>
+</para><para>Default value: NULL</para>
 </refsect2>
 </refsect1>
 

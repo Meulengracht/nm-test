@@ -17,6 +17,8 @@
 <title role="synopsis.title">Synopsis</title>
 
 <synopsis>
+                    <link linkend="NMRemoteSettingsSystem">NMRemoteSettingsSystem</link>;
+<link linkend="NMRemoteSettingsSystem">NMRemoteSettingsSystem</link> * <link linkend="nm-remote-settings-system-new">nm_remote_settings_system_new</link>  (<link linkend="DBusGConnection">DBusGConnection</link> *bus);
 </synopsis>
 </refsynopsisdiv>
 
@@ -36,6 +38,27 @@
 
 <refsect1 id="libnm-glib-NMRemoteSettingsSystem.details" role="details">
 <title role="details.title">Details</title>
+<refsect2 id="NMRemoteSettingsSystem" role="struct">
+<title>NMRemoteSettingsSystem</title>
+<indexterm zone="NMRemoteSettingsSystem"><primary sortas="NMRemoteSettingsSystem">NMRemoteSettingsSystem</primary></indexterm><programlisting>typedef struct {
+	NMRemoteSettings parent;
+} NMRemoteSettingsSystem;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="nm-remote-settings-system-new" role="function">
+<title>nm_remote_settings_system_new ()</title>
+<indexterm zone="nm-remote-settings-system-new"><primary sortas="nm_remote_settings_system_new">nm_remote_settings_system_new</primary></indexterm><programlisting><link linkend="NMRemoteSettingsSystem">NMRemoteSettingsSystem</link> * nm_remote_settings_system_new  (<link linkend="DBusGConnection">DBusGConnection</link> *bus);</programlisting>
+<para>
+Creates a new object representing the remote system settings service.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>bus</parameter>&#160;:</term>
+<listitem><simpara> a valid and connected D-Bus connection
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the new remote system settings object on success, or <link linkend="NULL--CAPS"><literal>NULL</literal></link> on failure
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
 
 </refsect1>
 

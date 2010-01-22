@@ -66,6 +66,13 @@ NMDevice
 
 
 
+<!-- ##### MACRO NM_DEVICE_IP6_CONFIG ##### -->
+<para>
+
+</para>
+
+
+
 <!-- ##### MACRO NM_DEVICE_STATE ##### -->
 <para>
 
@@ -124,6 +131,11 @@ NMDevice
 </para>
 
 <!-- ##### ARG NMDevice:ip4-config ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMDevice:ip6-config ##### -->
 <para>
 
 </para>
@@ -226,6 +238,15 @@ NMDevice
 @Returns: 
 
 
+<!-- ##### FUNCTION nm_device_get_ip6_config ##### -->
+<para>
+
+</para>
+
+@device: 
+@Returns: 
+
+
 <!-- ##### FUNCTION nm_device_get_state ##### -->
 <para>
 
@@ -251,5 +272,25 @@ NMDevice
 
 @device: 
 @Returns: 
+
+
+<!-- ##### USER_FUNCTION NMDeviceDeactivateFn ##### -->
+<para>
+
+</para>
+
+@device: 
+@error: 
+@user_data: 
+
+
+<!-- ##### FUNCTION nm_device_disconnect ##### -->
+<para>
+
+</para>
+
+@device: 
+@callback: 
+@user_data: 
 
 

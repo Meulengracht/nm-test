@@ -55,7 +55,7 @@ find_hints_item (GPtrArray *hints, const char *item)
 }
 
 static NMConnection *
-make_tls_connection (const char *detail)
+make_tls_connection (const char *detail, NMSetting8021xCKScheme scheme)
 {
 	NMConnection *connection;
 	NMSettingConnection *s_con;
@@ -104,27 +104,30 @@ make_tls_connection (const char *detail)
 
 	nm_setting_802_1x_add_eap_method (s_8021x, "tls");
 
-	success = nm_setting_802_1x_set_ca_cert_from_file (s_8021x,
-	                                                   TEST_NEED_SECRETS_EAP_TLS_CA_CERT,
-	                                                   NULL,
-	                                                   &error);
+	success = nm_setting_802_1x_set_ca_cert (s_8021x,
+	                                         TEST_NEED_SECRETS_EAP_TLS_CA_CERT,
+	                                         scheme,
+	                                         NULL,
+	                                         &error);
 	ASSERT (success == TRUE,
 	        detail, "failed to set CA certificate '%s': %s",
 	        TEST_NEED_SECRETS_EAP_TLS_CA_CERT, error->message);
 
-	success = nm_setting_802_1x_set_client_cert_from_file (s_8021x,
-	                                                       TEST_NEED_SECRETS_EAP_TLS_CLIENT_CERT,
-	                                                       NULL,
-	                                                       &error);
+	success = nm_setting_802_1x_set_client_cert (s_8021x,
+	                                             TEST_NEED_SECRETS_EAP_TLS_CLIENT_CERT,
+	                                             scheme,
+	                                             NULL,
+	                                             &error);
 	ASSERT (success == TRUE,
 	        detail, "failed to set client certificate '%s': %s",
 	        TEST_NEED_SECRETS_EAP_TLS_CLIENT_CERT, error->message);
 
-	success = nm_setting_802_1x_set_private_key_from_file (s_8021x,
-	                                                       TEST_NEED_SECRETS_EAP_TLS_PRIVATE_KEY,
-	                                                       "test",
-	                                                       NULL,
-	                                                       &error);
+	success = nm_setting_802_1x_set_private_key (s_8021x,
+	                                             TEST_NEED_SECRETS_EAP_TLS_PRIVATE_KEY,
+	                                             "test",
+	                                             scheme,
+	                                             NULL,
+	                                             &error);
 	ASSERT (success == TRUE,
 	        detail, "failed to set private key '%s': %s",
 	        TEST_NEED_SECRETS_EAP_TLS_PRIVATE_KEY, error->message);
@@ -146,6 +149,82 @@ make_tls_connection (const char *detail)
 }
 
 static void
+test_need_tls_secrets_path (void)
+{
+	NMConnection *connection;
+	const char *setting_name;
+	GPtrArray *hints = NULL;
+	NMSetting8021x *s_8021x;
+
+	connection = make_tls_connection ("need-tls-secrets-path-key", NM_SETTING_802_1X_CK_SCHEME_PATH);
+	ASSERT (connection != NULL,
+	        "need-tls-secrets-path-key",
+	        "error creating test connection");
+
+	/* Ensure we don't need any secrets since we just set up the connection */
+	setting_name = nm_connection_need_secrets (connection, &hints);
+	ASSERT (setting_name == NULL,
+	        "need-tls-secrets-path-key",
+	        "secrets are unexpectedly required");
+	ASSERT (hints == NULL,
+	        "need-tls-secrets-path-key",
+	        "hints should be NULL since no secrets were required");
+
+	/* Connection is good; clear secrets and ensure private key is then required */
+	nm_connection_clear_secrets (connection);
+
+	hints = NULL;
+	setting_name = nm_connection_need_secrets (connection, &hints);
+	ASSERT (setting_name != NULL,
+	        "need-tls-secrets-path-key",
+	        "unexpected secrets success");
+	ASSERT (strcmp (setting_name, NM_SETTING_802_1X_SETTING_NAME) == 0,
+			"need-tls-secrets-path-key",
+			"unexpected setting secrets required");
+
+	ASSERT (hints != NULL,
+	        "need-tls-secrets-path-key",
+	        "expected returned secrets hints");
+	ASSERT (find_hints_item (hints, NM_SETTING_802_1X_PRIVATE_KEY),
+			"need-tls-secrets-path-key",
+			"expected to require private key, but it wasn't");
+
+	g_object_unref (connection);
+
+	/*** Just clear the private key this time ***/
+
+	connection = make_tls_connection ("need-tls-secrets-path-key-password", NM_SETTING_802_1X_CK_SCHEME_PATH);
+	ASSERT (connection != NULL,
+	        "need-tls-secrets-path-key-password",
+	        "error creating test connection");
+
+	s_8021x = (NMSetting8021x *) nm_connection_get_setting (connection, NM_TYPE_SETTING_802_1X);
+	ASSERT (s_8021x != NULL,
+	        "need-tls-secrets-path-key-password",
+	        "error getting test 802.1x setting");
+
+	g_object_set (G_OBJECT (s_8021x), NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD, NULL, NULL);
+
+	hints = NULL;
+	setting_name = nm_connection_need_secrets (connection, &hints);
+	ASSERT (setting_name != NULL,
+	        "need-tls-secrets-path-key-password",
+	        "unexpected secrets success");
+	ASSERT (strcmp (setting_name, NM_SETTING_802_1X_SETTING_NAME) == 0,
+			"need-tls-secrets-path-key-password",
+			"unexpected setting secrets required");
+
+	ASSERT (hints != NULL,
+	        "need-tls-secrets-path-key-password",
+	        "expected returned secrets hints");
+	ASSERT (find_hints_item (hints, NM_SETTING_802_1X_PRIVATE_KEY_PASSWORD),
+			"need-tls-secrets-path-key-password",
+			"expected to require private key password, but it wasn't");
+
+	g_object_unref (connection);
+}
+
+static void
 test_need_tls_secrets_blob (void)
 {
 	NMConnection *connection;
@@ -153,7 +232,7 @@ test_need_tls_secrets_blob (void)
 	GPtrArray *hints = NULL;
 	NMSetting8021x *s_8021x;
 
-	connection = make_tls_connection ("need-tls-secrets-blob-key");
+	connection = make_tls_connection ("need-tls-secrets-blob-key", NM_SETTING_802_1X_CK_SCHEME_BLOB);
 	ASSERT (connection != NULL,
 	        "need-tls-secrets-blob-key",
 	        "error creating test connection");
@@ -190,7 +269,7 @@ test_need_tls_secrets_blob (void)
 
 	/*** Just clear the private key this time ***/
 
-	connection = make_tls_connection ("need-tls-secrets-blob-key-password");
+	connection = make_tls_connection ("need-tls-secrets-blob-key-password", NM_SETTING_802_1X_CK_SCHEME_BLOB);
 	ASSERT (connection != NULL,
 	        "need-tls-secrets-blob-key-password",
 	        "error creating test connection");
@@ -216,7 +295,7 @@ test_need_tls_secrets_blob (void)
 }
 
 static NMConnection *
-make_tls_phase2_connection (const char *detail)
+make_tls_phase2_connection (const char *detail, NMSetting8021xCKScheme scheme)
 {
 	NMConnection *connection;
 	NMSettingConnection *s_con;
@@ -267,27 +346,30 @@ make_tls_phase2_connection (const char *detail)
 	nm_setting_802_1x_add_eap_method (s_8021x, "ttls");
 	g_object_set (s_8021x, NM_SETTING_802_1X_PHASE2_AUTH, "tls", NULL);
 
-	success = nm_setting_802_1x_set_phase2_ca_cert_from_file (s_8021x,
-	                                                          TEST_NEED_SECRETS_EAP_TLS_CA_CERT,
-	                                                          NULL,
-	                                                          &error);
+	success = nm_setting_802_1x_set_phase2_ca_cert (s_8021x,
+	                                                TEST_NEED_SECRETS_EAP_TLS_CA_CERT,
+	                                                scheme,
+	                                                NULL,
+	                                                &error);
 	ASSERT (success == TRUE,
 	        detail, "failed to set phase2 CA certificate '%s': %s",
 	        TEST_NEED_SECRETS_EAP_TLS_CA_CERT, error->message);
 
-	success = nm_setting_802_1x_set_phase2_client_cert_from_file (s_8021x,
-	                                                              TEST_NEED_SECRETS_EAP_TLS_CLIENT_CERT,
-	                                                              NULL,
-	                                                              &error);
+	success = nm_setting_802_1x_set_phase2_client_cert (s_8021x,
+	                                                    TEST_NEED_SECRETS_EAP_TLS_CLIENT_CERT,
+	                                                    scheme,
+	                                                    NULL,
+	                                                    &error);
 	ASSERT (success == TRUE,
 	        detail, "failed to set phase2 client certificate '%s': %s",
 	        TEST_NEED_SECRETS_EAP_TLS_CLIENT_CERT, error->message);
 
-	success = nm_setting_802_1x_set_phase2_private_key_from_file (s_8021x,
-	                                                              TEST_NEED_SECRETS_EAP_TLS_PRIVATE_KEY,
-	                                                              "test",
-	                                                              NULL,
-	                                                              &error);
+	success = nm_setting_802_1x_set_phase2_private_key (s_8021x,
+	                                                    TEST_NEED_SECRETS_EAP_TLS_PRIVATE_KEY,
+	                                                    "test",
+	                                                    scheme,
+	                                                    NULL,
+	                                                    &error);
 	ASSERT (success == TRUE,
 	        detail, "failed to set phase2 private key '%s': %s",
 	        TEST_NEED_SECRETS_EAP_TLS_PRIVATE_KEY, error->message);
@@ -309,6 +391,84 @@ make_tls_phase2_connection (const char *detail)
 }
 
 static void
+test_need_tls_phase2_secrets_path (void)
+{
+	NMConnection *connection;
+	const char *setting_name;
+	GPtrArray *hints = NULL;
+	NMSetting8021x *s_8021x;
+
+	connection = make_tls_phase2_connection ("need-tls-phase2-secrets-path-key",
+	                                         NM_SETTING_802_1X_CK_SCHEME_PATH);
+	ASSERT (connection != NULL,
+	        "need-tls-phase2-secrets-path-key",
+	        "error creating test connection");
+
+	/* Ensure we don't need any secrets since we just set up the connection */
+	setting_name = nm_connection_need_secrets (connection, &hints);
+	ASSERT (setting_name == NULL,
+	        "need-tls-phase2-secrets-path-key",
+	        "secrets are unexpectedly required");
+	ASSERT (hints == NULL,
+	        "need-tls-phase2-secrets-path-key",
+	        "hints should be NULL since no secrets were required");
+
+	/* Connection is good; clear secrets and ensure private key is then required */
+	nm_connection_clear_secrets (connection);
+
+	hints = NULL;
+	setting_name = nm_connection_need_secrets (connection, &hints);
+	ASSERT (setting_name != NULL,
+	        "need-tls-phase2-secrets-path-key",
+	        "unexpected secrets success");
+	ASSERT (strcmp (setting_name, NM_SETTING_802_1X_SETTING_NAME) == 0,
+			"need-tls-phase2-secrets-path-key",
+			"unexpected setting secrets required");
+
+	ASSERT (hints != NULL,
+	        "need-tls-phase2-secrets-path-key",
+	        "expected returned secrets hints");
+	ASSERT (find_hints_item (hints, NM_SETTING_802_1X_PHASE2_PRIVATE_KEY),
+			"need-tls-phase2-secrets-path-key",
+			"expected to require private key, but it wasn't");
+
+	g_object_unref (connection);
+
+	/*** Just clear the private key this time ***/
+
+	connection = make_tls_phase2_connection ("need-tls-phase2-secrets-path-key-password",
+	                                         NM_SETTING_802_1X_CK_SCHEME_PATH);
+	ASSERT (connection != NULL,
+	        "need-tls-phase2-secrets-path-key-password",
+	        "error creating test connection");
+
+	s_8021x = (NMSetting8021x *) nm_connection_get_setting (connection, NM_TYPE_SETTING_802_1X);
+	ASSERT (s_8021x != NULL,
+	        "need-tls-phase2-secrets-path-key-password",
+	        "error getting test 802.1x setting");
+
+	g_object_set (G_OBJECT (s_8021x), NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD, NULL, NULL);
+
+	hints = NULL;
+	setting_name = nm_connection_need_secrets (connection, &hints);
+	ASSERT (setting_name != NULL,
+	        "need-tls-phase2-secrets-path-key-password",
+	        "unexpected secrets success");
+	ASSERT (strcmp (setting_name, NM_SETTING_802_1X_SETTING_NAME) == 0,
+			"need-tls-phase2-secrets-path-key-password",
+			"unexpected setting secrets required");
+
+	ASSERT (hints != NULL,
+	        "need-tls-phase2-secrets-path-key-password",
+	        "expected returned secrets hints");
+	ASSERT (find_hints_item (hints, NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD),
+			"need-tls-phase2-secrets-path-key-password",
+			"expected to require private key password, but it wasn't");
+
+	g_object_unref (connection);
+}
+
+static void
 test_need_tls_phase2_secrets_blob (void)
 {
 	NMConnection *connection;
@@ -316,7 +476,8 @@ test_need_tls_phase2_secrets_blob (void)
 	GPtrArray *hints = NULL;
 	NMSetting8021x *s_8021x;
 
-	connection = make_tls_phase2_connection ("need-tls-phase2-secrets-blob-key");
+	connection = make_tls_phase2_connection ("need-tls-phase2-secrets-blob-key",
+	                                         NM_SETTING_802_1X_CK_SCHEME_BLOB);
 	ASSERT (connection != NULL,
 	        "need-tls-phase2-secrets-blob-key",
 	        "error creating test connection");
@@ -353,7 +514,8 @@ test_need_tls_phase2_secrets_blob (void)
 
 	/*** Just clear the private key this time ***/
 
-	connection = make_tls_phase2_connection ("need-tls-phase2-secrets-blob-key-password");
+	connection = make_tls_phase2_connection ("need-tls-phase2-secrets-blob-key-password",
+	                                         NM_SETTING_802_1X_CK_SCHEME_BLOB);
 	ASSERT (connection != NULL,
 	        "need-tls-phase2-secrets-blob-key-password",
 	        "error creating test connection");
@@ -391,7 +553,9 @@ int main (int argc, char **argv)
 		FAIL ("nm-utils-init", "failed to initialize libnm-util: %s", error->message);
 
 	/* The tests */
+	test_need_tls_secrets_path ();
 	test_need_tls_secrets_blob ();
+	test_need_tls_phase2_secrets_path ();
 	test_need_tls_phase2_secrets_blob ();
 
 	base = g_path_get_basename (argv[0]);

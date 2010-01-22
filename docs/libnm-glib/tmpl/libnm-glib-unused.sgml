@@ -70,54 +70,6 @@ NMDBusSettingsSystem
 NMDBusSettings
 
 
-<!-- ##### SECTION ./tmpl/nm-device-bt-bindings.sgml:Long_Description ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### SECTION ./tmpl/nm-device-bt-bindings.sgml:See_Also ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### SECTION ./tmpl/nm-device-bt-bindings.sgml:Short_Description ##### -->
-
-
-
-<!-- ##### SECTION ./tmpl/nm-device-bt-bindings.sgml:Stability_Level ##### -->
-
-
-
-<!-- ##### SECTION ./tmpl/nm-device-bt-bindings.sgml:Title ##### -->
-nm-device-bt-bindings
-
-
-<!-- ##### SECTION ./tmpl/nm-ip6-config-bindings.sgml:Long_Description ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### SECTION ./tmpl/nm-ip6-config-bindings.sgml:See_Also ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### SECTION ./tmpl/nm-ip6-config-bindings.sgml:Short_Description ##### -->
-
-
-
-<!-- ##### SECTION ./tmpl/nm-ip6-config-bindings.sgml:Stability_Level ##### -->
-
-
-
-<!-- ##### SECTION ./tmpl/nm-ip6-config-bindings.sgml:Title ##### -->
-nm-ip6-config-bindings
-
-
 <!-- ##### SECTION ./tmpl/nm-settings.sgml:Long_Description ##### -->
 <para>
 
@@ -142,18 +94,6 @@ nm-ip6-config-bindings
 NMSettings
 
 
-<!-- ##### MACRO DBUS_GLIB_CLIENT_WRAPPERS_org_freedesktop_NetworkManager_Device_Bluetooth ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO DBUS_GLIB_CLIENT_WRAPPERS_org_freedesktop_NetworkManager_IP6Config ##### -->
-<para>
-
-</para>
-
-
 <!-- ##### STRUCT NMDBusConnection ##### -->
 <para>
 
@@ -175,87 +115,11 @@ NMSettings
 
 @parent: 
 
-<!-- ##### ARG NMDevice:ip6-config ##### -->
+<!-- ##### ARG NMDevice:dhcp6-config ##### -->
 <para>
 
 </para>
 
-
-<!-- ##### STRUCT NMDeviceBt ##### -->
-<para>
-
-</para>
-
-@parent: 
-
-<!-- ##### USER_FUNCTION NMDeviceDeactivateFn ##### -->
-<para>
-
-</para>
-
-@device: 
-@error: 
-@user_data: 
-
-<!-- ##### STRUCT NMIP6Config ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### ARG NMIP6Config:addresses ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### ARG NMIP6Config:domains ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### ARG NMIP6Config:nameservers ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### ARG NMIP6Config:routes ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### STRUCT NMRemoteConnection ##### -->
-<para>
-
-</para>
-
-@parent: 
-
-<!-- ##### ENUM NMRemoteConnectionInitResult ##### -->
-<para>
-
-</para>
-
-@NM_REMOTE_CONNECTION_INIT_RESULT_UNKNOWN: 
-@NM_REMOTE_CONNECTION_INIT_RESULT_SUCCESS: 
-@NM_REMOTE_CONNECTION_INIT_RESULT_ERROR: 
-
-<!-- ##### STRUCT NMRemoteSettings ##### -->
-<para>
-
-</para>
-
-@parent: 
-
-<!-- ##### STRUCT NMRemoteSettingsSystem ##### -->
-<para>
-
-</para>
-
-@parent: 
 
 <!-- ##### STRUCT NMSettings ##### -->
 <para>
@@ -263,62 +127,6 @@ NMSettings
 </para>
 
 @parent: 
-
-<!-- ##### USER_FUNCTION NMSettingsAddConnectionFunc ##### -->
-<para>
-
-</para>
-
-@settings: 
-@error: 
-@user_data: 
-
-<!-- ##### STRUCT NMSettingsConnectionInterface ##### -->
-<para>
-
-</para>
-
-@g_iface: 
-@update: 
-@delete: 
-@get_secrets: 
-@emit_updated: 
-@updated: 
-@removed: 
-@_reserved1: 
-@_reserved2: 
-@_reserved3: 
-@_reserved4: 
-@_reserved5: 
-@_reserved6: 
-
-<!-- ##### USER_FUNCTION NMSettingsConnectionInterfaceDeleteFunc ##### -->
-<para>
-
-</para>
-
-@connection: 
-@error: 
-@user_data: 
-
-<!-- ##### USER_FUNCTION NMSettingsConnectionInterfaceGetSecretsFunc ##### -->
-<para>
-
-</para>
-
-@connection: 
-@secrets: 
-@error: 
-@user_data: 
-
-<!-- ##### USER_FUNCTION NMSettingsConnectionInterfaceUpdateFunc ##### -->
-<para>
-
-</para>
-
-@connection: 
-@error: 
-@user_data: 
 
 <!-- ##### ENUM NMSettingsError ##### -->
 <para>
@@ -331,98 +139,6 @@ NMSettings
 @NM_SETTINGS_ERROR_SECRETS_UNAVAILABLE: 
 @NM_SETTINGS_ERROR_SECRETS_REQUEST_CANCELED: 
 @NM_SETTINGS_ERROR_PERMISSION_DENIED: 
-
-<!-- ##### STRUCT NMSettingsInterface ##### -->
-<para>
-
-</para>
-
-@g_iface: 
-@list_connections: 
-@get_connection_by_path: 
-@add_connection: 
-@new_connection: 
-@connections_read: 
-@_reserved1: 
-@_reserved2: 
-@_reserved3: 
-@_reserved4: 
-@_reserved5: 
-@_reserved6: 
-
-<!-- ##### ENUM NMSettingsInterfaceError ##### -->
-<para>
-
-</para>
-
-@NM_SETTINGS_INTERFACE_ERROR_INVALID_CONNECTION: 
-@NM_SETTINGS_INTERFACE_ERROR_READ_ONLY_CONNECTION: 
-@NM_SETTINGS_INTERFACE_ERROR_INTERNAL_ERROR: 
-@NM_SETTINGS_INTERFACE_ERROR_SECRETS_UNAVAILABLE: 
-@NM_SETTINGS_INTERFACE_ERROR_SECRETS_REQUEST_CANCELED: 
-@NM_SETTINGS_INTERFACE_ERROR_PERMISSION_DENIED: 
-
-<!-- ##### STRUCT NMSettingsService ##### -->
-<para>
-
-</para>
-
-@parent: 
-
-<!-- ##### USER_FUNCTION NMSettingsSystemGetPermissionsFunc ##### -->
-<para>
-
-</para>
-
-@settings: 
-@permissions: 
-@error: 
-@user_data: 
-
-<!-- ##### STRUCT NMSettingsSystemInterface ##### -->
-<para>
-
-</para>
-
-@g_iface: 
-@save_hostname: 
-@get_permissions: 
-@check_permissions: 
-@_reserved1: 
-@_reserved2: 
-@_reserved3: 
-@_reserved4: 
-@_reserved5: 
-@_reserved6: 
-
-<!-- ##### ENUM NMSettingsSystemInterfaceProp ##### -->
-<para>
-
-</para>
-
-@NM_SETTINGS_SYSTEM_INTERFACE_PROP_FIRST: 
-@NM_SETTINGS_SYSTEM_INTERFACE_PROP_HOSTNAME: 
-@NM_SETTINGS_SYSTEM_INTERFACE_PROP_CAN_MODIFY: 
-
-<!-- ##### ENUM NMSettingsSystemPermissions ##### -->
-<para>
-
-</para>
-
-@NM_SETTINGS_SYSTEM_PERMISSION_NONE: 
-@NM_SETTINGS_SYSTEM_PERMISSION_CONNECTION_MODIFY: 
-@NM_SETTINGS_SYSTEM_PERMISSION_WIFI_SHARE_PROTECTED: 
-@NM_SETTINGS_SYSTEM_PERMISSION_WIFI_SHARE_OPEN: 
-@NM_SETTINGS_SYSTEM_PERMISSION_HOSTNAME_MODIFY: 
-
-<!-- ##### USER_FUNCTION NMSettingsSystemSaveHostnameFunc ##### -->
-<para>
-
-</para>
-
-@settings: 
-@error: 
-@user_data: 
 
 <!-- ##### MACRO NM_DBUS_CONNECTION_BUS ##### -->
 <para>
@@ -472,30 +188,6 @@ NMSettings
 </para>
 
 
-<!-- ##### MACRO NM_DEVICE_BT_CAPABILITIES ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_DEVICE_BT_HW_ADDRESS ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_DEVICE_BT_NAME ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_DEVICE_IP6_CONFIG ##### -->
-<para>
-
-</para>
-
-
 <!-- ##### MACRO NM_EXPORTED_CONNECTION_CONNECTION ##### -->
 <para>
 
@@ -503,30 +195,6 @@ NMSettings
 
 
 <!-- ##### MACRO NM_EXPORTED_CONNECTION_DBUS_METHOD_INVOCATION ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_IP6_CONFIG_ADDRESSES ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_IP6_CONFIG_DOMAINS ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_IP6_CONFIG_NAMESERVERS ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_IP6_CONFIG_ROUTES ##### -->
 <para>
 
 </para>
@@ -546,30 +214,6 @@ NMSettings
 
 @klass: 
 
-<!-- ##### MACRO NM_REMOTE_CONNECTION_INIT_RESULT ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_REMOTE_SETTINGS_BUS ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_REMOTE_SETTINGS_SCOPE ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_REMOTE_SETTINGS_SERVICE_RUNNING ##### -->
-<para>
-
-</para>
-
-
 <!-- ##### MACRO NM_SETTINGS ##### -->
 <para>
 
@@ -584,25 +228,6 @@ NMSettings
 
 @klass: 
 
-<!-- ##### MACRO NM_SETTINGS_CONNECTION_INTERFACE_GET_INTERFACE ##### -->
-<para>
-
-</para>
-
-@obj: 
-
-<!-- ##### MACRO NM_SETTINGS_CONNECTION_INTERFACE_REMOVED ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_SETTINGS_CONNECTION_INTERFACE_UPDATED ##### -->
-<para>
-
-</para>
-
-
 <!-- ##### MACRO NM_SETTINGS_ERROR ##### -->
 <para>
 
@@ -616,93 +241,7 @@ NMSettings
 
 @obj: 
 
-<!-- ##### MACRO NM_SETTINGS_INTERFACE_CONNECTIONS_READ ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_SETTINGS_INTERFACE_ERROR ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_SETTINGS_INTERFACE_GET_INTERFACE ##### -->
-<para>
-
-</para>
-
-@obj: 
-
-<!-- ##### MACRO NM_SETTINGS_INTERFACE_NEW_CONNECTION ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_SETTINGS_SERVICE_BUS ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_SETTINGS_SERVICE_SCOPE ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_SETTINGS_SYSTEM_INTERFACE_CAN_MODIFY ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_SETTINGS_SYSTEM_INTERFACE_CHECK_PERMISSIONS ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_SETTINGS_SYSTEM_INTERFACE_GET_INTERFACE ##### -->
-<para>
-
-</para>
-
-@obj: 
-
-<!-- ##### MACRO NM_SETTINGS_SYSTEM_INTERFACE_HOSTNAME ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_TYPE_IP6_ADDRESS_ARRAY ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_TYPE_IP6_ADDRESS_OBJECT_ARRAY ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_TYPE_IP6_ROUTE_OBJECT_ARRAY ##### -->
-<para>
-
-</para>
-
-
 <!-- ##### MACRO NM_TYPE_SETTINGS ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### MACRO NM_TYPE_SETTINGS_INTERFACE_ERROR ##### -->
 <para>
 
 </para>
@@ -787,56 +326,6 @@ NMSettings
 @err: 
 @Returns: 
 
-<!-- ##### FUNCTION nm_device_bt_get_capabilities ##### -->
-<para>
-
-</para>
-
-@device: 
-@Returns: 
-
-<!-- ##### FUNCTION nm_device_bt_get_hw_address ##### -->
-<para>
-
-</para>
-
-@device: 
-@Returns: 
-
-<!-- ##### FUNCTION nm_device_bt_get_name ##### -->
-<para>
-
-</para>
-
-@device: 
-@Returns: 
-
-<!-- ##### FUNCTION nm_device_bt_new ##### -->
-<para>
-
-</para>
-
-@connection: 
-@path: 
-@Returns: 
-
-<!-- ##### FUNCTION nm_device_disconnect ##### -->
-<para>
-
-</para>
-
-@device: 
-@callback: 
-@user_data: 
-
-<!-- ##### FUNCTION nm_device_get_ip6_config ##### -->
-<para>
-
-</para>
-
-@device: 
-@Returns: 
-
 <!-- ##### FUNCTION nm_exported_connection_delete ##### -->
 <para>
 
@@ -888,135 +377,6 @@ NMSettings
 @err: 
 @Returns: 
 
-<!-- ##### FUNCTION nm_ip6_address_array_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-<!-- ##### FUNCTION nm_ip6_address_object_array_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-<!-- ##### FUNCTION nm_ip6_config_get_addresses ##### -->
-<para>
-
-</para>
-
-@config: 
-@Returns: 
-
-<!-- ##### FUNCTION nm_ip6_config_get_domains ##### -->
-<para>
-
-</para>
-
-@config: 
-@Returns: 
-
-<!-- ##### FUNCTION nm_ip6_config_get_nameservers ##### -->
-<para>
-
-</para>
-
-@config: 
-@Returns: 
-
-<!-- ##### FUNCTION nm_ip6_config_get_routes ##### -->
-<para>
-
-</para>
-
-@config: 
-@Returns: 
-
-<!-- ##### FUNCTION nm_ip6_config_new ##### -->
-<para>
-
-</para>
-
-@connection: 
-@object_path: 
-@Returns: 
-
-<!-- ##### FUNCTION nm_ip6_route_object_array_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-<!-- ##### FUNCTION nm_remote_connection_new ##### -->
-<para>
-
-</para>
-
-@dbus_connection: 
-@scope: 
-@path: 
-@Returns: 
-
-<!-- ##### FUNCTION nm_remote_settings_new ##### -->
-<para>
-
-</para>
-
-@bus: 
-@scope: 
-@Returns: 
-
-<!-- ##### FUNCTION nm_remote_settings_system_new ##### -->
-<para>
-
-</para>
-
-@bus: 
-@Returns: 
-
-<!-- ##### FUNCTION nm_settings_connection_interface_delete ##### -->
-<para>
-
-</para>
-
-@connection: 
-@callback: 
-@user_data: 
-@Returns: 
-
-<!-- ##### FUNCTION nm_settings_connection_interface_emit_updated ##### -->
-<para>
-
-</para>
-
-@connection: 
-
-<!-- ##### FUNCTION nm_settings_connection_interface_get_secrets ##### -->
-<para>
-
-</para>
-
-@connection: 
-@setting_name: 
-@hints: 
-@request_new: 
-@callback: 
-@user_data: 
-@Returns: 
-
-<!-- ##### FUNCTION nm_settings_connection_interface_update ##### -->
-<para>
-
-</para>
-
-@connection: 
-@callback: 
-@user_data: 
-@Returns: 
-
 <!-- ##### FUNCTION nm_settings_error_quark ##### -->
 <para>
 
@@ -1031,78 +391,12 @@ NMSettings
 
 @Returns: 
 
-<!-- ##### FUNCTION nm_settings_interface_add_connection ##### -->
-<para>
-
-</para>
-
-@settings: 
-@connection: 
-@callback: 
-@user_data: 
-@Returns: 
-
-<!-- ##### FUNCTION nm_settings_interface_error_quark ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-<!-- ##### FUNCTION nm_settings_interface_get_connection_by_path ##### -->
-<para>
-
-</para>
-
-@settings: 
-@path: 
-@Returns: 
-
-<!-- ##### FUNCTION nm_settings_interface_get_type ##### -->
-<para>
-
-</para>
-
-@Returns: 
-
-<!-- ##### FUNCTION nm_settings_interface_list_connections ##### -->
-<para>
-
-</para>
-
-@settings: 
-@Returns: 
-
 <!-- ##### FUNCTION nm_settings_list_connections ##### -->
 <para>
 
 </para>
 
 @settings: 
-@Returns: 
-
-<!-- ##### FUNCTION nm_settings_service_export ##### -->
-<para>
-
-</para>
-
-@self: 
-
-<!-- ##### FUNCTION nm_settings_service_export_connection ##### -->
-<para>
-
-</para>
-
-@self: 
-@exported: 
-
-<!-- ##### FUNCTION nm_settings_service_get_connection_by_path ##### -->
-<para>
-
-</para>
-
-@self: 
-@path: 
 @Returns: 
 
 <!-- ##### FUNCTION nm_settings_signal_new_connection ##### -->
@@ -1112,25 +406,4 @@ NMSettings
 
 @settings: 
 @connection: 
-
-<!-- ##### FUNCTION nm_settings_system_interface_get_permissions ##### -->
-<para>
-
-</para>
-
-@settings: 
-@callback: 
-@user_data: 
-@Returns: 
-
-<!-- ##### FUNCTION nm_settings_system_interface_save_hostname ##### -->
-<para>
-
-</para>
-
-@settings: 
-@hostname: 
-@callback: 
-@user_data: 
-@Returns: 
 

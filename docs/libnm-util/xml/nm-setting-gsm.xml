@@ -25,9 +25,17 @@ enum                <link linkend="NMSettingGsmError">NMSettingGsmError</link>;
 #define             <link linkend="NM-SETTING-GSM-APN--CAPS">NM_SETTING_GSM_APN</link>
 #define             <link linkend="NM-SETTING-GSM-NETWORK-ID--CAPS">NM_SETTING_GSM_NETWORK_ID</link>
 #define             <link linkend="NM-SETTING-GSM-NETWORK-TYPE--CAPS">NM_SETTING_GSM_NETWORK_TYPE</link>
-#define             <link linkend="NM-SETTING-GSM-BAND--CAPS">NM_SETTING_GSM_BAND</link>
+#define             <link linkend="NM-SETTING-GSM-ALLOWED-BANDS--CAPS">NM_SETTING_GSM_ALLOWED_BANDS</link>
 #define             <link linkend="NM-SETTING-GSM-PIN--CAPS">NM_SETTING_GSM_PIN</link>
 #define             <link linkend="NM-SETTING-GSM-PUK--CAPS">NM_SETTING_GSM_PUK</link>
+#define             <link linkend="NM-SETTING-GSM-BAND--CAPS">NM_SETTING_GSM_BAND</link>
+#define             <link linkend="NM-GSM-NETWORK-ANY--CAPS">NM_GSM_NETWORK_ANY</link>
+#define             <link linkend="NM-GSM-NETWORK-UMTS-HSPA--CAPS">NM_GSM_NETWORK_UMTS_HSPA</link>
+#define             <link linkend="NM-GSM-NETWORK-GPRS-EDGE--CAPS">NM_GSM_NETWORK_GPRS_EDGE</link>
+#define             <link linkend="NM-GSM-NETWORK-PREFER-UMTS-HSPA--CAPS">NM_GSM_NETWORK_PREFER_UMTS_HSPA</link>
+#define             <link linkend="NM-GSM-NETWORK-PREFER-GPRS-EDGE--CAPS">NM_GSM_NETWORK_PREFER_GPRS_EDGE</link>
+enum                <link linkend="NMSettingGsmNetworkType">NMSettingGsmNetworkType</link>;
+enum                <link linkend="NMSettingGsmNetworkBand">NMSettingGsmNetworkBand</link>;
                     <link linkend="NMSettingGsm-struct">NMSettingGsm</link>;
 <link linkend="GType">GType</link>               <link linkend="nm-setting-gsm-get-type">nm_setting_gsm_get_type</link>             (void);
 <link linkend="NMSetting">NMSetting</link> *         <link linkend="nm-setting-gsm-new">nm_setting_gsm_new</link>                  (void);
@@ -37,9 +45,10 @@ const <link linkend="char">char</link> *        <link linkend="nm-setting-gsm-ge
 const <link linkend="char">char</link> *        <link linkend="nm-setting-gsm-get-apn">nm_setting_gsm_get_apn</link>              (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);
 const <link linkend="char">char</link> *        <link linkend="nm-setting-gsm-get-network-id">nm_setting_gsm_get_network_id</link>       (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);
 <link linkend="int">int</link>                 <link linkend="nm-setting-gsm-get-network-type">nm_setting_gsm_get_network_type</link>     (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);
-<link linkend="int">int</link>                 <link linkend="nm-setting-gsm-get-band">nm_setting_gsm_get_band</link>             (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);
+<link linkend="guint32">guint32</link>             <link linkend="nm-setting-gsm-get-allowed-bands">nm_setting_gsm_get_allowed_bands</link>    (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);
 const <link linkend="char">char</link> *        <link linkend="nm-setting-gsm-get-pin">nm_setting_gsm_get_pin</link>              (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);
 const <link linkend="char">char</link> *        <link linkend="nm-setting-gsm-get-puk">nm_setting_gsm_get_puk</link>              (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);
+<link linkend="int">int</link>                 <link linkend="nm-setting-gsm-get-band">nm_setting_gsm_get_band</link>             (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);
 </synopsis>
 </refsynopsisdiv>
 
@@ -59,6 +68,7 @@ const <link linkend="char">char</link> *        <link linkend="nm-setting-gsm-ge
 <refsect1 id="NMSettingGsm.properties" role="properties">
 <title role="properties.title">Properties</title>
 <synopsis>
+  &quot;<link linkend="NMSettingGsm--allowed-bands">allowed-bands</link>&quot;            <link linkend="guint">guint</link>                 : Read / Write / Construct
   &quot;<link linkend="NMSettingGsm--apn">apn</link>&quot;                      <link linkend="gchar">gchar</link>*                : Read / Write
   &quot;<link linkend="NMSettingGsm--band">band</link>&quot;                     <link linkend="gint">gint</link>                  : Read / Write / Construct
   &quot;<link linkend="NMSettingGsm--network-id">network-id</link>&quot;               <link linkend="gchar">gchar</link>*                : Read / Write
@@ -121,55 +131,123 @@ const <link linkend="char">char</link> *        <link linkend="nm-setting-gsm-ge
 </variablelist></refsect2>
 <refsect2 id="NM-SETTING-GSM-NUMBER--CAPS" role="macro">
 <title>NM_SETTING_GSM_NUMBER</title>
-<indexterm zone="NM-SETTING-GSM-NUMBER--CAPS"><primary sortas="NM_SETTING_GSM_NUMBER">NM_SETTING_GSM_NUMBER</primary></indexterm><programlisting>#define NM_SETTING_GSM_NUMBER       "number"
+<indexterm zone="NM-SETTING-GSM-NUMBER--CAPS"><primary sortas="NM_SETTING_GSM_NUMBER">NM_SETTING_GSM_NUMBER</primary></indexterm><programlisting>#define NM_SETTING_GSM_NUMBER        "number"
 </programlisting>
 <para>
 </para></refsect2>
 <refsect2 id="NM-SETTING-GSM-USERNAME--CAPS" role="macro">
 <title>NM_SETTING_GSM_USERNAME</title>
-<indexterm zone="NM-SETTING-GSM-USERNAME--CAPS"><primary sortas="NM_SETTING_GSM_USERNAME">NM_SETTING_GSM_USERNAME</primary></indexterm><programlisting>#define NM_SETTING_GSM_USERNAME     "username"
+<indexterm zone="NM-SETTING-GSM-USERNAME--CAPS"><primary sortas="NM_SETTING_GSM_USERNAME">NM_SETTING_GSM_USERNAME</primary></indexterm><programlisting>#define NM_SETTING_GSM_USERNAME      "username"
 </programlisting>
 <para>
 </para></refsect2>
 <refsect2 id="NM-SETTING-GSM-PASSWORD--CAPS" role="macro">
 <title>NM_SETTING_GSM_PASSWORD</title>
-<indexterm zone="NM-SETTING-GSM-PASSWORD--CAPS"><primary sortas="NM_SETTING_GSM_PASSWORD">NM_SETTING_GSM_PASSWORD</primary></indexterm><programlisting>#define NM_SETTING_GSM_PASSWORD     "password"
+<indexterm zone="NM-SETTING-GSM-PASSWORD--CAPS"><primary sortas="NM_SETTING_GSM_PASSWORD">NM_SETTING_GSM_PASSWORD</primary></indexterm><programlisting>#define NM_SETTING_GSM_PASSWORD      "password"
 </programlisting>
 <para>
 </para></refsect2>
 <refsect2 id="NM-SETTING-GSM-APN--CAPS" role="macro">
 <title>NM_SETTING_GSM_APN</title>
-<indexterm zone="NM-SETTING-GSM-APN--CAPS"><primary sortas="NM_SETTING_GSM_APN">NM_SETTING_GSM_APN</primary></indexterm><programlisting>#define NM_SETTING_GSM_APN          "apn"
+<indexterm zone="NM-SETTING-GSM-APN--CAPS"><primary sortas="NM_SETTING_GSM_APN">NM_SETTING_GSM_APN</primary></indexterm><programlisting>#define NM_SETTING_GSM_APN           "apn"
 </programlisting>
 <para>
 </para></refsect2>
 <refsect2 id="NM-SETTING-GSM-NETWORK-ID--CAPS" role="macro">
 <title>NM_SETTING_GSM_NETWORK_ID</title>
-<indexterm zone="NM-SETTING-GSM-NETWORK-ID--CAPS"><primary sortas="NM_SETTING_GSM_NETWORK_ID">NM_SETTING_GSM_NETWORK_ID</primary></indexterm><programlisting>#define NM_SETTING_GSM_NETWORK_ID   "network-id"
+<indexterm zone="NM-SETTING-GSM-NETWORK-ID--CAPS"><primary sortas="NM_SETTING_GSM_NETWORK_ID">NM_SETTING_GSM_NETWORK_ID</primary></indexterm><programlisting>#define NM_SETTING_GSM_NETWORK_ID    "network-id"
 </programlisting>
 <para>
 </para></refsect2>
 <refsect2 id="NM-SETTING-GSM-NETWORK-TYPE--CAPS" role="macro">
 <title>NM_SETTING_GSM_NETWORK_TYPE</title>
-<indexterm zone="NM-SETTING-GSM-NETWORK-TYPE--CAPS"><primary sortas="NM_SETTING_GSM_NETWORK_TYPE">NM_SETTING_GSM_NETWORK_TYPE</primary></indexterm><programlisting>#define NM_SETTING_GSM_NETWORK_TYPE "network-type"
+<indexterm zone="NM-SETTING-GSM-NETWORK-TYPE--CAPS"><primary sortas="NM_SETTING_GSM_NETWORK_TYPE">NM_SETTING_GSM_NETWORK_TYPE</primary></indexterm><programlisting>#define NM_SETTING_GSM_NETWORK_TYPE  "network-type"
 </programlisting>
 <para>
 </para></refsect2>
-<refsect2 id="NM-SETTING-GSM-BAND--CAPS" role="macro">
-<title>NM_SETTING_GSM_BAND</title>
-<indexterm zone="NM-SETTING-GSM-BAND--CAPS"><primary sortas="NM_SETTING_GSM_BAND">NM_SETTING_GSM_BAND</primary></indexterm><programlisting>#define NM_SETTING_GSM_BAND         "band"
+<refsect2 id="NM-SETTING-GSM-ALLOWED-BANDS--CAPS" role="macro">
+<title>NM_SETTING_GSM_ALLOWED_BANDS</title>
+<indexterm zone="NM-SETTING-GSM-ALLOWED-BANDS--CAPS"><primary sortas="NM_SETTING_GSM_ALLOWED_BANDS">NM_SETTING_GSM_ALLOWED_BANDS</primary></indexterm><programlisting>#define NM_SETTING_GSM_ALLOWED_BANDS "allowed-bands"
 </programlisting>
 <para>
 </para></refsect2>
 <refsect2 id="NM-SETTING-GSM-PIN--CAPS" role="macro">
 <title>NM_SETTING_GSM_PIN</title>
-<indexterm zone="NM-SETTING-GSM-PIN--CAPS"><primary sortas="NM_SETTING_GSM_PIN">NM_SETTING_GSM_PIN</primary></indexterm><programlisting>#define NM_SETTING_GSM_PIN          "pin"
+<indexterm zone="NM-SETTING-GSM-PIN--CAPS"><primary sortas="NM_SETTING_GSM_PIN">NM_SETTING_GSM_PIN</primary></indexterm><programlisting>#define NM_SETTING_GSM_PIN           "pin"
 </programlisting>
 <para>
 </para></refsect2>
 <refsect2 id="NM-SETTING-GSM-PUK--CAPS" role="macro">
 <title>NM_SETTING_GSM_PUK</title>
-<indexterm zone="NM-SETTING-GSM-PUK--CAPS"><primary sortas="NM_SETTING_GSM_PUK">NM_SETTING_GSM_PUK</primary></indexterm><programlisting>#define NM_SETTING_GSM_PUK          "puk"
+<indexterm zone="NM-SETTING-GSM-PUK--CAPS"><primary sortas="NM_SETTING_GSM_PUK">NM_SETTING_GSM_PUK</primary></indexterm><programlisting>#define NM_SETTING_GSM_PUK           "puk"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-GSM-BAND--CAPS" role="macro">
+<title>NM_SETTING_GSM_BAND</title>
+<indexterm zone="NM-SETTING-GSM-BAND--CAPS"><primary sortas="NM_SETTING_GSM_BAND">NM_SETTING_GSM_BAND</primary></indexterm><programlisting>#define NM_SETTING_GSM_BAND          "band"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-GSM-NETWORK-ANY--CAPS" role="macro">
+<title>NM_GSM_NETWORK_ANY</title>
+<indexterm zone="NM-GSM-NETWORK-ANY--CAPS"><primary sortas="NM_GSM_NETWORK_ANY">NM_GSM_NETWORK_ANY</primary></indexterm><programlisting>#define NM_GSM_NETWORK_ANY              NM_SETTING_GSM_NETWORK_TYPE_ANY
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-GSM-NETWORK-UMTS-HSPA--CAPS" role="macro">
+<title>NM_GSM_NETWORK_UMTS_HSPA</title>
+<indexterm zone="NM-GSM-NETWORK-UMTS-HSPA--CAPS"><primary sortas="NM_GSM_NETWORK_UMTS_HSPA">NM_GSM_NETWORK_UMTS_HSPA</primary></indexterm><programlisting>#define NM_GSM_NETWORK_UMTS_HSPA        NM_SETTING_GSM_NETWORK_TYPE_UMTS_HSPA
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-GSM-NETWORK-GPRS-EDGE--CAPS" role="macro">
+<title>NM_GSM_NETWORK_GPRS_EDGE</title>
+<indexterm zone="NM-GSM-NETWORK-GPRS-EDGE--CAPS"><primary sortas="NM_GSM_NETWORK_GPRS_EDGE">NM_GSM_NETWORK_GPRS_EDGE</primary></indexterm><programlisting>#define NM_GSM_NETWORK_GPRS_EDGE        NM_SETTING_GSM_NETWORK_TYPE_GPRS_EDGE
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-GSM-NETWORK-PREFER-UMTS-HSPA--CAPS" role="macro">
+<title>NM_GSM_NETWORK_PREFER_UMTS_HSPA</title>
+<indexterm zone="NM-GSM-NETWORK-PREFER-UMTS-HSPA--CAPS"><primary sortas="NM_GSM_NETWORK_PREFER_UMTS_HSPA">NM_GSM_NETWORK_PREFER_UMTS_HSPA</primary></indexterm><programlisting>#define NM_GSM_NETWORK_PREFER_UMTS_HSPA NM_SETTING_GSM_NETWORK_TYPE_PREFER_UMTS_HSPA
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-GSM-NETWORK-PREFER-GPRS-EDGE--CAPS" role="macro">
+<title>NM_GSM_NETWORK_PREFER_GPRS_EDGE</title>
+<indexterm zone="NM-GSM-NETWORK-PREFER-GPRS-EDGE--CAPS"><primary sortas="NM_GSM_NETWORK_PREFER_GPRS_EDGE">NM_GSM_NETWORK_PREFER_GPRS_EDGE</primary></indexterm><programlisting>#define NM_GSM_NETWORK_PREFER_GPRS_EDGE NM_SETTING_GSM_NETWORK_TYPE_PREFER_GPRS_EDGE
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingGsmNetworkType" role="enum">
+<title>enum NMSettingGsmNetworkType</title>
+<indexterm zone="NMSettingGsmNetworkType"><primary sortas="NMSettingGsmNetworkType">NMSettingGsmNetworkType</primary></indexterm><programlisting>typedef enum {
+	NM_SETTING_GSM_NETWORK_TYPE_ANY = -1,
+	NM_SETTING_GSM_NETWORK_TYPE_UMTS_HSPA = 0,
+	NM_SETTING_GSM_NETWORK_TYPE_GPRS_EDGE = 1,
+	NM_SETTING_GSM_NETWORK_TYPE_PREFER_UMTS_HSPA = 2,
+	NM_SETTING_GSM_NETWORK_TYPE_PREFER_GPRS_EDGE = 3
+} NMSettingGsmNetworkType;
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NMSettingGsmNetworkBand" role="enum">
+<title>enum NMSettingGsmNetworkBand</title>
+<indexterm zone="NMSettingGsmNetworkBand"><primary sortas="NMSettingGsmNetworkBand">NMSettingGsmNetworkBand</primary></indexterm><programlisting>typedef enum {
+	NM_SETTING_GSM_BAND_UNKNOWN      = 0x00000000,
+	NM_SETTING_GSM_BAND_ANY          = 0x00000001,
+	NM_SETTING_GSM_BAND_EGSM         = 0x00000002, /*  900 MHz */
+	NM_SETTING_GSM_BAND_DCS          = 0x00000004, /* 1800 MHz */
+	NM_SETTING_GSM_BAND_PCS          = 0x00000008, /* 1900 MHz */
+	NM_SETTING_GSM_BAND_G850         = 0x00000010, /*  850 MHz */
+	NM_SETTING_GSM_BAND_U2100        = 0x00000020, /* WCDMA 3GPP UMTS 2100 MHz     (Class I) */
+	NM_SETTING_GSM_BAND_U1800        = 0x00000040, /* WCDMA 3GPP UMTS 1800 MHz     (Class III) */
+	NM_SETTING_GSM_BAND_U17IV        = 0x00000080, /* WCDMA 3GPP AWS 1700/2100 MHz (Class IV) */
+	NM_SETTING_GSM_BAND_U800         = 0x00000100, /* WCDMA 3GPP UMTS 800 MHz      (Class VI) */
+	NM_SETTING_GSM_BAND_U850         = 0x00000200, /* WCDMA 3GPP UMTS 850 MHz      (Class V) */
+	NM_SETTING_GSM_BAND_U900         = 0x00000400, /* WCDMA 3GPP UMTS 900 MHz      (Class VIII) */
+	NM_SETTING_GSM_BAND_U17IX        = 0x00000800, /* WCDMA 3GPP UMTS 1700 MHz     (Class IX) */
+} NMSettingGsmNetworkBand;
 </programlisting>
 <para>
 </para></refsect2>
@@ -260,9 +338,9 @@ const <link linkend="char">char</link> *        <link linkend="nm-setting-gsm-ge
 <varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2 id="nm-setting-gsm-get-band" role="function">
-<title>nm_setting_gsm_get_band ()</title>
-<indexterm zone="nm-setting-gsm-get-band"><primary sortas="nm_setting_gsm_get_band">nm_setting_gsm_get_band</primary></indexterm><programlisting><link linkend="int">int</link>                 nm_setting_gsm_get_band             (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);</programlisting>
+<refsect2 id="nm-setting-gsm-get-allowed-bands" role="function">
+<title>nm_setting_gsm_get_allowed_bands ()</title>
+<indexterm zone="nm-setting-gsm-get-allowed-bands"><primary sortas="nm_setting_gsm_get_allowed_bands">nm_setting_gsm_get_allowed_bands</primary></indexterm><programlisting><link linkend="guint32">guint32</link>             nm_setting_gsm_get_allowed_bands    (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);</programlisting>
 <para>
 </para><variablelist role="params">
 <varlistentry><term><parameter>setting</parameter>&#160;:</term>
@@ -293,10 +371,30 @@ const <link linkend="char">char</link> *        <link linkend="nm-setting-gsm-ge
 <varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
+<refsect2 id="nm-setting-gsm-get-band" role="function">
+<title>nm_setting_gsm_get_band ()</title>
+<indexterm zone="nm-setting-gsm-get-band"><primary sortas="nm_setting_gsm_get_band">nm_setting_gsm_get_band</primary></indexterm><programlisting><link linkend="int">int</link>                 nm_setting_gsm_get_band             (<link linkend="NMSettingGsm">NMSettingGsm</link> *setting);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
 
 </refsect1>
 <refsect1 id="NMSettingGsm.property-details" role="property_details">
 <title role="property_details.title">Property Details</title>
+<refsect2 id="NMSettingGsm--allowed-bands" role="property"><title>The <literal>&quot;allowed-bands&quot;</literal> property</title>
+<indexterm zone="NMSettingGsm--allowed-bands"><primary sortas="NMSettingGsm:allowed-bands">NMSettingGsm:allowed-bands</primary></indexterm><programlisting>  &quot;allowed-bands&quot;            <link linkend="guint">guint</link>                 : Read / Write / Construct</programlisting>
+<para>
+Bitfield of allowed frequency bands.  Note that not all devices allow
+frequency band control.</para>
+<para>
+</para><para>Allowed values: &lt;= 1</para>
+<para>Default value: 1</para>
+</refsect2>
 <refsect2 id="NMSettingGsm--apn" role="property"><title>The <literal>&quot;apn&quot;</literal> property</title>
 <indexterm zone="NMSettingGsm--apn"><primary sortas="NMSettingGsm:apn">NMSettingGsm:apn</primary></indexterm><programlisting>  &quot;apn&quot;                      <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
 <para>
@@ -310,7 +408,10 @@ is important to use the correct APN for the user's mobile broadband plan.</para>
 </refsect2>
 <refsect2 id="NMSettingGsm--band" role="property"><title>The <literal>&quot;band&quot;</literal> property</title>
 <indexterm zone="NMSettingGsm--band"><primary sortas="NMSettingGsm:band">NMSettingGsm:band</primary></indexterm><programlisting>  &quot;band&quot;                     <link linkend="gint">gint</link>                  : Read / Write / Construct</programlisting>
-<para>Band (currently unused).</para><para>Allowed values: [G_MAXULONG,5]</para>
+<para>
+DEPRECATED</para>
+<para>
+</para><para>Allowed values: [G_MAXULONG,5]</para>
 <para>Default value: -1</para>
 </refsect2>
 <refsect2 id="NMSettingGsm--network-id" role="property"><title>The <literal>&quot;network-id&quot;</literal> property</title>
@@ -332,7 +433,7 @@ technologies.  The permitted values are: -1: any, 0: 3G only,
 1: GPRS/EDGE only, 2: prefer 3G, and 3: prefer 2G.  Note that not all
 devices allow network preference control.</para>
 <para>
-</para><para>Allowed values: [G_MAXULONG,2]</para>
+</para><para>Allowed values: [G_MAXULONG,3]</para>
 <para>Default value: -1</para>
 </refsect2>
 <refsect2 id="NMSettingGsm--number" role="property"><title>The <literal>&quot;number&quot;</literal> property</title>
@@ -366,10 +467,7 @@ the device.</para>
 <refsect2 id="NMSettingGsm--puk" role="property"><title>The <literal>&quot;puk&quot;</literal> property</title>
 <indexterm zone="NMSettingGsm--puk"><primary sortas="NMSettingGsm:puk">NMSettingGsm:puk</primary></indexterm><programlisting>  &quot;puk&quot;                      <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
 <para>
-If the PIN is incorrectly entered too many times, the PUK (PIN Unlock
-Code) is required before the device becomes operational.  It's usually
-best not to enter the PUK due to the risk of completely locking your SIM
-by entering a wrong PUK too many times.</para>
+DEPRECATED</para>
 <para>
 </para><para>Default value: NULL</para>
 </refsect2>

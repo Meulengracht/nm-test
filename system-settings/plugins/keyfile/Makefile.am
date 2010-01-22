@@ -1,7 +1,7 @@
 SUBDIRS=io tests
 
 INCLUDES = \
-	-I$(top_srcdir)/system-settings/src \
+	-I$(top_srcdir)/src/system-settings \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/libnm-util \
 	-I$(top_srcdir)/libnm-glib \
@@ -27,20 +27,13 @@ libnm_settings_plugin_keyfile_la_CPPFLAGS = \
 
 libnm_settings_plugin_keyfile_la_LDFLAGS = -module -avoid-version
 libnm_settings_plugin_keyfile_la_LIBADD = \
+	$(top_builddir)/libnm-util/libnm-util.la \
+	$(top_builddir)/libnm-glib/libnm-glib.la \
+	$(top_builddir)/system-settings/plugins/keyfile/io/libkeyfile-io.la \
 	$(GLIB_LIBS) \
 	$(GMODULE_LIBS) \
 	$(DBUS_LIBS) \
-	$(top_builddir)/libnm-util/libnm-util.la \
-	$(top_builddir)/libnm-glib/libnm_glib.la \
-	$(top_builddir)/system-settings/plugins/keyfile/io/libkeyfile-io.la
-
-if NO_GIO
-libnm_settings_plugin_keyfile_la_LIBADD += \
-	$(top_builddir)/gfilemonitor/libgfilemonitor.la
-else
-libnm_settings_plugin_keyfile_la_LIBADD += \
 	$(GIO_LIBS)
-endif
 
 install-data-hook:
 	$(mkinstalldirs) -m 0755 $(DESTDIR)$(keyfiledir)

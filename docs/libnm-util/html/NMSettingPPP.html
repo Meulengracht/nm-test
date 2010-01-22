@@ -3,10 +3,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>NMSettingPPP</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.74.3">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="index.html" title="libnm-util Reference Manual">
 <link rel="up" href="ch01.html" title="libnm-util API Reference">
-<link rel="prev" href="NMSettingIP4Config.html" title="NMSettingIP4Config">
+<link rel="prev" href="NMSettingIP6Config.html" title="NMSettingIP6Config">
 <link rel="next" href="NMSettingPPPOE.html" title="NMSettingPPPOE">
 <meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
@@ -17,7 +17,7 @@
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
 <tr valign="middle">
-<td><a accesskey="p" href="NMSettingIP4Config.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="NMSettingIP6Config.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">libnm-util Reference Manual</th>
@@ -33,7 +33,7 @@
                 <a href="#NMSettingPPP.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="NMSettingPPP">
 <a name="NMSettingPPP"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,7 +42,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="NMSettingPPP.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
 #define             <a
@@ -258,7 +258,7 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 >NMSettingPPP</a> *setting);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="NMSettingPPP.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
@@ -270,7 +270,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
          +----NMSettingPPP
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="NMSettingPPP.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a
@@ -365,14 +365,14 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolea
 >gboolean</a>              : Read / Write / Construct
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="NMSettingPPP.description"></a><h2>Description</h2>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="NMSettingPPP.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_SETTING_NAME">
 <a name="NM-SETTING-PPP-SETTING-NAME--CAPS"></a><h3>NM_SETTING_PPP_SETTING_NAME</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_SETTING_NAME "ppp"
 </pre>
@@ -380,7 +380,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolea
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum NMSettingPPPError">
 <a name="NMSettingPPPError"></a><h3>enum NMSettingPPPError</h3>
 <pre class="programlisting">typedef enum
 {
@@ -394,7 +394,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolea
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_TYPE_SETTING_PPP_ERROR">
 <a name="NM-TYPE-SETTING-PPP-ERROR--CAPS"></a><h3>NM_TYPE_SETTING_PPP_ERROR</h3>
 <pre class="programlisting">#define NM_TYPE_SETTING_PPP_ERROR (nm_setting_ppp_error_get_type ()) 
 </pre>
@@ -402,7 +402,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolea
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_ERROR">
 <a name="NM-SETTING-PPP-ERROR--CAPS"></a><h3>NM_SETTING_PPP_ERROR</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_ERROR nm_setting_ppp_error_quark ()
 </pre>
@@ -410,7 +410,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolea
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_error_quark ()">
 <a name="nm-setting-ppp-error-quark"></a><h3>nm_setting_ppp_error_quark ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
@@ -427,7 +427,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_NOAUTH">
 <a name="NM-SETTING-PPP-NOAUTH--CAPS"></a><h3>NM_SETTING_PPP_NOAUTH</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_NOAUTH            "noauth"
 </pre>
@@ -435,7 +435,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_REFUSE_EAP">
 <a name="NM-SETTING-PPP-REFUSE-EAP--CAPS"></a><h3>NM_SETTING_PPP_REFUSE_EAP</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_REFUSE_EAP        "refuse-eap"
 </pre>
@@ -443,7 +443,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_REFUSE_PAP">
 <a name="NM-SETTING-PPP-REFUSE-PAP--CAPS"></a><h3>NM_SETTING_PPP_REFUSE_PAP</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_REFUSE_PAP        "refuse-pap"
 </pre>
@@ -451,7 +451,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_REFUSE_CHAP">
 <a name="NM-SETTING-PPP-REFUSE-CHAP--CAPS"></a><h3>NM_SETTING_PPP_REFUSE_CHAP</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_REFUSE_CHAP       "refuse-chap"
 </pre>
@@ -459,7 +459,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_REFUSE_MSCHAP">
 <a name="NM-SETTING-PPP-REFUSE-MSCHAP--CAPS"></a><h3>NM_SETTING_PPP_REFUSE_MSCHAP</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_REFUSE_MSCHAP     "refuse-mschap"
 </pre>
@@ -467,7 +467,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_REFUSE_MSCHAPV2">
 <a name="NM-SETTING-PPP-REFUSE-MSCHAPV2--CAPS"></a><h3>NM_SETTING_PPP_REFUSE_MSCHAPV2</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_REFUSE_MSCHAPV2   "refuse-mschapv2"
 </pre>
@@ -475,7 +475,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_NOBSDCOMP">
 <a name="NM-SETTING-PPP-NOBSDCOMP--CAPS"></a><h3>NM_SETTING_PPP_NOBSDCOMP</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_NOBSDCOMP         "nobsdcomp"
 </pre>
@@ -483,7 +483,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_NODEFLATE">
 <a name="NM-SETTING-PPP-NODEFLATE--CAPS"></a><h3>NM_SETTING_PPP_NODEFLATE</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_NODEFLATE         "nodeflate"
 </pre>
@@ -491,7 +491,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_NO_VJ_COMP">
 <a name="NM-SETTING-PPP-NO-VJ-COMP--CAPS"></a><h3>NM_SETTING_PPP_NO_VJ_COMP</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_NO_VJ_COMP        "no-vj-comp"
 </pre>
@@ -499,7 +499,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_REQUIRE_MPPE">
 <a name="NM-SETTING-PPP-REQUIRE-MPPE--CAPS"></a><h3>NM_SETTING_PPP_REQUIRE_MPPE</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_REQUIRE_MPPE      "require-mppe"
 </pre>
@@ -507,7 +507,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_REQUIRE_MPPE_128">
 <a name="NM-SETTING-PPP-REQUIRE-MPPE-128--CAPS"></a><h3>NM_SETTING_PPP_REQUIRE_MPPE_128</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_REQUIRE_MPPE_128  "require-mppe-128"
 </pre>
@@ -515,7 +515,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_MPPE_STATEFUL">
 <a name="NM-SETTING-PPP-MPPE-STATEFUL--CAPS"></a><h3>NM_SETTING_PPP_MPPE_STATEFUL</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_MPPE_STATEFUL     "mppe-stateful"
 </pre>
@@ -523,7 +523,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_CRTSCTS">
 <a name="NM-SETTING-PPP-CRTSCTS--CAPS"></a><h3>NM_SETTING_PPP_CRTSCTS</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_CRTSCTS           "crtscts"
 </pre>
@@ -531,7 +531,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_BAUD">
 <a name="NM-SETTING-PPP-BAUD--CAPS"></a><h3>NM_SETTING_PPP_BAUD</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_BAUD              "baud"
 </pre>
@@ -539,7 +539,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_MRU">
 <a name="NM-SETTING-PPP-MRU--CAPS"></a><h3>NM_SETTING_PPP_MRU</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_MRU               "mru"
 </pre>
@@ -547,7 +547,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_MTU">
 <a name="NM-SETTING-PPP-MTU--CAPS"></a><h3>NM_SETTING_PPP_MTU</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_MTU               "mtu"
 </pre>
@@ -555,7 +555,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_LCP_ECHO_FAILURE">
 <a name="NM-SETTING-PPP-LCP-ECHO-FAILURE--CAPS"></a><h3>NM_SETTING_PPP_LCP_ECHO_FAILURE</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_LCP_ECHO_FAILURE  "lcp-echo-failure"
 </pre>
@@ -563,7 +563,7 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NM_SETTING_PPP_LCP_ECHO_INTERVAL">
 <a name="NM-SETTING-PPP-LCP-ECHO-INTERVAL--CAPS"></a><h3>NM_SETTING_PPP_LCP_ECHO_INTERVAL</h3>
 <pre class="programlisting">#define NM_SETTING_PPP_LCP_ECHO_INTERVAL "lcp-echo-interval"
 </pre>
@@ -571,14 +571,14 @@ href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="NMSettingPPP">
 <a name="NMSettingPPP-struct"></a><h3>NMSettingPPP</h3>
 <pre class="programlisting">typedef struct _NMSettingPPP NMSettingPPP;</pre>
 <p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_type ()">
 <a name="nm-setting-ppp-get-type"></a><h3>nm_setting_ppp_get_type ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"
@@ -595,7 +595,7 @@ href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.h
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_new ()">
 <a name="nm-setting-ppp-new"></a><h3>nm_setting_ppp_new ()</h3>
 <pre class="programlisting"><a
 href="http://[SERVER]/libnm-util/NMSetting.html"
@@ -612,7 +612,7 @@ href="http://[SERVER]/libnm-util/NMSetting.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_noauth ()">
 <a name="nm-setting-ppp-get-noauth"></a><h3>nm_setting_ppp_get_noauth ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -638,7 +638,7 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_refuse_eap ()">
 <a name="nm-setting-ppp-get-refuse-eap"></a><h3>nm_setting_ppp_get_refuse_eap ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -664,7 +664,7 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_refuse_pap ()">
 <a name="nm-setting-ppp-get-refuse-pap"></a><h3>nm_setting_ppp_get_refuse_pap ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -690,7 +690,7 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_refuse_chap ()">
 <a name="nm-setting-ppp-get-refuse-chap"></a><h3>nm_setting_ppp_get_refuse_chap ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -716,7 +716,7 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_refuse_mschap ()">
 <a name="nm-setting-ppp-get-refuse-mschap"></a><h3>nm_setting_ppp_get_refuse_mschap ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -742,7 +742,7 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_refuse_mschapv2 ()">
 <a name="nm-setting-ppp-get-refuse-mschapv2"></a><h3>nm_setting_ppp_get_refuse_mschapv2 ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -768,7 +768,7 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_nobsdcomp ()">
 <a name="nm-setting-ppp-get-nobsdcomp"></a><h3>nm_setting_ppp_get_nobsdcomp ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -794,7 +794,7 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_nodeflate ()">
 <a name="nm-setting-ppp-get-nodeflate"></a><h3>nm_setting_ppp_get_nodeflate ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -820,7 +820,7 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_no_vj_comp ()">
 <a name="nm-setting-ppp-get-no-vj-comp"></a><h3>nm_setting_ppp_get_no_vj_comp ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -846,7 +846,7 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_require_mppe ()">
 <a name="nm-setting-ppp-get-require-mppe"></a><h3>nm_setting_ppp_get_require_mppe ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -872,7 +872,7 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_require_mppe_128 ()">
 <a name="nm-setting-ppp-get-require-mppe-128"></a><h3>nm_setting_ppp_get_require_mppe_128 ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -898,7 +898,7 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_mppe_stateful ()">
 <a name="nm-setting-ppp-get-mppe-stateful"></a><h3>nm_setting_ppp_get_mppe_stateful ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -924,7 +924,7 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_crtscts ()">
 <a name="nm-setting-ppp-get-crtscts"></a><h3>nm_setting_ppp_get_crtscts ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -950,7 +950,7 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_baud ()">
 <a name="nm-setting-ppp-get-baud"></a><h3>nm_setting_ppp_get_baud ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -976,7 +976,7 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_mru ()">
 <a name="nm-setting-ppp-get-mru"></a><h3>nm_setting_ppp_get_mru ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -1002,7 +1002,7 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_mtu ()">
 <a name="nm-setting-ppp-get-mtu"></a><h3>nm_setting_ppp_get_mtu ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -1028,7 +1028,7 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_lcp_echo_failure ()">
 <a name="nm-setting-ppp-get-lcp-echo-failure"></a><h3>nm_setting_ppp_get_lcp_echo_failure ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -1054,7 +1054,7 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="nm_setting_ppp_get_lcp_echo_interval ()">
 <a name="nm-setting-ppp-get-lcp-echo-interval"></a><h3>nm_setting_ppp_get_lcp_echo_interval ()</h3>
 <pre class="programlisting"><a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"
@@ -1081,9 +1081,9 @@ href="http://[SERVER]/libnm-util/NMSettingPPP.html"
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="NMSettingPPP.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "baud" property'>
 <a name="NMSettingPPP--baud"></a><h3>The <code class="literal">"baud"</code> property</h3>
 <pre class="programlisting">  "baud"                     <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
@@ -1097,7 +1097,7 @@ choose the speed.</p>
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "crtscts" property'>
 <a name="NMSettingPPP--crtscts"></a><h3>The <code class="literal">"crtscts"</code> property</h3>
 <pre class="programlisting">  "crtscts"                  <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1111,7 +1111,7 @@ set to FALSE.</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "lcp-echo-failure" property'>
 <a name="NMSettingPPP--lcp-echo-failure"></a><h3>The <code class="literal">"lcp-echo-failure"</code> property</h3>
 <pre class="programlisting">  "lcp-echo-failure"         <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
@@ -1126,7 +1126,7 @@ value if this property is used.</p>
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "lcp-echo-interval" property'>
 <a name="NMSettingPPP--lcp-echo-interval"></a><h3>The <code class="literal">"lcp-echo-interval"</code> property</h3>
 <pre class="programlisting">  "lcp-echo-interval"        <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
@@ -1141,7 +1141,7 @@ possible to autodetect this.</p>
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "mppe-stateful" property'>
 <a name="NMSettingPPP--mppe-stateful"></a><h3>The <code class="literal">"mppe-stateful"</code> property</h3>
 <pre class="programlisting">  "mppe-stateful"            <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1154,7 +1154,7 @@ information on stateful MPPE.",</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "mru" property'>
 <a name="NMSettingPPP--mru"></a><h3>The <code class="literal">"mru"</code> property</h3>
 <pre class="programlisting">  "mru"                      <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
@@ -1169,7 +1169,7 @@ larger than the specified size.  If non-zero, the MRU should be between
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "mtu" property'>
 <a name="NMSettingPPP--mtu"></a><h3>The <code class="literal">"mtu"</code> property</h3>
 <pre class="programlisting">  "mtu"                      <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"
@@ -1182,7 +1182,7 @@ size.</p>
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "no-vj-comp" property'>
 <a name="NMSettingPPP--no-vj-comp"></a><h3>The <code class="literal">"no-vj-comp"</code> property</h3>
 <pre class="programlisting">  "no-vj-comp"               <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1194,7 +1194,7 @@ If TRUE, Van Jacobsen TCP header compression will not be requested.</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "noauth" property'>
 <a name="NMSettingPPP--noauth"></a><h3>The <code class="literal">"noauth"</code> property</h3>
 <pre class="programlisting">  "noauth"                   <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1208,7 +1208,7 @@ the remote side.  In almost all cases, this should be TRUE.</p>
 <p>Default value: TRUE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "nobsdcomp" property'>
 <a name="NMSettingPPP--nobsdcomp"></a><h3>The <code class="literal">"nobsdcomp"</code> property</h3>
 <pre class="programlisting">  "nobsdcomp"                <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1220,7 +1220,7 @@ If TRUE, BSD compression will not be requested.</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "nodeflate" property'>
 <a name="NMSettingPPP--nodeflate"></a><h3>The <code class="literal">"nodeflate"</code> property</h3>
 <pre class="programlisting">  "nodeflate"                <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1232,7 +1232,7 @@ If TRUE, 'deflate' compression will not be requested.</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "refuse-chap" property'>
 <a name="NMSettingPPP--refuse-chap"></a><h3>The <code class="literal">"refuse-chap"</code> property</h3>
 <pre class="programlisting">  "refuse-chap"              <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1244,7 +1244,7 @@ If TRUE, the CHAP authentication method will not be used.</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "refuse-eap" property'>
 <a name="NMSettingPPP--refuse-eap"></a><h3>The <code class="literal">"refuse-eap"</code> property</h3>
 <pre class="programlisting">  "refuse-eap"               <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1256,7 +1256,7 @@ If TRUE, the EAP authentication method will not be used.</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "refuse-mschap" property'>
 <a name="NMSettingPPP--refuse-mschap"></a><h3>The <code class="literal">"refuse-mschap"</code> property</h3>
 <pre class="programlisting">  "refuse-mschap"            <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1268,7 +1268,7 @@ If TRUE, the MSCHAP authentication method will not be used.</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "refuse-mschapv2" property'>
 <a name="NMSettingPPP--refuse-mschapv2"></a><h3>The <code class="literal">"refuse-mschapv2"</code> property</h3>
 <pre class="programlisting">  "refuse-mschapv2"          <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1280,7 +1280,7 @@ If TRUE, the MSCHAPv2 authentication method will not be used.</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "refuse-pap" property'>
 <a name="NMSettingPPP--refuse-pap"></a><h3>The <code class="literal">"refuse-pap"</code> property</h3>
 <pre class="programlisting">  "refuse-pap"               <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1292,7 +1292,7 @@ If TRUE, the PAP authentication method will not be used.</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "require-mppe" property'>
 <a name="NMSettingPPP--require-mppe"></a><h3>The <code class="literal">"require-mppe"</code> property</h3>
 <pre class="programlisting">  "require-mppe"             <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"
@@ -1307,7 +1307,7 @@ connections.</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "require-mppe-128" property'>
 <a name="NMSettingPPP--require-mppe-128"></a><h3>The <code class="literal">"require-mppe-128"</code> property</h3>
 <pre class="programlisting">  "require-mppe-128"         <a
 href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"

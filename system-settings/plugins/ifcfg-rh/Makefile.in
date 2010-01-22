@@ -34,20 +34,15 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@NO_GIO_TRUE@am__append_1 = \
-@NO_GIO_TRUE@	$(top_builddir)/gfilemonitor/libgfilemonitor.la
-
-@NO_GIO_FALSE@am__append_2 = \
-@NO_GIO_FALSE@	$(GIO_LIBS)
-
 subdir = system-settings/plugins/ifcfg-rh
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/compiler_warnings.m4 \
 	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/libnl-check.m4 $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -78,20 +73,19 @@ am__base_list = \
 am__installdirs = "$(DESTDIR)$(pkglibdir)"
 LTLIBRARIES = $(noinst_LTLIBRARIES) $(pkglib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-libifcfg_rh_io_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+libifcfg_rh_io_la_DEPENDENCIES =  \
+	$(top_builddir)/libnm-util/libnm-util.la $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
 am_libifcfg_rh_io_la_OBJECTS = libifcfg_rh_io_la-shvar.lo \
 	libifcfg_rh_io_la-reader.lo libifcfg_rh_io_la-writer.lo \
-	libifcfg_rh_io_la-sha1.lo libifcfg_rh_io_la-errors.lo \
-	libifcfg_rh_io_la-utils.lo libifcfg_rh_io_la-crypto.lo
+	libifcfg_rh_io_la-errors.lo libifcfg_rh_io_la-utils.lo
 libifcfg_rh_io_la_OBJECTS = $(am_libifcfg_rh_io_la_OBJECTS)
-@NO_GIO_FALSE@am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1)
 libnm_settings_plugin_ifcfg_rh_la_DEPENDENCIES =  \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(top_builddir)/libnm-util/libnm-util.la \
-	$(top_builddir)/libnm-glib/libnm_glib.la \
+	$(top_builddir)/libnm-glib/libnm-glib.la \
 	$(top_builddir)/marshallers/libmarshallers.la \
-	libifcfg-rh-io.la $(am__append_1) $(am__DEPENDENCIES_2)
+	libifcfg-rh-io.la $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 am_libnm_settings_plugin_ifcfg_rh_la_OBJECTS =  \
 	libnm_settings_plugin_ifcfg_rh_la-plugin.lo \
 	libnm_settings_plugin_ifcfg_rh_la-nm-ifcfg-connection.lo
@@ -207,8 +201,8 @@ GNUTLS_CFLAGS = @GNUTLS_CFLAGS@
 GNUTLS_LIBS = @GNUTLS_LIBS@
 GREP = @GREP@
 GTKDOC_CHECK = @GTKDOC_CHECK@
-HAL_CFLAGS = @HAL_CFLAGS@
-HAL_LIBS = @HAL_LIBS@
+GUDEV_CFLAGS = @GUDEV_CFLAGS@
+GUDEV_LIBS = @GUDEV_LIBS@
 HTML_DIR = @HTML_DIR@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -221,8 +215,10 @@ INTLTOOL_EXTRACT = @INTLTOOL_EXTRACT@
 INTLTOOL_MERGE = @INTLTOOL_MERGE@
 INTLTOOL_PERL = @INTLTOOL_PERL@
 INTLTOOL_UPDATE = @INTLTOOL_UPDATE@
+IPTABLES_PATH = @IPTABLES_PATH@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
+LIBDL = @LIBDL@
 LIBGCRYPT_CFLAGS = @LIBGCRYPT_CFLAGS@
 LIBGCRYPT_CONFIG = @LIBGCRYPT_CONFIG@
 LIBGCRYPT_LIBS = @LIBGCRYPT_LIBS@
@@ -232,8 +228,6 @@ LIBNL_LIBS = @LIBNL_LIBS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
-LIBUDEV_CFLAGS = @LIBUDEV_CFLAGS@
-LIBUDEV_LIBS = @LIBUDEV_LIBS@
 LIPO = @LIPO@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
@@ -263,7 +257,6 @@ PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POLKIT_CFLAGS = @POLKIT_CFLAGS@
 POLKIT_LIBS = @POLKIT_LIBS@
-POLKIT_POLICY_FILE_VALIDATE = @POLKIT_POLICY_FILE_VALIDATE@
 POSUB = @POSUB@
 PO_IN_DATADIR_FALSE = @PO_IN_DATADIR_FALSE@
 PO_IN_DATADIR_TRUE = @PO_IN_DATADIR_TRUE@
@@ -343,25 +336,31 @@ libifcfg_rh_io_la_SOURCES = \
 	reader.h \
 	writer.c \
 	writer.h \
-	sha1.c \
-	sha1.h \
 	errors.c \
 	common.h \
 	utils.c \
-	utils.h \
-	crypto.c \
-	crypto.h
+	utils.h
+
+INCLUDES = \
+	-I$(top_srcdir)/src/system-settings \
+	-I$(top_srcdir)/include \
+	-I$(top_srcdir)/libnm-glib \
+	-I$(top_srcdir)/libnm-util \
+	-I$(top_builddir)/marshallers
 
 libifcfg_rh_io_la_CPPFLAGS = \
 	$(GLIB_CFLAGS) \
 	$(DBUS_CFLAGS) \
 	$(NSS_CFLAGS) \
 	-DG_DISABLE_DEPRECATED \
-	-I$(top_srcdir)/include \
-	-I$(top_srcdir)/libnm-util \
-	-DSYSCONFDIR=\"$(sysconfdir)\"
+	-DSYSCONFDIR=\"$(sysconfdir)\" \
+	-DSBINDIR=\"$(sbindir)\"
 
-libifcfg_rh_io_la_LIBADD = $(GLIB_LIBS) $(NSS_LIBS)
+libifcfg_rh_io_la_LIBADD = \
+	$(top_builddir)/libnm-util/libnm-util.la \
+	$(GLIB_LIBS) \
+	$(NSS_LIBS)
+
 libnm_settings_plugin_ifcfg_rh_la_SOURCES = \
 	plugin.c \
 	plugin.h \
@@ -373,19 +372,18 @@ libnm_settings_plugin_ifcfg_rh_la_CPPFLAGS = \
 	$(GMODULE_CFLAGS) \
 	$(DBUS_CFLAGS) \
 	-DG_DISABLE_DEPRECATED \
-	-I$(top_srcdir)/system-settings/src \
-	-I$(top_srcdir)/include \
-	-I$(top_srcdir)/libnm-glib \
-	-I$(top_srcdir)/libnm-util \
-	-I$(top_builddir)/marshallers \
 	-DSYSCONFDIR=\"$(sysconfdir)\"
 
 libnm_settings_plugin_ifcfg_rh_la_LDFLAGS = -module -avoid-version
-libnm_settings_plugin_ifcfg_rh_la_LIBADD = $(GLIB_LIBS) \
-	$(GMODULE_LIBS) $(top_builddir)/libnm-util/libnm-util.la \
-	$(top_builddir)/libnm-glib/libnm_glib.la \
+libnm_settings_plugin_ifcfg_rh_la_LIBADD = \
+	$(top_builddir)/libnm-util/libnm-util.la \
+	$(top_builddir)/libnm-glib/libnm-glib.la \
 	$(top_builddir)/marshallers/libmarshallers.la \
-	libifcfg-rh-io.la $(am__append_1) $(am__append_2)
+	libifcfg-rh-io.la \
+	$(GLIB_LIBS) \
+	$(GMODULE_LIBS) \
+	$(GIO_LIBS)
+
 all: all-recursive
 
 .SUFFIXES:
@@ -471,10 +469,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libifcfg_rh_io_la-crypto.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libifcfg_rh_io_la-errors.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libifcfg_rh_io_la-reader.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libifcfg_rh_io_la-sha1.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libifcfg_rh_io_la-shvar.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libifcfg_rh_io_la-utils.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libifcfg_rh_io_la-writer.Plo@am__quote@
@@ -526,13 +522,6 @@ libifcfg_rh_io_la-writer.lo: writer.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libifcfg_rh_io_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libifcfg_rh_io_la-writer.lo `test -f 'writer.c' || echo '$(srcdir)/'`writer.c
 
-libifcfg_rh_io_la-sha1.lo: sha1.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libifcfg_rh_io_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libifcfg_rh_io_la-sha1.lo -MD -MP -MF $(DEPDIR)/libifcfg_rh_io_la-sha1.Tpo -c -o libifcfg_rh_io_la-sha1.lo `test -f 'sha1.c' || echo '$(srcdir)/'`sha1.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libifcfg_rh_io_la-sha1.Tpo $(DEPDIR)/libifcfg_rh_io_la-sha1.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='sha1.c' object='libifcfg_rh_io_la-sha1.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libifcfg_rh_io_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libifcfg_rh_io_la-sha1.lo `test -f 'sha1.c' || echo '$(srcdir)/'`sha1.c
-
 libifcfg_rh_io_la-errors.lo: errors.c
 @am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libifcfg_rh_io_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libifcfg_rh_io_la-errors.lo -MD -MP -MF $(DEPDIR)/libifcfg_rh_io_la-errors.Tpo -c -o libifcfg_rh_io_la-errors.lo `test -f 'errors.c' || echo '$(srcdir)/'`errors.c
 @am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libifcfg_rh_io_la-errors.Tpo $(DEPDIR)/libifcfg_rh_io_la-errors.Plo
@@ -546,13 +535,6 @@ libifcfg_rh_io_la-utils.lo: utils.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='utils.c' object='libifcfg_rh_io_la-utils.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libifcfg_rh_io_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libifcfg_rh_io_la-utils.lo `test -f 'utils.c' || echo '$(srcdir)/'`utils.c
-
-libifcfg_rh_io_la-crypto.lo: crypto.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libifcfg_rh_io_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libifcfg_rh_io_la-crypto.lo -MD -MP -MF $(DEPDIR)/libifcfg_rh_io_la-crypto.Tpo -c -o libifcfg_rh_io_la-crypto.lo `test -f 'crypto.c' || echo '$(srcdir)/'`crypto.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libifcfg_rh_io_la-crypto.Tpo $(DEPDIR)/libifcfg_rh_io_la-crypto.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='crypto.c' object='libifcfg_rh_io_la-crypto.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libifcfg_rh_io_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libifcfg_rh_io_la-crypto.lo `test -f 'crypto.c' || echo '$(srcdir)/'`crypto.c
 
 libnm_settings_plugin_ifcfg_rh_la-plugin.lo: plugin.c
 @am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libnm_settings_plugin_ifcfg_rh_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libnm_settings_plugin_ifcfg_rh_la-plugin.lo -MD -MP -MF $(DEPDIR)/libnm_settings_plugin_ifcfg_rh_la-plugin.Tpo -c -o libnm_settings_plugin_ifcfg_rh_la-plugin.lo `test -f 'plugin.c' || echo '$(srcdir)/'`plugin.c

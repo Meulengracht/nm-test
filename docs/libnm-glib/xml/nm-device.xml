@@ -24,6 +24,7 @@
 #define             <link linkend="NM-DEVICE-MANAGED--CAPS">NM_DEVICE_MANAGED</link>
 #define             <link linkend="NM-DEVICE-IP4-CONFIG--CAPS">NM_DEVICE_IP4_CONFIG</link>
 #define             <link linkend="NM-DEVICE-DHCP4-CONFIG--CAPS">NM_DEVICE_DHCP4_CONFIG</link>
+#define             <link linkend="NM-DEVICE-IP6-CONFIG--CAPS">NM_DEVICE_IP6_CONFIG</link>
 #define             <link linkend="NM-DEVICE-STATE--CAPS">NM_DEVICE_STATE</link>
 #define             <link linkend="NM-DEVICE-VENDOR--CAPS">NM_DEVICE_VENDOR</link>
 #define             <link linkend="NM-DEVICE-PRODUCT--CAPS">NM_DEVICE_PRODUCT</link>
@@ -37,9 +38,16 @@ const <link linkend="char">char</link> *        <link linkend="nm-device-get-dri
 <link linkend="gboolean">gboolean</link>            <link linkend="nm-device-get-managed">nm_device_get_managed</link>               (<link linkend="NMDevice">NMDevice</link> *device);
 <link linkend="NMIP4Config">NMIP4Config</link> *       <link linkend="nm-device-get-ip4-config">nm_device_get_ip4_config</link>            (<link linkend="NMDevice">NMDevice</link> *device);
 <link linkend="NMDHCP4Config">NMDHCP4Config</link> *     <link linkend="nm-device-get-dhcp4-config">nm_device_get_dhcp4_config</link>          (<link linkend="NMDevice">NMDevice</link> *device);
+<link linkend="NMIP6Config">NMIP6Config</link> *       <link linkend="nm-device-get-ip6-config">nm_device_get_ip6_config</link>            (<link linkend="NMDevice">NMDevice</link> *device);
 <link linkend="NMDeviceState">NMDeviceState</link>       <link linkend="nm-device-get-state">nm_device_get_state</link>                 (<link linkend="NMDevice">NMDevice</link> *device);
 const <link linkend="char">char</link> *        <link linkend="nm-device-get-product">nm_device_get_product</link>               (<link linkend="NMDevice">NMDevice</link> *device);
 const <link linkend="char">char</link> *        <link linkend="nm-device-get-vendor">nm_device_get_vendor</link>                (<link linkend="NMDevice">NMDevice</link> *device);
+<link linkend="void">void</link>                (<link linkend="NMDeviceDeactivateFn">*NMDeviceDeactivateFn</link>)             (<link linkend="NMDevice">NMDevice</link> *device,
+                                                         <link linkend="GError">GError</link> *error,
+                                                         <link linkend="gpointer">gpointer</link> user_data);
+<link linkend="void">void</link>                <link linkend="nm-device-disconnect">nm_device_disconnect</link>                (<link linkend="NMDevice">NMDevice</link> *device,
+                                                         <link linkend="NMDeviceDeactivateFn">NMDeviceDeactivateFn</link> callback,
+                                                         <link linkend="gpointer">gpointer</link> user_data);
 </synopsis>
 </refsynopsisdiv>
 
@@ -67,6 +75,7 @@ const <link linkend="char">char</link> *        <link linkend="nm-device-get-ven
   &quot;<link linkend="NMDevice--driver">driver</link>&quot;                   <link linkend="gchar">gchar</link>*                : Read
   &quot;<link linkend="NMDevice--interface">interface</link>&quot;                <link linkend="gchar">gchar</link>*                : Read
   &quot;<link linkend="NMDevice--ip4-config">ip4-config</link>&quot;               <link linkend="NMIP4Config">NMIP4Config</link>*          : Read
+  &quot;<link linkend="NMDevice--ip6-config">ip6-config</link>&quot;               <link linkend="NMIP6Config">NMIP6Config</link>*          : Read
   &quot;<link linkend="NMDevice--managed">managed</link>&quot;                  <link linkend="gboolean">gboolean</link>              : Read
   &quot;<link linkend="NMDevice--product">product</link>&quot;                  <link linkend="gchar">gchar</link>*                : Read
   &quot;<link linkend="NMDevice--state">state</link>&quot;                    <link linkend="guint">guint</link>                 : Read
@@ -133,6 +142,12 @@ const <link linkend="char">char</link> *        <link linkend="nm-device-get-ven
 </programlisting>
 <para>
 </para></refsect2>
+<refsect2 id="NM-DEVICE-IP6-CONFIG--CAPS" role="macro">
+<title>NM_DEVICE_IP6_CONFIG</title>
+<indexterm zone="NM-DEVICE-IP6-CONFIG--CAPS"><primary sortas="NM_DEVICE_IP6_CONFIG">NM_DEVICE_IP6_CONFIG</primary></indexterm><programlisting>#define NM_DEVICE_IP6_CONFIG "ip6-config"
+</programlisting>
+<para>
+</para></refsect2>
 <refsect2 id="NM-DEVICE-STATE--CAPS" role="macro">
 <title>NM_DEVICE_STATE</title>
 <indexterm zone="NM-DEVICE-STATE--CAPS"><primary sortas="NM_DEVICE_STATE">NM_DEVICE_STATE</primary></indexterm><programlisting>#define NM_DEVICE_STATE "state"
@@ -191,14 +206,15 @@ device, and must not be modified.
 <title>nm_device_get_udi ()</title>
 <indexterm zone="nm-device-get-udi"><primary sortas="nm_device_get_udi">nm_device_get_udi</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_device_get_udi                   (<link linkend="NMDevice">NMDevice</link> *device);</programlisting>
 <para>
-Gets the HAL UDI of the <link linkend="NMDevice"><type>NMDevice</type></link>.</para>
+Gets the Unique Device Identifier of the <link linkend="NMDevice"><type>NMDevice</type></link>.</para>
 <para>
 </para><variablelist role="params">
 <varlistentry><term><parameter>device</parameter>&#160;:</term>
 <listitem><simpara> a <link linkend="NMDevice"><type>NMDevice</type></link>
 </simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the HAL UDI of the device. This is the internal string used by the
-device, and must not be modified.
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the Unique Device Identifier of the device.  This identifier may be
+used to gather more information about the device from various operating
+system services like udev or sysfs.
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
 <refsect2 id="nm-device-get-driver" role="function">
@@ -268,6 +284,19 @@ Gets the current <link linkend="NMDHCP4Config"><type>NMDHCP4Config</type></link>
 using DHCP.
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
+<refsect2 id="nm-device-get-ip6-config" role="function">
+<title>nm_device_get_ip6_config ()</title>
+<indexterm zone="nm-device-get-ip6-config"><primary sortas="nm_device_get_ip6_config">nm_device_get_ip6_config</primary></indexterm><programlisting><link linkend="NMIP6Config">NMIP6Config</link> *       nm_device_get_ip6_config            (<link linkend="NMDevice">NMDevice</link> *device);</programlisting>
+<para>
+Gets the current <link linkend="NMIP6Config"><type>NMIP6Config</type></link> associated with the <link linkend="NMDevice"><type>NMDevice</type></link>.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&#160;:</term>
+<listitem><simpara> a <link linkend="NMDevice"><type>NMDevice</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the <link linkend="NMIP6Config"><type>NMIP6Config</type></link> or <link linkend="NULL--CAPS"><literal>NULL</literal></link> if the device is not activated.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
 <refsect2 id="nm-device-get-state" role="function">
 <title>nm_device_get_state ()</title>
 <indexterm zone="nm-device-get-state"><primary sortas="nm_device_get_state">nm_device_get_state</primary></indexterm><programlisting><link linkend="NMDeviceState">NMDeviceState</link>       nm_device_get_state                 (<link linkend="NMDevice">NMDevice</link> *device);</programlisting>
@@ -309,6 +338,44 @@ Gets the vendor string of the <link linkend="NMDevice"><type>NMDevice</type></li
 device, and must not be modified.
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
+<refsect2 id="NMDeviceDeactivateFn" role="function">
+<title>NMDeviceDeactivateFn ()</title>
+<indexterm zone="NMDeviceDeactivateFn"><primary sortas="NMDeviceDeactivateFn">NMDeviceDeactivateFn</primary></indexterm><programlisting><link linkend="void">void</link>                (*NMDeviceDeactivateFn)             (<link linkend="NMDevice">NMDevice</link> *device,
+                                                         <link linkend="GError">GError</link> *error,
+                                                         <link linkend="gpointer">gpointer</link> user_data);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>error</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nm-device-disconnect" role="function">
+<title>nm_device_disconnect ()</title>
+<indexterm zone="nm-device-disconnect"><primary sortas="nm_device_disconnect">nm_device_disconnect</primary></indexterm><programlisting><link linkend="void">void</link>                nm_device_disconnect                (<link linkend="NMDevice">NMDevice</link> *device,
+                                                         <link linkend="NMDeviceDeactivateFn">NMDeviceDeactivateFn</link> callback,
+                                                         <link linkend="gpointer">gpointer</link> user_data);</programlisting>
+<para>
+Disconnects the device if currently connected, and prevents the device from
+automatically connecting to networks until the next manual network connection
+request.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>device</parameter>&#160;:</term>
+<listitem><simpara> a <link linkend="NMDevice"><type>NMDevice</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>callback</parameter>&#160;:</term>
+<listitem><simpara> callback to be called when disconnect operation completes
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara> caller-specific data passed to <parameter>callback</parameter>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
 
 </refsect1>
 <refsect1 id="NMDevice.property-details" role="property_details">
@@ -346,6 +413,12 @@ The interface of the device.</para>
 The <link linkend="NMIP4Config"><type>NMIP4Config</type></link> of the device.</para>
 <para>
 </para></refsect2>
+<refsect2 id="NMDevice--ip6-config" role="property"><title>The <literal>&quot;ip6-config&quot;</literal> property</title>
+<indexterm zone="NMDevice--ip6-config"><primary sortas="NMDevice:ip6-config">NMDevice:ip6-config</primary></indexterm><programlisting>  &quot;ip6-config&quot;               <link linkend="NMIP6Config">NMIP6Config</link>*          : Read</programlisting>
+<para>
+The <link linkend="NMIP6Config"><type>NMIP6Config</type></link> of the device.</para>
+<para>
+</para></refsect2>
 <refsect2 id="NMDevice--managed" role="property"><title>The <literal>&quot;managed&quot;</literal> property</title>
 <indexterm zone="NMDevice--managed"><primary sortas="NMDevice:managed">NMDevice:managed</primary></indexterm><programlisting>  &quot;managed&quot;                  <link linkend="gboolean">gboolean</link>              : Read</programlisting>
 <para>
@@ -370,7 +443,7 @@ The state of the device.</para>
 <refsect2 id="NMDevice--udi" role="property"><title>The <literal>&quot;udi&quot;</literal> property</title>
 <indexterm zone="NMDevice--udi"><primary sortas="NMDevice:udi">NMDevice:udi</primary></indexterm><programlisting>  &quot;udi&quot;                      <link linkend="gchar">gchar</link>*                : Read</programlisting>
 <para>
-The HAL UDI of the device.</para>
+The Unique Device Identifier of the device.</para>
 <para>
 </para><para>Default value: NULL</para>
 </refsect2>

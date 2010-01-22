@@ -27,6 +27,7 @@ enum                <link linkend="NMSettingIP4ConfigError">NMSettingIP4ConfigEr
 #define             <link linkend="NM-SETTING-IP4-CONFIG-IGNORE-AUTO-ROUTES--CAPS">NM_SETTING_IP4_CONFIG_IGNORE_AUTO_ROUTES</link>
 #define             <link linkend="NM-SETTING-IP4-CONFIG-IGNORE-AUTO-DNS--CAPS">NM_SETTING_IP4_CONFIG_IGNORE_AUTO_DNS</link>
 #define             <link linkend="NM-SETTING-IP4-CONFIG-DHCP-CLIENT-ID--CAPS">NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID</link>
+#define             <link linkend="NM-SETTING-IP4-CONFIG-DHCP-SEND-HOSTNAME--CAPS">NM_SETTING_IP4_CONFIG_DHCP_SEND_HOSTNAME</link>
 #define             <link linkend="NM-SETTING-IP4-CONFIG-DHCP-HOSTNAME--CAPS">NM_SETTING_IP4_CONFIG_DHCP_HOSTNAME</link>
 #define             <link linkend="NM-SETTING-IP4-CONFIG-NEVER-DEFAULT--CAPS">NM_SETTING_IP4_CONFIG_NEVER_DEFAULT</link>
 #define             <link linkend="NM-SETTING-IP4-CONFIG-METHOD-AUTO--CAPS">NM_SETTING_IP4_CONFIG_METHOD_AUTO</link>
@@ -119,6 +120,8 @@ const <link linkend="char">char</link> *        <link linkend="nm-setting-ip4-co
                                                         (<link linkend="NMSettingIP4Config">NMSettingIP4Config</link> *setting);
 const <link linkend="char">char</link> *        <link linkend="nm-setting-ip4-config-get-dhcp-client-id">nm_setting_ip4_config_get_dhcp_client_id</link>
                                                         (<link linkend="NMSettingIP4Config">NMSettingIP4Config</link> *setting);
+<link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ip4-config-get-dhcp-send-hostname">nm_setting_ip4_config_get_dhcp_send_hostname</link>
+                                                        (<link linkend="NMSettingIP4Config">NMSettingIP4Config</link> *setting);
 const <link linkend="char">char</link> *        <link linkend="nm-setting-ip4-config-get-dhcp-hostname">nm_setting_ip4_config_get_dhcp_hostname</link>
                                                         (<link linkend="NMSettingIP4Config">NMSettingIP4Config</link> *setting);
 <link linkend="gboolean">gboolean</link>            <link linkend="nm-setting-ip4-config-get-never-default">nm_setting_ip4_config_get_never_default</link>
@@ -145,6 +148,7 @@ const <link linkend="char">char</link> *        <link linkend="nm-setting-ip4-co
   &quot;<link linkend="NMSettingIP4Config--addresses">addresses</link>&quot;                <link linkend="GPtrArray-GArray-guint--">GPtrArray_GArray_guint__</link>*  : Read / Write
   &quot;<link linkend="NMSettingIP4Config--dhcp-client-id">dhcp-client-id</link>&quot;           <link linkend="gchar">gchar</link>*                : Read / Write
   &quot;<link linkend="NMSettingIP4Config--dhcp-hostname">dhcp-hostname</link>&quot;            <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NMSettingIP4Config--dhcp-send-hostname">dhcp-send-hostname</link>&quot;       <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
   &quot;<link linkend="NMSettingIP4Config--dns">dns</link>&quot;                      <link linkend="GArray-guint-">GArray_guint_</link>*        : Read / Write
   &quot;<link linkend="NMSettingIP4Config--dns-search">dns-search</link>&quot;               <link linkend="GSList-gchararray-">GSList_gchararray_</link>*   : Read / Write
   &quot;<link linkend="NMSettingIP4Config--ignore-auto-dns">ignore-auto-dns</link>&quot;          <link linkend="gboolean">gboolean</link>              : Read / Write / Construct
@@ -248,6 +252,12 @@ const <link linkend="char">char</link> *        <link linkend="nm-setting-ip4-co
 <refsect2 id="NM-SETTING-IP4-CONFIG-DHCP-CLIENT-ID--CAPS" role="macro">
 <title>NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID</title>
 <indexterm zone="NM-SETTING-IP4-CONFIG-DHCP-CLIENT-ID--CAPS"><primary sortas="NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID">NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID</primary></indexterm><programlisting>#define NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID     "dhcp-client-id"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NM-SETTING-IP4-CONFIG-DHCP-SEND-HOSTNAME--CAPS" role="macro">
+<title>NM_SETTING_IP4_CONFIG_DHCP_SEND_HOSTNAME</title>
+<indexterm zone="NM-SETTING-IP4-CONFIG-DHCP-SEND-HOSTNAME--CAPS"><primary sortas="NM_SETTING_IP4_CONFIG_DHCP_SEND_HOSTNAME">NM_SETTING_IP4_CONFIG_DHCP_SEND_HOSTNAME</primary></indexterm><programlisting>#define NM_SETTING_IP4_CONFIG_DHCP_SEND_HOSTNAME "dhcp-send-hostname"
 </programlisting>
 <para>
 </para></refsect2>
@@ -900,6 +910,18 @@ const <link linkend="char">char</link> *        <link linkend="nm-setting-ip4-co
 <varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
+<refsect2 id="nm-setting-ip4-config-get-dhcp-send-hostname" role="function">
+<title>nm_setting_ip4_config_get_dhcp_send_hostname ()</title>
+<indexterm zone="nm-setting-ip4-config-get-dhcp-send-hostname"><primary sortas="nm_setting_ip4_config_get_dhcp_send_hostname">nm_setting_ip4_config_get_dhcp_send_hostname</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nm_setting_ip4_config_get_dhcp_send_hostname
+                                                        (<link linkend="NMSettingIP4Config">NMSettingIP4Config</link> *setting);</programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>setting</parameter>&#160;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
 <refsect2 id="nm-setting-ip4-config-get-dhcp-hostname" role="function">
 <title>nm_setting_ip4_config_get_dhcp_hostname ()</title>
 <indexterm zone="nm-setting-ip4-config-get-dhcp-hostname"><primary sortas="nm_setting_ip4_config_get_dhcp_hostname">nm_setting_ip4_config_get_dhcp_hostname</primary></indexterm><programlisting>const <link linkend="char">char</link> *        nm_setting_ip4_config_get_dhcp_hostname
@@ -952,11 +974,21 @@ DHCP server may use to cusomize the DHCP lease and options.</para>
 <refsect2 id="NMSettingIP4Config--dhcp-hostname" role="property"><title>The <literal>&quot;dhcp-hostname&quot;</literal> property</title>
 <indexterm zone="NMSettingIP4Config--dhcp-hostname"><primary sortas="NMSettingIP4Config:dhcp-hostname">NMSettingIP4Config:dhcp-hostname</primary></indexterm><programlisting>  &quot;dhcp-hostname&quot;            <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
 <para>
-A hostname to be sent to the DHCP server when acquiring a lease. Some
-DHCP servers use this hostname to update DNS databases, essentially
-providing a static hostname for the computer.</para>
+If the <link linkend="NMSettingIP4Config--dhcp-send-hostname"><type>"dhcp-send-hostname"</type></link> property is TRUE, then the
+specified name will be sent to the DHCP server when acquiring a lease.</para>
 <para>
 </para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="NMSettingIP4Config--dhcp-send-hostname" role="property"><title>The <literal>&quot;dhcp-send-hostname&quot;</literal> property</title>
+<indexterm zone="NMSettingIP4Config--dhcp-send-hostname"><primary sortas="NMSettingIP4Config:dhcp-send-hostname">NMSettingIP4Config:dhcp-send-hostname</primary></indexterm><programlisting>  &quot;dhcp-send-hostname&quot;       <link linkend="gboolean">gboolean</link>              : Read / Write / Construct</programlisting>
+<para>
+If TRUE, a hostname is sent to the DHCP server when acquiring a lease.
+Some DHCP servers use this hostname to update DNS databases, essentially
+providing a static hostname for the computer.  If
+<link linkend="NMSettingIP4Config--dhcp-hostname"><type>"dhcp-hostname"</type></link> is empty and this property is TRUE,
+the current persistent hostname of the computer is sent.</para>
+<para>
+</para><para>Default value: FALSE</para>
 </refsect2>
 <refsect2 id="NMSettingIP4Config--dns" role="property"><title>The <literal>&quot;dns&quot;</literal> property</title>
 <indexterm zone="NMSettingIP4Config--dns"><primary sortas="NMSettingIP4Config:dns">NMSettingIP4Config:dns</primary></indexterm><programlisting>  &quot;dns&quot;                      <link linkend="GArray-guint-">GArray_guint_</link>*        : Read / Write</programlisting>

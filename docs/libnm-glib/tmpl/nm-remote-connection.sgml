@@ -17,3 +17,21 @@ NMRemoteConnection
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### STRUCT NMRemoteConnection ##### -->
+<para>
+
+</para>
+
+@parent: 
+
+<!-- ##### FUNCTION nm_remote_connection_new ##### -->
+<para>
+
+</para>
+
+@bus: 
+@scope: 
+@path: 
+@Returns: 
+
+

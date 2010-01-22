@@ -11,25 +11,30 @@ libifcfg_rh_io_la_SOURCES = \
 	reader.h \
 	writer.c \
 	writer.h \
-	sha1.c \
-	sha1.h \
 	errors.c \
 	common.h \
 	utils.c \
-	utils.h \
-	crypto.c \
-	crypto.h
+	utils.h
+
+INCLUDES = \
+	-I$(top_srcdir)/src/system-settings \
+	-I$(top_srcdir)/include \
+	-I$(top_srcdir)/libnm-glib \
+	-I$(top_srcdir)/libnm-util \
+	-I$(top_builddir)/marshallers
 
 libifcfg_rh_io_la_CPPFLAGS = \
 	$(GLIB_CFLAGS) \
 	$(DBUS_CFLAGS) \
 	$(NSS_CFLAGS) \
 	-DG_DISABLE_DEPRECATED \
-	-I$(top_srcdir)/include \
-	-I$(top_srcdir)/libnm-util \
-	-DSYSCONFDIR=\"$(sysconfdir)\"
+	-DSYSCONFDIR=\"$(sysconfdir)\" \
+	-DSBINDIR=\"$(sbindir)\"
 
-libifcfg_rh_io_la_LIBADD = $(GLIB_LIBS) $(NSS_LIBS)
+libifcfg_rh_io_la_LIBADD = \
+	$(top_builddir)/libnm-util/libnm-util.la \
+	$(GLIB_LIBS) \
+	$(NSS_LIBS)
 
 libnm_settings_plugin_ifcfg_rh_la_SOURCES = \
 	plugin.c \
@@ -42,27 +47,15 @@ libnm_settings_plugin_ifcfg_rh_la_CPPFLAGS = \
 	$(GMODULE_CFLAGS) \
 	$(DBUS_CFLAGS) \
 	-DG_DISABLE_DEPRECATED \
-	-I$(top_srcdir)/system-settings/src \
-	-I$(top_srcdir)/include \
-	-I$(top_srcdir)/libnm-glib \
-	-I$(top_srcdir)/libnm-util \
-	-I$(top_builddir)/marshallers \
 	-DSYSCONFDIR=\"$(sysconfdir)\"
 
 libnm_settings_plugin_ifcfg_rh_la_LDFLAGS = -module -avoid-version
 libnm_settings_plugin_ifcfg_rh_la_LIBADD = \
+	$(top_builddir)/libnm-util/libnm-util.la \
+	$(top_builddir)/libnm-glib/libnm-glib.la \
+	$(top_builddir)/marshallers/libmarshallers.la \
+	libifcfg-rh-io.la \
 	$(GLIB_LIBS) \
 	$(GMODULE_LIBS) \
-	$(top_builddir)/libnm-util/libnm-util.la \
-	$(top_builddir)/libnm-glib/libnm_glib.la \
-	$(top_builddir)/marshallers/libmarshallers.la \
-	libifcfg-rh-io.la
-
-if NO_GIO
-libnm_settings_plugin_ifcfg_rh_la_LIBADD += \
-	$(top_builddir)/gfilemonitor/libgfilemonitor.la
-else
-libnm_settings_plugin_ifcfg_rh_la_LIBADD += \
 	$(GIO_LIBS)
-endif
 

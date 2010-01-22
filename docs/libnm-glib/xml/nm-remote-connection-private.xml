@@ -17,6 +17,8 @@
 <title role="synopsis.title">Synopsis</title>
 
 <synopsis>
+#define             <link linkend="NM-REMOTE-CONNECTION-INIT-RESULT--CAPS">NM_REMOTE_CONNECTION_INIT_RESULT</link>
+enum                <link linkend="NMRemoteConnectionInitResult">NMRemoteConnectionInitResult</link>;
 </synopsis>
 </refsynopsisdiv>
 
@@ -36,6 +38,22 @@
 
 <refsect1 id="libnm-glib-nm-remote-connection-private.details" role="details">
 <title role="details.title">Details</title>
+<refsect2 id="NM-REMOTE-CONNECTION-INIT-RESULT--CAPS" role="macro">
+<title>NM_REMOTE_CONNECTION_INIT_RESULT</title>
+<indexterm zone="NM-REMOTE-CONNECTION-INIT-RESULT--CAPS"><primary sortas="NM_REMOTE_CONNECTION_INIT_RESULT">NM_REMOTE_CONNECTION_INIT_RESULT</primary></indexterm><programlisting>#define NM_REMOTE_CONNECTION_INIT_RESULT "init-result"
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="NMRemoteConnectionInitResult" role="enum">
+<title>enum NMRemoteConnectionInitResult</title>
+<indexterm zone="NMRemoteConnectionInitResult"><primary sortas="NMRemoteConnectionInitResult">NMRemoteConnectionInitResult</primary></indexterm><programlisting>typedef enum {
+	NM_REMOTE_CONNECTION_INIT_RESULT_UNKNOWN = 0,
+	NM_REMOTE_CONNECTION_INIT_RESULT_SUCCESS,
+	NM_REMOTE_CONNECTION_INIT_RESULT_ERROR
+} NMRemoteConnectionInitResult;
+</programlisting>
+<para>
+</para></refsect2>
 
 </refsect1>
 

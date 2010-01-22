@@ -481,6 +481,8 @@ NM_CLIENT_STATE
 NM_CLIENT_MANAGER_RUNNING
 NM_CLIENT_WIRELESS_ENABLED
 NM_CLIENT_WIRELESS_HARDWARE_ENABLED
+NM_CLIENT_WWAN_ENABLED
+NM_CLIENT_WWAN_HARDWARE_ENABLED
 NM_CLIENT_ACTIVE_CONNECTIONS
 <TITLE>NMClient</TITLE>
 NMClient
@@ -493,6 +495,9 @@ nm_client_deactivate_connection
 nm_client_wireless_get_enabled
 nm_client_wireless_set_enabled
 nm_client_wireless_hardware_get_enabled
+nm_client_wwan_get_enabled
+nm_client_wwan_set_enabled
+nm_client_wwan_hardware_get_enabled
 nm_client_get_state
 nm_client_get_manager_running
 nm_client_get_active_connections
@@ -555,6 +560,11 @@ NM_CDMA_DEVICE_GET_CLASS
 </SECTION>
 
 <SECTION>
+<FILE>nm-ip6-config-bindings</FILE>
+DBUS_GLIB_CLIENT_WRAPPERS_org_freedesktop_NetworkManager_IP6Config
+</SECTION>
+
+<SECTION>
 <FILE>libnm_glib</FILE>
 libnm_glib_state
 libnm_glib_ctx
@@ -582,6 +592,11 @@ NM_TYPE_IP6_ADDRESS_ARRAY
 nm_ip6_address_array_get_type
 NM_TYPE_IP6_ROUTE_OBJECT_ARRAY
 nm_ip6_route_object_array_get_type
+</SECTION>
+
+<SECTION>
+<FILE>nm-device-bt-bindings</FILE>
+DBUS_GLIB_CLIENT_WRAPPERS_org_freedesktop_NetworkManager_Device_Bluetooth
 </SECTION>
 
 <SECTION>

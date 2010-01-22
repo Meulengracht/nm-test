@@ -24,18 +24,15 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <string.h>
+
 #include <gmodule.h>
 #include <glib.h>
 #include <glib/gstdio.h>
+#include <gio/gio.h>
+
 #include <nm-connection.h>
 #include <nm-setting.h>
 #include <nm-setting-connection.h>
-
-#ifndef NO_GIO
-#include <gio/gio.h>
-#else
-#include <gfilemonitor/gfilemonitor.h>
-#endif
 
 #include "plugin.h"
 #include "nm-system-config-interface.h"
@@ -112,15 +109,13 @@ find_by_uuid (gpointer key, gpointer data, gpointer user_data)
 {
 	NMKeyfileConnection *keyfile = NM_KEYFILE_CONNECTION (data);
 	FindByUUIDInfo *info = user_data;
-	NMConnection *connection;
 	NMSettingConnection *s_con;
 	const char *uuid;
 
 	if (info->found)
 		return;
 
-	connection = nm_exported_connection_get_connection (NM_EXPORTED_CONNECTION (keyfile));
-	s_con = (NMSettingConnection *) nm_connection_get_setting (connection, NM_TYPE_SETTING_CONNECTION);
+	s_con = (NMSettingConnection *) nm_connection_get_setting (NM_CONNECTION (keyfile), NM_TYPE_SETTING_CONNECTION);
 
 	uuid = s_con ? nm_setting_connection_get_uuid (s_con) : NULL;
 	if (uuid && !strcmp (info->uuid, uuid))
@@ -128,28 +123,24 @@ find_by_uuid (gpointer key, gpointer data, gpointer user_data)
 }
 
 static void
-update_connection_settings (NMExportedConnection *orig,
-                            NMExportedConnection *new)
+update_connection_settings (NMKeyfileConnection *orig,
+                            NMKeyfileConnection *new)
 {
-	NMConnection *wrapped;
-	GHashTable *new_settings;
 	GError *error = NULL;
 
-	new_settings = nm_connection_to_hash (nm_exported_connection_get_connection (new));
-	wrapped = nm_exported_connection_get_connection (orig);
-	if (nm_connection_replace_settings (wrapped, new_settings, &error))
-		nm_exported_connection_signal_updated (orig, new_settings);
-	else {
+	if (!nm_sysconfig_connection_update (NM_SYSCONFIG_CONNECTION (orig),
+	                                     NM_CONNECTION (new),
+	                                     TRUE,
+	                                     &error)) {
 		g_warning ("%s: '%s' / '%s' invalid: %d",
 		           __func__,
 		           error ? g_type_name (nm_connection_lookup_setting_type_by_quark (error->domain)) : "(none)",
 		           (error && error->message) ? error->message : "(none)",
 		           error ? error->code : -1);
 		g_clear_error (&error);
-		nm_exported_connection_signal_removed (orig);
-	}
 
-	g_hash_table_destroy (new_settings);
+		g_signal_emit_by_name (orig, "removed");
+	}
 }
 
 /* Monitoring */
@@ -175,7 +166,7 @@ dir_changed (GFileMonitor *monitor,
 			/* Removing from the hash table should drop the last reference */
 			g_object_ref (connection);
 			g_hash_table_remove (priv->hash, name);
-			nm_exported_connection_signal_removed (NM_EXPORTED_CONNECTION (connection));
+			g_signal_emit_by_name (connection, "removed");
 			g_object_unref (connection);
 		}
 		break;
@@ -183,18 +174,17 @@ dir_changed (GFileMonitor *monitor,
 	case G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT:
 		if (connection) {
 			/* Update */
-			NMExportedConnection *tmp;
+			NMKeyfileConnection *tmp;
 
-			tmp = (NMExportedConnection *) nm_keyfile_connection_new (name);
+			tmp = (NMKeyfileConnection *) nm_keyfile_connection_new (name);
 			if (tmp) {
-				update_connection_settings (NM_EXPORTED_CONNECTION (connection), tmp);
+				update_connection_settings (connection, tmp);
 				g_object_unref (tmp);
 			}
 		} else {
 			/* New */
 			connection = nm_keyfile_connection_new (name);
 			if (connection) {
-				NMConnection *tmp;
 				NMSettingConnection *s_con;
 				const char *connection_uuid;
 				NMKeyfileConnection *found = NULL;
@@ -202,8 +192,7 @@ dir_changed (GFileMonitor *monitor,
 				/* Connection renames will show up as different files but with
 				 * the same UUID.  Try to find the original connection.
 				 */
-				tmp = nm_exported_connection_get_connection (NM_EXPORTED_CONNECTION (connection));
-				s_con = (NMSettingConnection *) nm_connection_get_setting (tmp, NM_TYPE_SETTING_CONNECTION);
+				s_con = (NMSettingConnection *) nm_connection_get_setting (NM_CONNECTION (connection), NM_TYPE_SETTING_CONNECTION);
 				connection_uuid = s_con ? nm_setting_connection_get_uuid (s_con) : NULL;
 
 				if (connection_uuid) {
@@ -228,8 +217,7 @@ dir_changed (GFileMonitor *monitor,
 					/* Updating settings should update the NMKeyfileConnection's
 					 * filename property too.
 					 */
-					update_connection_settings (NM_EXPORTED_CONNECTION (found),
-					                            NM_EXPORTED_CONNECTION (connection));
+					update_connection_settings (found, connection);
 
 					/* Re-insert the connection back into the hash with the new filename */
 					g_hash_table_insert (priv->hash,
@@ -242,7 +230,7 @@ dir_changed (GFileMonitor *monitor,
 					g_hash_table_insert (priv->hash,
 					                     (gpointer) nm_keyfile_connection_get_filename (connection),
 					                     connection);
-					g_signal_emit_by_name (config, "connection-added", connection);
+					g_signal_emit_by_name (config, NM_SYSTEM_CONFIG_INTERFACE_CONNECTION_ADDED, connection);
 				}
 			}
 		}
@@ -269,7 +257,7 @@ conf_file_changed (GFileMonitor *monitor,
 	case G_FILE_MONITOR_EVENT_DELETED:
 	case G_FILE_MONITOR_EVENT_CREATED:
 	case G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT:
-		g_signal_emit_by_name (self, "unmanaged-devices-changed");
+		g_signal_emit_by_name (self, NM_SYSTEM_CONFIG_INTERFACE_UNMANAGED_SPECS_CHANGED);
 
 		/* hostname */
 		tmp = plugin_get_hostname (self);
@@ -354,10 +342,10 @@ add_connection (NMSystemConfigInterface *config,
 }
 
 static GSList *
-get_unmanaged_devices (NMSystemConfigInterface *config)
+get_unmanaged_specs (NMSystemConfigInterface *config)
 {
 	GKeyFile *key_file;
-	GSList *unmanaged_devices = NULL;
+	GSList *specs = NULL;
 	GError *error = NULL;
 
 	key_file = g_key_file_new ();
@@ -373,7 +361,7 @@ get_unmanaged_devices (NMSystemConfigInterface *config)
 			g_free (str);
 
 			for (i = 0; udis[i] != NULL; i++)
-				unmanaged_devices = g_slist_append (unmanaged_devices, udis[i]);
+				specs = g_slist_append (specs, udis[i]);
 
 			g_free (udis); /* Yes, g_free, not g_strfreev because we need the strings in the list */
 		}
@@ -384,7 +372,7 @@ get_unmanaged_devices (NMSystemConfigInterface *config)
 
 	g_key_file_free (key_file);
 
-	return unmanaged_devices;
+	return specs;
 }
 
 static char *
@@ -567,7 +555,7 @@ system_config_interface_init (NMSystemConfigInterface *system_config_interface_c
 	/* interface implementation */
 	system_config_interface_class->get_connections = get_connections;
 	system_config_interface_class->add_connection = add_connection;
-	system_config_interface_class->get_unmanaged_devices = get_unmanaged_devices;
+	system_config_interface_class->get_unmanaged_specs = get_unmanaged_specs;
 }
 
 G_MODULE_EXPORT GObject *

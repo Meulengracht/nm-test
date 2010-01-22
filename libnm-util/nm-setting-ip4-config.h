@@ -61,6 +61,7 @@ GQuark nm_setting_ip4_config_error_quark (void);
 #define NM_SETTING_IP4_CONFIG_IGNORE_AUTO_ROUTES "ignore-auto-routes"
 #define NM_SETTING_IP4_CONFIG_IGNORE_AUTO_DNS    "ignore-auto-dns"
 #define NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID     "dhcp-client-id"
+#define NM_SETTING_IP4_CONFIG_DHCP_SEND_HOSTNAME "dhcp-send-hostname"
 #define NM_SETTING_IP4_CONFIG_DHCP_HOSTNAME      "dhcp-hostname"
 #define NM_SETTING_IP4_CONFIG_NEVER_DEFAULT      "never-default"
 
@@ -68,7 +69,6 @@ GQuark nm_setting_ip4_config_error_quark (void);
 #define NM_SETTING_IP4_CONFIG_METHOD_LINK_LOCAL "link-local"
 #define NM_SETTING_IP4_CONFIG_METHOD_MANUAL     "manual"
 #define NM_SETTING_IP4_CONFIG_METHOD_SHARED     "shared"
-
 
 typedef struct NMIP4Address NMIP4Address;
 
@@ -123,6 +123,12 @@ typedef struct {
 
 typedef struct {
 	NMSettingClass parent;
+
+	/* Padding for future expansion */
+	void (*_reserved1) (void);
+	void (*_reserved2) (void);
+	void (*_reserved3) (void);
+	void (*_reserved4) (void);
 } NMSettingIP4ConfigClass;
 
 GType nm_setting_ip4_config_get_type (void);
@@ -157,6 +163,7 @@ void          nm_setting_ip4_config_clear_routes           (NMSettingIP4Config *
 gboolean      nm_setting_ip4_config_get_ignore_auto_routes (NMSettingIP4Config *setting);
 gboolean      nm_setting_ip4_config_get_ignore_auto_dns    (NMSettingIP4Config *setting);
 const char *  nm_setting_ip4_config_get_dhcp_client_id     (NMSettingIP4Config *setting);
+gboolean      nm_setting_ip4_config_get_dhcp_send_hostname (NMSettingIP4Config *setting);
 const char *  nm_setting_ip4_config_get_dhcp_hostname      (NMSettingIP4Config *setting);
 
 gboolean      nm_setting_ip4_config_get_never_default      (NMSettingIP4Config *setting);

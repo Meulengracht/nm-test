@@ -25,6 +25,9 @@
 
 #define IFCFG_TAG "ifcfg-"
 #define KEYS_TAG "keys-"
+#define ROUTE_TAG "route-"
+#define ROUTE6_TAG "route6-"
+
 #define BAK_TAG ".bak"
 #define TILDE_TAG "~"
 #define ORIG_TAG ".orig"
@@ -38,24 +41,6 @@
 
 #define TYPE_ETHERNET "Ethernet"
 #define TYPE_WIRELESS "Wireless"
-
-#define TAG_CA_CERT_PATH  "ca-cert-path"
-#define TAG_CA_CERT_HASH  "ca-cert-hash"
-
-#define TAG_CLIENT_CERT_PATH  "client-cert-path"
-#define TAG_CLIENT_CERT_HASH  "client-cert-hash"
-
-#define TAG_PRIVATE_KEY_PATH  "private-key-path"
-#define TAG_PRIVATE_KEY_HASH  "private-key-hash"
-
-#define TAG_PHASE2_CA_CERT_PATH  "phase2-ca-cert-path"
-#define TAG_PHASE2_CA_CERT_HASH  "phase2-ca-cert-hash"
-
-#define TAG_PHASE2_CLIENT_CERT_PATH  "phase2-client-cert-path"
-#define TAG_PHASE2_CLIENT_CERT_HASH  "phase2-client-cert-hash"
-
-#define TAG_PHASE2_PRIVATE_KEY_PATH  "phase2-private-key-path"
-#define TAG_PHASE2_PRIVATE_KEY_HASH  "phase2-private-key-hash"
 
 GQuark ifcfg_plugin_error_quark (void);
 

@@ -17,3 +17,41 @@ NMRemoteSettings
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### MACRO NM_REMOTE_SETTINGS_BUS ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_REMOTE_SETTINGS_SCOPE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_REMOTE_SETTINGS_SERVICE_RUNNING ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### STRUCT NMRemoteSettings ##### -->
+<para>
+
+</para>
+
+@parent: 
+
+<!-- ##### FUNCTION nm_remote_settings_new ##### -->
+<para>
+
+</para>
+
+@bus: 
+@scope: 
+@Returns: 
+
+

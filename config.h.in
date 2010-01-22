@@ -33,9 +33,6 @@
 /* Define if your <locale.h> file defines LC_MESSAGES. */
 #undef HAVE_LC_MESSAGES
 
-/* Define if libudev is present */
-#undef HAVE_LIBUDEV
-
 /* Define to 1 if you have the <locale.h> header file. */
 #undef HAVE_LOCALE_H
 
@@ -90,12 +87,15 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Define to path of iptables binary */
+#undef IPTABLES_PATH
+
+/* Define this to hack around buggy libnl rtnl_addr caching */
+#undef LIBNL_NEEDS_ADDR_CACHING_WORKAROUND
+
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */
 #undef LT_OBJDIR
-
-/* Define if you don't have GIO */
-#undef NO_GIO
 
 /* Define to 1 if your C compiler doesn't accept -c and -o together. */
 #undef NO_MINUS_C_MINUS_O
@@ -145,6 +145,9 @@
 /* Define if you have Paldo */
 #undef TARGET_PALDO
 
+/* Define if you have Pardus */
+#undef TARGET_PARDUS
+
 /* Define if you have Fedora or RHEL */
 #undef TARGET_REDHAT
 
@@ -156,9 +159,6 @@
 
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
 #undef TIME_WITH_SYS_TIME
-
-/* udev version */
-#undef UDEV_VERSION
 
 /* Enable extensions on AIX 3, Interix.  */
 #ifndef _ALL_SOURCE

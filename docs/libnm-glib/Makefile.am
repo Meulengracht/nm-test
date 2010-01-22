@@ -49,7 +49,8 @@ IGNORE_HFILES= \
 	nm-vpn-plugin-glue.h \
 	nm-active-connection-bindings.h \
 	nm-ip4-config-bindings.h \
-	nm-dhcp4-config-bindings.h
+	nm-dhcp4-config-bindings.h \
+	nm-ip4-config-bindings.h
 
 # Images to copy into HTML directory.
 HTML_IMAGES = 
@@ -71,7 +72,7 @@ GTKDOC_CFLAGS =				\
 	$(GLIB_CFLAGS)			\
 	$(DBUS_CFLAGS)
 
-GTKDOC_LIBS = $(top_builddir)/libnm-glib/libnm_glib.la
+GTKDOC_LIBS = $(top_builddir)/libnm-glib/libnm-glib.la
 
 
 # include common portion ...

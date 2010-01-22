@@ -112,6 +112,13 @@ NMSettingIP4Config
 
 
 
+<!-- ##### MACRO NM_SETTING_IP4_CONFIG_DHCP_SEND_HOSTNAME ##### -->
+<para>
+
+</para>
+
+
+
 <!-- ##### MACRO NM_SETTING_IP4_CONFIG_DHCP_HOSTNAME ##### -->
 <para>
 
@@ -399,6 +406,11 @@ NMSettingIP4Config
 
 </para>
 
+<!-- ##### ARG NMSettingIP4Config:dhcp-send-hostname ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG NMSettingIP4Config:dns ##### -->
 <para>
 
@@ -662,6 +674,15 @@ NMSettingIP4Config
 
 
 <!-- ##### FUNCTION nm_setting_ip4_config_get_dhcp_client_id ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_setting_ip4_config_get_dhcp_send_hostname ##### -->
 <para>
 
 </para>

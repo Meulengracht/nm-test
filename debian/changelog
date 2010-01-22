@@ -1,3 +1,50 @@
+network-manager (0.7.999-1) experimental; urgency=low
+
+  * New upstream release (0.8 rc3). (Closes: #553320)
+    - Much improved bluetooth support.
+    - Support for IPv6.
+    - Port to PolicyKit 1. (Closes: #549502)
+    - Drop hal dependency, use udev directly.
+    - Use ModemManager for better mobile broadband.
+  * debian/rules
+    - Don't ship empty TODO file. (Closes: #558471)
+    - Specify the path to the iptables binary.
+  * Update *.install, *.symbols and debian/control for library soname changes:
+    libnm-glib0 → libnm-glib2 and libnm-glib-vpn0 → libnm-glib-vpn1.
+  * debian/network-manager.install
+    - Remove nm-system-settings files.
+    - Install PolicyKit files to new location.
+    - Remove udev modem prober.
+  * debian/libnm-glib-{vpn-}dev.links
+    - The name of the pkg-config files has changed ('_' → '-'). Create compat
+      symlinks so existing configure scripts keep working, allowing for a
+      smoother transition to the new library names.
+  * debian/control
+    - Wrap dependencies.
+    - Drop Build-Depends on libhal-dev and libpolkit-dbus-dev.
+    - Add Build-Depends on libdbus-1-dev (>= 1.1), libpolkit-gobject-1-dev and
+      libgudev-1.0-dev.
+    - Bump Build-Depends on libglib2.0-dev to (>= 2.18).
+    - Replace hal Depends with udev.
+    - Replace policykit Recommends with policykit-1.
+    - Add Recommends on modemmanager which is required for mobile broadband
+      support.
+    - Update package description: policykit → policykit-1.
+    - Add -dbg package. (Closes: #380626)
+  * debian/network-manager.init
+    - Update LSB header: Replace hal dependency with udev.
+    - The nm-system-settings daemon has been merged into the NetworkManager
+      daemon, so we no longer need to kill nm-system-settings on "stop".
+  * debian/network-manager.preinst
+    - Remove the obsolete conffile
+      /etc/dbus-1/system.d/nm-system-settings.conf on upgrades.
+  * network-manager.postinst
+    - Kill any running nm-system-settings daemon on upgrades before the new
+      NetworkManager daemon is started. Its functionality has been merged
+      into NetworkManager.
+
+ -- Michael Biebl <biebl@debian.org>  Fri, 22 Jan 2010 01:53:46 +0100
+
 network-manager (0.7.2-2) unstable; urgency=low
 
   * debian/rules

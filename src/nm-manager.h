@@ -35,16 +35,9 @@
 #define NM_IS_MANAGER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), NM_TYPE_MANAGER))
 #define NM_MANAGER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), NM_TYPE_MANAGER, NMManagerClass))
 
-#define NM_MANAGER_STATE "state"
-#define NM_MANAGER_WIRELESS_ENABLED "wireless-enabled"
-#define NM_MANAGER_WIRELESS_HARDWARE_ENABLED "wireless-hardware-enabled"
-#define NM_MANAGER_ACTIVE_CONNECTIONS "active-connections"
-
 /* Not exported */
 #define NM_MANAGER_HOSTNAME "hostname"
-
-#define NM_MANAGER_CONNECTION_PROXY_TAG "dbus-proxy"
-#define NM_MANAGER_CONNECTION_SECRETS_PROXY_TAG "dbus-secrets-proxy"
+#define NM_MANAGER_SLEEPING "sleeping"
 
 typedef struct {
 	GObject parent;
@@ -76,9 +69,15 @@ typedef struct {
 
 GType nm_manager_get_type (void);
 
-NMManager *nm_manager_get (const char *state_file,
+NMManager *nm_manager_get (const char *config_file,
+                           const char *plugins,
+                           const char *state_file,
                            gboolean initial_net_enabled,
-                           gboolean initial_wifi_enabled);
+                           gboolean initial_wifi_enabled,
+                           gboolean initial_wwan_enabled,
+                           GError **error);
+
+void nm_manager_start (NMManager *manager);
 
 /* Device handling */
 

@@ -18,19 +18,16 @@ libsupplicant_manager_la_SOURCES = \
 	nm-supplicant-interface.c \
 	nm-supplicant-interface.h \
 	nm-supplicant-settings-verify.h \
-	nm-supplicant-settings-verify.c \
-	gnome-keyring-md5.h \
-	gnome-keyring-md5.c
+	nm-supplicant-settings-verify.c
 
 libsupplicant_manager_la_CPPFLAGS = \
 	$(DBUS_CFLAGS) \
 	$(GLIB_CFLAGS) \
-	$(HAL_CFLAGS) \
 	-DNM_PKGDATADIR=\"$(pkgdatadir)\" \
 	-DNM_LOCALSTATEDIR=\"$(localstatedir)\"
 
 libsupplicant_manager_la_LIBADD = \
+	$(top_builddir)/marshallers/libmarshallers.la \
 	$(DBUS_LIBS) \
-	$(GLIB_LIBS) \
-	$(top_builddir)/marshallers/libmarshallers.la
+	$(GLIB_LIBS)
 

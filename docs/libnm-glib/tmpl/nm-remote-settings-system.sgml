@@ -17,3 +17,19 @@ NMRemoteSettingsSystem
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### STRUCT NMRemoteSettingsSystem ##### -->
+<para>
+
+</para>
+
+@parent: 
+
+<!-- ##### FUNCTION nm_remote_settings_system_new ##### -->
+<para>
+
+</para>
+
+@bus: 
+@Returns: 
+
+

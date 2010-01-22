@@ -9,6 +9,7 @@
       <sub name="NMGsmDevice" link="NMGsmDevice.html"/>
       <sub name="NMDevice" link="NMDevice.html"/>
       <sub name="NMIP4Config" link="NMIP4Config.html"/>
+      <sub name="NMIP6Config" link="NMIP6Config.html"/>
       <sub name="NMObject" link="NMObject.html"/>
       <sub name="NMSettings" link="libnm-glib-NMSettings.html"/>
       <sub name="NMVPNConnection" link="libnm-glib-NMVPNConnection.html"/>
@@ -62,6 +63,8 @@
     <keyword type="macro" name="NM_CLIENT_MANAGER_RUNNING" link="NMClient.html#NM-CLIENT-MANAGER-RUNNING--CAPS"/>
     <keyword type="macro" name="NM_CLIENT_WIRELESS_ENABLED" link="NMClient.html#NM-CLIENT-WIRELESS-ENABLED--CAPS"/>
     <keyword type="macro" name="NM_CLIENT_WIRELESS_HARDWARE_ENABLED" link="NMClient.html#NM-CLIENT-WIRELESS-HARDWARE-ENABLED--CAPS"/>
+    <keyword type="macro" name="NM_CLIENT_WWAN_ENABLED" link="NMClient.html#NM-CLIENT-WWAN-ENABLED--CAPS"/>
+    <keyword type="macro" name="NM_CLIENT_WWAN_HARDWARE_ENABLED" link="NMClient.html#NM-CLIENT-WWAN-HARDWARE-ENABLED--CAPS"/>
     <keyword type="macro" name="NM_CLIENT_ACTIVE_CONNECTIONS" link="NMClient.html#NM-CLIENT-ACTIVE-CONNECTIONS--CAPS"/>
     <keyword type="struct" name="NMClient" link="NMClient.html#NMClient-struct"/>
     <keyword type="function" name="nm_client_new ()" link="NMClient.html#nm-client-new"/>
@@ -73,6 +76,9 @@
     <keyword type="function" name="nm_client_wireless_get_enabled ()" link="NMClient.html#nm-client-wireless-get-enabled"/>
     <keyword type="function" name="nm_client_wireless_set_enabled ()" link="NMClient.html#nm-client-wireless-set-enabled"/>
     <keyword type="function" name="nm_client_wireless_hardware_get_enabled ()" link="NMClient.html#nm-client-wireless-hardware-get-enabled"/>
+    <keyword type="function" name="nm_client_wwan_get_enabled ()" link="NMClient.html#nm-client-wwan-get-enabled"/>
+    <keyword type="function" name="nm_client_wwan_set_enabled ()" link="NMClient.html#nm-client-wwan-set-enabled"/>
+    <keyword type="function" name="nm_client_wwan_hardware_get_enabled ()" link="NMClient.html#nm-client-wwan-hardware-get-enabled"/>
     <keyword type="function" name="nm_client_get_state ()" link="NMClient.html#nm-client-get-state"/>
     <keyword type="function" name="nm_client_get_manager_running ()" link="NMClient.html#nm-client-get-manager-running"/>
     <keyword type="function" name="nm_client_get_active_connections ()" link="NMClient.html#nm-client-get-active-connections"/>
@@ -82,6 +88,8 @@
     <keyword type="property" name="The &quot;state&quot; property" link="NMClient.html#NMClient--state"/>
     <keyword type="property" name="The &quot;wireless-enabled&quot; property" link="NMClient.html#NMClient--wireless-enabled"/>
     <keyword type="property" name="The &quot;wireless-hardware-enabled&quot; property" link="NMClient.html#NMClient--wireless-hardware-enabled"/>
+    <keyword type="property" name="The &quot;wwan-enabled&quot; property" link="NMClient.html#NMClient--wwan-enabled"/>
+    <keyword type="property" name="The &quot;wwan-hardware-enabled&quot; property" link="NMClient.html#NMClient--wwan-hardware-enabled"/>
     <keyword type="signal" name="The &quot;device-added&quot; signal" link="NMClient.html#NMClient-device-added"/>
     <keyword type="signal" name="The &quot;device-removed&quot; signal" link="NMClient.html#NMClient-device-removed"/>
     <keyword type="struct" name="NMGsmDevice" link="NMGsmDevice.html#NMGsmDevice-struct"/>
@@ -93,6 +101,7 @@
     <keyword type="macro" name="NM_DEVICE_MANAGED" link="NMDevice.html#NM-DEVICE-MANAGED--CAPS"/>
     <keyword type="macro" name="NM_DEVICE_IP4_CONFIG" link="NMDevice.html#NM-DEVICE-IP4-CONFIG--CAPS"/>
     <keyword type="macro" name="NM_DEVICE_DHCP4_CONFIG" link="NMDevice.html#NM-DEVICE-DHCP4-CONFIG--CAPS"/>
+    <keyword type="macro" name="NM_DEVICE_IP6_CONFIG" link="NMDevice.html#NM-DEVICE-IP6-CONFIG--CAPS"/>
     <keyword type="macro" name="NM_DEVICE_STATE" link="NMDevice.html#NM-DEVICE-STATE--CAPS"/>
     <keyword type="macro" name="NM_DEVICE_VENDOR" link="NMDevice.html#NM-DEVICE-VENDOR--CAPS"/>
     <keyword type="macro" name="NM_DEVICE_PRODUCT" link="NMDevice.html#NM-DEVICE-PRODUCT--CAPS"/>
@@ -105,14 +114,18 @@
     <keyword type="function" name="nm_device_get_managed ()" link="NMDevice.html#nm-device-get-managed"/>
     <keyword type="function" name="nm_device_get_ip4_config ()" link="NMDevice.html#nm-device-get-ip4-config"/>
     <keyword type="function" name="nm_device_get_dhcp4_config ()" link="NMDevice.html#nm-device-get-dhcp4-config"/>
+    <keyword type="function" name="nm_device_get_ip6_config ()" link="NMDevice.html#nm-device-get-ip6-config"/>
     <keyword type="function" name="nm_device_get_state ()" link="NMDevice.html#nm-device-get-state"/>
     <keyword type="function" name="nm_device_get_product ()" link="NMDevice.html#nm-device-get-product"/>
     <keyword type="function" name="nm_device_get_vendor ()" link="NMDevice.html#nm-device-get-vendor"/>
+    <keyword type="function" name="NMDeviceDeactivateFn ()" link="NMDevice.html#NMDeviceDeactivateFn"/>
+    <keyword type="function" name="nm_device_disconnect ()" link="NMDevice.html#nm-device-disconnect"/>
     <keyword type="property" name="The &quot;capabilities&quot; property" link="NMDevice.html#NMDevice--capabilities"/>
     <keyword type="property" name="The &quot;dhcp4-config&quot; property" link="NMDevice.html#NMDevice--dhcp4-config"/>
     <keyword type="property" name="The &quot;driver&quot; property" link="NMDevice.html#NMDevice--driver"/>
     <keyword type="property" name="The &quot;interface&quot; property" link="NMDevice.html#NMDevice--interface"/>
     <keyword type="property" name="The &quot;ip4-config&quot; property" link="NMDevice.html#NMDevice--ip4-config"/>
+    <keyword type="property" name="The &quot;ip6-config&quot; property" link="NMDevice.html#NMDevice--ip6-config"/>
     <keyword type="property" name="The &quot;managed&quot; property" link="NMDevice.html#NMDevice--managed"/>
     <keyword type="property" name="The &quot;product&quot; property" link="NMDevice.html#NMDevice--product"/>
     <keyword type="property" name="The &quot;state&quot; property" link="NMDevice.html#NMDevice--state"/>
@@ -139,6 +152,20 @@
     <keyword type="property" name="The &quot;nameservers&quot; property" link="NMIP4Config.html#NMIP4Config--nameservers"/>
     <keyword type="property" name="The &quot;routes&quot; property" link="NMIP4Config.html#NMIP4Config--routes"/>
     <keyword type="property" name="The &quot;wins-servers&quot; property" link="NMIP4Config.html#NMIP4Config--wins-servers"/>
+    <keyword type="struct" name="NMIP6Config" link="NMIP6Config.html#NMIP6Config-struct"/>
+    <keyword type="macro" name="NM_IP6_CONFIG_ADDRESSES" link="NMIP6Config.html#NM-IP6-CONFIG-ADDRESSES--CAPS"/>
+    <keyword type="macro" name="NM_IP6_CONFIG_NAMESERVERS" link="NMIP6Config.html#NM-IP6-CONFIG-NAMESERVERS--CAPS"/>
+    <keyword type="macro" name="NM_IP6_CONFIG_DOMAINS" link="NMIP6Config.html#NM-IP6-CONFIG-DOMAINS--CAPS"/>
+    <keyword type="macro" name="NM_IP6_CONFIG_ROUTES" link="NMIP6Config.html#NM-IP6-CONFIG-ROUTES--CAPS"/>
+    <keyword type="function" name="nm_ip6_config_new ()" link="NMIP6Config.html#nm-ip6-config-new"/>
+    <keyword type="function" name="nm_ip6_config_get_addresses ()" link="NMIP6Config.html#nm-ip6-config-get-addresses"/>
+    <keyword type="function" name="nm_ip6_config_get_nameservers ()" link="NMIP6Config.html#nm-ip6-config-get-nameservers"/>
+    <keyword type="function" name="nm_ip6_config_get_domains ()" link="NMIP6Config.html#nm-ip6-config-get-domains"/>
+    <keyword type="function" name="nm_ip6_config_get_routes ()" link="NMIP6Config.html#nm-ip6-config-get-routes"/>
+    <keyword type="property" name="The &quot;addresses&quot; property" link="NMIP6Config.html#NMIP6Config--addresses"/>
+    <keyword type="property" name="The &quot;domains&quot; property" link="NMIP6Config.html#NMIP6Config--domains"/>
+    <keyword type="property" name="The &quot;nameservers&quot; property" link="NMIP6Config.html#NMIP6Config--nameservers"/>
+    <keyword type="property" name="The &quot;routes&quot; property" link="NMIP6Config.html#NMIP6Config--routes"/>
     <keyword type="macro" name="NM_OBJECT_DBUS_CONNECTION" link="NMObject.html#NM-OBJECT-DBUS-CONNECTION--CAPS"/>
     <keyword type="macro" name="NM_OBJECT_DBUS_PATH" link="NMObject.html#NM-OBJECT-DBUS-PATH--CAPS"/>
     <keyword type="struct" name="NMObject" link="NMObject.html#NMObject-struct"/>
@@ -272,5 +299,11 @@
     <keyword type="function" name="nm_string_array_get_type ()" link="libnm-glib-nm-types.html#nm-string-array-get-type"/>
     <keyword type="macro" name="NM_TYPE_OBJECT_ARRAY" link="libnm-glib-nm-types.html#NM-TYPE-OBJECT-ARRAY--CAPS"/>
     <keyword type="function" name="nm_object_array_get_type ()" link="libnm-glib-nm-types.html#nm-object-array-get-type"/>
+    <keyword type="macro" name="NM_TYPE_IP6_ADDRESS_OBJECT_ARRAY" link="libnm-glib-nm-types.html#NM-TYPE-IP6-ADDRESS-OBJECT-ARRAY--CAPS"/>
+    <keyword type="function" name="nm_ip6_address_object_array_get_type ()" link="libnm-glib-nm-types.html#nm-ip6-address-object-array-get-type"/>
+    <keyword type="macro" name="NM_TYPE_IP6_ADDRESS_ARRAY" link="libnm-glib-nm-types.html#NM-TYPE-IP6-ADDRESS-ARRAY--CAPS"/>
+    <keyword type="function" name="nm_ip6_address_array_get_type ()" link="libnm-glib-nm-types.html#nm-ip6-address-array-get-type"/>
+    <keyword type="macro" name="NM_TYPE_IP6_ROUTE_OBJECT_ARRAY" link="libnm-glib-nm-types.html#NM-TYPE-IP6-ROUTE-OBJECT-ARRAY--CAPS"/>
+    <keyword type="function" name="nm_ip6_route_object_array_get_type ()" link="libnm-glib-nm-types.html#nm-ip6-route-object-array-get-type"/>
   </functions>
 </book>

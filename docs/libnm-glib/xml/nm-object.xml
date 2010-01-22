@@ -36,6 +36,7 @@ const <link linkend="char">char</link> *        <link linkend="nm-object-get-pat
          +----<link linkend="NMIP4Config">NMIP4Config</link>
          +----<link linkend="NMActiveConnection">NMActiveConnection</link>
          +----<link linkend="NMDHCP4Config">NMDHCP4Config</link>
+         +----<link linkend="NMIP6Config">NMIP6Config</link>
 </synopsis>
 </refsect1>
 

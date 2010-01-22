@@ -263,6 +263,60 @@ nm-utils
 @Returns: 
 
 
+<!-- ##### FUNCTION nm_utils_ip6_addresses_from_gvalue ##### -->
+<para>
+
+</para>
+
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_utils_ip6_addresses_to_gvalue ##### -->
+<para>
+
+</para>
+
+@list: 
+@value: 
+
+
+<!-- ##### FUNCTION nm_utils_ip6_routes_from_gvalue ##### -->
+<para>
+
+</para>
+
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_utils_ip6_routes_to_gvalue ##### -->
+<para>
+
+</para>
+
+@list: 
+@value: 
+
+
+<!-- ##### FUNCTION nm_utils_ip6_dns_from_gvalue ##### -->
+<para>
+
+</para>
+
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_utils_ip6_dns_to_gvalue ##### -->
+<para>
+
+</para>
+
+@list: 
+@value: 
+
+
 <!-- ##### FUNCTION nm_utils_uuid_generate ##### -->
 <para>
 
@@ -277,6 +331,18 @@ nm-utils
 </para>
 
 @s: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_utils_rsa_key_encrypt ##### -->
+<para>
+
+</para>
+
+@data: 
+@in_password: 
+@out_password: 
+@error: 
 @Returns: 
 
 

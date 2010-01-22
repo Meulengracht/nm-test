@@ -1,6 +1,6 @@
 AC_PREREQ(2.52)
 
-AC_INIT(NetworkManager, 0.7.2, dcbw@redhat.com, NetworkManager)
+AC_INIT(NetworkManager, 0.7.999, dcbw@redhat.com, NetworkManager)
 AM_INIT_AUTOMAKE([1.9 subdir-objects tar-ustar no-dist-gzip dist-bzip2])
 AM_MAINTAINER_MODE
 
@@ -83,7 +83,7 @@ dnl Make sha1.c happy on big endian systems
 dnl
 AC_C_BIGENDIAN
 
-AC_ARG_WITH(distro, AS_HELP_STRING([--with-distro=DISTRO], [Specify the Linux distribution to target: One of redhat, suse, gentoo, debian, arch, slackware, paldo or mandriva]))
+AC_ARG_WITH(distro, AS_HELP_STRING([--with-distro=DISTRO], [Specify the Linux distribution to target: One of redhat, suse, gentoo, debian, arch, slackware, paldo, mandriva or pardus]))
 if test "z$with_distro" = "z"; then
 	AC_CHECK_FILE(/etc/redhat-release,with_distro="redhat")
 	AC_CHECK_FILE(/etc/SuSE-release,with_distro="suse")
@@ -94,6 +94,7 @@ if test "z$with_distro" = "z"; then
 	AC_CHECK_FILE(/etc/slackware-version,with_distro="slackware")
 	AC_CHECK_FILE(/etc/frugalware-release,with_distro="frugalware")
 	AC_CHECK_FILE(/etc/mandriva-release,with_distro="mandriva")
+	AC_CHECK_FILE(/etc/pardus-release,with_distro="pardus")
 	if test "z$with_distro" = "z"; then
 		with_distro=`lsb_release -is`
 	fi
@@ -105,7 +106,7 @@ if test "z$with_distro" = "z"; then
 	exit 1
 else
 	case $with_distro in
-		redhat|suse|gentoo|debian|slackware|arch|paldo|frugalware|mandriva) ;;
+		redhat|suse|gentoo|debian|slackware|arch|paldo|frugalware|mandriva|pardus) ;;
 		*)
 			echo "Your distribution (${with_distro}) is not yet supported!  (patches welcome)"
 			exit 1
@@ -158,6 +159,11 @@ if test x"$with_distro" = xmandriva; then
   AC_DEFINE(TARGET_MANDRIVA, 1, [Define if you have Mandriva])
 fi
 
+AM_CONDITIONAL(TARGET_PARDUS, test x"$with_distro" = xpardus)
+if test x"$with_distro" = xpardus; then
+  AC_DEFINE(TARGET_PARDUS, 1, [Define if you have Pardus])
+fi
+
 AC_MSG_CHECKING([Linux Wireless Extensions >= 18])
 AC_TRY_COMPILE([#ifndef __user
                 #define __user
@@ -182,11 +188,17 @@ dnl Checks for libm - needed for pow()
 dnl
 LT_LIB_M
 
+dnl
+dnl Checks for libdl - on certain platforms its part of libc
+dnl
+AC_CHECK_LIB([dl], [dladdr], LIBDL="-ldl", LIBDL="")
+AC_SUBST(LIBDL)
+
 PKG_CHECK_MODULES(DBUS, dbus-1 >= 1.1 dbus-glib-1 >= 0.75)
 AC_SUBST(DBUS_CFLAGS)
 AC_SUBST(DBUS_LIBS)
 
-PKG_CHECK_MODULES(GLIB, gthread-2.0 glib-2.0 >= 2.10 gobject-2.0)
+PKG_CHECK_MODULES(GLIB, gthread-2.0 glib-2.0 >= 2.18 gobject-2.0)
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 
@@ -194,64 +206,34 @@ PKG_CHECK_MODULES(GMODULE, gmodule-2.0)
 AC_SUBST(GMODULE_CFLAGS)
 AC_SUBST(GMODULE_LIBS)
 
-PKG_CHECK_EXISTS(gio-2.0,[have_gio=yes],[have_gio=no])
-if test x"$have_gio" = "xno"; then
-	AC_DEFINE([NO_GIO],[1],[Define if you don't have GIO])
-	echo "GIO not found; using private GFileMonitor library"
-else
-	PKG_CHECK_MODULES(GIO, gio-2.0)
-	AC_SUBST(GIO_CFLAGS)
-	AC_SUBST(GIO_LIBS)
-fi
-AM_CONDITIONAL(NO_GIO, test x"$have_gio" == "xno")
+PKG_CHECK_MODULES(GUDEV, gudev-1.0)
+AC_SUBST(GUDEV_CFLAGS)
+AC_SUBST(GUDEV_LIBS)
 
-PKG_CHECK_MODULES(HAL, hal >= 0.5.0)
-AC_SUBST(HAL_CFLAGS)
-AC_SUBST(HAL_LIBS)
+PKG_CHECK_MODULES(GIO, gio-2.0)
+AC_SUBST(GIO_CFLAGS)
+AC_SUBST(GIO_LIBS)
+
+AC_ARG_WITH(udev-dir, AS_HELP_STRING([--with-udev-dir=DIR], [where the udev base directory is]))
+if test -n "$with_udev_dir" ; then
+	UDEV_BASE_DIR="$with_udev_dir"
+else
+	UDEV_BASE_DIR="/lib/udev"
+fi
+AC_SUBST(UDEV_BASE_DIR)
 
 PKG_CHECK_MODULES(LIBNL, libnl-1 >= 1.0-pre8)
 AC_SUBST(LIBNL_CFLAGS)
 AC_SUBST(LIBNL_LIBS)
+NM_LIBNL_CHECK
 
 PKG_CHECK_MODULES(UUID, uuid)
 AC_SUBST(UUID_CFLAGS)
 AC_SUBST(UUID_LIBS)
 
-PKG_CHECK_MODULES(POLKIT, polkit-dbus)
+PKG_CHECK_MODULES(POLKIT, polkit-gobject-1)
 
-##### Find out the version of PolicyKit we're using
-polkit_version=`pkg-config --modversion polkit`
-POLKIT_VERSION_MAJOR=`echo $polkit_version | awk -F. '{print $1}'`
-POLKIT_VERSION_MINOR=`echo $polkit_version | awk -F. '{print $2}'`
-POLKIT_VERSION_MICRO=`echo $polkit_version | awk -F. '{print $3}'`
-if test "z$POLKIT_VERSION_MAJOR" = "z"; then
-	POLKIT_VERSION_MAJOR="0"
-fi
-if test "z$POLKIT_VERSION_MINOR" = "z"; then
-	POLKIT_VERSION_MINOR="0"
-fi
-if test "z$POLKIT_VERSION_MICRO" = "z"; then
-	POLKIT_VERSION_MICRO="0"
-fi
-
-if test "z$POLKIT_VERSION_MAJOR" = "z0" -a "z$POLKIT_VERSION_MINOR" = "z0" -a "z$POLKIT_VERSION_MICRO" = "z0"; then
-	echo "Error: Couldn't determine the version of your PolicyKit package."
-	echo "  This is probably an error in this script, please report it"
-	echo "  along with the following information:"
-	echo "      Base PolicyKit version ='$polkit_version'"
-	echo "      POLKIT_VERSION_MAJOR='$POLKIT_VERSION_MAJOR'"
-	echo "      POLKIT_VERSION_MINOR='$POLKIT_VERSION_MINOR'"
-	echo "      POLKIT_VERSION_MICRO='$POLKIT_VERSION_MICRO'"
-	exit 1
-else
-	echo "Your PolicyKit version is $POLKIT_VERSION_MAJOR,$POLKIT_VERSION_MINOR,$POLKIT_VERSION_MICRO."
-	POLKIT_CFLAGS="$POLKIT_CFLAGS -DPOLKIT_VERSION_MAJOR=$POLKIT_VERSION_MAJOR"
-	POLKIT_CFLAGS="$POLKIT_CFLAGS -DPOLKIT_VERSION_MINOR=$POLKIT_VERSION_MINOR"
-	POLKIT_CFLAGS="$POLKIT_CFLAGS -DPOLKIT_VERSION_MICRO=$POLKIT_VERSION_MICRO"
-fi
 AC_SUBST(POLKIT_CFLAGS)
-
-AC_PATH_PROG([POLKIT_POLICY_FILE_VALIDATE], [polkit-policy-file-validate], [false])
 
 AC_ARG_WITH(crypto, AS_HELP_STRING([--with-crypto=nss | gnutls], [Cryptography library to use for certificate and key operations]),ac_crypto=$withval, ac_crypto=nss)
 
@@ -404,6 +386,19 @@ if test -n "${RESOLVCONF_PATH}"; then
 	AC_DEFINE_UNQUOTED(RESOLVCONF_PATH, "$RESOLVCONF_PATH", [Define if you have a resolvconf implementation])
 fi
 
+# iptables path
+AC_ARG_WITH(iptables, AC_HELP_STRING([--with-iptables=/path/to/iptables], [path to iptables])) 
+if test "x${with_iptables}" = x; then
+  AC_PATH_PROG(IPTABLES_PATH, iptables, [], $PATH:/sbin:/usr/sbin)
+  if ! test -x "$IPTABLES_PATH"; then
+        AC_MSG_ERROR(iptables was not installed.)
+  fi
+else
+  IPTABLES_PATH="$with_iptables"
+fi
+AC_DEFINE_UNQUOTED(IPTABLES_PATH, "$IPTABLES_PATH", [Define to path of iptables binary])
+AC_SUBST(IPTABLES_PATH)
+
 # system CA certificates path
 AC_ARG_WITH(system-ca-path, AS_HELP_STRING([--with-system-ca-path=/path/to/ssl/certs], [path to system CA certificates])) 
 if test "x${with_system_ca_path}" = x; then
@@ -413,32 +408,6 @@ else
 fi
 AC_DEFINE_UNQUOTED(SYSTEM_CA_PATH, "$SYSTEM_CA_PATH", [Define to path to system CA certificates])
 AC_SUBST(SYSTEM_CA_PATH)
-
-##### Find out the version of libudev we're using
-UDEV_VERSION=`pkg-config --modversion libudev`
-if test "z$UDEV_VERSION" != "z"; then
-	HAVE_LIBUDEV=1
-	AC_DEFINE_UNQUOTED(UDEV_VERSION, $UDEV_VERSION, [udev version])
-	echo "libudev version: $UDEV_VERSION"
-
-	PKG_CHECK_MODULES(LIBUDEV, libudev)
-else
-	HAVE_LIBUDEV=0
-	echo "libudev not present; using fallbacks"
-	LIBUDEV_CFLAGS=""
-	LIBUDEV_LIBS=""
-fi
-AC_DEFINE_UNQUOTED(HAVE_LIBUDEV, $HAVE_LIBUDEV, [Define if libudev is present])
-AC_SUBST(LIBUDEV_CFLAGS)
-AC_SUBST(LIBUDEV_LIBS)
-
-AC_ARG_WITH(udev-dir, AS_HELP_STRING([--with-udev-dir=DIR], [where the udev base directory is]))
-if test -n "$with_udev_dir" ; then
-    UDEV_BASE_DIR="$with_udev_dir"
-else
-    UDEV_BASE_DIR="/lib/udev"
-fi
-AC_SUBST(UDEV_BASE_DIR)
 
 NM_COMPILER_WARNINGS
 
@@ -468,23 +437,25 @@ marshallers/Makefile
 src/named-manager/Makefile
 src/vpn-manager/Makefile
 src/dhcp-manager/Makefile
+src/ip6-manager/Makefile
 src/supplicant-manager/Makefile
 src/supplicant-manager/tests/Makefile
 src/ppp-manager/Makefile
 src/dnsmasq-manager/Makefile
+src/modem-manager/Makefile
+src/bluez-manager/Makefile
+src/system-settings/Makefile
 src/backends/Makefile
 libnm-util/libnm-util.pc
 libnm-util/Makefile
 libnm-util/tests/Makefile
 libnm-util/tests/certs/Makefile
-libnm-glib/libnm_glib.pc
-libnm-glib/libnm_glib_vpn.pc
+libnm-glib/libnm-glib.pc
+libnm-glib/libnm-glib-vpn.pc
 libnm-glib/Makefile
-gfilemonitor/Makefile
 callouts/Makefile
 tools/Makefile
 system-settings/Makefile
-system-settings/src/Makefile
 system-settings/plugins/Makefile
 system-settings/plugins/ifupdown/Makefile
 system-settings/plugins/ifcfg-rh/Makefile

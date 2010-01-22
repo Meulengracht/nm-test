@@ -30,11 +30,14 @@
 #include "config.h"
 
 #include <nm-setting-8021x.h>
+#include <nm-setting-bluetooth.h>
 #include <nm-setting-cdma.h>
 #include <nm-setting-connection.h>
 #include <nm-setting-gsm.h>
 #include <nm-setting.h>
 #include <nm-setting-ip4-config.h>
+#include <nm-setting-ip6-config.h>
+#include <nm-setting-olpc-mesh.h>
 #include <nm-setting-ppp.h>
 #include <nm-setting-pppoe.h>
 #include <nm-setting-serial.h>
@@ -49,10 +52,13 @@ typedef NMSetting* (*SettingNewFunc) (void);
 
 static SettingNewFunc funcs[] = {
 	nm_setting_802_1x_new,
+	nm_setting_bluetooth_new,
 	nm_setting_cdma_new,
 	nm_setting_connection_new,
 	nm_setting_gsm_new,
 	nm_setting_ip4_config_new,
+	nm_setting_ip6_config_new,
+	nm_setting_olpc_mesh_new,
 	nm_setting_ppp_new,
 	nm_setting_pppoe_new,
 	nm_setting_serial_new,
@@ -80,6 +86,8 @@ static TypeNameElement name_map[] = {
 	{ "GPtrArray_GArray_guint__", "array of array of uint32" },
 	{ "GPtrArray_GArray_guchar__", "array of byte array" },
 	{ "GHashTable_gchararray+gchararray_", "dict of (string::string)" },
+	{ "GPtrArray_GValueArray_GArray_guchar_+guint__", "array of (byte array, uint32)" },
+	{ "GPtrArray_GValueArray_GArray_guchar_+guint+GArray_guchar_+guint__", "array of (byte array, uint32, byte array, uint32)" },
 	{ NULL, NULL }
 };
 

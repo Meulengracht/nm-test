@@ -54,9 +54,10 @@ DIST_COMMON = $(libnm_util_include_HEADERS) $(srcdir)/Makefile.am \
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/compiler_warnings.m4 \
 	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/libnl-check.m4 $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -96,18 +97,20 @@ libnm_util_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_3)
 am__libnm_util_la_SOURCES_DIST = crypto.c crypto.h nm-connection.c \
 	nm-param-spec-specialized.c nm-param-spec-specialized.h \
-	nm-setting.c nm-setting-8021x.c nm-setting-connection.c \
-	nm-setting-ip4-config.c nm-setting-ip6-config.c \
-	nm-setting-ppp.c nm-setting-pppoe.c nm-setting-serial.c \
-	nm-setting-gsm.c nm-setting-cdma.c nm-setting-wired.c \
+	nm-setting.c nm-setting-8021x.c nm-setting-bluetooth.c \
+	nm-setting-connection.c nm-setting-ip4-config.c \
+	nm-setting-ip6-config.c nm-setting-ppp.c nm-setting-pppoe.c \
+	nm-setting-serial.c nm-setting-gsm.c nm-setting-cdma.c \
+	nm-setting-olpc-mesh.c nm-setting-wired.c \
 	nm-setting-wireless.c nm-setting-wireless-security.c \
 	nm-setting-vpn.c nm-utils.c nm-utils-private.h nm-connection.h \
-	nm-setting.h nm-setting-8021x.h nm-setting-connection.h \
-	nm-setting-ip4-config.h nm-setting-ppp.h nm-setting-pppoe.h \
+	nm-setting.h nm-setting-8021x.h nm-setting-bluetooth.h \
+	nm-setting-connection.h nm-setting-ip4-config.h \
+	nm-setting-ip6-config.h nm-setting-ppp.h nm-setting-pppoe.h \
 	nm-setting-serial.h nm-setting-gsm.h nm-setting-cdma.h \
-	nm-setting-wired.h nm-setting-wireless.h \
-	nm-setting-wireless-security.h nm-setting-vpn.h nm-utils.h \
-	crypto_gnutls.c crypto_nss.c
+	nm-setting-olpc-mesh.h nm-setting-wired.h \
+	nm-setting-wireless.h nm-setting-wireless-security.h \
+	nm-setting-vpn.h nm-utils.h crypto_gnutls.c crypto_nss.c
 am__objects_1 =
 @WITH_GNUTLS_TRUE@am__objects_2 = libnm_util_la-crypto_gnutls.lo
 @WITH_NSS_TRUE@am__objects_3 = libnm_util_la-crypto_nss.lo
@@ -115,6 +118,7 @@ am_libnm_util_la_OBJECTS = libnm_util_la-crypto.lo \
 	libnm_util_la-nm-connection.lo \
 	libnm_util_la-nm-param-spec-specialized.lo \
 	libnm_util_la-nm-setting.lo libnm_util_la-nm-setting-8021x.lo \
+	libnm_util_la-nm-setting-bluetooth.lo \
 	libnm_util_la-nm-setting-connection.lo \
 	libnm_util_la-nm-setting-ip4-config.lo \
 	libnm_util_la-nm-setting-ip6-config.lo \
@@ -123,6 +127,7 @@ am_libnm_util_la_OBJECTS = libnm_util_la-crypto.lo \
 	libnm_util_la-nm-setting-serial.lo \
 	libnm_util_la-nm-setting-gsm.lo \
 	libnm_util_la-nm-setting-cdma.lo \
+	libnm_util_la-nm-setting-olpc-mesh.lo \
 	libnm_util_la-nm-setting-wired.lo \
 	libnm_util_la-nm-setting-wireless.lo \
 	libnm_util_la-nm-setting-wireless-security.lo \
@@ -248,8 +253,8 @@ GNUTLS_CFLAGS = @GNUTLS_CFLAGS@
 GNUTLS_LIBS = @GNUTLS_LIBS@
 GREP = @GREP@
 GTKDOC_CHECK = @GTKDOC_CHECK@
-HAL_CFLAGS = @HAL_CFLAGS@
-HAL_LIBS = @HAL_LIBS@
+GUDEV_CFLAGS = @GUDEV_CFLAGS@
+GUDEV_LIBS = @GUDEV_LIBS@
 HTML_DIR = @HTML_DIR@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -262,8 +267,10 @@ INTLTOOL_EXTRACT = @INTLTOOL_EXTRACT@
 INTLTOOL_MERGE = @INTLTOOL_MERGE@
 INTLTOOL_PERL = @INTLTOOL_PERL@
 INTLTOOL_UPDATE = @INTLTOOL_UPDATE@
+IPTABLES_PATH = @IPTABLES_PATH@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
+LIBDL = @LIBDL@
 LIBGCRYPT_CFLAGS = @LIBGCRYPT_CFLAGS@
 LIBGCRYPT_CONFIG = @LIBGCRYPT_CONFIG@
 LIBGCRYPT_LIBS = @LIBGCRYPT_LIBS@
@@ -273,8 +280,6 @@ LIBNL_LIBS = @LIBNL_LIBS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
-LIBUDEV_CFLAGS = @LIBUDEV_CFLAGS@
-LIBUDEV_LIBS = @LIBUDEV_LIBS@
 LIPO = @LIPO@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
@@ -304,7 +309,6 @@ PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POLKIT_CFLAGS = @POLKIT_CFLAGS@
 POLKIT_LIBS = @POLKIT_LIBS@
-POLKIT_POLICY_FILE_VALIDATE = @POLKIT_POLICY_FILE_VALIDATE@
 POSUB = @POSUB@
 PO_IN_DATADIR_FALSE = @PO_IN_DATADIR_FALSE@
 PO_IN_DATADIR_TRUE = @PO_IN_DATADIR_TRUE@
@@ -383,13 +387,16 @@ libnm_util_include_HEADERS = \
 	nm-connection.h			\
 	nm-setting.h			\
 	nm-setting-8021x.h		\
+	nm-setting-bluetooth.h		\
 	nm-setting-connection.h		\
 	nm-setting-ip4-config.h		\
+	nm-setting-ip6-config.h		\
 	nm-setting-ppp.h		\
 	nm-setting-pppoe.h		\
 	nm-setting-serial.h		\
 	nm-setting-gsm.h		\
 	nm-setting-cdma.h		\
+	nm-setting-olpc-mesh.h		\
 	nm-setting-wired.h		\
 	nm-setting-wireless.h		\
 	nm-setting-wireless-security.h	\
@@ -398,10 +405,11 @@ libnm_util_include_HEADERS = \
 
 libnm_util_la_SOURCES = crypto.c crypto.h nm-connection.c \
 	nm-param-spec-specialized.c nm-param-spec-specialized.h \
-	nm-setting.c nm-setting-8021x.c nm-setting-connection.c \
-	nm-setting-ip4-config.c nm-setting-ip6-config.c \
-	nm-setting-ppp.c nm-setting-pppoe.c nm-setting-serial.c \
-	nm-setting-gsm.c nm-setting-cdma.c nm-setting-wired.c \
+	nm-setting.c nm-setting-8021x.c nm-setting-bluetooth.c \
+	nm-setting-connection.c nm-setting-ip4-config.c \
+	nm-setting-ip6-config.c nm-setting-ppp.c nm-setting-pppoe.c \
+	nm-setting-serial.c nm-setting-gsm.c nm-setting-cdma.c \
+	nm-setting-olpc-mesh.c nm-setting-wired.c \
 	nm-setting-wireless.c nm-setting-wireless-security.c \
 	nm-setting-vpn.c nm-utils.c nm-utils-private.h \
 	$(libnm_util_include_HEADERS) $(am__append_1) $(am__append_4)
@@ -424,7 +432,7 @@ libtest_crypto_la_LIBADD = $(GLIB_LIBS) $(am__append_9) \
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libnm-util.pc
 DISTCLEANFILES = libnm-util.pc
-EXTRA_DIST = libnm-util.pc.in libnm-util.ver nm-setting-ip6-config.h
+EXTRA_DIST = libnm-util.pc.in libnm-util.ver
 all: all-recursive
 
 .SUFFIXES:
@@ -518,11 +526,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_util_la-nm-connection.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_util_la-nm-param-spec-specialized.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_util_la-nm-setting-8021x.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_util_la-nm-setting-bluetooth.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_util_la-nm-setting-cdma.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_util_la-nm-setting-connection.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_util_la-nm-setting-gsm.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_util_la-nm-setting-ip4-config.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_util_la-nm-setting-ip6-config.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_util_la-nm-setting-olpc-mesh.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_util_la-nm-setting-ppp.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_util_la-nm-setting-pppoe.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_util_la-nm-setting-serial.Plo@am__quote@
@@ -595,6 +605,13 @@ libnm_util_la-nm-setting-8021x.lo: nm-setting-8021x.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libnm_util_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libnm_util_la-nm-setting-8021x.lo `test -f 'nm-setting-8021x.c' || echo '$(srcdir)/'`nm-setting-8021x.c
 
+libnm_util_la-nm-setting-bluetooth.lo: nm-setting-bluetooth.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libnm_util_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libnm_util_la-nm-setting-bluetooth.lo -MD -MP -MF $(DEPDIR)/libnm_util_la-nm-setting-bluetooth.Tpo -c -o libnm_util_la-nm-setting-bluetooth.lo `test -f 'nm-setting-bluetooth.c' || echo '$(srcdir)/'`nm-setting-bluetooth.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libnm_util_la-nm-setting-bluetooth.Tpo $(DEPDIR)/libnm_util_la-nm-setting-bluetooth.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='nm-setting-bluetooth.c' object='libnm_util_la-nm-setting-bluetooth.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libnm_util_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libnm_util_la-nm-setting-bluetooth.lo `test -f 'nm-setting-bluetooth.c' || echo '$(srcdir)/'`nm-setting-bluetooth.c
+
 libnm_util_la-nm-setting-connection.lo: nm-setting-connection.c
 @am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libnm_util_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libnm_util_la-nm-setting-connection.lo -MD -MP -MF $(DEPDIR)/libnm_util_la-nm-setting-connection.Tpo -c -o libnm_util_la-nm-setting-connection.lo `test -f 'nm-setting-connection.c' || echo '$(srcdir)/'`nm-setting-connection.c
 @am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libnm_util_la-nm-setting-connection.Tpo $(DEPDIR)/libnm_util_la-nm-setting-connection.Plo
@@ -650,6 +667,13 @@ libnm_util_la-nm-setting-cdma.lo: nm-setting-cdma.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='nm-setting-cdma.c' object='libnm_util_la-nm-setting-cdma.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libnm_util_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libnm_util_la-nm-setting-cdma.lo `test -f 'nm-setting-cdma.c' || echo '$(srcdir)/'`nm-setting-cdma.c
+
+libnm_util_la-nm-setting-olpc-mesh.lo: nm-setting-olpc-mesh.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libnm_util_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libnm_util_la-nm-setting-olpc-mesh.lo -MD -MP -MF $(DEPDIR)/libnm_util_la-nm-setting-olpc-mesh.Tpo -c -o libnm_util_la-nm-setting-olpc-mesh.lo `test -f 'nm-setting-olpc-mesh.c' || echo '$(srcdir)/'`nm-setting-olpc-mesh.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libnm_util_la-nm-setting-olpc-mesh.Tpo $(DEPDIR)/libnm_util_la-nm-setting-olpc-mesh.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='nm-setting-olpc-mesh.c' object='libnm_util_la-nm-setting-olpc-mesh.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libnm_util_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libnm_util_la-nm-setting-olpc-mesh.lo `test -f 'nm-setting-olpc-mesh.c' || echo '$(srcdir)/'`nm-setting-olpc-mesh.c
 
 libnm_util_la-nm-setting-wired.lo: nm-setting-wired.c
 @am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libnm_util_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libnm_util_la-nm-setting-wired.lo -MD -MP -MF $(DEPDIR)/libnm_util_la-nm-setting-wired.Tpo -c -o libnm_util_la-nm-setting-wired.lo `test -f 'nm-setting-wired.c' || echo '$(srcdir)/'`nm-setting-wired.c

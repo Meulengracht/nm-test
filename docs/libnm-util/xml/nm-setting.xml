@@ -64,9 +64,12 @@ enum                <link linkend="NMSettingCompareFlags">NMSettingCompareFlags<
    +----NMSetting
          +----<link linkend="NMSettingGsm">NMSettingGsm</link>
          +----<link linkend="NMSetting8021x">NMSetting8021x</link>
+         +----<link linkend="NMSettingBluetooth">NMSettingBluetooth</link>
+         +----<link linkend="NMSettingOlpcMesh">NMSettingOlpcMesh</link>
          +----<link linkend="NMSettingCdma">NMSettingCdma</link>
          +----<link linkend="NMSettingSerial">NMSettingSerial</link>
          +----<link linkend="NMSettingWirelessSecurity">NMSettingWirelessSecurity</link>
+         +----<link linkend="NMSettingIP6Config">NMSettingIP6Config</link>
          +----<link linkend="NMSettingIP4Config">NMSettingIP4Config</link>
          +----<link linkend="NMSettingWired">NMSettingWired</link>
          +----<link linkend="NMSettingConnection">NMSettingConnection</link>
