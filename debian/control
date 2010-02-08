@@ -2,7 +2,7 @@ Source: network-manager
 Section: net
 Priority: optional
 Maintainer: Utopia Maintenance Team <pkg-utopia-maintainers@lists.alioth.debian.org>
-Uploaders: Riccardo Setti <giskard@debian.org>, Michael Biebl <biebl@debian.org>
+Uploaders: Michael Biebl <biebl@debian.org>
 Build-Depends:
  debhelper (>= 7),
  cdbs,
@@ -21,7 +21,7 @@ Build-Depends:
  uuid-dev,
  libudev-dev,
  libgudev-1.0-dev
-Standards-Version: 3.8.3
+Standards-Version: 3.8.4
 Vcs-Svn: svn://svn.debian.org/pkg-utopia/packages/unstable/networkmanager/
 Vcs-Browser: http://svn.debian.org/wsvn/pkg-utopia/packages/unstable/networkmanager/
 Homepage: http://www.gnome.org/projects/NetworkManager/
@@ -54,7 +54,7 @@ Replaces:
  network-manager-pptp (<< 0.7~~)
 Breaks:
  network-manager-gnome (<< 0.7~~),
- network-manager-kde (<< 1:0.7~~),
+ network-manager-kde (<< 1:0.9~~),
  network-manager-openvpn (<< 0.7~~),
  network-manager-vpnc (<< 0.7~~),
  network-manager-pptp (<< 0.7~~)
