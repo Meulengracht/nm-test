@@ -1,4 +1,23 @@
 /* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
+/* NetworkManager -- Network link manager
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Copyright (C) 2009 Red Hat, Inc.
+ * Copyright (C) 2009 Novell, Inc.
+ */
 
 #include <string.h>
 #include "nm-modem.h"
@@ -603,7 +622,7 @@ modem_properties_changed (DBusGProxy *proxy,
 
 		if (priv->mm_enabled == FALSE) {
 			state = nm_device_interface_get_state (NM_DEVICE_INTERFACE (self));
-			if (IS_ACTIVATING_STATE (state) || (state == NM_DEVICE_STATE_ACTIVATED)) {
+			if (state == NM_DEVICE_STATE_ACTIVATED) {
 				nm_device_state_changed (NM_DEVICE (self),
 				                         NM_DEVICE_STATE_DISCONNECTED,
 				                         NM_DEVICE_STATE_REASON_NONE);

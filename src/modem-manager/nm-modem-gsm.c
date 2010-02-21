@@ -1,4 +1,23 @@
 /* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
+/* NetworkManager -- Network link manager
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Copyright (C) 2009 Red Hat, Inc.
+ * Copyright (C) 2009 Novell, Inc.
+ */
 
 #include <string.h>
 #include "nm-dbus-glib-types.h"
@@ -32,6 +51,7 @@ typedef enum {
 
 
 #define GSM_SECRETS_TRIES "gsm-secrets-tries"
+#define PIN_TRIES "pin-tries"
 
 G_DEFINE_TYPE (NMModemGsm, nm_modem_gsm, NM_TYPE_MODEM)
 
@@ -155,6 +175,42 @@ clear_pin (NMDevice *device)
 }
 
 static void
+request_secrets (NMDevice *device,
+                 const char *setting_name,
+                 const char *hint1,
+                 const char *hint2,
+                 const char *tries_tag,
+                 gboolean always_ask)
+{
+	NMActRequest *req;
+	NMConnection *connection;
+	guint32 tries = 0;
+
+	g_return_if_fail (device != NULL);
+	g_return_if_fail (hint1 || hint2);
+
+	req = nm_device_get_act_request (device);
+	g_assert (req);
+	connection = nm_act_request_get_connection (req);
+	g_assert (connection);
+
+	nm_device_state_changed (device, NM_DEVICE_STATE_NEED_AUTH, NM_DEVICE_STATE_REASON_NONE);
+
+	if (!always_ask)
+		tries = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (connection), tries_tag));
+
+	nm_act_request_get_secrets (req,
+	                            setting_name ? setting_name : NM_SETTING_GSM_SETTING_NAME,
+	                            (tries || always_ask) ? TRUE : FALSE,
+	                            SECRETS_CALLER_GSM,
+	                            hint1,
+	                            hint2);
+
+	if (!always_ask)
+		g_object_set_data (G_OBJECT (connection), tries_tag, GUINT_TO_POINTER (++tries));
+}
+
+static void
 stage1_prepare_done (DBusGProxy *proxy, DBusGProxyCall *call_id, gpointer user_data)
 {
 	NMDevice *device = NM_DEVICE (user_data);
@@ -167,9 +223,10 @@ stage1_prepare_done (DBusGProxy *proxy, DBusGProxyCall *call_id, gpointer user_d
 		const char *required_secret = NULL;
 		gboolean retry_secret = FALSE;
 
-		if (dbus_g_error_has_name (error, MM_MODEM_ERROR_SIM_PIN))
+		if (dbus_g_error_has_name (error, MM_MODEM_ERROR_SIM_PIN)) {
+			clear_pin (device);
 			required_secret = NM_SETTING_GSM_PIN;
-		else if (dbus_g_error_has_name (error, MM_MODEM_ERROR_SIM_WRONG)) {
+		} else if (dbus_g_error_has_name (error, MM_MODEM_ERROR_SIM_WRONG)) {
 			clear_pin (device);
 			required_secret = NM_SETTING_GSM_PIN;
 			retry_secret = TRUE;
@@ -179,15 +236,9 @@ stage1_prepare_done (DBusGProxy *proxy, DBusGProxyCall *call_id, gpointer user_d
 			            error && error->message ? error->message : "(unknown)");
 		}
 
-		if (required_secret) {
-			nm_device_state_changed (device, NM_DEVICE_STATE_NEED_AUTH, NM_DEVICE_STATE_REASON_NONE);
-			nm_act_request_get_secrets (nm_device_get_act_request (device),
-			                            NM_SETTING_GSM_SETTING_NAME,
-			                            retry_secret,
-			                            SECRETS_CALLER_GSM,
-			                            required_secret,
-			                            NULL);
-		} else
+		if (required_secret)
+			request_secrets (device, NULL, required_secret, NULL, PIN_TRIES, retry_secret);
+		else
 			nm_device_state_changed (device, NM_DEVICE_STATE_FAILED, translate_mm_error (error));
 
 		g_error_free (error);
@@ -269,6 +320,59 @@ do_connect (NMModem *modem)
 }
 
 static void
+stage1_pin_done (DBusGProxy *proxy, DBusGProxyCall *call_id, gpointer user_data)
+{
+	NMDevice *device = NM_DEVICE (user_data);
+	GError *error = NULL;
+
+	if (dbus_g_proxy_end_call (proxy, call_id, &error, G_TYPE_INVALID)) {
+		/* Success; go back and try the enable again */
+		nm_device_activate_schedule_stage1_device_prepare (device);
+	} else {
+		nm_warning ("GSM PIN unlock failed: (%d) %s",
+		            error ? error->code : -1,
+		            error && error->message ? error->message : "(unknown)");
+		g_error_free (error);
+
+		clear_pin (device);
+		nm_device_state_changed (device, NM_DEVICE_STATE_FAILED, NM_DEVICE_STATE_REASON_GSM_PIN_CHECK_FAILED);
+	}
+}
+
+static void
+handle_enable_pin_required (NMDevice *device)
+{
+	NMActRequest *req;
+	NMConnection *connection;
+	NMSettingGsm *s_gsm;
+	const char *pin = NULL;
+
+	req = nm_device_get_act_request (device);
+	g_assert (req);
+	connection = nm_act_request_get_connection (req);
+	g_assert (connection);
+
+	/* See if we have a PIN already */
+	s_gsm = (NMSettingGsm *) nm_connection_get_setting (connection, NM_TYPE_SETTING_GSM);
+	if (s_gsm)
+		pin = nm_setting_gsm_get_pin (s_gsm);
+
+	/* If we do, send it */
+	if (pin) {
+		NMModem *modem = NM_MODEM (device);
+
+		dbus_g_proxy_begin_call_with_timeout (nm_modem_get_proxy (modem, MM_DBUS_INTERFACE_MODEM_GSM_CARD),
+		                                      "SendPin", stage1_pin_done,
+		                                      modem, NULL, 10000,
+		                                      G_TYPE_STRING, pin,
+		                                      G_TYPE_INVALID);
+	} else {
+		/* Otherwise try to get the PIN */
+		request_secrets (device, NULL, NM_SETTING_GSM_PIN, NULL, PIN_TRIES, FALSE);
+	}
+}
+
+static void
 stage1_enable_done (DBusGProxy *proxy, DBusGProxyCall *call_id, gpointer user_data)
 {
 	NMDevice *device = NM_DEVICE (user_data);
@@ -280,8 +384,13 @@ stage1_enable_done (DBusGProxy *proxy, DBusGProxyCall *call_id, gpointer user_da
 		nm_warning ("GSM modem enable failed: (%d) %s",
 		            error ? error->code : -1,
 		            error && error->message ? error->message : "(unknown)");
+
+		if (dbus_g_error_has_name (error, MM_MODEM_ERROR_SIM_PIN))
+			handle_enable_pin_required (device);
+		else
+			nm_device_state_changed (device, NM_DEVICE_STATE_FAILED, translate_mm_error (error));
+
 		g_error_free (error);
-		nm_device_state_changed (device, NM_DEVICE_STATE_FAILED, NM_DEVICE_STATE_REASON_NONE);
 	}
 }
 
@@ -293,7 +402,6 @@ real_act_stage1_prepare (NMDevice *device, NMDeviceStateReason *reason)
 	const char *setting_name;
 	GPtrArray *hints = NULL;
 	const char *hint1 = NULL, *hint2 = NULL;
-	guint32 tries;
 
 	req = nm_device_get_act_request (device);
 	g_assert (req);
@@ -318,6 +426,7 @@ real_act_stage1_prepare (NMDevice *device, NMDeviceStateReason *reason)
 		return NM_ACT_STAGE_RETURN_POSTPONE;
 	}
 
+	/* Get the required secrets */
 	if (hints) {
 		if (hints->len > 0)
 			hint1 = g_ptr_array_index (hints, 0);
@@ -325,16 +434,7 @@ real_act_stage1_prepare (NMDevice *device, NMDeviceStateReason *reason)
 			hint2 = g_ptr_array_index (hints, 1);
 	}
 
-	nm_device_state_changed (device, NM_DEVICE_STATE_NEED_AUTH, NM_DEVICE_STATE_REASON_NONE);
-
-	tries = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (connection), GSM_SECRETS_TRIES));
-	nm_act_request_get_secrets (req,
-	                            setting_name,
-	                            tries ? TRUE : FALSE,
-	                            SECRETS_CALLER_GSM,
-	                            hint1,
-	                            hint2);
-	g_object_set_data (G_OBJECT (connection), GSM_SECRETS_TRIES, GUINT_TO_POINTER (++tries));
+	request_secrets (device, setting_name, hint1, hint2, GSM_SECRETS_TRIES, FALSE);
 
 	if (hints)
 		g_ptr_array_free (hints, TRUE);
@@ -464,6 +564,7 @@ real_deactivate_quickly (NMDevice *device)
 		connection = nm_act_request_get_connection (req);
 		g_assert (connection);
 		g_object_set_data (G_OBJECT (connection), GSM_SECRETS_TRIES, NULL);
+		g_object_set_data (G_OBJECT (connection), PIN_TRIES, NULL);
 	}
 
 	if (NM_DEVICE_CLASS (nm_modem_gsm_parent_class)->deactivate_quickly)

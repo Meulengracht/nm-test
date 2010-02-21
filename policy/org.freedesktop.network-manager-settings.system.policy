@@ -13,6 +13,7 @@
     <description xml:lang="as">প্ৰণালীৰ সংযোগ পৰিবৰ্তন কৰক</description>
     <description xml:lang="bn_IN">সিস্টেমের সংযোগ পরিবর্তন করুন</description>
     <description xml:lang="de">System-Verbindungen bearbeiten</description>
+    <description xml:lang="el">Τροποποίηση συνδέσεων συστήματος</description>
     <description xml:lang="en_GB">Modify system connections</description>
     <description xml:lang="gu">સિસ્ટમ જોડાણોને બદલો</description>
     <description xml:lang="hu">Rendszerkapcsolatok módosítása</description>
@@ -28,6 +29,7 @@
     <message xml:lang="as">প্ৰণালীত ব্যৱহৃত নিয়ম-নীতিৰ বিধিনিষেধৰ কাৰণে প্ৰণালীৰ বৈশিষ্ট্য পৰিবৰ্তন কৰা সম্ভৱ নহয়</message>
     <message xml:lang="bn_IN">সিস্টেমে ব্যবহৃত নিয়ম-নীতির বিধিনিষেধের কারণে সিস্টেমের বৈশিষ্ট্য পরিবর্তন করা সম্ভব নয়</message>
     <message xml:lang="de">Die Systemrichtlinien verhindern das Bearbeiten von Systemeinstellungen</message>
+    <message xml:lang="el">Η πολιτική συστήματος δεν επιτρέπει τροποποίηση των ρυθμίσεων συστήματος</message>
     <message xml:lang="en_GB">System policy prevents modification of system settings</message>
     <message xml:lang="gu">સિસ્ટમ પોલિસી એ સિસ્ટમ સુયોજનોનાં બદલાવને અટકાવે છે</message>
     <message xml:lang="hu">A rendszer házirendje megakadályozza a rendszerbeállítások módosítását</message>
@@ -48,21 +50,25 @@
   <action id="org.freedesktop.network-manager-settings.system.hostname.modify">
     <description>Modify persistent system hostname</description>
     <description xml:lang="de">Den ständigen Rechnernamen des Systems bearbeiten</description>
+    <description xml:lang="el">Αλλαγή πάγιου ονόματος συστήματος</description>
     <description xml:lang="en_GB">Modify persistent system hostname</description>
     <description xml:lang="hu">Állandó rendszergépnév módosítása</description>
     <description xml:lang="it">Modifica il nome host persistente del sistema</description>
     <description xml:lang="pl">Modyfikacja trwałej systemowej nazwy komputera</description>
     <description xml:lang="sl">Spremeni trajno sistemsko ime gostitelja</description>
     <description xml:lang="sv">Ändra bestående värdnamn för systemet</description>
+    <description xml:lang="te">నిరంతర సిస్టమ్ హోస్టునామము మార్చుము</description>
     <description xml:lang="zh_CN">更改系统固有主机名</description>
     <message>System policy prevents modification of the persistent system hostname</message>
     <message xml:lang="de">Die Systemrichtlinien verhindern das Bearbeiten des ständigen Rechnernamens des Systems</message>
+    <message xml:lang="el">Η πολιτική συστήματος δεν επιτρέπει τροποποίηση του πάγιου ονόματος συστήματος</message>
     <message xml:lang="en_GB">System policy prevents modification of the persistent system hostname</message>
     <message xml:lang="hu">A rendszer házirendje megakadályozza a rendszer állandó gépnevének módosítását</message>
     <message xml:lang="it">La politica di sistema impedisce di modificare il nome host persistente del sistema</message>
     <message xml:lang="pl">Polityka systemu powstrzymuje modyfikację trwałej systemowej nazwy komputera</message>
     <message xml:lang="sl">Sistemska pravila preprečujejo spremembo imena gostitelja trajnega sistema</message>
     <message xml:lang="sv">Systemets policy förhindrar ändring av bestående värdnamn för systemet</message>
+    <message xml:lang="te">నిరంతర సిస్టమ్ హోస్టునామమును సవరించుటను సిస్టమ్ విధానము నిరోధించుచున్నది</message>
     <message xml:lang="zh_CN">系统策略阻止更改系统固有主机名</message>
     <defaults>
       <allow_inactive>no</allow_inactive>
@@ -73,21 +79,25 @@
   <action id="org.freedesktop.network-manager-settings.system.wifi.share.protected">
     <description>Connection sharing via a protected WiFi network</description>
     <description xml:lang="de">Verbindungsfreigabe über ein geschütztes WiFi-Netzwerk</description>
+    <description xml:lang="el">Κοινή χρήση σύνδεσης μέσω προστατευμένου ασύρματου δικτύου</description>
     <description xml:lang="en_GB">Connection sharing via a protected Wi-Fi network</description>
     <description xml:lang="hu">Kapcsolatmegosztás védett WiFi hálózaton</description>
     <description xml:lang="it">Condivide connessione attraverso una rete WiFi protetta</description>
     <description xml:lang="pl">Współdzielenie połączenia przez chronioną sieć WiFi</description>
     <description xml:lang="sl">Deljene povezave preko zaščitenega WiFi omrežja</description>
     <description xml:lang="sv">Anslutningsdelning via ett skyddat trådlöst nätverk</description>
+    <description xml:lang="te">రక్షిత WiFi నెట్వర్కు ద్వారా అనుసంధానపు భాగస్వామ్యము.</description>
     <description xml:lang="zh_CN">通过受保护的 WiFi 网络共享连接</description>
     <message>System policy prevents sharing connections via a protected WiFi network</message>
     <message xml:lang="de">Die Systemrichtlinien verhindern Verbindungsfreigaben über ein geschütztes WiFi-Netzwerk</message>
+    <message xml:lang="el">Η πολιτική συστήματος δεν επιτρέπει κοινή χρήση συνδέσεων μέσω προστατευμένου ασύρματου δικτύου</message>
     <message xml:lang="en_GB">System policy prevents sharing connections via a protected Wi-Fi network</message>
     <message xml:lang="hu">A rendszer házirendje megakadályozza a kapcsolatok megosztását védett WiFi hálózaton</message>
     <message xml:lang="it">La politica di sistema impedisce di condividere connessioni attraverso una rete WiFi protetta</message>
     <message xml:lang="pl">Polityka systemu powstrzymuje współdzielenie połączeń przez chronioną sieć WiFi</message>
     <message xml:lang="sl">Sistemska pravila preprečujejo deljenje povezav preko zaščitenega WiFi omrežja</message>
     <message xml:lang="sv">Systemets policy förhindrar delning av anslutningar via ett skyddat trådlöst nätverk</message>
+    <message xml:lang="te">రక్షిత WiFi నెట్వర్కు ద్వారా అనుసంధానములను భాగస్వామ్యపరచుట సిస్టమ్ విధానము నిరోధించుచున్నది</message>
     <message xml:lang="zh_CN">系统策略阻止使用受保护的 WiFi 网络共享连接</message>
     <defaults>
       <allow_inactive>no</allow_inactive>
@@ -98,21 +108,25 @@
   <action id="org.freedesktop.network-manager-settings.system.wifi.share.open">
     <description>Connection sharing via an open WiFi network</description>
     <description xml:lang="de">Verbindungsfreigabe über ein offenes WiFi-Netzwerk</description>
+    <description xml:lang="el">Κοινή χρήση σύνδεσης μέσω ανοιχτού ασύρματου δικτύου</description>
     <description xml:lang="en_GB">Connection sharing via an open Wi-Fi network</description>
     <description xml:lang="hu">Kapcsolatmegosztás nyílt WiFi hálózaton</description>
     <description xml:lang="it">Condivide connessione attraverso una rete WiFi aperta</description>
     <description xml:lang="pl">Współdzielenie połączenia przez otwartą sieć WiFi</description>
     <description xml:lang="sl">Deljene povezave preko odprtega WiFi omrežja</description>
     <description xml:lang="sv">Anslutningsdelning via ett öppet trådlöst nätverk</description>
+    <description xml:lang="te">ఓపెన్ WiFi నెట్వర్కు ద్వారా అనుసంధానపు భాగస్వామ్యము</description>
     <description xml:lang="zh_CN">通过公开 WiFi 网络共享连接</description>
     <message>System policy prevents sharing connections via an open WiFi network</message>
     <message xml:lang="de">Die Systemrichtlinien verhindern Verbindungsfreigaben über ein offenes WiFi-Netzwerk</message>
+    <message xml:lang="el">Η πολιτική συστήματος δεν επιτρέπει κοινή χρήση συνδέσεων μέσω ανοιχτού ασύρματου δικτύου</message>
     <message xml:lang="en_GB">System policy prevents sharing connections via an open Wi-Fi network</message>
     <message xml:lang="hu">A rendszer házirendje megakadályozza a kapcsolatok megosztását nyílt WiFi hálózaton</message>
     <message xml:lang="it">La politica di sistema impedisce di condividere connessioni attraverso una rete WiFi aperta</message>
     <message xml:lang="pl">Polityka systemu powstrzymuje współdzielenie połączeń przez otwartą sieć WiFi</message>
     <message xml:lang="sl">Sistemska pravila preprečujejo deljenje povezav preko odprtega WiFi omrežja</message>
     <message xml:lang="sv">Systemets policy förhindrar delning av anslutningar via ett öppet trådlöst nätverk</message>
+    <message xml:lang="te">ఓపెన్ WiFi నెట్వర్కు ద్వారా అనుసంధానములను భాగస్వామ్యపరచుట సిస్టమ్ విధానము నిరోధించుచున్నది</message>
     <message xml:lang="zh_CN">系统策略组织使用公开 WiFi 网络共享连接</message>
     <defaults>
       <allow_inactive>no</allow_inactive>

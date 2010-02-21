@@ -560,6 +560,11 @@ NM_CDMA_DEVICE_GET_CLASS
 </SECTION>
 
 <SECTION>
+<FILE>nm-dhcp6-config-bindings</FILE>
+DBUS_GLIB_CLIENT_WRAPPERS_org_freedesktop_NetworkManager_DHCP6Config
+</SECTION>
+
+<SECTION>
 <FILE>nm-ip6-config-bindings</FILE>
 DBUS_GLIB_CLIENT_WRAPPERS_org_freedesktop_NetworkManager_IP6Config
 </SECTION>
