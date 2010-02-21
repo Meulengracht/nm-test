@@ -4,6 +4,7 @@
 <indexdiv>
 <indexdiv><title>D</title>
 <indexentry><primaryie linkends="DBUS-GLIB-CLIENT-WRAPPERS-org-freedesktop-NetworkManager-Device-Bluetooth"><link linkend="DBUS-GLIB-CLIENT-WRAPPERS-org-freedesktop-NetworkManager-Device-Bluetooth">DBUS_GLIB_CLIENT_WRAPPERS_org_freedesktop_NetworkManager_Device_Bluetooth</link></primaryie></indexentry>
+<indexentry><primaryie linkends="DBUS-GLIB-CLIENT-WRAPPERS-org-freedesktop-NetworkManager-DHCP6Config"><link linkend="DBUS-GLIB-CLIENT-WRAPPERS-org-freedesktop-NetworkManager-DHCP6Config">DBUS_GLIB_CLIENT_WRAPPERS_org_freedesktop_NetworkManager_DHCP6Config</link></primaryie></indexentry>
 <indexentry><primaryie linkends="DBUS-GLIB-CLIENT-WRAPPERS-org-freedesktop-NetworkManager-IP6Config"><link linkend="DBUS-GLIB-CLIENT-WRAPPERS-org-freedesktop-NetworkManager-IP6Config">DBUS_GLIB_CLIENT_WRAPPERS_org_freedesktop_NetworkManager_IP6Config</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>L</title>

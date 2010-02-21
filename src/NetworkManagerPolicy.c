@@ -74,6 +74,8 @@ struct NMPolicy {
 	NMDevice *default_device;
 
 	LookupThread *lookup;
+
+	char *orig_hostname; /* hostname at NM start time */
 };
 
 static gboolean
@@ -250,13 +252,84 @@ get_best_device (NMManager *manager, NMActRequest **out_req)
 	return best;
 }
 
+static gboolean
+is_localhost_mapping (const char *str)
+{
+	return (!strncmp (str, "127.0.0.1", strlen ("127.0.0.1")) && strstr (str, "localhost"));
+}
+
+static gboolean
+find_token (const char *line, const char *token)
+{
+	const char *start = line, *p = line;
+
+	g_return_val_if_fail (line != NULL, FALSE);
+	g_return_val_if_fail (token != NULL, FALSE);
+	g_return_val_if_fail (strlen (token) > 0, FALSE);
+
+	/* Walk through the line to find the next whitespace character */
+	while (p <= line + strlen (line)) {
+		if (isblank (*p) || (*p == '\0')) {
+			/* Token starts with 'start' and ends with 'end' */
+			if ((p > start) && *start && !strncmp (start, token, (p - start)))
+				return TRUE; /* found */
+
+			/* not found; advance start and continue looking */
+			start = p + 1;
+		}
+		p++;
+	}
+
+	return FALSE;
+}
+
+#if 0
+/* Testcase for find_token; break it out and add it to the testsuite */
+
+typedef struct {
+	const char *line;
+	const char *token;
+	gboolean expected;
+} Foo;
+
+static Foo foo[] = {
+	{ "127.0.0.1\tfoobar\tblah", "blah", TRUE },
+	{ "", "blah", FALSE },
+	{ "1.1.1.1\tbork\tfoo", "blah", FALSE },
+	{ "127.0.0.1 foobar\tblah", "blah", TRUE },
+	{ "127.0.0.1 foobar blah", "blah", TRUE },
+	{ "192.168.1.1 blah borkbork", "blah", TRUE },
+	{ "192.168.1.1 foobar\tblah borkbork", "blah", TRUE },
+	{ "192.168.1.1\tfoobar\tblah\tborkbork", "blah", TRUE },
+	{ "192.168.1.1 \tfoobar \tblah \tborkbork\t ", "blah", TRUE },
+	{ "\t\t\t\t   \t\t\tasdfadf  a\t\t\t\t\t   \t\t\t\t\t ", "blah", FALSE },
+	{ NULL, NULL, FALSE }
+};
+
+int main(int argc, char **argv)
+{
+	Foo *iter = &foo[0];
+
+	while (iter->line) {
+		if (find_token (iter->line, iter->token) != iter->expected) {
+			g_message ("Failed: '%s' <= '%s' (%d)", iter->line, iter->token, iter->expected);
+			return 1;
+		}
+		iter++;
+	}
+
+	g_message ("Success");
+	return 0;
+}
+#endif
+
 #define FALLBACK_HOSTNAME "localhost.localdomain"
 
 static gboolean
 update_etc_hosts (const char *hostname)
 {
 	char *contents = NULL;
-	char **lines = NULL, **line;
+	char **lines = NULL, **line, **host_mapping = NULL;
 	GError *error = NULL;
 	gboolean initial_comments = TRUE;
 	gboolean added = FALSE;
@@ -283,25 +356,62 @@ update_etc_hosts (const char *hostname)
 		return FALSE;
 	}
 
-	/* Replace any 127.0.0.1 entry that is at the beginning of the file or right
-	 * after initial comments.  If there is no 127.0.0.1 entry at the beginning
-	 * or after initial comments, add one there and ignore any other 127.0.0.1
-	 * entries.
+	/* Two-pass modification of /etc/hosts:
+	 *
+	 * 1) Look for a non-comment, non-localhost line that contains the current
+	 *    hostname.  Mark that line.
+	 *
+	 * 2) For each line in the existing /etc/hosts, add it to the new /etc/hosts
+	 *    unless it starts with 127.0.0.1 and is right after the initial comments
+	 *    (if any) and contains "localhost".
 	 */
+
+	/* Find any existing hostname mapping */
 	for (line = lines; lines && *line; line++) {
+		/* Look for any line that (a) contains the current hostname, and
+		 * (b) does not start with '127.0.0.1' and contain 'localhost'.
+		 */
+		if (   strlen (*line)
+		    && (*line[0] != '#')
+		    && find_token (*line, hostname)
+		    && !is_localhost_mapping (*line)) {
+			host_mapping = line;
+			break;
+		}
+	}
+
+	/* Construct the new hosts file; replace any 127.0.0.1 entry that is at the
+	 * beginning of the file or right after initial comments and contains
+	 * the string 'localhost'.  If there is no 127.0.0.1 entry at the beginning
+	 * or after initial comments that contains 'localhost', add one there
+	 * and ignore any other 127.0.0.1 entries that contain 'localhost'.
+	 */
+	for (line = lines, initial_comments = TRUE; lines && *line; line++) {
 		gboolean add_line = TRUE;
 
 		/* This is the first line after the initial comments */
-		if (initial_comments && (*line[0] != '#')) {
+		if (strlen (*line) && initial_comments && (*line[0] != '#')) {
 			initial_comments = FALSE;
-			g_string_append_printf (new_contents, "127.0.0.1\t%s", hostname);
+
+			/* If some other line contained the hostname, make a simple
+			 * localhost mapping and assume the user knows what they are doing
+			 * with their manual hostname entry.  Otherwise if the hostname
+			 * wasn't found somewhere else, add it to the localhost mapping line
+			 * to make sure it's mapped to something.
+			 */
+			if (host_mapping)
+				g_string_append (new_contents, "127.0.0.1");
+			else
+				g_string_append_printf (new_contents, "127.0.0.1\t%s", hostname);
+
 			if (strcmp (hostname, FALLBACK_HOSTNAME))
 				g_string_append_printf (new_contents, "\t" FALLBACK_HOSTNAME);
+
 			g_string_append (new_contents, "\tlocalhost\n");
 			added = TRUE;
 
 			/* Don't add the entry if it's supposed to be the actual localhost reverse mapping */
-			if (!strncmp (*line, "127.0.0.1", strlen ("127.0.0.1")) && strstr (*line, "localhost"))
+			if (is_localhost_mapping (*line))
 				add_line = FALSE;
 		}
 
@@ -416,15 +526,16 @@ update_system_hostname (NMPolicy *policy, NMDevice *best)
 		policy->lookup = NULL;
 	}
 
-	/* A configured hostname (via the system-settings service) overrides
-	 * all automatic hostname determination.  If there is no configured hostname,
-	 * the best device's automatically determined hostname (from DHCP, VPN, PPP,
-	 * etc) is used.  If there is no automatically determined hostname, reverse
-	 * DNS lookup using the best device's IP address is started to determined the
-	 * the hostname.
+	/* Hostname precedence order:
+	 *
+	 * 1) a configured hostname (from system-settings)
+	 * 2) automatic hostname from the default device's config (DHCP, VPN, etc)
+	 * 3) the original hostname when NM started
+	 * 4) reverse-DNS of the best device's IPv4 address
+	 *
 	 */
 
-	/* Try a configured hostname first */
+	/* Try a persistent hostname first */
 	g_object_get (G_OBJECT (policy->manager), NM_MANAGER_HOSTNAME, &configured_hostname, NULL);
 	if (configured_hostname) {
 		set_system_hostname (configured_hostname, "from system configuration");
@@ -437,25 +548,42 @@ update_system_hostname (NMPolicy *policy, NMDevice *best)
 		best = get_best_device (policy->manager, &best_req);
 
 	if (!best) {
-		/* No best device; fall back to localhost.localdomain */
-		set_system_hostname (NULL, "no default device");
+		/* No best device; fall back to original hostname or if there wasn't
+		 * one, 'localhost.localdomain'
+		 */
+		set_system_hostname (policy->orig_hostname, "no default device");
 		return;
 	}
 
 	/* Grab a hostname out of the device's DHCP4 config */
 	dhcp4_config = nm_device_get_dhcp4_config (best);
 	if (dhcp4_config) {
-		const char *dhcp4_hostname;
+		const char *dhcp4_hostname, *p;
 
-		dhcp4_hostname = nm_dhcp4_config_get_option (dhcp4_config, "host_name");
+		p = dhcp4_hostname = nm_dhcp4_config_get_option (dhcp4_config, "host_name");
 		if (dhcp4_hostname && strlen (dhcp4_hostname)) {
-			set_system_hostname (dhcp4_hostname, "from DHCP");
-			return;
+			/* Sanity check */
+			while (*p) {
+				if (!isblank (*p++)) {
+					set_system_hostname (dhcp4_hostname, "from DHCP");
+					return;
+				}
+			}
+			nm_warning ("%s: DHCP-provided hostname '%s' looks invalid; ignoring it",
+			            __func__, dhcp4_hostname);
 		}
 	}
 
-	/* No configured hostname, no automatically determined hostname either. Start
-	 * reverse DNS of the current IP address to try and find it.
+	/* If no automatically-configured hostname, try using the hostname from
+	 * when NM started up.
+	 */
+	if (policy->orig_hostname) {
+		set_system_hostname (policy->orig_hostname, "from system startup");
+		return;
+	}
+
+	/* No configured hostname, no automatically determined hostname, and
+	 * no bootup hostname. Start reverse DNS of the current IP address.
 	 */
 	ip4_config = nm_device_get_ip4_config (best);
 	if (   !ip4_config
@@ -988,6 +1116,7 @@ nm_policy_new (NMManager *manager, NMVPNManager *vpn_manager)
 	NMPolicy *policy;
 	static gboolean initialized = FALSE;
 	gulong id;
+	char hostname[HOST_NAME_MAX + 2];
 
 	g_return_val_if_fail (NM_IS_MANAGER (manager), NULL);
 	g_return_val_if_fail (initialized == FALSE, NULL);
@@ -995,6 +1124,14 @@ nm_policy_new (NMManager *manager, NMVPNManager *vpn_manager)
 	policy = g_malloc0 (sizeof (NMPolicy));
 	policy->manager = g_object_ref (manager);
 	policy->update_state_id = 0;
+
+	/* Grab hostname on startup and use that if nothing provides one */
+	memset (hostname, 0, sizeof (hostname));
+	if (gethostname (&hostname[0], HOST_NAME_MAX) == 0) {
+		/* only cache it if it's a valid hostname */
+		if (strlen (hostname) && strcmp (hostname, "localhost") && strcmp (hostname, "localhost.localdomain"))
+			policy->orig_hostname = g_strdup (hostname);
+	}
 
 	policy->vpn_manager = g_object_ref (vpn_manager);
 	id = g_signal_connect (policy->vpn_manager, "connection-activated",
@@ -1085,6 +1222,8 @@ nm_policy_destroy (NMPolicy *policy)
 		g_free (data);
 	}
 	g_slist_free (policy->dev_signal_ids);
+
+	g_free (policy->orig_hostname);
 
 	g_object_unref (policy->manager);
 	g_free (policy);

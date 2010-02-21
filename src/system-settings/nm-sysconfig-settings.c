@@ -33,11 +33,23 @@
 #include <nm-connection.h>
 #include <dbus/dbus.h>
 #include <dbus/dbus-glib-lowlevel.h>
-#include <nm-setting-connection.h>
-#include <nm-setting-wired.h>
-#include <nm-setting-pppoe.h>
-#include <nm-settings-interface.h>
 #include <nm-settings-system-interface.h>
+
+#include <nm-setting-8021x.h>
+#include <nm-setting-bluetooth.h>
+#include <nm-setting-cdma.h>
+#include <nm-setting-connection.h>
+#include <nm-setting-gsm.h>
+#include <nm-setting-ip4-config.h>
+#include <nm-setting-ip6-config.h>
+#include <nm-setting-olpc-mesh.h>
+#include <nm-setting-ppp.h>
+#include <nm-setting-pppoe.h>
+#include <nm-setting-serial.h>
+#include <nm-setting-vpn.h>
+#include <nm-setting-wired.h>
+#include <nm-setting-wireless.h>
+#include <nm-setting-wireless-security.h>
 
 #include "../nm-device-ethernet.h"
 #include "nm-dbus-glib-types.h"
@@ -90,7 +102,6 @@ typedef struct {
 	gboolean connections_loaded;
 	GHashTable *connections;
 	GSList *unmanaged_specs;
-	char *orig_hostname;
 } NMSysconfigSettingsPrivate;
 
 static void settings_system_interface_init (NMSettingsSystemInterface *klass);
@@ -254,7 +265,6 @@ nm_sysconfig_settings_get_hostname (NMSysconfigSettings *self)
 	NMSysconfigSettingsPrivate *priv = NM_SYSCONFIG_SETTINGS_GET_PRIVATE (self);
 	GSList *iter;
 	char *hostname = NULL;
-	gboolean have_hostname_providers = FALSE;
 
 	/* Hostname returned is the hostname returned from the first plugin
 	 * that provides one.
@@ -264,18 +274,12 @@ nm_sysconfig_settings_get_hostname (NMSysconfigSettings *self)
 
 		g_object_get (G_OBJECT (iter->data), NM_SYSTEM_CONFIG_INTERFACE_CAPABILITIES, &caps, NULL);
 		if (caps & NM_SYSTEM_CONFIG_INTERFACE_CAP_MODIFY_HOSTNAME) {
-			have_hostname_providers = TRUE;
-
 			g_object_get (G_OBJECT (iter->data), NM_SYSTEM_CONFIG_INTERFACE_HOSTNAME, &hostname, NULL);
 			if (hostname && strlen (hostname))
 				return hostname;
 			g_free (hostname);
 		}
 	}
-
-	/* If no plugin provided a hostname, try the original hostname of the machine */
-	if (!have_hostname_providers && priv->orig_hostname)
-		hostname = g_strdup (priv->orig_hostname);
 
 	return hostname;
 }
@@ -1378,7 +1382,6 @@ finalize (GObject *object)
 	g_slist_foreach (priv->plugins, (GFunc) g_object_unref, NULL);
 	g_slist_free (priv->plugins);
 
-	g_free (priv->orig_hostname);
 	g_free (priv->config_file);
 
 	G_OBJECT_CLASS (nm_sysconfig_settings_parent_class)->finalize (object);
@@ -1470,13 +1473,30 @@ nm_sysconfig_settings_class_init (NMSysconfigSettingsClass *class)
 	dbus_g_error_domain_register (NM_SYSCONFIG_SETTINGS_ERROR,
 	                              NM_DBUS_IFACE_SETTINGS_SYSTEM,
 	                              NM_TYPE_SYSCONFIG_SETTINGS_ERROR);
+
+	/* And register all the settings errors with D-Bus */
+	dbus_g_error_domain_register (NM_SETTING_802_1X_ERROR, NULL, NM_TYPE_SETTING_802_1X_ERROR);
+	dbus_g_error_domain_register (NM_SETTING_BLUETOOTH_ERROR, NULL, NM_TYPE_SETTING_BLUETOOTH_ERROR);
+	dbus_g_error_domain_register (NM_SETTING_CDMA_ERROR, NULL, NM_TYPE_SETTING_CDMA_ERROR);
+	dbus_g_error_domain_register (NM_SETTING_CONNECTION_ERROR, NULL, NM_TYPE_SETTING_CONNECTION_ERROR);
+	dbus_g_error_domain_register (NM_SETTING_GSM_ERROR, NULL, NM_TYPE_SETTING_GSM_ERROR);
+	dbus_g_error_domain_register (NM_SETTING_IP4_CONFIG_ERROR, NULL, NM_TYPE_SETTING_IP4_CONFIG_ERROR);
+	dbus_g_error_domain_register (NM_SETTING_IP6_CONFIG_ERROR, NULL, NM_TYPE_SETTING_IP6_CONFIG_ERROR);
+	dbus_g_error_domain_register (NM_SETTING_OLPC_MESH_ERROR, NULL, NM_TYPE_SETTING_OLPC_MESH_ERROR);
+	dbus_g_error_domain_register (NM_SETTING_PPP_ERROR, NULL, NM_TYPE_SETTING_PPP_ERROR);
+	dbus_g_error_domain_register (NM_SETTING_PPPOE_ERROR, NULL, NM_TYPE_SETTING_PPPOE_ERROR);
+	dbus_g_error_domain_register (NM_SETTING_SERIAL_ERROR, NULL, NM_TYPE_SETTING_SERIAL_ERROR);
+	dbus_g_error_domain_register (NM_SETTING_VPN_ERROR, NULL, NM_TYPE_SETTING_VPN_ERROR);
+	dbus_g_error_domain_register (NM_SETTING_WIRED_ERROR, NULL, NM_TYPE_SETTING_WIRED_ERROR);
+	dbus_g_error_domain_register (NM_SETTING_WIRELESS_SECURITY_ERROR, NULL, NM_TYPE_SETTING_WIRELESS_SECURITY_ERROR);
+	dbus_g_error_domain_register (NM_SETTING_WIRELESS_ERROR, NULL, NM_TYPE_SETTING_WIRELESS_ERROR);
+	dbus_g_error_domain_register (NM_SETTING_ERROR, NULL, NM_TYPE_SETTING_ERROR);
 }
 
 static void
 nm_sysconfig_settings_init (NMSysconfigSettings *self)
 {
 	NMSysconfigSettingsPrivate *priv = NM_SYSCONFIG_SETTINGS_GET_PRIVATE (self);
-	char hostname[HOST_NAME_MAX + 2];
 
 	priv->connections = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, NULL);
 
@@ -1488,13 +1508,5 @@ nm_sysconfig_settings_init (NMSysconfigSettings *self)
 		                                          self);
 	} else
 		g_warning ("%s: failed to create PolicyKit authority.", __func__);
-
-	/* Grab hostname on startup and use that if no plugins provide one */
-	memset (hostname, 0, sizeof (hostname));
-	if (gethostname (&hostname[0], HOST_NAME_MAX) == 0) {
-		/* only cache it if it's a valid hostname */
-		if (strlen (hostname) && strcmp (hostname, "localhost") && strcmp (hostname, "localhost.localdomain"))
-			priv->orig_hostname = g_strdup (hostname);
-	}
 }
 
