@@ -63,6 +63,7 @@ CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libnmbackend_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+	$(top_builddir)/src/logging/libnm-logging.la \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am__libnmbackend_la_SOURCES_DIST = NetworkManagerGeneric.c \
 	NetworkManagerGeneric.h NetworkManagerRedHat.c \
@@ -135,8 +136,8 @@ DBUS_LIBS = @DBUS_LIBS@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
-DHCP_CLIENT = @DHCP_CLIENT@
-DHCP_CLIENT_PATH = @DHCP_CLIENT_PATH@
+DHCLIENT_PATH = @DHCLIENT_PATH@
+DHCPCD_PATH = @DHCPCD_PATH@
 DISABLE_DEPRECATED = @DISABLE_DEPRECATED@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
@@ -160,6 +161,8 @@ GNUTLS_CFLAGS = @GNUTLS_CFLAGS@
 GNUTLS_LIBS = @GNUTLS_LIBS@
 GREP = @GREP@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_MKPDF = @GTKDOC_MKPDF@
+GTKDOC_REBASE = @GTKDOC_REBASE@
 GUDEV_CFLAGS = @GUDEV_CFLAGS@
 GUDEV_LIBS = @GUDEV_LIBS@
 HTML_DIR = @HTML_DIR@
@@ -210,6 +213,7 @@ PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
 PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
+PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
@@ -285,12 +289,14 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-INCLUDES = -I${top_srcdir}				\
-		 -I${top_srcdir}/include			\
-		 -I${top_srcdir}/src			\
-		 -I${top_srcdir}/src/vpn-manager	\
-		 -I${top_srcdir}/src/named-manager	\
-		 -I${top_srcdir}/libnm-util
+INCLUDES = \
+	-I${top_srcdir} \
+	-I${top_srcdir}/src/logging \
+	-I${top_srcdir}/include \
+	-I${top_srcdir}/src \
+	-I${top_srcdir}/src/vpn-manager \
+	-I${top_srcdir}/src/named-manager \
+	-I${top_srcdir}/libnm-util
 
 noinst_LTLIBRARIES = libnmbackend.la
 libnmbackend_la_SOURCES = NetworkManagerGeneric.c \
@@ -298,7 +304,9 @@ libnmbackend_la_SOURCES = NetworkManagerGeneric.c \
 	$(am__append_3) $(am__append_4) $(am__append_5) \
 	$(am__append_6) $(am__append_7) $(am__append_8) \
 	$(am__append_10) $(am__append_11)
-libnmbackend_la_LIBADD = $(am__append_9) $(DBUS_LIBS) $(GLIB_LIBS)
+libnmbackend_la_LIBADD = $(am__append_9) \
+	$(top_builddir)/src/logging/libnm-logging.la $(DBUS_LIBS) \
+	$(GLIB_LIBS)
 libnmbackend_la_CPPFLAGS = \
 	$(DBUS_CFLAGS) \
 	$(GLIB_CFLAGS) \

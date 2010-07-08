@@ -17,6 +17,9 @@ NMSettingOlpcMesh
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_SETTING_OLPC_MESH_SETTING_NAME ##### -->
 <para>
 
@@ -52,6 +55,7 @@ NMSettingOlpcMesh
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -97,11 +101,23 @@ NMSettingOlpcMesh
 
 </para>
 
+<!-- ##### STRUCT NMSettingOlpcMeshClass ##### -->
+<para>
+
+</para>
+
+@parent: 
+@_reserved1: 
+@_reserved2: 
+@_reserved3: 
+@_reserved4: 
+
 <!-- ##### FUNCTION nm_setting_olpc_mesh_get_type ##### -->
 <para>
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -110,6 +126,7 @@ NMSettingOlpcMesh
 
 </para>
 
+@void: 
 @Returns: 
 
 

@@ -17,6 +17,9 @@ NMDevice
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_DEVICE_UDI ##### -->
 <para>
 
@@ -73,6 +76,13 @@ NMDevice
 
 
 
+<!-- ##### MACRO NM_DEVICE_DHCP6_CONFIG ##### -->
+<para>
+
+</para>
+
+
+
 <!-- ##### MACRO NM_DEVICE_STATE ##### -->
 <para>
 
@@ -116,6 +126,11 @@ NMDevice
 </para>
 
 <!-- ##### ARG NMDevice:dhcp4-config ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMDevice:dhcp6-config ##### -->
 <para>
 
 </para>
@@ -239,6 +254,15 @@ NMDevice
 
 
 <!-- ##### FUNCTION nm_device_get_ip6_config ##### -->
+<para>
+
+</para>
+
+@device: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_device_get_dhcp6_config ##### -->
 <para>
 
 </para>

@@ -154,8 +154,8 @@ DBUS_LIBS = @DBUS_LIBS@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
-DHCP_CLIENT = @DHCP_CLIENT@
-DHCP_CLIENT_PATH = @DHCP_CLIENT_PATH@
+DHCLIENT_PATH = @DHCLIENT_PATH@
+DHCPCD_PATH = @DHCPCD_PATH@
 DISABLE_DEPRECATED = @DISABLE_DEPRECATED@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
@@ -179,6 +179,8 @@ GNUTLS_CFLAGS = @GNUTLS_CFLAGS@
 GNUTLS_LIBS = @GNUTLS_LIBS@
 GREP = @GREP@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_MKPDF = @GTKDOC_MKPDF@
+GTKDOC_REBASE = @GTKDOC_REBASE@
 GUDEV_CFLAGS = @GUDEV_CFLAGS@
 GUDEV_LIBS = @GUDEV_LIBS@
 HTML_DIR = @HTML_DIR@
@@ -229,6 +231,7 @@ PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
 PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
+PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
@@ -304,9 +307,25 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-SUBDIRS = marshallers libnm-util libnm-glib src include introspection \
-	callouts system-settings tools policy initscript test po man \
-	docs
+SUBDIRS = \
+	marshallers \
+	libnm-util \
+	libnm-glib \
+	src \
+	include \
+	introspection \
+	callouts \
+	system-settings \
+	cli \
+	tools \
+	policy \
+	initscript \
+	test \
+	po \
+	man \
+	docs \
+	examples
+
 EXTRA_DIST = \
 	CONTRIBUTING \
 	NetworkManager.pc.in \

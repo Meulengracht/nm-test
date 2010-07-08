@@ -53,6 +53,7 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libsupplicant_manager_la_DEPENDENCIES =  \
 	$(top_builddir)/marshallers/libmarshallers.la \
+	$(top_builddir)/src/logging/libnm-logging.la \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_libsupplicant_manager_la_OBJECTS =  \
 	libsupplicant_manager_la-nm-supplicant-manager.lo \
@@ -140,8 +141,8 @@ DBUS_LIBS = @DBUS_LIBS@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
-DHCP_CLIENT = @DHCP_CLIENT@
-DHCP_CLIENT_PATH = @DHCP_CLIENT_PATH@
+DHCLIENT_PATH = @DHCLIENT_PATH@
+DHCPCD_PATH = @DHCPCD_PATH@
 DISABLE_DEPRECATED = @DISABLE_DEPRECATED@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
@@ -165,6 +166,8 @@ GNUTLS_CFLAGS = @GNUTLS_CFLAGS@
 GNUTLS_LIBS = @GNUTLS_LIBS@
 GREP = @GREP@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_MKPDF = @GTKDOC_MKPDF@
+GTKDOC_REBASE = @GTKDOC_REBASE@
 GUDEV_CFLAGS = @GUDEV_CFLAGS@
 GUDEV_LIBS = @GUDEV_LIBS@
 HTML_DIR = @HTML_DIR@
@@ -215,6 +218,7 @@ PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
 PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
+PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
@@ -293,6 +297,7 @@ top_srcdir = @top_srcdir@
 SUBDIRS = . tests
 INCLUDES = \
 	-I${top_srcdir}/src \
+	-I${top_srcdir}/src/logging \
 	-I${top_srcdir}/include \
 	-I${top_srcdir}/libnm-util \
 	-I${top_builddir}/marshallers \
@@ -318,6 +323,7 @@ libsupplicant_manager_la_CPPFLAGS = \
 
 libsupplicant_manager_la_LIBADD = \
 	$(top_builddir)/marshallers/libmarshallers.la \
+	$(top_builddir)/src/logging/libnm-logging.la \
 	$(DBUS_LIBS) \
 	$(GLIB_LIBS)
 

@@ -35,7 +35,10 @@ build_triplet = @build@
 host_triplet = @host@
 subdir = man
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(srcdir)/NetworkManager.8.in $(srcdir)/nm-tool.1.in
+	$(srcdir)/NetworkManager.8.in \
+	$(srcdir)/NetworkManager.conf.5.in \
+	$(srcdir)/nm-system-settings.conf.5.in $(srcdir)/nm-tool.1.in \
+	$(srcdir)/nmcli.1.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/compiler_warnings.m4 \
 	$(top_srcdir)/m4/gtk-doc.m4 $(top_srcdir)/m4/intltool.m4 \
@@ -47,7 +50,8 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = NetworkManager.8 nm-tool.1
+CONFIG_CLEAN_FILES = NetworkManager.8 NetworkManager.conf.5 \
+	nm-system-settings.conf.5 nm-tool.1 nmcli.1
 CONFIG_CLEAN_VPATH_FILES =
 SOURCES =
 DIST_SOURCES =
@@ -73,7 +77,9 @@ am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
 man1dir = $(mandir)/man1
-am__installdirs = "$(DESTDIR)$(man1dir)" "$(DESTDIR)$(man8dir)"
+am__installdirs = "$(DESTDIR)$(man1dir)" "$(DESTDIR)$(man5dir)" \
+	"$(DESTDIR)$(man8dir)"
+man5dir = $(mandir)/man5
 man8dir = $(mandir)/man8
 NROFF = nroff
 MANS = $(man_MANS)
@@ -101,8 +107,8 @@ DBUS_LIBS = @DBUS_LIBS@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
-DHCP_CLIENT = @DHCP_CLIENT@
-DHCP_CLIENT_PATH = @DHCP_CLIENT_PATH@
+DHCLIENT_PATH = @DHCLIENT_PATH@
+DHCPCD_PATH = @DHCPCD_PATH@
 DISABLE_DEPRECATED = @DISABLE_DEPRECATED@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
@@ -126,6 +132,8 @@ GNUTLS_CFLAGS = @GNUTLS_CFLAGS@
 GNUTLS_LIBS = @GNUTLS_LIBS@
 GREP = @GREP@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_MKPDF = @GTKDOC_MKPDF@
+GTKDOC_REBASE = @GTKDOC_REBASE@
 GUDEV_CFLAGS = @GUDEV_CFLAGS@
 GUDEV_LIBS = @GUDEV_LIBS@
 HTML_DIR = @HTML_DIR@
@@ -176,6 +184,7 @@ PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
 PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
+PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
@@ -253,13 +262,20 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 man_MANS = \
 	NetworkManager.8		\
-	nm-tool.1
+	NetworkManager.conf.5		\
+	nm-system-settings.conf.5	\
+	nm-tool.1			\
+	nmcli.1
 
 EXTRA_DIST = \
 	$(man_MANS)			\
 	NetworkManager.8.in		\
-	nm-tool.1.in
+	NetworkManager.conf.5.in	\
+	nm-system-settings.conf.5.in	\
+	nm-tool.1.in			\
+	nmcli.1.in
 
+CLEANFILES = $(man_MANS)
 all: all-am
 
 .SUFFIXES:
@@ -295,7 +311,13 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 $(am__aclocal_m4_deps):
 NetworkManager.8: $(top_builddir)/config.status $(srcdir)/NetworkManager.8.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+NetworkManager.conf.5: $(top_builddir)/config.status $(srcdir)/NetworkManager.conf.5.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+nm-system-settings.conf.5: $(top_builddir)/config.status $(srcdir)/nm-system-settings.conf.5.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 nm-tool.1: $(top_builddir)/config.status $(srcdir)/nm-tool.1.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+nmcli.1: $(top_builddir)/config.status $(srcdir)/nmcli.1.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 
 mostlyclean-libtool:
@@ -341,6 +363,44 @@ uninstall-man1:
 	test -z "$$files" || { \
 	  echo " ( cd '$(DESTDIR)$(man1dir)' && rm -f" $$files ")"; \
 	  cd "$(DESTDIR)$(man1dir)" && rm -f $$files; }
+install-man5: $(man_MANS)
+	@$(NORMAL_INSTALL)
+	test -z "$(man5dir)" || $(MKDIR_P) "$(DESTDIR)$(man5dir)"
+	@list=''; test -n "$(man5dir)" || exit 0; \
+	{ for i in $$list; do echo "$$i"; done; \
+	l2='$(man_MANS)'; for i in $$l2; do echo "$$i"; done | \
+	  sed -n '/\.5[a-z]*$$/p'; \
+	} | while read p; do \
+	  if test -f $$p; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; echo "$$p"; \
+	done | \
+	sed -e 'n;s,.*/,,;p;h;s,.*\.,,;s,^[^5][0-9a-z]*$$,5,;x' \
+	      -e 's,\.[0-9a-z]*$$,,;$(transform);G;s,\n,.,' | \
+	sed 'N;N;s,\n, ,g' | { \
+	list=; while read file base inst; do \
+	  if test "$$base" = "$$inst"; then list="$$list $$file"; else \
+	    echo " $(INSTALL_DATA) '$$file' '$(DESTDIR)$(man5dir)/$$inst'"; \
+	    $(INSTALL_DATA) "$$file" "$(DESTDIR)$(man5dir)/$$inst" || exit $$?; \
+	  fi; \
+	done; \
+	for i in $$list; do echo "$$i"; done | $(am__base_list) | \
+	while read files; do \
+	  test -z "$$files" || { \
+	    echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(man5dir)'"; \
+	    $(INSTALL_DATA) $$files "$(DESTDIR)$(man5dir)" || exit $$?; }; \
+	done; }
+
+uninstall-man5:
+	@$(NORMAL_UNINSTALL)
+	@list=''; test -n "$(man5dir)" || exit 0; \
+	files=`{ for i in $$list; do echo "$$i"; done; \
+	l2='$(man_MANS)'; for i in $$l2; do echo "$$i"; done | \
+	  sed -n '/\.5[a-z]*$$/p'; \
+	} | sed -e 's,.*/,,;h;s,.*\.,,;s,^[^5][0-9a-z]*$$,5,;x' \
+	      -e 's,\.[0-9a-z]*$$,,;$(transform);G;s,\n,.,'`; \
+	test -z "$$files" || { \
+	  echo " ( cd '$(DESTDIR)$(man5dir)' && rm -f" $$files ")"; \
+	  cd "$(DESTDIR)$(man5dir)" && rm -f $$files; }
 install-man8: $(man_MANS)
 	@$(NORMAL_INSTALL)
 	test -z "$(man8dir)" || $(MKDIR_P) "$(DESTDIR)$(man8dir)"
@@ -433,7 +493,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(MANS)
 installdirs:
-	for dir in "$(DESTDIR)$(man1dir)" "$(DESTDIR)$(man8dir)"; do \
+	for dir in "$(DESTDIR)$(man1dir)" "$(DESTDIR)$(man5dir)" "$(DESTDIR)$(man8dir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -453,6 +513,7 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
@@ -497,7 +558,7 @@ install-info: install-info-am
 
 install-info-am:
 
-install-man: install-man1 install-man8
+install-man: install-man1 install-man5 install-man8
 
 install-pdf: install-pdf-am
 
@@ -527,7 +588,7 @@ ps-am:
 
 uninstall-am: uninstall-man
 
-uninstall-man: uninstall-man1 uninstall-man8
+uninstall-man: uninstall-man1 uninstall-man5 uninstall-man8
 
 .MAKE: install-am install-strip
 
@@ -537,12 +598,12 @@ uninstall-man: uninstall-man1 uninstall-man8
 	install-data install-data-am install-dvi install-dvi-am \
 	install-exec install-exec-am install-html install-html-am \
 	install-info install-info-am install-man install-man1 \
-	install-man8 install-pdf install-pdf-am install-ps \
-	install-ps-am install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-generic mostlyclean-libtool pdf pdf-am \
-	ps ps-am uninstall uninstall-am uninstall-man uninstall-man1 \
-	uninstall-man8
+	install-man5 install-man8 install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-generic \
+	mostlyclean-libtool pdf pdf-am ps ps-am uninstall uninstall-am \
+	uninstall-man uninstall-man1 uninstall-man5 uninstall-man8
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

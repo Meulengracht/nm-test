@@ -17,6 +17,9 @@ NMDeviceWifi
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_DEVICE_WIFI_HW_ADDRESS ##### -->
 <para>
 

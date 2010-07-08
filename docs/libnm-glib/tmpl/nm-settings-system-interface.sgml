@@ -17,6 +17,9 @@ nm-settings-system-interface
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### ENUM NMSettingsSystemPermissions ##### -->
 <para>
 

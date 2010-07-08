@@ -17,6 +17,9 @@ NMSettingPPPOE
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_SETTING_PPPOE_SETTING_NAME ##### -->
 <para>
 
@@ -53,6 +56,7 @@ NMSettingPPPOE
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -98,11 +102,23 @@ NMSettingPPPOE
 
 </para>
 
+<!-- ##### STRUCT NMSettingPPPOEClass ##### -->
+<para>
+
+</para>
+
+@parent: 
+@_reserved1: 
+@_reserved2: 
+@_reserved3: 
+@_reserved4: 
+
 <!-- ##### FUNCTION nm_setting_pppoe_get_type ##### -->
 <para>
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -111,6 +127,7 @@ NMSettingPPPOE
 
 </para>
 
+@void: 
 @Returns: 
 
 

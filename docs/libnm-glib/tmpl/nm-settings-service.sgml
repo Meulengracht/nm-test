@@ -17,6 +17,9 @@ NMSettingsService
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_SETTINGS_SERVICE_BUS ##### -->
 <para>
 

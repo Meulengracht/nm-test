@@ -17,6 +17,9 @@ NMSettingWirelessSecurity
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_SETTING_WIRELESS_SECURITY_SETTING_NAME ##### -->
 <para>
 
@@ -56,6 +59,7 @@ NMSettingWirelessSecurity
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -243,11 +247,23 @@ NMSettingWirelessSecurity
 
 </para>
 
+<!-- ##### STRUCT NMSettingWirelessSecurityClass ##### -->
+<para>
+
+</para>
+
+@parent: 
+@_reserved1: 
+@_reserved2: 
+@_reserved3: 
+@_reserved4: 
+
 <!-- ##### FUNCTION nm_setting_wireless_security_get_type ##### -->
 <para>
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -256,6 +272,7 @@ NMSettingWirelessSecurity
 
 </para>
 
+@void: 
 @Returns: 
 
 

@@ -22,6 +22,34 @@
 NMSettingBridge
 
 
+<!-- ##### SECTION ./tmpl/nm-setting-wimax.sgml:Image ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-wimax.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-wimax.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-wimax.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-wimax.sgml:Stability_Level ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/nm-setting-wimax.sgml:Title ##### -->
+NMSettingWimax
+
+
 <!-- ##### ARG NMSetting8021x:ca-cert-path ##### -->
 <para>
 
@@ -96,6 +124,64 @@ NMSettingBridge
 @NM_SETTING_GSM_NETWORK_PREFER_UMTS_HSPA: 
 @NM_SETTING_GSM_NETWORK_PREFER_GPRS_EDGE: 
 
+<!-- ##### STRUCT NMSettingWimax ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingWimax:mac-address ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingWimax:network-name ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT NMSettingWimaxClass ##### -->
+<para>
+
+</para>
+
+@parent: 
+
+<!-- ##### ENUM NMSettingWimaxError ##### -->
+<para>
+
+</para>
+
+@NM_SETTING_WIMAX_ERROR_UNKNOWN: 
+@NM_SETTING_WIMAX_ERROR_INVALID_PROPERTY: 
+@NM_SETTING_WIMAX_ERROR_MISSING_PROPERTY: 
+
+<!-- ##### ARG NMSettingWired:cloned-mac-address ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingWired:s390-subchannels ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingWired:zvm-subchannels ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG NMSettingWireless:cloned-mac-address ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### MACRO NM_SETTING_802_1X_CA_CERT_PATH ##### -->
 <para>
 
@@ -162,7 +248,61 @@ NMSettingBridge
 </para>
 
 
+<!-- ##### MACRO NM_SETTING_WIMAX_ERROR ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_WIMAX_MAC_ADDRESS ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_WIMAX_NETWORK_NAME ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_WIMAX_SETTING_NAME ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_WIRED_CLONED_MAC_ADDRESS ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_WIRED_S390_SUBCHANNELS ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_WIRED_ZVM_SUBCHANNELS ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_SETTING_WIRELESS_CLONED_MAC_ADDRESS ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### MACRO NM_TYPE_SETTING_BRIDGE_ERROR ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO NM_TYPE_SETTING_WIMAX_ERROR ##### -->
 <para>
 
 </para>
@@ -305,4 +445,112 @@ NMSettingBridge
 
 @setting: 
 @i: 
+
+<!-- ##### FUNCTION nm_setting_wimax_error_quark ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_wimax_get_mac_address ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_wimax_get_network_name ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_wimax_get_type ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_wimax_new ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_wired_get_cloned_mac_address ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_wired_get_s390_subchannels ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_wired_get_zvm_subchannels ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_setting_wireless_get_cloned_mac_address ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_utils_wifi_channel_to_freq ##### -->
+<para>
+
+</para>
+
+@channel: 
+@band: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_utils_wifi_find_next_channel ##### -->
+<para>
+
+</para>
+
+@channel: 
+@direction: 
+@band: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_utils_wifi_freq_to_channel ##### -->
+<para>
+
+</para>
+
+@freq: 
+@Returns: 
+
+<!-- ##### FUNCTION nm_utils_wifi_is_channel_valid ##### -->
+<para>
+
+</para>
+
+@channel: 
+@band: 
+@Returns: 
 

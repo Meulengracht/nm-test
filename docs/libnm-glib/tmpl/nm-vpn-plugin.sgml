@@ -17,6 +17,9 @@ NMVPNPlugin
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_VPN_PLUGIN_DBUS_SERVICE_NAME ##### -->
 <para>
 
@@ -72,6 +75,7 @@ NMVPNPlugin
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -80,6 +84,7 @@ NMVPNPlugin
 
 </para>
 
+@void: 
 @Returns: 
 
 

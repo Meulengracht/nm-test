@@ -17,6 +17,9 @@ NMSettingIP6Config
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_SETTING_IP6_CONFIG_SETTING_NAME ##### -->
 <para>
 
@@ -53,6 +56,7 @@ NMSettingIP6Config
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -112,6 +116,13 @@ NMSettingIP6Config
 
 
 
+<!-- ##### MACRO NM_SETTING_IP6_CONFIG_MAY_FAIL ##### -->
+<para>
+
+</para>
+
+
+
 <!-- ##### MACRO NM_SETTING_IP6_CONFIG_METHOD_IGNORE ##### -->
 <para>
 
@@ -158,6 +169,7 @@ NMSettingIP6Config
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -232,6 +244,24 @@ NMSettingIP6Config
 @prefix: 
 
 
+<!-- ##### FUNCTION nm_ip6_address_get_gateway ##### -->
+<para>
+
+</para>
+
+@address: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_ip6_address_set_gateway ##### -->
+<para>
+
+</para>
+
+@address: 
+@gw: 
+
+
 <!-- ##### TYPEDEF NMIP6Route ##### -->
 <para>
 
@@ -243,6 +273,7 @@ NMSettingIP6Config
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -384,6 +415,11 @@ NMSettingIP6Config
 
 </para>
 
+<!-- ##### ARG NMSettingIP6Config:may-fail ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG NMSettingIP6Config:method ##### -->
 <para>
 
@@ -399,11 +435,23 @@ NMSettingIP6Config
 
 </para>
 
+<!-- ##### STRUCT NMSettingIP6ConfigClass ##### -->
+<para>
+
+</para>
+
+@parent: 
+@_reserved1: 
+@_reserved2: 
+@_reserved3: 
+@_reserved4: 
+
 <!-- ##### FUNCTION nm_setting_ip6_config_get_type ##### -->
 <para>
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -412,6 +460,7 @@ NMSettingIP6Config
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -627,6 +676,15 @@ NMSettingIP6Config
 
 
 <!-- ##### FUNCTION nm_setting_ip6_config_get_never_default ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_setting_ip6_config_get_may_fail ##### -->
 <para>
 
 </para>

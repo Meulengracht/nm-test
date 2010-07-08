@@ -51,7 +51,9 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-libdnsmasq_manager_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
+libdnsmasq_manager_la_DEPENDENCIES =  \
+	$(top_builddir)/src/logging/libnm-logging.la \
+	$(am__DEPENDENCIES_1)
 am_libdnsmasq_manager_la_OBJECTS =  \
 	libdnsmasq_manager_la-nm-dnsmasq-manager.lo
 libdnsmasq_manager_la_OBJECTS = $(am_libdnsmasq_manager_la_OBJECTS)
@@ -96,8 +98,8 @@ DBUS_LIBS = @DBUS_LIBS@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
-DHCP_CLIENT = @DHCP_CLIENT@
-DHCP_CLIENT_PATH = @DHCP_CLIENT_PATH@
+DHCLIENT_PATH = @DHCLIENT_PATH@
+DHCPCD_PATH = @DHCPCD_PATH@
 DISABLE_DEPRECATED = @DISABLE_DEPRECATED@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
@@ -121,6 +123,8 @@ GNUTLS_CFLAGS = @GNUTLS_CFLAGS@
 GNUTLS_LIBS = @GNUTLS_LIBS@
 GREP = @GREP@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_MKPDF = @GTKDOC_MKPDF@
+GTKDOC_REBASE = @GTKDOC_REBASE@
 GUDEV_CFLAGS = @GUDEV_CFLAGS@
 GUDEV_LIBS = @GUDEV_LIBS@
 HTML_DIR = @HTML_DIR@
@@ -171,6 +175,7 @@ PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
 PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
+PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
@@ -248,6 +253,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 INCLUDES = \
 	-I${top_srcdir}/libnm-util \
+	-I${top_srcdir}/src/logging \
 	-I${top_srcdir}/src \
 	-I${top_srcdir}/include
 
@@ -260,7 +266,10 @@ libdnsmasq_manager_la_CPPFLAGS = \
 	$(GLIB_CFLAGS) \
 	-DLOCALSTATEDIR=\"$(localstatedir)\"
 
-libdnsmasq_manager_la_LIBADD = $(GLIB_LIBS)
+libdnsmasq_manager_la_LIBADD = \
+	$(top_builddir)/src/logging/libnm-logging.la \
+	$(GLIB_LIBS)
+
 all: all-am
 
 .SUFFIXES:

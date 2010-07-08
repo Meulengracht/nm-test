@@ -17,6 +17,9 @@ NMSetting
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### ENUM NMSettingError ##### -->
 <para>
 
@@ -46,6 +49,7 @@ NMSetting
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -95,6 +99,20 @@ NMSetting
 
 </para>
 
+<!-- ##### STRUCT NMSettingClass ##### -->
+<para>
+
+</para>
+
+@parent: 
+@verify: 
+@need_secrets: 
+@update_one_secret: 
+@_reserved1: 
+@_reserved2: 
+@_reserved3: 
+@_reserved4: 
+
 <!-- ##### USER_FUNCTION NMSettingValueIterFn ##### -->
 <para>
 
@@ -112,6 +130,7 @@ NMSetting
 
 </para>
 
+@void: 
 @Returns: 
 
 
