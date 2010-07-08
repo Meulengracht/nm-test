@@ -17,6 +17,9 @@ NMActiveConnection
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_ACTIVE_CONNECTION_SERVICE_NAME ##### -->
 <para>
 
@@ -59,6 +62,13 @@ NMActiveConnection
 
 
 
+<!-- ##### MACRO NM_ACTIVE_CONNECTION_DEFAULT6 ##### -->
+<para>
+
+</para>
+
+
+
 <!-- ##### STRUCT NMActiveConnection ##### -->
 <para>
 
@@ -71,6 +81,11 @@ NMActiveConnection
 </para>
 
 <!-- ##### ARG NMActiveConnection:default ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMActiveConnection:default6 ##### -->
 <para>
 
 </para>
@@ -160,6 +175,15 @@ NMActiveConnection
 
 
 <!-- ##### FUNCTION nm_active_connection_get_default ##### -->
+<para>
+
+</para>
+
+@connection: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_active_connection_get_default6 ##### -->
 <para>
 
 </para>

@@ -17,6 +17,9 @@ NMSettingGsm
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_SETTING_GSM_SETTING_NAME ##### -->
 <para>
 
@@ -53,6 +56,7 @@ NMSettingGsm
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -106,6 +110,13 @@ NMSettingGsm
 
 
 <!-- ##### MACRO NM_SETTING_GSM_PIN ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_SETTING_GSM_HOME_ONLY ##### -->
 <para>
 
 </para>
@@ -190,6 +201,7 @@ NMSettingGsm
 @NM_SETTING_GSM_BAND_U850: 
 @NM_SETTING_GSM_BAND_U900: 
 @NM_SETTING_GSM_BAND_U17IX: 
+@NM_SETTING_GSM_BAND_U1900: 
 
 <!-- ##### STRUCT NMSettingGsm ##### -->
 <para>
@@ -208,6 +220,11 @@ NMSettingGsm
 </para>
 
 <!-- ##### ARG NMSettingGsm:band ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG NMSettingGsm:home-only ##### -->
 <para>
 
 </para>
@@ -247,11 +264,23 @@ NMSettingGsm
 
 </para>
 
+<!-- ##### STRUCT NMSettingGsmClass ##### -->
+<para>
+
+</para>
+
+@parent: 
+@_reserved1: 
+@_reserved2: 
+@_reserved3: 
+@_reserved4: 
+
 <!-- ##### FUNCTION nm_setting_gsm_get_type ##### -->
 <para>
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -260,6 +289,7 @@ NMSettingGsm
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -327,6 +357,15 @@ NMSettingGsm
 
 
 <!-- ##### FUNCTION nm_setting_gsm_get_pin ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_setting_gsm_get_home_only ##### -->
 <para>
 
 </para>

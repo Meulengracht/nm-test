@@ -17,6 +17,23 @@ NMVPNConnection
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### MACRO NM_VPN_CONNECTION_VPN_STATE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO NM_VPN_CONNECTION_BANNER ##### -->
+<para>
+
+</para>
+
+
+
 <!-- ##### STRUCT NMVPNConnection ##### -->
 <para>
 

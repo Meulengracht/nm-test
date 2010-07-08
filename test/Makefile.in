@@ -53,13 +53,17 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS) $(noinst_PROGRAMS)
-am_libnm_glib_test_OBJECTS = libnm-glib-test.$(OBJEXT)
+am_libnm_glib_test_OBJECTS =  \
+	libnm_glib_test-libnm-glib-test.$(OBJEXT)
 libnm_glib_test_OBJECTS = $(am_libnm_glib_test_OBJECTS)
 am__DEPENDENCIES_1 =
 libnm_glib_test_DEPENDENCIES =  \
 	$(top_builddir)/libnm-glib/libnm-glib.la \
 	$(top_builddir)/libnm-util/libnm-util.la $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
+libnm_glib_test_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(libnm_glib_test_CFLAGS) \
+	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_nm_online_OBJECTS = nm-online.$(OBJEXT)
 nm_online_OBJECTS = $(am_nm_online_OBJECTS)
 nm_online_DEPENDENCIES = $(top_builddir)/libnm-util/libnm-util.la \
@@ -112,8 +116,8 @@ DBUS_LIBS = @DBUS_LIBS@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
-DHCP_CLIENT = @DHCP_CLIENT@
-DHCP_CLIENT_PATH = @DHCP_CLIENT_PATH@
+DHCLIENT_PATH = @DHCLIENT_PATH@
+DHCPCD_PATH = @DHCPCD_PATH@
 DISABLE_DEPRECATED = @DISABLE_DEPRECATED@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
@@ -137,6 +141,8 @@ GNUTLS_CFLAGS = @GNUTLS_CFLAGS@
 GNUTLS_LIBS = @GNUTLS_LIBS@
 GREP = @GREP@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_MKPDF = @GTKDOC_MKPDF@
+GTKDOC_REBASE = @GTKDOC_REBASE@
 GUDEV_CFLAGS = @GUDEV_CFLAGS@
 GUDEV_LIBS = @GUDEV_LIBS@
 HTML_DIR = @HTML_DIR@
@@ -187,6 +193,7 @@ PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
 PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
+PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
@@ -288,6 +295,10 @@ nm_online_LDADD = \
 	$(GLIB_LIBS)
 
 libnm_glib_test_SOURCES = libnm-glib-test.c
+libnm_glib_test_CFLAGS = \
+	-Wno-deprecated-declarations \
+	-Wno-deprecated
+
 libnm_glib_test_LDADD = \
 	$(top_builddir)/libnm-glib/libnm-glib.la \
 	$(top_builddir)/libnm-util/libnm-util.la \
@@ -382,7 +393,7 @@ clean-noinstPROGRAMS:
 	rm -f $$list
 libnm-glib-test$(EXEEXT): $(libnm_glib_test_OBJECTS) $(libnm_glib_test_DEPENDENCIES) 
 	@rm -f libnm-glib-test$(EXEEXT)
-	$(LINK) $(libnm_glib_test_OBJECTS) $(libnm_glib_test_LDADD) $(LIBS)
+	$(libnm_glib_test_LINK) $(libnm_glib_test_OBJECTS) $(libnm_glib_test_LDADD) $(LIBS)
 nm-online$(EXEEXT): $(nm_online_OBJECTS) $(nm_online_DEPENDENCIES) 
 	@rm -f nm-online$(EXEEXT)
 	$(LINK) $(nm_online_OBJECTS) $(nm_online_LDADD) $(LIBS)
@@ -396,7 +407,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm-glib-test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_glib_test-libnm-glib-test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nm-online.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nm-tool.Po@am__quote@
 
@@ -423,6 +434,20 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
+
+libnm_glib_test-libnm-glib-test.o: libnm-glib-test.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libnm_glib_test_CFLAGS) $(CFLAGS) -MT libnm_glib_test-libnm-glib-test.o -MD -MP -MF $(DEPDIR)/libnm_glib_test-libnm-glib-test.Tpo -c -o libnm_glib_test-libnm-glib-test.o `test -f 'libnm-glib-test.c' || echo '$(srcdir)/'`libnm-glib-test.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libnm_glib_test-libnm-glib-test.Tpo $(DEPDIR)/libnm_glib_test-libnm-glib-test.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libnm-glib-test.c' object='libnm_glib_test-libnm-glib-test.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libnm_glib_test_CFLAGS) $(CFLAGS) -c -o libnm_glib_test-libnm-glib-test.o `test -f 'libnm-glib-test.c' || echo '$(srcdir)/'`libnm-glib-test.c
+
+libnm_glib_test-libnm-glib-test.obj: libnm-glib-test.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libnm_glib_test_CFLAGS) $(CFLAGS) -MT libnm_glib_test-libnm-glib-test.obj -MD -MP -MF $(DEPDIR)/libnm_glib_test-libnm-glib-test.Tpo -c -o libnm_glib_test-libnm-glib-test.obj `if test -f 'libnm-glib-test.c'; then $(CYGPATH_W) 'libnm-glib-test.c'; else $(CYGPATH_W) '$(srcdir)/libnm-glib-test.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libnm_glib_test-libnm-glib-test.Tpo $(DEPDIR)/libnm_glib_test-libnm-glib-test.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libnm-glib-test.c' object='libnm_glib_test-libnm-glib-test.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libnm_glib_test_CFLAGS) $(CFLAGS) -c -o libnm_glib_test-libnm-glib-test.obj `if test -f 'libnm-glib-test.c'; then $(CYGPATH_W) 'libnm-glib-test.c'; else $(CYGPATH_W) '$(srcdir)/libnm-glib-test.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

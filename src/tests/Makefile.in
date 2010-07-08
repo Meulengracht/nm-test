@@ -34,7 +34,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-noinst_PROGRAMS = test-dhcp-options$(EXEEXT)
+noinst_PROGRAMS = test-dhcp-options$(EXEEXT) \
+	test-policy-hosts$(EXEEXT)
 subdir = src/tests
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -60,6 +61,12 @@ test_dhcp_options_DEPENDENCIES =  \
 	$(top_builddir)/src/dhcp-manager/libdhcp-manager.la \
 	$(top_builddir)/src/libtest-dhcp.la $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
+am_test_policy_hosts_OBJECTS =  \
+	test_policy_hosts-test-policy-hosts.$(OBJEXT)
+test_policy_hosts_OBJECTS = $(am_test_policy_hosts_OBJECTS)
+test_policy_hosts_DEPENDENCIES =  \
+	$(top_builddir)/src/libtest-policy-hosts.la \
+	$(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -73,8 +80,9 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(test_dhcp_options_SOURCES)
-DIST_SOURCES = $(test_dhcp_options_SOURCES)
+SOURCES = $(test_dhcp_options_SOURCES) $(test_policy_hosts_SOURCES)
+DIST_SOURCES = $(test_dhcp_options_SOURCES) \
+	$(test_policy_hosts_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -101,8 +109,8 @@ DBUS_LIBS = @DBUS_LIBS@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
-DHCP_CLIENT = @DHCP_CLIENT@
-DHCP_CLIENT_PATH = @DHCP_CLIENT_PATH@
+DHCLIENT_PATH = @DHCLIENT_PATH@
+DHCPCD_PATH = @DHCPCD_PATH@
 DISABLE_DEPRECATED = @DISABLE_DEPRECATED@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
@@ -126,6 +134,8 @@ GNUTLS_CFLAGS = @GNUTLS_CFLAGS@
 GNUTLS_LIBS = @GNUTLS_LIBS@
 GREP = @GREP@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_MKPDF = @GTKDOC_MKPDF@
+GTKDOC_REBASE = @GTKDOC_REBASE@
 GUDEV_CFLAGS = @GUDEV_CFLAGS@
 GUDEV_LIBS = @GUDEV_LIBS@
 HTML_DIR = @HTML_DIR@
@@ -176,6 +186,7 @@ PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
 PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
+PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
@@ -259,12 +270,16 @@ INCLUDES = \
 	-I$(top_srcdir)/src \
 	-I$(top_builddir)/src
 
+
+####### DHCP options test #######
 test_dhcp_options_SOURCES = \
 	test-dhcp-options.c
 
 test_dhcp_options_CPPFLAGS = \
 	$(GLIB_CFLAGS) \
-	$(DBUS_CFLAGS)
+	$(DBUS_CFLAGS) \
+	-DDHCLIENT_PATH=\"$(DHCLIENT_PATH)\" \
+	-DDHCPCD_PATH=\"$(DHCPCD_PATH)\"
 
 test_dhcp_options_LDADD = \
 	$(top_builddir)/libnm-util/libnm-util.la \
@@ -272,6 +287,19 @@ test_dhcp_options_LDADD = \
 	$(top_builddir)/src/libtest-dhcp.la \
 	$(GLIB_LIBS) \
 	$(DBUS_LIBS)
+
+
+####### policy /etc/hosts test #######
+test_policy_hosts_SOURCES = \
+	test-policy-hosts.c
+
+test_policy_hosts_CPPFLAGS = \
+	$(GLIB_CFLAGS)
+
+test_policy_hosts_LDADD = \
+	-ldl \
+	$(top_builddir)/src/libtest-policy-hosts.la \
+	$(GLIB_LIBS)
 
 all: all-am
 
@@ -319,6 +347,9 @@ clean-noinstPROGRAMS:
 test-dhcp-options$(EXEEXT): $(test_dhcp_options_OBJECTS) $(test_dhcp_options_DEPENDENCIES) 
 	@rm -f test-dhcp-options$(EXEEXT)
 	$(LINK) $(test_dhcp_options_OBJECTS) $(test_dhcp_options_LDADD) $(LIBS)
+test-policy-hosts$(EXEEXT): $(test_policy_hosts_OBJECTS) $(test_policy_hosts_DEPENDENCIES) 
+	@rm -f test-policy-hosts$(EXEEXT)
+	$(LINK) $(test_policy_hosts_OBJECTS) $(test_policy_hosts_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -327,6 +358,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_dhcp_options-test-dhcp-options.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_policy_hosts-test-policy-hosts.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -365,6 +397,20 @@ test_dhcp_options-test-dhcp-options.obj: test-dhcp-options.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test-dhcp-options.c' object='test_dhcp_options-test-dhcp-options.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_dhcp_options_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o test_dhcp_options-test-dhcp-options.obj `if test -f 'test-dhcp-options.c'; then $(CYGPATH_W) 'test-dhcp-options.c'; else $(CYGPATH_W) '$(srcdir)/test-dhcp-options.c'; fi`
+
+test_policy_hosts-test-policy-hosts.o: test-policy-hosts.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_policy_hosts_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT test_policy_hosts-test-policy-hosts.o -MD -MP -MF $(DEPDIR)/test_policy_hosts-test-policy-hosts.Tpo -c -o test_policy_hosts-test-policy-hosts.o `test -f 'test-policy-hosts.c' || echo '$(srcdir)/'`test-policy-hosts.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/test_policy_hosts-test-policy-hosts.Tpo $(DEPDIR)/test_policy_hosts-test-policy-hosts.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test-policy-hosts.c' object='test_policy_hosts-test-policy-hosts.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_policy_hosts_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o test_policy_hosts-test-policy-hosts.o `test -f 'test-policy-hosts.c' || echo '$(srcdir)/'`test-policy-hosts.c
+
+test_policy_hosts-test-policy-hosts.obj: test-policy-hosts.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_policy_hosts_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT test_policy_hosts-test-policy-hosts.obj -MD -MP -MF $(DEPDIR)/test_policy_hosts-test-policy-hosts.Tpo -c -o test_policy_hosts-test-policy-hosts.obj `if test -f 'test-policy-hosts.c'; then $(CYGPATH_W) 'test-policy-hosts.c'; else $(CYGPATH_W) '$(srcdir)/test-policy-hosts.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/test_policy_hosts-test-policy-hosts.Tpo $(DEPDIR)/test_policy_hosts-test-policy-hosts.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test-policy-hosts.c' object='test_policy_hosts-test-policy-hosts.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(test_policy_hosts_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o test_policy_hosts-test-policy-hosts.obj `if test -f 'test-policy-hosts.c'; then $(CYGPATH_W) 'test-policy-hosts.c'; else $(CYGPATH_W) '$(srcdir)/test-policy-hosts.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -575,6 +621,7 @@ uninstall-am:
 
 @WITH_TESTS_TRUE@check-local: test-dhcp-options
 @WITH_TESTS_TRUE@	$(abs_builddir)/test-dhcp-options
+@WITH_TESTS_TRUE@	$(abs_builddir)/test-policy-hosts
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -78,8 +78,14 @@ am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)" \
 	"$(DESTDIR)$(libnmincludedir)"
-LTLIBRARIES = $(lib_LTLIBRARIES)
+LTLIBRARIES = $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES)
 am__DEPENDENCIES_1 =
+libdeprecated_nm_glib_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
+am_libdeprecated_nm_glib_la_OBJECTS =  \
+	libdeprecated_nm_glib_la-libnm_glib.lo
+libdeprecated_nm_glib_la_OBJECTS =  \
+	$(am_libdeprecated_nm_glib_la_OBJECTS)
 libnm_glib_vpn_la_DEPENDENCIES =  \
 	$(top_builddir)/libnm-util/libnm-util.la $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
@@ -92,12 +98,11 @@ libnm_glib_vpn_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(libnm_glib_vpn_la_LDFLAGS) $(LDFLAGS) -o $@
 libnm_glib_la_DEPENDENCIES = $(top_builddir)/libnm-util/libnm-util.la \
 	$(top_builddir)/marshallers/libmarshallers.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
-am_libnm_glib_la_OBJECTS = libnm_glib_la-libnm_glib.lo \
-	libnm_glib_la-nm-object.lo libnm_glib_la-nm-client.lo \
-	libnm_glib_la-nm-dbus-utils.lo libnm_glib_la-nm-device.lo \
-	libnm_glib_la-nm-device-ethernet.lo \
+	$(builddir)/libdeprecated-nm-glib.la $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+am_libnm_glib_la_OBJECTS = libnm_glib_la-nm-object.lo \
+	libnm_glib_la-nm-client.lo libnm_glib_la-nm-dbus-utils.lo \
+	libnm_glib_la-nm-device.lo libnm_glib_la-nm-device-ethernet.lo \
 	libnm_glib_la-nm-device-wifi.lo libnm_glib_la-nm-device-bt.lo \
 	libnm_glib_la-nm-access-point.lo \
 	libnm_glib_la-nm-ip4-config.lo libnm_glib_la-nm-gsm-device.lo \
@@ -108,6 +113,7 @@ am_libnm_glib_la_OBJECTS = libnm_glib_la-libnm_glib.lo \
 	libnm_glib_la-nm-active-connection.lo \
 	libnm_glib_la-nm-dhcp4-config.lo \
 	libnm_glib_la-nm-ip6-config.lo \
+	libnm_glib_la-nm-dhcp6-config.lo \
 	libnm_glib_la-nm-remote-connection.lo \
 	libnm_glib_la-nm-settings-interface.lo \
 	libnm_glib_la-nm-settings-system-interface.lo \
@@ -143,9 +149,11 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(libnm_glib_vpn_la_SOURCES) $(libnm_glib_la_SOURCES) \
+SOURCES = $(libdeprecated_nm_glib_la_SOURCES) \
+	$(libnm_glib_vpn_la_SOURCES) $(libnm_glib_la_SOURCES) \
 	$(libnm_glib_test_SOURCES)
-DIST_SOURCES = $(libnm_glib_vpn_la_SOURCES) $(libnm_glib_la_SOURCES) \
+DIST_SOURCES = $(libdeprecated_nm_glib_la_SOURCES) \
+	$(libnm_glib_vpn_la_SOURCES) $(libnm_glib_la_SOURCES) \
 	$(libnm_glib_test_SOURCES)
 DATA = $(pkgconfig_DATA)
 HEADERS = $(libnminclude_HEADERS)
@@ -175,8 +183,8 @@ DBUS_LIBS = @DBUS_LIBS@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
-DHCP_CLIENT = @DHCP_CLIENT@
-DHCP_CLIENT_PATH = @DHCP_CLIENT_PATH@
+DHCLIENT_PATH = @DHCLIENT_PATH@
+DHCPCD_PATH = @DHCPCD_PATH@
 DISABLE_DEPRECATED = @DISABLE_DEPRECATED@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
@@ -200,6 +208,8 @@ GNUTLS_CFLAGS = @GNUTLS_CFLAGS@
 GNUTLS_LIBS = @GNUTLS_LIBS@
 GREP = @GREP@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_MKPDF = @GTKDOC_MKPDF@
+GTKDOC_REBASE = @GTKDOC_REBASE@
 GUDEV_CFLAGS = @GUDEV_CFLAGS@
 GUDEV_LIBS = @GUDEV_LIBS@
 HTML_DIR = @HTML_DIR@
@@ -250,6 +260,7 @@ PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
 PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
+PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
@@ -347,8 +358,32 @@ BUILT_SOURCES = \
 	nm-active-connection-bindings.h \
 	nm-ip4-config-bindings.h \
 	nm-dhcp4-config-bindings.h \
-	nm-ip6-config-bindings.h
+	nm-ip6-config-bindings.h \
+	nm-dhcp6-config-bindings.h
 
+
+#####################################################
+# Deprecated original libnm_glib bits
+#####################################################
+noinst_LTLIBRARIES = libdeprecated-nm-glib.la
+libdeprecated_nm_glib_la_SOURCES = \
+	libnm_glib.h \
+	libnm_glib.c
+
+libdeprecated_nm_glib_la_CPPFLAGS = \
+	$(DBUS_CFLAGS) \
+	$(GLIB_CFLAGS) \
+	-Wno-deprecated-declarations \
+	-Wno-deprecated
+
+libdeprecated_nm_glib_la_LIBADD = \
+	$(DBUS_LIBS) \
+	$(GLIB_LIBS)
+
+
+#####################################################
+# Real libnm-glib stuff
+#####################################################
 lib_LTLIBRARIES = libnm-glib.la libnm-glib-vpn.la
 libnm_glib_la_CFLAGS = \
 	$(GLIB_CFLAGS) \
@@ -377,6 +412,7 @@ libnminclude_HEADERS = \
 	nm-active-connection.h \
 	nm-dhcp4-config.h \
 	nm-ip6-config.h \
+	nm-dhcp6-config.h \
 	nm-remote-connection.h \
 	nm-settings-interface.h \
 	nm-settings-system-interface.h \
@@ -387,7 +423,6 @@ libnminclude_HEADERS = \
 	nm-settings-service.h
 
 libnm_glib_la_SOURCES = \
-	libnm_glib.c \
 	nm-object.c \
 	nm-object-private.h \
 	nm-client.c \
@@ -411,6 +446,7 @@ libnm_glib_la_SOURCES = \
 	nm-active-connection.c \
 	nm-dhcp4-config.c \
 	nm-ip6-config.c \
+	nm-dhcp6-config.c \
 	nm-remote-connection.c \
 	nm-remote-connection-private.h \
 	nm-settings-interface.c \
@@ -424,13 +460,14 @@ libnm_glib_la_SOURCES = \
 libnm_glib_la_LIBADD = \
 	$(top_builddir)/libnm-util/libnm-util.la \
 	$(top_builddir)/marshallers/libmarshallers.la \
+	$(builddir)/libdeprecated-nm-glib.la \
 	$(GLIB_LIBS) \
 	$(DBUS_LIBS) \
 	$(GCONF_LIBS) \
 	$(GUDEV_LIBS)
 
 libnm_glib_la_LDFLAGS = -Wl,--version-script=$(srcdir)/libnm-glib.ver \
-	-version-info "4:0:2"
+	-version-info "4:2:2"
 
 libnm_glib_test_SOURCES = libnm-glib-test.c
 libnm_glib_test_CFLAGS = $(GLIB_CFLAGS) $(DBUS_CFLAGS)
@@ -445,9 +482,7 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libnm-glib.pc libnm-glib-vpn.pc
 DISTCLEANFILES = libnm-glib.pc libnm-glib.pc
 EXTRA_DIST = libnm-glib.pc.in libnm-glib-vpn.pc.in libnm-glib.ver libnm-glib-vpn.ver
-CLEANFILES = \
-	$(BUILT_SOURCES)
-
+CLEANFILES = $(BUILT_SOURCES)
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -518,6 +553,17 @@ clean-libLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
+
+clean-noinstLTLIBRARIES:
+	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
+	@list='$(noinst_LTLIBRARIES)'; for p in $$list; do \
+	  dir="`echo $$p | sed -e 's|/[^/]*$$||'`"; \
+	  test "$$dir" != "$$p" || dir=.; \
+	  echo "rm -f \"$${dir}/so_locations\""; \
+	  rm -f "$${dir}/so_locations"; \
+	done
+libdeprecated-nm-glib.la: $(libdeprecated_nm_glib_la_OBJECTS) $(libdeprecated_nm_glib_la_DEPENDENCIES) 
+	$(LINK)  $(libdeprecated_nm_glib_la_OBJECTS) $(libdeprecated_nm_glib_la_LIBADD) $(LIBS)
 libnm-glib-vpn.la: $(libnm_glib_vpn_la_OBJECTS) $(libnm_glib_vpn_la_DEPENDENCIES) 
 	$(libnm_glib_vpn_la_LINK) -rpath $(libdir) $(libnm_glib_vpn_la_OBJECTS) $(libnm_glib_vpn_la_LIBADD) $(LIBS)
 libnm-glib.la: $(libnm_glib_la_OBJECTS) $(libnm_glib_la_DEPENDENCIES) 
@@ -541,7 +587,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_glib_la-libnm_glib.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libdeprecated_nm_glib_la-libnm_glib.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_glib_la-nm-access-point.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_glib_la-nm-active-connection.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_glib_la-nm-cdma-device.Plo@am__quote@
@@ -552,6 +598,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_glib_la-nm-device-wifi.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_glib_la-nm-device.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_glib_la-nm-dhcp4-config.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_glib_la-nm-dhcp6-config.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_glib_la-nm-exported-connection.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_glib_la-nm-gsm-device.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libnm_glib_la-nm-ip4-config.Plo@am__quote@
@@ -596,6 +643,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
 
+libdeprecated_nm_glib_la-libnm_glib.lo: libnm_glib.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdeprecated_nm_glib_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libdeprecated_nm_glib_la-libnm_glib.lo -MD -MP -MF $(DEPDIR)/libdeprecated_nm_glib_la-libnm_glib.Tpo -c -o libdeprecated_nm_glib_la-libnm_glib.lo `test -f 'libnm_glib.c' || echo '$(srcdir)/'`libnm_glib.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libdeprecated_nm_glib_la-libnm_glib.Tpo $(DEPDIR)/libdeprecated_nm_glib_la-libnm_glib.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libnm_glib.c' object='libdeprecated_nm_glib_la-libnm_glib.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdeprecated_nm_glib_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libdeprecated_nm_glib_la-libnm_glib.lo `test -f 'libnm_glib.c' || echo '$(srcdir)/'`libnm_glib.c
+
 libnm_glib_vpn_la-nm-vpn-plugin.lo: nm-vpn-plugin.c
 @am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libnm_glib_vpn_la_CFLAGS) $(CFLAGS) -MT libnm_glib_vpn_la-nm-vpn-plugin.lo -MD -MP -MF $(DEPDIR)/libnm_glib_vpn_la-nm-vpn-plugin.Tpo -c -o libnm_glib_vpn_la-nm-vpn-plugin.lo `test -f 'nm-vpn-plugin.c' || echo '$(srcdir)/'`nm-vpn-plugin.c
 @am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libnm_glib_vpn_la-nm-vpn-plugin.Tpo $(DEPDIR)/libnm_glib_vpn_la-nm-vpn-plugin.Plo
@@ -609,13 +663,6 @@ libnm_glib_vpn_la-nm-vpn-plugin-ui-interface.lo: nm-vpn-plugin-ui-interface.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='nm-vpn-plugin-ui-interface.c' object='libnm_glib_vpn_la-nm-vpn-plugin-ui-interface.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libnm_glib_vpn_la_CFLAGS) $(CFLAGS) -c -o libnm_glib_vpn_la-nm-vpn-plugin-ui-interface.lo `test -f 'nm-vpn-plugin-ui-interface.c' || echo '$(srcdir)/'`nm-vpn-plugin-ui-interface.c
-
-libnm_glib_la-libnm_glib.lo: libnm_glib.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libnm_glib_la_CFLAGS) $(CFLAGS) -MT libnm_glib_la-libnm_glib.lo -MD -MP -MF $(DEPDIR)/libnm_glib_la-libnm_glib.Tpo -c -o libnm_glib_la-libnm_glib.lo `test -f 'libnm_glib.c' || echo '$(srcdir)/'`libnm_glib.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libnm_glib_la-libnm_glib.Tpo $(DEPDIR)/libnm_glib_la-libnm_glib.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='libnm_glib.c' object='libnm_glib_la-libnm_glib.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libnm_glib_la_CFLAGS) $(CFLAGS) -c -o libnm_glib_la-libnm_glib.lo `test -f 'libnm_glib.c' || echo '$(srcdir)/'`libnm_glib.c
 
 libnm_glib_la-nm-object.lo: nm-object.c
 @am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libnm_glib_la_CFLAGS) $(CFLAGS) -MT libnm_glib_la-nm-object.lo -MD -MP -MF $(DEPDIR)/libnm_glib_la-nm-object.Tpo -c -o libnm_glib_la-nm-object.lo `test -f 'nm-object.c' || echo '$(srcdir)/'`nm-object.c
@@ -742,6 +789,13 @@ libnm_glib_la-nm-ip6-config.lo: nm-ip6-config.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='nm-ip6-config.c' object='libnm_glib_la-nm-ip6-config.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libnm_glib_la_CFLAGS) $(CFLAGS) -c -o libnm_glib_la-nm-ip6-config.lo `test -f 'nm-ip6-config.c' || echo '$(srcdir)/'`nm-ip6-config.c
+
+libnm_glib_la-nm-dhcp6-config.lo: nm-dhcp6-config.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libnm_glib_la_CFLAGS) $(CFLAGS) -MT libnm_glib_la-nm-dhcp6-config.lo -MD -MP -MF $(DEPDIR)/libnm_glib_la-nm-dhcp6-config.Tpo -c -o libnm_glib_la-nm-dhcp6-config.lo `test -f 'nm-dhcp6-config.c' || echo '$(srcdir)/'`nm-dhcp6-config.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libnm_glib_la-nm-dhcp6-config.Tpo $(DEPDIR)/libnm_glib_la-nm-dhcp6-config.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='nm-dhcp6-config.c' object='libnm_glib_la-nm-dhcp6-config.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libnm_glib_la_CFLAGS) $(CFLAGS) -c -o libnm_glib_la-nm-dhcp6-config.lo `test -f 'nm-dhcp6-config.c' || echo '$(srcdir)/'`nm-dhcp6-config.c
 
 libnm_glib_la-nm-remote-connection.lo: nm-remote-connection.c
 @am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libnm_glib_la_CFLAGS) $(CFLAGS) -MT libnm_glib_la-nm-remote-connection.lo -MD -MP -MF $(DEPDIR)/libnm_glib_la-nm-remote-connection.Tpo -c -o libnm_glib_la-nm-remote-connection.lo `test -f 'nm-remote-connection.c' || echo '$(srcdir)/'`nm-remote-connection.c
@@ -981,7 +1035,7 @@ maintainer-clean-generic:
 clean: clean-am
 
 clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
-	clean-noinstPROGRAMS mostlyclean-am
+	clean-noinstLTLIBRARIES clean-noinstPROGRAMS mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -1053,13 +1107,13 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-libnmincludeHEADERS \
 .MAKE: all check install install-am install-strip
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
-	clean-libLTLIBRARIES clean-libtool clean-noinstPROGRAMS ctags \
-	distclean distclean-compile distclean-generic \
-	distclean-libtool distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-libLTLIBRARIES \
+	clean-libLTLIBRARIES clean-libtool clean-noinstLTLIBRARIES \
+	clean-noinstPROGRAMS ctags distclean distclean-compile \
+	distclean-generic distclean-libtool distclean-tags distdir dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-libLTLIBRARIES \
 	install-libnmincludeHEADERS install-man install-pdf \
 	install-pdf-am install-pkgconfigDATA install-ps install-ps-am \
 	install-strip installcheck installcheck-am installdirs \
@@ -1120,6 +1174,9 @@ nm-dhcp4-config-bindings.h: $(top_srcdir)/introspection/nm-dhcp4-config.xml
 
 nm-ip6-config-bindings.h: $(top_srcdir)/introspection/nm-ip6-config.xml
 	dbus-binding-tool --prefix=nm_ip6_config --mode=glib-client --output=$@ $<
+
+nm-dhcp6-config-bindings.h: $(top_srcdir)/introspection/nm-dhcp6-config.xml
+	dbus-binding-tool --prefix=nm_dhcp6_config --mode=glib-client --output=$@ $<
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

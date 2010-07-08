@@ -17,6 +17,9 @@ NMDeviceEthernet
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_DEVICE_ETHERNET_HW_ADDRESS ##### -->
 <para>
 

@@ -17,6 +17,9 @@ NMSettingWired
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_SETTING_WIRED_SETTING_NAME ##### -->
 <para>
 
@@ -52,6 +55,7 @@ NMSettingWired
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -133,11 +137,23 @@ NMSettingWired
 
 </para>
 
+<!-- ##### STRUCT NMSettingWiredClass ##### -->
+<para>
+
+</para>
+
+@parent: 
+@_reserved1: 
+@_reserved2: 
+@_reserved3: 
+@_reserved4: 
+
 <!-- ##### FUNCTION nm_setting_wired_get_type ##### -->
 <para>
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -146,6 +162,7 @@ NMSettingWired
 
 </para>
 
+@void: 
 @Returns: 
 
 

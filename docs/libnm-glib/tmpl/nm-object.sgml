@@ -17,6 +17,9 @@ NMObject
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_OBJECT_DBUS_CONNECTION ##### -->
 <para>
 

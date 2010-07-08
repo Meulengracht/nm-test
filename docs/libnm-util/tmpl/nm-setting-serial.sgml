@@ -17,6 +17,9 @@ NMSettingSerial
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_SETTING_SERIAL_SETTING_NAME ##### -->
 <para>
 
@@ -53,6 +56,7 @@ NMSettingSerial
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -122,11 +126,23 @@ NMSettingSerial
 
 </para>
 
+<!-- ##### STRUCT NMSettingSerialClass ##### -->
+<para>
+
+</para>
+
+@parent: 
+@_reserved1: 
+@_reserved2: 
+@_reserved3: 
+@_reserved4: 
+
 <!-- ##### FUNCTION nm_setting_serial_get_type ##### -->
 <para>
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -135,6 +151,7 @@ NMSettingSerial
 
 </para>
 
+@void: 
 @Returns: 
 
 

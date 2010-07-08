@@ -17,6 +17,9 @@ NMSetting8021x
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### ENUM NMSetting8021xCKFormat ##### -->
 <para>
 
@@ -71,6 +74,7 @@ NMSetting8021x
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -334,11 +338,23 @@ NMSetting8021x
 
 </para>
 
+<!-- ##### STRUCT NMSetting8021xClass ##### -->
+<para>
+
+</para>
+
+@parent: 
+@_reserved1: 
+@_reserved2: 
+@_reserved3: 
+@_reserved4: 
+
 <!-- ##### FUNCTION nm_setting_802_1x_get_type ##### -->
 <para>
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -347,6 +363,7 @@ NMSetting8021x
 
 </para>
 
+@void: 
 @Returns: 
 
 

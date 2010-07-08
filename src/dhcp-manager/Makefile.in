@@ -53,9 +53,12 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libdhcp_manager_la_DEPENDENCIES =  \
 	$(top_builddir)/marshallers/libmarshallers.la \
+	$(top_builddir)/src/logging/libnm-logging.la \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-am_libdhcp_manager_la_OBJECTS = libdhcp_manager_la-nm-dhcp-manager.lo \
-	libdhcp_manager_la-nm-dhcp-@DHCP_CLIENT@.lo
+am_libdhcp_manager_la_OBJECTS = libdhcp_manager_la-nm-dhcp-client.lo \
+	libdhcp_manager_la-nm-dhcp-manager.lo \
+	libdhcp_manager_la-nm-dhcp-dhclient.lo \
+	libdhcp_manager_la-nm-dhcp-dhcpcd.lo
 libdhcp_manager_la_OBJECTS = $(am_libdhcp_manager_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -98,8 +101,8 @@ DBUS_LIBS = @DBUS_LIBS@
 DBUS_SYS_DIR = @DBUS_SYS_DIR@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
-DHCP_CLIENT = @DHCP_CLIENT@
-DHCP_CLIENT_PATH = @DHCP_CLIENT_PATH@
+DHCLIENT_PATH = @DHCLIENT_PATH@
+DHCPCD_PATH = @DHCPCD_PATH@
 DISABLE_DEPRECATED = @DISABLE_DEPRECATED@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
@@ -123,6 +126,8 @@ GNUTLS_CFLAGS = @GNUTLS_CFLAGS@
 GNUTLS_LIBS = @GNUTLS_LIBS@
 GREP = @GREP@
 GTKDOC_CHECK = @GTKDOC_CHECK@
+GTKDOC_MKPDF = @GTKDOC_MKPDF@
+GTKDOC_REBASE = @GTKDOC_REBASE@
 GUDEV_CFLAGS = @GUDEV_CFLAGS@
 GUDEV_LIBS = @GUDEV_LIBS@
 HTML_DIR = @HTML_DIR@
@@ -173,6 +178,7 @@ PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
 PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
+PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
@@ -252,15 +258,21 @@ INCLUDES = \
 	-I${top_srcdir} \
 	-I${top_srcdir}/include \
 	-I${top_builddir}/marshallers \
+	-I${top_srcdir}/src/logging \
 	-I${top_srcdir}/libnm-util \
 	-I${top_srcdir}/src \
 	-I${top_srcdir}/src/named-manager
 
 noinst_LTLIBRARIES = libdhcp-manager.la
 libdhcp_manager_la_SOURCES = \
+	nm-dhcp-client.c \
+	nm-dhcp-client.h \
 	nm-dhcp-manager.c \
 	nm-dhcp-manager.h \
-	nm-dhcp-@DHCP_CLIENT@.c
+	nm-dhcp-dhclient.h \
+	nm-dhcp-dhclient.c \
+	nm-dhcp-dhcpcd.h \
+	nm-dhcp-dhcpcd.c
 
 libdhcp_manager_la_CPPFLAGS = \
 	$(DBUS_CFLAGS) \
@@ -271,16 +283,14 @@ libdhcp_manager_la_CPPFLAGS = \
 	-DSYSCONFDIR=\"$(sysconfdir)\" \
 	-DLIBEXECDIR=\"$(libexecdir)\" \
 	-DLOCALSTATEDIR=\"$(localstatedir)\" \
-	-DDHCP_CLIENT_PATH=\"$(DHCP_CLIENT_PATH)\"
+	-DDHCLIENT_PATH=\"$(DHCLIENT_PATH)\" \
+	-DDHCPCD_PATH=\"$(DHCPCD_PATH)\"
 
 libdhcp_manager_la_LIBADD = \
 	$(top_builddir)/marshallers/libmarshallers.la \
+	$(top_builddir)/src/logging/libnm-logging.la \
 	$(DBUS_LIBS) \
 	$(GLIB_LIBS)
-
-EXTRA_DIST = \
-	     nm-dhcp-dhclient.c \
-	     nm-dhcp-dhcpcd.c
 
 all: all-am
 
@@ -334,7 +344,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libdhcp_manager_la-nm-dhcp-@DHCP_CLIENT@.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libdhcp_manager_la-nm-dhcp-client.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libdhcp_manager_la-nm-dhcp-dhclient.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libdhcp_manager_la-nm-dhcp-dhcpcd.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libdhcp_manager_la-nm-dhcp-manager.Plo@am__quote@
 
 .c.o:
@@ -361,6 +373,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
 
+libdhcp_manager_la-nm-dhcp-client.lo: nm-dhcp-client.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdhcp_manager_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libdhcp_manager_la-nm-dhcp-client.lo -MD -MP -MF $(DEPDIR)/libdhcp_manager_la-nm-dhcp-client.Tpo -c -o libdhcp_manager_la-nm-dhcp-client.lo `test -f 'nm-dhcp-client.c' || echo '$(srcdir)/'`nm-dhcp-client.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libdhcp_manager_la-nm-dhcp-client.Tpo $(DEPDIR)/libdhcp_manager_la-nm-dhcp-client.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='nm-dhcp-client.c' object='libdhcp_manager_la-nm-dhcp-client.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdhcp_manager_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libdhcp_manager_la-nm-dhcp-client.lo `test -f 'nm-dhcp-client.c' || echo '$(srcdir)/'`nm-dhcp-client.c
+
 libdhcp_manager_la-nm-dhcp-manager.lo: nm-dhcp-manager.c
 @am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdhcp_manager_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libdhcp_manager_la-nm-dhcp-manager.lo -MD -MP -MF $(DEPDIR)/libdhcp_manager_la-nm-dhcp-manager.Tpo -c -o libdhcp_manager_la-nm-dhcp-manager.lo `test -f 'nm-dhcp-manager.c' || echo '$(srcdir)/'`nm-dhcp-manager.c
 @am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libdhcp_manager_la-nm-dhcp-manager.Tpo $(DEPDIR)/libdhcp_manager_la-nm-dhcp-manager.Plo
@@ -368,12 +387,19 @@ libdhcp_manager_la-nm-dhcp-manager.lo: nm-dhcp-manager.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdhcp_manager_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libdhcp_manager_la-nm-dhcp-manager.lo `test -f 'nm-dhcp-manager.c' || echo '$(srcdir)/'`nm-dhcp-manager.c
 
-libdhcp_manager_la-nm-dhcp-@DHCP_CLIENT@.lo: nm-dhcp-@DHCP_CLIENT@.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdhcp_manager_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libdhcp_manager_la-nm-dhcp-@DHCP_CLIENT@.lo -MD -MP -MF $(DEPDIR)/libdhcp_manager_la-nm-dhcp-@DHCP_CLIENT@.Tpo -c -o libdhcp_manager_la-nm-dhcp-@DHCP_CLIENT@.lo `test -f 'nm-dhcp-@DHCP_CLIENT@.c' || echo '$(srcdir)/'`nm-dhcp-@DHCP_CLIENT@.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libdhcp_manager_la-nm-dhcp-@DHCP_CLIENT@.Tpo $(DEPDIR)/libdhcp_manager_la-nm-dhcp-@DHCP_CLIENT@.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='nm-dhcp-@DHCP_CLIENT@.c' object='libdhcp_manager_la-nm-dhcp-@DHCP_CLIENT@.lo' libtool=yes @AMDEPBACKSLASH@
+libdhcp_manager_la-nm-dhcp-dhclient.lo: nm-dhcp-dhclient.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdhcp_manager_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libdhcp_manager_la-nm-dhcp-dhclient.lo -MD -MP -MF $(DEPDIR)/libdhcp_manager_la-nm-dhcp-dhclient.Tpo -c -o libdhcp_manager_la-nm-dhcp-dhclient.lo `test -f 'nm-dhcp-dhclient.c' || echo '$(srcdir)/'`nm-dhcp-dhclient.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libdhcp_manager_la-nm-dhcp-dhclient.Tpo $(DEPDIR)/libdhcp_manager_la-nm-dhcp-dhclient.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='nm-dhcp-dhclient.c' object='libdhcp_manager_la-nm-dhcp-dhclient.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdhcp_manager_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libdhcp_manager_la-nm-dhcp-@DHCP_CLIENT@.lo `test -f 'nm-dhcp-@DHCP_CLIENT@.c' || echo '$(srcdir)/'`nm-dhcp-@DHCP_CLIENT@.c
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdhcp_manager_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libdhcp_manager_la-nm-dhcp-dhclient.lo `test -f 'nm-dhcp-dhclient.c' || echo '$(srcdir)/'`nm-dhcp-dhclient.c
+
+libdhcp_manager_la-nm-dhcp-dhcpcd.lo: nm-dhcp-dhcpcd.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdhcp_manager_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libdhcp_manager_la-nm-dhcp-dhcpcd.lo -MD -MP -MF $(DEPDIR)/libdhcp_manager_la-nm-dhcp-dhcpcd.Tpo -c -o libdhcp_manager_la-nm-dhcp-dhcpcd.lo `test -f 'nm-dhcp-dhcpcd.c' || echo '$(srcdir)/'`nm-dhcp-dhcpcd.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libdhcp_manager_la-nm-dhcp-dhcpcd.Tpo $(DEPDIR)/libdhcp_manager_la-nm-dhcp-dhcpcd.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='nm-dhcp-dhcpcd.c' object='libdhcp_manager_la-nm-dhcp-dhcpcd.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdhcp_manager_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libdhcp_manager_la-nm-dhcp-dhcpcd.lo `test -f 'nm-dhcp-dhcpcd.c' || echo '$(srcdir)/'`nm-dhcp-dhcpcd.c
 
 mostlyclean-libtool:
 	-rm -f *.lo

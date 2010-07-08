@@ -17,6 +17,9 @@ nm-vpn-plugin-ui-interface
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### STRUCT NMVpnPluginUiInterface ##### -->
 <para>
 
@@ -225,6 +228,7 @@ nm-vpn-plugin-ui-interface
 
 </para>
 
+@void: 
 @Returns: 
 
 

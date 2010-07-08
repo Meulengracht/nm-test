@@ -1,5 +1,6 @@
 <SECTION>
 <FILE>nm-setting-gsm</FILE>
+<TITLE>NMSettingGsm</TITLE>
 NM_SETTING_GSM_SETTING_NAME
 NMSettingGsmError
 NM_TYPE_SETTING_GSM_ERROR
@@ -13,6 +14,7 @@ NM_SETTING_GSM_NETWORK_ID
 NM_SETTING_GSM_NETWORK_TYPE
 NM_SETTING_GSM_ALLOWED_BANDS
 NM_SETTING_GSM_PIN
+NM_SETTING_GSM_HOME_ONLY
 NM_SETTING_GSM_PUK
 NM_SETTING_GSM_BAND
 NM_GSM_NETWORK_ANY
@@ -22,8 +24,8 @@ NM_GSM_NETWORK_PREFER_UMTS_HSPA
 NM_GSM_NETWORK_PREFER_GPRS_EDGE
 NMSettingGsmNetworkType
 NMSettingGsmNetworkBand
-<TITLE>NMSettingGsm</TITLE>
 NMSettingGsm
+NMSettingGsmClass
 nm_setting_gsm_get_type
 nm_setting_gsm_new
 nm_setting_gsm_get_number
@@ -34,6 +36,7 @@ nm_setting_gsm_get_network_id
 nm_setting_gsm_get_network_type
 nm_setting_gsm_get_allowed_bands
 nm_setting_gsm_get_pin
+nm_setting_gsm_get_home_only
 nm_setting_gsm_get_puk
 nm_setting_gsm_get_band
 <SUBSECTION Standard>
@@ -48,6 +51,7 @@ NM_SETTING_GSM_GET_CLASS
 
 <SECTION>
 <FILE>nm-setting-8021x</FILE>
+<TITLE>NMSetting8021x</TITLE>
 NMSetting8021xCKFormat
 NMSetting8021xCKScheme
 NM_SETTING_802_1X_SETTING_NAME
@@ -77,8 +81,8 @@ NM_SETTING_802_1X_PHASE2_PRIVATE_KEY_PASSWORD
 NM_SETTING_802_1X_PIN
 NM_SETTING_802_1X_PSK
 NM_SETTING_802_1X_SYSTEM_CA_CERTS
-<TITLE>NMSetting8021x</TITLE>
 NMSetting8021x
+NMSetting8021xClass
 nm_setting_802_1x_get_type
 nm_setting_802_1x_new
 nm_setting_802_1x_get_num_eap_methods
@@ -154,6 +158,7 @@ NM_SETTING_802_1X_GET_CLASS
 
 <SECTION>
 <FILE>nm-setting-bluetooth</FILE>
+<TITLE>NMSettingBluetooth</TITLE>
 NM_SETTING_BLUETOOTH_SETTING_NAME
 NMSettingBluetoothError
 NM_TYPE_SETTING_BLUETOOTH_ERROR
@@ -163,8 +168,8 @@ NM_SETTING_BLUETOOTH_BDADDR
 NM_SETTING_BLUETOOTH_TYPE
 NM_SETTING_BLUETOOTH_TYPE_DUN
 NM_SETTING_BLUETOOTH_TYPE_PANU
-<TITLE>NMSettingBluetooth</TITLE>
 NMSettingBluetooth
+NMSettingBluetoothClass
 nm_setting_bluetooth_get_type
 nm_setting_bluetooth_new
 nm_setting_bluetooth_get_bdaddr
@@ -181,6 +186,7 @@ NM_SETTING_BLUETOOTH_GET_CLASS
 
 <SECTION>
 <FILE>nm-setting-olpc-mesh</FILE>
+<TITLE>NMSettingOlpcMesh</TITLE>
 NM_SETTING_OLPC_MESH_SETTING_NAME
 NMSettingOlpcMeshError
 NM_TYPE_SETTING_OLPC_MESH_ERROR
@@ -189,8 +195,8 @@ nm_setting_olpc_mesh_error_quark
 NM_SETTING_OLPC_MESH_SSID
 NM_SETTING_OLPC_MESH_CHANNEL
 NM_SETTING_OLPC_MESH_DHCP_ANYCAST_ADDRESS
-<TITLE>NMSettingOlpcMesh</TITLE>
 NMSettingOlpcMesh
+NMSettingOlpcMeshClass
 nm_setting_olpc_mesh_get_type
 nm_setting_olpc_mesh_new
 nm_setting_olpc_mesh_get_ssid
@@ -208,6 +214,7 @@ NM_SETTING_OLPC_MESH_GET_CLASS
 
 <SECTION>
 <FILE>nm-setting-cdma</FILE>
+<TITLE>NMSettingCdma</TITLE>
 NM_SETTING_CDMA_SETTING_NAME
 NMSettingCdmaError
 NM_TYPE_SETTING_CDMA_ERROR
@@ -216,8 +223,8 @@ nm_setting_cdma_error_quark
 NM_SETTING_CDMA_NUMBER
 NM_SETTING_CDMA_USERNAME
 NM_SETTING_CDMA_PASSWORD
-<TITLE>NMSettingCdma</TITLE>
 NMSettingCdma
+NMSettingCdmaClass
 nm_setting_cdma_get_type
 nm_setting_cdma_new
 nm_setting_cdma_get_number
@@ -235,6 +242,7 @@ NM_SETTING_CDMA_GET_CLASS
 
 <SECTION>
 <FILE>nm-setting-serial</FILE>
+<TITLE>NMSettingSerial</TITLE>
 NM_SETTING_SERIAL_SETTING_NAME
 NMSettingSerialError
 NM_TYPE_SETTING_SERIAL_ERROR
@@ -245,8 +253,8 @@ NM_SETTING_SERIAL_BITS
 NM_SETTING_SERIAL_PARITY
 NM_SETTING_SERIAL_STOPBITS
 NM_SETTING_SERIAL_SEND_DELAY
-<TITLE>NMSettingSerial</TITLE>
 NMSettingSerial
+NMSettingSerialClass
 nm_setting_serial_get_type
 nm_setting_serial_new
 nm_setting_serial_get_baud
@@ -266,6 +274,7 @@ NM_SETTING_SERIAL_GET_CLASS
 
 <SECTION>
 <FILE>nm-setting-wireless-security</FILE>
+<TITLE>NMSettingWirelessSecurity</TITLE>
 NM_SETTING_WIRELESS_SECURITY_SETTING_NAME
 NMSettingWirelessSecurityError
 NM_TYPE_SETTING_WIRELESS_SECURITY_ERROR
@@ -286,8 +295,8 @@ NM_SETTING_WIRELESS_SECURITY_WEP_KEY3
 NM_SETTING_WIRELESS_SECURITY_PSK
 NM_SETTING_WIRELESS_SECURITY_LEAP_PASSWORD
 NM_SETTING_WIRELESS_SECURITY_WEP_KEY_TYPE
-<TITLE>NMSettingWirelessSecurity</TITLE>
 NMSettingWirelessSecurity
+NMSettingWirelessSecurityClass
 nm_setting_wireless_security_get_type
 nm_setting_wireless_security_new
 nm_setting_wireless_security_get_key_mgmt
@@ -326,6 +335,7 @@ NM_SETTING_WIRELESS_SECURITY_GET_CLASS
 
 <SECTION>
 <FILE>nm-setting-ip6-config</FILE>
+<TITLE>NMSettingIP6Config</TITLE>
 NM_SETTING_IP6_CONFIG_SETTING_NAME
 NMSettingIP6ConfigError
 NM_TYPE_SETTING_IP6_CONFIG_ERROR
@@ -339,6 +349,7 @@ NM_SETTING_IP6_CONFIG_ROUTES
 NM_SETTING_IP6_CONFIG_IGNORE_AUTO_ROUTES
 NM_SETTING_IP6_CONFIG_IGNORE_AUTO_DNS
 NM_SETTING_IP6_CONFIG_NEVER_DEFAULT
+NM_SETTING_IP6_CONFIG_MAY_FAIL
 NM_SETTING_IP6_CONFIG_METHOD_IGNORE
 NM_SETTING_IP6_CONFIG_METHOD_AUTO
 NM_SETTING_IP6_CONFIG_METHOD_LINK_LOCAL
@@ -354,6 +365,8 @@ nm_ip6_address_get_address
 nm_ip6_address_set_address
 nm_ip6_address_get_prefix
 nm_ip6_address_set_prefix
+nm_ip6_address_get_gateway
+nm_ip6_address_set_gateway
 NMIP6Route
 nm_ip6_route_new
 nm_ip6_route_dup
@@ -368,8 +381,8 @@ nm_ip6_route_get_next_hop
 nm_ip6_route_set_next_hop
 nm_ip6_route_get_metric
 nm_ip6_route_set_metric
-<TITLE>NMSettingIP6Config</TITLE>
 NMSettingIP6Config
+NMSettingIP6ConfigClass
 nm_setting_ip6_config_get_type
 nm_setting_ip6_config_new
 nm_setting_ip6_config_get_method
@@ -396,6 +409,7 @@ nm_setting_ip6_config_clear_routes
 nm_setting_ip6_config_get_ignore_auto_routes
 nm_setting_ip6_config_get_ignore_auto_dns
 nm_setting_ip6_config_get_never_default
+nm_setting_ip6_config_get_may_fail
 <SUBSECTION Standard>
 NM_SETTING_IP6_CONFIG
 NM_IS_SETTING_IP6_CONFIG
@@ -408,6 +422,7 @@ NM_SETTING_IP6_CONFIG_GET_CLASS
 
 <SECTION>
 <FILE>nm-setting-ip4-config</FILE>
+<TITLE>NMSettingIP4Config</TITLE>
 NM_SETTING_IP4_CONFIG_SETTING_NAME
 NMSettingIP4ConfigError
 NM_TYPE_SETTING_IP4_CONFIG_ERROR
@@ -424,10 +439,12 @@ NM_SETTING_IP4_CONFIG_DHCP_CLIENT_ID
 NM_SETTING_IP4_CONFIG_DHCP_SEND_HOSTNAME
 NM_SETTING_IP4_CONFIG_DHCP_HOSTNAME
 NM_SETTING_IP4_CONFIG_NEVER_DEFAULT
+NM_SETTING_IP4_CONFIG_MAY_FAIL
 NM_SETTING_IP4_CONFIG_METHOD_AUTO
 NM_SETTING_IP4_CONFIG_METHOD_LINK_LOCAL
 NM_SETTING_IP4_CONFIG_METHOD_MANUAL
 NM_SETTING_IP4_CONFIG_METHOD_SHARED
+NM_SETTING_IP4_CONFIG_METHOD_DISABLED
 NMIP4Address
 nm_ip4_address_new
 nm_ip4_address_dup
@@ -454,8 +471,8 @@ nm_ip4_route_get_next_hop
 nm_ip4_route_set_next_hop
 nm_ip4_route_get_metric
 nm_ip4_route_set_metric
-<TITLE>NMSettingIP4Config</TITLE>
 NMSettingIP4Config
+NMSettingIP4ConfigClass
 nm_setting_ip4_config_get_type
 nm_setting_ip4_config_new
 nm_setting_ip4_config_get_method
@@ -485,6 +502,7 @@ nm_setting_ip4_config_get_dhcp_client_id
 nm_setting_ip4_config_get_dhcp_send_hostname
 nm_setting_ip4_config_get_dhcp_hostname
 nm_setting_ip4_config_get_never_default
+nm_setting_ip4_config_get_may_fail
 <SUBSECTION Standard>
 NM_SETTING_IP4_CONFIG
 NM_IS_SETTING_IP4_CONFIG
@@ -497,6 +515,7 @@ NM_SETTING_IP4_CONFIG_GET_CLASS
 
 <SECTION>
 <FILE>nm-setting-wired</FILE>
+<TITLE>NMSettingWired</TITLE>
 NM_SETTING_WIRED_SETTING_NAME
 NMSettingWiredError
 NM_TYPE_SETTING_WIRED_ERROR
@@ -508,8 +527,8 @@ NM_SETTING_WIRED_DUPLEX
 NM_SETTING_WIRED_AUTO_NEGOTIATE
 NM_SETTING_WIRED_MAC_ADDRESS
 NM_SETTING_WIRED_MTU
-<TITLE>NMSettingWired</TITLE>
 NMSettingWired
+NMSettingWiredClass
 nm_setting_wired_get_type
 nm_setting_wired_new
 nm_setting_wired_get_port
@@ -530,6 +549,7 @@ NM_SETTING_WIRED_GET_CLASS
 
 <SECTION>
 <FILE>nm-setting-connection</FILE>
+<TITLE>NMSettingConnection</TITLE>
 NM_SETTING_CONNECTION_SETTING_NAME
 NMSettingConnectionError
 NM_TYPE_SETTING_CONNECTION_ERROR
@@ -541,8 +561,8 @@ NM_SETTING_CONNECTION_TYPE
 NM_SETTING_CONNECTION_AUTOCONNECT
 NM_SETTING_CONNECTION_TIMESTAMP
 NM_SETTING_CONNECTION_READ_ONLY
-<TITLE>NMSettingConnection</TITLE>
 NMSettingConnection
+NMSettingConnectionClass
 nm_setting_connection_get_type
 nm_setting_connection_new
 nm_setting_connection_get_id
@@ -563,6 +583,7 @@ NM_SETTING_CONNECTION_GET_CLASS
 
 <SECTION>
 <FILE>nm-setting</FILE>
+<TITLE>NMSetting</TITLE>
 NMSettingError
 NM_TYPE_SETTING_ERROR
 NM_SETTING_ERROR
@@ -572,8 +593,8 @@ NM_SETTING_PARAM_REQUIRED
 NM_SETTING_PARAM_SECRET
 NM_SETTING_PARAM_FUZZY_IGNORE
 NM_SETTING_NAME
-<TITLE>NMSetting</TITLE>
 NMSetting
+NMSettingClass
 NMSettingValueIterFn
 nm_setting_get_type
 nm_setting_to_hash
@@ -600,6 +621,7 @@ NM_SETTING_GET_CLASS
 
 <SECTION>
 <FILE>nm-setting-ppp</FILE>
+<TITLE>NMSettingPPP</TITLE>
 NM_SETTING_PPP_SETTING_NAME
 NMSettingPPPError
 NM_TYPE_SETTING_PPP_ERROR
@@ -623,8 +645,8 @@ NM_SETTING_PPP_MRU
 NM_SETTING_PPP_MTU
 NM_SETTING_PPP_LCP_ECHO_FAILURE
 NM_SETTING_PPP_LCP_ECHO_INTERVAL
-<TITLE>NMSettingPPP</TITLE>
 NMSettingPPP
+NMSettingPPPClass
 nm_setting_ppp_get_type
 nm_setting_ppp_new
 nm_setting_ppp_get_noauth
@@ -657,6 +679,7 @@ NM_SETTING_PPP_GET_CLASS
 
 <SECTION>
 <FILE>nm-connection</FILE>
+<TITLE>NMConnection</TITLE>
 NMConnectionScope
 NMConnectionError
 NM_TYPE_CONNECTION_ERROR
@@ -664,8 +687,8 @@ NM_CONNECTION_ERROR
 nm_connection_error_quark
 NM_CONNECTION_SCOPE
 NM_CONNECTION_PATH
-<TITLE>NMConnection</TITLE>
 NMConnection
+NMConnectionClass
 nm_connection_get_type
 nm_connection_new
 nm_connection_new_from_hash
@@ -702,6 +725,7 @@ NM_CONNECTION_GET_CLASS
 
 <SECTION>
 <FILE>nm-setting-pppoe</FILE>
+<TITLE>NMSettingPPPOE</TITLE>
 NM_SETTING_PPPOE_SETTING_NAME
 NMSettingPPPOEError
 NM_TYPE_SETTING_PPPOE_ERROR
@@ -710,8 +734,8 @@ nm_setting_pppoe_error_quark
 NM_SETTING_PPPOE_SERVICE
 NM_SETTING_PPPOE_USERNAME
 NM_SETTING_PPPOE_PASSWORD
-<TITLE>NMSettingPPPOE</TITLE>
 NMSettingPPPOE
+NMSettingPPPOEClass
 nm_setting_pppoe_get_type
 nm_setting_pppoe_new
 nm_setting_pppoe_get_service
@@ -729,6 +753,7 @@ NM_SETTING_PPPOE_GET_CLASS
 
 <SECTION>
 <FILE>nm-setting-vpn</FILE>
+<TITLE>NMSettingVPN</TITLE>
 NM_SETTING_VPN_SETTING_NAME
 NMSettingVpnError
 NM_TYPE_SETTING_VPN_ERROR
@@ -738,8 +763,8 @@ NM_SETTING_VPN_SERVICE_TYPE
 NM_SETTING_VPN_USER_NAME
 NM_SETTING_VPN_DATA
 NM_SETTING_VPN_SECRETS
-<TITLE>NMSettingVPN</TITLE>
 NMSettingVPN
+NMSettingVPNClass
 VPNIterFunc
 nm_setting_vpn_get_type
 nm_setting_vpn_new
@@ -765,6 +790,7 @@ NM_SETTING_VPN_GET_CLASS
 
 <SECTION>
 <FILE>nm-setting-wireless</FILE>
+<TITLE>NMSettingWireless</TITLE>
 NM_SETTING_WIRELESS_SETTING_NAME
 NMSettingWirelessError
 NM_TYPE_SETTING_WIRELESS_ERROR
@@ -781,8 +807,8 @@ NM_SETTING_WIRELESS_MAC_ADDRESS
 NM_SETTING_WIRELESS_MTU
 NM_SETTING_WIRELESS_SEEN_BSSIDS
 NM_SETTING_WIRELESS_SEC
-<TITLE>NMSettingWireless</TITLE>
 NMSettingWireless
+NMSettingWirelessClass
 nm_setting_wireless_get_type
 nm_setting_wireless_new
 nm_setting_wireless_get_ssid
@@ -837,6 +863,7 @@ nm_utils_ip4_routes_from_gvalue
 nm_utils_ip4_routes_to_gvalue
 nm_utils_ip4_netmask_to_prefix
 nm_utils_ip4_prefix_to_netmask
+nm_utils_ip4_get_default_prefix
 nm_utils_ip6_addresses_from_gvalue
 nm_utils_ip6_addresses_to_gvalue
 nm_utils_ip6_routes_from_gvalue

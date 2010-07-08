@@ -17,6 +17,9 @@ nm-utils
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO nm_print_backtrace ##### -->
 <para>
 
@@ -118,6 +121,7 @@ nm-utils
 
 </para>
 
+@void: 
 
 
 <!-- ##### FUNCTION nm_utils_is_empty_ssid ##### -->
@@ -263,6 +267,15 @@ nm-utils
 @Returns: 
 
 
+<!-- ##### FUNCTION nm_utils_ip4_get_default_prefix ##### -->
+<para>
+
+</para>
+
+@ip: 
+@Returns: 
+
+
 <!-- ##### FUNCTION nm_utils_ip6_addresses_from_gvalue ##### -->
 <para>
 
@@ -322,6 +335,7 @@ nm-utils
 
 </para>
 
+@void: 
 @Returns: 
 
 

@@ -17,6 +17,9 @@ NMSettingBluetooth
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_SETTING_BLUETOOTH_SETTING_NAME ##### -->
 <para>
 
@@ -53,6 +56,7 @@ NMSettingBluetooth
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -100,11 +104,23 @@ NMSettingBluetooth
 
 </para>
 
+<!-- ##### STRUCT NMSettingBluetoothClass ##### -->
+<para>
+
+</para>
+
+@parent: 
+@_reserved1: 
+@_reserved2: 
+@_reserved3: 
+@_reserved4: 
+
 <!-- ##### FUNCTION nm_setting_bluetooth_get_type ##### -->
 <para>
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -113,6 +129,7 @@ NMSettingBluetooth
 
 </para>
 
+@void: 
 @Returns: 
 
 

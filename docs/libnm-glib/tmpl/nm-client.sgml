@@ -17,6 +17,9 @@ NMClient
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_CLIENT_STATE ##### -->
 <para>
 
@@ -98,6 +101,11 @@ NMClient
 
 </para>
 
+<!-- ##### ARG NMClient:networking-enabled ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG NMClient:state ##### -->
 <para>
 
@@ -128,6 +136,7 @@ NMClient
 
 </para>
 
+@void: 
 @Returns: 
 
 

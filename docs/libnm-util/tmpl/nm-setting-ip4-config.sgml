@@ -17,6 +17,9 @@ NMSettingIP4Config
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_SETTING_IP4_CONFIG_SETTING_NAME ##### -->
 <para>
 
@@ -53,6 +56,7 @@ NMSettingIP4Config
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -133,6 +137,13 @@ NMSettingIP4Config
 
 
 
+<!-- ##### MACRO NM_SETTING_IP4_CONFIG_MAY_FAIL ##### -->
+<para>
+
+</para>
+
+
+
 <!-- ##### MACRO NM_SETTING_IP4_CONFIG_METHOD_AUTO ##### -->
 <para>
 
@@ -161,6 +172,13 @@ NMSettingIP4Config
 
 
 
+<!-- ##### MACRO NM_SETTING_IP4_CONFIG_METHOD_DISABLED ##### -->
+<para>
+
+</para>
+
+
+
 <!-- ##### TYPEDEF NMIP4Address ##### -->
 <para>
 
@@ -172,6 +190,7 @@ NMSettingIP4Config
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -275,6 +294,7 @@ NMSettingIP4Config
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -431,6 +451,11 @@ NMSettingIP4Config
 
 </para>
 
+<!-- ##### ARG NMSettingIP4Config:may-fail ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG NMSettingIP4Config:method ##### -->
 <para>
 
@@ -446,11 +471,23 @@ NMSettingIP4Config
 
 </para>
 
+<!-- ##### STRUCT NMSettingIP4ConfigClass ##### -->
+<para>
+
+</para>
+
+@parent: 
+@_reserved1: 
+@_reserved2: 
+@_reserved3: 
+@_reserved4: 
+
 <!-- ##### FUNCTION nm_setting_ip4_config_get_type ##### -->
 <para>
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -459,6 +496,7 @@ NMSettingIP4Config
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -701,6 +739,15 @@ NMSettingIP4Config
 
 
 <!-- ##### FUNCTION nm_setting_ip4_config_get_never_default ##### -->
+<para>
+
+</para>
+
+@setting: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_setting_ip4_config_get_may_fail ##### -->
 <para>
 
 </para>

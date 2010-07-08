@@ -17,6 +17,9 @@ nm-settings-interface
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### ENUM NMSettingsInterfaceError ##### -->
 <para>
 
@@ -41,6 +44,7 @@ nm-settings-interface
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -106,6 +110,7 @@ nm-settings-interface
 
 </para>
 
+@void: 
 @Returns: 
 
 

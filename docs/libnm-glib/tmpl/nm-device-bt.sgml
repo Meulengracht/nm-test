@@ -17,6 +17,9 @@ NMDeviceBt
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_DEVICE_BT_HW_ADDRESS ##### -->
 <para>
 

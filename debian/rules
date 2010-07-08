@@ -2,7 +2,6 @@
 
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/autotools.mk
-include /usr/share/cdbs/1/rules/patchsys-quilt.mk
 include /usr/share/cdbs/1/rules/utils.mk
 
 # List any files which are not installed
@@ -15,19 +14,19 @@ DEB_INSTALL_DOCS_ALL := README AUTHORS
 DEB_CONFIGURE_LIBEXECDIR := "\$$(prefix)/lib/NetworkManager"
 
 DEB_CONFIGURE_EXTRA_FLAGS := \
-		--with-dbus-sys=/etc/dbus-1/system.d \
 		--with-distro=debian \
 		--with-resolvconf=/sbin/resolvconf \
-		--with-dhcp-client=/sbin/dhclient \
+		--with-dhclient=/sbin/dhclient \
 		--with-iptables=/sbin/iptables \
 		--with-crypto=gnutls \
+		--with-pppd-plugin-dir=/usr/lib/pppd/2.4.4 \
 		--disable-more-warnings
-	
+
 DEB_DH_INSTALLINIT_ARGS := -r -- start 26 2 3 4 5 . stop 88 0 1 6 .
 
 clean::
 	rm -f po/*.gmo
-	
+
 binary-install/network-manager::
 	install -m 755 debian/network-manager-dispatcher.script \
 		debian/network-manager/etc/NetworkManager/dispatcher.d/01ifupdown

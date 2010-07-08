@@ -17,6 +17,9 @@ NMSettingVPN
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_SETTING_VPN_SETTING_NAME ##### -->
 <para>
 
@@ -52,6 +55,7 @@ NMSettingVPN
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -109,6 +113,17 @@ NMSettingVPN
 
 </para>
 
+<!-- ##### STRUCT NMSettingVPNClass ##### -->
+<para>
+
+</para>
+
+@parent: 
+@_reserved1: 
+@_reserved2: 
+@_reserved3: 
+@_reserved4: 
+
 <!-- ##### USER_FUNCTION VPNIterFunc ##### -->
 <para>
 
@@ -124,6 +139,7 @@ NMSettingVPN
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -132,6 +148,7 @@ NMSettingVPN
 
 </para>
 
+@void: 
 @Returns: 
 
 

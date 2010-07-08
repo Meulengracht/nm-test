@@ -17,6 +17,9 @@ NMSettingWireless
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_SETTING_WIRELESS_SETTING_NAME ##### -->
 <para>
 
@@ -54,6 +57,7 @@ NMSettingWireless
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -195,11 +199,23 @@ NMSettingWireless
 
 </para>
 
+<!-- ##### STRUCT NMSettingWirelessClass ##### -->
+<para>
+
+</para>
+
+@parent: 
+@_reserved1: 
+@_reserved2: 
+@_reserved3: 
+@_reserved4: 
+
 <!-- ##### FUNCTION nm_setting_wireless_get_type ##### -->
 <para>
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -208,6 +224,7 @@ NMSettingWireless
 
 </para>
 
+@void: 
 @Returns: 
 
 

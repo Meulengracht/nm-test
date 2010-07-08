@@ -17,6 +17,9 @@ NMSettingConnection
 <!-- ##### SECTION Stability_Level ##### -->
 
 
+<!-- ##### SECTION Image ##### -->
+
+
 <!-- ##### MACRO NM_SETTING_CONNECTION_SETTING_NAME ##### -->
 <para>
 
@@ -53,6 +56,7 @@ NMSettingConnection
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -134,11 +138,23 @@ NMSettingConnection
 
 </para>
 
+<!-- ##### STRUCT NMSettingConnectionClass ##### -->
+<para>
+
+</para>
+
+@parent: 
+@_reserved1: 
+@_reserved2: 
+@_reserved3: 
+@_reserved4: 
+
 <!-- ##### FUNCTION nm_setting_connection_get_type ##### -->
 <para>
 
 </para>
 
+@void: 
 @Returns: 
 
 
@@ -147,6 +163,7 @@ NMSettingConnection
 
 </para>
 
+@void: 
 @Returns: 
 
 
