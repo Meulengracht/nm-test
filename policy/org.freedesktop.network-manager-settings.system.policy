@@ -27,6 +27,7 @@
     <description xml:lang="ja">システム接続を修正</description>
     <description xml:lang="kn">ವ್ಯವಸ್ಥೆಯ ಸಂಪರ್ಕಗಳನ್ನು ಮಾರ್ಪಡಿಸು</description>
     <description xml:lang="ko">시스템 연결을 변경합니다</description>
+    <description xml:lang="lt">Keisti sistemos ryšius</description>
     <description xml:lang="ml">സിസ്റ്റം കണക്ഷനുകളില്‍ മാറ്റം വരുത്തുക</description>
     <description xml:lang="mr">प्रणाली जुळवणी संपादीत करा</description>
     <description xml:lang="or">ତନ୍ତ୍ର ସଂଯୋଗଗୁଡ଼ିକୁ ପରିବର୍ତ୍ତନ କରନ୍ତୁ</description>
@@ -58,6 +59,7 @@
     <message xml:lang="ja">システムポリシーがシステム設定の修正を阻止します。</message>
     <message xml:lang="kn">ವ್ಯವಸ್ಥೆಯ ಸಂಪರ್ಕಗಳನ್ನು ಮಾರ್ಪಡಿಸದಂತೆ ವ್ಯವಸ್ಥೆಯ ನಿಯಮಗಳು ತಡೆಯುತ್ತಿವೆ</message>
     <message xml:lang="ko">시스템 정책이 시스템 설정을 변경하는 것을 금지합니다</message>
+    <message xml:lang="lt">Sistemos politika neleidžia keisti sistemos nustatymų</message>
     <message xml:lang="ml"> സിസ്റ്റത്തിന്റെ സജ്ജീകരണങ്ങളില്‍ മാറ്റം വരുത്തുന്നതു് സിസ്റ്റം പോളിസി തടയുന്നു</message>
     <message xml:lang="mr">प्रणाली करार, प्रणाली संयोजना संपादीत करण्यापासून रोखतो</message>
     <message xml:lang="or">ତନ୍ତ୍ର ନିତୀ ତନ୍ତ୍ର ବିନ୍ୟାସ ପରିବର୍ତ୍ତନକୁ ବାରଣ କରିଥାଏ</message>
@@ -96,6 +98,7 @@
     <description xml:lang="ja">永続化システムのホスト名を修正</description>
     <description xml:lang="kn">ಸ್ಥಿರ ವ್ಯವಸ್ಥೆಯ ಆತಿಥೇಯ ಹೆಸರನ್ನು ಮಾರ್ಪಡಿಸಿ</description>
     <description xml:lang="ko">영구적인 시스템 호스트명을 변경합니다</description>
+    <description xml:lang="lt">Keisti pastovų sistemos vardą</description>
     <description xml:lang="ml">സിസ്റ്റത്തിന്റെ ഹോസ്റ്റ്നാമത്തില്‍ മാറ്റം വരുത്തുക</description>
     <description xml:lang="mr">पर्सिस्टंट प्रणाली यजमाननाव संपादीत करा</description>
     <description xml:lang="or">ସ୍ଥାୟୀ ତନ୍ତ୍ର ହୋଷ୍ଟନାମକୁ ପରିବର୍ତ୍ତନ କରନ୍ତୁ</description>
@@ -127,6 +130,7 @@
     <message xml:lang="ja">システムポリシーが永続化システムのホスト名修正を阻止します。</message>
     <message xml:lang="kn">ಸ್ಥಿರ ವ್ಯವಸ್ಥೆಯ ಆತಿಥೇಯ ಹೆಸರನ್ನು ಮಾರ್ಪಡಿಸದಂತೆ ವ್ಯವಸ್ಥೆಯ ನಿಯಮಗಳು ತಡೆಯುತ್ತವೆ</message>
     <message xml:lang="ko">시스템 정책이 호스트 이름을 영구히 변경하는 것을 금지합니다</message>
+    <message xml:lang="lt">Sistemos politika neleidžia keisti įsiminto sistemos vardo</message>
     <message xml:lang="ml">സിസ്റ്റത്തിന്റെ ഹോസ്റ്റ്നാമത്തില്‍ മാറ്റം വരുത്തുന്നതു് സിസ്റ്റം പോളിസി തടയുന്നു</message>
     <message xml:lang="mr">प्रणाली करार पर्सिस्टंट प्रणाली यजमाननावाचे संपादन रोखत आहे</message>
     <message xml:lang="or">ତନ୍ତ୍ର ନିତୀ ସ୍ଥାୟୀ ତନ୍ତ୍ର ହୋଷ୍ଟନାମର ପରିବର୍ତ୍ତନକୁ ବାରଣ କରିଥାଏ</message>
@@ -165,6 +169,7 @@
     <description xml:lang="ja">保護された WiFi ネットワーク経由で接続共有</description>
     <description xml:lang="kn">ಒಂದು ಸಂರಕ್ಷಿತವಾದ WiFi ಜಾಲಬಂಧದ ಮೂಲಕ ಸಂಪರ್ಕ ಸಾಧಿಸುವಿಕೆ</description>
     <description xml:lang="ko">보호된 WiFi 네트워크를 통한 연결 공유</description>
+    <description xml:lang="lt">Dalijimasis ryšiu naudojant apsaugotą WiFi tinklą</description>
     <description xml:lang="ml">സുരക്ഷിതമായ ഒരു വൈഫൈ നെറ്റ്‌വര്‍ക്ക് വഴി കണക്ഷന്‍ പങ്കിടുക</description>
     <description xml:lang="mr">सुरक्षीत WiFi नेटवर्क द्वारे जोडणीचे शेअरींग करा</description>
     <description xml:lang="or">ଗୋଟିଏ ସୁରକ୍ଷିତ WiFi ନେଟୱର୍କରେ ସଂଯୋଗ ସହଭାଗ</description>
@@ -196,6 +201,7 @@
     <message xml:lang="ja">システムポリシーが保護された WiFi ネットワーク経由の接続共有を阻止します。</message>
     <message xml:lang="kn">ಒಂದು ಸಂರಕ್ಷಿತವಾದ WiFi ಜಾಲಬಂಧದ ಮೂಲಕ ಸಂಪರ್ಕ ಸಾಧಿಸದಂತೆ ವ್ಯವಸ್ಥೆಯ ನಿಯಮಗಳು ತಡೆಯುತ್ತವೆ</message>
     <message xml:lang="ko">시스템 정책이 보호된 WiFi 네트워크를 통한 연결 공유를 금지합니다</message>
+    <message xml:lang="lt">Sistemos politika nelaidžia dalytis ryšiais naudojant apsaugotą WiFi tinklą</message>
     <message xml:lang="ml">സുരക്ഷിതമായ ഒരു വൈഫൈ നെറ്റ്‌വര്‍ക്ക് വഴി കണക്ഷനുകള്‍ പങ്കിടുന്നതു് സിസ്റ്റം പോളിസി തടയുന്നു</message>
     <message xml:lang="mr">प्रणाली करार सुरक्षीत WiFi नेटवर्क द्वारे जोडणीचे शेअरींग रोखत आहे</message>
     <message xml:lang="or">ତନ୍ତ୍ର ନିତୀ ଗୋଟିଏ ସୁରକ୍ଷିତ WiFi ନେଟୱର୍କରେ ସଂଯୋଗ ସହଭାଗ କରିବାରେ ବାରଣ କରିଥାଏ</message>
@@ -234,6 +240,7 @@
     <description xml:lang="ja">開放した WiFi ネットワーク経由で接続共有</description>
     <description xml:lang="kn">ಒಂದು ಮುಕ್ತವಾದ WiFi ಜಾಲಬಂಧದ ಮೂಲಕ ಸಂಪರ್ಕ ಸಾಧಿಸುವಿಕೆ</description>
     <description xml:lang="ko">열린 WiFi 네트워크를 통한 연결 공유</description>
+    <description xml:lang="lt">Dalijimasis ryšiu naudojant atvirą WiFi tinklą</description>
     <description xml:lang="ml">ഒരു തുറന്ന വൈഫൈ നെറ്റ്‌വര്‍ക്ക് വഴി കണക്ഷന്‍ പങ്കിടുക</description>
     <description xml:lang="mr">ओपन WiFi नेटवर्क द्वारे कनेक्शन शेअरींग करा</description>
     <description xml:lang="or">ଗୋଟିଏ ଖୋଲା WiFi ନେଟୱର୍କରେ ସଂଯୋଗ ସହଭାଗ</description>
@@ -265,6 +272,7 @@
     <message xml:lang="ja">システムポリシーが開放した WiFi ネットワーク経由の接続共有を阻止します。</message>
     <message xml:lang="kn">ಒಂದು ಮುಕ್ತವಾದ WiFi ಜಾಲಬಂಧದ ಮೂಲಕ ಸಂಪರ್ಕ ಸಾಧಿಸದಂತೆ ವ್ಯವಸ್ಥೆಯ ನಿಯಮಗಳು ತಡೆಯುತ್ತವೆ</message>
     <message xml:lang="ko">시스템 정책이 열린 WiFi 네트워크를 통한 연결 공유를 금지합니다</message>
+    <message xml:lang="lt">Sistemos politika neleidžia dalytis ryšiais naudojant atvirą WiFi tinklą</message>
     <message xml:lang="ml">ഒരു തുറന്ന വൈഫൈ നെറ്റ്‌വര്‍ക്ക് വഴി കണക്ഷനുകള്‍ പങ്കിടുന്നതു് സിസ്റ്റം പോളിസി തടയുന്നു</message>
     <message xml:lang="mr">प्रणाली करार ओपन WiFi नेटवर्क द्वारे जोडणीचे शेअरींग रोखत आहे</message>
     <message xml:lang="or">ତନ୍ତ୍ର ନିତୀ ଗୋଟିଏ ଖୋଲା WiFi ନେଟୱର୍କରେ ସଂଯୋଗ ସହଭାଗ କରିବାରେ ବାରଣ କରିଥାଏ</message>
