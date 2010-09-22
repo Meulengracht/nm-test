@@ -37,7 +37,6 @@ Depends:
  adduser,
  isc-dhcp-client (>= 4.1.1-P1-4)
 Recommends:
- network-manager-gnome | network-manager-kde,
  policykit-1,
  ppp (>= 2.4.5),
  dnsmasq-base,
@@ -55,7 +54,8 @@ Breaks:
  network-manager-kde (<< 1:0.9~~),
  network-manager-openvpn (<< 0.7~~),
  network-manager-vpnc (<< 0.7~~),
- network-manager-pptp (<< 0.7~~)
+ network-manager-pptp (<< 0.7~~),
+ ppp (<< 2.4.5)
 Description: network management framework daemon
  NetworkManager attempts to keep an active network connection available at all
  times. It is intended only for the desktop use-case, and is not intended for
