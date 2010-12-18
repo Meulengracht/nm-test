@@ -1,3 +1,28 @@
+network-manager (0.8.2-1) experimental; urgency=low
+
+  * New upstream release.
+    - Set timestamp for system connections. (Closes: #509817)
+  * Remove patches, merged upstream
+    - debian/patches/10-dont_require_ifup_for_lo.patch
+    - debian/patches/30-typo_fix.patch
+  * debian/libnm-{glib2,util1}.symbols
+    - Update symbols files for new API additions.
+  * Make sure gtk-doc API documentation is built
+    - Add Build-Depends on gtk-doc-tools.
+    - Add --with-docs configure option.
+  * debian/network-manager.preinst
+    - Remove pre-lenny conffile upgrade code.
+  * debian/network-manager.{install,manpages}
+    - Install nm-online binary and man page.
+  * debian/patches/02-dbus_access_network_manager.patch
+    - Update policy for group netdev based on upstream changes for at_console.
+  * debian/patches/60-policy-stop-touching-etc-hosts.patch
+    - Stop touching /etc/hosts. Rely on the debian installer to setup
+      /etc/hosts so the hostname is resolvable. Patch cherry-picked from
+      upstream Git.
+
+ -- Michael Biebl <biebl@debian.org>  Sat, 18 Dec 2010 06:47:11 +0100
+
 network-manager (0.8.1-6) unstable; urgency=low
 
   * debian/patches/40-umanaged-interfaces.patch
