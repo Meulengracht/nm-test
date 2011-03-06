@@ -1,3 +1,25 @@
+network-manager (0.8.2-6) unstable; urgency=medium
+
+  * debian/patches/83-dnsmasq-send-no-config-file-instead-of-a-bogus-one.patch
+    - Newer versions of dnsmasq validate the option parameters more strictly.
+      Instead of passing a bogus file name simply use --conf-file without
+      additional parameters. (Closes: #615082)
+  * debian/control
+    - Remove old Conflicts/Replaces which were required for upgrades to
+      squeeze.
+    - Bump Breaks against network-manager-gnome to (<< 0.8.2) to avoid
+      partial upgrades which can lead to problems with user settings for
+      ethernet connections. (Closes: #612291)
+  * debian/ifblacklist_migrate.sh
+    - Only comment out iface lines if we have an exact match for the network
+      interface. (Closes: #612247)
+  * debian/patches/51-normalized-keys.patch
+    - Normalize keys in ifupdown parser, so we accept options with either
+      hyphens or underscores, like e.g. bridge_ports and bridge-ports.
+      (Closes: #609831)
+
+ -- Michael Biebl <biebl@debian.org>  Sun, 06 Mar 2011 20:59:46 +0100
+
 network-manager (0.8.2-5) unstable; urgency=low
 
   * Upload to unstable.
