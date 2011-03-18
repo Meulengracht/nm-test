@@ -370,11 +370,13 @@ SCPluginIfupdown_init (NMSystemConfigInterface *config)
 				/* Try to find bridge ports */
 				const char *ports = ifparser_getkey (block, "bridge-ports");
 				if (ports) {
-					PLUGIN_PRINT("SCPlugin-Ifupdown", "found bridge ports %s for %s", ports, block->name);
-					char **port_ifaces = g_strsplit_set (ports, " \t", -1);
-
 					int i;
 					int state = 0;
+					char **port_ifaces;
+
+					PLUGIN_PRINT("SCPlugin-Ifupdown", "found bridge ports %s for %s", ports, block->name);
+
+					port_ifaces = g_strsplit_set (ports, " \t", -1);
 					for (i = 0; i < g_strv_length (port_ifaces); i++) {
 						char *token = port_ifaces[i];
 						/* Skip crazy stuff like regex or all */

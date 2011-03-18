@@ -1,3 +1,25 @@
+network-manager (0.8.3.998-1) unstable; urgency=low
+
+  * New upstream release (0.8.4 rc1).
+    - Store connection timestamps for system connections in
+      /var/lib/NetworkManager. (Closes: #612424)
+    - Send hostname when using DHCP. (Closes: #561532)
+  * Bump debhelper compatibility level to 8.
+  * Remove patches (merged upstream)
+    - d/p/40-umanaged-interfaces.patch
+    - d/p/50-bridge-interfaces.patch
+    - d/p/51-normalized-keys.patch
+    - d/p/60-policy-stop-touching-etc-hosts.patch
+    - d/p/70-install-nm-online.patch
+    - d/p/80-keyfile-ignore-temporary-files.patch
+    - d/p/81-keyfile-quiet-keyfile-plugin-when-re-read-connection.patch
+    - d/p/82-core-handle-device-removal.patch
+    - d/p/83-dnsmasq-send-no-config-file-instead-of-a-bogus-one.patch
+  * Update debian/libnm-glib2.symbols and debian/libnm-util1.symbols.
+  * Update debian/network-manager-dev.install, install nm-version.h.
+
+ -- Michael Biebl <biebl@debian.org>  Fri, 18 Mar 2011 20:55:36 +0100
+
 network-manager (0.8.2-6) unstable; urgency=medium
 
   * debian/patches/83-dnsmasq-send-no-config-file-instead-of-a-bogus-one.patch
