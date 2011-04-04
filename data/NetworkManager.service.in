@@ -8,5 +8,6 @@ BusName=org.freedesktop.NetworkManager
 ExecStart=@sbindir@/NetworkManager --no-daemon
 
 [Install]
-WantedBy=network.target multi-user.target
+WantedBy=multi-user.target
 Alias=dbus-org.freedesktop.NetworkManager.service
+Alias=network-manager.service
