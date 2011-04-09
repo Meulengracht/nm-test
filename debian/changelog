@@ -1,3 +1,43 @@
+network-manager (0.8.998-1) experimental; urgency=low
+
+  * New major upstream release (0.9 rc1).
+    - Support for fast user switching. (Closes: #563560)
+    - API simplification. User settings have been merged into the core daemon,
+      i.e. system connections by default. Secrets are provided by so called
+      secret agents which can be either system wide or user specific (e.g. VPN
+      passwords).
+    - Support for WiMaX (currently disabled as the WiMaX SDK is not packaged
+      yet).
+   * debian/control
+     - Bump Build-Depends on libglib2.0-dev to (>= 2.22).
+     - Bump Build-Depends on libudev-dev to (>= 147).
+     - Bump Breaks against other network-manager-* packages to avoid partial
+       upgades.
+     - Bump Depends on wpasuplicant to (>= 0.7.3-1) for the new wpasupplicant
+       D-Bus interface.
+     - Bump Standards-Version to 3.9.2. No further changes.
+   * Refresh debian/patches/02-dbus_access_network_manager.patch.
+   * SONAME bump for libnm-glib (2→4) and libnm-util (1→2).
+     - Rename *.install and *.symbols files.
+     - Update debian/control.
+     - Update *.symbols files.
+   * Update *.install files.
+     - Drop static libraries from *-dev packages.
+     - Install new header files for libnm-glib-dev.
+     - Install network-manager gtk-doc documentation.
+     - Drop keyfile plugin, it is now built into the core.
+  * Enable gobject introspection support
+    - Add Build-Depends on libgirepository1.0-dev (>= 0.9.12),
+      gobject-introspection (>= 0.9.12-4~), gir1.2-glib-2.0 and
+      gir1.2-freedesktop.
+    - Add package gir1.2-networkmanager-1.0 containing the typelib files.
+    - Add Depends on gir1.2-networkmanager-1.0 (= ${binary:Version}) to
+      libnm-glib-dev and libnm-util-dev according to the new policy.
+    - Install gir files in libnm-glib-dev.install and libnm-util-dev.install.
+    - Call dh_girepository for libnm-glib4 and libnm-util2 in debian/rules.
+
+ -- Michael Biebl <biebl@debian.org>  Sat, 09 Apr 2011 06:49:57 +0200
+
 network-manager (0.8.3.999-1) unstable; urgency=low
 
   * New upstream release (0.8.4 rc2).
