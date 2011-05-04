@@ -1,3 +1,16 @@
+network-manager (0.8.999-1) experimental; urgency=low
+
+  * New upstream release (0.9 rc2).
+  * Refresh debian/patches/03-systemd.patch.
+  * Update debian/libnm-glib4.symbols and debian/libnm-util2.symbols.
+  * Merge changes from unstable branch.
+  * Update package descriptions.
+  * Install NetworkManager-wait-online.service unit file but keep it disabled
+    by default. This unit can be used to delay network.target until the
+    network is actually up.
+
+ -- Michael Biebl <biebl@debian.org>  Wed, 04 May 2011 22:56:20 +0200
+
 network-manager (0.8.998-1) experimental; urgency=low
 
   * New major upstream release (0.9 rc1).
@@ -37,6 +50,13 @@ network-manager (0.8.998-1) experimental; urgency=low
     - Call dh_girepository for libnm-glib4 and libnm-util2 in debian/rules.
 
  -- Michael Biebl <biebl@debian.org>  Sat, 09 Apr 2011 06:49:57 +0200
+
+network-manager (0.8.4.0-1) unstable; urgency=low
+
+  * New upstream release.
+  * Bump Standards-Version to 3.9.2. No further changes.
+
+ -- Michael Biebl <biebl@debian.org>  Thu, 21 Apr 2011 11:05:42 +0200
 
 network-manager (0.8.3.999-1) unstable; urgency=low
 
