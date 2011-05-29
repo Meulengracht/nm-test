@@ -1,3 +1,16 @@
+network-manager (0.8.9997-1) experimental; urgency=low
+
+  * New upstream release (0.9 rc3).
+    - Correctly pass iface parameter to dispatcher scripts. (Closes: #627610)
+  * Update debian/libnm-glib4.symbols and debian/libnm-util2.symbols for new
+    API additions.
+  * debian/network-manager-dispatcher.script
+    - Handle dhcp4-change and dhcp6-change events (by doing nothing). This
+      prevents the 01ifupdown dispatcher script from logging an error on DHCP
+      lease changes. (Closes: #628154)
+
+ -- Michael Biebl <biebl@debian.org>  Sun, 29 May 2011 21:54:09 +0200
+
 network-manager (0.8.999-1) experimental; urgency=low
 
   * New upstream release (0.9 rc2).
