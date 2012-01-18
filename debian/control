@@ -5,7 +5,7 @@ Maintainer: Utopia Maintenance Team <pkg-utopia-maintainers@lists.alioth.debian.
 Uploaders: Michael Biebl <biebl@debian.org>
 Build-Depends:
  debhelper (>= 8),
- dpkg-dev (>= 1.6.1),
+ dpkg-dev (>= 1.16.1),
  autotools-dev,
  pkg-config,
  intltool,
@@ -13,7 +13,8 @@ Build-Depends:
  libdbus-1-dev (>= 1.1),
  libiw-dev(>= 27+28pre9),
  libglib2.0-dev (>= 2.22),
- libnl-dev (>= 1.0~pre8),
+ libnl-3-dev,
+ libnl-route-3-dev,
  ppp-dev (>= 2.4.5),
  libpolkit-gobject-1-dev,
  libgnutls-dev,
@@ -47,7 +48,8 @@ Recommends:
  ppp (>= 2.4.5),
  dnsmasq-base,
  iptables,
- modemmanager
+ modemmanager,
+ crda
 Suggests: avahi-autoipd
 Breaks:
  network-manager-gnome (<< 0.9),
@@ -205,7 +207,7 @@ Description: network management framework (debugging symbols)
  This package contains detached debugging symbols.
 
 Package: gir1.2-networkmanager-1.0
-Section: libs
+Section: introspection
 Architecture: any
 Depends: ${gir:Depends}, ${shlibs:Depends}, ${misc:Depends}
 Description: GObject introspection data for NetworkManager
