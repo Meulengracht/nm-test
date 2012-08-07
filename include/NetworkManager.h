@@ -108,6 +108,7 @@ typedef enum {
  * GSM/UMTS, or LTE network access protocols
  * @NM_DEVICE_TYPE_INFINIBAND: an IP-over-InfiniBand device
  * @NM_DEVICE_TYPE_BOND: a bond master interface
+ * @NM_DEVICE_TYPE_VLAN: an 802.1Q VLAN interface
  * @NM_DEVICE_TYPE_ADSL: ADSL modem
  *
  * #NMDeviceType values indicate the type of hardware represented by
@@ -138,7 +139,6 @@ typedef enum {
  * General device capability flags.
  **/
 typedef enum {
-	/*< flags >*/
 	NM_DEVICE_CAP_NONE           = 0x00000000,
 	NM_DEVICE_CAP_NM_SUPPORTED   = 0x00000001,
 	NM_DEVICE_CAP_CARRIER_DETECT = 0x00000002
@@ -159,7 +159,6 @@ typedef enum {
  * 802.11 specific device encryption and authentication capabilities.
  **/
 typedef enum {
-	/*< flags >*/
 	NM_WIFI_DEVICE_CAP_NONE          = 0x00000000,
 	NM_WIFI_DEVICE_CAP_CIPHER_WEP40  = 0x00000001,
 	NM_WIFI_DEVICE_CAP_CIPHER_WEP104 = 0x00000002,
@@ -180,7 +179,6 @@ typedef enum {
  * 802.11 access point flags. 
  **/
 typedef enum {
-	/*< flags >*/
 	NM_802_11_AP_FLAGS_NONE    = 0x00000000,
 	NM_802_11_AP_FLAGS_PRIVACY = 0x00000001
 } NM80211ApFlags;
@@ -211,7 +209,6 @@ typedef enum {
  * access point's beacon.
  **/
 typedef enum {
-	/*< flags >*/
 	NM_802_11_AP_SEC_NONE            = 0x00000000,
 	NM_802_11_AP_SEC_PAIR_WEP40      = 0x00000001,
 	NM_802_11_AP_SEC_PAIR_WEP104     = 0x00000002,
@@ -249,7 +246,6 @@ typedef enum {
  * Bluetooth device.
  **/
 typedef enum {
-	/*< flags >*/
 	NM_BT_CAPABILITY_NONE = 0x00000000,
 	NM_BT_CAPABILITY_DUN  = 0x00000001,
 	NM_BT_CAPABILITY_NAP  = 0x00000002,
@@ -272,7 +268,6 @@ typedef enum {
  * API.
  **/
 typedef enum {
-	/*< flags >*/
 	NM_DEVICE_MODEM_CAPABILITY_NONE      = 0x00000000,
 	NM_DEVICE_MODEM_CAPABILITY_POTS      = 0x00000001,
 	NM_DEVICE_MODEM_CAPABILITY_CDMA_EVDO = 0x00000002,
