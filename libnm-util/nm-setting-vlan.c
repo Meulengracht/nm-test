@@ -18,7 +18,7 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301 USA.
  *
- * (C) Copyright 2011 Red Hat, Inc.
+ * (C) Copyright 2011 - 2012 Red Hat, Inc.
  */
 
 #include <dbus/dbus-glib.h>
@@ -269,8 +269,8 @@ nm_setting_vlan_add_priority_str (NMSettingVlan *setting,
 
 /**
  * nm_setting_vlan_get_num_priorities:
- * @map: the type of priority map
  * @setting: the #NMSettingVlan
+ * @map: the type of priority map
  *
  * Returns the number of entires in the
  * #NMSettingVlan:ingress_priority_map or #NMSettingVlan:egress_priority_map
@@ -289,8 +289,8 @@ nm_setting_vlan_get_num_priorities (NMSettingVlan *setting, NMVlanPriorityMap ma
 
 /**
  * nm_setting_vlan_get_priority:
- * @map: the type of priority map
  * @setting: the #NMSettingVlan
+ * @map: the type of priority map
  * @idx: the zero-based index of the ingress/egress priority map entry
  * @out_from: (out): on return the value of the priority map's 'from' item
  * @out_to: (out): on return the value of priority map's 'to' item
@@ -327,8 +327,8 @@ nm_setting_vlan_get_priority (NMSettingVlan *setting,
 
 /**
  * nm_setting_vlan_add_priority:
- * @map: the type of priority map
  * @setting: the #NMSettingVlan
+ * @map: the type of priority map
  * @from: the priority to map to @to
  * @to: the priority to map @from to
  *
@@ -377,8 +377,8 @@ nm_setting_vlan_add_priority (NMSettingVlan *setting,
 
 /**
  * nm_setting_vlan_remove_priority:
- * @map: the type of priority map
  * @setting: the #NMSettingVlan
+ * @map: the type of priority map
  * @idx: the zero-based index of the priority map to remove
  *
  * Removes the priority map at index @idx from the
@@ -405,8 +405,8 @@ nm_setting_vlan_remove_priority (NMSettingVlan *setting,
 
 /**
  * nm_setting_vlan_clear_priorities:
- * @map: the type of priority map
  * @setting: the #NMSettingVlan
+ * @map: the type of priority map
  *
  * Clear all the entires from #NMSettingVlan:ingress_priority_map or
  * #NMSettingVlan:egress_priority_map properties.
@@ -614,8 +614,7 @@ nm_setting_vlan_class_init (NMSettingVlanClass *setting_class)
 	 * a default name will be constructed from the interface described by the
 	 * parent interface and the #NMSettingVlan:id , ex 'eth2.1'. The parent
 	 * interface may be given by the #NMSettingVlan:parent property or by a
-	 * hardware address property, eg #NMSettingWired:mac-address or
-	 * #NMSettingInfiniband:mac-address.
+	 * hardware address property, eg #NMSettingWired:mac-address.
 	 **/
 	g_object_class_install_property
 		(object_class, PROP_IFACE_NAME,
@@ -627,8 +626,8 @@ nm_setting_vlan_class_init (NMSettingVlanClass *setting_class)
 		                     "parent interface and the 'id' property, ex "
 		                     "'eth2.1'. The parent interface may be given by "
 		                     "the 'parent' property or by a hardware address "
-		                     "property, eg the 'wired' or 'infiniband' "
-		                     "settings' 'mac-address' property.",
+		                     "property, eg the 'wired' settings' 'mac-address' "
+		                     "property.",
 		                     NULL,
 		                     G_PARAM_READWRITE | G_PARAM_CONSTRUCT | NM_SETTING_PARAM_SERIALIZE));
 
@@ -638,8 +637,7 @@ nm_setting_vlan_class_init (NMSettingVlanClass *setting_class)
 	 * If given, specifies the parent interface name or parent connection UUID
 	 * from which this VLAN interface should be created.  If this property is
 	 * not specified, the connection must contain a hardware address in a
-	 * hardware-specific setting, like #NMSettingWired:mac-address or
-	 * #NMSettingInfiniband:mac-address.
+	 * hardware-specific setting, like #NMSettingWired:mac-address.
 	 **/
 	g_object_class_install_property
 		(object_class, PROP_PARENT,
@@ -650,8 +648,7 @@ nm_setting_vlan_class_init (NMSettingVlanClass *setting_class)
 		                     "interface should be created.  If this property is "
 		                     "not specified, the connection must contain a "
 		                     "hardware address in a hardware-specific setting, "
-		                     "like the 'wired' or 'infiniband' settings' "
-		                     "'mac-address' property.",
+		                     "like the 'wired' settings' 'mac-address' property.",
 		                     NULL,
 		                     G_PARAM_READWRITE | G_PARAM_CONSTRUCT | NM_SETTING_PARAM_SERIALIZE));
 

@@ -9,10 +9,12 @@ nm-utils
 
 </para>
 
+
 <!-- ##### SECTION See_Also ##### -->
 <para>
 
 </para>
+
 
 <!-- ##### SECTION Stability_Level ##### -->
 
@@ -57,6 +59,15 @@ nm-utils
 
 @ssid: 
 @len: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_utils_file_is_pkcs12 ##### -->
+<para>
+
+</para>
+
+@filename: 
 @Returns: 
 
 

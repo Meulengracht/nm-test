@@ -31,7 +31,7 @@
 #define NM_VPN_CONNECTION(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), NM_TYPE_VPN_CONNECTION, NMVPNConnection))
 #define NM_VPN_CONNECTION_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), NM_TYPE_VPN_CONNECTION, NMVPNConnectionClass))
 #define NM_IS_VPN_CONNECTION(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), NM_TYPE_VPN_CONNECTION))
-#define NM_IS_VPN_CONNECTION_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), NM_TYPE_VPN_CONNECTION))
+#define NM_IS_VPN_CONNECTION_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), NM_TYPE_VPN_CONNECTION))
 #define NM_VPN_CONNECTION_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), NM_TYPE_VPN_CONNECTION, NMVPNConnectionClass))
 
 /* Properties */
@@ -39,7 +39,8 @@
 #define NM_VPN_CONNECTION_BANNER "banner"
 
 /* Signals */
-#define NM_VPN_CONNECTION_VPN_STATE_CHANGED "vpn-state-changed"
+/* not exported: includes old reason code */
+#define NM_VPN_CONNECTION_INTERNAL_STATE_CHANGED "internal-state-changed"
 
 
 typedef struct {
@@ -52,8 +53,13 @@ typedef struct {
 	/* Signals */
 	void (*vpn_state_changed) (NMVPNConnection *connection,
 	                           NMVPNConnectionState new_state,
-	                           NMVPNConnectionState old_state,
 	                           NMVPNConnectionStateReason reason);
+
+	/* not exported over D-Bus */
+	void (*internal_state_changed) (NMVPNConnection *connection,
+	                                NMVPNConnectionState new_state,
+	                                NMVPNConnectionState old_state,
+	                                NMVPNConnectionStateReason reason);
 } NMVPNConnectionClass;
 
 GType nm_vpn_connection_get_type (void);

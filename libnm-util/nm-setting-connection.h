@@ -34,7 +34,7 @@ G_BEGIN_DECLS
 #define NM_SETTING_CONNECTION(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), NM_TYPE_SETTING_CONNECTION, NMSettingConnection))
 #define NM_SETTING_CONNECTION_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), NM_TYPE_SETTING_CONNECTION, NMSettingConnectionClass))
 #define NM_IS_SETTING_CONNECTION(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), NM_TYPE_SETTING_CONNECTION))
-#define NM_IS_SETTING_CONNECTION_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), NM_TYPE_SETTING_CONNECTION))
+#define NM_IS_SETTING_CONNECTION_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), NM_TYPE_SETTING_CONNECTION))
 #define NM_SETTING_CONNECTION_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), NM_TYPE_SETTING_CONNECTION, NMSettingConnectionClass))
 
 #define NM_SETTING_CONNECTION_SETTING_NAME "connection"
@@ -78,13 +78,6 @@ GQuark nm_setting_connection_error_quark (void);
 #define NM_SETTING_CONNECTION_ZONE        "zone"
 #define NM_SETTING_CONNECTION_MASTER      "master"
 #define NM_SETTING_CONNECTION_SLAVE_TYPE  "slave-type"
-
-/* Well-known zone names */
-#define NM_SETTING_CONNECTION_ZONE_TRUSTED   "trusted"
-#define NM_SETTING_CONNECTION_ZONE_HOME      "home"
-#define NM_SETTING_CONNECTION_ZONE_WORK      "work"
-#define NM_SETTING_CONNECTION_ZONE_PUBLIC    "public"
-#define NM_SETTING_CONNECTION_ZONE_BLOCK     "block"
 
 /**
  * NMSettingConnection:

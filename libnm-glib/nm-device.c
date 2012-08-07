@@ -699,8 +699,10 @@ nm_device_class_init (NMDeviceClass *device_class)
 
 	/**
 	 * NMDevice::state-changed:
-	 * @device: the client that received the signal
-	 * @state: the new state of the device
+	 * @device: the device object that received the signal
+	 * @new_state: the new state of the device
+	 * @old_state: the previous state of the device
+	 * @reason: the reason describing the state change
 	 *
 	 * Notifies the state change of a #NMDevice.
 	 **/
@@ -1103,7 +1105,7 @@ nm_device_get_ip4_config (NMDevice *device)
  *
  * Gets the current #NMDHCP4Config associated with the #NMDevice.
  *
- * Returns: (transfer none): the #NMDHCPConfig or %NULL if the device is not activated or not
+ * Returns: (transfer none): the #NMDHCP4Config or %NULL if the device is not activated or not
  * using DHCP.
  **/
 NMDHCP4Config *
@@ -1138,7 +1140,7 @@ nm_device_get_ip6_config (NMDevice *device)
  *
  * Gets the current #NMDHCP6Config associated with the #NMDevice.
  *
- * Returns: (transfer none): the #NMDHCPConfig or %NULL if the device is not activated or not
+ * Returns: (transfer none): the #NMDHCP6Config or %NULL if the device is not activated or not
  * using DHCP.
  **/
 NMDHCP6Config *

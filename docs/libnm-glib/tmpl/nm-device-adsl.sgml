@@ -9,10 +9,12 @@ NMDeviceAdsl
 
 </para>
 
+
 <!-- ##### SECTION See_Also ##### -->
 <para>
 
 </para>
+
 
 <!-- ##### SECTION Stability_Level ##### -->
 
@@ -25,7 +27,11 @@ NMDeviceAdsl
 
 </para>
 
-@parent: 
+
+<!-- ##### ARG NMDeviceAdsl:carrier ##### -->
+<para>
+
+</para>
 
 <!-- ##### STRUCT NMDeviceAdslClass ##### -->
 <para>
