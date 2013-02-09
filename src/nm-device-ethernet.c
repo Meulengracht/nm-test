@@ -81,6 +81,7 @@ typedef struct Supplicant {
 } Supplicant;
 
 typedef struct {
+	guint8              hw_addr[ETH_ALEN];         /* Current MAC address */
 	guint8              perm_hw_addr[ETH_ALEN];    /* Permanent MAC address */
 	guint8              initial_hw_addr[ETH_ALEN]; /* Initial MAC address (as seen when NM starts) */
 
@@ -283,8 +284,7 @@ static void
 device_state_changed (NMDevice *device,
                       NMDeviceState new_state,
                       NMDeviceState old_state,
-                      NMDeviceStateReason reason,
-                      gpointer user_data)
+                      NMDeviceStateReason reason)
 {
 	switch (new_state) {
 	case NM_DEVICE_STATE_ACTIVATED:
@@ -300,11 +300,10 @@ device_state_changed (NMDevice *device,
 static void
 nm_device_ethernet_init (NMDeviceEthernet * self)
 {
-	g_signal_connect (self, "state-changed", G_CALLBACK (device_state_changed), NULL);
 }
 
 static gboolean
-real_is_up (NMDevice *device)
+is_up (NMDevice *device)
 {
 	if (!NM_DEVICE_ETHERNET_GET_PRIVATE (device)->supplicant.mgr)
 		return FALSE;
@@ -313,7 +312,7 @@ real_is_up (NMDevice *device)
 }
 
 static gboolean
-real_bring_up (NMDevice *dev)
+bring_up (NMDevice *dev)
 {
 	NMDeviceEthernetPrivate *priv = NM_DEVICE_ETHERNET_GET_PRIVATE (dev);
 
@@ -323,7 +322,7 @@ real_bring_up (NMDevice *dev)
 }
 
 static void
-real_take_down (NMDevice *dev)
+take_down (NMDevice *dev)
 {
 	NMDeviceEthernetPrivate *priv = NM_DEVICE_ETHERNET_GET_PRIVATE (dev);
 
@@ -352,16 +351,17 @@ nm_device_ethernet_new (const char *udi,
 }
 
 static void
-_update_hw_addr (NMDeviceEthernet *self, const guint8 *addr)
+update_hw_address (NMDevice *dev)
 {
-	const guint8 *current_addr;
+	NMDeviceEthernetPrivate *priv = NM_DEVICE_ETHERNET_GET_PRIVATE (dev);
+	gsize addrlen;
+	gboolean changed = FALSE;
 
-	g_return_if_fail (addr != NULL);
-
-	current_addr = nm_device_wired_get_hwaddr (NM_DEVICE_WIRED (self));
-	if (memcmp (current_addr, addr, ETH_ALEN)) {
-		nm_device_wired_set_hwaddr (NM_DEVICE_WIRED (self), addr, ETH_ALEN);
-		g_object_notify (G_OBJECT (self), NM_DEVICE_ETHERNET_HW_ADDRESS);
+	addrlen = nm_device_read_hwaddr (dev, priv->hw_addr, sizeof (priv->hw_addr), &changed);
+	if (addrlen) {
+		g_return_if_fail (addrlen == ETH_ALEN);
+		if (changed)
+			g_object_notify (G_OBJECT (dev), NM_DEVICE_ETHERNET_HW_ADDRESS);
 	}
 }
 
@@ -369,7 +369,7 @@ static gboolean
 _set_hw_addr (NMDeviceEthernet *self, const guint8 *addr, const char *detail)
 {
 	NMDevice *dev = NM_DEVICE (self);
-	const guint8 *current_addr;
+	NMDeviceEthernetPrivate *priv = NM_DEVICE_ETHERNET_GET_PRIVATE (self);
 	const char *iface;
 	char *mac_str = NULL;
 	gboolean success = FALSE;
@@ -379,8 +379,7 @@ _set_hw_addr (NMDeviceEthernet *self, const guint8 *addr, const char *detail)
 	iface = nm_device_get_iface (dev);
 
 	/* Do nothing if current MAC is same */
-	current_addr = nm_device_wired_get_hwaddr (NM_DEVICE_WIRED (self));
-	if (!memcmp (current_addr, addr, ETH_ALEN)) {
+	if (!memcmp (priv->hw_addr, addr, ETH_ALEN)) {
 		nm_log_dbg (LOGD_DEVICE | LOGD_ETHER, "(%s): no MAC address change needed", iface);
 		return TRUE;
 	}
@@ -394,9 +393,15 @@ _set_hw_addr (NMDeviceEthernet *self, const guint8 *addr, const char *detail)
 	success = nm_system_iface_set_mac (nm_device_get_ip_ifindex (dev), (struct ether_addr *) addr);
 	if (success) {
 		/* MAC address succesfully changed; update the current MAC to match */
-		_update_hw_addr (self, addr);
-		nm_log_info (LOGD_DEVICE | LOGD_ETHER, "(%s): %s MAC address to %s",
-		             iface, detail, mac_str);
+		update_hw_address (dev);
+		if (memcmp (priv->hw_addr, addr, ETH_ALEN) == 0) {
+			nm_log_info (LOGD_DEVICE | LOGD_ETHER, "(%s): %s MAC address to %s",
+			             iface, detail, mac_str);
+		} else {
+			nm_log_warn (LOGD_DEVICE | LOGD_ETHER, "(%s): new MAC address %s "
+			             "not successfully set",
+			             iface, mac_str);
+		}
 	} else {
 		nm_log_warn (LOGD_DEVICE | LOGD_ETHER, "(%s): failed to %s MAC address to %s",
 		             iface, detail, mac_str);
@@ -408,23 +413,7 @@ _set_hw_addr (NMDeviceEthernet *self, const guint8 *addr, const char *detail)
 }
 
 static void
-real_update_hw_address (NMDevice *dev)
-{
-	const guint8 *hw_addr;
-	guint8 old_addr[ETH_ALEN];
-
-	hw_addr = nm_device_wired_get_hwaddr (NM_DEVICE_WIRED (dev));
-	memcpy (old_addr, hw_addr, ETH_ALEN);
-
-	NM_DEVICE_CLASS (nm_device_ethernet_parent_class)->update_hw_address (dev);
-
-	hw_addr = nm_device_wired_get_hwaddr (NM_DEVICE_WIRED (dev));
-	if (memcmp (old_addr, hw_addr, ETH_ALEN))
-		g_object_notify (G_OBJECT (dev), NM_DEVICE_ETHERNET_HW_ADDRESS);
-}
-
-static void
-real_update_permanent_hw_address (NMDevice *dev)
+update_permanent_hw_address (NMDevice *dev)
 {
 	NMDeviceEthernet *self = NM_DEVICE_ETHERNET (dev);
 	NMDeviceEthernetPrivate *priv = NM_DEVICE_ETHERNET_GET_PRIVATE (self);
@@ -450,13 +439,10 @@ real_update_permanent_hw_address (NMDevice *dev)
 	errno = 0;
 	ret = ioctl (fd, SIOCETHTOOL, &req);
 	if ((ret < 0) || !nm_ethernet_address_is_valid ((struct ether_addr *) epaddr->data)) {
-		const guint8 *current_addr;
-
 		nm_log_err (LOGD_HW | LOGD_ETHER, "(%s): unable to read permanent MAC address (error %d)",
 		            nm_device_get_iface (dev), errno);
 		/* Fall back to current address */
-		current_addr = nm_device_wired_get_hwaddr (NM_DEVICE_WIRED (self));
-		memcpy (epaddr->data, current_addr, ETH_ALEN);
+		memcpy (epaddr->data, priv->hw_addr, ETH_ALEN);
 	}
 
 	if (memcmp (&priv->perm_hw_addr, epaddr->data, ETH_ALEN)) {
@@ -468,27 +454,30 @@ real_update_permanent_hw_address (NMDevice *dev)
 }
 
 static void
-real_update_initial_hw_address (NMDevice *dev)
+update_initial_hw_address (NMDevice *dev)
 {
 	NMDeviceEthernet *self = NM_DEVICE_ETHERNET (dev);
 	NMDeviceEthernetPrivate *priv = NM_DEVICE_ETHERNET_GET_PRIVATE (self);
-	const guint8 *current_addr;
+	gsize addrlen;
 	char *mac_str = NULL;
-	guint8 *addr = priv->initial_hw_addr;
-	guint8 zero[ETH_ALEN] = {0,0,0,0,0,0};
 
 	/* This sets initial MAC address from current MAC address. It should only
 	 * be called from NMDevice constructor() to really get the initial address.
 	 */
-	current_addr = nm_device_wired_get_hwaddr (NM_DEVICE_WIRED (self));
-	if (!memcmp (current_addr, &zero, ETH_ALEN))
-		real_update_hw_address (dev);
-
-	if (memcmp (&priv->initial_hw_addr, current_addr, ETH_ALEN))
-		memcpy (&priv->initial_hw_addr, current_addr, ETH_ALEN);
+	addrlen = nm_device_read_hwaddr (dev,
+	                                 priv->initial_hw_addr,
+	                                 sizeof (priv->initial_hw_addr),
+	                                 NULL);
+	if (addrlen)
+		g_return_if_fail (addrlen == ETH_ALEN);
 
 	mac_str = g_strdup_printf ("%02X:%02X:%02X:%02X:%02X:%02X",
-	                           addr[0], addr[1], addr[2], addr[3], addr[4], addr[5]);
+	                           priv->initial_hw_addr[0],
+	                           priv->initial_hw_addr[1],
+	                           priv->initial_hw_addr[2],
+	                           priv->initial_hw_addr[3],
+	                           priv->initial_hw_addr[4],
+	                           priv->initial_hw_addr[5]);
 
 	nm_log_dbg (LOGD_DEVICE | LOGD_ETHER, "(%s): read initial MAC address %s",
 	            nm_device_get_iface (dev), mac_str);
@@ -496,8 +485,15 @@ real_update_initial_hw_address (NMDevice *dev)
 	g_free (mac_str);
 }
 
+static const guint8 *
+get_hw_address (NMDevice *device, guint *out_len)
+{
+	*out_len = ETH_ALEN;
+	return NM_DEVICE_ETHERNET_GET_PRIVATE (device)->hw_addr;
+}
+
 static guint32
-real_get_generic_capabilities (NMDevice *dev)
+get_generic_capabilities (NMDevice *dev)
 {
 	NMDeviceEthernet *self = NM_DEVICE_ETHERNET (dev);
 	guint32	caps = NM_DEVICE_CAP_NONE;
@@ -620,21 +616,16 @@ match_ethernet_connection (NMDevice *device, NMConnection *connection,
 }
 
 static NMConnection *
-real_get_best_auto_connection (NMDevice *dev,
-                               GSList *connections,
-                               char **specific_object)
+get_best_auto_connection (NMDevice *dev,
+                          GSList *connections,
+                          char **specific_object)
 {
 	GSList *iter;
 
 	for (iter = connections; iter; iter = g_slist_next (iter)) {
 		NMConnection *connection = NM_CONNECTION (iter->data);
-		NMSettingConnection *s_con;
 
-		s_con = nm_connection_get_setting_connection (connection);
-		g_assert (s_con);
-
-		if (   nm_setting_connection_get_autoconnect (s_con)
-		    && match_ethernet_connection (dev, connection, TRUE, NULL))
+		if (match_ethernet_connection (dev, connection, TRUE, NULL))
 			return connection;
 	}
 
@@ -826,6 +817,7 @@ static void
 supplicant_iface_state_cb (NMSupplicantInterface *iface,
                            guint32 new_state,
                            guint32 old_state,
+                           int disconnect_reason,
                            gpointer user_data)
 {
 	NMDeviceEthernet *self = NM_DEVICE_ETHERNET (user_data);
@@ -1029,7 +1021,7 @@ supplicant_interface_init (NMDeviceEthernet *self)
 
 	/* Listen for it's state signals */
 	priv->supplicant.iface_state_id = g_signal_connect (priv->supplicant.iface,
-	                                                    "state",
+	                                                    NM_SUPPLICANT_INTERFACE_STATE,
 	                                                    G_CALLBACK (supplicant_iface_state_cb),
 	                                                    self);
 
@@ -1046,7 +1038,7 @@ supplicant_interface_init (NMDeviceEthernet *self)
 }
 
 static NMActStageReturn
-real_act_stage1_prepare (NMDevice *dev, NMDeviceStateReason *reason)
+act_stage1_prepare (NMDevice *dev, NMDeviceStateReason *reason)
 {
 	NMDeviceEthernet *self = NM_DEVICE_ETHERNET (dev);
 	NMActRequest *req;
@@ -1197,7 +1189,7 @@ pppoe_stage3_ip4_config_start (NMDeviceEthernet *self, NMDeviceStateReason *reas
 }
 
 static NMActStageReturn
-real_act_stage2_config (NMDevice *device, NMDeviceStateReason *reason)
+act_stage2_config (NMDevice *device, NMDeviceStateReason *reason)
 {
 	NMSettingConnection *s_con;
 	const char *connection_type;
@@ -1224,9 +1216,9 @@ real_act_stage2_config (NMDevice *device, NMDeviceStateReason *reason)
 }
 
 static NMActStageReturn
-real_act_stage3_ip4_config_start (NMDevice *device,
-                                  NMIP4Config **out_config,
-                                  NMDeviceStateReason *reason)
+act_stage3_ip4_config_start (NMDevice *device,
+                             NMIP4Config **out_config,
+                             NMDeviceStateReason *reason)
 {
 	NMSettingConnection *s_con;
 	const char *connection_type;
@@ -1244,7 +1236,7 @@ real_act_stage3_ip4_config_start (NMDevice *device,
 }
 
 static void
-real_ip4_config_pre_commit (NMDevice *device, NMIP4Config *config)
+ip4_config_pre_commit (NMDevice *device, NMIP4Config *config)
 {
 	NMConnection *connection;
 	NMSettingWired *s_wired;
@@ -1266,7 +1258,7 @@ real_ip4_config_pre_commit (NMDevice *device, NMIP4Config *config)
 }
 
 static void
-real_deactivate (NMDevice *device)
+deactivate (NMDevice *device)
 {
 	NMDeviceEthernet *self = NM_DEVICE_ETHERNET (device);
 	NMDeviceEthernetPrivate *priv = NM_DEVICE_ETHERNET_GET_PRIVATE (self);
@@ -1291,19 +1283,19 @@ real_deactivate (NMDevice *device)
 }
 
 static gboolean
-real_check_connection_compatible (NMDevice *device,
-                                  NMConnection *connection,
-                                  GError **error)
+check_connection_compatible (NMDevice *device,
+                             NMConnection *connection,
+                             GError **error)
 {
 	return match_ethernet_connection (device, connection, TRUE, error);
 }
 
 static gboolean
-real_complete_connection (NMDevice *device,
-                          NMConnection *connection,
-                          const char *specific_object,
-                          const GSList *existing_connections,
-                          GError **error)
+complete_connection (NMDevice *device,
+                     NMConnection *connection,
+                     const char *specific_object,
+                     const GSList *existing_connections,
+                     GError **error)
 {
 	NMDeviceEthernetPrivate *priv = NM_DEVICE_ETHERNET_GET_PRIVATE (device);
 	NMSettingWired *s_wired;
@@ -1419,14 +1411,9 @@ hwaddr_matches (NMDevice *device,
                 guint other_hwaddr_len,
                 gboolean fail_if_no_hwaddr)
 {
+	NMDeviceEthernetPrivate *priv = NM_DEVICE_ETHERNET_GET_PRIVATE (device);
 	NMSettingWired *s_wired;
-	const guint8 *devaddr;
 	const GByteArray *mac = NULL;
-	int devtype;
-
-	devtype = nm_device_wired_get_hwaddr_type (NM_DEVICE_WIRED (device));
-	devaddr = nm_device_wired_get_hwaddr (NM_DEVICE_WIRED (device));
-	g_return_val_if_fail (devaddr != NULL, FALSE);
 
 	s_wired = nm_connection_get_setting_wired (connection);
 	if (s_wired)
@@ -1438,7 +1425,7 @@ hwaddr_matches (NMDevice *device,
 			g_return_val_if_fail (other_hwaddr_len == ETH_ALEN, FALSE);
 			if (memcmp (mac->data, other_hwaddr, mac->len) == 0)
 				return TRUE;
-		} else if (memcmp (mac->data, devaddr, mac->len) == 0)
+		} else if (memcmp (mac->data, priv->hw_addr, mac->len) == 0)
 			return TRUE;
 	} else if (fail_if_no_hwaddr == FALSE)
 		return TRUE;
@@ -1466,12 +1453,10 @@ get_property (GObject *object, guint prop_id,
 {
 	NMDeviceEthernet *self = NM_DEVICE_ETHERNET (object);
 	NMDeviceEthernetPrivate *priv = NM_DEVICE_ETHERNET_GET_PRIVATE (self);
-	const guint8 *current_addr;
 
 	switch (prop_id) {
 	case PROP_HW_ADDRESS:
-		current_addr = nm_device_wired_get_hwaddr (NM_DEVICE_WIRED (self));
-		g_value_take_string (value, nm_utils_hwaddr_ntoa (current_addr, ARPHRD_ETHER));
+		g_value_take_string (value, nm_utils_hwaddr_ntoa (priv->hw_addr, ARPHRD_ETHER));
 		break;
 	case PROP_PERM_HW_ADDRESS:
 		g_value_take_string (value, nm_utils_hwaddr_ntoa (&priv->perm_hw_addr, ARPHRD_ETHER));
@@ -1513,25 +1498,28 @@ nm_device_ethernet_class_init (NMDeviceEthernetClass *klass)
 	object_class->get_property = get_property;
 	object_class->set_property = set_property;
 
-	parent_class->get_generic_capabilities = real_get_generic_capabilities;
-	parent_class->is_up = real_is_up;
-	parent_class->bring_up = real_bring_up;
-	parent_class->take_down = real_take_down;
-	parent_class->update_hw_address = real_update_hw_address;
-	parent_class->update_permanent_hw_address = real_update_permanent_hw_address;
-	parent_class->update_initial_hw_address = real_update_initial_hw_address;
-	parent_class->get_best_auto_connection = real_get_best_auto_connection;
-	parent_class->check_connection_compatible = real_check_connection_compatible;
-	parent_class->complete_connection = real_complete_connection;
+	parent_class->get_generic_capabilities = get_generic_capabilities;
+	parent_class->is_up = is_up;
+	parent_class->bring_up = bring_up;
+	parent_class->take_down = take_down;
+	parent_class->update_hw_address = update_hw_address;
+	parent_class->get_hw_address = get_hw_address;
+	parent_class->update_permanent_hw_address = update_permanent_hw_address;
+	parent_class->update_initial_hw_address = update_initial_hw_address;
+	parent_class->get_best_auto_connection = get_best_auto_connection;
+	parent_class->check_connection_compatible = check_connection_compatible;
+	parent_class->complete_connection = complete_connection;
 
-	parent_class->act_stage1_prepare = real_act_stage1_prepare;
-	parent_class->act_stage2_config = real_act_stage2_config;
-	parent_class->act_stage3_ip4_config_start = real_act_stage3_ip4_config_start;
-	parent_class->ip4_config_pre_commit = real_ip4_config_pre_commit;
-	parent_class->deactivate = real_deactivate;
+	parent_class->act_stage1_prepare = act_stage1_prepare;
+	parent_class->act_stage2_config = act_stage2_config;
+	parent_class->act_stage3_ip4_config_start = act_stage3_ip4_config_start;
+	parent_class->ip4_config_pre_commit = ip4_config_pre_commit;
+	parent_class->deactivate = deactivate;
 	parent_class->spec_match_list = spec_match_list;
 	parent_class->connection_match_config = connection_match_config;
 	parent_class->hwaddr_matches = hwaddr_matches;
+
+	parent_class->state_changed = device_state_changed;
 
 	/* properties */
 	g_object_class_install_property

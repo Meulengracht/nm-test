@@ -15,7 +15,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Copyright (C) 2006 - 2010 Red Hat, Inc.
+ * Copyright (C) 2006 - 2012 Red Hat, Inc.
  * Copyright (C) 2006 - 2008 Novell, Inc.
  */
 
@@ -32,21 +32,23 @@
 #include <strings.h>
 #include <string.h>
 
-#ifdef ENABLE_CRASHTRACE
-#include <execinfo.h>
-#endif
-
 #include <glib/gi18n.h>
 
 #include "nm-logging.h"
 
+#define LOGD_ALL \
+	(LOGD_PLATFORM | LOGD_RFKILL | LOGD_ETHER | LOGD_WIFI | LOGD_BT | LOGD_MB | \
+	 LOGD_DHCP4 | LOGD_DHCP6 | LOGD_PPP | LOGD_WIFI_SCAN | LOGD_IP4 | \
+	 LOGD_IP6 | LOGD_AUTOIP4 | LOGD_DNS | LOGD_VPN | LOGD_SHARING | \
+	 LOGD_SUPPLICANT | LOGD_AGENTS | LOGD_SETTINGS | LOGD_SUSPEND | \
+	 LOGD_CORE | LOGD_DEVICE | LOGD_OLPC_MESH | LOGD_WIMAX | \
+	 LOGD_INFINIBAND | LOGD_FIREWALL | LOGD_ADSL | LOGD_BOND | \
+	 LOGD_VLAN | LOGD_BRIDGE)
+
+#define LOGD_DEFAULT (LOGD_ALL & ~LOGD_WIFI_SCAN)
+
 static guint32 log_level = LOGL_INFO | LOGL_WARN | LOGL_ERR;
-static guint32 log_domains = \
-	LOGD_HW | LOGD_RFKILL | LOGD_ETHER | LOGD_WIFI | LOGD_BT | LOGD_MB | \
-	LOGD_DHCP4 | LOGD_DHCP6 | LOGD_PPP | LOGD_IP4 | LOGD_IP6 | LOGD_AUTOIP4 | \
-	LOGD_DNS | LOGD_VPN | LOGD_SHARING | LOGD_SUPPLICANT | LOGD_AGENTS | \
-	LOGD_SETTINGS | LOGD_SUSPEND | LOGD_CORE | LOGD_DEVICE | LOGD_OLPC_MESH | \
-	LOGD_WIMAX | LOGD_INFINIBAND | LOGD_FIREWALL | LOGD_ADSL;
+static guint32 log_domains = LOGD_DEFAULT;
 
 typedef struct {
 	guint32 num;
@@ -63,7 +65,7 @@ static const LogDesc level_descs[] = {
 
 static const LogDesc domain_descs[] = {
 	{ LOGD_NONE,      "NONE" },
-	{ LOGD_HW,        "HW" },
+	{ LOGD_PLATFORM,  "PLATFORM" },
 	{ LOGD_RFKILL,    "RFKILL" },
 	{ LOGD_ETHER,     "ETHER" },
 	{ LOGD_WIFI,      "WIFI" },
@@ -90,8 +92,17 @@ static const LogDesc domain_descs[] = {
 	{ LOGD_INFINIBAND,"INFINIBAND" },
 	{ LOGD_FIREWALL,  "FIREWALL" },
 	{ LOGD_ADSL,      "ADSL" },
+	{ LOGD_BOND,      "BOND" },
+	{ LOGD_VLAN,      "VLAN" },
+	{ LOGD_BRIDGE,    "BRIDGE" },
 	{ 0, NULL }
 };
+
+/* Combined domains */
+#define LOGD_ALL_STRING     "ALL"
+#define LOGD_DEFAULT_STRING "DEFAULT"
+#define LOGD_DHCP_STRING    "DHCP"
+#define LOGD_IP_STRING      "IP"
 
 /************************************************************************/
 
@@ -149,6 +160,27 @@ nm_logging_setup (const char *level, const char *domains, GError **error)
 					found = TRUE;
 					break;
 				}
+			}
+
+			/* Check for combined domains */
+			if (!strcasecmp (*iter, LOGD_ALL_STRING)) {
+				new_domains = LOGD_ALL;
+				found = TRUE;
+			} else if (!strcasecmp (*iter, LOGD_DEFAULT_STRING)) {
+				new_domains = LOGD_DEFAULT;
+				found = TRUE;
+			} else if (!strcasecmp (*iter, LOGD_DHCP_STRING)) {
+				new_domains |= LOGD_DHCP;
+				found = TRUE;
+			} else if (!strcasecmp (*iter, LOGD_IP_STRING)) {
+				new_domains |= LOGD_IP;
+				found = TRUE;
+			}
+
+			/* Check for compatibility domains */
+			if (!strcasecmp (*iter, "HW")) {
+				new_domains |= LOGD_PLATFORM;
+				found = TRUE;
 			}
 
 			if (!found) {
@@ -240,88 +272,6 @@ _nm_log (const char *loc,
 }
 
 /************************************************************************/
-
-static void
-fallback_get_backtrace (void)
-{
-#ifdef ENABLE_CRASHTRACE
-	void *frames[64];
-	Dl_info info;
-	size_t size;
-	guint32 i;
-	const char *name;
-
-	size = backtrace (frames, G_N_ELEMENTS (frames));
-
-	syslog (LOG_CRIT, "******************* START **********************************");
-	for (i = 0; i < size; i++) {
-		dladdr (frames[i], &info);
-		name = (info.dli_fname && *info.dli_fname) ? info.dli_fname : "(vdso)";
-		if (info.dli_saddr) {
-			syslog (LOG_CRIT, "Frame %d: %s (%s+0x%lx) [%p]",
-			        i, name,
-			        info.dli_sname,
-			        (gulong)((guchar *)frames[i] - (guchar *)info.dli_saddr),
-			        frames[i]);
-		} else {
-			syslog (LOG_CRIT, "Frame %d: %s (%p+0x%lx) [%p]",
-			        i, name,
-			        info.dli_fbase,
-			        (gulong)((guchar *)frames[i] - (guchar *)info.dli_saddr),
-			        frames[i]);
-		}
-	}
-	syslog (LOG_CRIT, "******************* END **********************************");
-#endif  /* ENABLE_CRASHTRACE */
-}
-
-
-static gboolean
-crashlogger_get_backtrace (void)
-{
-	gboolean success = FALSE;
-	int pid;	
-
-	pid = fork();
-	if (pid > 0)
-	{
-		/* Wait for the child to finish */
-		int estatus;
-		if (waitpid (pid, &estatus, 0) != -1)
-		{
-			/* Only succeed if the crashlogger succeeded */
-			if (WIFEXITED (estatus) && (WEXITSTATUS (estatus) == 0))
-				success = TRUE;
-		}
-	}
-	else if (pid == 0)
-	{
-		/* Child process */
-		execl (LIBEXECDIR"/nm-crash-logger",
-				LIBEXECDIR"/nm-crash-logger", NULL);
-	}
-
-	return success;
-}
-
-
-void
-nm_logging_backtrace (void)
-{
-	struct stat s;
-	gboolean fallback = TRUE;
-	
-	/* Try to use gdb via nm-crash-logger if it exists, since
-	 * we get much better information out of it.  Otherwise
-	 * fall back to execinfo.
-	 */
-	if (stat (LIBEXECDIR"/nm-crash-logger", &s) == 0)
-		fallback = crashlogger_get_backtrace () ? FALSE : TRUE;
-
-	if (fallback)
-		fallback_get_backtrace ();
-}
-
 
 static void
 nm_log_handler (const gchar *log_domain,

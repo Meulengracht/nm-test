@@ -47,6 +47,7 @@ typedef enum {
 	NM_WIFI_ERROR_CONNECTION_INCOMPATIBLE,     /*< nick=ConnectionIncompatible >*/
 	NM_WIFI_ERROR_ACCESS_POINT_NOT_FOUND,      /*< nick=AccessPointNotFound >*/
 	NM_WIFI_ERROR_SCAN_NOT_ALLOWED,            /*< nick=ScanNotAllowed >*/
+	NM_WIFI_ERROR_AP_MODE_UNSUPPORTED,         /*< nick=ApModeUnsupported >*/
 } NMWifiError;
 
 #define NM_DEVICE_WIFI_HW_ADDRESS          "hw-address"
@@ -92,8 +93,6 @@ GType nm_device_wifi_get_type (void);
 NMDevice *nm_device_wifi_new (const char *udi,
                               const char *iface,
                               const char *driver);
-
-void nm_device_wifi_get_address (NMDeviceWifi *dev, struct ether_addr *addr);
 
 NMAccessPoint * nm_device_wifi_get_activation_ap (NMDeviceWifi *self);
 

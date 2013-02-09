@@ -27,7 +27,6 @@
 
 #include <unistd.h>
 #include <string.h>
-#include <ctype.h>
 #include <gmodule.h>
 #include <net/if_arp.h>
 #include <pwd.h>
@@ -287,7 +286,7 @@ connection_sort (gconstpointer pa, gconstpointer pb)
 	NMSettingConnection *con_a;
 	NMConnection *b = NM_CONNECTION (pb);
 	NMSettingConnection *con_b;
-	guint64 ts_a, ts_b;
+	guint64 ts_a = 0, ts_b = 0;
 
 	con_a = nm_connection_get_setting_connection (a);
 	g_assert (con_a);
@@ -300,8 +299,8 @@ connection_sort (gconstpointer pa, gconstpointer pb)
 		return 1;
 	}
 
-	ts_a = nm_settings_connection_get_timestamp (NM_SETTINGS_CONNECTION (pa));
-	ts_b = nm_settings_connection_get_timestamp (NM_SETTINGS_CONNECTION (pb));
+	nm_settings_connection_get_timestamp (NM_SETTINGS_CONNECTION (pa), &ts_a);
+	nm_settings_connection_get_timestamp (NM_SETTINGS_CONNECTION (pb), &ts_b);
 	if (ts_a > ts_b)
 		return -1;
 	else if (ts_a == ts_b)
@@ -596,7 +595,7 @@ load_plugins (NMSettings *self, const char **plugins, GError **error)
 		GObject * (*factory_func) (const char *);
 
 		/* strip leading spaces */
-		while (isblank (*pname))
+		while (g_ascii_isspace (*pname))
 			pname++;
 
 		/* ifcfg-fedora was renamed ifcfg-rh; handle old configs here */
@@ -1380,12 +1379,13 @@ have_connection_for_device (NMSettings *self, GByteArray *mac, NMDevice *device)
 
 /* Search through the list of blacklisted MAC addresses in the config file. */
 static gboolean
-is_mac_auto_wired_blacklisted (NMSettings *self, const GByteArray *mac, int hwaddr_type)
+is_mac_auto_wired_blacklisted (NMSettings *self, const GByteArray *mac)
 {
 	NMSettingsPrivate *priv = NM_SETTINGS_GET_PRIVATE (self);
 	GKeyFile *config;
 	char **list, **iter;
 	gboolean found = FALSE;
+	int hwaddr_type;
 
 	g_return_val_if_fail (mac != NULL, FALSE);
 
@@ -1401,6 +1401,8 @@ is_mac_auto_wired_blacklisted (NMSettings *self, const GByteArray *mac, int hwad
 	g_key_file_set_list_separator (config, ',');
 	if (!g_key_file_load_from_file (config, priv->config_file, G_KEY_FILE_NONE, NULL))
 		goto out;
+
+	hwaddr_type = nm_utils_hwaddr_type (mac->len);
 
 	list = g_key_file_get_string_list (config, "main", CONFIG_KEY_NO_AUTO_DEFAULT, NULL, NULL);
 	for (iter = list; iter && *iter; iter++) {
@@ -1585,7 +1587,7 @@ nm_settings_device_added (NMSettings *self, NMDevice *device)
 	NMSettingsPrivate *priv = NM_SETTINGS_GET_PRIVATE (self);
 	GByteArray *mac = NULL;
 	const guint8 *hwaddr;
-	int hwaddr_type;
+	guint hwaddr_len = 0;
 	NMDefaultWiredConnection *wired;
 	gboolean read_only = TRUE;
 	const char *id;
@@ -1601,14 +1603,13 @@ nm_settings_device_added (NMSettings *self, NMDevice *device)
 	    || g_object_get_data (G_OBJECT (device), DEFAULT_WIRED_TAG))
 		return;
 
-	hwaddr = nm_device_wired_get_hwaddr (NM_DEVICE_WIRED (device));
-	hwaddr_type = nm_device_wired_get_hwaddr_type (NM_DEVICE_WIRED (device));
+	hwaddr = nm_device_get_hw_address (device, &hwaddr_len);
 
-	mac = g_byte_array_new ();
-	g_byte_array_append (mac, hwaddr, nm_utils_hwaddr_len (hwaddr_type));
+	mac = g_byte_array_sized_new (hwaddr_len);
+	g_byte_array_append (mac, hwaddr, hwaddr_len);
 
 	if (   have_connection_for_device (self, mac, device)
-		|| is_mac_auto_wired_blacklisted (self, mac, hwaddr_type))
+		|| is_mac_auto_wired_blacklisted (self, mac))
 		goto ignore;
 
 	if (get_plugin (self, NM_SYSTEM_CONFIG_INTERFACE_CAP_MODIFY_CONNECTIONS))
@@ -1657,7 +1658,7 @@ best_connection_sort (gconstpointer a, gconstpointer b, gpointer user_data)
 {
 	NMSettingsConnection *ac = (NMSettingsConnection *) a;
 	NMSettingsConnection *bc = (NMSettingsConnection *) b;
-	guint64 ats, bts;
+	guint64 ats = 0, bts = 0;
 
 	if (!ac && bc)
 		return -1;
@@ -1669,8 +1670,8 @@ best_connection_sort (gconstpointer a, gconstpointer b, gpointer user_data)
 	g_assert (ac && bc);
 
 	/* In the future we may use connection priorities in addition to timestamps */
-	ats = nm_settings_connection_get_timestamp (ac);
-	bts = nm_settings_connection_get_timestamp (bc);
+	nm_settings_connection_get_timestamp (ac, &ats);
+	nm_settings_connection_get_timestamp (bc, &bts);
 
 	if (ats < bts)
 		return -1;
@@ -1697,6 +1698,8 @@ get_best_connections (NMConnectionProvider *provider,
 
 	g_hash_table_iter_init (&iter, priv->connections);
 	while (g_hash_table_iter_next (&iter, NULL, (gpointer) &connection)) {
+		guint64 cur_ts = 0;
+
 		if (ctype1 && !nm_connection_is_type (NM_CONNECTION (connection), ctype1))
 			continue;
 		if (ctype2 && !nm_connection_is_type (NM_CONNECTION (connection), ctype2))
@@ -1705,10 +1708,11 @@ get_best_connections (NMConnectionProvider *provider,
 			continue;
 
 		/* Don't bother with a connection that's older than the oldest one in the list */
-		if (   max_requested
-		    && added >= max_requested
-		    && nm_settings_connection_get_timestamp (connection) <= oldest)
-			continue;
+		if (max_requested && added >= max_requested) {
+		    nm_settings_connection_get_timestamp (connection, &cur_ts);
+		    if (cur_ts <= oldest)
+				continue;
+		}
 
 		/* List is sorted with oldest first */
 		sorted = g_slist_insert_sorted_with_data (sorted, connection, best_connection_sort, NULL);
@@ -1720,7 +1724,7 @@ get_best_connections (NMConnectionProvider *provider,
 			added--;
 		}
 
-		oldest = nm_settings_connection_get_timestamp (NM_SETTINGS_CONNECTION (sorted->data));
+		nm_settings_connection_get_timestamp (NM_SETTINGS_CONNECTION (sorted->data), &oldest);
 	}
 
 	return g_slist_reverse (sorted);

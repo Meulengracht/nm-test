@@ -67,6 +67,7 @@ void           nm_dhcp_manager_set_hostname_provider(NMDHCPManager *manager,
 
 NMDHCPClient * nm_dhcp_manager_start_ip4     (NMDHCPManager *manager,
                                               const char *iface,
+                                              const GByteArray *hwaddr,
                                               const char *uuid,
                                               NMSettingIP4Config *s_ip4,
                                               guint32 timeout,
@@ -74,6 +75,7 @@ NMDHCPClient * nm_dhcp_manager_start_ip4     (NMDHCPManager *manager,
 
 NMDHCPClient * nm_dhcp_manager_start_ip6     (NMDHCPManager *manager,
                                               const char *iface,
+                                              const GByteArray *hwaddr,
                                               const char *uuid,
                                               NMSettingIP6Config *s_ip6,
                                               guint32 timeout,
@@ -82,7 +84,8 @@ NMDHCPClient * nm_dhcp_manager_start_ip6     (NMDHCPManager *manager,
 
 GSList *       nm_dhcp_manager_get_lease_config (NMDHCPManager *self,
                                                  const char *iface,
-                                                 const char *uuid);
+                                                 const char *uuid,
+                                                 gboolean ipv6);
 
 /* For testing only */
 NMIP4Config *nm_dhcp_manager_test_ip4_options_to_config (const char *dhcp_client,

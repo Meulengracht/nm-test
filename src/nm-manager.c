@@ -47,6 +47,7 @@
 #include "nm-device-modem.h"
 #include "nm-device-infiniband.h"
 #include "nm-device-bond.h"
+#include "nm-device-bridge.h"
 #include "nm-device-vlan.h"
 #include "nm-device-adsl.h"
 #include "nm-system.h"
@@ -69,6 +70,7 @@
 #include "nm-device-factory.h"
 #include "wifi-utils.h"
 #include "nm-enum-types.h"
+#include "nm-sleep-monitor.h"
 
 #if WITH_CONCHECK
 #include "nm-connectivity.h"
@@ -77,8 +79,6 @@
 
 #define NM_AUTOIP_DBUS_SERVICE "org.freedesktop.nm_avahi_autoipd"
 #define NM_AUTOIP_DBUS_IFACE   "org.freedesktop.nm_avahi_autoipd"
-
-#define UPOWER_DBUS_SERVICE "org.freedesktop.UPower"
 
 #define IFUPDOWN_STATE_FILE "/run/network/ifstate"
 
@@ -127,6 +127,10 @@ static gboolean impl_manager_set_logging (NMManager *manager,
                                           const char *domains,
                                           GError **error);
 
+static void impl_manager_get_logging (NMManager *manager,
+                                      char **level,
+                                      char **domains);
+
 #include "nm-manager-glue.h"
 
 static void bluez_manager_bdaddr_added_cb (NMBluezManager *bluez_mgr,
@@ -151,6 +155,7 @@ static NMActiveConnection *internal_activate_device (NMManager *manager,
                                                      const char *specific_object,
                                                      gboolean user_requested,
                                                      gulong sender_uid,
+                                                     const char *dbus_sender,
                                                      gboolean assumed,
                                                      NMActiveConnection *master,
                                                      GError **error);
@@ -161,6 +166,8 @@ static GSList * remove_one_device (NMManager *manager,
                                    GSList *list,
                                    NMDevice *device,
                                    gboolean quitting);
+
+static void rfkill_change_wifi (const char *desc, gboolean enabled);
 
 #define SSD_POKE_INTERVAL 120
 #define ORIGDEV_TAG "originating-device"
@@ -200,6 +207,9 @@ typedef struct {
 typedef struct {
 	char *state_file;
 
+	GSList *active_connections;
+	guint ac_cleanup_id;
+
 	GSList *devices;
 	NMState state;
 #if WITH_CONCHECK
@@ -221,15 +231,13 @@ typedef struct {
 	gboolean net_enabled;
 
 	NMVPNManager *vpn_manager;
-	gulong vpn_manager_activated_id;
-	gulong vpn_manager_deactivated_id;
 
 	NMModemManager *modem_manager;
 	guint modem_added_id;
 	guint modem_removed_id;
 
 	DBusGProxy *aipd_proxy;
-	DBusGProxy *upower_proxy;
+	NMSleepMonitor *sleep_monitor;
 
 	GSList *auth_chains;
 
@@ -244,6 +252,8 @@ typedef struct {
 	gboolean ifstate_force_online;
 
 	guint timestamp_update_id;
+
+	GHashTable *nm_bridges;
 
 	gboolean disposed;
 } NMManagerPrivate;
@@ -261,6 +271,8 @@ enum {
 	PROPERTIES_CHANGED,
 	CHECK_PERMISSIONS,
 	USER_PERMISSIONS_CHANGED,
+	ACTIVE_CONNECTION_ADDED,
+	ACTIVE_CONNECTION_REMOVED,
 
 	LAST_SIGNAL
 };
@@ -299,6 +311,102 @@ nm_manager_error_quark (void)
 	if (!quark)
 		quark = g_quark_from_static_string ("nm-manager-error");
 	return quark;
+}
+
+/************************************************************************/
+
+static void active_connection_state_changed (NMActiveConnection *active,
+                                             GParamSpec *pspec,
+                                             NMManager *self);
+
+static gboolean
+_active_connection_cleanup (gpointer user_data)
+{
+	NMManager *self = NM_MANAGER (user_data);
+	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (self);
+	GSList *iter;
+	gboolean changed = FALSE;
+
+	priv->ac_cleanup_id = 0;
+
+	iter = priv->active_connections;
+	while (iter) {
+		NMActiveConnection *ac = iter->data;
+
+		iter = iter->next;
+		if (nm_active_connection_get_state (ac) == NM_ACTIVE_CONNECTION_STATE_DEACTIVATED) {
+			priv->active_connections = g_slist_remove (priv->active_connections, ac);
+			g_signal_emit (self, signals[ACTIVE_CONNECTION_REMOVED], 0, ac);
+			g_signal_handlers_disconnect_by_func (ac, active_connection_state_changed, self);
+			g_object_unref (ac);
+			changed = TRUE;
+		}
+	}
+
+	if (changed)
+		g_object_notify (G_OBJECT (self), NM_MANAGER_ACTIVE_CONNECTIONS);
+
+	return FALSE;
+}
+
+static void
+active_connection_state_changed (NMActiveConnection *active,
+                                 GParamSpec *pspec,
+                                 NMManager *self)
+{
+	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (self);
+	NMActiveConnectionState state;
+
+	state = nm_active_connection_get_state (active);
+	if (state == NM_ACTIVE_CONNECTION_STATE_DEACTIVATED) {
+		/* Destroy active connections from an idle handler to ensure that
+		 * their last property change notifications go out, which wouldn't
+		 * happen if we destroyed them immediately when their state was set
+		 * to DEACTIVATED.
+		 */
+		if (!priv->ac_cleanup_id)
+			priv->ac_cleanup_id = g_idle_add (_active_connection_cleanup, self);
+	}
+}
+
+static void
+active_connection_add (NMManager *self, NMActiveConnection *active)
+{
+	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (self);
+
+	g_return_if_fail (g_slist_find (priv->active_connections, active) == FALSE);
+
+	priv->active_connections = g_slist_prepend (priv->active_connections, active);
+	g_signal_connect (active, "notify::" NM_ACTIVE_CONNECTION_STATE,
+	                  G_CALLBACK (active_connection_state_changed),
+	                  self);
+
+	g_signal_emit (self, signals[ACTIVE_CONNECTION_ADDED], 0, active);
+	g_object_notify (G_OBJECT (self), NM_MANAGER_ACTIVE_CONNECTIONS);
+}
+
+const GSList *
+nm_manager_get_active_connections (NMManager *manager)
+{
+	return NM_MANAGER_GET_PRIVATE (manager)->active_connections;
+}
+
+static NMActiveConnection *
+active_connection_get_by_path (NMManager *manager, const char *path)
+{
+	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (manager);
+	GSList *iter;
+
+	g_return_val_if_fail (manager != NULL, NULL);
+	g_return_val_if_fail (path != NULL, NULL);
+
+	for (iter = priv->active_connections; iter; iter = g_slist_next (iter)) {
+		NMActiveConnection *candidate = iter->data;
+
+		if (strcmp (path, nm_active_connection_get_path (candidate)) == 0)
+			return candidate;
+	}
+	return NULL;
 }
 
 /************************************************************************/
@@ -360,29 +468,6 @@ manager_sleeping (NMManager *self)
 }
 
 static void
-vpn_manager_connection_activated_cb (NMVPNManager *manager,
-                                     NMVPNConnection *vpn,
-                                     gpointer user_data)
-{
-	NMConnection *connection = nm_vpn_connection_get_connection (vpn);
-
-	/* Update timestamp for the VPN connection */
-	nm_settings_connection_update_timestamp (NM_SETTINGS_CONNECTION (connection),
-	                                         (guint64) time (NULL), TRUE);
-}
-
-static void
-vpn_manager_connection_deactivated_cb (NMVPNManager *manager,
-                                       NMVPNConnection *vpn,
-                                       NMVPNConnectionState new_state,
-                                       NMVPNConnectionState old_state,
-                                       NMVPNConnectionStateReason reason,
-                                       gpointer user_data)
-{
-	g_object_notify (G_OBJECT (user_data), NM_MANAGER_ACTIVE_CONNECTIONS);
-}
-
-static void
 modem_added (NMModemManager *modem_manager,
 			 NMModem *modem,
 			 const char *driver,
@@ -391,12 +476,16 @@ modem_added (NMModemManager *modem_manager,
 	NMManager *self = NM_MANAGER (user_data);
 	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (self);
 	NMDevice *replace_device, *device = NULL;
-	const char *ip_iface;
+	const char *modem_iface;
 	GSList *iter;
 
-	ip_iface = nm_modem_get_iface (modem);
+	/* Don't rely only on the data port; use the control port if available */
+	modem_iface = nm_modem_get_data_port (modem);
+	if (!modem_iface)
+		modem_iface = nm_modem_get_control_port (modem);
+	g_return_if_fail (modem_iface);
 
-	replace_device = find_device_by_ip_iface (NM_MANAGER (user_data), ip_iface);
+	replace_device = find_device_by_ip_iface (NM_MANAGER (user_data), modem_iface);
 	if (replace_device) {
 		priv->devices = remove_one_device (NM_MANAGER (user_data),
 		                                   priv->devices,
@@ -417,7 +506,7 @@ modem_added (NMModemManager *modem_manager,
 	 * by the Bluetooth code during the connection process.
 	 */
 	if (driver && !strcmp (driver, "bluetooth")) {
-		nm_log_info (LOGD_MB, "ignoring modem '%s' (no associated Bluetooth device)", ip_iface);
+		nm_log_info (LOGD_MB, "ignoring modem '%s' (no associated Bluetooth device)", modem_iface);
 		return;
 	}
 
@@ -900,36 +989,6 @@ pending_activation_destroy (PendingActivation *pending,
 	g_slice_free (PendingActivation, pending);
 }
 
-static GPtrArray *
-get_active_connections (NMManager *manager, NMConnection *filter)
-{
-	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (manager);
-	GPtrArray *active;
-	GSList *iter;
-
- 	active = g_ptr_array_sized_new (3);
-
-	/* Add active device connections */
-	for (iter = priv->devices; iter; iter = g_slist_next (iter)) {
-		NMActRequest *req;
-		const char *path;
-
-		req = nm_device_get_act_request (NM_DEVICE (iter->data));
-		if (!req)
-			continue;
-
-		if (!filter || (nm_act_request_get_connection (req) == filter)) {
-			path = nm_active_connection_get_path (NM_ACTIVE_CONNECTION (req));
-			g_ptr_array_add (active, g_strdup (path));
-		}
-	}
-
-	/* Add active VPN connections */
-	nm_vpn_manager_add_active_connections (priv->vpn_manager, filter, active);
-
-	return active;
-}
-
 /*******************************************************************/
 /* Settings stuff via NMSettings                                   */
 /*******************************************************************/
@@ -960,8 +1019,8 @@ find_vlan_parent (NMManager *self,
 	GSList *iter;
 
 	/* The 'parent' property could be either an interface name, a connection
-	 * UUID, or even given by the MAC address of the connection's ethernet,
-	 * InfiniBand, or WiFi setting.
+	 * UUID, or even given by the MAC address of the connection's ethernet
+	 * or WiFi setting.
 	 */
 	s_vlan = nm_connection_get_setting_vlan (connection);
 	g_return_val_if_fail (s_vlan != NULL, NULL);
@@ -1031,6 +1090,9 @@ get_virtual_iface_name (NMManager *self,
 	if (nm_connection_is_type (connection, NM_SETTING_BOND_SETTING_NAME))
 		return g_strdup (nm_connection_get_virtual_iface_name (connection));
 
+	if (nm_connection_is_type (connection, NM_SETTING_BRIDGE_SETTING_NAME))
+		return g_strdup (nm_connection_get_virtual_iface_name (connection));
+
 	if (nm_connection_is_type (connection, NM_SETTING_VLAN_SETTING_NAME)) {
 		NMSettingVlan *s_vlan;
 		const char *ifname;
@@ -1040,11 +1102,20 @@ get_virtual_iface_name (NMManager *self,
 
 		parent = find_vlan_parent (self, connection, TRUE);
 		if (parent) {
+			ifname = nm_connection_get_virtual_iface_name (connection);
+
+			if (!nm_device_supports_vlans (parent)) {
+				nm_log_warn (LOGD_DEVICE, "(%s): No support for VLANs on interface %s of type %s",
+				             ifname ? ifname : nm_connection_get_id (connection),
+				             nm_device_get_ip_iface (parent),
+				             nm_device_get_type_desc (parent));
+				return NULL;
+			}
+
 			/* If the connection doesn't specify the interface name for the VLAN
 			 * device, we create one for it using the VLAN ID and the parent
 			 * interface's name.
 			 */
-			ifname = nm_connection_get_virtual_iface_name (connection);
 			if (ifname)
 				vname = g_strdup (ifname);
 			else {
@@ -1062,9 +1133,9 @@ get_virtual_iface_name (NMManager *self,
 static gboolean
 connection_needs_virtual_device (NMConnection *connection)
 {
-	if (nm_connection_is_type (connection, NM_SETTING_BOND_SETTING_NAME))
-		return TRUE;
-	if (nm_connection_is_type (connection, NM_SETTING_VLAN_SETTING_NAME))
+	if (   nm_connection_is_type (connection, NM_SETTING_BOND_SETTING_NAME)
+	    || nm_connection_is_type (connection, NM_SETTING_BRIDGE_SETTING_NAME)
+	    || nm_connection_is_type (connection, NM_SETTING_VLAN_SETTING_NAME))
 		return TRUE;
 
 	return FALSE;
@@ -1077,6 +1148,92 @@ get_virtual_iface_placeholder_udi (void)
 
 	return g_strdup_printf ("/virtual/device/placeholder/%d", id++);
 }
+
+/***************************/
+
+/* FIXME: remove when we handle bridges non-destructively */
+
+#define NM_BRIDGE_FILE  NMRUNDIR "/nm-bridges"
+
+static void
+read_nm_created_bridges (NMManager *self)
+{
+	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (self);
+	char *contents;
+	char **lines, **iter;
+	GTimeVal tv;
+	glong ts;
+
+	if (!g_file_get_contents (NM_BRIDGE_FILE, &contents, NULL, NULL))
+		return;
+
+	g_get_current_time (&tv);
+
+	lines = g_strsplit_set (contents, "\n", 0);
+	g_free (contents);
+
+	for (iter = lines; iter && *iter; iter++) {
+		if (g_str_has_prefix (*iter, "ts=")) {
+			errno = 0;
+			ts = strtol (*iter + 3, NULL, 10);
+			/* allow 30 minutes time difference before we ignore the file */
+			if (errno || ABS (tv.tv_sec - ts) > 1800)
+				goto out;
+		} else if (g_str_has_prefix (*iter, "iface="))
+			g_hash_table_insert (priv->nm_bridges, g_strdup (*iter + 6), GUINT_TO_POINTER (1));
+	}
+
+out:
+	g_strfreev (lines);
+	unlink (NM_BRIDGE_FILE);
+}
+
+static void
+write_nm_created_bridges (NMManager *self)
+{
+	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (self);
+	GString *br_list;
+	GSList *iter;
+	GError *error = NULL;
+	GTimeVal tv;
+	gboolean found = FALSE;
+
+	/* write out nm-created bridges list */
+	br_list = g_string_sized_new (50);
+
+	/* Timestamp is first line */
+	g_get_current_time (&tv);
+	g_string_append_printf (br_list, "ts=%ld\n", tv.tv_sec);
+
+	for (iter = priv->devices; iter; iter = g_slist_next (iter)) {
+		NMDevice *device = iter->data;
+
+		if (nm_device_get_device_type (device) == NM_DEVICE_TYPE_BRIDGE) {
+			g_string_append_printf (br_list, "iface=%s\n", nm_device_get_iface (device));
+			found = TRUE;
+		}
+	}
+
+	if (found) {
+		if (!g_file_set_contents (NM_BRIDGE_FILE, br_list->str, -1, &error)) {
+			nm_log_warn (LOGD_BRIDGE, "Failed to write NetworkManager-created bridge list; "
+			             "on restart bridges may not be recognized. (%s)",
+			             error ? error->message : "unknown");
+			g_clear_error (&error);
+		}
+	}
+	g_string_free (br_list, TRUE);
+}
+
+static gboolean
+bridge_created_by_nm (NMManager *self, const char *iface)
+{
+	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (self);
+
+	return (priv->nm_bridges && g_hash_table_lookup (priv->nm_bridges, iface));
+}
+
+/***************************/
 
 /**
  * system_create_virtual_device:
@@ -1126,6 +1283,25 @@ system_create_virtual_device (NMManager *self, NMConnection *connection)
 		udi = get_virtual_iface_placeholder_udi ();
 		device = nm_device_bond_new (udi, iface);
 		g_free (udi);
+	} else if (nm_connection_is_type (connection, NM_SETTING_BRIDGE_SETTING_NAME)) {
+		gboolean exists = FALSE;
+
+		if (!nm_system_create_bridge (iface, &exists)) {
+			nm_log_warn (LOGD_DEVICE, "(%s): failed to add bridging interface for '%s'",
+			             iface, nm_connection_get_id (connection));
+			goto out;
+		}
+
+		/* FIXME: remove when we handle bridges non-destructively */
+		if (exists && !bridge_created_by_nm (self, iface)) {
+			nm_log_warn (LOGD_DEVICE, "(%s): cannot use existing bridge for '%s'",
+			             iface, nm_connection_get_id (connection));
+			goto out;
+		}
+
+		udi = get_virtual_iface_placeholder_udi ();
+		device = nm_device_bridge_new (udi, iface);
+		g_free (udi);
 	} else if (nm_connection_is_type (connection, NM_SETTING_VLAN_SETTING_NAME)) {
 		g_return_val_if_fail (parent != NULL, FALSE);
 
@@ -1172,17 +1348,24 @@ system_create_virtual_devices (NMManager *self)
 
 static void
 connection_added (NMSettings *settings,
-                  NMSettingsConnection *connection,
+                  NMSettingsConnection *settings_connection,
                   NMManager *manager)
 {
-	if (connection_needs_virtual_device (NM_CONNECTION (connection)))
-		system_create_virtual_device (manager, NM_CONNECTION (connection));
+	NMConnection *connection = NM_CONNECTION (settings_connection);
+
+	if (connection_needs_virtual_device (connection)) {
+		NMSettingConnection *s_con = nm_connection_get_setting_connection (connection);
+
+		g_assert (s_con);
+		if (nm_setting_connection_get_autoconnect (s_con))
+			system_create_virtual_device (manager, connection);
+	}
 }
 
 static void
 connection_changed (NMSettings *settings,
-                     NMSettingsConnection *connection,
-                     NMManager *manager)
+                    NMSettingsConnection *connection,
+                    NMManager *manager)
 {
 	/* FIXME: Some virtual devices may need to be updated in the future. */
 }
@@ -1543,7 +1726,7 @@ manager_ipw_rfkill_state_changed (NMDeviceWifi *device,
 }
 
 static void
-manager_modem_enabled_changed (NMModem *device, gpointer user_data)
+manager_modem_enabled_changed (NMDevice *device, gpointer user_data)
 {
 	nm_manager_rfkill_update (NM_MANAGER (user_data), RFKILL_TYPE_WWAN);
 }
@@ -1774,9 +1957,9 @@ add_device (NMManager *self, NMDevice *device)
 		nm_log_dbg (LOGD_DEVICE, "(%s): will attempt to assume existing connection",
 		            nm_device_get_iface (device));
 
-		ac = internal_activate_device (self, device, existing, NULL, FALSE, 0, TRUE, NULL, &error);
+		ac = internal_activate_device (self, device, existing, NULL, FALSE, 0, NULL, TRUE, NULL, &error);
 		if (ac)
-			g_object_notify (G_OBJECT (self), NM_MANAGER_ACTIVE_CONNECTIONS);
+			active_connection_add (self, ac);
 		else {
 			nm_log_warn (LOGD_DEVICE, "assumed connection %s failed to activate: (%d) %s",
 			             nm_connection_get_path (existing),
@@ -2022,6 +2205,12 @@ is_bond (int ifindex)
 }
 
 static gboolean
+is_bridge (int ifindex)
+{
+	return (nm_system_get_iface_type (ifindex, NULL) == NM_IFACE_TYPE_BRIDGE);
+}
+
+static gboolean
 is_vlan (int ifindex)
 {
 	return (nm_system_get_iface_type (ifindex, NULL) == NM_IFACE_TYPE_VLAN);
@@ -2100,7 +2289,14 @@ udev_device_added_cb (NMUdevManager *udev_mgr,
 			device = nm_device_infiniband_new (sysfs_path, iface, driver);
 		else if (is_bond (ifindex))
 			device = nm_device_bond_new (sysfs_path, iface);
-		else if (is_vlan (ifindex)) {
+		else if (is_bridge (ifindex)) {
+
+			/* FIXME: always create device when we handle bridges non-destructively */
+			if (bridge_created_by_nm (self, iface))
+				device = nm_device_bridge_new (sysfs_path, iface);
+			else
+				nm_log_info (LOGD_BRIDGE, "(%s): ignoring bridge not created by NetworkManager", iface);
+		} else if (is_vlan (ifindex)) {
 			int parent_ifindex = -1;
 			NMDevice *parent;
 
@@ -2138,23 +2334,32 @@ udev_device_removed_cb (NMUdevManager *manager,
 	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (self);
 	NMDevice *device;
 	guint32 ifindex;
-	const char *iface = g_udev_device_get_name (udev_device);
-
-	/* Ignore PPP interfaces as they are the IP interface of a device,
-	 * but they come and go when the device gets activated or deactivated.
-	 * We don't want their transient nature to affect their master device.
-	 */
-	if (strncmp (iface, "ppp", 3) == 0)
-		return;
 
 	ifindex = g_udev_device_get_property_as_int (udev_device, "IFINDEX");
 	device = find_device_by_ifindex (self, ifindex);
 	if (!device) {
-		/* On removal we won't always be able to read properties anymore, as
-		 * they may have already been removed from sysfs.  Instead, we just
-		 * have to fall back to the device's interface name.
+		GSList *iter;
+		const char *iface = g_udev_device_get_name (udev_device);
+
+		/* On removal we aren't always be able to read properties like IFINDEX
+		 * anymore, as they may have already been removed from sysfs.  So we
+		 * have to fall back on device name (eg, interface name).
+		 *
+		 * Also, some devices (namely PPPoE (pppX), ADSL (nasX, pppX), and
+		 * mobile broadband (pppX, bnepX)) create a kernel netdevice for IP
+		 * communication (called the "IP interface" in NM) as part of the
+		 * connection process and thus the IP interface lifetime does not
+		 * correspond to the NMDevice lifetime.  For these devices we must
+		 * ignore removal events for the IP interface name otherwise the
+		 * NMDevice would be removed. Hence the usage here of
+		 * nm_device_get_iface() rather than nm_device_get_ip_iface().
 		 */
-		device = find_device_by_ip_iface (self, iface);
+		for (iter = priv->devices; iter; iter = g_slist_next (iter)) {
+			if (g_strcmp0 (nm_device_get_iface (NM_DEVICE (iter->data)), iface) == 0) {
+				device = iter->data;
+				break;
+			}
+		}
 	}
 
 	if (device)
@@ -2218,37 +2423,6 @@ impl_manager_get_device_by_ip_iface (NMManager *self,
 	return path ? TRUE : FALSE;
 }
 
-static NMActRequest *
-nm_manager_get_act_request_by_path (NMManager *manager,
-                                    const char *path,
-                                    NMDevice **device)
-{
-	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (manager);
-	GSList *iter;
-
-	g_return_val_if_fail (manager != NULL, NULL);
-	g_return_val_if_fail (path != NULL, NULL);
-	g_return_val_if_fail (device != NULL, NULL);
-	g_return_val_if_fail (*device == NULL, NULL);
-
-	for (iter = priv->devices; iter; iter = g_slist_next (iter)) {
-		NMActRequest *req;
-		const char *ac_path;
-
-		req = nm_device_get_act_request (NM_DEVICE (iter->data));
-		if (!req)
-			continue;
-
-		ac_path = nm_active_connection_get_path (NM_ACTIVE_CONNECTION (req));
-		if (!strcmp (path, ac_path)) {
-			*device = NM_DEVICE (iter->data);
-			return req;
-		}
-	}
-
-	return NULL;
-}
-
 static NMActiveConnection *
 internal_activate_device (NMManager *manager,
                           NMDevice *device,
@@ -2256,12 +2430,13 @@ internal_activate_device (NMManager *manager,
                           const char *specific_object,
                           gboolean user_requested,
                           gulong sender_uid,
+                          const char *dbus_sender,
                           gboolean assumed,
                           NMActiveConnection *master,
                           GError **error)
 {
 	NMActRequest *req;
-	gboolean success;
+	NMDevice *master_device = NULL;
 
 	g_return_val_if_fail (NM_IS_MANAGER (manager), NULL);
 	g_return_val_if_fail (NM_IS_DEVICE (device), NULL);
@@ -2280,17 +2455,21 @@ internal_activate_device (NMManager *manager,
 		                         NM_DEVICE_STATE_REASON_NONE);
 	}
 
+	if (master)
+		master_device = nm_active_connection_get_device (master);
+
 	req = nm_act_request_new (connection,
 	                          specific_object,
 	                          user_requested,
 	                          sender_uid,
+	                          dbus_sender,
 	                          assumed,
-	                          (gpointer) device,
-	                          master);
-	success = nm_device_activate (device, req, error);
-	g_object_unref (req);
+	                          device,
+	                          master_device);
+	g_assert (req);
+	nm_device_activate (device, req);
 
-	return success ? NM_ACTIVE_CONNECTION (req) : NULL;
+	return NM_ACTIVE_CONNECTION (req);
 }
 
 /**
@@ -2478,6 +2657,8 @@ ensure_master_active_connection (NMManager *self,
 					                                            nm_device_get_path (master_device),
 					                                            dbus_sender,
 					                                            error);
+					if (!master_ac)
+						g_prefix_error (error, "%s", "Master device activation failed: ");
 					g_slist_free (connections);
 					return master_ac;
 				}
@@ -2518,24 +2699,30 @@ ensure_master_active_connection (NMManager *self,
 			if (master_state != NM_DEVICE_STATE_DISCONNECTED)
 				continue;
 
-			return nm_manager_activate_connection (self,
-			                                       master_connection,
-			                                       NULL,
-			                                       nm_device_get_path (candidate),
-			                                       dbus_sender,
-			                                       error);
+			master_ac = nm_manager_activate_connection (self,
+			                                            master_connection,
+			                                            NULL,
+			                                            nm_device_get_path (candidate),
+			                                            dbus_sender,
+			                                            error);
+			if (!master_ac)
+				g_prefix_error (error, "%s", "Master device activation failed: ");
+			return master_ac;
 		}
 
 		/* Device described by master_connection may be a virtual one that's
 		 * not created yet.
 		 */
 		if (!found_device && connection_needs_virtual_device (master_connection)) {
-			return nm_manager_activate_connection (self,
-			                                       master_connection,
-			                                       NULL,
-			                                       NULL,
-			                                       dbus_sender,
-			                                       error);
+			master_ac = nm_manager_activate_connection (self,
+			                                            master_connection,
+			                                            NULL,
+			                                            NULL,
+			                                            dbus_sender,
+			                                            error);
+			if (!master_ac)
+				g_prefix_error (error, "%s", "Master device activation failed: ");
+			return master_ac;
 		}
 
 		g_set_error (error,
@@ -2553,48 +2740,50 @@ static NMActiveConnection *
 activate_vpn_connection (NMManager *self,
                          NMConnection *connection,
                          const char *specific_object,
-                         const char *device_path,
                          gulong sender_uid,
                          GError **error)
 {
 	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (self);
-	NMActRequest *parent_req = NULL;
+	NMActiveConnection *parent = NULL;
 	NMDevice *device = NULL;
 	GSList *iter;
 
 	if (specific_object) {
 		/* Find the specifc connection the client requested we use */
-		parent_req = nm_manager_get_act_request_by_path (self, specific_object, &device);
-		if (!parent_req) {
+		parent = active_connection_get_by_path (self, specific_object);
+		if (!parent) {
 			g_set_error_literal (error, NM_MANAGER_ERROR, NM_MANAGER_ERROR_CONNECTION_NOT_ACTIVE,
 			                     "Base connection for VPN connection not active.");
 			return NULL;
 		}
 	} else {
-		/* Just find the current default connection */
-		for (iter = priv->devices; iter; iter = g_slist_next (iter)) {
-			NMDevice *candidate = NM_DEVICE (iter->data);
-			NMActRequest *candidate_req;
+		for (iter = priv->active_connections; iter; iter = g_slist_next (iter)) {
+			NMActiveConnection *candidate = iter->data;
 
-			candidate_req = nm_device_get_act_request (candidate);
-			if (candidate_req && nm_active_connection_get_default (NM_ACTIVE_CONNECTION (candidate_req))) {
-				device = candidate;
-				parent_req = candidate_req;
+			if (nm_active_connection_get_default (candidate)) {
+				parent = candidate;
 				break;
 			}
 		}
 	}
 
-	if (!device || !parent_req) {
+	if (!parent) {
+		g_set_error_literal (error, NM_MANAGER_ERROR, NM_MANAGER_ERROR_UNKNOWN_CONNECTION,
+		                     "Could not find source connection.");
+		return NULL;
+	}
+
+	device = nm_active_connection_get_device (parent);
+	if (!device) {
 		g_set_error_literal (error, NM_MANAGER_ERROR, NM_MANAGER_ERROR_UNKNOWN_DEVICE,
-		                     "Could not find source connection, or the source connection had no active device.");
+		                     "Source connection had no active device.");
 		return NULL;
 	}
 
 	return nm_vpn_manager_activate_connection (priv->vpn_manager,
 	                                           connection,
 	                                           device,
-	                                           nm_active_connection_get_path (NM_ACTIVE_CONNECTION (parent_req)),
+	                                           nm_active_connection_get_path (parent),
 	                                           TRUE,
 	                                           sender_uid,
 	                                           error);
@@ -2616,7 +2805,7 @@ nm_manager_activate_connection (NMManager *manager,
 	char *iface;
 	NMDevice *master_device = NULL;
 	NMConnection *master_connection = NULL;
-	NMActiveConnection *master_ac = NULL;
+	NMActiveConnection *master_ac = NULL, *ac = NULL;
 
 	g_return_val_if_fail (manager != NULL, NULL);
 	g_return_val_if_fail (connection != NULL, NULL);
@@ -2641,8 +2830,10 @@ nm_manager_activate_connection (NMManager *manager,
 	}
 
 	/* VPN ? */
-	if (nm_connection_is_type (connection, NM_SETTING_VPN_SETTING_NAME))
-		return activate_vpn_connection (manager, connection, specific_object, device_path, sender_uid, error);
+	if (nm_connection_is_type (connection, NM_SETTING_VPN_SETTING_NAME)) {
+		ac = activate_vpn_connection (manager, connection, specific_object, sender_uid, error);
+		goto activated;
+	}
 
 	/* Device-based connection */
 	if (device_path) {
@@ -2719,6 +2910,16 @@ nm_manager_activate_connection (NMManager *manager,
 		return NULL;
 	}
 
+	/* If this is an autoconnect request, but the device isn't allowing autoconnect
+	 * right now, we reject it.
+	 */
+	if (!dbus_sender && !nm_device_autoconnect_allowed (device)) {
+		g_set_error (error, NM_MANAGER_ERROR, NM_MANAGER_ERROR_AUTOCONNECT_NOT_ALLOWED,
+		             "%s does not allow automatic connections at this time",
+		             nm_device_get_iface (device));
+		return NULL;
+	}
+
 	/* Try to find the master connection/device if the connection has a dependency */
 	if (!find_master (manager, connection, device, &master_connection, &master_device)) {
 		g_set_error_literal (error, NM_MANAGER_ERROR, NM_MANAGER_ERROR_UNKNOWN_DEVICE,
@@ -2766,15 +2967,22 @@ nm_manager_activate_connection (NMManager *manager,
 		            nm_active_connection_get_path (master_ac));
 	}
 
-	return internal_activate_device (manager,
-	                                 device,
-	                                 connection,
-	                                 specific_object,
-	                                 dbus_sender ? TRUE : FALSE,
-	                                 dbus_sender ? sender_uid : 0,
-	                                 FALSE,
-	                                 master_ac,
-	                                 error);
+	ac = internal_activate_device (manager,
+	                               device,
+	                               connection,
+	                               specific_object,
+	                               dbus_sender ? TRUE : FALSE,
+	                               dbus_sender ? sender_uid : 0,
+	                               dbus_sender,
+	                               FALSE,
+	                               master_ac,
+	                               error);
+
+activated:
+	if (ac)
+		active_connection_add (manager, ac);
+
+	return ac;
 }
 
 /* 
@@ -2812,9 +3020,7 @@ pending_activate (NMManager *self, PendingActivation *pending)
 	                                     &error);
 	g_free (sender);
 
-	if (ac)
-		g_object_notify (G_OBJECT (pending->manager), NM_MANAGER_ACTIVE_CONNECTIONS);
-	else {
+	if (!ac) {
 		nm_log_warn (LOGD_CORE, "connection %s failed to activate: (%d) %s",
 		             pending->connection_path,
 		             error ? error->code : -1,
@@ -2941,41 +3147,35 @@ nm_manager_deactivate_connection (NMManager *manager,
                                   GError **error)
 {
 	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (manager);
-	GSList *iter;
+	NMActiveConnection *active;
 	gboolean success = FALSE;
-	NMVPNConnectionStateReason vpn_reason = NM_VPN_CONNECTION_STATE_REASON_USER_DISCONNECTED;
 
-	/* Check for device connections first */
-	for (iter = priv->devices; iter; iter = g_slist_next (iter)) {
-		NMDevice *device = NM_DEVICE (iter->data);
-		NMActRequest *req;
+	active = active_connection_get_by_path (manager, connection_path);
+	if (!active) {
+		g_set_error_literal (error, NM_MANAGER_ERROR, NM_MANAGER_ERROR_CONNECTION_NOT_ACTIVE,
+		                     "The connection was not active.");
+		return FALSE;
+	}
 
-		req = nm_device_get_act_request (device);
-		if (!req)
-			continue;
+	if (NM_IS_VPN_CONNECTION (active)) {
+		NMVPNConnectionStateReason vpn_reason = NM_VPN_CONNECTION_STATE_REASON_USER_DISCONNECTED;
 
-		if (!strcmp (connection_path, nm_active_connection_get_path (NM_ACTIVE_CONNECTION (req)))) {
-			nm_device_state_changed (device,
-			                         NM_DEVICE_STATE_DISCONNECTED,
-			                         reason);
+		if (reason == NM_DEVICE_STATE_REASON_CONNECTION_REMOVED)
+			vpn_reason = NM_VPN_CONNECTION_STATE_REASON_CONNECTION_REMOVED;
+		if (nm_vpn_manager_deactivate_connection (priv->vpn_manager, NM_VPN_CONNECTION (active), vpn_reason))
 			success = TRUE;
-			goto done;
-		}
-	}
-
-	/* Check for VPN connections next */
-	if (reason == NM_DEVICE_STATE_REASON_CONNECTION_REMOVED)
-		vpn_reason = NM_VPN_CONNECTION_STATE_REASON_CONNECTION_REMOVED;
-	if (nm_vpn_manager_deactivate_connection (priv->vpn_manager, connection_path, vpn_reason)) {
-		success = TRUE;
 	} else {
-		g_set_error (error,
-		             NM_MANAGER_ERROR, NM_MANAGER_ERROR_CONNECTION_NOT_ACTIVE,
-		             "%s", "The connection was not active.");
+		g_assert (NM_IS_ACT_REQUEST (active));
+		/* FIXME: use DEACTIVATING state */
+		nm_device_state_changed (nm_active_connection_get_device (active),
+		                         NM_DEVICE_STATE_DISCONNECTED,
+		                         reason);
+		success = TRUE;
 	}
 
-done:
-	g_object_notify (G_OBJECT (manager), NM_MANAGER_ACTIVE_CONNECTIONS);
+	if (success)
+		g_object_notify (G_OBJECT (manager), NM_MANAGER_ACTIVE_CONNECTIONS);
+
 	return success;
 }
 
@@ -3036,24 +3236,15 @@ impl_manager_deactivate_connection (NMManager *self,
 	gulong sender_uid = G_MAXULONG;
 	char *error_desc = NULL;
 
-	/* Check for device connections first */
-	for (iter = priv->devices; iter; iter = g_slist_next (iter)) {
-		NMActRequest *req;
-		const char *req_path = NULL;
+	/* Find the connection by its object path */
+	for (iter = priv->active_connections; iter; iter = g_slist_next (iter)) {
+		NMActiveConnection *ac = iter->data;
 
-		req = nm_device_get_act_request (NM_DEVICE (iter->data));
-		if (req)
-			req_path = nm_active_connection_get_path (NM_ACTIVE_CONNECTION (req));
-
-		if (req_path && !strcmp (active_path, req_path)) {
-			connection = nm_act_request_get_connection (req);
+		if (g_strcmp0 (nm_active_connection_get_path (ac), active_path) == 0) {
+			connection = nm_active_connection_get_connection (ac);
 			break;
 		}
 	}
-
-	/* Maybe it's a VPN */
-	if (!connection)
-		connection = nm_vpn_manager_get_connection_for_active (priv->vpn_manager, active_path);
 
 	if (!connection) {
 		error = g_error_new_literal (NM_MANAGER_ERROR,
@@ -3290,16 +3481,16 @@ impl_manager_sleep (NMManager *self,
 }
 
 static void
-upower_sleeping_cb (DBusGProxy *proxy, gpointer user_data)
+sleeping_cb (DBusGProxy *proxy, gpointer user_data)
 {
-	nm_log_dbg (LOGD_SUSPEND, "Received UPower sleeping signal");
+	nm_log_dbg (LOGD_SUSPEND, "Received sleeping signal");
 	_internal_sleep (NM_MANAGER (user_data), TRUE);
 }
 
 static void
-upower_resuming_cb (DBusGProxy *proxy, gpointer user_data)
+resuming_cb (DBusGProxy *proxy, gpointer user_data)
 {
-	nm_log_dbg (LOGD_SUSPEND, "Received UPower resuming signal");
+	nm_log_dbg (LOGD_SUSPEND, "Received resuming signal");
 	_internal_sleep (NM_MANAGER (user_data), FALSE);
 }
 
@@ -3532,11 +3723,13 @@ impl_manager_set_logging (NMManager *manager,
 	return FALSE;
 }
 
-GPtrArray *
-nm_manager_get_active_connections_by_connection (NMManager *manager,
-                                                 NMConnection *connection)
+static void
+impl_manager_get_logging (NMManager *manager,
+                          char **level,
+                          char **domains)
 {
-	return get_active_connections (manager, connection);
+	*level = g_strdup (nm_logging_level_to_string ());
+	*domains = g_strdup (nm_logging_domains_to_string ());
 }
 
 void
@@ -3574,6 +3767,13 @@ nm_manager_start (NMManager *self)
 	system_unmanaged_devices_changed_cb (priv->settings, NULL, self);
 	system_hostname_changed_cb (priv->settings, NULL, self);
 
+	/* FIXME: remove when we handle bridges non-destructively */
+	/* Read a list of bridges NM managed when it last quit, and only
+	 * manage those bridges to avoid conflicts with external tools.
+	 */
+	priv->nm_bridges = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	read_nm_created_bridges (self);
+
 	nm_udev_manager_query_devices (priv->udev_mgr);
 	nm_bluez_manager_query_devices (priv->bluez_mgr);
 
@@ -3590,6 +3790,10 @@ nm_manager_start (NMManager *self)
 	 * connection-added signals thus devices have to be created manually.
 	 */
 	system_create_virtual_devices (self);
+
+	/* FIXME: remove when we handle bridges non-destructively */
+	g_hash_table_unref (priv->nm_bridges);
+	priv->nm_bridges = NULL;
 }
 
 static gboolean
@@ -4028,6 +4232,12 @@ nm_manager_new (NMSettings *settings,
 	                  G_CALLBACK (bluez_manager_bdaddr_removed_cb),
 	                  singleton);
 
+	/* Force kernel WiFi rfkill state to follow NM saved wifi state in case
+	 * the BIOS doesn't save rfkill state, and to be consistent with user
+	 * changes to the WirelessEnabled property which toggles kernel rfkill.
+	 */
+	rfkill_change_wifi (priv->radio_states[RFKILL_TYPE_WLAN].desc, initial_wifi_enabled);
+
 	return singleton;
 }
 
@@ -4045,6 +4255,7 @@ dispose (GObject *object)
 	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (manager);
 	DBusGConnection *bus;
 	DBusConnection *dbus_connection;
+	GSList *iter;
 
 	if (priv->disposed) {
 		G_OBJECT_CLASS (nm_manager_parent_class)->dispose (object);
@@ -4057,12 +4268,27 @@ dispose (GObject *object)
 
 	nm_auth_changed_func_unregister (authority_changed_cb, manager);
 
+	/* FIXME: remove when we handle bridges non-destructively */
+	write_nm_created_bridges (manager);
+
+	/* Remove all devices */
 	while (g_slist_length (priv->devices)) {
 		priv->devices = remove_one_device (manager,
 		                                   priv->devices,
 		                                   NM_DEVICE (priv->devices->data),
 		                                   TRUE);
 	}
+
+	if (priv->ac_cleanup_id) {
+		g_source_remove (priv->ac_cleanup_id);
+		priv->ac_cleanup_id = 0;
+	}
+
+	for (iter = priv->active_connections; iter; iter = g_slist_next (iter)) {
+		g_signal_handlers_disconnect_by_func (iter->data, active_connection_state_changed, object);
+		g_object_unref (iter->data);
+	}
+	g_slist_free (priv->active_connections);
 
 #if WITH_CONCHECK
 	if (priv->connectivity) {
@@ -4074,15 +4300,6 @@ dispose (GObject *object)
 	g_free (priv->hostname);
 
 	g_object_unref (priv->settings);
-
-	if (priv->vpn_manager_activated_id) {
-		g_source_remove (priv->vpn_manager_activated_id);
-		priv->vpn_manager_activated_id = 0;
-	}
-	if (priv->vpn_manager_deactivated_id) {
-		g_source_remove (priv->vpn_manager_deactivated_id);
-		priv->vpn_manager_deactivated_id = 0;
-	}
 	g_object_unref (priv->vpn_manager);
 
 	if (priv->modem_added_id) {
@@ -4110,8 +4327,8 @@ dispose (GObject *object)
 	if (priv->aipd_proxy)
 		g_object_unref (priv->aipd_proxy);
 
-	if (priv->upower_proxy)
-		g_object_unref (priv->upower_proxy);
+	if (priv->sleep_monitor)
+		g_object_unref (priv->sleep_monitor);
 
 	if (priv->fw_monitor) {
 		if (priv->fw_monitor_id)
@@ -4286,6 +4503,9 @@ get_property (GObject *object, guint prop_id,
 {
 	NMManager *self = NM_MANAGER (object);
 	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (self);
+	GSList *iter;
+	GPtrArray *active;
+	const char *path;
 
 	switch (prop_id) {
 	case PROP_VERSION:
@@ -4317,7 +4537,12 @@ get_property (GObject *object, guint prop_id,
 		g_value_set_boolean (value, priv->radio_states[RFKILL_TYPE_WIMAX].hw_enabled);
 		break;
 	case PROP_ACTIVE_CONNECTIONS:
-		g_value_take_boxed (value, get_active_connections (self, NULL));
+		active = g_ptr_array_sized_new (3);
+		for (iter = priv->active_connections; iter; iter = g_slist_next (iter)) {
+			path = nm_active_connection_get_path (NM_ACTIVE_CONNECTION (iter->data));
+			g_ptr_array_add (active, g_strdup (path));
+		}
+		g_value_take_boxed (value, active);
 		break;
 	case PROP_HOSTNAME:
 		g_value_set_string (value, priv->hostname);
@@ -4336,28 +4561,15 @@ periodic_update_active_connection_timestamps (gpointer user_data)
 {
 	NMManager *manager = NM_MANAGER (user_data);
 	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (manager);
-	GPtrArray *active;
-	int i;
+	GSList *iter;
 
-	active = get_active_connections (manager, NULL);
+	for (iter = priv->active_connections; iter; iter = g_slist_next (iter)) {
+		NMActiveConnection *ac = iter->data;
+		NMSettingsConnection *connection;
 
-	for (i = 0; i < active->len; i++) {
-		const char *active_path = g_ptr_array_index (active, i);
-		NMActRequest *req;
-		NMDevice *device = NULL;
-
-		req = nm_manager_get_act_request_by_path (manager, active_path, &device);
-		if (device && nm_device_get_state (device) == NM_DEVICE_STATE_ACTIVATED)
-			nm_settings_connection_update_timestamp (NM_SETTINGS_CONNECTION (nm_act_request_get_connection (req)),
-			                                         (guint64) time (NULL), FALSE);
-		else {
-			/* The connection is probably VPN */
-			NMVPNConnection *vpn_con;
-
-			vpn_con = nm_vpn_manager_get_vpn_connection_for_active (priv->vpn_manager, active_path);
-			if (vpn_con && nm_vpn_connection_get_vpn_state (vpn_con) == NM_VPN_CONNECTION_STATE_ACTIVATED)
-				nm_settings_connection_update_timestamp (NM_SETTINGS_CONNECTION (nm_vpn_connection_get_connection (vpn_con)),
-				                                         (guint64) time (NULL), FALSE);
+		if (nm_active_connection_get_state (ac) == NM_ACTIVE_CONNECTION_STATE_ACTIVATED) {
+			connection = NM_SETTINGS_CONNECTION (nm_active_connection_get_connection (ac));
+			nm_settings_connection_update_timestamp (connection, (guint64) time (NULL), FALSE);
 		}
 	}
 
@@ -4414,10 +4626,6 @@ nm_manager_init (NMManager *manager)
 	                                           G_CALLBACK (modem_removed), manager);
 
 	priv->vpn_manager = nm_vpn_manager_get ();
-	priv->vpn_manager_activated_id = g_signal_connect (G_OBJECT (priv->vpn_manager), "connection-activated",
-	                                                   G_CALLBACK (vpn_manager_connection_activated_cb), manager);
-	priv->vpn_manager_deactivated_id = g_signal_connect (G_OBJECT (priv->vpn_manager), "connection-deactivated",
-	                                                   G_CALLBACK (vpn_manager_connection_deactivated_cb), manager);
 
 	g_connection = nm_dbus_manager_get_connection (priv->dbus_mgr);
 
@@ -4444,23 +4652,12 @@ nm_manager_init (NMManager *manager)
 	} else
 		nm_log_warn (LOGD_AUTOIP4, "could not initialize avahi-autoipd D-Bus proxy");
 
-	/* upower sleep/wake handling */
-	priv->upower_proxy = dbus_g_proxy_new_for_name (g_connection,
-	                                                UPOWER_DBUS_SERVICE,
-	                                                "/org/freedesktop/UPower",
-	                                                "org.freedesktop.UPower");
-	if (priv->upower_proxy) {
-		dbus_g_proxy_add_signal (priv->upower_proxy, "Sleeping", G_TYPE_INVALID);
-		dbus_g_proxy_connect_signal (priv->upower_proxy, "Sleeping",
-		                             G_CALLBACK (upower_sleeping_cb),
-		                             manager, NULL);
-
-		dbus_g_proxy_add_signal (priv->upower_proxy, "Resuming", G_TYPE_INVALID);
-		dbus_g_proxy_connect_signal (priv->upower_proxy, "Resuming",
-		                             G_CALLBACK (upower_resuming_cb),
-		                             manager, NULL);
-	} else
-		nm_log_warn (LOGD_SUSPEND, "could not initialize UPower D-Bus proxy");
+	/* sleep/wake handling */
+	priv->sleep_monitor = nm_sleep_monitor_get ();
+	g_signal_connect (priv->sleep_monitor, "sleeping",
+	                  G_CALLBACK (sleeping_cb), manager);
+	g_signal_connect (priv->sleep_monitor, "resuming",
+	                  G_CALLBACK (resuming_cb), manager);
 
 	/* Listen for authorization changes */
 	nm_auth_changed_func_register (authority_changed_cb, manager);
@@ -4498,7 +4695,7 @@ nm_manager_init (NMManager *manager)
 		nm_log_warn (LOGD_CORE, "failed to monitor ifupdown state file '%s'.",
 		             IFUPDOWN_STATE_FILE);
 	}
-	priv->ifstate_force_online = FALSE;
+	check_ifstate_file (manager);
 
 	load_device_factories (manager);
 
@@ -4664,6 +4861,22 @@ nm_manager_class_init (NMManagerClass *manager_class)
 		              0, NULL, NULL,
 		              g_cclosure_marshal_VOID__VOID,
 		              G_TYPE_NONE, 0);
+
+	signals[ACTIVE_CONNECTION_ADDED] =
+		g_signal_new (NM_MANAGER_ACTIVE_CONNECTION_ADDED,
+		              G_OBJECT_CLASS_TYPE (object_class),
+		              G_SIGNAL_RUN_FIRST,
+		              0, NULL, NULL,
+		              g_cclosure_marshal_VOID__OBJECT,
+		              G_TYPE_NONE, 1, G_TYPE_OBJECT);
+
+	signals[ACTIVE_CONNECTION_REMOVED] =
+		g_signal_new (NM_MANAGER_ACTIVE_CONNECTION_REMOVED,
+		              G_OBJECT_CLASS_TYPE (object_class),
+		              G_SIGNAL_RUN_FIRST,
+		              0, NULL, NULL,
+		              g_cclosure_marshal_VOID__OBJECT,
+		              G_TYPE_NONE, 1, G_TYPE_OBJECT);
 
 	dbus_g_object_type_install_info (G_TYPE_FROM_CLASS (manager_class),
 	                                 &dbus_glib_nm_manager_object_info);

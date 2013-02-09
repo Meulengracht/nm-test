@@ -17,3 +17,5 @@ KillMode=process
 WantedBy=multi-user.target
 Alias=dbus-org.freedesktop.NetworkManager.service
 Alias=network-manager.service
+Also=NetworkManager-wait-online.service
+

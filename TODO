@@ -34,57 +34,6 @@ NM_STATE_CONNECTED_LOCAL, NM_STATE_CONNECTED_SITE, or NM_STATE_CONNECTED_GLOBAL
 based on it and the device's state.
 
 
-* Real Access Point mode support
-
-Now that NetworkManager requires wpa_supplicant 0.7.x or later, we can add
-full Access Point (AP) mode support.  NetworkManager currently implements
-connection sharing via AdHoc mode support, which has some limitations.  Instead,
-we should check whether the wifi device supports AP mode, and if so, use
-that mode instead.  wpa_supplicant has support for a "lightweight AP" mode which
-we should use.  Witold Sowa started this support a while ago and wrote the new
-D-Bus API for wpa_supplicant that makes all this possible, but some NM pieces
-are still missing.  If the wifi driver supports AP mode, then in
-src/supplicant-manager/ NM should send an AP-mode config instead of sending
-the adhoc config.
-
-Note that some devices (airo, ipw2100, ipw2200, iwl3945, iwl4965, atmel, zd1201)
-will never support AP mode due to firmware limitations, so we clearly must still
-provide Ad-Hoc connection sharing support for those devices and switch between
-Ad-Hoc and AP mode depending on device capabilities.
-
-
-* Reconnect to WiFi Networks Only If They Succeeded Once
-
-Currently, NetworkManager will attempt to connect to a previously attempted
-WiFi network even if that network was never successfully connected to.  This
-causes confusion because sometimes users will randomly try various WiFi networks
-hoping to find an open AP, and then wonder why NM tries to reconnect to any of
-those APs later when none of them worked originally due to AP-side MAC filtering
-or other failures.  What should happen is that NetworkManager should set a flag
-on a connection when that connection is successfully connected at least once,
-and only autoconnect the wifi network if that flag is present *and* the
-NMSettingConnection's 'autoconnect' property is TRUE.
-
-This is a bit tricky because we want to consider all connections that don't have
-this flag as having succeeded so that we don't break users' existing connections,
-while holding all newly created connections to this policy.  This flag should
-be determined and set for all connections, even if we only use it to determine
-WiFi behavior for now.
-
-This flag should be a new gboolean property on the NMSettingConnection object
-called "connect-success", with a default value of TRUE.  It should default to
-TRUE to ensure that existing connections are assumed to have connected
-successfully in the past.  New connections created via the AddConnection and
-AddAndActivateConnection D-Bus method calls should have the 'connect-success'
-property explicitly set to FALSE.  Then, in nm-device.c's device_state_changed()
-function where the NM_DEVICE_STATE_ACTIVATED state is handled, the
-'connect-success' property should be set to TRUE.
-
-For WiFi then, in nm-device-wifi.c's get_best_auto_connection() method, the
-'connect-success' property should be checked and if it is FALSE, the connection
-is not considered for auto-activation.
-
-
 * Implement NM_DEVICE_STATE_DISCONNECTING
 
 To allow for "pre-down" scenarios, this state should be implemented before a
@@ -165,23 +114,6 @@ Upon reconnect, if the same Connection is again active, the previously
 connected VPN should be activated again as well.  Basically, don't just drop
 the VPN because WiFi choked for 10 seconds, but reconnect the VPN if it was
 connected before the drop.
-
-
-* VPN autoconnect (bgo #560471)
-
-We should add a property to the NMSettingConnection object in
-libnm-util/nm-setting-connection.c called "vpns" that is a string list,
-containing a list of Connection UUIDs that should be activated when the base
-connection itself is activated.  This will allow a VPN connection to be
-started every time another connection is started, so that if you choose you're
-always on the VPN in your favorite coffee shop.
-
-The NM_DEVICE_STATE_SECONDARIES state was added specifically for cases like
-this.  Thus, after the base device has IP connectivity, but before it has
-signaled that it's fully activated, the device should enter the SECONDARIES
-state and kick off activation of the given VPN connection.  Only after this
-VPN connection has successfully connected should the base device to the
-NM_DEVICE_STATE_ACTIVATED state.
 
 
 * VPN and IPv6

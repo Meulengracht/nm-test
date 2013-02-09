@@ -41,6 +41,7 @@
 #endif
 #include <nm-device-infiniband.h>
 #include <nm-device-bond.h>
+#include <nm-device-bridge.h>
 #include <nm-device-vlan.h>
 #include <nm-utils.h>
 #include <nm-setting-ip4-config.h>
@@ -240,7 +241,7 @@ static void
 usage (void)
 {
 	fprintf (stderr,
-	         _("Usage: nmcli dev { COMMAND | help }\n\n"
+	         _("Usage: nmcli device { COMMAND | help }\n\n"
 #if WITH_WIMAX
 	         "  COMMAND := { status | list | disconnect | wifi | wimax }\n\n"
 #else
@@ -253,8 +254,9 @@ usage (void)
 	         "  wifi connect <(B)SSID> [password <password>] [wep-key-type key|phrase] [iface <iface>] [bssid <BSSID>] [name <name>]\n"
 	         "               [--private] [--nowait] [--timeout <timeout>]\n"
 #if WITH_WIMAX
-	         "  wimax [list [iface <iface>] [nsp <name>]]\n\n"
+	         "  wimax [list [iface <iface>] [nsp <name>]]\n"
 #endif
+	         "\n"
 	         ));
 }
 
@@ -306,6 +308,8 @@ device_type_to_string (NMDevice *device)
 		return NM_SETTING_BOND_SETTING_NAME;
 	case NM_DEVICE_TYPE_VLAN:
 		return NM_SETTING_VLAN_SETTING_NAME;
+	case NM_DEVICE_TYPE_BRIDGE:
+		return NM_SETTING_BRIDGE_SETTING_NAME;
 	default:
 		return _("Unknown");
 	}
@@ -423,11 +427,13 @@ detail_access_point (gpointer data, gpointer user_data)
 	if (security_str->len > 0)
 		g_string_truncate (security_str, security_str->len-1);  /* Chop off last space */
 
-	ap_name = g_strdup_printf ("AP%d", info->index++); /* AP */
+	ap_name = g_strdup_printf ("AP[%d]", info->index++); /* AP */
 	info->nmc->allowed_fields[0].value = ap_name;
 	info->nmc->allowed_fields[1].value = ssid_str;
 	info->nmc->allowed_fields[2].value = bssid;
-	info->nmc->allowed_fields[3].value = mode == NM_802_11_MODE_ADHOC ? _("Ad-Hoc") : mode == NM_802_11_MODE_INFRA ? _("Infrastructure") : _("Unknown");
+	info->nmc->allowed_fields[3].value = mode == NM_802_11_MODE_ADHOC ? _("Ad-Hoc")
+	                                   : mode == NM_802_11_MODE_INFRA ? _("Infrastructure")
+	                                   : _("Unknown");
 	info->nmc->allowed_fields[4].value = freq_str;
 	info->nmc->allowed_fields[5].value = bitrate_str;
 	info->nmc->allowed_fields[6].value = strength_str;
@@ -481,7 +487,7 @@ detail_wimax_nsp (NMWimaxNsp *nsp, NmCli *nmc, NMDevice *dev, int idx)
 	}
 
 	quality_str = g_strdup_printf ("%u", nm_wimax_nsp_get_signal_quality (nsp));
-	nsp_name = g_strdup_printf ("NSP%d", idx); /* NSP */
+	nsp_name = g_strdup_printf ("NSP[%d]", idx); /* NSP */
 
 	nmc->allowed_fields[0].value = nsp_name;
 	nmc->allowed_fields[1].value = nm_wimax_nsp_get_name (nsp);
@@ -587,6 +593,8 @@ show_device_info (gpointer data, gpointer user_data)
 				hwaddr = nm_device_bond_get_hw_address (NM_DEVICE_BOND (device));
 			else if (NM_IS_DEVICE_VLAN (device))
 				hwaddr = nm_device_vlan_get_hw_address (NM_DEVICE_VLAN (device));
+			else if (NM_IS_DEVICE_BRIDGE (device))
+				hwaddr = nm_device_bridge_get_hw_address (NM_DEVICE_BRIDGE (device));
 
 			state_str = g_strdup_printf ("%d (%s)", state, nmc_device_state_to_string (state));
 			reason_str = g_strdup_printf ("%d (%s)", reason, nmc_device_reason_to_string (reason));
@@ -825,8 +833,10 @@ show_device_info (gpointer data, gpointer user_data)
 					NMDevice *slave = g_ptr_array_index (slaves, idx);
 					const char *iface = nm_device_get_iface (slave);
 
-					g_string_append (bond_slaves_str, iface);
-					g_string_append_c (bond_slaves_str, ' ');
+					if (iface) {
+						g_string_append (bond_slaves_str, iface);
+						g_string_append_c (bond_slaves_str, ' ');
+					}
 				}
 				if (bond_slaves_str->len > 0)
 					g_string_truncate (bond_slaves_str, bond_slaves_str->len-1);  /* Chop off last space */
@@ -973,7 +983,7 @@ do_devices_list (NmCli *nmc, int argc, char **argv)
 			iface_specified = TRUE;
 
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: '%s' argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: '%s' argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
@@ -1010,7 +1020,7 @@ do_devices_list (NmCli *nmc, int argc, char **argv)
 			NMDevice *candidate = g_ptr_array_index (devices, i);
 			const char *dev_iface = nm_device_get_iface (candidate);
 
-			if (!strcmp (dev_iface, iface))
+			if (!g_strcmp0 (dev_iface, iface))
 				device = candidate;
 		}
 		if (!device) {
@@ -1116,7 +1126,7 @@ do_device_disconnect (NmCli *nmc, int argc, char **argv)
 			iface_specified = TRUE;
 
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
@@ -1126,7 +1136,7 @@ do_device_disconnect (NmCli *nmc, int argc, char **argv)
 			wait = FALSE;
 		} else if (strcmp (*argv, "--timeout") == 0) {
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
@@ -1174,7 +1184,7 @@ do_device_disconnect (NmCli *nmc, int argc, char **argv)
 		NMDevice *candidate = g_ptr_array_index (devices, i);
 		const char *dev_iface = nm_device_get_iface (candidate);
 
-		if (!strcmp (dev_iface, iface))
+		if (!g_strcmp0 (dev_iface, iface))
 			device = candidate;
 	}
 
@@ -1244,7 +1254,7 @@ do_device_wifi_list (NmCli *nmc, int argc, char **argv)
 	while (argc > 0) {
 		if (strcmp (*argv, "iface") == 0) {
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
@@ -1252,7 +1262,7 @@ do_device_wifi_list (NmCli *nmc, int argc, char **argv)
 		} else if (strcmp (*argv, "bssid") == 0 || strcmp (*argv, "hwaddr") == 0) {
 			/* hwaddr is deprecated and will be removed later */
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
@@ -1313,7 +1323,7 @@ do_device_wifi_list (NmCli *nmc, int argc, char **argv)
 			NMDevice *candidate = g_ptr_array_index (devices, i);
 			const char *dev_iface = nm_device_get_iface (candidate);
 
-			if (!strcmp (dev_iface, iface)) {
+			if (!g_strcmp0 (dev_iface, iface)) {
 				device = candidate;
 				break;
 			}
@@ -1509,7 +1519,7 @@ find_wifi_device_by_iface (const GPtrArray *devices, const char *iface, int *idx
 
 		if (iface) {
 			/* If a iface was specified then use it. */
-			if (strcmp (dev_iface, iface) == 0) {
+			if (g_strcmp0 (dev_iface, iface) == 0) {
 				device = candidate;
 				break;
 			}
@@ -1616,14 +1626,14 @@ do_device_wifi_connect_network (NmCli *nmc, int argc, char **argv)
 	while (argc > 0) {
 		if (strcmp (*argv, "iface") == 0) {
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
 			iface = *argv;
 		} else if (strcmp (*argv, "bssid") == 0) {
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
@@ -1637,14 +1647,14 @@ do_device_wifi_connect_network (NmCli *nmc, int argc, char **argv)
 			}
 		} else if (strcmp (*argv, "password") == 0) {
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
 			password = *argv;
 		} else if (strcmp (*argv, "wep-key-type") == 0) {
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
@@ -1661,7 +1671,7 @@ do_device_wifi_connect_network (NmCli *nmc, int argc, char **argv)
 			}
 		} else if (strcmp (*argv, "name") == 0) {
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
@@ -1672,7 +1682,7 @@ do_device_wifi_connect_network (NmCli *nmc, int argc, char **argv)
 			wait = FALSE;
 		} else if (strcmp (*argv, "--timeout") == 0) {
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
@@ -1893,14 +1903,14 @@ do_device_wimax_list (NmCli *nmc, int argc, char **argv)
 	while (argc > 0) {
 		if (strcmp (*argv, "iface") == 0) {
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
 			iface = *argv;
 		} else if (strcmp (*argv, "nsp") == 0) {
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
@@ -1960,7 +1970,7 @@ do_device_wimax_list (NmCli *nmc, int argc, char **argv)
 			NMDevice *candidate = g_ptr_array_index (devices, i);
 			const char *dev_iface = nm_device_get_iface (candidate);
 
-			if (!strcmp (dev_iface, iface)) {
+			if (!g_strcmp0 (dev_iface, iface)) {
 				device = candidate;
 				break;
 			}
@@ -2102,10 +2112,13 @@ do_devices (NmCli *nmc, int argc, char **argv)
 			nmc->return_value = do_device_wimax (nmc, argc-1, argv+1);
 		}
 #endif
-		else if (strcmp (*argv, "help") == 0) {
+		else if (   matches (*argv, "help") == 0
+		         || (g_str_has_prefix (*argv, "-") &&  matches ((*argv)+1, "help") == 0)
+		         || (g_str_has_prefix (*argv, "--") && matches ((*argv)+2, "help") == 0)) {
 			usage ();
 		}
 		else {
+			usage ();
 			g_string_printf (nmc->return_text, _("Error: 'dev' command '%s' is not valid."), *argv);
 			nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 		}

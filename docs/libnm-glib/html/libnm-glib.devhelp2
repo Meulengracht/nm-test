@@ -14,6 +14,7 @@
       <sub name="NMDeviceWimax" link="NMDeviceWimax.html"/>
       <sub name="NMDeviceAdsl" link="NMDeviceAdsl.html"/>
       <sub name="NMDeviceBond" link="NMDeviceBond.html"/>
+      <sub name="NMDeviceBridge" link="NMDeviceBridge.html"/>
       <sub name="NMDeviceInfiniband" link="NMDeviceInfiniband.html"/>
       <sub name="NMDeviceVlan" link="NMDeviceVlan.html"/>
       <sub name="NMDeviceOlpcMesh" link="NMDeviceOlpcMesh.html"/>
@@ -62,6 +63,7 @@
     <keyword type="function" name="nm_client_get_device_by_iface ()" link="NMClient.html#nm-client-get-device-by-iface"/>
     <keyword type="function" name="nm_client_get_device_by_path ()" link="NMClient.html#nm-client-get-device-by-path"/>
     <keyword type="function" name="nm_client_get_devices ()" link="NMClient.html#nm-client-get-devices"/>
+    <keyword type="function" name="nm_client_get_logging ()" link="NMClient.html#nm-client-get-logging"/>
     <keyword type="function" name="nm_client_get_manager_running ()" link="NMClient.html#nm-client-get-manager-running"/>
     <keyword type="function" name="nm_client_get_permission_result ()" link="NMClient.html#nm-client-get-permission-result"/>
     <keyword type="function" name="nm_client_get_state ()" link="NMClient.html#nm-client-get-state"/>
@@ -71,6 +73,7 @@
     <keyword type="function" name="nm_client_new ()" link="NMClient.html#nm-client-new"/>
     <keyword type="function" name="nm_client_new_async ()" link="NMClient.html#nm-client-new-async"/>
     <keyword type="function" name="nm_client_new_finish ()" link="NMClient.html#nm-client-new-finish"/>
+    <keyword type="function" name="nm_client_set_logging ()" link="NMClient.html#nm-client-set-logging"/>
     <keyword type="function" name="nm_client_sleep ()" link="NMClient.html#nm-client-sleep"/>
     <keyword type="function" name="nm_client_wimax_get_enabled ()" link="NMClient.html#nm-client-wimax-get-enabled"/>
     <keyword type="function" name="nm_client_wimax_hardware_get_enabled ()" link="NMClient.html#nm-client-wimax-hardware-get-enabled"/>
@@ -213,6 +216,7 @@
     <keyword type="struct" name="NMDeviceWifi" link="NMDeviceWifi.html#NMDeviceWifi-struct"/>
     <keyword type="struct" name="NMDeviceWifiClass" link="NMDeviceWifi.html#NMDeviceWifiClass"/>
     <keyword type="enum" name="enum NMDeviceWifiError" link="NMDeviceWifi.html#NMDeviceWifiError"/>
+    <keyword type="function" name="NMDeviceWifiRequestScanFn ()" link="NMDeviceWifi.html#NMDeviceWifiRequestScanFn"/>
     <keyword type="macro" name="NM_DEVICE_WIFI_ACTIVE_ACCESS_POINT" link="NMDeviceWifi.html#NM-DEVICE-WIFI-ACTIVE-ACCESS-POINT:CAPS"/>
     <keyword type="macro" name="NM_DEVICE_WIFI_BITRATE" link="NMDeviceWifi.html#NM-DEVICE-WIFI-BITRATE:CAPS"/>
     <keyword type="macro" name="NM_DEVICE_WIFI_CAPABILITIES" link="NMDeviceWifi.html#NM-DEVICE-WIFI-CAPABILITIES:CAPS"/>
@@ -230,6 +234,7 @@
     <keyword type="function" name="nm_device_wifi_get_mode ()" link="NMDeviceWifi.html#nm-device-wifi-get-mode"/>
     <keyword type="function" name="nm_device_wifi_get_permanent_hw_address ()" link="NMDeviceWifi.html#nm-device-wifi-get-permanent-hw-address"/>
     <keyword type="function" name="nm_device_wifi_new ()" link="NMDeviceWifi.html#nm-device-wifi-new"/>
+    <keyword type="function" name="nm_device_wifi_request_scan_simple ()" link="NMDeviceWifi.html#nm-device-wifi-request-scan-simple"/>
     <keyword type="property" name="The &quot;active-access-point&quot; property" link="NMDeviceWifi.html#NMDeviceWifi--active-access-point"/>
     <keyword type="property" name="The &quot;bitrate&quot; property" link="NMDeviceWifi.html#NMDeviceWifi--bitrate"/>
     <keyword type="property" name="The &quot;hw-address&quot; property" link="NMDeviceWifi.html#NMDeviceWifi--hw-address"/>
@@ -319,6 +324,21 @@
     <keyword type="property" name="The &quot;carrier&quot; property" link="NMDeviceBond.html#NMDeviceBond--carrier"/>
     <keyword type="property" name="The &quot;hw-address&quot; property" link="NMDeviceBond.html#NMDeviceBond--hw-address"/>
     <keyword type="property" name="The &quot;slaves&quot; property" link="NMDeviceBond.html#NMDeviceBond--slaves"/>
+    <keyword type="struct" name="NMDeviceBridge" link="NMDeviceBridge.html#NMDeviceBridge-struct"/>
+    <keyword type="struct" name="NMDeviceBridgeClass" link="NMDeviceBridge.html#NMDeviceBridgeClass"/>
+    <keyword type="enum" name="enum NMDeviceBridgeError" link="NMDeviceBridge.html#NMDeviceBridgeError"/>
+    <keyword type="macro" name="NM_DEVICE_BRIDGE_CARRIER" link="NMDeviceBridge.html#NM-DEVICE-BRIDGE-CARRIER:CAPS"/>
+    <keyword type="macro" name="NM_DEVICE_BRIDGE_ERROR" link="NMDeviceBridge.html#NM-DEVICE-BRIDGE-ERROR:CAPS"/>
+    <keyword type="macro" name="NM_DEVICE_BRIDGE_HW_ADDRESS" link="NMDeviceBridge.html#NM-DEVICE-BRIDGE-HW-ADDRESS:CAPS"/>
+    <keyword type="macro" name="NM_DEVICE_BRIDGE_SLAVES" link="NMDeviceBridge.html#NM-DEVICE-BRIDGE-SLAVES:CAPS"/>
+    <keyword type="function" name="nm_device_bridge_error_quark ()" link="NMDeviceBridge.html#nm-device-bridge-error-quark"/>
+    <keyword type="function" name="nm_device_bridge_get_carrier ()" link="NMDeviceBridge.html#nm-device-bridge-get-carrier"/>
+    <keyword type="function" name="nm_device_bridge_get_hw_address ()" link="NMDeviceBridge.html#nm-device-bridge-get-hw-address"/>
+    <keyword type="function" name="nm_device_bridge_get_slaves ()" link="NMDeviceBridge.html#nm-device-bridge-get-slaves"/>
+    <keyword type="function" name="nm_device_bridge_new ()" link="NMDeviceBridge.html#nm-device-bridge-new"/>
+    <keyword type="property" name="The &quot;carrier&quot; property" link="NMDeviceBridge.html#NMDeviceBridge--carrier"/>
+    <keyword type="property" name="The &quot;hw-address&quot; property" link="NMDeviceBridge.html#NMDeviceBridge--hw-address"/>
+    <keyword type="property" name="The &quot;slaves&quot; property" link="NMDeviceBridge.html#NMDeviceBridge--slaves"/>
     <keyword type="struct" name="NMDeviceInfiniband" link="NMDeviceInfiniband.html#NMDeviceInfiniband-struct"/>
     <keyword type="struct" name="NMDeviceInfinibandClass" link="NMDeviceInfiniband.html#NMDeviceInfinibandClass"/>
     <keyword type="enum" name="enum NMDeviceInfinibandError" link="NMDeviceInfiniband.html#NMDeviceInfinibandError"/>
@@ -631,6 +651,10 @@
     <keyword type="constant" name="NM_DEVICE_BOND_ERROR_NOT_BOND_CONNECTION" link="NMDeviceBond.html#NM-DEVICE-BOND-ERROR-NOT-BOND-CONNECTION:CAPS"/>
     <keyword type="constant" name="NM_DEVICE_BOND_ERROR_INVALID_BOND_CONNECTION" link="NMDeviceBond.html#NM-DEVICE-BOND-ERROR-INVALID-BOND-CONNECTION:CAPS"/>
     <keyword type="constant" name="NM_DEVICE_BOND_ERROR_INTERFACE_MISMATCH" link="NMDeviceBond.html#NM-DEVICE-BOND-ERROR-INTERFACE-MISMATCH:CAPS"/>
+    <keyword type="constant" name="NM_DEVICE_BRIDGE_ERROR_UNKNOWN" link="NMDeviceBridge.html#NM-DEVICE-BRIDGE-ERROR-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="NM_DEVICE_BRIDGE_ERROR_NOT_BRIDGE_CONNECTION" link="NMDeviceBridge.html#NM-DEVICE-BRIDGE-ERROR-NOT-BRIDGE-CONNECTION:CAPS"/>
+    <keyword type="constant" name="NM_DEVICE_BRIDGE_ERROR_INVALID_BRIDGE_CONNECTION" link="NMDeviceBridge.html#NM-DEVICE-BRIDGE-ERROR-INVALID-BRIDGE-CONNECTION:CAPS"/>
+    <keyword type="constant" name="NM_DEVICE_BRIDGE_ERROR_INTERFACE_MISMATCH" link="NMDeviceBridge.html#NM-DEVICE-BRIDGE-ERROR-INTERFACE-MISMATCH:CAPS"/>
     <keyword type="constant" name="NM_DEVICE_INFINIBAND_ERROR_UNKNOWN" link="NMDeviceInfiniband.html#NM-DEVICE-INFINIBAND-ERROR-UNKNOWN:CAPS"/>
     <keyword type="constant" name="NM_DEVICE_INFINIBAND_ERROR_NOT_INFINIBAND_CONNECTION" link="NMDeviceInfiniband.html#NM-DEVICE-INFINIBAND-ERROR-NOT-INFINIBAND-CONNECTION:CAPS"/>
     <keyword type="constant" name="NM_DEVICE_INFINIBAND_ERROR_INVALID_INFINIBAND_CONNECTION" link="NMDeviceInfiniband.html#NM-DEVICE-INFINIBAND-ERROR-INVALID-INFINIBAND-CONNECTION:CAPS"/>

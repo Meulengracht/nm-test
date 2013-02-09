@@ -46,6 +46,7 @@ typedef enum {
 	NM_MANAGER_ERROR_ALREADY_ENABLED_OR_DISABLED, /*< nick=AlreadyEnabledOrDisabled >*/
 	NM_MANAGER_ERROR_UNSUPPORTED_CONNECTION_TYPE, /*< nick=UnsupportedConnectionType >*/
 	NM_MANAGER_ERROR_DEPENDENCY_FAILED,           /*< nick=DependencyFailed >*/
+	NM_MANAGER_ERROR_AUTOCONNECT_NOT_ALLOWED,     /*< nick=AutoconnectNotAllowed >*/
 } NMManagerError;
 
 #define NM_MANAGER_VERSION "version"
@@ -62,6 +63,11 @@ typedef enum {
 /* Not exported */
 #define NM_MANAGER_HOSTNAME "hostname"
 #define NM_MANAGER_SLEEPING "sleeping"
+
+/* Internal signals */
+#define NM_MANAGER_ACTIVE_CONNECTION_ADDED   "active-connection-added"
+#define NM_MANAGER_ACTIVE_CONNECTION_REMOVED "active-connection-removed"
+
 
 typedef struct {
 	GObject parent;
@@ -95,6 +101,8 @@ NMManager *nm_manager_get (void);
 
 void nm_manager_start (NMManager *manager);
 
+const GSList *nm_manager_get_active_connections (NMManager *manager);
+
 /* Device handling */
 
 GSList *nm_manager_get_devices (NMManager *manager);
@@ -118,8 +126,5 @@ gboolean nm_manager_deactivate_connection (NMManager *manager,
 /* State handling */
 
 NMState nm_manager_get_state (NMManager *manager);
-
-GPtrArray * nm_manager_get_active_connections_by_connection (NMManager *manager,
-                                                             NMConnection *connection);
 
 #endif /* NM_MANAGER_H */

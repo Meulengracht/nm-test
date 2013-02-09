@@ -87,6 +87,12 @@ gboolean nm_utils_security_valid (NMUtilsSecurityType type,
                                   NM80211ApSecurityFlags ap_wpa,
                                   NM80211ApSecurityFlags ap_rsn);
 
+gboolean nm_utils_ap_mode_security_valid (NMUtilsSecurityType type,
+                                          NMDeviceWifiCapabilities wifi_caps);
+
+gboolean nm_utils_wep_key_valid (const char *key, NMWepKeyType wep_type);
+gboolean nm_utils_wpa_psk_valid (const char *psk);
+
 GSList *nm_utils_ip4_addresses_from_gvalue (const GValue *value);
 void nm_utils_ip4_addresses_to_gvalue (GSList *list, GValue *value);
 
@@ -134,6 +140,10 @@ int         nm_utils_hwaddr_type  (int len) G_GNUC_PURE;
 char       *nm_utils_hwaddr_ntoa  (gconstpointer addr, int type);
 GByteArray *nm_utils_hwaddr_atoba (const char *asc, int type);
 guint8     *nm_utils_hwaddr_aton  (const char *asc, int type, gpointer buffer);
+
+gboolean    nm_utils_iface_valid_name(const char *name);
+
+gboolean nm_utils_is_uuid (const char *str);
 
 G_END_DECLS
 
