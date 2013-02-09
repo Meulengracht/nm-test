@@ -43,6 +43,7 @@
 #include <nm-device-olpc-mesh.h>
 #include <nm-device-infiniband.h>
 #include <nm-device-bond.h>
+#include <nm-device-bridge.h>
 #include <nm-device-vlan.h>
 #include <nm-remote-settings.h>
 #include <nm-vpn-connection.h>
@@ -94,6 +95,8 @@ static NmcOutputField nmc_fields_settings_names[] = {
 	SETTING_FIELD (NM_SETTING_BOND_SETTING_NAME, 0),                  /* 17 */
 	SETTING_FIELD (NM_SETTING_VLAN_SETTING_NAME, 0),                  /* 18 */
 	SETTING_FIELD (NM_SETTING_ADSL_SETTING_NAME, 0),                  /* 19 */
+	SETTING_FIELD (NM_SETTING_BRIDGE_SETTING_NAME, 0),                /* 20 */
+	SETTING_FIELD (NM_SETTING_BRIDGE_PORT_SETTING_NAME, 0),           /* 21 */
 	{NULL, NULL, 0, NULL, 0}
 };
 #define NMC_FIELDS_SETTINGS_NAMES_ALL_X  NM_SETTING_CONNECTION_SETTING_NAME","\
@@ -114,7 +117,9 @@ static NmcOutputField nmc_fields_settings_names[] = {
                                          NM_SETTING_VPN_SETTING_NAME","\
                                          NM_SETTING_INFINIBAND_SETTING_NAME","\
                                          NM_SETTING_BOND_SETTING_NAME","\
-                                         NM_SETTING_VLAN_SETTING_NAME
+                                         NM_SETTING_VLAN_SETTING_NAME","\
+                                         NM_SETTING_BRIDGE_SETTING_NAME","\
+                                         NM_SETTING_BRIDGE_PORT_SETTING_NAME
 #if WITH_WIMAX
 #define NMC_FIELDS_SETTINGS_NAMES_ALL    NMC_FIELDS_SETTINGS_NAMES_ALL_X","\
                                          NM_SETTING_WIMAX_SETTING_NAME
@@ -187,7 +192,7 @@ static void
 usage (void)
 {
 	fprintf (stderr,
-	         _("Usage: nmcli con { COMMAND | help }\n"
+	         _("Usage: nmcli connection { COMMAND | help }\n"
 	         "  COMMAND := { list | status | up | down | delete }\n\n"
 	         "  list [id <id> | uuid <id>]\n"
 	         "  status [id <id> | uuid <id> | path <path>]\n"
@@ -197,7 +202,9 @@ usage (void)
 	         "  up id <id> | uuid <id> [iface <iface>] [ap <BSSID>] [--nowait] [--timeout <timeout>]\n"
 #endif
 	         "  down id <id> | uuid <id>\n"
-	         "  delete id <id> | uuid <id>\n"));
+	         "  delete id <id> | uuid <id>\n"
+	         "\n"
+	         ));
 }
 
 /* The real commands that do something - i.e. not 'help', etc. */
@@ -262,6 +269,7 @@ nmc_connection_detail (NMConnection *connection, NmCli *nmc)
 
 	/* Loop through the required settings and print them. */
 	for (i = 0; i < print_settings_array->len; i++) {
+		NMSetting *setting;
 		int section_idx = g_array_index (print_settings_array, int, i);
 
 		if (nmc->print_output != NMC_PRINT_TERSE && !nmc->multiline_output && was_output)
@@ -269,186 +277,11 @@ nmc_connection_detail (NMConnection *connection, NmCli *nmc)
 
 		was_output = FALSE;
 
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[0].name)) {
-			NMSettingConnection *s_con = nm_connection_get_setting_connection (connection);
-			if (s_con) {
-				setting_connection_details (s_con, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[1].name)) {
-			NMSettingWired *s_wired = nm_connection_get_setting_wired (connection);
-			if (s_wired) {
-				setting_wired_details (s_wired, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[2].name)) {
-			NMSetting8021x *s_8021X = nm_connection_get_setting_802_1x (connection);
-			if (s_8021X) {
-				setting_802_1X_details (s_8021X, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[3].name)) {
-			NMSettingWireless *s_wireless = nm_connection_get_setting_wireless (connection);
-			if (s_wireless) {
-				setting_wireless_details (s_wireless, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[4].name)) {
-			NMSettingWirelessSecurity *s_wsec = nm_connection_get_setting_wireless_security (connection);
-			if (s_wsec) {
-				setting_wireless_security_details (s_wsec, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[5].name)) {
-			NMSettingIP4Config *s_ip4 = nm_connection_get_setting_ip4_config (connection);
-			if (s_ip4) {
-				setting_ip4_config_details (s_ip4, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[6].name)) {
-			NMSettingIP6Config *s_ip6 = nm_connection_get_setting_ip6_config (connection);
-			if (s_ip6) {
-				setting_ip6_config_details (s_ip6, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[7].name)) {
-			NMSettingSerial *s_serial = nm_connection_get_setting_serial (connection);
-			if (s_serial) {
-				setting_serial_details (s_serial, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[8].name)) {
-			NMSettingPPP *s_ppp = nm_connection_get_setting_ppp (connection);
-			if (s_ppp) {
-				setting_ppp_details (s_ppp, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[9].name)) {
-			NMSettingPPPOE *s_pppoe = nm_connection_get_setting_pppoe (connection);
-			if (s_pppoe) {
-				setting_pppoe_details (s_pppoe, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[10].name)) {
-			NMSettingGsm *s_gsm = nm_connection_get_setting_gsm (connection);
-			if (s_gsm) {
-				setting_gsm_details (s_gsm, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[11].name)) {
-			NMSettingCdma *s_cdma = nm_connection_get_setting_cdma (connection);
-			if (s_cdma) {
-				setting_cdma_details (s_cdma, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[12].name)) {
-			NMSettingBluetooth *s_bluetooth = nm_connection_get_setting_bluetooth (connection);
-			if (s_bluetooth) {
-				setting_bluetooth_details (s_bluetooth, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[13].name)) {
-			NMSettingOlpcMesh *s_olpc_mesh = nm_connection_get_setting_olpc_mesh (connection);
-			if (s_olpc_mesh) {
-				setting_olpc_mesh_details (s_olpc_mesh, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[14].name)) {
-			NMSettingVPN *s_vpn = nm_connection_get_setting_vpn (connection);
-			if (s_vpn) {
-				setting_vpn_details (s_vpn, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-
-#if WITH_WIMAX
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[15].name)) {
-			NMSettingWimax *s_wimax = nm_connection_get_setting_wimax (connection);
-			if (s_wimax) {
-				setting_wimax_details (s_wimax, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-#endif
-
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[16].name)) {
-			NMSettingInfiniband *s_infiniband = nm_connection_get_setting_infiniband (connection);
-			if (s_infiniband) {
-				setting_infiniband_details (s_infiniband, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[17].name)) {
-			NMSettingBond *s_bond = nm_connection_get_setting_bond (connection);
-			if (s_bond) {
-				setting_bond_details (s_bond, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[18].name)) {
-			NMSettingVlan *s_vlan = nm_connection_get_setting_vlan (connection);
-			if (s_vlan) {
-				setting_vlan_details (s_vlan, nmc);
-				was_output = TRUE;
-				continue;
-			}
-		}
-
-		if (!strcasecmp (nmc_fields_settings_names[section_idx].name, nmc_fields_settings_names[19].name)) {
-			NMSettingAdsl *s_adsl = nm_connection_get_setting_adsl (connection);
-			if (s_adsl) {
-				setting_adsl_details (s_adsl, nmc);
-				was_output = TRUE;
-				continue;
-			}
+		setting = nm_connection_get_setting_by_name (connection, nmc_fields_settings_names[section_idx].name);
+		if (setting) {
+			setting_details (setting, nmc);
+			was_output = TRUE;
+			continue;
 		}
 	}
 
@@ -570,7 +403,7 @@ do_connections_list (NmCli *nmc, int argc, char **argv)
 				NMConnection *con;
 
 				if (next_arg (&argc, &argv) != 0) {
-					g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+					g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 					nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 					return nmc->return_value;
 				}
@@ -698,9 +531,12 @@ fill_in_fields_con_status (NMActiveConnection *active, GSList *con_list)
 	devices = nm_active_connection_get_devices (active);
 	for (i = 0; devices && (i < devices->len); i++) {
 		NMDevice *device = g_ptr_array_index (devices, i);
+		const char *dev_iface = nm_device_get_iface (device);
 
-		g_string_append (dev_str, nm_device_get_iface (device));
-		g_string_append_c (dev_str, ',');
+		if (dev_iface) {
+			g_string_append (dev_str, dev_iface);
+			g_string_append_c (dev_str, ',');
+		}
 	}
 	if (dev_str->len > 0)
 		g_string_truncate (dev_str, dev_str->len - 1);  /* Cut off last ',' */
@@ -1107,7 +943,7 @@ do_connections_status (NmCli *nmc, int argc, char **argv)
 				NMActiveConnection *acon;
 
 				if (next_arg (&argc, &argv) != 0) {
-					g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+					g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 					nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 					return nmc->return_value;
 				}
@@ -1254,7 +1090,7 @@ find_device_for_connection (NmCli *nmc,
 
 			if (iface) {
 				const char *dev_iface = nm_device_get_iface (dev);
-				if (   !strcmp (dev_iface, iface)
+				if (   !g_strcmp0 (dev_iface, iface)
 				    && nm_device_connection_compatible (dev, connection, NULL)) {
 					found_device = dev;
 				}
@@ -1645,7 +1481,7 @@ do_connection_up (NmCli *nmc, int argc, char **argv)
 			id_specified = TRUE;
 
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
@@ -1660,7 +1496,7 @@ do_connection_up (NmCli *nmc, int argc, char **argv)
 		}
 		else if (strcmp (*argv, "iface") == 0) {
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
@@ -1669,7 +1505,7 @@ do_connection_up (NmCli *nmc, int argc, char **argv)
 		}
 		else if (strcmp (*argv, "ap") == 0) {
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
@@ -1679,7 +1515,7 @@ do_connection_up (NmCli *nmc, int argc, char **argv)
 #if WITH_WIMAX
 		else if (strcmp (*argv, "nsp") == 0) {
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
@@ -1691,7 +1527,7 @@ do_connection_up (NmCli *nmc, int argc, char **argv)
 			wait = FALSE;
 		} else if (strcmp (*argv, "--timeout") == 0) {
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
@@ -1737,7 +1573,8 @@ do_connection_up (NmCli *nmc, int argc, char **argv)
 	con_type = nm_setting_connection_get_connection_type (s_con);
 
 	if (   nm_connection_is_type (connection, NM_SETTING_BOND_SETTING_NAME)
-	    || nm_connection_is_type (connection, NM_SETTING_VLAN_SETTING_NAME))
+	    || nm_connection_is_type (connection, NM_SETTING_VLAN_SETTING_NAME)
+	    || nm_connection_is_type (connection, NM_SETTING_BRIDGE_SETTING_NAME))
 		is_virtual = TRUE;
 
 	device_found = find_device_for_connection (nmc, connection, iface, ap, nsp, &device, &spec_object, &error);
@@ -1799,7 +1636,7 @@ do_connection_down (NmCli *nmc, int argc, char **argv)
 			id_specified = TRUE;
 
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
@@ -1901,7 +1738,7 @@ do_connection_delete (NmCli *nmc, int argc, char **argv)
 		if (strcmp (*argv, "id") == 0 || strcmp (*argv, "uuid") == 0) {
 			selector = *argv;
 			if (next_arg (&argc, &argv) != 0) {
-				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *argv);
+				g_string_printf (nmc->return_text, _("Error: %s argument is missing."), *(argv-1));
 				nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
 				goto error;
 			}
@@ -1987,10 +1824,13 @@ parse_cmd (NmCli *nmc, int argc, char **argv)
 		else if (matches(*argv, "delete") == 0) {
 			nmc->return_value = do_connection_delete (nmc, argc-1, argv+1);
 		}
-		else if (matches (*argv, "help") == 0) {
+		else if (   matches (*argv, "help") == 0
+		         || (g_str_has_prefix (*argv, "-")  && matches ((*argv)+1, "help") == 0)
+		         || (g_str_has_prefix (*argv, "--") && matches ((*argv)+2, "help") == 0)) {
 			usage ();
 			nmc->should_wait = FALSE;
-		} else {
+		}
+		else {
 			usage ();
 			g_string_printf (nmc->return_text, _("Error: 'con' command '%s' is not valid."), *argv);
 			nmc->return_value = NMC_RESULT_ERROR_USER_INPUT;
@@ -2023,7 +1863,7 @@ get_connections_cb (NMRemoteSettings *settings, gpointer user_data)
 		quit ();
 }
 
-/* Entry point function for connections-related commands: 'nmcli con' */
+/* Entry point function for connections-related commands: 'nmcli connection' */
 NMCResultCode
 do_connections (NmCli *nmc, int argc, char **argv)
 {

@@ -100,7 +100,7 @@ nm_vlan_error_quark (void)
 /******************************************************************/
 
 static guint32
-real_get_generic_capabilities (NMDevice *dev)
+get_generic_capabilities (NMDevice *dev)
 {
 	/* We assume VLAN interfaces always support carrier detect */
 	return NM_DEVICE_CAP_CARRIER_DETECT | NM_DEVICE_CAP_NM_SUPPORTED;
@@ -118,7 +118,7 @@ get_carrier_sync (NMDeviceVlan *self)
 	                                        nm_device_get_ip_ifindex (NM_DEVICE (self)),
 	                                        &ifflags,
 	                                        &error)) {
-		nm_log_warn (LOGD_HW | LOGD_DEVICE,
+		nm_log_warn (LOGD_HW | LOGD_VLAN,
 		             "(%s): couldn't get carrier state: (%d) %s",
 		             nm_device_get_ip_iface (NM_DEVICE (self)),
 		             error ? error->code : -1,
@@ -130,19 +130,13 @@ get_carrier_sync (NMDeviceVlan *self)
 }
 
 static gboolean
-real_hw_is_up (NMDevice *device)
-{
-	return nm_system_iface_is_up (nm_device_get_ip_ifindex (device));
-}
-
-static gboolean
-real_hw_bring_up (NMDevice *dev, gboolean *no_firmware)
+hw_bring_up (NMDevice *dev, gboolean *no_firmware)
 {
 	gboolean success = FALSE, carrier;
 	guint i = 20;
 
 	while (i-- > 0 && !success) {
-		success = nm_system_iface_set_up (nm_device_get_ip_ifindex (dev), TRUE, no_firmware);
+		success = NM_DEVICE_CLASS (nm_device_vlan_parent_class)->hw_bring_up (dev, no_firmware);
 		g_usleep (50);
 	}
 
@@ -163,60 +157,39 @@ real_hw_bring_up (NMDevice *dev, gboolean *no_firmware)
 }
 
 static void
-real_hw_take_down (NMDevice *dev)
-{
-	nm_system_iface_set_up (nm_device_get_ip_ifindex (dev), FALSE, NULL);
-}
-
-static void
-real_update_hw_address (NMDevice *dev)
+update_hw_address (NMDevice *dev)
 {
 	NMDeviceVlan *self = NM_DEVICE_VLAN (dev);
 	NMDeviceVlanPrivate *priv = NM_DEVICE_VLAN_GET_PRIVATE (self);
-	struct rtnl_link *rtnl;
-	struct nl_addr *addr;
+	gsize addrlen;
+	gboolean changed = FALSE;
 
-	rtnl = nm_netlink_index_to_rtnl_link (nm_device_get_ip_ifindex (dev));
-	if (!rtnl) {
-		nm_log_err (LOGD_HW | LOGD_DEVICE,
-		            "(%s) failed to read hardware address (error %d)",
-		            nm_device_get_iface (dev), errno);
-		return;
+	addrlen = nm_device_read_hwaddr (dev, priv->hw_addr, sizeof (priv->hw_addr), &changed);
+	if (addrlen) {
+		priv->hw_addr_len = addrlen;
+		if (changed)
+			g_object_notify (G_OBJECT (self), NM_DEVICE_VLAN_HW_ADDRESS);
 	}
+}
 
-	addr = rtnl_link_get_addr (rtnl);
-	if (!addr) {
-		nm_log_err (LOGD_HW | LOGD_DEVICE,
-		            "(%s) no hardware address?",
-		            nm_device_get_iface (dev));
-		goto out;
-	}
+static const guint8 *
+get_hw_address (NMDevice *device, guint *out_len)
+{
+	NMDeviceVlanPrivate *priv = NM_DEVICE_VLAN_GET_PRIVATE (device);
 
-	if (nl_addr_get_len (addr) > sizeof (priv->hw_addr)) {
-		nm_log_err (LOGD_HW | LOGD_DEVICE,
-		            "(%s) hardware address is wrong length (got %d max %zd)",
-		            nm_device_get_iface (dev),
-		            nl_addr_get_len (addr),
-		            sizeof (priv->hw_addr));
-	} else {
-		priv->hw_addr_len = nl_addr_get_len (addr);
-		memcpy (&priv->hw_addr, nl_addr_get_binary_addr (addr), priv->hw_addr_len);
-		g_object_notify (G_OBJECT (self), NM_DEVICE_VLAN_HW_ADDRESS);
-	}
-
-out:
-	rtnl_link_put (rtnl);
+	*out_len = priv->hw_addr_len;
+	return priv->hw_addr;
 }
 
 static gboolean
-real_can_interrupt_activation (NMDevice *dev)
+can_interrupt_activation (NMDevice *dev)
 {
 	/* Can interrupt activation if the carrier drops while activating */
 	return NM_DEVICE_VLAN_GET_PRIVATE (dev)->carrier ? FALSE : TRUE;
 }
 
 static gboolean
-real_is_available (NMDevice *dev)
+is_available (NMDevice *dev)
 {
 	return NM_DEVICE_VLAN_GET_PRIVATE (dev)->carrier ? TRUE : FALSE;
 }
@@ -319,39 +292,35 @@ match_vlan_connection (NMDeviceVlan *self, NMConnection *connection, GError **er
 }
 
 static NMConnection *
-real_get_best_auto_connection (NMDevice *dev,
-                               GSList *connections,
-                               char **specific_object)
+get_best_auto_connection (NMDevice *dev,
+                          GSList *connections,
+                          char **specific_object)
 {
 	GSList *iter;
 
 	for (iter = connections; iter; iter = g_slist_next (iter)) {
 		NMConnection *connection = NM_CONNECTION (iter->data);
-		NMSettingConnection *s_con;
 
-		s_con = nm_connection_get_setting_connection (connection);
-		g_assert (s_con);
-		if (   nm_setting_connection_get_autoconnect (s_con)
-		    && match_vlan_connection (NM_DEVICE_VLAN (dev), connection, NULL))
+		if (match_vlan_connection (NM_DEVICE_VLAN (dev), connection, NULL))
 			return connection;
 	}
 	return NULL;
 }
 
 static gboolean
-real_check_connection_compatible (NMDevice *device,
-                                  NMConnection *connection,
-                                  GError **error)
+check_connection_compatible (NMDevice *device,
+                             NMConnection *connection,
+                             GError **error)
 {
 	return match_vlan_connection (NM_DEVICE_VLAN (device), connection, error);
 }
 
 static gboolean
-real_complete_connection (NMDevice *device,
-                          NMConnection *connection,
-                          const char *specific_object,
-                          const GSList *existing_connections,
-                          GError **error)
+complete_connection (NMDevice *device,
+                     NMConnection *connection,
+                     const char *specific_object,
+                     const GSList *existing_connections,
+                     GError **error)
 {
 	NMDeviceVlanPrivate *priv = NM_DEVICE_VLAN_GET_PRIVATE (device);
 	NMSettingVlan *s_vlan;
@@ -521,7 +490,7 @@ set_carrier (NMDeviceVlan *self,
 	g_object_notify (G_OBJECT (self), NM_DEVICE_VLAN_CARRIER);
 
 	state = nm_device_get_state (NM_DEVICE (self));
-	nm_log_info (LOGD_HW | LOGD_DEVICE,
+	nm_log_info (LOGD_HW | LOGD_VLAN,
 	             "(%s): carrier now %s (device state %d%s)",
 	             nm_device_get_iface (NM_DEVICE (self)),
 	             carrier ? "ON" : "OFF",
@@ -577,7 +546,7 @@ carrier_watch_init (NMDeviceVlan *self)
 
 	priv->carrier = get_carrier_sync (NM_DEVICE_VLAN (self));
 
-	nm_log_info (LOGD_HW | LOGD_DEVICE, "(%s): carrier is %s",
+	nm_log_info (LOGD_HW | LOGD_VLAN, "(%s): carrier is %s",
 	             nm_device_get_iface (NM_DEVICE (self)),
 	             priv->carrier ? "ON" : "OFF");
 
@@ -637,13 +606,13 @@ nm_device_vlan_new (const char *udi, const char *iface, NMDevice *parent)
 
 		itype = nm_system_get_iface_type (ifindex, iface);
 		if (itype != NM_IFACE_TYPE_VLAN) {
-			nm_log_err (LOGD_DEVICE, "(%s): failed to get VLAN interface type.", iface);
+			nm_log_err (LOGD_VLAN, "(%s): failed to get VLAN interface type.", iface);
 			g_object_unref (device);
 			return NULL;
 		}
 
 		if (!nm_system_get_iface_vlan_info (ifindex, &parent_ifindex, &vlan_id)) {
-			nm_log_warn (LOGD_DEVICE, "(%s): failed to get VLAN interface info.", iface);
+			nm_log_warn (LOGD_VLAN, "(%s): failed to get VLAN interface info.", iface);
 			g_object_unref (device);
 			return NULL;
 		}
@@ -651,7 +620,7 @@ nm_device_vlan_new (const char *udi, const char *iface, NMDevice *parent)
 		if (   parent_ifindex < 0
 		    || parent_ifindex != nm_device_get_ip_ifindex (parent)
 		    || vlan_id < 0) {
-			nm_log_warn (LOGD_DEVICE, "(%s): VLAN parent ifindex (%d) or VLAN ID (%d) invalid.",
+			nm_log_warn (LOGD_VLAN, "(%s): VLAN parent ifindex (%d) or VLAN ID (%d) invalid.",
 			             iface, parent_ifindex, priv->vlan_id);
 			g_object_unref (device);
 			return NULL;
@@ -758,17 +727,16 @@ nm_device_vlan_class_init (NMDeviceVlanClass *klass)
 	object_class->set_property = set_property;
 	object_class->dispose = dispose;
 
-	parent_class->get_generic_capabilities = real_get_generic_capabilities;
-	parent_class->update_hw_address = real_update_hw_address;
-	parent_class->hw_is_up = real_hw_is_up;
-	parent_class->hw_bring_up = real_hw_bring_up;
-	parent_class->hw_take_down = real_hw_take_down;
-	parent_class->can_interrupt_activation = real_can_interrupt_activation;
-	parent_class->is_available = real_is_available;
+	parent_class->get_generic_capabilities = get_generic_capabilities;
+	parent_class->update_hw_address = update_hw_address;
+	parent_class->get_hw_address = get_hw_address;
+	parent_class->hw_bring_up = hw_bring_up;
+	parent_class->can_interrupt_activation = can_interrupt_activation;
+	parent_class->is_available = is_available;
 
-	parent_class->get_best_auto_connection = real_get_best_auto_connection;
-	parent_class->check_connection_compatible = real_check_connection_compatible;
-	parent_class->complete_connection = real_complete_connection;
+	parent_class->get_best_auto_connection = get_best_auto_connection;
+	parent_class->check_connection_compatible = check_connection_compatible;
+	parent_class->complete_connection = complete_connection;
 	parent_class->spec_match_list = spec_match_list;
 	parent_class->connection_match_config = connection_match_config;
 

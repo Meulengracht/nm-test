@@ -1,3 +1,19 @@
+network-manager (0.9.7.997-1) experimental; urgency=low
+
+  * New upstream release (0.9.8 beta2).
+  * Update symbols files.
+  * Use new distro-agnostic configure flags.
+  * Drop 04-systemd-set-kill-mode-process.patch, refresh other patches.
+  * Bump Build-Depends on libglib2.0-dev, libudev-dev, libgudev-1.0-dev and
+    libnl-3-dev.
+  * Mark binary packages as linux-any.
+  * No longer install nm-crash-logger, has been removed upstream.
+  * 05-force-online-with-unmanaged-devices.patch: Set correct online state on
+    daemon startup.
+  * 06-nm-settings-manx.patch: Don't install generated xml file as man page.
+
+ -- Michael Biebl <biebl@debian.org>  Sat, 09 Feb 2013 17:12:48 +0100
+
 network-manager (0.9.6.4-3) experimental; urgency=low
 
   * Merge changes from unstable branch.

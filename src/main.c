@@ -42,7 +42,6 @@
 #include "NetworkManagerUtils.h"
 #include "nm-manager.h"
 #include "nm-policy.h"
-#include "backends/nm-backend.h"
 #include "nm-dns-manager.h"
 #include "nm-dbus-manager.h"
 #include "nm-supplicant-manager.h"
@@ -55,13 +54,14 @@
 #include "nm-policy-hosts.h"
 #include "nm-config.h"
 #include "nm-posix-signals.h"
+#include "nm-system.h"
 
 #if !defined(NM_DIST_VERSION)
 # define NM_DIST_VERSION VERSION
 #endif
 
-#define NM_DEFAULT_PID_FILE          LOCALSTATEDIR"/run/NetworkManager.pid"
-#define NM_DEFAULT_SYSTEM_STATE_FILE LOCALSTATEDIR"/lib/NetworkManager/NetworkManager.state"
+#define NM_DEFAULT_PID_FILE          NMRUNDIR "/NetworkManager.pid"
+#define NM_DEFAULT_SYSTEM_STATE_FILE NMSTATEDIR "/NetworkManager.state"
 
 /*
  * Globals
@@ -88,22 +88,6 @@ signal_handling_thread (void *arg)
 		sigwait (&signal_set, &signo);
 
 		switch (signo) {
-		case SIGSEGV:
-		case SIGBUS:
-		case SIGILL:
-		case SIGABRT:
-		case SIGQUIT:
-			nm_log_warn (LOGD_CORE, "caught signal %d. Generating backtrace...", signo);
-			nm_logging_backtrace ();
-			exit (1);
-			break;
-		case SIGFPE:
-		case SIGPIPE:
-			nm_log_warn (LOGD_CORE, "caught signal %d, shutting down abnormally. Generating backtrace...", signo);
-			nm_logging_backtrace ();
-			quit_early = TRUE; /* for quitting before entering the main loop */
-			g_main_loop_quit (main_loop);
-			break;
 		case SIGINT:
 		case SIGTERM:
 			nm_log_info (LOGD_CORE, "caught signal %d, shutting down normally.", signo);
@@ -142,13 +126,6 @@ setup_signals (void)
 	sigemptyset (&signal_set);
 	sigaddset (&signal_set, SIGHUP);
 	sigaddset (&signal_set, SIGINT);
-	sigaddset (&signal_set, SIGQUIT);
-	sigaddset (&signal_set, SIGILL);
-	sigaddset (&signal_set, SIGABRT);
-	sigaddset (&signal_set, SIGFPE);
-	sigaddset (&signal_set, SIGBUS);
-	sigaddset (&signal_set, SIGSEGV);
-	sigaddset (&signal_set, SIGPIPE);
 	sigaddset (&signal_set, SIGTERM);
 	sigaddset (&signal_set, SIGUSR1);
 
@@ -278,23 +255,10 @@ parse_state_file (const char *filename,
 		 * users upgrading NM get this working too.
 		 */
 		if (g_error_matches (tmp_error, G_FILE_ERROR, G_FILE_ERROR_NOENT)) {
-			char *data, *dirname;
+			char *data;
 			gsize len = 0;
 
 			g_clear_error (&tmp_error);
-
-			/* try to create the directory if it doesn't exist */
-			dirname = g_path_get_dirname (filename);
-			errno = 0;
-			if (g_mkdir_with_parents (dirname, 0755) != 0) {
-				if (errno != EEXIST) {
-					g_set_error (error, G_FILE_ERROR, G_FILE_ERROR_ACCES,
-					             "Error creating state directory %s: %s", dirname, strerror(errno));
-					g_free (dirname);
-					return FALSE;
-				}
-			}
-			g_free (dirname);
 
 			/* Write out the initial state to the state file */
 			g_key_file_set_boolean (state_file, "main", "NetworkingEnabled", *net_enabled);
@@ -401,10 +365,6 @@ main (int argc, char *argv[])
 		exit (1);
 	}
 
-	/* Set up unix signal handling */
-	if (!setup_signals ())
-		exit (1);
-
 	/* Set locale to be able to use environment variables */
 	setlocale (LC_ALL, "");
 
@@ -445,6 +405,18 @@ main (int argc, char *argv[])
 	 * talking on the session bus.  See rh #588745
 	 */
 	setenv ("GIO_USE_VFS", "local", 1);
+
+	/* Setup runtime directory */
+	if (g_mkdir_with_parents (NMRUNDIR, 0755) != 0) {
+		nm_log_err (LOGD_CORE, "Cannot create '%s': %s", NMRUNDIR, strerror (errno));
+		exit (1);
+	}
+
+	/* Ensure state directory exists */
+	if (g_mkdir_with_parents (NMSTATEDIR, 0755) != 0) {
+		nm_log_err (LOGD_CORE, "Cannot create '%s': %s", NMSTATEDIR, strerror (errno));
+		exit (1);
+	}
 
 	pidfile = pidfile ? pidfile : g_strdup (NM_DEFAULT_PID_FILE);
 	state_file = state_file ? state_file : g_strdup (NM_DEFAULT_SYSTEM_STATE_FILE);
@@ -501,6 +473,10 @@ main (int argc, char *argv[])
 			wrote_pidfile = TRUE;
 	}
 
+	/* Set up unix signal handling - before creating threads, but after daemonizing! */
+	if (!setup_signals ())
+		exit (1);
+
 	if (g_fatal_warnings) {
 		GLogLevelFlags fatal_mask;
 
@@ -530,16 +506,10 @@ main (int argc, char *argv[])
 	dbus_threads_init_default ();
 #endif
 
-#ifndef HAVE_DBUS_GLIB_DISABLE_LEGACY_PROP_ACCESS
-#error HAVE_DBUS_GLIB_DISABLE_LEGACY_PROP_ACCESS not defined
-#endif
-
-#if HAVE_DBUS_GLIB_DISABLE_LEGACY_PROP_ACCESS
 	/* Ensure that non-exported properties don't leak out, and that the
 	 * introspection 'access' permissions are respected.
 	 */
 	dbus_glib_global_set_disable_legacy_property_access ();
-#endif
 
 	nm_logging_start (become_daemon);
 
@@ -600,7 +570,7 @@ main (int argc, char *argv[])
 		goto done;
 	}
 
-	policy = nm_policy_new (manager, vpn_manager, settings);
+	policy = nm_policy_new (manager, settings);
 	if (policy == NULL) {
 		nm_log_err (LOGD_CORE, "failed to initialize the policy.");
 		goto done;
@@ -640,8 +610,18 @@ main (int argc, char *argv[])
 
 	nm_manager_start (manager);
 
-	/* Bring up the loopback interface. */
-	nm_backend_enable_loopback ();
+	/* Make sure the loopback interface is up. If interface is down, we bring
+	 * it up and kernel will assign it link-local IPv4 and IPv6 addresses. If
+	 * it was already up, we assume is in clean state.
+	 *
+	 * TODO: it might be desirable to check the list of addresses and compare
+	 * it with a list of expected addresses (one of the protocol families
+	 * could be disabled). The 'lo' interface is sometimes used for assigning
+	 * global addresses so their availability doesn't depend on the state of
+	 * physical interfaces.
+	 */
+	nm_log_dbg (LOGD_CORE, "setting up local loopback");
+	nm_system_iface_set_up (nm_netlink_iface_to_index ("lo"), TRUE, NULL);
 
 	success = TRUE;
 

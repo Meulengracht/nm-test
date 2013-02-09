@@ -28,18 +28,25 @@
 
 enum NMActStageReturn {
 	NM_ACT_STAGE_RETURN_FAILURE = 0,
-	NM_ACT_STAGE_RETURN_SUCCESS,
-	NM_ACT_STAGE_RETURN_POSTPONE,
-	NM_ACT_STAGE_RETURN_STOP         /* This activation chain is done */
+	NM_ACT_STAGE_RETURN_SUCCESS,     /* Activation stage done */
+	NM_ACT_STAGE_RETURN_POSTPONE,    /* Long-running operation in progress */
+	NM_ACT_STAGE_RETURN_WAIT,        /* Not ready to start stage; wait */
+	NM_ACT_STAGE_RETURN_STOP         /* Activation stage done; nothing to do */
 };
 
 void nm_device_set_ip_iface (NMDevice *self, const char *iface);
 
 void nm_device_activate_schedule_stage3_ip_config_start (NMDevice *device);
 
+gboolean nm_device_activate_stage3_ip4_start (NMDevice *self);
+
+gboolean nm_device_activate_stage3_ip6_start (NMDevice *self);
+
 gboolean nm_device_hw_bring_up (NMDevice *self, gboolean wait, gboolean *no_firmware);
 
 void nm_device_hw_take_down (NMDevice *self, gboolean block);
+
+gsize nm_device_read_hwaddr (NMDevice *dev, guint8 *out_buf, gsize buf_len, gboolean *out_changed);
 
 gboolean nm_device_ip_config_should_fail (NMDevice *self, gboolean ip6);
 
@@ -58,7 +65,10 @@ void nm_device_activate_schedule_ip6_config_result (NMDevice *device, NMIP6Confi
 void nm_device_activate_schedule_ip6_config_timeout (NMDevice *device);
 
 gboolean nm_device_activate_ip4_state_in_conf (NMDevice *device);
+gboolean nm_device_activate_ip4_state_in_wait (NMDevice *device);
+
 gboolean nm_device_activate_ip6_state_in_conf (NMDevice *device);
+gboolean nm_device_activate_ip6_state_in_wait (NMDevice *device);
 
 void nm_device_set_dhcp_timeout (NMDevice *device, guint32 timeout);
 void nm_device_set_dhcp_anycast_address (NMDevice *device, guint8 *addr);
@@ -69,8 +79,14 @@ gboolean nm_device_match_ip_config (NMDevice *device, NMConnection *connection);
 
 NMConnectionProvider *nm_device_get_connection_provider (NMDevice *device);
 
+void nm_device_recheck_available_connections (NMDevice *device);
+
 void nm_device_queued_state_clear (NMDevice *device);
 
 NMDeviceState nm_device_queued_state_peek (NMDevice *device);
+
+gboolean nm_device_get_enslaved (NMDevice *device);
+
+NMDevice *nm_device_master_get_slave_by_ifindex (NMDevice *dev, int ifindex);
 
 #endif	/* NM_DEVICE_PRIVATE_H */

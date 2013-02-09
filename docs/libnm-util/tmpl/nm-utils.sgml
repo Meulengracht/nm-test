@@ -9,12 +9,10 @@ nm-utils
 
 </para>
 
-
 <!-- ##### SECTION See_Also ##### -->
 <para>
 
 </para>
-
 
 <!-- ##### SECTION Stability_Level ##### -->
 
@@ -42,6 +40,16 @@ nm-utils
 
 </para>
 
+
+
+<!-- ##### FUNCTION nm_utils_ap_mode_security_valid ##### -->
+<para>
+
+</para>
+
+@type: 
+@wifi_caps: 
+@Returns: 
 
 
 <!-- ##### FUNCTION nm_utils_deinit ##### -->
@@ -126,6 +134,15 @@ nm-utils
 </para>
 
 @len: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_utils_iface_valid_name ##### -->
+<para>
+
+</para>
+
+@name: 
 @Returns: 
 
 
@@ -265,6 +282,15 @@ nm-utils
 @Returns: 
 
 
+<!-- ##### FUNCTION nm_utils_is_uuid ##### -->
+<para>
+
+</para>
+
+@str: 
+@Returns: 
+
+
 <!-- ##### FUNCTION nm_utils_rsa_key_encrypt ##### -->
 <para>
 
@@ -339,6 +365,16 @@ nm-utils
 @Returns: 
 
 
+<!-- ##### FUNCTION nm_utils_wep_key_valid ##### -->
+<para>
+
+</para>
+
+@key: 
+@wep_type: 
+@Returns: 
+
+
 <!-- ##### FUNCTION nm_utils_wifi_channel_to_freq ##### -->
 <para>
 
@@ -376,6 +412,15 @@ nm-utils
 
 @channel: 
 @band: 
+@Returns: 
+
+
+<!-- ##### FUNCTION nm_utils_wpa_psk_valid ##### -->
+<para>
+
+</para>
+
+@psk: 
 @Returns: 
 
 

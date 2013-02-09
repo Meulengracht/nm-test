@@ -3,9 +3,6 @@
 /* Define if building universal (internal helper macro) */
 #undef AC_APPLE_UNIVERSAL_BUILD
 
-/* Define if you have GNU backtrace extensions */
-#undef ENABLE_CRASHTRACE
-
 /* Define to 1 if translation of program messages to the user's native
    language is requested. */
 #undef ENABLE_NLS
@@ -20,10 +17,6 @@
 /* Define to 1 if you have the MacOS X function CFPreferencesCopyAppValue in
    the CoreFoundation framework. */
 #undef HAVE_CFPREFERENCESCOPYAPPVALUE
-
-/* Define if you have a dbus-glib with
-   dbus_glib_global_set_disable_legacy_property_access() */
-#undef HAVE_DBUS_GLIB_DISABLE_LEGACY_PROP_ACCESS
 
 /* Define if the GNU dcgettext() function is already present or preinstalled.
    */
@@ -46,15 +39,6 @@
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
-
-/* Define if you require libnl-1 legacy support */
-#undef HAVE_LIBNL1
-
-/* Define if you require specific libnl-2 support */
-#undef HAVE_LIBNL2
-
-/* Define if you require specific libnl-3 support */
-#undef HAVE_LIBNL3
 
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
@@ -119,12 +103,12 @@
 /* Define to path of the kernel firmware directory */
 #undef KERNEL_FIRMWARE_DIR
 
-/* Define this to hack around buggy libnl rtnl_addr caching */
-#undef LIBNL_NEEDS_ADDR_CACHING_WORKAROUND
-
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */
 #undef LT_OBJDIR
+
+/* Path to netconfig (if enabled) */
+#undef NETCONFIG_PATH
 
 /* Define the distribution version string */
 #undef NM_DIST_VERSION
@@ -153,7 +137,7 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
-/* Define if you have a resolvconf implementation */
+/* Path to resolvconf (if enabled) */
 #undef RESOLVCONF_PATH
 
 /* Define to 1 if you have the ANSI C header files. */
@@ -161,48 +145,6 @@
 
 /* Define to path to system CA certificates */
 #undef SYSTEM_CA_PATH
-
-/* Define if you have Arch */
-#undef TARGET_ARCH
-
-/* Define if you have Debian */
-#undef TARGET_DEBIAN
-
-/* Define if you have Exherbo */
-#undef TARGET_EXHERBO
-
-/* Define if you have Frugalware */
-#undef TARGET_FRUGALWARE
-
-/* Define for a general unknown Linux system */
-#undef TARGET_GENERIC
-
-/* Define if you have Gentoo */
-#undef TARGET_GENTOO
-
-/* Define if you have Linux From Scratch */
-#undef TARGET_LFS
-
-/* Define if you have linexa */
-#undef TARGET_LINEXA
-
-/* Define if you have Mandriva */
-#undef TARGET_MANDRIVA
-
-/* Define if you have Paldo */
-#undef TARGET_PALDO
-
-/* Define if you have Pardus */
-#undef TARGET_PARDUS
-
-/* Define if you have Fedora or RHEL */
-#undef TARGET_REDHAT
-
-/* Define if you have Slackware */
-#undef TARGET_SLACKWARE
-
-/* Define if you have OpenSUSE or SLES */
-#undef TARGET_SUSE
 
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
 #undef TIME_WITH_SYS_TIME
@@ -234,6 +176,9 @@
 
 /* Define if you want connectivity checking support */
 #undef WITH_CONCHECK
+
+/* Define if you have ModemManager1 support */
+#undef WITH_MODEM_MANAGER_1
 
 /* Define if you have PolicyKit support */
 #undef WITH_POLKIT

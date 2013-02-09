@@ -23,13 +23,26 @@
 #include <glib-object.h>
 
 #include <nm-setting-ip4-config.h>
+#include <nm-setting-ip6-config.h>
 
 char *nm_dhcp_dhclient_create_config (const char *interface,
+                                      gboolean is_ip6,
                                       NMSettingIP4Config *s_ip4,
+                                      NMSettingIP6Config *s_ip6,
                                       guint8 *anycast_addr,
                                       const char *hostname,
                                       const char *orig_path,
                                       const char *orig_contents);
+
+char *nm_dhcp_dhclient_escape_duid (const GByteArray *duid);
+
+GByteArray *nm_dhcp_dhclient_unescape_duid (const char *duid);
+
+GByteArray *nm_dhcp_dhclient_read_duid (const char *leasefile, GError **error);
+
+gboolean nm_dhcp_dhclient_save_duid (const char *leasefile,
+                                     const char *escaped_duid,
+                                     GError **error);
 
 #endif /* NM_DHCP_DHCLIENT_UTILS_H */
 

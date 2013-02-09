@@ -93,6 +93,11 @@ typedef struct {
 	NMIP6Manager *manager;
 	char *iface;
 	int ifindex;
+	/* +7 since this field is used directly by stuff that expects
+	 * padding to multiples of 8 bytes.
+	 */
+	guint8 hwaddr[NM_UTILS_HWADDR_LEN_MAX + 7];
+	guint hwaddr_len;
 
 	gboolean has_linklocal;
 	gboolean has_nonlinklocal;
@@ -140,7 +145,7 @@ nm_ip6_device_destroy (NMIP6Device *device)
 	/* reset the saved IPv6 value */
 	if (device->disable_ip6_save_valid) {
 		nm_utils_do_sysctl (device->disable_ip6_path,
-		                    device->disable_ip6_save ? "1\n" : "0\n");
+		                    device->disable_ip6_save ? "1" : "0");
 	}
 
 	if (device->finish_addrconf_id)
@@ -164,12 +169,18 @@ nm_ip6_device_destroy (NMIP6Device *device)
 }
 
 static NMIP6Device *
-nm_ip6_device_new (NMIP6Manager *manager, int ifindex)
+nm_ip6_device_new (NMIP6Manager *manager,
+                   int ifindex,
+                   const guint8 *hwaddr,
+                   guint hwaddr_len)
 {
 	NMIP6ManagerPrivate *priv = NM_IP6_MANAGER_GET_PRIVATE (manager);
 	NMIP6Device *device;
 
 	g_return_val_if_fail (ifindex > 0, NULL);
+	g_return_val_if_fail (hwaddr != NULL, NULL);
+	g_return_val_if_fail (hwaddr_len > 0, NULL);
+	g_return_val_if_fail (hwaddr_len <= NM_UTILS_HWADDR_LEN_MAX, NULL);
 
 	device = g_slice_new0 (NMIP6Device);
 	if (!device) {
@@ -185,6 +196,9 @@ nm_ip6_device_new (NMIP6Manager *manager, int ifindex)
 		            ifindex);
 		goto error;
 	}
+
+	memcpy (device->hwaddr, hwaddr, hwaddr_len);
+	device->hwaddr_len = hwaddr_len;
 
 	device->manager = manager;
 
@@ -222,28 +236,6 @@ nm_ip6_manager_get_device (NMIP6Manager *manager, int ifindex)
 	return g_hash_table_lookup (priv->devices, GINT_TO_POINTER (ifindex));
 }
 
-static int
-get_hwaddr (int ifindex, guint8 *buf)
-{
-	struct rtnl_link *lk;
-	struct nl_addr *addr;
-	int len;
-
-	lk = nm_netlink_index_to_rtnl_link (ifindex);
-	if (!lk)
-		return -1;
-
-	addr = rtnl_link_get_addr (lk);
-	len = nl_addr_get_len (addr);
-	if (len > NM_UTILS_HWADDR_LEN_MAX)
-		len = -1;
-	else
-		memcpy (buf, nl_addr_get_binary_addr (addr), len);
-
-	rtnl_link_put (lk);
-	return len;
-}
-
 static void
 device_send_router_solicitation (NMIP6Device *device, const char *why)
 {
@@ -251,8 +243,6 @@ device_send_router_solicitation (NMIP6Device *device, const char *why)
 	struct sockaddr_in6 sin6;
 	struct nd_router_solicit rs;
 	struct nd_opt_hdr lladdr_hdr;
-	guint8 hwaddr[NM_UTILS_HWADDR_LEN_MAX + 7];
-	int hwaddr_len;
 	static const guint8 local_routers_addr[] =
 		{ 0xFF, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 		  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02 };
@@ -301,18 +291,15 @@ device_send_router_solicitation (NMIP6Device *device, const char *why)
 	iov[0].iov_len  = sizeof (rs);
 	iov[0].iov_base = &rs;
 
-	memset (hwaddr, 0, sizeof (hwaddr));
-	hwaddr_len = get_hwaddr (device->ifindex, hwaddr);
-
-	if (hwaddr_len > 0) {
+	if (device->hwaddr_len > 0) {
 		memset (&lladdr_hdr, 0, sizeof (lladdr_hdr));
 		lladdr_hdr.nd_opt_type = ND_OPT_SOURCE_LINKADDR;
-		lladdr_hdr.nd_opt_len = (sizeof (lladdr_hdr) + hwaddr_len + 7) % 8;
+		lladdr_hdr.nd_opt_len = (sizeof (lladdr_hdr) + device->hwaddr_len + 7) % 8;
 		iov[1].iov_len  = sizeof (lladdr_hdr);
 		iov[1].iov_base = &lladdr_hdr;
 
 		iov[2].iov_len  = (lladdr_hdr.nd_opt_len * 8) - 2;
-		iov[2].iov_base = hwaddr;
+		iov[2].iov_base = device->hwaddr;
 
 		mhdr.msg_iovlen = 3;
 	} else
@@ -1372,6 +1359,8 @@ netlink_notification (NMNetlinkMonitor *monitor, struct nl_msg *msg, gpointer us
 gboolean
 nm_ip6_manager_prepare_interface (NMIP6Manager *manager,
                                   int ifindex,
+                                  const guint8 *hwaddr,
+                                  guint hwaddr_len,
                                   NMSettingIP6Config *s_ip6,
                                   const char *accept_ra_path)
 {
@@ -1381,10 +1370,13 @@ nm_ip6_manager_prepare_interface (NMIP6Manager *manager,
 
 	g_return_val_if_fail (NM_IS_IP6_MANAGER (manager), FALSE);
 	g_return_val_if_fail (ifindex > 0, FALSE);
+	g_return_val_if_fail (hwaddr != NULL, FALSE);
+	g_return_val_if_fail (hwaddr_len > 0, FALSE);
+	g_return_val_if_fail (hwaddr_len <= NM_UTILS_HWADDR_LEN_MAX, FALSE);
 
 	priv = NM_IP6_MANAGER_GET_PRIVATE (manager);
 
-	device = nm_ip6_device_new (manager, ifindex);
+	device = nm_ip6_device_new (manager, ifindex, hwaddr, hwaddr_len);
 	g_return_val_if_fail (device != NULL, FALSE);
 	g_return_val_if_fail (   strchr (device->iface, '/') == NULL
 	                      && strcmp (device->iface, "all") != 0
@@ -1399,10 +1391,10 @@ nm_ip6_manager_prepare_interface (NMIP6Manager *manager,
 	/* Establish target state and turn router advertisement acceptance on or off */
 	if (!strcmp (method, NM_SETTING_IP6_CONFIG_METHOD_LINK_LOCAL)) {
 		device->target_state = NM_IP6_DEVICE_GOT_LINK_LOCAL;
-		nm_utils_do_sysctl (accept_ra_path, "0\n");
+		nm_utils_do_sysctl (accept_ra_path, "0");
 	} else {
 		device->target_state = NM_IP6_DEVICE_GOT_ADDRESS;
-		nm_utils_do_sysctl (accept_ra_path, "2\n");
+		nm_utils_do_sysctl (accept_ra_path, "2");
 	}
 
 	return TRUE;
@@ -1447,9 +1439,9 @@ nm_ip6_manager_begin_addrconf (NMIP6Manager *manager, int ifindex)
 	 * new RAs; there doesn't seem to be a better way to do this right now.
 	 */
 	if (device->target_state >= NM_IP6_DEVICE_GOT_ADDRESS) {
-		nm_utils_do_sysctl (device->disable_ip6_path, "1\n");
+		nm_utils_do_sysctl (device->disable_ip6_path, "1");
 		g_usleep (200);
-		nm_utils_do_sysctl (device->disable_ip6_path, "0\n");
+		nm_utils_do_sysctl (device->disable_ip6_path, "0");
 	}
 
 	device->ip6flags_poll_id = g_timeout_add_seconds (1, poll_ip6_flags, priv->monitor);
