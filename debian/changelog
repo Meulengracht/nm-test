@@ -1,3 +1,16 @@
+network-manager (0.9.8.0-2) experimental; urgency=low
+
+  [ Sjoerd Simons ]
+  * Add myself to uploaders
+
+  [ Michael Biebl ]
+  * Stop providing static start and stop priorities for dh_installinit. Those
+    are no longer tested and we rely on the dependency information in the LSB
+    header now to get a correct ordering when being run under sysvinit.
+  * Tighten dependencies between -dev packages.
+
+ -- Michael Biebl <biebl@debian.org>  Wed, 20 Mar 2013 16:23:07 +0100
+
 network-manager (0.9.8.0-1) experimental; urgency=low
 
   * New upstream release.
