@@ -1,3 +1,18 @@
+network-manager (0.9.8.8-4) unstable; urgency=medium
+
+  [ Laurent Bigonville ]
+  * debian/control: Update the Homepage URL
+
+  [ Michael Biebl ]
+  * Upload to unstable.
+  * Fix URL to keyfile spec in README.Debian.
+  * Remove /etc/systemd/system/network-manager.service symlink, which was
+    previously created dynamically via Alias=, on upgrades.
+  * Install PolicyKit rules and pkla file into the system directory.
+    /etc/polkit-1 is reserved for local configuration.
+
+ -- Michael Biebl <biebl@debian.org>  Fri, 28 Mar 2014 17:12:10 +0100
+
 network-manager (0.9.8.8-3) experimental; urgency=medium
 
   * Team upload.
@@ -15,8 +30,6 @@ network-manager (0.9.8.8-2) experimental; urgency=medium
     symlink instead of using an Alias= to mask the initscript (Closes: #719703)
   * debian/control, debian/rules: Add call to dh-systemd to enable and start
     the systemd services
-  * Completely Drop debian/patches/03-systemd.patch: /usr should now be
-    mounted from the initramfs meaning that it will be available early enough
   * debian/network-manager.links: Create a symlink so
     NetworkManager-wait-online.service is run before network-online.target
   * debian/control: Bump Standards-Version to 3.9.5 (no further changes)
@@ -51,7 +64,6 @@ network-manager (0.9.8.8-1) experimental; urgency=low
     checking support
 
   [ Sjoerd Simons ]
-  * Use logind for session tracking on linux, consolekit on other systems
   * Enable usage of the new modem-manager interface
   * Use bluez 4
 
