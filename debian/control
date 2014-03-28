@@ -22,7 +22,7 @@ Build-Depends:
  libgnutls-dev,
  uuid-dev,
  systemd (>= 185),
- libsystemd-login-dev (>= 185) [linux-any],
+ libsystemd-login-dev (>= 185),
  libudev-dev (>= 165),
  libgudev-1.0-dev (>= 165),
  libgirepository1.0-dev (>= 0.10.7-1~),
@@ -34,7 +34,7 @@ Build-Depends:
 Standards-Version: 3.9.5
 Vcs-Git: git://anonscm.debian.org/pkg-utopia/network-manager.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-utopia/network-manager.git;a=summary
-Homepage: http://www.gnome.org/projects/NetworkManager/
+Homepage: https://wiki.gnome.org/Projects/NetworkManager
 
 Package: network-manager
 Architecture: linux-any
@@ -55,7 +55,7 @@ Recommends:
  iptables,
  modemmanager,
  crda,
- systemd [linux-any]
+ systemd
 Suggests: avahi-autoipd
 Breaks:
  network-manager-gnome (<< 0.9),
