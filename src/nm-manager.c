@@ -3902,6 +3902,65 @@ impl_manager_check_connectivity (NMManager *manager,
 	nm_auth_chain_add_call (chain, NM_AUTH_PERMISSION_NETWORK_CONTROL, TRUE);
 }
 
+static void
+check_ifstate_file (gpointer user_data)
+{
+	NMManager *self = NM_MANAGER (user_data);
+	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (self);
+	GIOChannel *channel;
+	gchar *line;
+	gboolean online = FALSE;
+
+	channel = g_io_channel_new_file (IFUPDOWN_STATE_FILE, "r", NULL);
+	if (!channel) {
+		nm_log_warn (LOGD_CORE, "Error: failed to open %s", IFUPDOWN_STATE_FILE);
+		return;
+	}
+	
+	while (g_io_channel_read_line (channel, &line, NULL, NULL, NULL)
+	       != G_IO_STATUS_EOF && !online) {
+		g_strstrip (line);
+		if (strlen (line) > 0 && g_strcmp0 (line, "lo=lo") != 0) {
+			online = TRUE;
+		}
+		g_free (line);
+	}
+	
+	g_io_channel_shutdown (channel, FALSE, NULL);
+	g_io_channel_unref (channel);
+
+	if (priv->ifstate_force_online != online) {
+		priv->ifstate_force_online = online;
+		nm_manager_update_state (self);
+	}
+}
+
+static void
+ifstate_file_changed (GFileMonitor *monitor,
+                      GFile *file,
+                      GFile *other_file,
+                      GFileMonitorEvent event_type,
+                      gpointer user_data)
+{
+	NMManager *self = NM_MANAGER (user_data);
+	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (self);
+
+	switch (event_type) {
+//	case G_FILE_MONITOR_EVENT_CREATED:
+//#if GLIB_CHECK_VERSION(2,23,4)
+//	case G_FILE_MONITOR_EVENT_MOVED:
+//#endif
+//	case G_FILE_MONITOR_EVENT_ATTRIBUTE_CHANGED:
+	case G_FILE_MONITOR_EVENT_CHANGED:
+	case G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT:
+		nm_log_dbg (LOGD_CORE, "ifupdown state file %s was changed", IFUPDOWN_STATE_FILE);
+		check_ifstate_file (user_data);
+		break;
+	default:
+		break;
+	}
+}
+
 void
 nm_manager_start (NMManager *self)
 {
@@ -3964,6 +4023,9 @@ nm_manager_start (NMManager *self)
 	/* FIXME: remove when we handle bridges non-destructively */
 	g_hash_table_unref (priv->nm_bridges);
 	priv->nm_bridges = NULL;
+
+	/* Trigger ifupdown state file check */
+	check_ifstate_file (self);
 }
 
 static gboolean
@@ -4102,65 +4164,6 @@ policy_activating_device_changed (GObject *object, GParamSpec *pspec, gpointer u
 		priv->activating_connection = ac ? g_object_ref (ac) : NULL;
 		nm_log_dbg (LOGD_CORE, "ActivatingConnection now %s", ac ? nm_active_connection_get_name (ac) : "(none)");
 		g_object_notify (G_OBJECT (self), NM_MANAGER_ACTIVATING_CONNECTION);
-	}
-}
-
-static void
-check_ifstate_file (gpointer user_data)
-{
-	NMManager *self = NM_MANAGER (user_data);
-	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (self);
-	GIOChannel *channel;
-	gchar *line;
-	gboolean online = FALSE;
-
-	channel = g_io_channel_new_file (IFUPDOWN_STATE_FILE, "r", NULL);
-	if (!channel) {
-		nm_log_warn (LOGD_CORE, "Error: failed to open %s", IFUPDOWN_STATE_FILE);
-		return;
-	}
-	
-	while (g_io_channel_read_line (channel, &line, NULL, NULL, NULL)
-	       != G_IO_STATUS_EOF && !online) {
-		g_strstrip (line);
-		if (strlen (line) > 0 && g_strcmp0 (line, "lo=lo") != 0) {
-			online = TRUE;
-		}
-		g_free (line);
-	}
-	
-	g_io_channel_shutdown (channel, FALSE, NULL);
-	g_io_channel_unref (channel);
-
-	if (priv->ifstate_force_online != online) {
-		priv->ifstate_force_online = online;
-		nm_manager_update_state (self);
-	}
-}
-
-static void
-ifstate_file_changed (GFileMonitor *monitor,
-                      GFile *file,
-                      GFile *other_file,
-                      GFileMonitorEvent event_type,
-                      gpointer user_data)
-{
-	NMManager *self = NM_MANAGER (user_data);
-	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (self);
-
-	switch (event_type) {
-//	case G_FILE_MONITOR_EVENT_CREATED:
-//#if GLIB_CHECK_VERSION(2,23,4)
-//	case G_FILE_MONITOR_EVENT_MOVED:
-//#endif
-//	case G_FILE_MONITOR_EVENT_ATTRIBUTE_CHANGED:
-	case G_FILE_MONITOR_EVENT_CHANGED:
-	case G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT:
-		nm_log_dbg (LOGD_CORE, "ifupdown state file %s was changed", IFUPDOWN_STATE_FILE);
-		check_ifstate_file (user_data);
-		break;
-	default:
-		break;
 	}
 }
 
@@ -4965,7 +4968,6 @@ nm_manager_init (NMManager *manager)
 		nm_log_warn (LOGD_CORE, "failed to monitor ifupdown state file '%s'.",
 		             IFUPDOWN_STATE_FILE);
 	}
-	check_ifstate_file (manager);
 
 	load_device_factories (manager);
 
