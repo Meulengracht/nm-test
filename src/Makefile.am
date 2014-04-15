@@ -300,6 +300,7 @@ NetworkManager_CPPFLAGS = \
 	$(LIBNL_CFLAGS) \
 	$(POLKIT_CFLAGS) \
 	$(SYSTEMD_LOGIN_CFLAGS) \
+	$(SYSTEMD_INHIBIT_CFLAGS) \
 	$(LIBSOUP_CFLAGS) \
 	-DBINDIR=\"$(bindir)\" \
 	-DSBINDIR=\"$(sbindir)\" \
@@ -341,6 +342,7 @@ NetworkManager_LDADD = \
 	$(LIBNL_LIBS) \
 	$(POLKIT_LIBS) \
 	$(SYSTEMD_LOGIN_LIBS) \
+	$(SYSTEMD_INHIBIT_LIBS) \
 	$(LIBSOUP_LIBS) \
 	$(LIBM) \
 	$(LIBDL)
