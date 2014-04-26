@@ -1,3 +1,10 @@
+network-manager (0.9.8.10-1) unstable; urgency=medium
+
+  * New upstream release
+  * debian/patches/*: Refresh if necessary
+
+ -- Sjoerd Simons <sjoerd@debian.org>  Sat, 26 Apr 2014 21:05:11 +0200
+
 network-manager (0.9.8.8-7) unstable; urgency=medium
 
   * Build against ppp 2.4.6. Update plugin path and dependencies accordingly.
