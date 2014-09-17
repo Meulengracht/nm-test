@@ -26,6 +26,7 @@
 #include <glib/gi18n.h>
 #include <gio/gio.h>
 #include <gio/gunixfdlist.h>
+#include <systemd/sd-daemon.h>
 
 #include "nm-logging.h"
 #include "nm-dbus-manager.h"
@@ -164,6 +165,10 @@ sleep_setup (NMSleepMonitor *self)
 static void
 nm_sleep_monitor_init (NMSleepMonitor *self)
 {
+	if (!sd_booted()) {
+		nm_log_warn (LOGD_SUSPEND, "Skipping Sleep Monitor setup, system not booted with systemd");
+		return;
+	}
 	self->inhibit_fd = -1;
 	sleep_setup (self);
 	take_inhibitor (self);
