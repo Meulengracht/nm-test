@@ -4429,7 +4429,7 @@ start_sharing (NMDevice *self, NMIP4Config *config)
 static void
 send_arps (NMDevice *self, const char *mode_arg)
 {
-	const char *argv[] = { "/sbin/arping", mode_arg, "-q", "-I", nm_device_get_ip_iface (self), "-c", "1", NULL, NULL };
+	const char *argv[] = { "/usr/bin/arping", mode_arg, "-q", "-I", nm_device_get_ip_iface (self), "-c", "1", NULL, NULL };
 	int ip_arg = G_N_ELEMENTS (argv) - 2;
 	NMConnection *connection;
 	NMSettingIP4Config *s_ip4;
