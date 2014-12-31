@@ -5,6 +5,7 @@ Description=Network Manager
 Type=dbus
 BusName=org.freedesktop.NetworkManager
 ExecStart=@sbindir@/NetworkManager --no-daemon
+Restart=on-failure
 # NM doesn't want systemd to kill its children for it
 KillMode=process
 
