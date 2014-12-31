@@ -413,6 +413,11 @@ dhclient_start (NMDHCPClient *client,
 
 	g_ptr_array_add (argv, (gpointer) "-d");
 
+	/* Be quiet. dhclient logs to syslog anyway. And we duplicate the syslog
+	 * to stderr in case of NM running with --debug.
+	 */
+	g_ptr_array_add (argv, (gpointer) "-q");
+
 	if (release)
 		g_ptr_array_add (argv, (gpointer) "-r");
 
@@ -456,7 +461,8 @@ dhclient_start (NMDHCPClient *client,
 	nm_log_dbg (log_domain, "running: %s", cmd_str);
 	g_free (cmd_str);
 
-	if (!g_spawn_async (NULL, (char **) argv->pdata, NULL, G_SPAWN_DO_NOT_REAP_CHILD,
+	if (!g_spawn_async (NULL, (char **) argv->pdata, NULL,
+	                    G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_STDOUT_TO_DEV_NULL | G_SPAWN_STDERR_TO_DEV_NULL,
 	                    &dhclient_child_setup, NULL, &pid, &error)) {
 		nm_log_warn (log_domain, "dhclient failed to start: '%s'", error->message);
 		g_error_free (error);
