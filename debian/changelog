@@ -1,3 +1,18 @@
+network-manager (1.0.0-1) experimental; urgency=medium
+
+  * New upstream release.
+  * Rebase patches.
+  * Update symbols files for libnm-glib and libnm-util.
+  * Add perl and libyaml-perl to Build-Depends, required to build the
+    documentation.
+  * Add libnm0 and libnm-dev packages for libnm, a new GObject-based client
+    library for NetworkManager which is supposed to replace libnm-util and
+    libnm-glib.
+  * Fix incorrect dependencies in libnm.pc.
+  * Bump Standards-Version to 3.9.6. No further changes.
+
+ -- Michael Biebl <biebl@debian.org>  Fri, 23 Jan 2015 21:26:50 +0100
+
 network-manager (0.9.10.0-5) unstable; urgency=medium
 
   * Cherry-pick upstream commit which prevents breaking PtP TUN interfaces by
