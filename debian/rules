@@ -32,12 +32,14 @@ override_dh_auto_configure:
 		--disable-more-warnings \
 		--disable-modify-system \
 		--enable-polkit \
+		--enable-polkit-agent \
 		--enable-ppp \
 		--enable-ifupdown \
 		--enable-introspection \
 		--enable-gtk-doc \
 		--enable-concheck \
-		--enable-teamdctl
+		--enable-teamdctl \
+		--enable-bluez5-dun
 
 override_dh_install:
 	dh_install -X.la --list-missing
