@@ -5095,7 +5095,7 @@ send_arps (NMDevice *self, const char *mode_arg)
 	if (num == 0)
 		return;
 
-	argv[0] = nm_utils_find_helper ("arping", NULL, NULL);
+	argv[0] = nm_utils_find_helper ("arping", "/usr/bin/arping", NULL);
 	if (!argv[0]) {
 		_LOGW (LOGD_DEVICE | LOGD_IP4, "arping could not be found; no ARPs will be sent");
 		return;
