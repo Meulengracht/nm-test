@@ -1,3 +1,14 @@
+network-manager (1.0.2-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Make no-patch-numbers the default for gbp pq to avoid unnecessary noise.
+  * Rebase patches.
+  * Enable and install the ibft plugin. This plugin queries the 'iscsiadm'
+    tool and generates connections based on the firmware configuration.
+  * Fix path to the iscsiadm binary in the ibft plugin.
+
+ -- Michael Biebl <biebl@debian.org>  Wed, 06 May 2015 18:20:12 +0200
+
 network-manager (1.0.0-5) unstable; urgency=medium
 
   * Upload to unstable.
