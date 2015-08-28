@@ -246,7 +246,6 @@ do_early_setup (int *argc, char **argv[], NMConfigCmdLineOptions *config_cli)
 		{NULL}
 	};
 
-	config_cli = nm_config_cmd_line_options_new ();
 	if (!nm_main_utils_early_setup ("NetworkManager",
 	                                argc,
 	                                argv,
@@ -476,13 +475,7 @@ main (int argc, char *argv[])
 	                          net_enabled,
 	                          wifi_enabled,
 	                          wwan_enabled,
-	                          wimax_enabled,
-	                          &error);
-	if (manager == NULL) {
-		nm_log_err (LOGD_CORE, "failed to initialize the network manager: %s",
-		            error && error->message ? error->message : "(unknown)");
-		goto done;
-	}
+	                          wimax_enabled);
 
 	/* Initialize the supplicant manager */
 	sup_mgr = nm_supplicant_manager_get ();
