@@ -18,10 +18,6 @@ endif
 
 NetworkManager-dispatcher.service: NetworkManager-dispatcher.service.in
 	$(edit) $< >$@
-
-install-exec-local:
-	install -d $(DESTDIR)$(systemdsystemunitdir)/network-online.target.wants
-	ln -sf $(systemdsystemunitdir)/NetworkManager-wait-online.service $(DESTDIR)$(systemdsystemunitdir)/network-online.target.wants
 endif
 
 examplesdir = $(docdir)/examples
