@@ -4,6 +4,7 @@ Description=Network Manager
 [Service]
 Type=dbus
 BusName=org.freedesktop.NetworkManager
+ExecReload=/bin/kill -HUP $MAINPID
 ExecStart=@sbindir@/NetworkManager --no-daemon
 Restart=on-failure
 # NM doesn't want systemd to kill its children for it
