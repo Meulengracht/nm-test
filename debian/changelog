@@ -1,3 +1,15 @@
+network-manager (1.0.8-1) unstable; urgency=medium
+
+  * New upstream release.
+    - MTU indicated by a VPN gateway is now properly applied.
+      (Closes: #794237)
+  * Rebase patches.
+  * Install new nm-versions-macros.h header file.
+  * Check errors of polkit_unix_session_new_for_process_sync(). Patch
+    cherry-picked from upstream Git.
+
+ -- Michael Biebl <biebl@debian.org>  Wed, 25 Nov 2015 14:32:35 +0100
+
 network-manager (1.0.6-1) unstable; urgency=medium
 
   * New upstream release.
