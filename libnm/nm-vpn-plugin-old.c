@@ -19,20 +19,13 @@
  * Copyright 2007 - 2008 Red Hat, Inc.
  */
 
-/* This interface is expected to be deprecated in NM 1.2, at which point there
- * will be a new "NMVpnPlugin" class to replace it.
- */
-
 #include "config.h"
 
 #include <errno.h>
 #include <signal.h>
 #include <stdlib.h>
 
-#include <glib/gi18n-lib.h>
-#include <gio/gio.h>
-
-#include "nm-glib-compat.h"
+#include "nm-default.h"
 #include "nm-vpn-plugin-old.h"
 #include "nm-enum-types.h"
 #include "nm-utils.h"
@@ -71,7 +64,7 @@ typedef struct {
 	gboolean has_ip6, got_ip6;
 
 	/* Config stuff copied from config to ip4config */
-	char *banner, *tundev, *gateway, *mtu;
+	GVariant *banner, *tundev, *gateway, *mtu;
 } NMVpnPluginOldPrivate;
 
 #define NM_VPN_PLUGIN_OLD_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), NM_TYPE_VPN_PLUGIN_OLD, NMVpnPluginOldPrivate))
@@ -110,13 +103,16 @@ nm_vpn_plugin_old_set_connection (NMVpnPluginOld *plugin,
 
 	g_clear_object (&priv->connection);
 
-	priv->connection = g_object_ref (connection);
+	if (connection)
+		priv->connection = g_object_ref (connection);
 }
 
 /**
  * nm_vpn_plugin_old_get_connection:
  *
  * Returns: (transfer full):
+ *
+ * Deprecated: 1.2: replaced by NMVpnServicePlugin
  */
 GDBusConnection *
 nm_vpn_plugin_old_get_connection (NMVpnPluginOld *plugin)
@@ -133,6 +129,11 @@ nm_vpn_plugin_old_get_connection (NMVpnPluginOld *plugin)
 	return connection;
 }
 
+/**
+ * nm_vpn_plugin_old_get_state:
+ *
+ * Deprecated: 1.2: replaced by NMVpnServicePlugin
+ */
 NMVpnServiceState
 nm_vpn_plugin_old_get_state (NMVpnPluginOld *plugin)
 {
@@ -141,6 +142,11 @@ nm_vpn_plugin_old_get_state (NMVpnPluginOld *plugin)
 	return NM_VPN_PLUGIN_OLD_GET_PRIVATE (plugin)->state;
 }
 
+/**
+ * nm_vpn_plugin_old_set_state:
+ *
+ * Deprecated: 1.2: replaced by NMVpnServicePlugin
+ */
 void
 nm_vpn_plugin_old_set_state (NMVpnPluginOld *plugin,
                              NMVpnServiceState state)
@@ -156,6 +162,11 @@ nm_vpn_plugin_old_set_state (NMVpnPluginOld *plugin,
 	}
 }
 
+/**
+ * nm_vpn_plugin_old_set_login_banner:
+ *
+ * Deprecated: 1.2: replaced by NMVpnServicePlugin
+ */
 void
 nm_vpn_plugin_old_set_login_banner (NMVpnPluginOld *plugin,
                                     const char *banner)
@@ -166,6 +177,11 @@ nm_vpn_plugin_old_set_login_banner (NMVpnPluginOld *plugin,
 	g_signal_emit (plugin, signals[LOGIN_BANNER], 0, banner);
 }
 
+/**
+ * nm_vpn_plugin_old_failure:
+ *
+ * Deprecated: 1.2: replaced by NMVpnServicePlugin
+ */
 void
 nm_vpn_plugin_old_failure (NMVpnPluginOld *plugin,
                            NMVpnPluginFailure reason)
@@ -175,6 +191,11 @@ nm_vpn_plugin_old_failure (NMVpnPluginOld *plugin,
 	g_signal_emit (plugin, signals[FAILURE], 0, reason);
 }
 
+/**
+ * nm_vpn_plugin_old_disconnect:
+ *
+ * Deprecated: 1.2: replaced by NMVpnServicePlugin
+ */
 gboolean
 nm_vpn_plugin_old_disconnect (NMVpnPluginOld *plugin, GError **err)
 {
@@ -281,6 +302,11 @@ schedule_fail_stop (NMVpnPluginOld *plugin)
 	priv->fail_stop_id = g_idle_add (fail_stop, plugin);
 }
 
+/**
+ * nm_vpn_plugin_old_set_config:
+ *
+ * Deprecated: 1.2: replaced by NMVpnServicePlugin
+ */
 void
 nm_vpn_plugin_old_set_config (NMVpnPluginOld *plugin,
                               GVariant *config)
@@ -300,18 +326,31 @@ nm_vpn_plugin_old_set_config (NMVpnPluginOld *plugin,
 	/* Record the items that need to also be inserted into the
 	 * ip4config, for compatibility with older daemons.
 	 */
-	g_clear_pointer (&priv->banner, g_free);
-	(void) g_variant_lookup (config, NM_VPN_PLUGIN_CONFIG_BANNER, "&s", &priv->banner);
-	g_clear_pointer (&priv->tundev, g_free);
-	(void) g_variant_lookup (config, NM_VPN_PLUGIN_CONFIG_TUNDEV, "&s", &priv->tundev);
-	g_clear_pointer (&priv->gateway, g_free);
-	(void) g_variant_lookup (config, NM_VPN_PLUGIN_CONFIG_EXT_GATEWAY, "&s", &priv->gateway);
-	g_clear_pointer (&priv->mtu, g_free);
-	(void) g_variant_lookup (config, NM_VPN_PLUGIN_CONFIG_MTU, "&s", &priv->mtu);
+	if (priv->banner)
+		g_variant_unref (priv->banner);
+	priv->banner = g_variant_lookup_value (config, NM_VPN_PLUGIN_CONFIG_BANNER,
+	                                       G_VARIANT_TYPE ("s"));
+	if (priv->tundev)
+		g_variant_unref (priv->tundev);
+	priv->tundev = g_variant_lookup_value (config, NM_VPN_PLUGIN_CONFIG_TUNDEV,
+	                                       G_VARIANT_TYPE ("s"));
+	if (priv->gateway)
+		g_variant_unref (priv->gateway);
+	priv->gateway = g_variant_lookup_value (config, NM_VPN_PLUGIN_CONFIG_EXT_GATEWAY,
+	                                        G_VARIANT_TYPE ("u"));
+	if (priv->mtu)
+		g_variant_unref (priv->mtu);
+	priv->mtu = g_variant_lookup_value (config, NM_VPN_PLUGIN_CONFIG_MTU,
+	                                    G_VARIANT_TYPE ("u"));
 
 	g_signal_emit (plugin, signals[CONFIG], 0, config);
 }
 
+/**
+ * nm_vpn_plugin_old_set_ip4_config:
+ *
+ * Deprecated: 1.2: replaced by NMVpnServicePlugin
+ */
 void
 nm_vpn_plugin_old_set_ip4_config (NMVpnPluginOld *plugin,
                                   GVariant *ip4_config)
@@ -320,7 +359,8 @@ nm_vpn_plugin_old_set_ip4_config (NMVpnPluginOld *plugin,
 	GVariant *combined_config;
 	GVariantBuilder builder;
 	GVariantIter iter;
-	const char *key, *value;
+	const char *key;
+	GVariant *value;
 
 	g_return_if_fail (NM_IS_VPN_PLUGIN_OLD (plugin));
 	g_return_if_fail (ip4_config != NULL);
@@ -340,19 +380,21 @@ nm_vpn_plugin_old_set_ip4_config (NMVpnPluginOld *plugin,
 	 * being emitted. So just copy all of that data into the ip4
 	 * config too.
 	 */
-	g_variant_builder_init (&builder, G_VARIANT_TYPE ("a{ss}"));
+	g_variant_builder_init (&builder, G_VARIANT_TYPE ("a{sv}"));
 	g_variant_iter_init (&iter, ip4_config);
-	while (g_variant_iter_next (&iter, "{&s&s}", &key, &value))
-		g_variant_builder_add (&builder, "{ss}", key, value);
+	while (g_variant_iter_next (&iter, "{&sv}", &key, &value)) {
+		g_variant_builder_add (&builder, "{sv}", key, value);
+		g_variant_unref (value);
+	}
 
 	if (priv->banner)
-		g_variant_builder_add (&builder, "{ss}", NM_VPN_PLUGIN_IP4_CONFIG_BANNER, &priv->banner);
+		g_variant_builder_add (&builder, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_BANNER, &priv->banner);
 	if (priv->tundev)
-		g_variant_builder_add (&builder, "{ss}", NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV, &priv->tundev);
+		g_variant_builder_add (&builder, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV, &priv->tundev);
 	if (priv->gateway)
-		g_variant_builder_add (&builder, "{ss}", NM_VPN_PLUGIN_IP4_CONFIG_EXT_GATEWAY, &priv->gateway);
+		g_variant_builder_add (&builder, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_EXT_GATEWAY, &priv->gateway);
 	if (priv->mtu)
-		g_variant_builder_add (&builder, "{ss}", NM_VPN_PLUGIN_IP4_CONFIG_MTU, &priv->mtu);
+		g_variant_builder_add (&builder, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_MTU, &priv->mtu);
 
 	combined_config = g_variant_builder_end (&builder);
 	g_variant_ref_sink (combined_config);
@@ -364,6 +406,11 @@ nm_vpn_plugin_old_set_ip4_config (NMVpnPluginOld *plugin,
 		nm_vpn_plugin_old_set_state (plugin, NM_VPN_SERVICE_STATE_STARTED);
 }
 
+/**
+ * nm_vpn_plugin_old_set_ip6_config:
+ *
+ * Deprecated: 1.2: replaced by NMVpnServicePlugin
+ */
 void
 nm_vpn_plugin_old_set_ip6_config (NMVpnPluginOld *plugin,
                                   GVariant *ip6_config)
@@ -373,8 +420,12 @@ nm_vpn_plugin_old_set_ip6_config (NMVpnPluginOld *plugin,
 	g_return_if_fail (NM_IS_VPN_PLUGIN_OLD (plugin));
 	g_return_if_fail (ip6_config != NULL);
 
+	g_variant_ref_sink (ip6_config);
+
 	priv->got_ip6 = TRUE;
 	g_signal_emit (plugin, signals[IP6_CONFIG], 0, ip6_config);
+
+	g_variant_unref (ip6_config);
 
 	if (   priv->has_ip4 == priv->got_ip4
 	    && priv->has_ip6 == priv->got_ip6)
@@ -483,7 +534,7 @@ impl_vpn_plugin_old_need_secrets (NMVpnPluginOld *plugin,
                                   gpointer user_data)
 {
 	NMConnection *connection;
-	char *setting_name;
+	const char *setting_name;
 	gboolean needed;
 	GError *error = NULL;
 
@@ -519,7 +570,6 @@ impl_vpn_plugin_old_need_secrets (NMVpnPluginOld *plugin,
 		g_assert (setting_name);
 		g_dbus_method_invocation_return_value (context,
 		                                       g_variant_new ("(s)", setting_name));
-		g_free (setting_name);
 	} else {
 		/* No secrets required */
 		g_dbus_method_invocation_return_value (context,
@@ -596,6 +646,8 @@ impl_vpn_plugin_old_new_secrets (NMVpnPluginOld *plugin,
  * request new secrets when the secrets originally provided by NetworkManager
  * are insufficient, or the VPN process indicates that it needs additional
  * information to complete the request.
+ *
+ * Deprecated: 1.2: replaced by NMVpnServicePlugin
  */
 void
 nm_vpn_plugin_old_secrets_required (NMVpnPluginOld *plugin,
@@ -648,6 +700,8 @@ free_secret (gpointer data)
  * an applet when the applet calls the authentication dialog of the VPN plugin.
  *
  * Returns: %TRUE if reading values was successful, %FALSE if not
+ *
+ * Deprecated: 1.2: replaced by NMVpnServicePlugin
  **/
 gboolean
 nm_vpn_plugin_old_read_vpn_details (int fd,
@@ -749,6 +803,8 @@ nm_vpn_plugin_old_read_vpn_details (int fd,
  *
  * Returns: %TRUE if the flag data item was found and successfully converted
  * to flags, %FALSE if not
+ *
+ * Deprecated: 1.2: replaced by NMVpnServicePlugin
  **/
 gboolean
 nm_vpn_plugin_old_get_secret_flags (GHashTable *data,
@@ -910,8 +966,8 @@ init_sync (GInitable *initable, GCancellable *cancellable, GError **error)
 
 	ret = g_dbus_proxy_call_sync (proxy,
 	                              "RequestName",
-	                              g_variant_new ("(s)", priv->dbus_service_name),
-	                              G_DBUS_CALL_FLAGS_NONE, 0,
+	                              g_variant_new ("(su)", priv->dbus_service_name, 0),
+	                              G_DBUS_CALL_FLAGS_NONE, -1,
 	                              cancellable, error);
 	g_object_unref (proxy);
 	if (!ret) {
@@ -1027,10 +1083,10 @@ finalize (GObject *object)
 	nm_vpn_plugin_old_set_connection (plugin, NULL);
 	g_free (priv->dbus_service_name);
 
-	g_clear_pointer (&priv->banner, g_free);
-	g_clear_pointer (&priv->tundev, g_free);
-	g_clear_pointer (&priv->gateway, g_free);
-	g_clear_pointer (&priv->mtu, g_free);
+	g_clear_pointer (&priv->banner, g_variant_unref);
+	g_clear_pointer (&priv->tundev, g_variant_unref);
+	g_clear_pointer (&priv->gateway, g_variant_unref);
+	g_clear_pointer (&priv->mtu, g_variant_unref);
 
 	G_OBJECT_CLASS (nm_vpn_plugin_old_parent_class)->finalize (object);
 }
@@ -1078,6 +1134,8 @@ nm_vpn_plugin_old_class_init (NMVpnPluginOldClass *plugin_class)
 	 * NMVpnPluginOld:service-name:
 	 *
 	 * The D-Bus service name of this plugin.
+	 *
+	 * Deprecated: 1.2: replaced by NMVpnServicePlugin
 	 */
 	g_object_class_install_property
 		(object_class, PROP_DBUS_SERVICE_NAME,
@@ -1091,6 +1149,8 @@ nm_vpn_plugin_old_class_init (NMVpnPluginOldClass *plugin_class)
 	 * NMVpnPluginOld:state:
 	 *
 	 * The state of the plugin.
+	 *
+	 * Deprecated: 1.2: replaced by NMVpnServicePlugin
 	 */
 	g_object_class_install_property
 		(object_class, PROP_STATE,

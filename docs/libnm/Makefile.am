@@ -39,6 +39,7 @@ IGNORE_HFILES= \
 	nm-dbus-helpers.h \
 	nm-core-internal.h \
 	nm-core-types.h \
+	nm-core-types-internal.h \
 	nm-device-private.h \
 	nm-dhcp4-config.h \
 	nm-dhcp6-config.h \
@@ -53,7 +54,7 @@ IGNORE_HFILES= \
 	nm-setting-private.h \
 	nm-types.h \
 	nm-utils-private.h \
-	nm-vpn-plugin-old.h \
+	nm-vpn-service-plugin.h \
 	nm-core-tests-enum-types.h
 
 # Images to copy into HTML directory.
