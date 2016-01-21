@@ -1,3 +1,14 @@
+network-manager (1.1.90-2) experimental; urgency=medium
+
+  * Update debian/copyright.
+  * Clean up obsolete /etc/dbus-1/system.d/nm-avahi-autoipd.conf conffile on
+    upgrades.
+  * Use dbus-run-session instead of dbus-launch within the test suite.
+  * Run test suite during build. This requires a build dependency on
+    python-gi, python-dbus and dbus (for dbus-run-session).
+
+ -- Michael Biebl <biebl@debian.org>  Thu, 21 Jan 2016 23:23:46 +0100
+
 network-manager (1.1.90-1) experimental; urgency=medium
 
   * New upstream release (1.2 beta1).
