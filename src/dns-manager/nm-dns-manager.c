@@ -21,7 +21,7 @@
  *   and others
  */
 
-#include "config.h"
+#include "nm-default.h"
 
 #include <errno.h>
 #include <fcntl.h>
@@ -35,7 +35,6 @@
 
 #include <linux/fs.h>
 
-#include "nm-default.h"
 #include "nm-utils.h"
 #include "nm-core-internal.h"
 #include "nm-dns-manager.h"
@@ -81,6 +80,10 @@ G_DEFINE_TYPE (NMDnsManager, nm_dns_manager, G_TYPE_OBJECT)
 #else
 #define NETCONFIG_PATH "/sbin/netconfig"
 #endif
+
+#define PLUGIN_RATELIMIT_INTERVAL    30
+#define PLUGIN_RATELIMIT_BURST       5
+#define PLUGIN_RATELIMIT_DELAY       300
 
 NM_DEFINE_SINGLETON_INSTANCE (NMDnsManager);
 
@@ -130,6 +133,12 @@ typedef struct {
 	NMConfig *config;
 
 	gboolean dns_touched;
+
+	struct {
+		guint64 ts;
+		guint num_restarts;
+		guint timer;
+	} plugin_ratelimit;
 } NMDnsManagerPrivate;
 
 enum {
@@ -450,7 +459,7 @@ write_resolv_conf (FILE *f,
 		g_set_error (error,
 		             NM_MANAGER_ERROR,
 		             NM_MANAGER_ERROR_FAILED,
-		             "Could not write " _PATH_RESCONF ": %s\n",
+		             "Could not write " _PATH_RESCONF ": %s",
 		             g_strerror (errno));
 		return FALSE;
 	}
@@ -495,7 +504,7 @@ dispatch_resolvconf (NMDnsManager *self,
 		g_set_error (error,
 		             NM_MANAGER_ERROR,
 		             NM_MANAGER_ERROR_FAILED,
-		             "Could not write to %s: %s\n",
+		             "Could not write to %s: %s",
 		             RESOLVCONF_PATH,
 		             g_strerror (errno));
 		return SR_ERROR;
@@ -555,7 +564,7 @@ update_resolv_conf (NMDnsManager *self,
 		g_set_error (error,
 		             NM_MANAGER_ERROR,
 		             NM_MANAGER_ERROR_FAILED,
-		             "Could not open %s: %s\n",
+		             "Could not open %s: %s",
 		             MY_RESOLV_CONF_TMP,
 		             g_strerror (errno));
 		return SR_ERROR;
@@ -571,7 +580,7 @@ update_resolv_conf (NMDnsManager *self,
 			g_set_error (error,
 			             NM_MANAGER_ERROR,
 			             NM_MANAGER_ERROR_FAILED,
-			             "Could not close %s: %s\n",
+			             "Could not close %s: %s",
 			             MY_RESOLV_CONF_TMP,
 			             g_strerror (errno));
 		}
@@ -583,7 +592,7 @@ update_resolv_conf (NMDnsManager *self,
 		g_set_error (error,
 		             NM_MANAGER_ERROR,
 		             NM_MANAGER_ERROR_FAILED,
-		             "Could not replace %s: %s\n",
+		             "Could not replace %s: %s",
 		             MY_RESOLV_CONF,
 		             g_strerror (errno));
 		return SR_ERROR;
@@ -621,7 +630,7 @@ update_resolv_conf (NMDnsManager *self,
 		g_set_error (error,
 		             NM_MANAGER_ERROR,
 		             NM_MANAGER_ERROR_FAILED,
-		             "Could not lstat %s: %s\n",
+		             "Could not lstat %s: %s",
 		             _PATH_RESCONF,
 		             g_strerror (errno));
 		return SR_ERROR;
@@ -635,7 +644,7 @@ update_resolv_conf (NMDnsManager *self,
 		g_set_error (error,
 		             NM_MANAGER_ERROR,
 		             NM_MANAGER_ERROR_FAILED,
-		             "Could not unlink %s: %s\n",
+		             "Could not unlink %s: %s",
 		             RESOLV_CONF_TMP,
 		             g_strerror (errno));
 		return SR_ERROR;
@@ -645,7 +654,7 @@ update_resolv_conf (NMDnsManager *self,
 		g_set_error (error,
 		             NM_MANAGER_ERROR,
 		             NM_MANAGER_ERROR_FAILED,
-		             "Could not create symlink %s pointing to %s: %s\n",
+		             "Could not create symlink %s pointing to %s: %s",
 		             RESOLV_CONF_TMP,
 		             MY_RESOLV_CONF,
 		             g_strerror (errno));
@@ -656,7 +665,7 @@ update_resolv_conf (NMDnsManager *self,
 		g_set_error (error,
 		             NM_MANAGER_ERROR,
 		             NM_MANAGER_ERROR_FAILED,
-		             "Could not rename %s to %s: %s\n",
+		             "Could not rename %s to %s: %s",
 		             RESOLV_CONF_TMP,
 		             _PATH_RESCONF,
 		             g_strerror (errno));
@@ -799,6 +808,7 @@ update_dns (NMDnsManager *self,
 	g_return_val_if_fail (!error || !*error, FALSE);
 
 	priv = NM_DNS_MANAGER_GET_PRIVATE (self);
+	nm_clear_g_source (&priv->plugin_ratelimit.timer);
 
 	if (priv->resolv_conf_mode == NM_DNS_MANAGER_RESOLV_CONF_UNMANAGED) {
 		update = FALSE;
@@ -863,7 +873,8 @@ update_dns (NMDnsManager *self,
 	if (priv->hostname) {
 		const char *hostdomain = strchr (priv->hostname, '.');
 
-		if (hostdomain) {
+		if (   hostdomain
+		    && !nm_utils_ipaddr_valid (AF_UNSPEC, priv->hostname)) {
 			hostdomain++;
 			if (DOMAIN_IS_VALID (hostdomain))
 				add_string_item (rc.searches, hostdomain);
@@ -1022,20 +1033,47 @@ plugin_failed (NMDnsPlugin *plugin, gpointer user_data)
 	}
 }
 
-static void
-plugin_child_quit (NMDnsPlugin *plugin, int exit_status, gpointer user_data)
+static gboolean
+plugin_child_quit_update_dns (gpointer user_data)
 {
-	NMDnsManager *self = NM_DNS_MANAGER (user_data);
 	GError *error = NULL;
-
-	_LOGW ("plugin %s child quit unexpectedly; refreshing DNS",
-	             nm_dns_plugin_get_name (plugin));
+	NMDnsManager *self = NM_DNS_MANAGER (user_data);
 
 	/* Let the plugin try to spawn the child again */
 	if (!update_dns (self, FALSE, &error)) {
 		_LOGW ("could not commit DNS changes: %s", error->message);
 		g_clear_error (&error);
 	}
+
+	return G_SOURCE_REMOVE;
+}
+
+static void
+plugin_child_quit (NMDnsPlugin *plugin, int exit_status, gpointer user_data)
+{
+	NMDnsManager *self = NM_DNS_MANAGER (user_data);
+	NMDnsManagerPrivate *priv = NM_DNS_MANAGER_GET_PRIVATE (self);
+	gint64 ts = nm_utils_get_monotonic_timestamp_ms ();
+
+	_LOGW ("plugin %s child quit unexpectedly", nm_dns_plugin_get_name (plugin));
+
+	if (   !priv->plugin_ratelimit.ts
+	    || (ts - priv->plugin_ratelimit.ts) / 1000 > PLUGIN_RATELIMIT_INTERVAL) {
+		priv->plugin_ratelimit.ts = ts;
+		priv->plugin_ratelimit.num_restarts = 0;
+	} else {
+		priv->plugin_ratelimit.num_restarts++;
+		if (priv->plugin_ratelimit.num_restarts > PLUGIN_RATELIMIT_BURST) {
+			_LOGW ("plugin %s child respawning too fast, delaying update for %u seconds",
+			        nm_dns_plugin_get_name (plugin), PLUGIN_RATELIMIT_DELAY);
+			priv->plugin_ratelimit.timer = g_timeout_add_seconds (PLUGIN_RATELIMIT_DELAY,
+			                                                      plugin_child_quit_update_dns,
+			                                                      self);
+			return;
+		}
+	}
+
+	plugin_child_quit_update_dns (self);
 }
 
 gboolean

@@ -20,7 +20,7 @@
  * Copyright (C) 2009 Canonical Ltd.
  */
 
-#include "config.h"
+#include "nm-default.h"
 
 #include <string.h>
 
@@ -28,7 +28,6 @@
 #include <systemd/sd-daemon.h>
 
 #include "nm-modem-manager.h"
-#include "nm-default.h"
 #include "nm-dbus-compat.h"
 #include "nm-modem.h"
 #include "nm-modem-broadband.h"
