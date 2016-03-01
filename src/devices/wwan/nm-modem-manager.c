@@ -25,6 +25,7 @@
 #include <string.h>
 
 #include <libmm-glib.h>
+#include <systemd/sd-daemon.h>
 
 #include "nm-modem-manager.h"
 #include "nm-dbus-compat.h"
@@ -199,10 +200,9 @@ modem_manager_name_owner_changed (MMManager *modem_manager,
 	if (!name_owner) {
 		nm_log_info (LOGD_MB, "ModemManager disappeared from bus");
 
-#if !HAVE_SYSTEMD
 		/* If not managed by systemd, schedule relaunch */
-		schedule_modem_manager_relaunch (self, 0);
-#endif
+		if (!sd_booted())
+			schedule_modem_manager_relaunch (self, 0);
 
 		return;
 	}
@@ -222,8 +222,6 @@ modem_manager_name_owner_changed (MMManager *modem_manager,
 	 * modem_manager_available (self);
 	 */
 }
-
-#if !HAVE_SYSTEMD
 
 static void
 modem_manager_poke_cb (GDBusConnection *connection,
@@ -273,8 +271,6 @@ modem_manager_poke (NMModemManager *self)
 	                        g_object_ref (self)); /* user_data */
 }
 
-#endif /* HAVE_SYSTEMD */
-
 static void
 modem_manager_check_name_owner (NMModemManager *self)
 {
@@ -288,10 +284,9 @@ modem_manager_check_name_owner (NMModemManager *self)
 		return;
 	}
 
-#if !HAVE_SYSTEMD
 	/* If the lifecycle is not managed by systemd, poke */
-	modem_manager_poke (self);
-#endif
+	if (!sd_booted())
+		modem_manager_poke (self);
 }
 
 static void
