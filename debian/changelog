@@ -1,3 +1,17 @@
+network-manager (1.1.91-1) unstable; urgency=medium
+
+  * New upstream release (1.2 beta2).
+  * Rebase patches.
+  * Update symbols file for libnm0.
+  * Ship /etc/NetworkManager/dnsmasq.d/ directory which can be used to extend
+    the dnsmasq local caching nameserver config.
+  * Ship /etc/NetworkManager/dnsmasq-shared.d/ directory which can be used to
+    extend the dnsmasq configuration for shared connections.
+  * Fix bashism in tools/run-test-dbus-session.sh.
+  * Dump the contents of test-suite.log to stdout when the test suite fails.
+
+ -- Michael Biebl <biebl@debian.org>  Tue, 01 Mar 2016 20:42:24 +0100
+
 network-manager (1.1.90-6) unstable; urgency=medium
 
   * Fix NMSettingVxlan ageing and limit max values to be G_MAXUINT32.
