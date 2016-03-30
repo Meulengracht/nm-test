@@ -1,3 +1,15 @@
+network-manager (1.1.92-1) unstable; urgency=medium
+
+  * New upstream release (1.2 beta3).
+  * Rebase patches.
+  * Set the udev directory to /lib/udev via the new --with-udev-dir= configure
+    switch.
+  * Update symbols file for libnm-util2 and libnm0.
+  * Add versioned Build-Depends on dpkg-dev (>= 1.17.14) for <!nocheck>
+    support.
+
+ -- Michael Biebl <biebl@debian.org>  Wed, 30 Mar 2016 21:31:29 +0200
+
 network-manager (1.1.91-3) unstable; urgency=medium
 
   * Bump Build-Depends on debhelper to (>= 9.20160114) for
