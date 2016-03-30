@@ -470,8 +470,9 @@ fi
 case $with_suspend_resume in
     upower) ;;
     systemd)
+        # Link against libsystemd-daemon for sd_booted()
         PKG_CHECK_MODULES(SYSTEMD_INHIBIT, [libsystemd >= 209],,
-                          [PKG_CHECK_MODULES(SYSTEMD_INHIBIT, [libsystemd-login >= 183])])
+                          [PKG_CHECK_MODULES(SYSTEMD_INHIBIT, [libsystemd-login >= 183 libsystemd-daemon])])
         AC_DEFINE([SUSPEND_RESUME_SYSTEMD], 1, [Define to 1 to use systemd suspend api])
         ;;
     consolekit)
