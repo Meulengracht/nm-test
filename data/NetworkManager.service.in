@@ -18,6 +18,5 @@ ProtectHome=read-only
 
 [Install]
 WantedBy=multi-user.target
-Alias=dbus-org.freedesktop.NetworkManager.service
 Also=NetworkManager-dispatcher.service
 
