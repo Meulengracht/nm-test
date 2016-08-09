@@ -1,3 +1,16 @@
+network-manager (1.2.4-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Rebase patches.
+  * Update symbols file for libnm0.
+  * Replace /etc/resolv.conf symlink with an empty file on package removal
+    to signal other packages that NetworkManager is no longer controlling the
+    file. (Closes: #826366)
+  * Clear WiFi requested_scan if wpa_supplicant exits or goes inactive.
+    Patches cherry-picked from upstream Git.
+
+ -- Michael Biebl <biebl@debian.org>  Tue, 09 Aug 2016 09:13:34 +0200
+
 network-manager (1.2.2-2) unstable; urgency=medium
 
   * Let NetworkManager.service pull in network.target. This will provide a

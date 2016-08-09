@@ -26,6 +26,7 @@
 #include <unistd.h>
 #include <errno.h>
 
+#include "nm-common-macros.h"
 #include "nm-device.h"
 #include "nm-device-wifi.h"
 #include "nm-device-private.h"
@@ -244,6 +245,11 @@ supplicant_interface_release (NMDeviceWifi *self)
 	g_return_if_fail (self != NULL);
 
 	priv = NM_DEVICE_WIFI_GET_PRIVATE (self);
+
+	if (priv->requested_scan) {
+		priv->requested_scan = FALSE;
+		nm_device_remove_pending_action (NM_DEVICE (self), "scan", TRUE);
+	}
 
 	nm_clear_g_source (&priv->pending_scan_id);
 
@@ -696,6 +702,7 @@ manf_defaults[] = {
 	"WLAN",
 	"ALICE-WLAN",
 	"Speedport W 501V",
+	"TURBONETT",
 };
 
 #define ARRAY_SIZE(a)  (sizeof (a) / sizeof (a[0]))
@@ -1948,6 +1955,11 @@ supplicant_iface_state_cb (NMSupplicantInterface *iface,
 			priv->reacquire_iface_id = g_timeout_add_seconds (10, reacquire_interface_cb, self);
 		else
 			_LOGI (LOGD_DEVICE | LOGD_WIFI, "supplicant interface keeps failing, giving up");
+		break;
+	case NM_SUPPLICANT_INTERFACE_STATE_INACTIVE:
+		priv->requested_scan = FALSE;
+		nm_clear_g_source (&priv->pending_scan_id);
+		request_wireless_scan (self, NULL);
 		break;
 	default:
 		break;
