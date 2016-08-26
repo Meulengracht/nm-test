@@ -877,10 +877,10 @@ nm_manager_update_state (NMManager *manager)
 	else
 		new_state = find_best_device_state (manager);
 
-	nm_connectivity_set_online (priv->connectivity, new_state >= NM_STATE_CONNECTED_LOCAL);
-
 	if (new_state != NM_STATE_CONNECTED_GLOBAL)
 		new_state = find_unmanaged_state (manager, new_state);
+
+	nm_connectivity_set_online (priv->connectivity, new_state >= NM_STATE_CONNECTED_LOCAL);
 
 	if (new_state == NM_STATE_CONNECTED_SITE) {
 		nm_connectivity_check_async (priv->connectivity,
