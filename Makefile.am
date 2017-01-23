@@ -3306,12 +3306,6 @@ endif
 data/NetworkManager-dispatcher.service: $(srcdir)/data/NetworkManager-dispatcher.service.in
 	$(AM_V_GEN) $(data_edit) $< >$@
 
-install-exec-local-data:
-	install -d $(DESTDIR)$(systemdsystemunitdir)/network-online.target.wants
-	ln -sf $(systemdsystemunitdir)/NetworkManager-wait-online.service $(DESTDIR)$(systemdsystemunitdir)/network-online.target.wants
-
-install_exec_local += install-exec-local-data
-
 endif
 
 examples_DATA += data/server.conf
