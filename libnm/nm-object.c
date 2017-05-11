@@ -37,7 +37,7 @@
 static gboolean debug = FALSE;
 #define dbgmsg(f,...) if (G_UNLIKELY (debug)) { g_message (f, ## __VA_ARGS__ ); }
 
-G_DEFINE_QUARK (nm-obj-nm, _nm_object_obj_nm);
+NM_CACHED_QUARK_FCN ("nm-obj-nm", _nm_object_obj_nm_quark)
 
 static void nm_object_initable_iface_init (GInitableIface *iface);
 static void nm_object_async_initable_iface_init (GAsyncInitableIface *iface);
@@ -129,11 +129,16 @@ GDBusProxy *
 _nm_object_get_proxy (NMObject   *object,
                       const char *interface)
 {
+	NMObjectPrivate *priv;
 	GDBusInterface *proxy;
 
 	g_return_val_if_fail (NM_IS_OBJECT (object), NULL);
 
-	proxy = g_dbus_object_get_interface (NM_OBJECT_GET_PRIVATE (object)->object, interface);
+	priv = NM_OBJECT_GET_PRIVATE (object);
+	if (priv->object == NULL)
+		return NULL;
+
+	proxy = g_dbus_object_get_interface (priv->object, interface);
 	g_return_val_if_fail (proxy != NULL, NULL);
 
 	return G_DBUS_PROXY (proxy);
@@ -1054,7 +1059,7 @@ init_if (GDBusInterface *interface, gpointer user_data)
 
 	props = g_dbus_proxy_get_cached_property_names (proxy);
 
-	for (prop = props; *prop; prop++) {
+	for (prop = props; prop && *prop; prop++) {
 		val = g_dbus_proxy_get_cached_property (proxy, *prop);
 		str = g_variant_print (val, TRUE);
 		handle_property_changed (self, *prop, val);
@@ -1200,11 +1205,13 @@ set_property (GObject *object, guint prop_id,
 
 	switch (prop_id) {
 	case PROP_DBUS_OBJECT:
-		/* Construct only */
+		/* construct-only */
 		priv->object = g_value_dup_object (value);
+		if (!priv->object)
+			g_return_if_reached ();
 		break;
 	case PROP_DBUS_OBJECT_MANAGER:
-		/* Construct only */
+		/* construct-only */
 		priv->object_manager = g_value_dup_object (value);
 		break;
 	default:
