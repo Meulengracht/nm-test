@@ -33,7 +33,6 @@ dist_dependencies =
 dist_configure_check =
 install_data_hook =
 install_exec_hook =
-install_exec_local =
 uninstall_hook =
 TESTS =
 BUILT_SOURCES =
@@ -4398,8 +4397,6 @@ dist-hook: $(dist_hook)
 ###############################################################################
 
 install-exec-hook: $(install_exec_hook)
-
-install-exec-local: $(install_exec_local)
 
 install-data-hook: $(install_data_hook)
 	$(mkinstalldirs) -m 0755 $(DESTDIR)$(nmconfdir)/conf.d
