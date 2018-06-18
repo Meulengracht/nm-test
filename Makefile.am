@@ -3884,11 +3884,6 @@ endif
 data/NetworkManager-dispatcher.service: $(srcdir)/data/NetworkManager-dispatcher.service.in
 	$(AM_V_GEN) $(data_edit) $< >$@
 
-data/org.freedesktop.NetworkManager.service: $(srcdir)/data/org.freedesktop.NetworkManager.service.in
-	$(AM_V_GEN) $(data_edit) $< >$@
-
-service_DATA += data/org.freedesktop.NetworkManager.service
-
 endif
 
 examples_DATA += data/server.conf
