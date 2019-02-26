@@ -197,9 +197,13 @@ static int dhcp6_client_set_duid_internal(
         assert_return(IN_SET(client->state, DHCP6_STATE_STOPPED), -EBUSY);
 
         if (duid != NULL) {
-                r = dhcp_validate_duid_len(duid_type, duid_len);
-                if (r < 0)
-                        return r;
+                r = dhcp_validate_duid_len(duid_type, duid_len, true);
+                if (r < 0) {
+                        r = dhcp_validate_duid_len(duid_type, duid_len, false);
+                        if (r < 0)
+                                return r;
+                        log_dhcp6_client(client, "Setting DUID of type %u with unexpected content", duid_type);
+                }
 
                 client->duid.type = htobe16(duid_type);
                 memcpy(&client->duid.raw.data, duid, duid_len);
@@ -1275,6 +1279,7 @@ static int client_start(sd_dhcp6_client *client, enum DHCP6State state) {
                 log_dhcp6_client(client, "T1 expires in %s",
                                  format_timespan(time_string, FORMAT_TIMESPAN_MAX, timeout, USEC_PER_SEC));
 
+                client->lease->ia.timeout_t1 = sd_event_source_unref(client->lease->ia.timeout_t1);
                 r = sd_event_add_time(client->event,
                                       &client->lease->ia.timeout_t1,
                                       clock_boottime_or_monotonic(), time_now + timeout,
@@ -1297,6 +1302,7 @@ static int client_start(sd_dhcp6_client *client, enum DHCP6State state) {
                 log_dhcp6_client(client, "T2 expires in %s",
                                  format_timespan(time_string, FORMAT_TIMESPAN_MAX, timeout, USEC_PER_SEC));
 
+                client->lease->ia.timeout_t2 = sd_event_source_unref(client->lease->ia.timeout_t2);
                 r = sd_event_add_time(client->event,
                                       &client->lease->ia.timeout_t2,
                                       clock_boottime_or_monotonic(), time_now + timeout,
