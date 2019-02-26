@@ -62,6 +62,8 @@
 #include "nm-dispatcher.h"
 #include "NetworkManagerUtils.h"
 
+#define IFUPDOWN_STATE_FILE "/run/network/ifstate"
+
 /*****************************************************************************/
 
 typedef struct {
@@ -191,6 +193,10 @@ typedef struct {
 	/* Firmware dir monitor */
 	GFileMonitor *fw_monitor;
 	guint fw_changed_id;
+
+	/* ifupdown state file monitor */
+	GFileMonitor *ifstate_monitor;
+	gboolean ifstate_force_online;
 
 	guint timestamp_update_id;
 
@@ -1417,6 +1423,27 @@ find_best_device_state (NMManager *manager)
 	return best_state;
 }
 
+static NMState
+find_unmanaged_state (NMManager *self, NMState current_state)
+{
+	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (self);
+	NMState new_state = current_state;
+	NMDevice *device;
+
+	c_list_for_each_entry (device, &priv->devices_lst_head, devices_lst) {
+		NMDeviceState state = nm_device_get_state (device);
+
+		if (state == NM_DEVICE_STATE_UNMANAGED) {
+			const char *iface = nm_device_get_ip_iface (device);
+			if (priv->ifstate_force_online) {
+				new_state = NM_STATE_CONNECTED_GLOBAL;
+				nm_log_dbg (LOGD_CORE, "Unmanaged device found: %s; state CONNECTED forced.", iface);
+			}
+		}
+	}
+	return new_state;
+}
+
 static void
 nm_manager_update_metered (NMManager *self)
 {
@@ -1454,6 +1481,9 @@ nm_manager_update_state (NMManager *self)
 		new_state = NM_STATE_ASLEEP;
 	else
 		new_state = find_best_device_state (self);
+
+	if (new_state != NM_STATE_CONNECTED_GLOBAL)
+		new_state = find_unmanaged_state (self, new_state);
 
 	if (   new_state >= NM_STATE_CONNECTED_LOCAL
 	    && priv->connectivity_state == NM_CONNECTIVITY_FULL) {
@@ -6218,6 +6248,62 @@ impl_manager_check_connectivity (NMDBusObject *obj,
 }
 
 static void
+check_ifstate_file (gpointer user_data)
+{
+	NMManager *self = NM_MANAGER (user_data);
+	NMManagerPrivate *priv = NM_MANAGER_GET_PRIVATE (self);
+	GIOChannel *channel;
+	gchar *line;
+	gboolean online = FALSE;
+
+	channel = g_io_channel_new_file (IFUPDOWN_STATE_FILE, "r", NULL);
+	if (!channel) {
+		nm_log_warn (LOGD_CORE, "Error: failed to open %s", IFUPDOWN_STATE_FILE);
+		return;
+	}
+
+	while (g_io_channel_read_line (channel, &line, NULL, NULL, NULL)
+	       != G_IO_STATUS_EOF && !online) {
+		g_strstrip (line);
+		if (strlen (line) > 0 && g_strcmp0 (line, "lo=lo") != 0) {
+			online = TRUE;
+		}
+		g_free (line);
+	}
+
+	g_io_channel_shutdown (channel, FALSE, NULL);
+	g_io_channel_unref (channel);
+
+	if (priv->ifstate_force_online != online) {
+		priv->ifstate_force_online = online;
+		nm_manager_update_state (self);
+	}
+}
+
+static void
+ifstate_file_changed (GFileMonitor *monitor,
+                      GFile *file,
+                      GFile *other_file,
+                      GFileMonitorEvent event_type,
+                      gpointer user_data)
+{
+	switch (event_type) {
+//	case G_FILE_MONITOR_EVENT_CREATED:
+//#if GLIB_CHECK_VERSION(2,23,4)
+//	case G_FILE_MONITOR_EVENT_MOVED:
+//#endif
+//	case G_FILE_MONITOR_EVENT_ATTRIBUTE_CHANGED:
+	case G_FILE_MONITOR_EVENT_CHANGED:
+	case G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT:
+		nm_log_dbg (LOGD_CORE, "ifupdown state file %s was changed", IFUPDOWN_STATE_FILE);
+		check_ifstate_file (user_data);
+		break;
+	default:
+		break;
+	}
+}
+
+static void
 start_factory (NMDeviceFactory *factory, gpointer user_data)
 {
 	nm_device_factory_start (factory);
@@ -6384,6 +6470,9 @@ nm_manager_start (NMManager *self, GError **error)
 
 	nm_clear_g_source (&priv->devices_inited_id);
 	priv->devices_inited_id = g_idle_add_full (G_PRIORITY_LOW + 10, devices_inited_cb, self, NULL);
+
+	/* Trigger ifupdown state file check */
+	check_ifstate_file (self);
 
 	return TRUE;
 }
@@ -7239,6 +7328,22 @@ nm_manager_init (NMManager *self)
 		       KERNEL_FIRMWARE_DIR);
 	}
 
+	/* Monitor the ifupdown state file */
+	file = g_file_new_for_path (IFUPDOWN_STATE_FILE);
+	priv->ifstate_monitor = g_file_monitor_file (file, G_FILE_MONITOR_NONE, NULL, NULL);
+	g_object_unref (file);
+
+	if (priv->ifstate_monitor) {
+		g_signal_connect (priv->ifstate_monitor, "changed",
+		                  G_CALLBACK (ifstate_file_changed),
+		                  self);
+		nm_log_info (LOGD_CORE, "monitoring ifupdown state file '%s'.",
+		             IFUPDOWN_STATE_FILE);
+	} else {
+		nm_log_warn (LOGD_CORE, "failed to monitor ifupdown state file '%s'.",
+		             IFUPDOWN_STATE_FILE);
+	}
+
 	/* Update timestamps in active connections */
 	priv->timestamp_update_id = g_timeout_add_seconds (300, (GSourceFunc) periodic_update_active_connection_timestamps, self);
 
@@ -7512,6 +7617,16 @@ dispose (GObject *object)
 
 		g_file_monitor_cancel (priv->fw_monitor);
 		g_clear_object (&priv->fw_monitor);
+	}
+
+	if (priv->ifstate_monitor) {
+		g_signal_handlers_disconnect_by_func (priv->ifstate_monitor, ifstate_file_changed, self);
+
+		if (priv->ifstate_force_online)
+			g_source_remove (priv->ifstate_force_online);
+
+		g_file_monitor_cancel (priv->ifstate_monitor);
+		g_clear_object (&priv->ifstate_monitor);
 	}
 
 	if (priv->rfkill_mgr) {
