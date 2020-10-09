@@ -1,3 +1,10 @@
+network-manager (1.27.90-3) unstable; urgency=medium
+
+  [ Thorsten Glaser ]
+  * Adjust syscall numbers for x32 vs. amd64, fixes FTBFS on x32
+
+ -- Michael Biebl <biebl@debian.org>  Fri, 09 Oct 2020 16:03:16 +0200
+
 network-manager (1.27.90-2) unstable; urgency=medium
 
   * Cherry-pick a couple of upstream patches.
