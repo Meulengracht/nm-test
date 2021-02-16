@@ -501,7 +501,7 @@ begin_authentication(AuthRequest *request)
 {
     int         fd_flags;
     const char *helper_argv[] = {
-        "/usr/lib/policykit-1/polkit-agent-helper-1",
+        POLKIT_AGENT_HELPER_1_PATH,
         request->username,
         NULL,
     };
