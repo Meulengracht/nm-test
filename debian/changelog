@@ -1,3 +1,11 @@
+network-manager (1.42.4-1) unstable; urgency=medium
+
+  * New upstream version 1.42.4
+  * Rebase patches
+  * Use execute_before instead of override for dh_install
+
+ -- Michael Biebl <biebl@debian.org>  Thu, 09 Mar 2023 19:42:33 +0100
+
 network-manager (1.42.2-2) unstable; urgency=medium
 
   * dnsmasq: process both global and per-device configuration.
