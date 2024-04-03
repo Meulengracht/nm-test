@@ -1,0 +1,39 @@
+From 1803520a7ab3c9be568d02894a0468060e3f5bfb Mon Sep 17 00:00:00 2001
+From: Thomas Haller <thaller@redhat.com>
+Date: Wed, 7 Feb 2024 15:54:08 +0100
+Subject: [PATCH] config/tests: fix test failure in "/config/set-values"
+
+GKeyfile changed something about how to handle invalid escape sequences.
+As we don't want to test GKeyfile (per-se), just adjust to test to not
+hit the problem.
+
+This would fail with glib2-2.79.1-1.fc40:
+
+  # ./tools/run-nm-test.sh -m src/core/tests/config/test-config -p /config/set-values
+  TAP version 13
+  # random seed: R02Sb8afff1ec38ca5a1b7713e8c40eb4f56
+  # Start of config tests
+  # GLib-GIO-DEBUG: _g_io_module_get_default: Found default implementation local (GLocalVfs) for ?gio-vfs?
+  # (src/core/tests/config/test-config.c:1107) invalid value in config-data .intern.with-whitespace.key2 = (null) (instead of " b c\,  d  ")
+  ./tools/run-nm-test.sh: line 307: 245847 Trace/breakpoint trap   (core dumped) "${NMTST_DBUS_RUN_SESSION[@]}" "$TEST" "${TEST_ARGV[@]}"
+  exec "src/core/tests/config/test-config" failed with exit code 133
+
+(cherry picked from commit 7f2a32fa11d580ee65a0458f438018de12b6ae84)
+---
+ src/core/tests/config/test-config.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/core/tests/config/test-config.c b/src/core/tests/config/test-config.c
+index 054b9003f4..2b27d53549 100644
+--- a/src/core/tests/config/test-config.c
++++ b/src/core/tests/config/test-config.c
+@@ -1076,7 +1076,7 @@ _set_values_intern_atomic_section_2_set(NMConfig            *config,
+     g_key_file_set_value(keyfile,
+                          NM_CONFIG_KEYFILE_GROUPPREFIX_INTERN "with-whitespace",
+                          "key2",
+-                         " b c\\,  d  ");
++                         " b c\\\\,  d  ");
+     *out_expected_changes = NM_CONFIG_CHANGE_CAUSE_SET_VALUES | NM_CONFIG_CHANGE_VALUES
+                             | NM_CONFIG_CHANGE_VALUES_INTERN;
+ }
+-- 

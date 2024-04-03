@@ -24,3 +24,6 @@ etc/NetworkManager/
 var/lib/NetworkManager/
 debian/NetworkManager.conf etc/NetworkManager/
 debian/org.freedesktop.NetworkManager.rules usr/share/polkit-1/rules.d/
+debian/10-*.conf usr/lib/NetworkManager/conf.d/
+debian/default-wifi-powersave-on.conf etc/NetworkManager/conf.d
+debian/source_network-manager.py /usr/share/apport/package-hooks/

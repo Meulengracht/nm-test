@@ -1,1 +1,9 @@
+git_newglib_testfix.patch
 Force-online-state-with-unmanaged-devices.patch
+
+# Ubuntu patches
+Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+Update-dnsmasq-parameters.patch
+netplan/0001-netplan-Adopt-buildsystems-for-Netplan-integration.patch
+netplan/0002-netplan-make-use-of-libnetplan-for-YAML-backend.patch
+netplan/0003-Allow-the-NetworkManager-daemon-to-write-to-lib-netp.patch
