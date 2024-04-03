@@ -1,0 +1,131 @@
+From 9dd31963bd89ccba5e96f26506996e792177bdab Mon Sep 17 00:00:00 2001
+From: Lukas Märdian <slyon@ubuntu.com>
+Date: Tue, 9 May 2023 17:09:48 +0200
+Subject: [PATCH 1/2] netplan: Adopt buildsystems for Netplan integration
+
+Autotools and Meson will define a "WITH_NETPLAN" variable with the
+values 1 or 0 accordingly, using the config.h header.
+---
+ Makefile.am          |  4 +++-
+ configure.ac         | 17 +++++++++++++++++
+ meson.build          | 10 ++++++++++
+ meson_options.txt    |  1 +
+ src/core/meson.build |  1 +
+ 5 files changed, 32 insertions(+), 1 deletion(-)
+
+Index: network-manager/Makefile.am
+===================================================================
+--- network-manager.orig/Makefile.am	2024-04-03 10:43:51.231712766 +0200
++++ network-manager/Makefile.am	2024-04-03 10:43:51.227712810 +0200
+@@ -2623,7 +2623,8 @@
+ 
+ ###############################################################################
+ 
+-src_core_libNetworkManager_la_CPPFLAGS = $(src_core_cppflags)
++src_core_libNetworkManager_la_CPPFLAGS = $(src_core_cppflags) \
++	$(NETPLAN_CFLAGS)
+ 
+ src_core_libNetworkManager_la_SOURCES = \
+ 	\
+@@ -2840,6 +2841,7 @@
+ 	$(LIBAUDIT_LIBS) \
+ 	$(LIBPSL_LIBS) \
+ 	$(LIBCURL_LIBS) \
++	$(NETPLAN_LIBS) \
+ 	$(NULL)
+ 
+ $(src_core_libNetworkManager_la_OBJECTS): $(src_libnm_core_public_mkenums_h)
+Index: network-manager/configure.ac
+===================================================================
+--- network-manager.orig/configure.ac	2024-04-03 10:43:51.231712766 +0200
++++ network-manager/configure.ac	2024-04-03 10:43:51.227712810 +0200
+@@ -907,6 +907,22 @@
+     AC_DEFINE(WITH_OPENVSWITCH, 0, [Whether we build with OVS plugin])
+ fi
+ 
++# Netplan integration
++AC_ARG_ENABLE(netplan, AS_HELP_STRING([--enable-netplan], [Enable Netplan integration]))
++if test "${enable_netplan}" != "no"; then
++	PKG_CHECK_MODULES(NETPLAN, [netplan >= 0.106], [enable_netplan=yes], [enable_netplan=no])
++	if test "$enable_netplan" != "yes"; then
++		AC_MSG_ERROR(Netplan is required)
++	fi
++	enable_netplan='yes'
++fi
++AM_CONDITIONAL(WITH_NETPLAN, test "${enable_netplan}" = "yes")
++if test "${enable_netplan}" = "yes" ; then
++    AC_DEFINE(WITH_NETPLAN, 1, [Whether we build with Netplan integration])
++else
++    AC_DEFINE(WITH_NETPLAN, 0, [Whether we build with Netplan integration])
++fi
++
+ # DHCP client support
+ AC_ARG_WITH([dhclient],
+             AS_HELP_STRING([--with-dhclient=yes|no|path], [Enable dhclient support]))
+@@ -1443,6 +1459,7 @@
+ echo "  concheck: $enable_concheck"
+ echo "  libteamdctl: $enable_teamdctl"
+ echo "  ovs: $enable_ovs"
++echo "  netplan: $enable_netplan"
+ echo "  nmcli: $build_nmcli"
+ echo "  nmtui: $build_nmtui"
+ echo "  nm-cloud-setup: $with_nm_cloud_setup"
+Index: network-manager/meson.build
+===================================================================
+--- network-manager.orig/meson.build	2024-04-03 10:43:51.231712766 +0200
++++ network-manager/meson.build	2024-04-03 10:44:20.659403773 +0200
+@@ -274,6 +274,8 @@
+ 
+ systemd_dep = dependency('systemd', required: false)
+ 
++libnetplan_dep = dependency('netplan', version: '>= 0.106', required: false)
++
+ gio_unix_dep = dependency('gio-unix-2.0', version: '>= 2.42')
+ 
+ glib_dep = declare_dependency(
+@@ -656,6 +658,13 @@
+ endif
+ config_h.set10('WITH_OPENVSWITCH', enable_ovs)
+ 
++# Netplan integration
++enable_netplan = get_option('netplan')
++if enable_netplan
++  assert(libnetplan_dep.found(), 'libnetplan is needed for Netplan integration.')
++endif
++config_h.set10('WITH_NETPLAN', enable_netplan)
++
+ # DNS resolv.conf managers
+ config_dns_rc_manager_default = get_option('config_dns_rc_manager_default')
+ config_h.set_quoted('NM_CONFIG_DEFAULT_MAIN_RC_MANAGER', config_dns_rc_manager_default)
+@@ -1091,6 +1100,7 @@
+ output += '  concheck: ' + enable_concheck.to_string() + '\n'
+ output += '  libteamdctl: ' + enable_teamdctl.to_string() + '\n'
+ output += '  ovs: ' + enable_ovs.to_string() + '\n'
++output += '  netplan: ' + enable_netplan.to_string() + '\n'
+ output += '  nmcli: ' + enable_nmcli.to_string() + '\n'
+ output += '  nmtui: ' + enable_nmtui.to_string() + '\n'
+ output += '  nm-cloud-setup: ' + enable_nm_cloud_setup.to_string() + '\n'
+Index: network-manager/meson_options.txt
+===================================================================
+--- network-manager.orig/meson_options.txt	2024-04-03 10:43:51.231712766 +0200
++++ network-manager/meson_options.txt	2024-04-03 10:43:51.231712766 +0200
+@@ -38,6 +38,7 @@
+ option('concheck', type: 'boolean', value: true, description: 'enable connectivity checking support')
+ option('teamdctl', type: 'boolean', value: false, description: 'enable Teamd control support')
+ option('ovs', type: 'boolean', value: true, description: 'enable Open vSwitch support')
++option('netplan', type: 'boolean', value: true, description: 'Enable Netplan integration')
+ option('nmcli', type: 'boolean', value: true, description: 'Build nmcli')
+ option('nmtui', type: 'boolean', value: true, description: 'Build nmtui')
+ option('nm_cloud_setup', type: 'boolean', value: true, description: 'Build nm-cloud-setup, a tool for automatically configuring networking in cloud')
+Index: network-manager/src/core/meson.build
+===================================================================
+--- network-manager.orig/src/core/meson.build	2024-04-03 10:43:51.231712766 +0200
++++ network-manager/src/core/meson.build	2024-04-03 10:43:51.231712766 +0200
+@@ -71,6 +71,7 @@
+   libndp_dep,
+   libudev_dep,
+   logind_dep,
++  libnetplan_dep,
+ ]
+ 
+ if enable_concheck

@@ -1,3 +1,9 @@
+network-manager (1.46.0-1ubuntu1) noble; urgency=medium
+
+  * Update to the current stable version
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Wed, 03 Apr 2024 11:39:10 +0200
+
 network-manager (1.46.0-1) unstable; urgency=medium
 
   * New upstream version 1.46.0
@@ -15,6 +21,14 @@ network-manager (1.45.91-1) experimental; urgency=medium
 
  -- Michael Biebl <biebl@debian.org>  Tue, 13 Feb 2024 22:39:30 +0100
 
+network-manager (1.45.90-1ubuntu1) noble; urgency=medium
+
+  * Merge with Debian.
+  * debian/patches/git_valid_gkeyfile.patch:
+    - cherrypick an upstream change to fix a test issue with glib 2.79
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Mon, 12 Feb 2024 16:17:33 +0100
+
 network-manager (1.45.90-1) experimental; urgency=medium
 
   * New upstream version 1.45.90 (1.46 rc1)
@@ -23,6 +37,19 @@ network-manager (1.45.90-1) experimental; urgency=medium
   * Update symbols file for libnm0
 
  -- Michael Biebl <biebl@debian.org>  Thu, 25 Jan 2024 10:32:43 +0100
+
+network-manager (1.44.2-7ubuntu2) noble; urgency=medium
+
+  * debian/tests: Clearly mark regular expressions, to avoid SyntaxWarning.
+    This fixes autopkgtests on Python3.12, failing due to stderr output.
+
+ -- Lukas Märdian <slyon@ubuntu.com>  Mon, 12 Feb 2024 15:08:34 +0100
+
+network-manager (1.44.2-7ubuntu1) noble; urgency=medium
+
+  * Merge with Debian.
+
+ -- Jeremy Bícha <jbicha@ubuntu.com>  Thu, 04 Jan 2024 09:08:35 -0500
 
 network-manager (1.44.2-7) unstable; urgency=medium
 
@@ -95,12 +122,64 @@ network-manager (1.44.2-2) unstable; urgency=medium
 
  -- Michael Biebl <biebl@debian.org>  Wed, 18 Oct 2023 14:24:23 +0200
 
+network-manager (1.44.2-1ubuntu2) noble; urgency=medium
+
+  [ Lukas Märdian ]
+  * network-manager.postinst: Skip unknown connection profiles (LP: #2039503)
+  * d/network-manager.postinst: Drop reboot notification (LP: #2040292)
+
+  [ Danilo Egea Gondolfo ]
+  * debian/tests/nm_netplan.py
+    Start Network Manager via systemd. The .service unit file sets
+    ProtectSystem to true and we want to run the Netplan tests with this
+    restriction enabled.
+  * d/p/netplan/0003-Allow-the-NetworkManager-daemon-to-write-to-lib-netp.patch
+    Allow-list /usr/lib/netplan so libnetplan can open files from that
+    directory with writing permission. See LP: #2040153
+  * debian/tests/control
+    Add all the dependencies required by the nm_netplan.py tests.
+  * debian/tests/network_test_base.py.
+    Increase the waiting time between creating a veth pair and reading their
+    MAC addresses. On arm64, the system is taking longer to change the MAC
+    after creation, leading to failures due to differences in the expected
+    and current MAC addresses. See LP: #2023183
+
+ -- Lukas Märdian <slyon@ubuntu.com>  Thu, 26 Oct 2023 11:48:18 +0200
+
+network-manager (1.44.2-1ubuntu1) mantic; urgency=medium
+
+  * Merge with Debian (LP: #2038439)
+
+ -- Jeremy Bícha <jbicha@ubuntu.com>  Wed, 04 Oct 2023 09:40:22 -0400
+
 network-manager (1.44.2-1) unstable; urgency=medium
 
   * New upstream version 1.44.2
   * Rebase patches
 
  -- Michael Biebl <biebl@debian.org>  Wed, 04 Oct 2023 12:09:39 +0200
+
+network-manager (1.44.0-1ubuntu2) mantic; urgency=medium
+
+  * d/t/{nm.py,nm_netplan.py,network_test_base.py} (LP: #2033391):
+    - Wait until NM is ready before starting tests
+    - Add a delay loop checking if NM is already on-line before running each
+      test.
+  * d/t/nm.py: remove expectedFailure from both tests in Hotplug.
+    - It's not clear why they were expected to fail. With NM 1.44.0 they are passing.
+    - As this class states that the APs are set up with NM already running, in
+      test_auto_detect_ap() self.start_nm() was moved to run before
+      self.setup_ap() and the assert was fixed to get the actual gobject data.
+
+ -- Danilo Egea Gondolfo <danilo.egea.gondolfo@canonical.com>  Wed, 30 Aug 2023 10:09:50 +0100
+
+network-manager (1.44.0-1ubuntu1) mantic; urgency=medium
+
+  * Resynchronize on Debian to the current stable version
+    - Patches refreshed
+  * Remove erroneous symbol added in 1.42.8-1
+
+ -- Nathan Pratta Teodosio <nathan.teodosio@canonical.com>  Thu, 10 Aug 2023 15:40:38 +0200
 
 network-manager (1.44.0-1) unstable; urgency=medium
 
@@ -112,11 +191,32 @@ network-manager (1.44.0-1) unstable; urgency=medium
 
  -- Michael Biebl <biebl@debian.org>  Wed, 09 Aug 2023 22:22:22 +0200
 
+network-manager (1.42.8-1ubuntu1) UNRELEASED; urgency=medium
+
+  * Resynchronize on Debian to the current stable version
+  * debian/libnm0.symbols:
+    - updated symbols for the new version
+
+ -- Nathan Pratta Teodosio <nathan.teodosio@canonical.com>  Wed, 09 Aug 2023 16:08:26 +0200
+
 network-manager (1.42.8-1) unstable; urgency=medium
 
   * New upstream version 1.42.8
 
  -- Michael Biebl <biebl@debian.org>  Wed, 28 Jun 2023 15:22:30 +0200
+
+network-manager (1.42.6-2ubuntu2) mantic; urgency=medium
+
+  * Remove isc-dhcp-client from Depends
+    Unless explicitly configured otherwise the internal DHCP client is used.
+
+ -- Benjamin Drung <bdrung@ubuntu.com>  Tue, 18 Jul 2023 10:51:11 +0200
+
+network-manager (1.42.6-2ubuntu1) mantic; urgency=medium
+
+  * Resynchronize on Debian to the current stable version
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Thu, 22 Jun 2023 12:26:23 +0200
 
 network-manager (1.42.6-2) unstable; urgency=medium
 
@@ -133,6 +233,74 @@ network-manager (1.42.6-1) unstable; urgency=medium
     The obsolete policykit-1 package is going away. (Closes: #1025606)
 
  -- Michael Biebl <biebl@debian.org>  Mon, 12 Jun 2023 14:48:14 +0200
+
+network-manager (1.42.4-1ubuntu7) mantic; urgency=medium
+
+  [ Michael Biebl ]
+  * Use Build-Depends on polkitd and libpolkit-gobject-1-dev for polkit.its
+    (Closes: #1025606)
+
+  [ Danilo Egea Gondolfo ]
+  * d/t/control: Add easy-rsa as a test dependency
+  * d/t/nm.py: generalize Wifi auth configuration.
+    The idea is to make is easier to implement tests using different
+    authentication methods.
+  * d/t/nm.py: implement WPA-EAP 802.1x tests.
+    These tests are related to an issue in Netplan but they are also useful
+    for network-manager itself. See LP#2016625
+  * d/t/nm_netplan.py: add new test cases for ip-tunnel and wireguard
+    connections, using Netplan integration. See LP#2016473
+
+ -- Lukas Märdian <slyon@ubuntu.com>  Tue, 20 Jun 2023 12:07:12 +0200
+
+network-manager (1.42.4-1ubuntu5) mantic; urgency=medium
+
+  * d/network-manager.postinst: fix netplan migration logic.
+    The "continue" is being executed in a subshell so it's not skipping the
+    next commands. It will fail if Network Manager is not running. See LP: #2022023
+  * d/network-manager.preinst: use /var/lib/NetworkManager for backups
+    /root is not a system directory so we shouldn't use it. It might not
+    even exist or the package manager might run in a sandbox and not have
+    access to it. See LP: #2021937
+
+ -- Danilo Egea Gondolfo <danilo.egea.gondolfo@canonical.com>  Thu, 01 Jun 2023 15:17:57 +0100
+
+network-manager (1.42.4-1ubuntu4) mantic; urgency=medium
+
+  * d/t/nm_netplan.py:openvpn: set a metric for the extra default route.
+    With a higher metric the route shouldn't be selected over the main one.
+    Also, use the same subnet already used by the nm.py tests.
+
+ -- Danilo Egea Gondolfo <danilo.egea.gondolfo@canonical.com>  Thu, 25 May 2023 11:00:31 +0100
+
+network-manager (1.42.4-1ubuntu3) mantic; urgency=medium
+
+  * Upload netplan integration to the Ubuntu archive, details available on
+    https://discourse.ubuntu.com/t/call-for-testing-networkmanager-yaml-settings
+
+  [ Lukas Märdian ]
+  * d/{control,rules,patches}: Prepare libnetplan build (non i386)
+  * debian/patches/netplan: Add libnetplan backend integration patch
+  * d/network-manager.preinst: backup previous configuration automatically
+  * d/network-manager.postinst: Trigger Netplan migration on install/upgrade
+
+  [ Danilo Egea Gondolfo ]
+  * d/t/nm.py: Fix autopkgtests when Netplan is in use
+  * d/t/nm_netplan.py: Add autopkgtests for the netplan integration
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Mon, 15 May 2023 13:30:31 +0200
+
+network-manager (1.42.4-1ubuntu2) lunar; urgency=medium
+
+  * d/t/nm.py: Fix autopkgtests with NM-1.42's 'lo' connection (LP: #2009543)
+
+ -- Lukas Märdian <slyon@ubuntu.com>  Tue, 28 Mar 2023 15:13:56 +0200
+
+network-manager (1.42.4-1ubuntu1) lunar; urgency=medium
+
+  * Resynchronize on Debian to the current stable version
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Thu, 23 Mar 2023 21:31:09 +0100
 
 network-manager (1.42.4-1) unstable; urgency=medium
 
@@ -151,6 +319,49 @@ network-manager (1.42.2-2) unstable; urgency=medium
 
  -- Michael Biebl <biebl@debian.org>  Fri, 03 Mar 2023 17:57:30 +0100
 
+network-manager (1.42.2-1ubuntu1) lunar; urgency=medium
+
+  * Resynchronize on Debian, remaining changes:
+    - debian/control:
+      + Depend on isc-dhcp-client
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules:
+      + Run build tests
+      + Set --enable-lto. See #1070 for why optimize=-lto is also set
+      + Don't build the network-manager* packages on i386
+        (unneeded and depends on wpasupplicant)
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - d/network-manager.install, d/rules, d/10-dns-resolved.conf:
+      + Use systemd-resolved instead of dnsmasq
+    - d/network-manager.install, d/10-globally-managed-devices.conf:
+      + Explicitly unmanage everything that isn't WiFi or WWAN (mobile data)
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - d/network-manager.install, d/default-wifi-powersave-on.conf:
+      + Install a config file to enable WiFi powersave
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - d/NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+      See gnome-control-center issue 743
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Thu, 23 Feb 2023 18:14:55 -0500
+
 network-manager (1.42.2-1) unstable; urgency=medium
 
   * New upstream version 1.42.2
@@ -158,6 +369,49 @@ network-manager (1.42.2-1) unstable; urgency=medium
   * Update symbols file for libnm0
 
  -- Michael Biebl <biebl@debian.org>  Thu, 23 Feb 2023 17:53:42 +0100
+
+network-manager (1.42.0-1ubuntu1) lunar; urgency=medium
+
+  * Resynchronize on Debian, remaining changes:
+    - debian/control:
+      + Depend on isc-dhcp-client
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules:
+      + Run build tests
+      + Set --enable-lto. See #1070 for why optimize=-lto is also set
+      + Don't build the network-manager* packages on i386
+        (unneeded and depends on wpasupplicant)
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - d/network-manager.install, d/rules, d/10-dns-resolved.conf:
+      + Use systemd-resolved instead of dnsmasq
+    - d/network-manager.install, d/10-globally-managed-devices.conf:
+      + Explicitly unmanage everything that isn't WiFi or WWAN (mobile data)
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - d/network-manager.install, d/default-wifi-powersave-on.conf:
+      + Install a config file to enable WiFi powersave
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - d/NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+      See gnome-control-center issue 743
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Tue, 14 Feb 2023 10:06:44 -0500
 
 network-manager (1.42.0-1) unstable; urgency=medium
 
@@ -168,17 +422,146 @@ network-manager (1.42.0-1) unstable; urgency=medium
 
  -- Michael Biebl <biebl@debian.org>  Fri, 10 Feb 2023 17:38:16 +0100
 
+network-manager (1.40.12-1ubuntu1) lunar; urgency=medium
+
+  * Resynchronize on Debian, remaining changes:
+    - debian/control:
+      + Depend on isc-dhcp-client
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules:
+      + Run build tests
+      + Set --enable-lto. See #1070 for why optimize=-lto is also set
+      + Don't build the network-manager* packages on i386
+        (unneeded and depends on wpasupplicant)
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - d/network-manager.install, d/rules, d/10-dns-resolved.conf:
+      + Use systemd-resolved instead of dnsmasq
+    - d/network-manager.install, d/10-globally-managed-devices.conf:
+      + Explicitly unmanage everything that isn't WiFi or WWAN (mobile data)
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - d/network-manager.install, d/default-wifi-powersave-on.conf:
+      + Install a config file to enable WiFi powersave
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - d/NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+      See gnome-control-center issue 743
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Thu, 26 Jan 2023 16:57:14 -0500
+
 network-manager (1.40.12-1) unstable; urgency=medium
 
   * New upstream version 1.40.12
 
  -- Michael Biebl <biebl@debian.org>  Thu, 26 Jan 2023 21:54:37 +0100
 
+network-manager (1.40.10-1ubuntu1) lunar; urgency=medium
+
+  * Resynchronize on Debian, remaining changes:
+    - debian/control:
+      + Depend on isc-dhcp-client
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules:
+      + Run build tests
+      + Set --enable-lto. See #1070 for why optimize=-lto is also set
+      + Don't build the network-manager* packages on i386
+        (unneeded and depends on wpasupplicant)
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - d/network-manager.install, d/rules, d/10-dns-resolved.conf:
+      + Use systemd-resolved instead of dnsmasq
+    - d/network-manager.install, d/10-globally-managed-devices.conf:
+      + Explicitly unmanage everything that isn't WiFi or WWAN (mobile data)
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - d/network-manager.install, d/default-wifi-powersave-on.conf:
+      + Install a config file to enable WiFi powersave
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - d/NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+      See gnome-control-center issue 743
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Fri, 13 Jan 2023 15:22:40 -0500
+
 network-manager (1.40.10-1) unstable; urgency=medium
 
   * New upstream version 1.40.10
 
  -- Michael Biebl <biebl@debian.org>  Wed, 11 Jan 2023 16:24:40 +0100
+
+network-manager (1.40.8-1ubuntu1) lunar; urgency=medium
+
+  * Resynchronize on Debian, remaining changes:
+    - debian/control:
+      + Depend on isc-dhcp-client
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules:
+      + Run build tests
+      + Set --enable-lto. See #1070 for why optimize=-lto is also set
+      + Don't build the network-manager* packages on i386
+        (unneeded and depends on wpasupplicant)
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - d/network-manager.install, d/rules, d/10-dns-resolved.conf:
+      + Use systemd-resolved instead of dnsmasq
+    - d/network-manager.install, d/10-globally-managed-devices.conf:
+      + Explicitly unmanage everything that isn't WiFi or WWAN (mobile data)
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - d/network-manager.install, d/default-wifi-powersave-on.conf:
+      + Install a config file to enable WiFi powersave
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - d/NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+      See gnome-control-center issue 743
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Wed, 04 Jan 2023 18:29:41 -0500
 
 network-manager (1.40.8-1) unstable; urgency=medium
 
@@ -191,6 +574,49 @@ network-manager (1.40.8-1) unstable; urgency=medium
 
  -- Michael Biebl <biebl@debian.org>  Mon, 19 Dec 2022 11:30:35 +0100
 
+network-manager (1.40.6-1ubuntu1) lunar; urgency=medium
+
+  * Resynchronize on Debian, remaining changes:
+    - debian/control:
+      + Depend on isc-dhcp-client
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules:
+      + Run build tests
+      + Set --enable-lto. See #1070 for why optimize=-lto is also set
+      + Don't build the network-manager* packages on i386
+        (unneeded and depends on wpasupplicant)
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - d/network-manager.install, d/rules, d/10-dns-resolved.conf:
+      + Use systemd-resolved instead of dnsmasq
+    - d/network-manager.install, d/10-globally-managed-devices.conf:
+      + Explicitly unmanage everything that isn't WiFi or WWAN (mobile data)
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - d/network-manager.install, d/default-wifi-powersave-on.conf:
+      + Install a config file to enable WiFi powersave
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - d/NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+      See gnome-control-center issue 743
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Fri, 02 Dec 2022 16:31:46 -0500
+
 network-manager (1.40.6-1) unstable; urgency=medium
 
   * New upstream version 1.40.6
@@ -200,6 +626,57 @@ network-manager (1.40.6-1) unstable; urgency=medium
     alternative dependency to make backports easier.
 
  -- Michael Biebl <biebl@debian.org>  Wed, 30 Nov 2022 22:59:25 +0100
+
+network-manager (1.40.4-1ubuntu2) lunar; urgency=medium
+
+  * Fix network-manager-config-connectivity-ubuntu.postinst
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Tue, 29 Nov 2022 14:25:45 -0500
+
+network-manager (1.40.4-1ubuntu1) lunar; urgency=medium
+
+  * Resynchronize on Debian, remaining changes:
+    - debian/control:
+      + Depend on isc-dhcp-client
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules:
+      + Run build tests
+      + Set --enable-lto. See #1070 for why optimize=-lto is also set
+      + Don't build the network-manager* packages on i386
+        (unneeded and depends on wpasupplicant)
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - d/network-manager.install, d/rules, d/10-dns-resolved.conf:
+      + Use systemd-resolved instead of dnsmasq
+    - d/network-manager.install, d/10-globally-managed-devices.conf:
+      + Explicitly unmanage everything that isn't WiFi or WWAN (mobile data)
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - d/network-manager.install, d/default-wifi-powersave-on.conf:
+      + Install a config file to enable WiFi powersave
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - d/NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+      See gnome-control-center issue 743
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+  * Drop patch that doesn't appear to be needed any more:
+    - ubuntu_revert_systemd.patch (LP: #1914062)
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Tue, 20 Sep 2022 13:39:43 -0400
 
 network-manager (1.40.4-1) unstable; urgency=medium
 
@@ -217,6 +694,61 @@ network-manager (1.40.2-1) unstable; urgency=medium
 
  -- Michael Biebl <biebl@debian.org>  Tue, 18 Oct 2022 12:29:15 +0200
 
+network-manager (1.40.0-1ubuntu2) kinetic; urgency=medium
+
+  * Don't recommend iwd. It's less risky to keep using wpasupplicant
+    for Ubuntu 22.10
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Tue, 27 Sep 2022 10:31:16 -0400
+
+network-manager (1.40.0-1ubuntu1) kinetic; urgency=medium
+
+  * Resynchronize on Debian, remaining changes:
+    - debian/control:
+      + Depend on isc-dhcp-client
+      + Recommend iwd as preferred alternative to wpasupplicant
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules:
+      + Run build tests
+      + Set --enable-lto. See #1070 for why optimize=-lto is also set
+      + Don't build the network-manager* packages on i386
+        (unneeded and depends on wpasupplicant)
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - d/network-manager.install, d/rules, d/10-dns-resolved.conf:
+      + Use systemd-resolved instead of dnsmasq
+    - d/network-manager.install, d/10-globally-managed-devices.conf:
+      + Explicitly unmanage everything that isn't WiFi or WWAN (mobile data)
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - d/network-manager.install, d/default-wifi-powersave-on.conf:
+      + Install a config file to enable WiFi powersave
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - d/NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+      See gnome-control-center issue 743
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+      + Disable-general-with-expect.patch
+      + libnm-Check-self-still-NMManager-or-not.patch
+      + dns-manager-don-t-merge-split-DNS-search-domains.patch (but disabled)
+      + Read-system-connections-from-run.patch
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Tue, 20 Sep 2022 13:39:43 -0400
+
 network-manager (1.40.0-1) unstable; urgency=medium
 
   * New upstream version 1.40.0
@@ -233,6 +765,69 @@ network-manager (1.39.90-2) experimental; urgency=medium
     to build properly with LTO enabled. (Closes: #1015556)
 
  -- Michael Biebl <biebl@debian.org>  Thu, 25 Aug 2022 12:48:00 +0200
+
+network-manager (1.39.90-1ubuntu3) kinetic; urgency=medium
+
+  * Cherry-pick 2 patches to fix bonding regressions discovered
+    with failing netplan autopkgtests. Thanks Lukas Märdian.
+    (LP: #1987001)
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Thu, 25 Aug 2022 13:26:02 -0400
+
+network-manager (1.39.90-1ubuntu2) kinetic; urgency=medium
+
+  * debian/control:
+    - recommends iwd as a preferred alternative to wpasupplicant since
+      the MIR has been reviewed now
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Thu, 25 Aug 2022 17:09:30 +0200
+
+network-manager (1.39.90-1ubuntu1) kinetic; urgency=medium
+
+  * Resynchronize on Debian, remaining changes:
+    - debian/control:
+      + Depend on isc-dhcp-client
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules:
+      + Run build tests
+      + Set --enable-lto.
+      + Don't build the network-manager* packages on i386
+        (unneeded and depends on wpasupplicant)
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - d/network-manager.install, d/rules, d/10-dns-resolved.conf:
+      + Use systemd-resolved instead of dnsmasq
+    - d/network-manager.install, d/10-globally-managed-devices.conf:
+      + Explicitly unmanage everything that isn't WiFi or WWAN (mobile data)
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - d/network-manager.install, d/default-wifi-powersave-on.conf:
+      + Install a config file to enable WiFi powersave
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - d/NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+      See gnome-control-center issue 743
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+      + Disable-general-with-expect.patch
+      + libnm-Check-self-still-NMManager-or-not.patch
+      + dns-manager-don-t-merge-split-DNS-search-domains.patch (but disabled)
+      + Read-system-connections-from-run.patch
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Thu, 18 Aug 2022 08:59:25 -0400
 
 network-manager (1.39.90-1) experimental; urgency=medium
 
@@ -263,6 +858,53 @@ network-manager (1.38.4-1) unstable; urgency=medium
   * Clean up build dependencies
 
  -- Michael Biebl <biebl@debian.org>  Sat, 13 Aug 2022 15:51:32 +0200
+
+network-manager (1.38.2-1ubuntu1) kinetic; urgency=medium
+
+  * Resynchronize on Debian, remaining changes:
+    - debian/control:
+      + Depend on isc-dhcp-client
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules:
+      + Run build tests
+      + Set --enable-lto.
+      + Don't build the network-manager* packages on i386
+        (unneeded and depends on wpasupplicant)
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - d/network-manager.install, d/rules, d/10-dns-resolved.conf:
+      + Use systemd-resolved instead of dnsmasq
+    - d/network-manager.install, d/10-globally-managed-devices.conf:
+      + Explicitly unmanage everything that isn't WiFi or WWAN (mobile data)
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - d/network-manager.install, d/default-wifi-powersave-on.conf:
+      + Install a config file to enable WiFi powersave
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - d/NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+      See gnome-control-center issue 743
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+      + Disable-general-with-expect.patch
+      + libnm-Check-self-still-NMManager-or-not.patch
+      + dns-manager-don-t-merge-split-DNS-search-domains.patch (but disabled)
+      + Read-system-connections-from-run.patch
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 24 Jun 2022 13:35:27 +0200
 
 network-manager (1.38.2-1) unstable; urgency=medium
 
@@ -310,6 +952,53 @@ network-manager (1.36.4-1) unstable; urgency=medium
 
  -- Michael Biebl <biebl@debian.org>  Wed, 23 Mar 2022 20:39:16 +0100
 
+network-manager (1.36.2-1ubuntu1) jammy; urgency=medium
+
+  * Resynchronize on Debian, remaining changes:
+    - debian/control:
+      + Depend on isc-dhcp-client
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules:
+      + Run build tests
+      + Set --enable-lto.
+      + Don't build the network-manager* packages on i386
+        (unneeded and depends on wpasupplicant)
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - d/network-manager.install, d/rules, d/10-dns-resolved.conf:
+      + Use systemd-resolved instead of dnsmasq
+    - d/network-manager.install, d/10-globally-managed-devices.conf:
+      + Explicitly unmanage everything that isn't WiFi or WWAN (mobile data)
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - d/network-manager.install, d/default-wifi-powersave-on.conf:
+      + Install a config file to enable WiFi powersave
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - d/NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+      See gnome-control-center issue 743
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+      + Disable-general-with-expect.patch
+      + libnm-Check-self-still-NMManager-or-not.patch
+      + dns-manager-don-t-merge-split-DNS-search-domains.patch (but disabled)
+      + Read-system-connections-from-run.patch
+
+ -- Jeremy Bicha <jeremy.bicha@canonical.com>  Tue, 08 Mar 2022 14:37:15 -0500
+
 network-manager (1.36.2-1) unstable; urgency=medium
 
   * New upstream version 1.36.2
@@ -324,6 +1013,53 @@ network-manager (1.36.0-2) unstable; urgency=medium
 
  -- Michael Biebl <biebl@debian.org>  Sat, 26 Feb 2022 10:57:32 +0100
 
+network-manager (1.36.0-1ubuntu1) jammy; urgency=medium
+
+  * Resynchronize on Debian, remaining changes:
+    - debian/control:
+      + Depend on isc-dhcp-client
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules:
+      + Run build tests
+      + Set --enable-lto.
+      + Don't build the network-manager* packages on i386
+        (unneeded and depends on wpasupplicant)
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - d/network-manager.install, d/rules, d/10-dns-resolved.conf:
+      + Use systemd-resolved instead of dnsmasq
+    - d/network-manager.install, d/10-globally-managed-devices.conf:
+      + Explicitly unmanage everything that isn't WiFi or WWAN (mobile data)
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - d/network-manager.install, d/default-wifi-powersave-on.conf:
+      + Install a config file to enable WiFi powersave
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - d/NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+      See gnome-control-center issue 743
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+      + Disable-general-with-expect.patch
+      + libnm-Check-self-still-NMManager-or-not.patch
+      + dns-manager-don-t-merge-split-DNS-search-domains.patch (but disabled)
+      + Read-system-connections-from-run.patch
+
+ -- Jeremy Bicha <jeremy.bicha@canonical.com>  Thu, 24 Feb 2022 15:06:34 -0500
+
 network-manager (1.36.0-1) unstable; urgency=medium
 
   * New upstream version 1.36.0
@@ -331,6 +1067,53 @@ network-manager (1.36.0-1) unstable; urgency=medium
   * Drop old network-manager.NEWS file
 
  -- Michael Biebl <biebl@debian.org>  Thu, 24 Feb 2022 19:59:26 +0100
+
+network-manager (1.35.92-1ubuntu1) jammy; urgency=medium
+
+  * Resynchronize on Debian, remaining changes:
+    - debian/control:
+      + Depend on isc-dhcp-client
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules:
+      + Run build tests
+      + Set --enable-lto.
+      + Don't build the network-manager* packages on i386
+        (unneeded and depends on wpasupplicant)
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - d/network-manager.install, d/rules, d/10-dns-resolved.conf:
+      + Use systemd-resolved instead of dnsmasq
+    - d/network-manager.install, d/10-globally-managed-devices.conf:
+      + Explicitly unmanage everything that isn't WiFi or WWAN (mobile data)
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - d/network-manager.install, d/default-wifi-powersave-on.conf:
+      + Install a config file to enable WiFi powersave
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - d/NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+      See gnome-control-center issue 743
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+      + Disable-general-with-expect.patch
+      + libnm-Check-self-still-NMManager-or-not.patch
+      + dns-manager-don-t-merge-split-DNS-search-domains.patch (but disabled)
+      + Read-system-connections-from-run.patch
+
+ -- Jeremy Bicha <jeremy.bicha@canonical.com>  Tue, 22 Feb 2022 17:06:55 -0500
 
 network-manager (1.35.92-1) unstable; urgency=medium
 
@@ -352,6 +1135,80 @@ network-manager (1.35.91-1) unstable; urgency=medium
   * Clean up nm-priv-helper.service enablement state on upgrades
 
  -- Michael Biebl <biebl@debian.org>  Mon, 14 Feb 2022 22:24:06 +0100
+
+network-manager (1.35.91-0ubuntu1) jammy; urgency=medium
+
+  * New upstream release
+  * debian/libnm0.symbols: Add new symbols
+
+ -- Jeremy Bicha <jeremy.bicha@canonical.com>  Thu, 10 Feb 2022 14:49:11 -0500
+
+network-manager (1.35.90-0ubuntu1) jammy; urgency=medium
+
+  * New upstream release
+  * Refresh patches
+
+ -- Jeremy Bicha <jeremy.bicha@canonical.com>  Tue, 08 Feb 2022 14:12:25 -0500
+
+network-manager (1.34.0-2ubuntu3) jammy; urgency=medium
+
+  * d/tests/control: Have nm.py autopkgtest Depend on wpasupplicant
+
+ -- Jeremy Bicha <jeremy.bicha@canonical.com>  Mon, 07 Feb 2022 16:40:52 -0500
+
+network-manager (1.34.0-2ubuntu2) jammy; urgency=medium
+
+  * Revert "Try removing ubuntu_revert_systemd.patch" and refresh the patch
+
+ -- Jeremy Bicha <jeremy.bicha@canonical.com>  Thu, 03 Feb 2022 16:11:38 -0500
+
+network-manager (1.34.0-2ubuntu1) jammy; urgency=medium
+
+  * Resynchronize on Debian (LP: #1958710), remaining changes:
+    - debian/control:
+      + Depend on isc-dhcp-client
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules:
+      + Run build tests
+      + Set --enable-lto.
+      + Don't build the network-manager* packages on i386
+        (unneeded and depends on wpasupplicant)
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - d/network-manager.install, d/rules, d/10-dns-resolved.conf:
+      + Use systemd-resolved instead of dnsmasq
+    - d/network-manager.install, d/10-globally-managed-devices.conf:
+      + Explicitly unmanage everything that isn't WiFi or WWAN (mobile data)
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - d/network-manager.install, d/default-wifi-powersave-on.conf:
+      + Install a config file to enable WiFi powersave
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - d/NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+      See gnome-control-center issue 743
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+      + Disable-general-with-expect.patch
+      + libnm-Check-self-still-NMManager-or-not.patch
+      + dns-manager-don-t-merge-split-DNS-search-domains.patch (but disabled)
+      + Read-system-connections-from-run.patch
+  * Try removing ubuntu_revert_systemd.patch again
+
+ -- Jeremy Bicha <jeremy.bicha@canonical.com>  Thu, 03 Feb 2022 12:18:58 -0500
 
 network-manager (1.34.0-2) unstable; urgency=medium
 
@@ -401,6 +1258,112 @@ network-manager (1.30.0-2) unstable; urgency=medium
 
  -- Michael Biebl <biebl@debian.org>  Mon, 12 Apr 2021 21:15:36 +0200
 
+network-manager (1.32.12-0ubuntu2) jammy; urgency=medium
+
+  * debian/tests: drop which usage to fix adt failure in jammy
+
+ -- Dimitri John Ledkov <dimitri.ledkov@canonical.com>  Thu, 11 Nov 2021 12:07:34 +0000
+
+network-manager (1.32.12-0ubuntu1) impish; urgency=medium
+
+  * New upstream version
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Mon, 27 Sep 2021 17:07:29 +0200
+
+network-manager (1.32.10-0ubuntu1) impish; urgency=medium
+
+  * New upstream version
+  * debian/libnm0.symbols:
+    - updated symbols for the new version
+
+ -- Sebastien Bacher <seb128@debian.org>  Wed, 25 Aug 2021 16:10:58 +0200
+
+network-manager (1.32.2-0ubuntu2) impish; urgency=medium
+
+  * debian/patches/ubuntu_revert_systemd.patch:
+    - restore the workaround for the systemd and lxd issue, it's still
+      needed (lp: #1936312)
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Thu, 15 Jul 2021 16:45:08 +0200
+
+network-manager (1.32.2-0ubuntu1) impish; urgency=medium
+
+  * New upstream version
+  * debian/*.py:
+    - update python formatting to be compatible with the checks
+  * debian/patches/ubuntu_revert_systemd.patch:
+    - remove, the issue was fixed in systemd
+  * debian/patches/CVE-2021-20297.patch:
+    - remove, the fix is in the new version
+  * debian/libnm0.symbols
+    - updated for the new version
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Mon, 05 Jul 2021 20:36:31 +0200
+
+network-manager (1.30.0-1ubuntu4) impish; urgency=medium
+
+  * d/t/nm.py: adapt to changes dnsmasq behavior (LP: #1894619)
+
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Fri, 02 Jul 2021 11:13:46 +0200
+
+network-manager (1.30.0-1ubuntu3) hirsute; urgency=medium
+
+  * SECURITY UPDATE: crash via setting match.path
+    - debian/patches/CVE-2021-20297.patch: fix match in
+      src/core/nm-core-utils.c.
+    - CVE-2021-20297
+
+ -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Mon, 12 Apr 2021 06:56:47 -0400
+
+network-manager (1.30.0-1ubuntu2) hirsute; urgency=medium
+
+  * Configure with --enable-lto.
+
+ -- Matthias Klose <doko@ubuntu.com>  Mon, 29 Mar 2021 11:48:39 +0200
+
+network-manager (1.30.0-1ubuntu1) hirsute; urgency=medium
+
+  * Resynchronize on Debian, remaining changes:
+    - Use systemd-resolved instead of dnsmasq
+    - debian/control:
+      + Depend on isc-dhcp-client instead of recommends
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - debian/default-wifi-powersave-on.conf, debian/rules:
+      + Install a config file to enable WiFi powersave
+    - Enable build tests
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+      + Disable-general-with-expect.patch
+      + libnm-Check-self-still-NMManager-or-not.patch
+      + dns-manager-don-t-merge-split-DNS-search-domains.patch (but disabled)
+      + Read-system-connections-from-run.patch
+    - debian/tests/urfkill-integration - don't stop/start network manager
+    - debian/patches/ubuntu_revert_systemd.patch:
+      + temporarly revert an upstream commit that made udev enabled under lxc,
+        the new systemd doesn't work there (lp: #1914062)
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Thu, 25 Feb 2021 15:30:59 +0100
+
 network-manager (1.30.0-1) unstable; urgency=medium
 
   * New upstream version 1.30.0
@@ -431,6 +1394,58 @@ network-manager (1.29.90-1) unstable; urgency=medium
   * Drop unused Build-Depends (Closes: #979378)
 
  -- Michael Biebl <biebl@debian.org>  Thu, 11 Feb 2021 20:09:16 +0100
+
+network-manager (1.28.0-2ubuntu2) hirsute; urgency=medium
+
+  * debian/patches/ubuntu_revert_systemd.patch:
+    - temporarly revert an upstream commit that made udev enabled under lxc,
+      the new systemd doesn't work there (lp: #1914062)
+
+  [ Lukas Märdian ]
+  * debian/tests/network_test_base.py:
+    Fix race when reading the MAC address of veth interfaces with new systemd
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Wed, 17 Feb 2021 10:23:07 +0100
+
+network-manager (1.28.0-2ubuntu1) hirsute; urgency=medium
+
+  * Resynchronize on Debian, remaining changes:
+    - Use systemd-resolved instead of dnsmasq
+    - debian/control:
+      + Depend on isc-dhcp-client instead of recommends
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - debian/default-wifi-powersave-on.conf, debian/rules:
+      + Install a config file to enable WiFi powersave
+    - Enable build tests
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+      + Disable-general-with-expect.patch
+      + libnm-Check-self-still-NMManager-or-not.patch
+      + dns-manager-don-t-merge-split-DNS-search-domains.patch (but disabled)
+      + Read-system-connections-from-run.patch
+    - debian/tests/urfkill-integration - don't stop/start network manager
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Mon, 11 Jan 2021 18:10:30 +0100
 
 network-manager (1.28.0-2) unstable; urgency=medium
 
@@ -489,12 +1504,58 @@ network-manager (1.27.90-1) unstable; urgency=medium
 
  -- Michael Biebl <biebl@debian.org>  Mon, 05 Oct 2020 23:34:33 +0200
 
+network-manager (1.26.2-1ubuntu1) groovy; urgency=medium
+
+  * Update to the current stable version
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Mon, 31 Aug 2020 11:09:40 +0200
+
 network-manager (1.26.2-1) unstable; urgency=medium
 
   * New upstream version 1.26.2
   * Rebase patches
 
  -- Michael Biebl <biebl@debian.org>  Wed, 19 Aug 2020 10:30:53 +0200
+
+network-manager (1.26.0-1ubuntu1) groovy; urgency=medium
+
+  * Resynchronize on Debian, remaining changes:
+    - Use systemd-resolved instead of dnsmasq
+    - debian/control:
+      + Depend on isc-dhcp-client instead of recommends
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - debian/default-wifi-powersave-on.conf, debian/rules:
+      + Install a config file to enable WiFi powersave
+    - Enable build tests
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+      + Disable-general-with-expect.patch
+      + libnm-Check-self-still-NMManager-or-not.patch
+      + dns-manager-don-t-merge-split-DNS-search-domains.patch (but disabled)
+      + Read-system-connections-from-run.patch
+    - debian/tests/urfkill-integration - don't stop/start network manager
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Mon, 27 Jul 2020 17:09:03 +0200
 
 network-manager (1.26.0-1) unstable; urgency=medium
 
@@ -526,6 +1587,14 @@ network-manager (1.25.90-1) unstable; urgency=medium
 
  -- Michael Biebl <biebl@debian.org>  Sun, 28 Jun 2020 19:29:43 +0200
 
+network-manager (1.24.2-1ubuntu2) groovy; urgency=medium
+
+  * debian/20-connectivity-ubuntu.conf: Add trailing dot to make
+    connectivity-check.ubuntu.com. absolute and reduce NXDOMAIN
+    warning noise, thanks MarchH (lp: #1880258)
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Mon, 29 Jun 2020 16:20:07 +0200
+
 network-manager (1.24.2-1) unstable; urgency=medium
 
   [ Michael Biebl ]
@@ -536,6 +1605,58 @@ network-manager (1.24.2-1) unstable; urgency=medium
   * The iptables binary is now installed in /usr/sbin/
 
  -- Michael Biebl <biebl@debian.org>  Sun, 21 Jun 2020 13:44:56 +0200
+
+network-manager (1.24.0-1ubuntu2) groovy; urgency=medium
+
+  * debian/rules:
+    - the iptables binary is in /usr/sbin now, use the correct location in
+      the configure. Should fix the hotspot feature not working in GNOME
+      on upgraded systems which haven't been usrmerged.
+      (lp: #1870359)
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Wed, 20 May 2020 12:03:07 +0200
+
+network-manager (1.24.0-1ubuntu1) groovy; urgency=medium
+
+  * Resynchronize on Debian, remaining changes:
+    - Use systemd-resolved instead of dnsmasq
+    - debian/control:
+      + Depend on isc-dhcp-client instead of recommends
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - debian/network-manager.maintscript
+      + Remove /etc/dbus-1/system.d/nm-ofono.conf
+    - debian/default-wifi-powersave-on.conf, debian/rules:
+      + Install a config file to enable WiFi powersave
+    - Enable build tests
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+      + Disable-general-with-expect.patch
+      + libnm-Check-self-still-NMManager-or-not.patch
+      + dns-manager-don-t-merge-split-DNS-search-domains.patch (but disabled)
+      + Read-system-connections-from-run.patch
+    - debian/tests/urfkill-integration - don't stop/start network manager
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Tue, 19 May 2020 17:07:30 +0200
 
 network-manager (1.24.0-1) unstable; urgency=medium
 
@@ -554,6 +1675,26 @@ network-manager (1.23.90-1) unstable; urgency=medium
   * Add Build-Depends-Package field to libnm0.symbols
 
  -- Michael Biebl <biebl@debian.org>  Sun, 12 Apr 2020 00:46:53 +0200
+
+network-manager (1.22.10-1ubuntu3) groovy; urgency=medium
+
+  * No-change rebuild to bump Groovy version number.
+
+ -- Dan Streetman <ddstreet@canonical.com>  Thu, 30 Apr 2020 07:47:49 -0400
+
+network-manager (1.22.10-1ubuntu2) focal; urgency=medium
+
+  * d/t/killswitches-no-urfkill
+    - Call udevadm settle before nmcli radio wifi
+      To make sure that change is updated. (LP: #1733321)
+
+ -- Seyeong Kim <seyeong.kim@canonical.com>  Mon, 20 Apr 2020 22:40:44 -0700
+
+network-manager (1.22.10-1ubuntu1) focal; urgency=medium
+
+  * Update to the current stable version, merging from Debian
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 13 Mar 2020 16:27:29 +0100
 
 network-manager (1.22.10-1) unstable; urgency=medium
 
@@ -615,6 +1756,22 @@ network-manager (1.22.0-1) unstable; urgency=medium
   * Update symbols file for libnm0
 
  -- Michael Biebl <biebl@debian.org>  Wed, 18 Dec 2019 19:05:33 +0100
+
+network-manager (1.20.8-1ubuntu2) focal; urgency=medium
+
+  * debian/rules:
+    - Omit building the uninstallable network-manager binary (depends on
+      wpasupplicant) on i386
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 10 Jan 2020 18:26:29 +0100
+
+network-manager (1.20.8-1ubuntu1) focal; urgency=medium
+
+  * New upstream version, merged from Debian
+  * debian/patches/git_wpa_sae.patch:
+    - removed, included in the new version
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Tue, 07 Jan 2020 17:00:01 +0100
 
 network-manager (1.20.8-1) unstable; urgency=medium
 
@@ -706,6 +1863,107 @@ network-manager (1.18.0-2) experimental; urgency=medium
 
  -- Michael Biebl <biebl@debian.org>  Tue, 28 May 2019 22:27:17 +0200
 
+network-manager (1.18.0-1ubuntu6) eoan; urgency=medium
+
+  [ Till Kamppeter ]
+  * debian/tests/nm.py:
+    + Make activating an AP time out earlier than it otherwise would.
+    + Skip a call that is failing for IPv6 connections.
+
+  [ Iain Lane ]
+  * debian/tests/nm.py: Delete code skipped by the previous change, rather
+    than commenting it out and leaving it inactive in the source.
+
+  [ Sebastien Bacher ]
+  * Updated debian branch from eoan to master
+
+ -- Iain Lane <iain.lane@canonical.com>  Thu, 01 Aug 2019 13:17:35 +0100
+
+network-manager (1.18.0-1ubuntu5) eoan; urgency=medium
+
+  * Updated autopkg test nm.py for API changes in network-manager.
+
+  [ Mathieu Trudel-Lapierre ]
+  * debian/tests/control: fix test dependency to list gir1.2-nm-1.0 instead
+    of its old name gir1.2-networkmanager-1.0.
+
+ -- Till Kamppeter <till.kamppeter@canonical.com>  Tue, 25 Jun 2019 13:31:42 +0200
+
+network-manager (1.18.0-1ubuntu4) eoan; urgency=medium
+
+  * debian/tests/nm.py: give test_no_ap more time for wifi devices to start
+    as it may be necessary on ppc64el.
+
+ -- Mathieu Trudel-Lapierre <cyphermox@ubuntu.com>  Wed, 29 May 2019 09:31:18 -0400
+
+network-manager (1.18.0-1ubuntu3) eoan; urgency=medium
+
+  * d/p/Read-system-connections-from-run.patch:
+    - remove, upstream addressed it in a different way/for different 
+      reasons in commit ce4dbd7daf.
+  * debian/network-manager-dev.install:
+    - update following the the recent binary changes
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 24 May 2019 11:26:30 +0200
+
+network-manager (1.18.0-1ubuntu2) eoan; urgency=medium
+
+  * debian/control, debian/lib*.install, debian/rules:
+    - remove the deprecated libnm-glib/vpn/util libraries
+  * debian/patches/series:
+    - restore Read-system-connections-from-run.patch which had been
+      dropped by error.
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 24 May 2019 00:07:31 +0200
+
+network-manager (1.18.0-1ubuntu1) eoan; urgency=medium
+
+  * Update to 1.18, merge on Debian, new version includes nwe support for 
+    policy routing rules and for VLAN filtering for Linux bridge.
+  * Remaining Ubuntu changes
+    - Use systemd-resolved instead of dnsmasq
+    - debian/control:
+      + Depend on isc-dhcp-client instead of recommends
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - debian/default-wifi-powersave-on.conf, debian/rules:
+      + Install a config file to enable WiFi powersave
+    - Enable build tests
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+      + Disable-general-with-expect.patch
+      + libnm-Check-self-still-NMManager-or-not.patch
+      + dns-manager-don-t-merge-split-DNS-search-domains.patch (but disabled)
+      + Read-system-connections-from-run.patch
+    - debian/tests/urfkill-integration - don't stop/start network manager
+    - Revert "Add Conflicts to network-manager-dev against deprecated libraries"
+      This reverts commit b4acc5e03e2b821e1cccc69529bb70826c741942.  We're still
+      building libnm-glib for now, so these packages have a use in Ubuntu.
+  * Removed delta, not needed anymore
+    - debian/network-manager.maintscript
+      + Remove /etc/dbus-1/system.d/nm-ofono.conf
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 10 May 2019 15:07:08 +0200
+
 network-manager (1.18.0-1) experimental; urgency=medium
 
   * New upstream version 1.18.0
@@ -748,6 +2006,51 @@ network-manager (1.14.6-1) unstable; urgency=medium
   * Bump Standards-Version to 4.3.0
 
  -- Michael Biebl <biebl@debian.org>  Tue, 26 Feb 2019 19:33:53 +0100
+
+network-manager (1.16.0-0ubuntu2) disco; urgency=medium
+
+  * debian/patches/git_ifupdown_iterator.patch:
+    - ifupdown: fix connection iterator, should fix a segfault in the
+      corresponding plugin (lp: #1815742)
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Tue, 02 Apr 2019 17:53:26 +0200
+
+network-manager (1.16.0-0ubuntu1) disco; urgency=medium
+
+  * New upstream version
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Tue, 19 Mar 2019 16:23:09 +0100
+
+network-manager (1.15.91-0Ubuntu1) disco; urgency=medium
+
+  * New upstream version
+  * remove patches included in the new version
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Tue, 12 Mar 2019 15:23:26 +0100
+
+network-manager (1.15.2-0ubuntu2) disco; urgency=medium
+
+  * debian/patches/git_ifupdown_segfault.patch:
+    - 'settings/ifupdown: fix ifupdown plugin after merging eni_ifaces and 
+       connections hashes' (lp: #1815742)
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Mon, 18 Feb 2019 17:06:17 +0100
+
+network-manager (1.15.2-0ubuntu1) disco; urgency=medium
+
+  * Update to the current serie, resynchronize with Debian
+  * debian/libnm0.symbols:
+    - updated for the new version
+  * debian/patches
+    - removed the changes that are included in the new version
+  * debian/patches/git_team_structure.patch:
+    - backport upstream change 'fix team link-watcher struct layout',
+      the tests/build failed on i386
+  * debian/rules:
+    - strip '-Wl,-Bsymbolic-functions' from LDFLAGS otherwise the
+      tests fails on 'cannot register existing type 'NMAgentManagerError''
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 25 Jan 2019 11:31:56 +0100
 
 network-manager (1.14.4-4) unstable; urgency=medium
 
@@ -832,6 +2135,91 @@ network-manager (1.13.90-1) experimental; urgency=medium
 
  -- Michael Biebl <biebl@debian.org>  Sat, 08 Sep 2018 18:23:20 +0200
 
+network-manager (1.12.6-0ubuntu4) disco; urgency=medium
+
+  * No-change rebuild for readline soname change.
+
+ -- Matthias Klose <doko@ubuntu.com>  Mon, 14 Jan 2019 20:02:35 +0000
+
+network-manager (1.12.6-0ubuntu3) disco; urgency=medium
+
+  * debian/tests/nm.py: Make assert_iface_down() not check the interface's
+    state. We call nmclient.deactivate_connection() to terminate connections
+    that the testsuite sets up, and according to upstream this is not
+    guaranteed to do anything in particular to the link state. It seems that
+    dnsmasq 2.80 somehow alters the previous assumption that it would be
+    'state DOWN', so the implementation detail we were checking previously no
+    longer holds. The testsuite does still check that the IPs are removed from
+    the interface, which is logically what we want anyway. (LP: #1805857)
+  * debian/control: Fix Vcs-Git
+
+ -- Iain Lane <iain.lane@canonical.com>  Wed, 19 Dec 2018 13:12:58 +0000
+
+network-manager (1.12.6-0ubuntu2) disco; urgency=medium
+
+  [ Robie Basak ]
+  * debian/tests:
+    - Make dep8 nm test directly invokable
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Mon, 10 Dec 2018 22:03:01 +0100
+
+network-manager (1.12.6-0ubuntu1) disco; urgency=medium
+
+  * New upstream version
+    - Fix a vulnerability in the internal DHCPv6 client (CVE-2018-15688).
+  * debian/patches/git_mac_change.patch:
+    - backported a regression fix from upstream git
+
+  [ Alfonso Sanchez-Beato ]
+  * Import some WoWLAN patches from the newer stable serie (LP: #1781597)
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Mon, 10 Dec 2018 18:50:07 +0100
+
+network-manager (1.12.4-1ubuntu1) cosmic; urgency=medium
+
+  * Merge with Debian (LP: #1795704). Remaining changes:
+    - Use systemd-resolved instead of dnsmasq
+    - debian/control:
+      + Depend on isc-dhcp-client instead of recommends
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet.
+    - debian/network-manager.maintscript
+      + Remove /etc/dbus-1/system.d/nm-ofono.conf
+    - debian/default-wifi-powersave-on.conf, debian/rules:
+      + Install a config file to enable WiFi powersave
+    - Enable build tests
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems.
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+      + Disable-general-with-expect.patch
+      + libnm-Check-self-still-NMManager-or-not.patch
+      + dns-manager-don-t-merge-split-DNS-search-domains.patch (but disabled)
+      + Read-system-connections-from-run.patch
+    - debian/tests/urfkill-integration - don't stop/start network manager
+  * Revert "Add Conflicts to network-manager-dev against deprecated libraries"
+    This reverts commit b4acc5e03e2b821e1cccc69529bb70826c741942.  We're still
+    building libnm-glib for now, so these packages have a use in Ubuntu.
+
+ -- Iain Lane <iain.lane@canonical.com>  Wed, 03 Oct 2018 10:03:10 +0100
+
 network-manager (1.12.4-1) unstable; urgency=medium
 
   * New upstream version 1.12.4
@@ -861,6 +2249,64 @@ network-manager (1.12.2-1) unstable; urgency=medium
   * Bump Standards-Version to 4.1.5
 
  -- Michael Biebl <biebl@debian.org>  Wed, 25 Jul 2018 13:35:31 +0200
+
+network-manager (1.12.2-0ubuntu5) cosmic; urgency=medium
+
+  * debian/tests/nm: Add the required `gi.require_version()` calls - thanks to
+    the autopkgtests for noticing this.
+  * debian/tests/control: The nm tests need dnsmasq-base and isc-dhcp-client
+    too.
+
+ -- Iain Lane <iain@orangesquash.org.uk>  Mon, 24 Sep 2018 10:17:30 +0100
+
+network-manager (1.12.2-0ubuntu4) cosmic; urgency=medium
+
+  Cherry-pick fixes from debian:
+  * Fix compile error due to NM_AVAILABLE_IN_1_12_2 macro in n-m-applet
+  * Apply patch from upstream to fix FTBFS with GLib 2.57
+
+ -- Didier Roche <didrocks@ubuntu.com>  Mon, 10 Sep 2018 11:36:35 +0200
+
+network-manager (1.12.2-0ubuntu3) cosmic; urgency=medium
+
+  * debian/rules:
+    - use --with-libnm-glib, the default reversed since that's a legacy
+      library but we still need it for unity-control-center
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 24 Aug 2018 11:00:09 +0200
+
+network-manager (1.12.2-0ubuntu2) cosmic; urgency=medium
+
+  * debian/patches/git-newglib-test.patch:
+    - backport upstream commit to fix the tests with the new glib 
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 24 Aug 2018 10:44:12 +0200
+
+network-manager (1.12.2-0ubuntu1) cosmic; urgency=medium
+
+  * New upstream version
+  * d/p/libnm-register-empty-NMClient-and-NetworkManager-when-loa.patch,
+    d/p/e91f1a7d2a6b8400b6b331d5b72287dcb5164a39.patch,
+    d/p/git_thunderbolt_connect.patch:
+    - removed, those changes are in the new version
+  * Backport Debian changes
+  * Update symbols file for libnm0
+  * Enable iwd support
+  * Drop version requirements when oldstable ships a newer version
+  * Drop dh_strip override, the dbgsym migration is done
+  * Rebase patches
+  * Make sure the example server.conf is actually installed
+  * Update install path for plugins, it now includes a version number
+  * Drop libnl3 build dependency.
+    Upstream has copied the code directly from libnl3 for the few functions it
+    needs with a few small modifications.
+  * Drop libiw build dependency.
+    Hasn't been needed for a long time and was simply a left over from older
+    releases.
+  * Bump Standards-Version to 4.1.5
+  * Fix compile error due to NM_AVAILABLE_IN_1_12_2 macro (Closes: #905372)
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 24 Aug 2018 09:27:39 +0200
 
 network-manager (1.12.0-5) unstable; urgency=medium
 
@@ -945,6 +2391,75 @@ network-manager (1.11.3-1) experimental; urgency=medium
 
  -- Michael Biebl <biebl@debian.org>  Mon, 23 Apr 2018 23:35:35 +0200
 
+network-manager (1.10.8-1ubuntu4) cosmic; urgency=medium
+
+  * debian/10-globally-managed-devices.conf: adjust exception for wwan to
+    specify cdma and gsm, since those are the actual types handled by NM/MM.
+    (LP: #1780606)
+
+ -- Mathieu Trudel-Lapierre <cyphermox@ubuntu.com>  Tue, 10 Jul 2018 08:17:11 -0400
+
+network-manager (1.10.8-1ubuntu3) cosmic; urgency=medium
+
+  * Revert the changes to remove the nmclient bindings, those are needed
+    to build nm-applet until the legacy binaries can be removed, which
+    requires unity-control-center to be updated to use the new library.
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Wed, 04 Jul 2018 15:30:19 +0200
+
+network-manager (1.10.8-1ubuntu2) cosmic; urgency=medium
+
+  * debian/patches/git_thunderbolt_connect.patch:
+    - enable host to host connection through thunderbolt
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Fri, 25 May 2018 16:54:48 +0200
+
+network-manager (1.10.8-1ubuntu1) cosmic; urgency=medium
+
+  * Merge with Debian (LP: #1758331). Remaining changes:
+    - Use systemd-resolved instead of dnsmasq
+    - debian/control:
+      + Depend on isc-dhcp-client instead of recommends
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet. (LP: #1676547)
+    - debian/network-manager.maintscript
+      + Remove /etc/dbus-1/system.d/nm-ofono.conf
+    - debian/default-wifi-powersave-on.conf, debian/rules:
+      + Install a config file to enable WiFi powersave
+    - Enable build tests
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems. (LP: #1681513)
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+      + Disable-general-with-expect.patch
+      + libnm-Check-self-still-NMManager-or-not.patch
+      + dns-manager-don-t-merge-split-DNS-search-domains.patch
+      + Read-system-connections-from-run.patch
+      + e91f1a7d2a6b8400b6b331d5b72287dcb5164a39.patch
+      + dns-manager-don-t-merge-split-DNS-search-domains.patch (but disabled)
+    - debian/tests/urfkill-integration - don't stop/start network manager
+  * Keep libnm-glib/libnm-util a bit longer since unity-control-center
+    still needs them. See bug 1744619
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Fri, 11 May 2018 19:52:40 -0400
+
 network-manager (1.10.8-1) unstable; urgency=medium
 
   * New upstream version 1.10.8
@@ -960,6 +2475,52 @@ network-manager (1.10.6-3) unstable; urgency=medium
 
  -- Michael Biebl <biebl@debian.org>  Wed, 18 Apr 2018 19:40:01 +0200
 
+network-manager (1.10.6-2ubuntu1) bionic; urgency=medium
+
+  * Merge with Debian (LP: #1758331). Remaining changes:
+    - Use systemd-resolved instead of dnsmasq
+    - debian/control:
+      + Depend on isc-dhcp-client instead of recommends
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet. (LP: #1676547)
+    - debian/network-manager.maintscript
+      + Remove /etc/dbus-1/system.d/nm-ofono.conf
+    - debian/default-wifi-powersave-on.conf, debian/rules:
+      + Install a config file to enable WiFi powersave
+    - Enable build tests
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems. (LP: #1681513)
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+      + Disable-general-with-expect.patch
+      + libnm-Check-self-still-NMManager-or-not.patch
+      + dns-manager-don-t-merge-split-DNS-search-domains.patch
+      + Read-system-connections-from-run.patch
+      + e91f1a7d2a6b8400b6b331d5b72287dcb5164a39.patch
+      + dns-manager-don-t-merge-split-DNS-search-domains.patch (but disabled)
+    - debian/tests/urfkill-integration - don't stop/start network manager
+  * Dropped patches applied in new release:
+    - settings-preserve-agent-owned-secrets-on-connection-updat.patch
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Mon, 26 Mar 2018 09:21:12 -0400
+
 network-manager (1.10.6-2) unstable; urgency=medium
 
   * Update Vcs-* to point to https://salsa.debian.org
@@ -972,6 +2533,82 @@ network-manager (1.10.6-1) unstable; urgency=medium
   * Rebase patches
 
  -- Michael Biebl <biebl@debian.org>  Tue, 13 Mar 2018 01:47:52 +0100
+
+network-manager (1.10.4-1ubuntu3) bionic; urgency=medium
+
+  * Cherry-pick a partial patch from 1.11 branch, to stop agressively
+    setting route_only flag on nameservers in the systemd-resolved dns
+    plugin. LP: #1751797
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 15 Mar 2018 15:24:01 +0000
+
+network-manager (1.10.4-1ubuntu2) bionic; urgency=medium
+
+  [ Bryan Quigley ]
+  * debian/tests/urfkill-integration - don't stop/start network manager
+
+  [ Jeremy Bicha ]
+  * Cherry-pick patch from 1.10 branch to fix double prompt for wifi password
+    on Kubuntu (LP: #1572244)
+
+ -- Bryan Quigley <bryan.quigley@canonical.com>  Fri, 23 Feb 2018 13:52:48 -0500
+
+network-manager (1.10.4-1ubuntu1) bionic; urgency=medium
+
+  * Merge with Debian (LP: #1734586). Remaining changes:
+    - Use systemd-resolved instead of dnsmasq
+    - debian/control:
+      + Depend on isc-dhcp-client instead of recommends
+      + Recommend network-manager-pptp
+      + Suggest avahi-autoipd for IPv4LL support
+    - debian/rules, debian/network-manager.postinst:
+      + Don't restart NetworkManager on upgrade but recommend restarting
+        the computer
+    - debian/rules, debian/network-manager.postinst:
+      + Don't install sysvinit scripts or migrate from sysvinit
+    - debian/network-manager.postinst:
+      + Don't add the netdev group.
+      + drop in an empty override file for NetworkManager to manage all
+        devices for upgrade from any version, as long as there is no
+        netplan configuration yet. (LP: #1676547)
+    - debian/network-manager.maintscript
+      + Remove /etc/dbus-1/system.d/nm-ofono.conf
+    - debian/default-wifi-powersave-on.conf, debian/rules:
+      + Install a config file to enable WiFi powersave
+    - Enable build tests
+    - Add autopkgtests
+    - debian/source_network-manager.py, debian/network-manager.install,
+      debian/network-manager.links: Add apport hook
+    - Add network-manager-config-connectivity-ubuntu package
+    - NetworkManager.conf: disable MAC randomization feature. There is no
+      easy way for desktop users to disable this feature yet. And there are
+      reports that it doesn't work well with some systems. (LP: #1681513)
+    - Update Vcs links to point to Ubuntu branch
+    - Add patches. See patch descriptions for more details:
+      + Provide-access-to-some-of-NM-s-interfaces-to-whoopsie.patch
+      + Update-dnsmasq-parameters.patch
+      + Disable-general-with-expect.patch
+      + libnm-Check-self-still-NMManager-or-not.patch
+      + dns-manager-don-t-merge-split-DNS-search-domains.patch
+      + Read-system-connections-from-run.patch
+  * Disable dns-manager-don-t-merge-split-DNS-search-domains.patch:
+    This patch needs to be updated for the new release but so far, no
+    one that understands the issue and patch have worked to update it.
+    After waiting for several weeks, we thought it was more important
+    to get this major version update into bionic now.
+  * Dropped patches applied in new release:
+    - connectivity-allow-override.patch
+    - nm1.10-connectivity-check-api.patch
+    - fix-resolved-detection.patch
+  * Other dropped changes:
+    - debian/control, debian/rules:
+      + Disable team support since it's in universe (LP: #1392012)
+    - Obsolete Ubuntu Phone related patches:
+      + Ignore-p2p0-wifi-devices-from-android.patch
+      + Ignore-rmnet_usbX-devices.patch'
+      + Track-killswitch-change-signals-from-urfkill.patch
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Fri, 09 Feb 2018 12:21:37 -0500
 
 network-manager (1.10.4-1) unstable; urgency=medium
 

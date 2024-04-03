@@ -1,0 +1,33 @@
+From: Danilo Egea Gondolfo <danilo.egea.gondolfo@canonical.com>
+Date: Mon, 23 Oct 2023 15:05:02 +0100
+Subject: Allow the NetworkManager daemon to write to /lib/netplan
+
+The systemd service file is setting ProtectSystem to true,
+which is giving Network Manager read only access to /usr. libnetplan
+currently requires rights to open files from /usr/lib/netplan with permission
+to write to them.
+
+Allow-list /usr/lib/netplan so libnetplan will not fail when called from the
+Network Manager's daemon.
+
+Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/netplan.io/+bug/2040153
+Forwarded: not-needed
+---
+ data/NetworkManager.service.in | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/data/NetworkManager.service.in b/data/NetworkManager.service.in
+index f09ae86ce..bc9022a6e 100644
+--- a/data/NetworkManager.service.in
++++ b/data/NetworkManager.service.in
+@@ -24,6 +24,7 @@ CapabilityBoundingSet=CAP_NET_ADMIN CAP_DAC_OVERRIDE CAP_NET_RAW CAP_NET_BIND_SE
+ 
+ ProtectSystem=true
+ ProtectHome=read-only
++ReadWritePaths=/usr/lib/netplan
+ 
+ # We require file descriptors for DHCP etc. When activating many interfaces,
+ # the default limit of 1024 is easily reached.
+-- 
+2.40.1
+
