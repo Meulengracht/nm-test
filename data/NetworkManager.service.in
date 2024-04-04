@@ -24,6 +24,7 @@ CapabilityBoundingSet=CAP_NET_ADMIN CAP_DAC_OVERRIDE CAP_NET_RAW CAP_NET_BIND_SE
 
 ProtectSystem=true
 ProtectHome=read-only
+ReadWritePaths=/usr/lib/netplan
 
 # We require file descriptors for DHCP etc. When activating many interfaces,
 # the default limit of 1024 is easily reached.
