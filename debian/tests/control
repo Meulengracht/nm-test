@@ -15,5 +15,5 @@ Depends: network-manager, build-essential, linux-headers-generic [!i386], rfkill
 Restrictions: needs-root allow-stderr isolation-machine skippable
 
 Tests: nm_netplan.py
-Depends: python3, gir1.2-nm-1.0, network-manager, netplan.io, openvpn, easy-rsa, network-manager-openvpn, dnsmasq-base, hostapd, wpasupplicant, isc-dhcp-client, ubuntu-settings
+Depends: python3, gir1.2-nm-1.0, network-manager, netplan.io, openvpn, easy-rsa, network-manager-openvpn, dnsmasq-base, hostapd, wpasupplicant, isc-dhcp-client, ubuntu-settings, python3-gi
 Restrictions: needs-root allow-stderr isolation-container

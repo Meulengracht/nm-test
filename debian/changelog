@@ -1,3 +1,10 @@
+network-manager (1.46.0-1ubuntu2) noble; urgency=medium
+
+  * debian/tests/control: add Depends: python3-gi for nm_netplan.py
+    (LP: #2060221)
+
+ -- Nick Rosbrook <enr0n@ubuntu.com>  Thu, 04 Apr 2024 15:11:48 -0400
+
 network-manager (1.46.0-1ubuntu1) noble; urgency=medium
 
   * Update to the current stable version
