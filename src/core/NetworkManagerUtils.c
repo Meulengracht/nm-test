@@ -784,8 +784,7 @@ check_connection_s390_props(NMConnection *orig, NMConnection *candidate, GHashTa
     return FALSE;
 }
 
-static NMConnection *
-check_possible_match(NMConnection *orig,
+static NMConnection *check_possible_match(NMConnection *orig,
                      NMConnection *candidate,
                      GHashTable   *settings,
                      gboolean      device_has_carrier,
@@ -794,33 +793,43 @@ check_possible_match(NMConnection *orig,
 {
     g_return_val_if_fail(settings != NULL, NULL);
 
+    nm_log_dbg(LOGD_CORE, "check: 1");
     if (!check_ip6_method(orig, candidate, settings))
         return NULL;
 
+    nm_log_dbg(LOGD_CORE, "check: 2");
     if (!check_ip4_method(orig, candidate, settings, device_has_carrier))
         return NULL;
 
+    nm_log_dbg(LOGD_CORE, "check: 3");
     if (!check_ip_routes(orig, candidate, settings, default_v4_metric, TRUE))
         return NULL;
 
+    nm_log_dbg(LOGD_CORE, "check: 4");
     if (!check_ip_routes(orig, candidate, settings, default_v6_metric, FALSE))
         return NULL;
 
+    nm_log_dbg(LOGD_CORE, "check: 5");
     if (!check_connection_interface_name(orig, candidate, settings))
         return NULL;
 
+    nm_log_dbg(LOGD_CORE, "check: 6");
     if (!check_connection_mac_address(orig, candidate, settings))
         return NULL;
 
+    nm_log_dbg(LOGD_CORE, "check: 7");
     if (!check_connection_infiniband_mac_address(orig, candidate, settings))
         return NULL;
 
+    nm_log_dbg(LOGD_CORE, "check: 8");
     if (!check_connection_cloned_mac_address(orig, candidate, settings))
         return NULL;
 
+    nm_log_dbg(LOGD_CORE, "check: 9");
     if (!check_connection_controller(orig, candidate, settings))
         return NULL;
 
+    nm_log_dbg(LOGD_CORE, "check: 10");
     if (!check_connection_s390_props(orig, candidate, settings))
         return NULL;
 
@@ -828,6 +837,7 @@ check_possible_match(NMConnection *orig,
      * so they are not really part of the difference. */
     g_hash_table_remove(settings, NM_SETTING_MATCH_SETTING_NAME);
 
+    nm_log_dbg(LOGD_CORE, "check: remaining settings: %i", g_hash_table_size(settings));
     if (g_hash_table_size(settings) == 0)
         return candidate;
     else
